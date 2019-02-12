@@ -1,0 +1,18 @@
+Package: geomTools
+Type: Package
+Title: generate and process geometric shapes
+Version: 0.1.0
+Author@R: person("Steffen", "Ehrmann", email = "steffen@funroll-loops.de",
+    role = c("aut", "cre"), 
+    comment = c(ORCID = "0000-0002-2958-0796"))
+Description: The geomTools package provides a simplified approach to generating
+    and manipulating geometries at vertex level. Vertices are stored in tables 
+    (and not lists) and can simply be transformed into spatial objects. 
+URL: https://github.com/EhrmannS/geomTools
+BugReports: https://github.com/EhrmannS/geomTools/issues
+License: GPL-3
+Encoding: UTF-8
+LazyData: true
+Imports: sp,
+    sf
+LinkingTo: Rcpp
