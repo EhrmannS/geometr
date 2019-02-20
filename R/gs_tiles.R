@@ -34,7 +34,7 @@
 #' @importFrom dplyr bind_rows
 #' @export
 
-geomTiles <- function(window = NULL, cells = NULL, crs = NULL,
+gs_tiles <- function(window = NULL, cells = NULL, crs = NULL,
                       tiling = "rectangular", centroids = FALSE){
 
   # check arguments

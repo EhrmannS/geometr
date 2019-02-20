@@ -3,8 +3,11 @@
 #' @param anchor [\code{data.frame(1)}]\cr Object to derive the \code{geom}
 #'   from. It must include column names \code{x}, \code{y} and optinal variables
 #'   such as \code{fid}; see Examples.
-#' @template window
-#' @template template
+#' @param window [\code{data.frame(1)}]\cr in case the reference window deviates
+#'   from the bounding box of \code{anchor} (minimum and maximum values),
+#'   specify this here.
+#' @param template [\code{RasterLayer(1)} | \code{matrix(1)}]\cr Gridded object
+#'   that serves as template to sketch the geometry.
 #' @param vertices [\code{integer(1)}]\cr number of vertices.
 #' @param show [\code{logical(1)}]\cr in case \code{template} is set, should the
 #'   points be plotted (\code{TRUE}) or should it not be plotted (\code{FALSE},
@@ -13,10 +16,6 @@
 #'   \code{\link{gpar}}.
 #' @return An invisible \code{geom}.
 #' @family shapes
-#' @seealso Tools to modify geometries: \code{\link{gRotate}},
-#'   \code{\link{gScale}}, \code{\link{gGroup}}\cr Tools to transform geometries
-#'   to other classes: \code{\link{gToSp}},  \code{gToSf},
-#'   \code{\link{gToRaster}}, \code{\link{gFrom}}
 #' @examples
 #' # create points programmatically
 #' somePoints <- data.frame(X = c(5190599, 5222810, 5041066, 5234735,

@@ -1,8 +1,7 @@
 Package: geomTools
-Type: Package
-Title: generate and process geometric shapes
+Title: Generate and Process Geometric Shapes
 Version: 0.1.0
-Author@R: person("Steffen", "Ehrmann", email = "steffen@funroll-loops.de",
+Authors@R: person("Steffen", "Ehrmann", email = "steffen@funroll-loops.de",
     role = c("aut", "cre"), 
     comment = c(ORCID = "0000-0002-2958-0796"))
 Description: The geomTools package provides a simplified approach to generating
@@ -10,9 +9,28 @@ Description: The geomTools package provides a simplified approach to generating
     (and not lists) and can simply be transformed into spatial objects. 
 URL: https://github.com/EhrmannS/geomTools
 BugReports: https://github.com/EhrmannS/geomTools/issues
+Depends:
+    R (>= 2.10)
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
 Imports: sp,
-    sf
+    sf,
+    raster,
+    rgdal,
+    checkmate,
+    dplyr,
+    tibble,
+    stringr,
+    readr,
+    grid,
+    grDevices,
+    methods
+Suggests: testthat,
+    rmarkdown,
+    magrittr,
+    covr,
+    knitr
 LinkingTo: Rcpp
+RoxygenNote: 6.1.1
+VignetteBuilder: knitr

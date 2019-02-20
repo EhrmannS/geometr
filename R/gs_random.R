@@ -4,7 +4,8 @@
 #' @param type [\code{character(1)}]\cr Either one of the three main feature
 #'   types \code{"point"}, \code{"line"} or \code{"polygon"}, or more
 #'   specifically one of their subtypes, e.g. \code{"hexagon"}.
-#' @template template
+#' @param template [\code{RasterLayer(1)} | \code{matrix(1)}]\cr Gridded object
+#'   that serves as template to sketch the geometry.
 #' @param vertices [\code{integerish(1)}]\cr the number of vertices the geometry
 #'   should have; only meaningful if \code{type} does not indicate the number of
 #'   vertices already. If left at \code{NULL} the minimum number of vertices for
@@ -26,10 +27,11 @@
 #'
 #' # in case template is given, this serves as source for the window extent
 #' someGeom <- geomRand(template = input, col = "green", show = TRUE)
+#' @importFrom stats runif
 #' @export
 
-geomRand <- function(type = "point", template = NULL, vertices = NULL,
-                     show = FALSE, ...){
+gs_random <- function(type = "point", template = NULL, vertices = NULL,
+                      show = FALSE, ...){
 
   assertSubset(type, choices = c("point", "line", "rectangle", "square", "polygon", "spline", "ellipse", "circle", "triangle", "hexagon"))
   templateExists <- !testNull(template)
@@ -86,7 +88,7 @@ geomRand <- function(type = "point", template = NULL, vertices = NULL,
                  history = list(paste0("geometry was created randomly")))
 
   if(templateExists){
-    theGeom <- gScale(theGeom, to = "absolute")
+    theGeom <- gt_scale(theGeom, to = "absolute")
   }
 
   if(show){

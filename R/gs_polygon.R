@@ -2,10 +2,16 @@
 #'
 #' Create any (regular) polygon geometry (of class \code{\link{geom}}) either by
 #' specifying its parameters or by sketching it.
-#' @template anchor
-#' @template window
-#' @template template
-#' @template features
+#' @param anchor [\code{geom} | \code{data.frame(1)}]\cr Object to derive the
+#'   \code{geom} from. In case of \code{data.frame}, it must include column
+#'   names \code{x}, \code{y} and optinal variables such as \code{id}; see
+#'   Examples.
+#' @param window [\code{data.frame(1)}]\cr in case the reference window deviates
+#'   from the bounding box of \code{anchor} (minimum and maximum values),
+#'   specify this here.
+#' @param template [\code{RasterLayer(1)} | \code{matrix(1)}]\cr Gridded object
+#'   that serves as template to sketch the geometry.
+#' @param features [\code{integerish(1)}]\cr number of geometries to create.
 #' @param vertices [\code{integerish(.)}]\cr number of vertices per geometry;
 #'   will be recycled if it does not have as many elements as specified in
 #'   \code{features}.
@@ -29,10 +35,6 @@
 #'   radius.} \item \code{template}: if unset, this argument triggers that the
 #'   geometry is created programmatically (hence, \code{anchor} must be set).}
 #' @family shapes
-#' @seealso Tools to modify geometries: \code{\link{gRotate}},
-#'   \code{\link{gScale}}, \code{\link{gGroup}}\cr Tools to transform geometries
-#'   to other classes: \code{\link{gToSp}},  \code{gToSf},
-#'   \code{\link{gToRaster}}, \code{\link{gFrom}}
 #' @examples
 #' # create a polygon programmatically
 #' coords <- data.frame(x = c(40, 70, 70, 50),
@@ -41,16 +43,16 @@
 #'                      y = c(0, 80))
 #'
 #' # if no window is set, the bounding box (i.e. min/max values) will be set as window
-#' (aGeom <- geomPolygon(anchor = coords))
+#' (aGeom <- gs_polygon(anchor = coords))
 #'
 #' # the vertices are plottet relative to the window
-#' aTriangle <- geomPolygon(anchor = coords, window = window, vertices = 3, regular = TRUE,
-#'                          fill = "darkorange", show = TRUE)
-#' (geomHexagon(anchor = coords, col = "green", show = TRUE))
+#' aTriangle <- gs_polygon(anchor = coords, window = window, vertices = 3, regular = TRUE,
+#'                          fill = "darkorange", show = FALSE)
+#' (gs_hexagon(anchor = coords, col = "green", show = TRUE))
 #'
 #' # if a geom is used in 'anchor', its properties (e.g. 'window') are passed on
 #' grid::grid.newpage()
-#' aGeom <- geomPolygon(anchor = coords, window = window, fill = "deeppink", show = TRUE)
+#' aGeom <- gs_polygon(anchor = coords, window = window, fill = "deeppink", show = TRUE)
 #' anExtent <- geomRectangle(anchor = aGeom, show = TRUE)
 #'
 #' # geoms with more than one element are treated element-wise
@@ -66,23 +68,22 @@
 #' squareGeom <- geomSquare(template = input, show = TRUE, col = "orange")
 #'
 #' # ... or an approximate circle (actually a hectogon)
-#' circleGeom <- geomPolygon(template = input, vertices = 100, regular = TRUE,
+#' circleGeom <- gs_polygon(template = input, vertices = 100, regular = TRUE,
 #'                           show = TRUE, col = "deeppink")
 #'
 #' # create two arbitrary polygons interactively
-#' polyGeom <- geomPolygon(template = input, features = 2, vertices = c(4, 6),
+#' polyGeom <- gs_polygon(template = input, features = 2, vertices = c(4, 6),
 #'                         col = "green", lwd = 1, lty = "dashed", show = TRUE)
 #' }
+#' @importFrom stats dist
 #' @importFrom checkmate testDataFrame assertNames testList testTRUE testNull
 #'   testClass assertIntegerish assertLogical
 #' @importFrom tibble tibble
 #' @importFrom dplyr bind_cols bind_rows
 #' @export
 
-geomPolygon <- function(anchor = NULL, window = NULL, template = NULL, features = 1,
-                        vertices = NULL, regular = FALSE, show = FALSE, ...){
-
-  # anchor = NULL; window = NULL; template = input; features = 1; vertices = NULL; regular = FALSE; show = TRUE
+gs_polygon <- function(anchor = NULL, window = NULL, template = NULL, features = 1,
+                       vertices = NULL, regular = FALSE, show = FALSE, ...){
 
   # check arguments
   anchorIsDF <- testDataFrame(anchor, types = "numeric", any.missing = FALSE, min.cols = 2)
@@ -238,6 +239,7 @@ geomPolygon <- function(anchor = NULL, window = NULL, template = NULL, features 
     }
 
   }
+
   out <- new(Class = "geom",
              type = "polygon",
              coords = nodes,
@@ -250,11 +252,11 @@ geomPolygon <- function(anchor = NULL, window = NULL, template = NULL, features 
   invisible(out)
 }
 
-#' @describeIn geomPolygon wrapper of geomPolygon where \code{vertices = 3} and
+#' @describeIn gs_polygon wrapper of gs_polygon where \code{vertices = 3} and
 #'   \code{regular = TRUE}.
 #' @export
 
-geomTriangle <- function(anchor = NULL, window = NULL, template = NULL,
+gs_triangle <- function(anchor = NULL, window = NULL, template = NULL,
                          features = 1, show = FALSE, ...){
 
   if(is.null(anchor) & is.null(template)){
@@ -264,7 +266,7 @@ geomTriangle <- function(anchor = NULL, window = NULL, template = NULL,
   assertIntegerish(features, len = 1, lower = 1)
   assertLogical(show)
 
-  theGeom <- geomPolygon(anchor = anchor,
+  theGeom <- gs_polygon(anchor = anchor,
                          window = window,
                          template = template,
                          features = features,
@@ -283,12 +285,12 @@ geomTriangle <- function(anchor = NULL, window = NULL, template = NULL,
   invisible(theGeom)
 }
 
-#' @describeIn geomPolygon wrapper of geomPolygon where \code{vertices = 4},
+#' @describeIn gs_polygon wrapper of gs_polygon where \code{vertices = 4},
 #'   \code{regular = TRUE} and a rotation by 45° about the centroid has been
 #'   applied.
 #' @export
 
-geomSquare <- function(anchor = NULL, window = NULL, template = NULL,
+gs_square <- function(anchor = NULL, window = NULL, template = NULL,
                        features = 1, show = FALSE, ...){
 
   if(is.null(anchor) & is.null(template)){
@@ -298,7 +300,7 @@ geomSquare <- function(anchor = NULL, window = NULL, template = NULL,
   assertIntegerish(features, len = 1, lower = 1)
   assertLogical(show)
 
-  theGeom <- geomPolygon(anchor = anchor,
+  theGeom <- gs_polygon(anchor = anchor,
                          window = window,
                          template = template,
                          features = features,
@@ -307,7 +309,7 @@ geomSquare <- function(anchor = NULL, window = NULL, template = NULL,
                          show = FALSE)
 
   centroid <- colMeans(theGeom@coords[c("x", "y")])
-  rotGeom <- gRotate(geom = theGeom,
+  rotGeom <- gt_rotate(geom = theGeom,
                      angle = 45,
                      about = centroid)
 
@@ -321,12 +323,12 @@ geomSquare <- function(anchor = NULL, window = NULL, template = NULL,
   invisible(rotGeom)
 }
 
-#' @describeIn geomPolygon wrapper of geomPolygon where \code{vertices = 2},
+#' @describeIn gs_polygon wrapper of gs_polygon where \code{vertices = 2},
 #'   \code{regular = FALSE} and the two complementing corners are derived from
 #'   the two given opposing corners.
 #' @export
 
-geomRectangle <- function(anchor = NULL, window = NULL, template = NULL,
+gs_rectangle <- function(anchor = NULL, window = NULL, template = NULL,
                           features = 1, show = FALSE, ...){
 
   anchorIsDF <- testDataFrame(anchor, types = "numeric", any.missing = FALSE, min.cols = 2)
@@ -363,7 +365,7 @@ geomRectangle <- function(anchor = NULL, window = NULL, template = NULL,
     newCoords <- rbind(newCoords, tempAnchor)
   }
 
-  theGeom <- geomPolygon(anchor = newCoords,
+  theGeom <- gs_polygon(anchor = newCoords,
                          window = window,
                          template = template,
                          features = features,
@@ -381,11 +383,11 @@ geomRectangle <- function(anchor = NULL, window = NULL, template = NULL,
   invisible(theGeom)
 }
 
-#' @describeIn geomPolygon wrapper of geomPolygon where \code{vertices = 6} and
+#' @describeIn gs_polygon wrapper of gs_polygon where \code{vertices = 6} and
 #'   \code{regular = TRUE}.
 #' @export
 
-geomHexagon <- function(anchor = NULL, window = NULL, template = NULL,
+gs_hexagon <- function(anchor = NULL, window = NULL, template = NULL,
                         features = 1, show = FALSE, ...){
 
   if(is.null(anchor) & is.null(template)){
@@ -395,7 +397,7 @@ geomHexagon <- function(anchor = NULL, window = NULL, template = NULL,
   assertIntegerish(features, len = 1, lower = 1)
   assertLogical(show)
 
-  theGeom <- geomPolygon(anchor = anchor,
+  theGeom <- gs_polygon(anchor = anchor,
                          window = window,
                          template = template,
                          features = features,

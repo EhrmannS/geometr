@@ -1,8 +1,12 @@
 # Sketch a curve
 #
 # This creates the coordinates to any continuous curve.
-# @template anchor
-# @template template
+# @param anchor [\code{geom} | \code{data.frame(1)}]\cr Object to derive the
+#   \code{geom} from. In case of \code{data.frame}, it must include column
+#   names \code{x}, \code{y} and optinal variables such as \code{id}; see
+#   Examples.
+# @param template [\code{RasterLayer(1)} | \code{matrix(1)}]\cr Gridded object
+#   that serves as template to sketch the geometry.
 # @param control .
 # @param weights .
 # @param closed .
