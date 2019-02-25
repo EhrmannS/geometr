@@ -1,5 +1,5 @@
 #' bla
 #'
 #' @docType package
-#' @name geomTools
+#' @name geometr
 NULL
