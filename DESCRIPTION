@@ -1,31 +1,33 @@
-Package: geomTools
+Package: geometr
 Title: Generate and Process Geometric Shapes
 Version: 0.1.0
 Authors@R: person("Steffen", "Ehrmann", email = "steffen@funroll-loops.de",
     role = c("aut", "cre"), 
     comment = c(ORCID = "0000-0002-2958-0796"))
-Description: The geomTools package provides a simplified approach to generating
+Description: The geometr package provides a simplified approach to generating
     and manipulating geometries at vertex level. Vertices are stored in tables 
-    (and not lists) and can simply be transformed into spatial objects. 
-URL: https://github.com/EhrmannS/geomTools
-BugReports: https://github.com/EhrmannS/geomTools/issues
+    (not lists) and can simply be transformed into a wide array of spatial objects.
+URL: https://github.com/EhrmannS/geometr
+BugReports: https://github.com/EhrmannS/geometr/issues
 Depends:
     R (>= 2.10)
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
-Imports: sp,
-    sf,
-    raster,
-    rgdal,
-    checkmate,
+Imports: checkmate,
+    cli,
+    crayon,
     dplyr,
-    tibble,
-    stringr,
-    readr,
-    grid,
     grDevices,
-    methods
+    grid,
+    methods,
+    raster,
+    readr,
+    rgdal,
+    sf,
+    sp,
+    stringr,
+    tibble
 Suggests: testthat,
     rmarkdown,
     magrittr,
@@ -33,4 +35,5 @@ Suggests: testthat,
     knitr
 LinkingTo: Rcpp
 RoxygenNote: 6.1.1
+SystemRequirements: C++11
 VignetteBuilder: knitr
