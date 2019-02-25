@@ -1,0 +1,73 @@
+authors:
+  Steffen Ehrmann:
+    href:  https://orcid.org/0000-0002-2958-0796
+title: geometr
+url: http://EhrmannS.github.io/geometr
+development:
+  mode: unreleased
+template:
+  params:
+    bootswatch: lumen
+reference:
+  - title: geometries
+    desc: paramatrise or sketch geometries
+    contents:
+      - '`gs_point`'
+      - '`gs_curve`'
+      - '`gs_polygon`'
+      - '`gs_random`'
+      - '`gs_tiles`'
+      - starts_with("geom")
+      - -starts_with("geometr")
+  - title: getters and setters
+    desc: methods that standardise dealing with spatial objects
+    contents:
+      - '`getCoords`'
+      - '`getCRS`'
+      - '`setCRS`'
+      - '`getExtent`'
+      - '`getHistory`'
+      - '`getSubset`'
+      - '`getTable`'
+      - '`setTable`'
+      - '`getWindow`'
+      - '`setWindow`'
+  - title: utilities
+    desc: functions that modify geometries
+    contents:
+      - '`gt_as_geom`'
+      - '`gt_as_grob`'
+      - '`gt_as_raster`'
+      - '`gt_as_sp`'
+      - '`gt_as_sf`'
+      - '`gt_group`'
+      - '`gt_rotate`'
+      - '`gt_scale`'
+  - title: visualise
+    desc: plot spatial objects and locate coordinates
+    contents:
+      - '`visualise`'
+      - '`setTheme`'
+      - '`locate`'
+  - title: example data
+    desc: data that are used throughout the documentation
+    contents:
+      - '`gtGeoms`'
+      - '`gtSP`'
+      - '`gtSF`'
+navbar:
+  left:
+    - text: "Getting Started"
+      href: articles/introduction.html
+    - icon: fa-file-code-o
+      text: "Glossary"
+      href: reference/index.html
+  right:
+    - icon: far fa-list-alt
+      text: "Use cases"
+      href: articles/usecases.html
+    - icon: fa-newspaper-o
+      text: "News"
+      href: news/index.html
+    - icon: fa-github
+      href: https://github.com/EhrmannS/geometr

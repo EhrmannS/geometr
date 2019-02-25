@@ -1,0 +1,50 @@
+---
+title: "geometr - Introduction"
+author: "Steffen Ehrmann"
+date: "`r Sys.Date()`"
+link-citations: yes
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Introduction}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+# Introduction
+
+## A new (spatial) class: `geom`
+`rasterTools` comes with its own (spatial) S4 class. This class provides only the feature types `point`, `line` and `polygon` (yes, there are no *multi*-x features in `rasterTools`), where each of them consist of a set of tables describing the relevant aspects.
+
+The slot `@coords` is a table that contains all information related to the vertex coordinates, so one row for each coordinate. By default there are at least the columns `fid` (feature ID), `vid` (vertex ID), `x` and `y`, the two-dimentional coordinate values. All vertices with the same `fid` are part of the same feature and there may be several features per geometry. The slot `@attr` is a table that contains all information at the level of features, so one row for each feature. By default there are at least the columns `fid` (feature ID) and `n` (number of vertices of that feature).
+Both of those tables are accessible and can be joined with additional columns to characterise in more detail the vertex or feature attributes. This is the basis for a couple of planned functions in `rasterTools`, such as manipulation of single vertices and in-R georeferencing.
+
+**problem with "multi* features"; for me the "multi"-nature is not part of the feature, but is an attribute, hence I have set up everything so that there are no multi-features and that the features that are transformed from other spatial classes contain a column `grp` that captures this informaiton. with the function `gGroup()` one can then add groups also to non-multi-features**
+
+An object of class `geom` can be created with various functions, such as the default `gs_point()`, `gs_curve()` and `gs_polygon()` but also with functions that create specific geometric shapes such as `gs_hexagon()`, which creates exclusively hexagonal polygons, or `gs_tiles()`, which creates a regular tiling geometry.
+
+These geometries are deliberately per default not *"geographic"* in nature and do thus also work within an ordinary cartesian coordinate system. They can be transformed into a spatial object by assigning a *coordinate reference system*. We learn a lot about them by simply creating and plotting one:
+
+```{r}
+library(geometr)
+
+coords <- data.frame(x = c(40, 70, 70, 50),
+                     y = c(40, 40, 60, 70),
+                     fid = 1)
+window <- data.frame(x = c(0, 80),
+                     y = c(0, 80))
+#(aGeom <- gs_polygon(anchor = coords, window = window, show = TRUE))
+```
+
+The main aspect of this sort of "spatial" class is that it can be created/sketched relatively simply by providing a set of coordinates as socalled anchor values, or by clicking into an open plot. It has moreover a new slot, `@window`, which defines the frame within which it would be plotted. A wide range of "getters" and "setters" (for example `getExtent()` or `setCRS()`) have been defined as methods for `geom` and also the other spatial classes. This is an attempt to standardise the handling of various different spatial formats that was originally developed to accommodate the modular nature of `rasterTools`. One can for instance use `setCRS()` on any of the classes `Raster*`, `sp`, `sf` and also `geom` to reproject the object to a new *CRS*. This should come in handy when prototyping new `obtain()` operators or writing reproducible code in general.
+
+
+# Example workflow
+
+# References
