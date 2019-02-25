@@ -9,20 +9,19 @@
 \title{Create a polygon geometry}
 \usage{
 gs_polygon(anchor = NULL, window = NULL, template = NULL,
-  features = 1, vertices = NULL, regular = FALSE, show = FALSE,
-  ...)
+  features = 1, vertices = NULL, regular = FALSE, ...)
 
 gs_triangle(anchor = NULL, window = NULL, template = NULL,
-  features = 1, show = FALSE, ...)
+  features = 1, ...)
 
 gs_square(anchor = NULL, window = NULL, template = NULL,
-  features = 1, show = FALSE, ...)
+  features = 1, ...)
 
 gs_rectangle(anchor = NULL, window = NULL, template = NULL,
-  features = 1, show = FALSE, ...)
+  features = 1, ...)
 
 gs_hexagon(anchor = NULL, window = NULL, template = NULL,
-  features = 1, show = FALSE, ...)
+  features = 1, ...)
 }
 \arguments{
 \item{anchor}{[\code{geom} | \code{data.frame(1)}]\cr Object to derive the
@@ -47,12 +46,8 @@ will be recycled if it does not have as many elements as specified in
 point symmetric (\code{TRUE}) or should the vertices be selected according
 to \code{anchor} or \code{vertices} (\code{FALSE}, default)?}
 
-\item{show}{[\code{logical(1)}]\cr should the geometry be plotted
-(\code{TRUE}) or should it not be plotted (\code{FALSE}, default)? In case
-\code{template} is set, it is automatically \code{TRUE}.}
-
-\item{...}{[various]\cr graphical parameter, in case \code{show = TRUE}; see
-\code{\link{gpar}}.}
+\item{...}{[various]\cr graphical parameters to \code{\link{locate}}, in case
+a polygon is sketched; see \code{\link{gpar}}.}
 }
 \value{
 An invisible \code{geom}.
@@ -101,34 +96,38 @@ window <- data.frame(x = c(0, 80),
 (aGeom <- gs_polygon(anchor = coords))
 
 # the vertices are plottet relative to the window
-aTriangle <- gs_polygon(anchor = coords, window = window, vertices = 3, regular = TRUE,
-                         fill = "darkorange", show = FALSE)
-(gs_hexagon(anchor = coords, col = "green", show = TRUE))
+visualise(geom = gs_polygon(anchor = coords, window = window,
+                            vertices = 3, regular = TRUE))
+gs_hexagon(anchor = coords) \%>\% visualise(geom = ., col = "green")
 
-# if a geom is used in 'anchor', its properties (e.g. 'window') are passed on
-grid::grid.newpage()
-aGeom <- gs_polygon(anchor = coords, window = window, fill = "deeppink", show = TRUE)
-anExtent <- geomRectangle(anchor = aGeom, show = TRUE)
+# when a geom is used in 'anchor', its properties (e.g. 'window') are passed on
+aGeom <- setWindow(x = aGeom, to = window)
+gs_polygon(anchor = aGeom) \%>\% visualise(geom = ., fill = "deeppink")
+
+# when a geom is piped to visualise, the output is a "recordedplot"
+(anExtent <- gs_rectangle(anchor = aGeom))
+anExtentPlot <- anExtent \%>\% visualise(geom = ., lty = 2)
 
 # geoms with more than one element are treated element-wise
-aGeom <- gGroup(geom = aGeom, index = c(1, 2, 1, 2))
+aGeom <- gt_group(geom = aGeom, index = c(1, 2, 1, 2))
 visualise(geom = aGeom)
-itsExtent <- geomRectangle(anchor = aGeom, show = TRUE)
+gs_rectangle(anchor = aGeom) \%>\% visualise(geom = .)
 
 \dontrun{
 
 input <- rtRasters$continuous
 
 # create a square interactively
-squareGeom <- geomSquare(template = input, show = TRUE, col = "orange")
+squareGeom <- gs_square(template = input) \%>\%
+  visualise(geom = ., col = "orange", new = FALSE)
 
 # ... or an approximate circle (actually a hectogon)
-circleGeom <- gs_polygon(template = input, vertices = 100, regular = TRUE,
-                          show = TRUE, col = "deeppink")
+circleGeom <- gs_polygon(template = input, vertices = 100, regular = TRUE) \%>\%
+  visualise(geom = ., col = "deeppink", new = FALSE)
 
 # create two arbitrary polygons interactively
-polyGeom <- gs_polygon(template = input, features = 2, vertices = c(4, 6),
-                        col = "green", lwd = 1, lty = "dashed", show = TRUE)
+polyGeom <- gs_polygon(template = input, features = 2, vertices = c(4, 6)) \%>\%
+  visualise(geom = ., col = "green", lwd = 1, lty = "dashed", new = FALSE)
 }
 }
 \seealso{

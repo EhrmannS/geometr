@@ -1,12 +1,10 @@
-#' Get the attribute table
-#'
 #' Get the attribute table of a spatial object.
+#' @param x the object from which to derive the attribute table.
 #' @name getTable
+#' @rdname getTable
 NULL
 
 #' @rdname getTable
-#' @param x the object from which to derive the attribute table.
-#' @param ... other arguments.
 #' @export
 if(!isGeneric("getTable")){
   setGeneric(name = "getTable",
@@ -209,4 +207,21 @@ setMethod(f = "getTable",
             }
 
             return(out)
-          })
+          }
+)
+
+#' @rdname getTable
+#' @examples
+#' getTable(rtRasters$categorical)
+#' @importFrom tibble tibble as_tibble
+#' @export
+setMethod(f = "getTable",
+          signature = "RasterLayer",
+          definition = function(x){
+            if(length(x@data@attributes) == 0){
+              tibble()
+            } else{
+              as_tibble(x@data@attributes[[1]])
+            }
+          }
+)

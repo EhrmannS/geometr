@@ -25,7 +25,7 @@
 #'                      fid = c(1, 1, 1, 1, 2, 2, 2))
 #' window <- data.frame(x = c(0, 80),
 #'                      y = c(0, 80))
-#' aGeom <- geomPolygon(anchor = coords, window = window, show = TRUE)
+#' aGeom <- gs_polygon(anchor = coords, window = window, show = TRUE)
 #'
 #' grouped <- gGroup(geom = aGeom, distance = 40)
 #' visualise(geom = grouped)

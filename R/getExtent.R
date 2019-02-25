@@ -1,12 +1,10 @@
-#' Get the extent
-#'
-#' Get the bounding box of a spatial object.
+#' Get the extent (bounding box) of a spatial object.
+#' @param x the object from which to derive the extent.
 #' @name getExtent
+#' @rdname getExtent
 NULL
 
 #' @rdname getExtent
-#' @param x the object from which to derive the extent.
-#' @param ... other arguments.
 #' @export
 if(!isGeneric("getExtent")){
   setGeneric(name = "getExtent",
@@ -50,5 +48,30 @@ setMethod(f = "getExtent",
             ext <- st_bbox(x)
             tibble(x = c(ext[[1]], ext[[3]]),
                    y = c(ext[[2]], ext[[4]]))
+          }
+)
+
+#' @rdname getExtent
+#' @importFrom raster extent
+#' @importFrom dplyr bind_cols
+#' @export
+setMethod(f = "getExtent",
+          signature = "Raster",
+          definition = function(x){
+            ext <- extent(x)
+            bind_cols(x = c(ext@xmin, ext@xmax),
+                      y = c(ext@ymin, ext@ymax))
+          }
+)
+
+#' @rdname getExtent
+#' @importFrom dplyr bind_cols
+#' @export
+
+setMethod(f = "getExtent",
+          signature = "matrix",
+          definition = function(x){
+            bind_cols(x = c(0, ncol(x)),
+                      y = c(0, nrow(x)))
           }
 )

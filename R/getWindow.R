@@ -1,18 +1,18 @@
-#' Get the reference window
-#'
 #' Get the reference window of a spatial object.
+#' @param x the object from which to derive the reference window.
 #' @name getWindow
+#' @rdname getWindow
 NULL
 
 #' @rdname getWindow
-#' @param x the object from which to derive the reference window.
-#' @param ... other arguments.
 #' @export
-setGeneric(name = "getWindow",
-           def = function(x, ...){
-             standardGeneric("getWindow")
-           }
-)
+if(!isGeneric("getWindow")){
+  setGeneric(name = "getWindow",
+             def = function(x, ...){
+               standardGeneric("getWindow")
+             }
+  )
+}
 
 #' @rdname getWindow
 #' @importFrom tibble as_tibble

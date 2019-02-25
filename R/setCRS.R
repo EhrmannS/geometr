@@ -1,17 +1,17 @@
-#' Set (or transform) the coordinate reference system
-#'
-#' In case an object has not yet assigned a coordinate reference system, this
-#' function simply assigns it. In case the object has already a valid crs, a
-#' transformation to the new crs will be carried out. The transformation is
-#' computed with the standard defined in the \code{rgdal} package.
-#' @name setCRS
-NULL
-
-#' @rdname setCRS
+#' Set (or transform) the coordinate reference system of a spatial object.
+#' @details In case an object has not yet assigned a coordinate reference
+#'   system, this function simply assigns it. In case the object has already a
+#'   valid crs, a transformation to the new crs will be carried out. The
+#'   transformation is computed with the standard defined in the \code{rgdal}
+#'   package.
 #' @param x the object for which to set the coordinate reference system.
 #' @param crs [\code{character(1)}]\cr the coordinate reference system to set
 #'   for this object.
-#' @param ... other arguments.
+#' @name setCRS
+#' @rdname setCRS
+NULL
+
+#' @rdname setCRS
 #' @docType methods
 #' @export
 if(!isGeneric("setCRS")){
@@ -77,6 +77,21 @@ setMethod(f = "setCRS",
               x <- st_set_crs(x = x, value = crs)
             } else{
               x <- st_transform(x, crs = crs)
+            }
+            return(x)
+          }
+)
+
+#' @rdname setCRS
+#' @importFrom raster crs projectRaster
+#' @export
+setMethod(f = "setCRS",
+          signature = "Raster",
+          definition = function(x, crs){
+            if(is.na(x@crs)){
+              x@crs <- crs(crs)
+            } else{
+              x <- projectRaster(from = x, crs = crs)
             }
             return(x)
           }

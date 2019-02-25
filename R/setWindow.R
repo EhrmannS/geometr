@@ -1,14 +1,12 @@
-#' Set the reference window
-#'
 #' Set the reference window of a spatial object.
-#' @name setWindow
-NULL
-
-#' @rdname setWindow
 #' @param x the object in which to set the reference window.
 #' @param to [\code{data.frame(1)}]\cr two oposing corners or all four
 #'   corners of the rectangle.
-#' @param ... other arguments.
+#' @name setWindow
+#' @rdname setWindow
+NULL
+
+#' @rdname setWindow
 #' @export
 if(!isGeneric("setWindow")){
   setGeneric(name = "setWindow",

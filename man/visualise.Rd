@@ -44,6 +44,7 @@ To create a plot with your own style, design it with
   \code{blue} and set \code{image = TRUE}.
 }
 \examples{
+library(rasterTools)
 input <- rtRasters$continuous
 binarised <- rBinarise(input, thresh = 40)
 visualise(raster = rDistance(binarised), trace = TRUE)

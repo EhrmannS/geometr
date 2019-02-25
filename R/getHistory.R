@@ -1,12 +1,10 @@
-#' Get the history
-#'
-#' Get the history of a \code{geom} object.
+#' Get the history of a spatial object.
+#' @param x the object from which to derive the history.
 #' @name getHistory
+#' @rdname getHistory
 NULL
 
 #' @rdname getHistory
-#' @param x the object from which to derive the history.
-#' @param ... other arguments.
 #' @export
 if(!isGeneric("getHistory")){
   setGeneric(name = "getHistory",
@@ -22,5 +20,36 @@ setMethod(f = "getHistory",
           signature = "geom",
           definition = function(x){
             x@history
+          }
+)
+
+#' @rdname getHistory
+#' @export
+setMethod(f = "getHistory",
+          signature = "RasterLayer",
+          definition = function(x){
+            x@history
+          }
+)
+
+#' @rdname getHistory
+#' @export
+setMethod(f = "getHistory",
+          signature = "RasterBrick",
+          definition = function(x){
+            x@history
+          }
+)
+
+#' @rdname getHistory
+#' @export
+setMethod(f = "getHistory",
+          signature = "RasterStack",
+          definition = function(x){
+            hist <- list()
+            for(i in 1:dim(x)[3]){
+              hist <- c(hist, x[[i]]@history)
+            }
+            return(hist)
           }
 )

@@ -2,18 +2,22 @@
 # Generator token: 10BE3573-1514-4C36-9D1C-5A225CD40393
 
 matInGeomC <- function(mat, geom, negative) {
-    .Call('_geomTools_matInGeomC', PACKAGE = 'geomTools', mat, geom, negative)
+    .Call('_geometr_matInGeomC', PACKAGE = 'geometr', mat, geom, negative)
 }
 
 getValuesMatC <- function(mat) {
-    .Call('_geomTools_getValuesMatC', PACKAGE = 'geomTools', mat)
+    .Call('_geometr_getValuesMatC', PACKAGE = 'geometr', mat)
 }
 
 subNumNumC <- function(mat, replace, with) {
-    .Call('_geomTools_subNumNumC', PACKAGE = 'geomTools', mat, replace, with)
+    .Call('_geometr_subNumNumC', PACKAGE = 'geometr', mat, replace, with)
 }
 
 subChrIntC <- function(mat, replace, with) {
-    .Call('_geomTools_subChrIntC', PACKAGE = 'geomTools', mat, replace, with)
+    .Call('_geometr_subChrIntC', PACKAGE = 'geometr', mat, replace, with)
+}
+
+sortUniqueC <- function(x) {
+    .Call('_geometr_sortUniqueC', PACKAGE = 'geometr', x)
 }
 

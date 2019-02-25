@@ -6,14 +6,23 @@
 \alias{getExtent,geom-method}
 \alias{getExtent,Spatial-method}
 \alias{getExtent,sf-method}
-\title{Get the extent}
+\alias{getExtent,Raster-method}
+\alias{getExtent,matrix-method}
+\title{Get the extent (bounding box) of a spatial object.}
 \usage{
 \S4method{getExtent}{geom}(x)
 
 \S4method{getExtent}{Spatial}(x)
 
 \S4method{getExtent}{sf}(x)
+
+\S4method{getExtent}{Raster}(x)
+
+\S4method{getExtent}{matrix}(x)
+}
+\arguments{
+\item{x}{the object from which to derive the extent.}
 }
 \description{
-Get the bounding box of a spatial object.
+Get the extent (bounding box) of a spatial object.
 }

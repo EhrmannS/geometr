@@ -1,2 +1,2 @@
-#' @useDynLib geomTools
+#' @useDynLib geometr
 globalVariables(c("gtTheme"))

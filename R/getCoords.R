@@ -1,38 +1,43 @@
-#' Get the table of coordinates (generic)
+#' Get the table of coordinates of a spatial object.
 #' @param x the object from which to extract the coordinates
-#' @param ... other arguments.
-#' @export
-
-setGeneric(name = "getCoords",
-           def = function(x, ...){
-             standardGeneric("getCoords")
-           }
-)
-
-#' @describeIn getCoords get the table of coordinates of a \code{geom}
-#' @importFrom tibble as_tibble
 #' @examples
 #' # coordinates of ...
 #'
 #' # ... a geom
-#' getCoords(rtGeoms$mask)
+#' getCoords(gtGeoms$mask)
 #'
-#' @export
+#' # ... a Spatial* object
+#' getCoords(gtSP$SpatialPoints)
+#'
+#' # ... an sf* object
+#' getCoords(gtSF$multilinestring)
+#' @name getCoords
+#' @rdname getCoords
+NULL
 
+#' @rdname getCoords
+#' @export
+if(!isGeneric("getCoords")){
+  setGeneric(name = "getCoords",
+             def = function(x, ...){
+               standardGeneric("getCoords")
+             }
+  )
+}
+
+#' @rdname getCoords
+#' @importFrom tibble as_tibble
+#' @export
 setMethod(f = "getCoords",
           signature = "geom",
           definition = function(x){
             as_tibble(x@coords)
-          })
+          }
+)
 
-#' @describeIn getCoords get the table of coordinates of any \code{Spatial*} object
-#' @examples
-#' # ... a Spatial* object
-#' getCoords(rtSP$SpatialPoints)
-#'
+#' @rdname getCoords
 #' @importFrom tibble tibble as_tibble
 #' @export
-
 setMethod(f = "getCoords",
           signature = "Spatial",
           definition = function(x){
@@ -106,16 +111,13 @@ setMethod(f = "getCoords",
             }
 
             return(theCoords)
-          })
+          }
+)
 
-#' @describeIn getCoords get the table of coordinates of any \code{sf} object
+#' @rdname getCoords
 #' @importFrom tibble as_tibble
 #' @importFrom sf st_geometry_type st_coordinates
-#' @examples
-#' # ... an sf* object
-#' getCoords(rtSF$multilinestring)
 #' @export
-
 setMethod(f = "getCoords",
           signature = "sf",
           definition = function(x){
@@ -210,4 +212,5 @@ setMethod(f = "getCoords",
             }
 
             return(theCoords)
-          })
+          }
+)

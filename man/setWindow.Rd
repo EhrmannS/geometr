@@ -4,9 +4,15 @@
 \name{setWindow}
 \alias{setWindow}
 \alias{setWindow,geom-method}
-\title{Set the reference window}
+\title{Set the reference window of a spatial object.}
 \usage{
 \S4method{setWindow}{geom}(x, to)
+}
+\arguments{
+\item{x}{the object in which to set the reference window.}
+
+\item{to}{[\code{data.frame(1)}]\cr two oposing corners or all four
+corners of the rectangle.}
 }
 \description{
 Set the reference window of a spatial object.

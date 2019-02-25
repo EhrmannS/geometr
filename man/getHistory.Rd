@@ -4,10 +4,22 @@
 \name{getHistory}
 \alias{getHistory}
 \alias{getHistory,geom-method}
-\title{Get the history}
+\alias{getHistory,RasterLayer-method}
+\alias{getHistory,RasterBrick-method}
+\alias{getHistory,RasterStack-method}
+\title{Get the history of a spatial object.}
 \usage{
 \S4method{getHistory}{geom}(x)
+
+\S4method{getHistory}{RasterLayer}(x)
+
+\S4method{getHistory}{RasterBrick}(x)
+
+\S4method{getHistory}{RasterStack}(x)
+}
+\arguments{
+\item{x}{the object from which to derive the history.}
 }
 \description{
-Get the history of a \code{geom} object.
+Get the history of a spatial object.
 }

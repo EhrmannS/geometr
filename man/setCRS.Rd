@@ -6,17 +6,30 @@
 \alias{setCRS,geom-method}
 \alias{setCRS,Spatial-method}
 \alias{setCRS,sf-method}
-\title{Set (or transform) the coordinate reference system}
+\alias{setCRS,Raster-method}
+\title{Set (or transform) the coordinate reference system of a spatial object.}
 \usage{
 \S4method{setCRS}{geom}(x, crs)
 
 \S4method{setCRS}{Spatial}(x, crs)
 
 \S4method{setCRS}{sf}(x, crs)
+
+\S4method{setCRS}{Raster}(x, crs)
+}
+\arguments{
+\item{x}{the object for which to set the coordinate reference system.}
+
+\item{crs}{[\code{character(1)}]\cr the coordinate reference system to set
+for this object.}
 }
 \description{
-In case an object has not yet assigned a coordinate reference system, this
-function simply assigns it. In case the object has already a valid crs, a
-transformation to the new crs will be carried out. The transformation is
-computed with the standard defined in the \code{rgdal} package.
+Set (or transform) the coordinate reference system of a spatial object.
+}
+\details{
+In case an object has not yet assigned a coordinate reference
+  system, this function simply assigns it. In case the object has already a
+  valid crs, a transformation to the new crs will be carried out. The
+  transformation is computed with the standard defined in the \code{rgdal}
+  package.
 }

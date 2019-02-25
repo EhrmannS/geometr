@@ -6,13 +6,21 @@
 \alias{setTable,geom-method}
 \alias{setTable,Spatial-method}
 \alias{setTable,sf-method}
-\title{Set the attribute table}
+\alias{setTable,RasterLayer-method}
+\title{Set the attribute table of a spatial object.}
 \usage{
 \S4method{setTable}{geom}(x, table)
 
 \S4method{setTable}{Spatial}(x, table)
 
 \S4method{setTable}{sf}(x, table)
+
+\S4method{setTable}{RasterLayer}(x, table)
+}
+\arguments{
+\item{x}{the object to which to assign \code{table}.}
+
+\item{table}{[\code{data.frame(.)}]\cr the attribute table.}
 }
 \description{
 Set the attribute table of a spatial object.

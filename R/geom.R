@@ -8,21 +8,15 @@
 #'
 #' A \code{geom} either has the feature type \itemize{ \item \code{"point"},
 #' when none of the vertices are connected to other vertices, \item
-#' \code{"line"}, when vertices with the same id are connected according to
-#' their order without the line closing in itself and \item \code{"polygon"}
-#' according to the same definition, except that the line closes in itself.}
-#' Moreover, a \code{geom} does NOT have the slot \emph{extent}, which
-#' characterises the minimum and maximum value of the vertex coordinates and
-#' which is thus derived "on the fly" from the vertices. Instead it has a
-#' \emph{reference window}, which is sort of a second extent that may be bigger
-#' than \code{extent} and which determines the relative position of the vertices
-#' when plotting.
-#' @section Methods: So far the following methods have been defined: \itemize{
-#'   \item Getters: \cr \code{length}, \code{show}, \code{\link{getCoords}},
-#'   \code{\link{getCRS}}, \code{\link{getExtent}}, \code{\link{getHistory}},
-#'   \code{\link{getWindow}}, \code{\link{getSubset}}, \code{\link{getTable}},
-#'   \item Setters: \cr \code{\link{setCRS}}, \code{\link{setTable}},
-#'   \code{\link{setWindow}} }
+#' \code{"line"}, where vertices with the same \code{fid} are connected
+#' following the sequence of their order, without the line closing in itself and
+#' \item \code{"polygon"} according to the same definition, except that the line
+#' closes in itself.} Moreover, a \code{geom} does NOT have the slot
+#' \emph{extent}, which characterises the minimum and maximum value of the
+#' vertex coordinates and which is thus derived "on the fly" from the vertices.
+#' Instead it has a \emph{reference window}, which is sort of a second extent
+#' that may be bigger than \code{extent} and which determines the relative
+#' position of the vertices when plotting.
 #' @slot type [\code{character(1)}]\cr the type of feature, recently either
 #'   \code{"point"}, \code{"line"} or \code{"polygon"}.
 #' @slot coords [\code{data.frame(1)}]\cr the \code{fid}, \code{x} and \code{y}

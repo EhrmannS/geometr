@@ -6,13 +6,22 @@
 \alias{getSubset,geom-method}
 \alias{getSubset,Spatial-method}
 \alias{getSubset,sf-method}
-\title{Get the subset}
+\title{Get the subset of a spatial object.}
 \usage{
 \S4method{getSubset}{geom}(x, attr, coords)
 
 \S4method{getSubset}{Spatial}(x, attr)
 
 \S4method{getSubset}{sf}(x, attr)
+}
+\arguments{
+\item{x}{object to \code{subset}.}
+
+\item{attr}{[\code{integerish(.)} | \code{logical(.)} |
+\code{character(1)}]\cr rows of the attribute table to keep.}
+
+\item{coords}{[\code{integerish(.)} | \code{logical(.)} |
+\code{character(1)}]\cr coordinates to keep.}
 }
 \description{
 Get the subset of a spatial object.

@@ -6,13 +6,19 @@
 \alias{getTable,geom-method}
 \alias{getTable,Spatial-method}
 \alias{getTable,sf-method}
-\title{Get the attribute table}
+\alias{getTable,RasterLayer-method}
+\title{Get the attribute table of a spatial object.}
 \usage{
 \S4method{getTable}{geom}(x)
 
 \S4method{getTable}{Spatial}(x)
 
 \S4method{getTable}{sf}(x)
+
+\S4method{getTable}{RasterLayer}(x)
+}
+\arguments{
+\item{x}{the object from which to derive the attribute table.}
 }
 \description{
 Get the attribute table of a spatial object.
@@ -28,4 +34,5 @@ getTable(rtSP$SpatialPolygons)
 
 # ... an sf object
 getTable(rtSF$multiline)
+getTable(rtRasters$categorical)
 }

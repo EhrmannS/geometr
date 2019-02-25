@@ -7,7 +7,7 @@ using namespace Rcpp;
 
 // matInGeomC
 NumericMatrix matInGeomC(NumericMatrix& mat, NumericMatrix& geom, bool negative);
-RcppExport SEXP _geomTools_matInGeomC(SEXP matSEXP, SEXP geomSEXP, SEXP negativeSEXP) {
+RcppExport SEXP _geometr_matInGeomC(SEXP matSEXP, SEXP geomSEXP, SEXP negativeSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -20,7 +20,7 @@ END_RCPP
 }
 // getValuesMatC
 NumericVector getValuesMatC(NumericMatrix& mat);
-RcppExport SEXP _geomTools_getValuesMatC(SEXP matSEXP) {
+RcppExport SEXP _geometr_getValuesMatC(SEXP matSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -31,7 +31,7 @@ END_RCPP
 }
 // subNumNumC
 NumericMatrix subNumNumC(NumericMatrix& mat, NumericVector& replace, NumericVector with);
-RcppExport SEXP _geomTools_subNumNumC(SEXP matSEXP, SEXP replaceSEXP, SEXP withSEXP) {
+RcppExport SEXP _geometr_subNumNumC(SEXP matSEXP, SEXP replaceSEXP, SEXP withSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -44,7 +44,7 @@ END_RCPP
 }
 // subChrIntC
 IntegerMatrix subChrIntC(CharacterMatrix& mat, CharacterVector& replace, IntegerVector& with);
-RcppExport SEXP _geomTools_subChrIntC(SEXP matSEXP, SEXP replaceSEXP, SEXP withSEXP) {
+RcppExport SEXP _geometr_subChrIntC(SEXP matSEXP, SEXP replaceSEXP, SEXP withSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -55,16 +55,28 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// sortUniqueC
+NumericVector sortUniqueC(NumericVector x);
+RcppExport SEXP _geometr_sortUniqueC(SEXP xSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericVector >::type x(xSEXP);
+    rcpp_result_gen = Rcpp::wrap(sortUniqueC(x));
+    return rcpp_result_gen;
+END_RCPP
+}
 
 static const R_CallMethodDef CallEntries[] = {
-    {"_geomTools_matInGeomC", (DL_FUNC) &_geomTools_matInGeomC, 3},
-    {"_geomTools_getValuesMatC", (DL_FUNC) &_geomTools_getValuesMatC, 1},
-    {"_geomTools_subNumNumC", (DL_FUNC) &_geomTools_subNumNumC, 3},
-    {"_geomTools_subChrIntC", (DL_FUNC) &_geomTools_subChrIntC, 3},
+    {"_geometr_matInGeomC", (DL_FUNC) &_geometr_matInGeomC, 3},
+    {"_geometr_getValuesMatC", (DL_FUNC) &_geometr_getValuesMatC, 1},
+    {"_geometr_subNumNumC", (DL_FUNC) &_geometr_subNumNumC, 3},
+    {"_geometr_subChrIntC", (DL_FUNC) &_geometr_subChrIntC, 3},
+    {"_geometr_sortUniqueC", (DL_FUNC) &_geometr_sortUniqueC, 1},
     {NULL, NULL, 0}
 };
 
-RcppExport void R_init_geomTools(DllInfo *dll) {
+RcppExport void R_init_geometr(DllInfo *dll) {
     R_registerRoutines(dll, NULL, CallEntries, NULL, NULL);
     R_useDynamicSymbols(dll, FALSE);
 }

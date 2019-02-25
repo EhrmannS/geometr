@@ -39,8 +39,8 @@ ticks.}
 grid and whether or not to plot the \code{minor = TRUE/FALSE} grid.}
 
 \item{legend}{[\code{named list(.)}]\cr \code{plot = TRUE/FALSE}, number of
-\code{bins}, \code{ascending = TRUE/FALSE} order of values and
-\code{sizeRatio} plot and legend, \cr\cr label [\code{named list(.)}]\cr
+\code{bins}, \code{ascending = TRUE/FALSE} order of values and the
+\code{sizeRatio} of plot and legend, \cr\cr label [\code{named list(.)}]\cr
 \code{plot = TRUE/FALSE}, \code{fontsize} and \code{colour} of the legend
 labels, \cr\cr box [\code{named list(.)}]\cr \code{plot = TRUE/FALSE},
 \code{linetype}, \code{linewidth} and \code{colour} of the legend box.}
@@ -59,7 +59,9 @@ Assign parameters in an gtTheme to create a new theme.
 }
 \examples{
 input <- rtRasters$continuous
-(myTheme <- setTheme(title = list(plot = FALSE)))
+myTheme <- setTheme(geom = list(pointsize = .5, pointsymbol = 21, linewidth = 1,
+                                fill = c("#00204D", "#FFEA46"), line = "grey",
+                                scale = list(x = "fill", to = "inequality")))
 
 visualise(input, theme = myTheme)
 }

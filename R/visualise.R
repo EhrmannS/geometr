@@ -22,6 +22,7 @@
 #' @return Returns invisibly an object of class \code{recordedplot}, see
 #'   \code{\link{recordPlot}} for details (and warnings).
 #' @examples
+#' library(rasterTools)
 #' input <- rtRasters$continuous
 #' binarised <- rBinarise(input, thresh = 40)
 #' visualise(raster = rDistance(binarised), trace = TRUE)
@@ -62,33 +63,24 @@
 visualise <- function(raster = NULL, geom = NULL, theme = NULL, trace = FALSE,
                       image = FALSE, new = TRUE, ...){
 
-  timings <- list()
-
-  b <- Sys.time()
   # check arguments
-  isRaster <- testClass(raster, "Raster")
-  isRasterStackBrick <- testClass(raster, "RasterStackBrick")
-  isMatrix <- testClass(raster, "matrix")
-  existsGridded <- ifelse(c(isRaster | isMatrix), TRUE, FALSE)
-  existsGeom <- testClass(geom, classes = "geom")
+  if(!is.null(raster)){
+    existsRaster <- TRUE
+    isRaster <- grepl("Raster", class(raster))
+  } else{
+    existsRaster <- FALSE
+  }
+  existsGeom <- !is.null(geom)
   if(!existsGeom & !is.null(geom)){
     stop("please provide a valid 'geom' object to plot.")
   }
-  if(!existsGridded & !existsGeom){
-    stop("please provide either a raster object or a geometry to plot.")
-  }
+  stopifnot(any(existsRaster, existsGeom))
   assertClass(x = theme, classes = "gtTheme", null.ok = TRUE)
-  if(is.null(theme)){
-    theme <- gtTheme
-  }
   assertLogical(trace)
   assertLogical(image)
   assertLogical(new)
-  e <- Sys.time()
-  timings$argument_check <- e - b
 
   # check whether a plot is already open and whether it is valid
-  b <- Sys.time()
   if(!is.null(dev.list()) & !new){
     objViewports <- grid.ls(viewports = TRUE, grobs = FALSE, print = FALSE)
     isOpenPlot <- ifelse(any(objViewports$name == "vpLomm"), TRUE, FALSE)
@@ -98,33 +90,31 @@ visualise <- function(raster = NULL, geom = NULL, theme = NULL, trace = FALSE,
   } else{
     isOpenPlot <- FALSE
   }
-  e <- Sys.time()
-  timings$check_plot_open <- e - b
 
   # turn raster into an array and extract meta-data
-  b <- Sys.time()
-  if(existsGridded){
+  if(existsRaster){
+
     if(isRaster){
 
       plotLayers <- nlayers(raster)
-      griddedNames <- names(raster)
+      griddedNames <- raster@data@names
       vals <- lapply(1:plotLayers, function(x){
-        as.vector(raster[[x]])
+        raster[[x]]@data@values
       })
       uniqueVals <- lapply(1:plotLayers, function(x){
-        sort(unique(vals[[x]], na.rm = TRUE))
+        sortUniqueC(vals[[x]][!is.na(vals[[x]])])
       })
-      dims <- dim(raster[[1]])
-      ext <- extent(raster[[1]])
+      dims <- c(raster@nrows, raster@ncols)
+      ext <- raster[[1]]@extent
       panelExt <- c(xMin = ext@xmin, xMax = ext@xmax, yMin = ext@ymin, yMax = ext@ymax)
       hasColourTable <- lapply(1:plotLayers, function(x){
-        ifelse(length(raster[[x]]@legend@colortable) > 0, TRUE, FALSE)
+        as.logical(length(raster[[x]]@legend@colortable))
       })
       isFactor <- lapply(1:plotLayers, function(x){
-        ifelse(raster[[x]]@data@isfactor, TRUE, FALSE)
+        raster[[x]]@data@isfactor
       })
 
-    } else if(isMatrix){
+    } else{
 
       plotLayers <- 1
       griddedNames <- "layer"
@@ -145,12 +135,9 @@ visualise <- function(raster = NULL, geom = NULL, theme = NULL, trace = FALSE,
     }
 
   }
-  e <- Sys.time()
-  timings$get_raster_meta <- e - b
 
-  b <- Sys.time()
   if(isOpenPlot){
-    if(existsGridded){
+    if(existsRaster){
       # if both are given, check whether their names are the same. If not, prepare
       # to plot raster
       if(!all(panelNames == griddedNames)){
@@ -161,32 +148,21 @@ visualise <- function(raster = NULL, geom = NULL, theme = NULL, trace = FALSE,
       plotLayers <- length(panelNames)
     }
   } else{
-    if(existsGridded){
+    if(existsRaster){
       panelNames <- griddedNames
     }
   }
-  e <- Sys.time()
-  timings$determine_panel_names <- e - b
 
   # if plot still valid, determine which elements are available
-  b <- Sys.time()
   if(isOpenPlot){
-    isTitleInPlot <- !identical(grid.grep("title", grobs = FALSE, viewports = TRUE, grep = TRUE), character(0))
     isLegendInPlot <- !identical(grid.grep("legend", grobs = FALSE, viewports = TRUE, grep = TRUE), character(0))
-    isYAxisInPlot <- !identical(grid.grep("yAxisTitle", grobs = FALSE, viewports = TRUE, grep = TRUE), character(0))
-    isXAxisInPlot <- !identical(grid.grep("xAxisTitle", grobs = FALSE, viewports = TRUE, grep = TRUE), character(0))
     isRasterInPlot <- !identical(grid.grep("raster", grobs = FALSE, viewports = TRUE, grep = TRUE), character(0))
     isGeomInPlot <-!identical(grid.grep("geom", grobs = FALSE, viewports = TRUE, grep = TRUE), character(0))
   } else{
-    isTitleInPlot <- FALSE
     isLegendInPlot <- FALSE
-    isYAxisInPlot <- FALSE
-    isXAxisInPlot <- FALSE
     isRasterInPlot <- FALSE
     isGeomInPlot <-FALSE
   }
-  e <- Sys.time()
-  timings$check_available_elements <- e - b
 
   # override legend in some cases
   if(isGeomInPlot & !isRasterInPlot | image){
@@ -194,7 +170,6 @@ visualise <- function(raster = NULL, geom = NULL, theme = NULL, trace = FALSE,
   }
 
   # turn 'geom' into a grob that can be plotted
-  b <- Sys.time()
   if(existsGeom){
 
     if(isOpenPlot){
@@ -202,7 +177,7 @@ visualise <- function(raster = NULL, geom = NULL, theme = NULL, trace = FALSE,
       panelExt <- c(xMin = 0, xMax = as.numeric(extentGrobMeta$width),
                     yMin = 0, yMax = as.numeric(extentGrobMeta$height))
     } else{
-      if(!existsGridded){
+      if(!existsRaster){
         panelExt <- c(xMin = min(geom@window$x), xMax = max(geom@window$x),
                       yMin = min(geom@window$y), yMax = max(geom@window$y))
         plotLayers <- 1
@@ -210,10 +185,9 @@ visualise <- function(raster = NULL, geom = NULL, theme = NULL, trace = FALSE,
       }
     }
 
-    geomGrob <- gt_as_grob(geom = geom)
+    geomGrob <- gt_as_grob(geom = geom, theme = theme, ...)
+
   }
-  e <- Sys.time()
-  timings$make_grob <- e - b
 
   # checkup concerning plot size
   if(plotLayers > 30){
@@ -225,7 +199,6 @@ visualise <- function(raster = NULL, geom = NULL, theme = NULL, trace = FALSE,
   }
 
   # manage plot properties
-  b <- Sys.time()
   ratio <- list(x = (panelExt[[2]] - panelExt[[1]])/(panelExt[[4]] - panelExt[[3]]),
                 y = (panelExt[[4]] - panelExt[[3]])/(panelExt[[2]] - panelExt[[1]]))
   xBins <- theme@xAxis$bins
@@ -245,13 +218,10 @@ visualise <- function(raster = NULL, geom = NULL, theme = NULL, trace = FALSE,
                              to = panelExt[[4]],
                              by = (panelExt[[4]] - panelExt[[3]])/yBins))
   margin <- list(x = (panelExt[[2]]-panelExt[[1]])*theme@yAxis$margin,
-                 y = (panelExt[[4]]-panelExt[[3]])*theme@xAxis$margin) # it's like that on prurpose, that specifying xAxis margin modifies the xaxis and not the yaxis
-  e <- Sys.time()
-  timings$get_plot_distances <- e - b
+                 y = (panelExt[[4]]-panelExt[[3]])*theme@xAxis$margin)
 
   # manage the colours
-  b <- Sys.time()
-  if(existsGridded){
+  if(existsRaster){
 
     if(image){
       red <- as.integer(vals[[which(panelNames == "red")]])
@@ -260,7 +230,6 @@ visualise <- function(raster = NULL, geom = NULL, theme = NULL, trace = FALSE,
       green[is.na(green)] <- 255L
       blue <- as.integer(vals[[which(panelNames == "blue")]])
       blue[is.na(blue)] <- 255L
-
       theColours <- list(rgb(red = red, green = green, blue = blue, maxColorValue = 255))
       panelNames <- "image"
     } else{
@@ -306,7 +275,9 @@ visualise <- function(raster = NULL, geom = NULL, theme = NULL, trace = FALSE,
         if(hasColourTable[[x]]){
           breaksTemp <- c(tempVals[1]-1, tempVals)
         } else if(isFactor[[x]]){
-          breaksTemp <- c(tempVals[1]-1, raster[[x]]@data@attributes[[1]]$id)
+          attr <- raster[[x]]@data@attributes[[1]]
+          idPos <- grep("id", colnames(attr), ignore.case = TRUE)
+          breaksTemp <- c(tempVals[1]-1, attr[,idPos])
         } else{
           breaksTemp <- c(tempVals[1]-1, seq(tempVals[1], tempVals[[length(tempVals)]], length.out = nrColours))
         }
@@ -335,11 +306,8 @@ visualise <- function(raster = NULL, geom = NULL, theme = NULL, trace = FALSE,
   } else{
     theme@legend$plot <- FALSE
   }
-  e <- Sys.time()
-  timings$get_plot_colours <- e - b
 
   # height and width of the plot elements
-  b <- Sys.time()
   if(theme@title$plot){
     titleH <- unit(theme@title$fontsize+6, units = "points")
   } else{
@@ -366,11 +334,8 @@ visualise <- function(raster = NULL, geom = NULL, theme = NULL, trace = FALSE,
   }
   xOffset <- ((as.numeric(yAxisTicksW) + as.numeric(yAxisTitleW)) - as.numeric(legendW))/2
   yOffset <- ((as.numeric(xAxisTicksH) + as.numeric(xAxisTitleH)) - as.numeric(titleH))/2
-  e <- Sys.time()
-  timings$set_element_options <- e - b
 
   # determine the number of columns and rows and the position of panels
-  b <- Sys.time()
   if(plotLayers > 1){
     ncol <- ceiling(sqrt(plotLayers))
   } else{
@@ -379,17 +344,12 @@ visualise <- function(raster = NULL, geom = NULL, theme = NULL, trace = FALSE,
   nrow <- ceiling(plotLayers/ncol)
   panelPosY <- rep(rev(seq(from = 1, to = nrow)), each = ncol)
   panelPosX <- rep(seq(from = 1, to = ncol), times = nrow)
-  e <- Sys.time()
-  timings$get_panel_positions <- e - b
 
   # create new plot and an overarching viewport
-  b <- Sys.time()
   if(!isOpenPlot){
     grid.newpage()
     pushViewport(viewport(name = "vpLomm"))
   }
-  e <- Sys.time()
-  timings$open_new_plot <- e - b
 
   # start plotting the different elements
   for(i in 1:plotLayers){
@@ -398,7 +358,6 @@ visualise <- function(raster = NULL, geom = NULL, theme = NULL, trace = FALSE,
     if(!isOpenPlot){
 
       # the panel viewport
-      b <- Sys.time()
       pushViewport(viewport(x = (panelPosX[i]/ncol)-(1/ncol/2),
                             y = (panelPosY[i]/nrow)-(1/nrow/2),
                             width = 1/ncol,
@@ -412,11 +371,8 @@ visualise <- function(raster = NULL, geom = NULL, theme = NULL, trace = FALSE,
                 gp = gpar(fill = NA, col = NA), name = "extentGrob")
       grid.points(x = unit(panelExt[1], "points"), y = unit(panelExt[3], "points"),
                   gp = gpar(fill = NA, col = NA), name = "offsetGrob")
-      e <- Sys.time()
-      timings$set_stat_grobs <- e - b
 
       # determine dimensions for this plot
-      b <- Sys.time()
       gridH <- unit(1, "grobheight", "panelGrob") - xAxisTitleH - xAxisTicksH - titleH
       gridHr <- unit(1, "grobwidth", "panelGrob")*ratio$y - yAxisTitleW*ratio$y - yAxisTicksW*ratio$y - legendW*ratio$y
       gridW <- unit(1, "grobwidth", "panelGrob") - yAxisTitleW - yAxisTicksW - legendW
@@ -427,11 +383,8 @@ visualise <- function(raster = NULL, geom = NULL, theme = NULL, trace = FALSE,
                             height = min(gridH, gridHr),
                             width = min(gridW, gridWr),
                             name = "plot"))
-      e <- Sys.time()
-      timings$calc_plot_dimensions <- e - b
 
       # the title viewport
-      b <- Sys.time()
       if(theme@title$plot){
         pushViewport(viewport(name = "title"))
         grid.text(just = "top",
@@ -441,11 +394,8 @@ visualise <- function(raster = NULL, geom = NULL, theme = NULL, trace = FALSE,
                             col = theme@title$colour))
         upViewport() # exit title
       }
-      e <- Sys.time()
-      timings$plot_title <- e - b
 
       # the legend viewport
-      b <- Sys.time()
       if(theme@legend$plot){
 
         if(length(tickValues[[i]]) < 2){
@@ -502,11 +452,8 @@ visualise <- function(raster = NULL, geom = NULL, theme = NULL, trace = FALSE,
 
         upViewport() # exit legend
       }
-      e <- Sys.time()
-      timings$plot_legend <- e - b
 
       # the yAxis viewport
-      b <- Sys.time()
       if(theme@yAxis$label$plot){
         pushViewport(viewport(name = "yAxisTitle"))
         grid.text(just = "right",
@@ -517,11 +464,8 @@ visualise <- function(raster = NULL, geom = NULL, theme = NULL, trace = FALSE,
                             col = theme@yAxis$label$colour))
         upViewport() # exit yAxisTitle
       }
-      e <- Sys.time()
-      timings$plot_yAxis <- e - b
 
       # the xAxis viewport
-      b <- Sys.time()
       if(theme@xAxis$label$plot){
         pushViewport(viewport(name = "xAxisTitle"))
         grid.text(just = "bottom",
@@ -532,11 +476,8 @@ visualise <- function(raster = NULL, geom = NULL, theme = NULL, trace = FALSE,
                             col = theme@xAxis$label$colour))
         upViewport() # exit xAxisTitle
       }
-      e <- Sys.time()
-      timings$plot_xAxis <- e - b
 
       # the grid viewport
-      b <- Sys.time()
       pushViewport(viewport(xscale = c(panelExt[[1]]-margin$x, panelExt[[2]]+margin$x),
                             yscale = c(panelExt[[3]]-margin$y, panelExt[[4]]+margin$y),
                             name = "grid"))
@@ -588,11 +529,8 @@ visualise <- function(raster = NULL, geom = NULL, theme = NULL, trace = FALSE,
           upViewport() # exit minorGrid
         }
       }
-      e <- Sys.time()
-      timings$plot_grid <- e - b
 
       # the box viewport
-      b <- Sys.time()
       if(theme@box$plot){
         pushViewport(viewport(width = unit(1, "npc") - unit(2*margin$x, "native"),
                               height = unit(1, "npc") - unit(2*margin$y, "native"),
@@ -604,12 +542,9 @@ visualise <- function(raster = NULL, geom = NULL, theme = NULL, trace = FALSE,
                   name = "theBox")
         upViewport() # exit box
       }
-      e <- Sys.time()
-      timings$plot_box <- e - b
 
       # the raster viewport
-      b <- Sys.time()
-      if(existsGridded){
+      if(existsRaster){
         pushViewport(viewport(width = unit(1, "npc") - unit(2*margin$x, "native"),
                               height = unit(1, "npc") - unit(2*margin$y, "native"),
                               xscale = c(panelExt[[1]]-margin$x, panelExt[[2]]+margin$x),
@@ -622,11 +557,8 @@ visualise <- function(raster = NULL, geom = NULL, theme = NULL, trace = FALSE,
                     interpolate = FALSE)
         upViewport() # exit raster
       }
-      e <- Sys.time()
-      timings$plot_raster <- e - b
 
       # the geom viewport
-      b <- Sys.time()
       if(existsGeom){
         pushViewport(viewport(width = unit(1, "npc") - unit(2*margin$x, "native"),
                               height = unit(1, "npc") - unit(2*margin$y, "native"),
@@ -638,8 +570,6 @@ visualise <- function(raster = NULL, geom = NULL, theme = NULL, trace = FALSE,
         grid.draw(geomGrob)
         upViewport() # exit geom
       }
-      e <- Sys.time()
-      timings$plot_geom <- e - b
 
       upViewport(3) # exit grid and plot and 'plotName'
     }
@@ -647,14 +577,10 @@ visualise <- function(raster = NULL, geom = NULL, theme = NULL, trace = FALSE,
     if(isOpenPlot & existsGeom){
 
       # downViewport("vpLomm")
-      b <- Sys.time()
       downViewport(plotName)
       downViewport("plot")
       downViewport("grid")
-      e <- Sys.time()
-      timings$find_viewport <- e - b
 
-      b <- Sys.time()
       if(!isGeomInPlot){
         # grid.clip()
         pushViewport(viewport(width = unit(1, "npc") - unit(2*margin$x, "native"),
@@ -667,8 +593,6 @@ visualise <- function(raster = NULL, geom = NULL, theme = NULL, trace = FALSE,
       }
 
       grid.draw(geomGrob)
-      e <- Sys.time()
-      timings$plot_grob <- e - b
       upViewport(4)
     }
 
@@ -680,9 +604,8 @@ visualise <- function(raster = NULL, geom = NULL, theme = NULL, trace = FALSE,
     upViewport()
   }
 
-  b <- Sys.time()
   if(trace){
-    if(isRasterStackBrick){
+    if(grepl("RasterBrick", class(distances))){
       theHistory <- lapply(seq_along(names(raster)), function(x){
         temp <- unlist(raster[[x]]@history)
       })
@@ -710,12 +633,8 @@ visualise <- function(raster = NULL, geom = NULL, theme = NULL, trace = FALSE,
       message(paste0("this object has the following history:\n -> object loaded from memory"))
     }
   }
-  e <- Sys.time()
-  timings$print_history <- e - b
 
-  # invisible(recordPlot(attach = "geomTools"))
-  timings <- gather(as_tibble(timings))
-  return(timings)
+  invisible(recordPlot(attach = "geomTools"))
 }
 
 #' Create a new theme
@@ -745,8 +664,8 @@ visualise <- function(raster = NULL, geom = NULL, theme = NULL, trace = FALSE,
 #'   \code{colour}, \code{linetype} and \code{linewidth} of the major and minor
 #'   grid and whether or not to plot the \code{minor = TRUE/FALSE} grid.
 #' @param legend [\code{named list(.)}]\cr \code{plot = TRUE/FALSE}, number of
-#'   \code{bins}, \code{ascending = TRUE/FALSE} order of values and
-#'   \code{sizeRatio} plot and legend, \cr\cr label [\code{named list(.)}]\cr
+#'   \code{bins}, \code{ascending = TRUE/FALSE} order of values and the
+#'   \code{sizeRatio} of plot and legend, \cr\cr label [\code{named list(.)}]\cr
 #'   \code{plot = TRUE/FALSE}, \code{fontsize} and \code{colour} of the legend
 #'   labels, \cr\cr box [\code{named list(.)}]\cr \code{plot = TRUE/FALSE},
 #'   \code{linetype}, \code{linewidth} and \code{colour} of the legend box.
@@ -759,7 +678,9 @@ visualise <- function(raster = NULL, geom = NULL, theme = NULL, trace = FALSE,
 #'   at least two \code{colours} to which to scale 'someAttribute' to.
 #' @examples
 #' input <- rtRasters$continuous
-#' (myTheme <- setTheme(title = list(plot = FALSE)))
+#' myTheme <- setTheme(geom = list(pointsize = .5, pointsymbol = 21, linewidth = 1,
+#'                                 fill = c("#00204D", "#FFEA46"), line = "grey",
+#'                                 scale = list(x = "fill", to = "inequality")))
 #'
 #' visualise(input, theme = myTheme)
 #' @importFrom checkmate assertList assertLogical assertNames
@@ -807,8 +728,8 @@ setTheme <- function(from = NULL, title = NULL, box = NULL, xAxis = NULL,
         assertList(xAxis$label, any.missing = FALSE, max.len = 5)
         assertNames(names(xAxis$label), subset.of = c("plot", "title", "fontsize", "colour", "rotation"))
         previous <- from@xAxis$label
-        for(i in seq_along(names(xAxis$label))){
-          out@xAxis$label[which(names(previous) == names(xAxis$label)[i])] <- xAxis$label[i]
+        for(j in seq_along(names(xAxis$label))){
+          out@xAxis$label[which(names(previous) == names(xAxis$label)[j])] <- xAxis$label[j]
         }
       }
       if(names(xAxis)[i] == "ticks"){

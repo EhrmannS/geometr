@@ -6,10 +6,8 @@
 \alias{getCoords,geom-method}
 \alias{getCoords,Spatial-method}
 \alias{getCoords,sf-method}
-\title{Get the table of coordinates (generic)}
+\title{Get the table of coordinates of a spatial object.}
 \usage{
-getCoords(x, ...)
-
 \S4method{getCoords}{geom}(x)
 
 \S4method{getCoords}{Spatial}(x)
@@ -18,30 +16,19 @@ getCoords(x, ...)
 }
 \arguments{
 \item{x}{the object from which to extract the coordinates}
-
-\item{...}{other arguments.}
 }
 \description{
-Get the table of coordinates (generic)
+Get the table of coordinates of a spatial object.
 }
-\section{Methods (by class)}{
-\itemize{
-\item \code{geom}: get the table of coordinates of a \code{geom}
-
-\item \code{Spatial}: get the table of coordinates of any \code{Spatial*} object
-
-\item \code{sf}: get the table of coordinates of any \code{sf} object
-}}
-
 \examples{
 # coordinates of ...
 
 # ... a geom
-getCoords(rtGeoms$mask)
+getCoords(gtGeoms$mask)
 
 # ... a Spatial* object
-getCoords(rtSP$SpatialPoints)
+getCoords(gtSP$SpatialPoints)
 
 # ... an sf* object
-getCoords(rtSF$multilinestring)
+getCoords(gtSF$multilinestring)
 }

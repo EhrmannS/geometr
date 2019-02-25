@@ -1,16 +1,14 @@
-#' Get the subset
-#'
 #' Get the subset of a spatial object.
-#' @name getSubset
-NULL
-
-#' @rdname getSubset
 #' @param x object to \code{subset}.
 #' @param attr [\code{integerish(.)} | \code{logical(.)} |
 #'   \code{character(1)}]\cr rows of the attribute table to keep.
 #' @param coords [\code{integerish(.)} | \code{logical(.)} |
 #'   \code{character(1)}]\cr coordinates to keep.
-#' @param ... other arguments.
+#' @name getSubset
+#' @rdname getSubset
+NULL
+
+#' @rdname getSubset
 #' @export
 if(!isGeneric("getSubset")){
   setGeneric(name = "getSubset",
@@ -55,7 +53,8 @@ setMethod(f = "getSubset",
               x@attr$n <- nVids
             }
             return(x)
-          })
+          }
+)
 
 #' @rdname getSubset
 #' @export
@@ -74,7 +73,8 @@ setMethod(f = "getSubset",
             #   x <- x[matches,]
             # }
             return(x)
-          })
+          }
+)
 
 #' @rdname getSubset
 #' @examples

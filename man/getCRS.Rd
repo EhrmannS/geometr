@@ -6,20 +6,20 @@
 \alias{getCRS,geom-method}
 \alias{getCRS,Spatial-method}
 \alias{getCRS,sf-method}
-\title{Get the coordinate reference system}
+\alias{getCRS,Raster-method}
+\title{Get the coordinate reference system of a spatial object.}
 \usage{
-getCRS(x, ...)
-
 \S4method{getCRS}{geom}(x)
 
 \S4method{getCRS}{Spatial}(x)
 
 \S4method{getCRS}{sf}(x)
+
+\S4method{getCRS}{Raster}(x)
 }
 \arguments{
 \item{x}{the object from which to extract the coordinate reference system.}
 }
 \description{
-Standardised function to determine the coordinate reference system of a
-spatial object.
+Get the coordinate reference system of a spatial object.
 }

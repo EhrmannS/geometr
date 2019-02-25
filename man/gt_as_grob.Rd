@@ -4,10 +4,16 @@
 \alias{gt_as_grob}
 \title{Transform geometry to grob}
 \usage{
-gt_as_grob(geom)
+gt_as_grob(geom = NULL, theme = gtTheme, ...)
 }
 \arguments{
 \item{geom}{[\code{geom}]\cr Object of class \code{\link{geom}}.}
+
+\item{theme}{[\code{list(7)}]\cr Visualising options; see}
+
+\item{...}{instead of providing a \code{gtTheme}, you can also determine
+specific graphic parameters (see \code{\link{gpar}}) separately; see
+\code{\link{setTheme}} for details.}
 }
 \value{
 Depending on the provided geometry either a \code{\link{pointsGrob}},

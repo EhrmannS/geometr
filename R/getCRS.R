@@ -1,18 +1,18 @@
-#' Get the coordinate reference system
-#'
-#' Standardised function to determine the coordinate reference system of a
-#' spatial object.
+#' Get the coordinate reference system of a spatial object.
+#' @param x the object from which to extract the coordinate reference system.
 #' @name getCRS
+#' @rdname getCRS
 NULL
 
 #' @rdname getCRS
-#' @param x the object from which to extract the coordinate reference system.
 #' @export
-setGeneric(name = "getCRS",
-           def = function(x, ...){
-             standardGeneric("getCRS")
-           }
-)
+if(!isGeneric("getCRS")){
+  setGeneric(name = "getCRS",
+             def = function(x, ...){
+               standardGeneric("getCRS")
+             }
+  )
+}
 
 #' @rdname getCRS
 #' @export
@@ -39,5 +39,14 @@ setMethod(f = "getCRS",
           signature = "sf",
           definition = function(x){
             st_crs(x)$proj4string
+          }
+)
+
+#' @rdname getCRS
+#' @export
+setMethod(f = "getCRS",
+          signature = 'Raster',
+          definition = function(x){
+            as.character(x@crs)
           }
 )
