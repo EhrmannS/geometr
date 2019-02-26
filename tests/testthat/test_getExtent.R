@@ -29,3 +29,20 @@ test_that("getExtent of an sf object", {
   expect_names(names(output), identical.to = c("x", "y"))
 })
 
+test_that("getExtent of a Raster", {
+  aRaster <- raster(nrows=108, ncols=21, xmn=0, xmx=10)
+
+  output <- getExtent(aRaster)
+  expect_tibble(output, any.missing = FALSE, nrows = 2, ncols = 2)
+  expect_data_frame(output, any.missing = FALSE, nrows = 2, ncols = 2)
+  expect_names(names(output), identical.to = c("x", "y"))
+})
+
+test_that("getExtent of a matrix", {
+  aMatrix <- matrix(ncol = 100, nrow = 100, data = 5)
+
+  output <- getExtent(aMatrix)
+  expect_data_frame(output, any.missing = FALSE, nrows = 2, ncols = 2)
+  expect_names(names(output), identical.to = c("x", "y"))
+})
+
