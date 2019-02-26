@@ -53,6 +53,7 @@ gt_as_grob <- function(geom = NULL, theme = gtTheme, ...){
     attr$in_fid <- attr$fid
   }
   pars <- scaleParameters(attr = attr, params = theme@geom)
+  # https://github.com/ropensci/rgbif/blob/d7fdbdc4fcba8015f5e1aeadfc8cc789cf3ed155/R/occ_issues.r
 
   if(featureType %in% c("point")){
 
