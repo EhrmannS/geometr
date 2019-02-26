@@ -2,6 +2,8 @@
 #'
 #' @param raster [\code{Raster*} | \code{matrix}]\cr raster object to plot.
 #' @param geom [\code{geom}]\cr geom to plot.
+#' @param window [\code{data.frame(1)}]\cr two oposing corners to which the plot
+#'   is limited.
 #' @param theme [\code{list(7)}]\cr Visualising options; see
 #'   \code{\link{setTheme}} for details.
 #' @param trace [\code{logical(1)}]\cr Print the raster object's history (i.e.
@@ -52,6 +54,7 @@
 #'
 #' @importFrom checkmate testClass testList assertNames assertList assertLogical
 #'   testCharacter testIntegerish
+#' @importFrom tibble tibble
 #' @importFrom grid grid.newpage pushViewport viewport grid.rect grid.raster
 #'   grid.clip unit grid.draw grid.grill upViewport grid.text gpar convertX
 #'   downViewport
@@ -60,8 +63,9 @@
 #' @importFrom stats quantile
 #' @export
 
-visualise <- function(raster = NULL, geom = NULL, theme = gtTheme, trace = FALSE,
-                      image = FALSE, new = TRUE, ...){
+
+visualise <- function(raster = NULL, geom = NULL, window = NULL, theme = gtTheme,
+                      trace = FALSE, image = FALSE, new = TRUE, ...){
 
   # check arguments
   if(!is.null(raster)){
@@ -75,6 +79,11 @@ visualise <- function(raster = NULL, geom = NULL, theme = gtTheme, trace = FALSE
     stop("please provide a valid 'geom' object to plot.")
   }
   stopifnot(any(existsRaster, existsGeom))
+  assertDataFrame(x = window, nrows = 2, min.cols = 2, null.ok = TRUE)
+  if(!is.null(window) & existsGeom){
+    assertNames(names(window), must.include = c("x", "y"))
+    geom <- setWindow(x = geom, to = window)
+  }
   assertClass(x = theme, classes = "gtTheme", null.ok = TRUE)
   assertLogical(trace)
   assertLogical(image)
@@ -106,7 +115,8 @@ visualise <- function(raster = NULL, geom = NULL, theme = gtTheme, trace = FALSE
       })
       dims <- c(raster@nrows, raster@ncols)
       ext <- raster[[1]]@extent
-      panelExt <- c(xMin = ext@xmin, xMax = ext@xmax, yMin = ext@ymin, yMax = ext@ymax)
+      panelExt <- tibble(x = c(ext@xmin, ext@xmax),
+                         y = c(ext@ymin, ext@ymax))
       hasColourTable <- lapply(1:plotLayers, function(x){
         as.logical(length(raster[[x]]@legend@colortable))
       })
@@ -121,7 +131,8 @@ visualise <- function(raster = NULL, geom = NULL, theme = gtTheme, trace = FALSE
       vals <- list(getValuesMatC(raster))
       uniqueVals <- list(sort(unique(vals[[1]], na.rm = TRUE)))
       dims <- dim(raster)
-      panelExt <- c(xMin = 0, xMax = ncol(raster), yMin = 0, yMax = nrow(raster))
+      panelExt <- tibble(x = c(0, ncol(raster)),
+                         y = c(0, nrow(raster)))
       hasColourTable <- FALSE
       isFactor <- FALSE
 
@@ -174,17 +185,18 @@ visualise <- function(raster = NULL, geom = NULL, theme = gtTheme, trace = FALSE
 
     if(isOpenPlot){
       extentGrobMeta <- grid.get(gPath("extentGrob"))
-      panelExt <- c(xMin = 0, xMax = as.numeric(extentGrobMeta$width),
-                    yMin = 0, yMax = as.numeric(extentGrobMeta$height))
+      panelExt <- tibble(x = c(0, as.numeric(extentGrobMeta$width)) + as.numeric(extentGrobMeta$x),
+                         y = c(0, as.numeric(extentGrobMeta$height)) + as.numeric(extentGrobMeta$y))
     } else{
       if(!existsRaster){
-        panelExt <- c(xMin = min(geom@window$x), xMax = max(geom@window$x),
-                      yMin = min(geom@window$y), yMax = max(geom@window$y))
+        panelExt <- tibble(x = c(min(geom@window$x), max(geom@window$x)),
+                           y = c(min(geom@window$y), max(geom@window$y)))
         plotLayers <- 1
         panelNames <- geom@type
       }
     }
 
+    geom <- setWindow(x = geom, to = panelExt)
     geomGrob <- gt_as_grob(geom = geom, theme = theme, ...)
 
   }
@@ -199,26 +211,26 @@ visualise <- function(raster = NULL, geom = NULL, theme = gtTheme, trace = FALSE
   }
 
   # manage plot properties
-  ratio <- list(x = (panelExt[[2]] - panelExt[[1]])/(panelExt[[4]] - panelExt[[3]]),
-                y = (panelExt[[4]] - panelExt[[3]])/(panelExt[[2]] - panelExt[[1]]))
+  ratio <- list(x = (panelExt$x[2] - panelExt$x[1])/(panelExt$y[2] - panelExt$y[1]),
+                y = (panelExt$y[2] - panelExt$y[1])/(panelExt$x[2] - panelExt$x[1]))
   xBins <- theme@xAxis$bins
   yBins <- theme@yAxis$bins
-  xBinSize <- (panelExt[[2]] - panelExt[[1]])/xBins
-  yBinSize <- (panelExt[[4]] - panelExt[[3]])/yBins
-  axisSteps <- list(x1 = seq(from = panelExt[[1]],
-                             to = panelExt[[2]],
-                             by = (panelExt[[2]] - panelExt[[1]])/xBins),
-                    x2 = seq(from = panelExt[[1]] + (xBinSize/2),
-                             to = panelExt[[2]],
-                             by = (panelExt[[2]] - panelExt[[1]])/xBins),
-                    y1 = seq(from = panelExt[[3]],
-                             to = panelExt[[4]],
-                             by = (panelExt[[4]] - panelExt[[3]])/yBins),
-                    y2 = seq(from = panelExt[[3]] + (yBinSize/2),
-                             to = panelExt[[4]],
-                             by = (panelExt[[4]] - panelExt[[3]])/yBins))
-  margin <- list(x = (panelExt[[2]]-panelExt[[1]])*theme@yAxis$margin,
-                 y = (panelExt[[4]]-panelExt[[3]])*theme@xAxis$margin)
+  xBinSize <- (panelExt$x[2] - panelExt$x[1])/xBins
+  yBinSize <- (panelExt$y[2] - panelExt$y[1])/yBins
+  axisSteps <- list(x1 = seq(from = panelExt$x[1],
+                             to = panelExt$x[2],
+                             by = (panelExt$x[2] - panelExt$x[1])/xBins),
+                    x2 = seq(from = panelExt$x[1] + (xBinSize/2),
+                             to = panelExt$x[2],
+                             by = (panelExt$x[2] - panelExt$x[1])/xBins),
+                    y1 = seq(from = panelExt$y[1],
+                             to = panelExt$y[2],
+                             by = (panelExt$y[2] - panelExt$y[1])/yBins),
+                    y2 = seq(from = panelExt$y[1] + (yBinSize/2),
+                             to = panelExt$y[2],
+                             by = (panelExt$y[2] - panelExt$y[1])/yBins))
+  margin <- list(x = (panelExt$x[2]-panelExt$x[1])*theme@yAxis$margin,
+                 y = (panelExt$y[2]-panelExt$y[1])*theme@xAxis$margin)
 
   # manage the colours
   if(existsRaster){
@@ -366,11 +378,10 @@ visualise <- function(raster = NULL, geom = NULL, theme = gtTheme, trace = FALSE
       grid.rect(width = convertX(unit(1, "npc"), "native"), gp = gpar(col = NA, fill = NA), name = "panelGrob")
       grid.rect(height = theme@yAxis$margin, width = theme@xAxis$margin,
                 gp = gpar(fill = NA, col = NA), name = "marginGrob")
-      grid.rect(height = unit(panelExt[[4]] - panelExt[[3]], "points"),
-                width = unit(panelExt[[2]] - panelExt[[1]], "points"),
+      grid.rect(x = unit(panelExt$x[1], "points"), y = unit(panelExt$y[1], "points"),
+                height = unit(panelExt$y[2] - panelExt$y[1], "points"),
+                width = unit(panelExt$x[2] - panelExt$x[1], "points"),
                 gp = gpar(fill = NA, col = NA), name = "extentGrob")
-      grid.points(x = unit(panelExt[1], "points"), y = unit(panelExt[3], "points"),
-                  gp = gpar(fill = NA, col = NA), name = "offsetGrob")
 
       # determine dimensions for this plot
       gridH <- unit(1, "grobheight", "panelGrob") - xAxisTitleH - xAxisTicksH - titleH
@@ -478,16 +489,16 @@ visualise <- function(raster = NULL, geom = NULL, theme = gtTheme, trace = FALSE
       }
 
       # the grid viewport
-      pushViewport(viewport(xscale = c(panelExt[[1]]-margin$x, panelExt[[2]]+margin$x),
-                            yscale = c(panelExt[[3]]-margin$y, panelExt[[4]]+margin$y),
+      pushViewport(viewport(xscale = c(panelExt$x[1]-margin$x, panelExt$x[2]+margin$x),
+                            yscale = c(panelExt$y[1]-margin$y, panelExt$y[2]+margin$y),
                             name = "grid"))
       grid.rect(gp = gpar(col = NA, fill = NA), name = "gridGrob")
 
       if(theme@grid$plot){
 
         # the grid and axes viewport
-        pushViewport(viewport(xscale = c(panelExt[[1]]-margin$x, panelExt[[2]]+margin$x),
-                              yscale = c(panelExt[[3]]-margin$y, panelExt[[4]]+margin$y),
+        pushViewport(viewport(xscale = c(panelExt$x[1]-margin$x, panelExt$x[2]+margin$x),
+                              yscale = c(panelExt$y[1]-margin$y, panelExt$y[2]+margin$y),
                               name = "majorGrid"))
 
         if(theme@xAxis$ticks$plot){
@@ -518,8 +529,8 @@ visualise <- function(raster = NULL, geom = NULL, theme = gtTheme, trace = FALSE
 
         # plot the minor grid
         if(theme@grid$minor){
-          pushViewport(viewport(xscale = c(panelExt[[1]]-margin$x, panelExt[[2]]+margin$x),
-                                yscale = c(panelExt[[3]]-margin$y, panelExt[[4]]+margin$y),
+          pushViewport(viewport(xscale = c(panelExt$x[1]-margin$x, panelExt$x[2]+margin$x),
+                                yscale = c(panelExt$y[1]-margin$y, panelExt$y[2]+margin$y),
                                 name = "minorGrid"))
           grid.grill(h = unit(axisSteps$y2, "native"),
                      v = unit(axisSteps$x2, "native"),
@@ -547,8 +558,8 @@ visualise <- function(raster = NULL, geom = NULL, theme = gtTheme, trace = FALSE
       if(existsRaster){
         pushViewport(viewport(width = unit(1, "npc") - unit(2*margin$x, "native"),
                               height = unit(1, "npc") - unit(2*margin$y, "native"),
-                              xscale = c(panelExt[[1]]-margin$x, panelExt[[2]]+margin$x),
-                              yscale = c(panelExt[[3]]-margin$y, panelExt[[4]]+margin$y),
+                              xscale = c(panelExt$x[1]-margin$x, panelExt$x[2]+margin$x),
+                              yscale = c(panelExt$y[1]-margin$y, panelExt$y[2]+margin$y),
                               name = "raster"))
         grid.raster(width = unit(1, "npc"),
                     height = unit(1, "npc"),
@@ -562,8 +573,8 @@ visualise <- function(raster = NULL, geom = NULL, theme = gtTheme, trace = FALSE
       if(existsGeom){
         pushViewport(viewport(width = unit(1, "npc") - unit(2*margin$x, "native"),
                               height = unit(1, "npc") - unit(2*margin$y, "native"),
-                              xscale = c(panelExt[[1]]-margin$x, panelExt[[2]]+margin$x),
-                              yscale = c(panelExt[[3]]-margin$y, panelExt[[4]]+margin$y),
+                              xscale = c(panelExt$x[1]-margin$x, panelExt$x[2]+margin$x),
+                              yscale = c(panelExt$y[1]-margin$y, panelExt$y[2]+margin$y),
                               name = "geom"))
         grid.clip(width = unit(1, "npc") + unit(theme@box$linewidth, "native"),
                   height = unit(1, "npc") + unit(theme@box$linewidth, "native"))
@@ -585,8 +596,8 @@ visualise <- function(raster = NULL, geom = NULL, theme = gtTheme, trace = FALSE
         # grid.clip()
         pushViewport(viewport(width = unit(1, "npc") - unit(2*margin$x, "native"),
                               height = unit(1, "npc") - unit(2*margin$y, "native"),
-                              # xscale = c(panelExt[[1]]-margin$x, panelExt[[2]]+margin$x),
-                              # yscale = c(panelExt[[3]]-margin$y, panelExt[[4]]+margin$y),
+                              # xscale = c(panelExt$x[1]-margin$x, panelExt$x[2]+margin$x),
+                              # yscale = c(panelExt$y[1]-margin$y, panelExt$y[2]+margin$y),
                               name = "geom"))
       } else{
         downViewport("geom")
@@ -634,7 +645,7 @@ visualise <- function(raster = NULL, geom = NULL, theme = gtTheme, trace = FALSE
     }
   }
 
-  invisible(recordPlot(attach = "geomTools"))
+  invisible(recordPlot(attach = "geometr"))
 }
 
 #' Create a new theme
