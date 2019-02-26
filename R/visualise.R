@@ -60,7 +60,7 @@
 #' @importFrom stats quantile
 #' @export
 
-visualise <- function(raster = NULL, geom = NULL, theme = NULL, trace = FALSE,
+visualise <- function(raster = NULL, geom = NULL, theme = gtTheme, trace = FALSE,
                       image = FALSE, new = TRUE, ...){
 
   # check arguments
