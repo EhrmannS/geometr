@@ -4,8 +4,8 @@
 \alias{visualise}
 \title{Visualise raster and geom objects}
 \usage{
-visualise(raster = NULL, geom = NULL, theme = NULL, trace = FALSE,
-  image = FALSE, new = TRUE, ...)
+visualise(raster = NULL, geom = NULL, theme = gtTheme,
+  trace = FALSE, image = FALSE, new = TRUE, ...)
 }
 \arguments{
 \item{raster}{[\code{Raster*} | \code{matrix}]\cr raster object to plot.}
