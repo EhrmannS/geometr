@@ -1,5 +1,5 @@
 library(checkmate)
-context("geomLine")
+context("gs_line")
 
 
 test_that("make tests", {

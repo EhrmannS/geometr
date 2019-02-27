@@ -1,4 +1,3 @@
 library(testthat)
-library(geomTools)
-test_check("geomTools")
+test_check("geometr")
 

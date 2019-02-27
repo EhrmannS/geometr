@@ -1,6 +1,6 @@
 library(checkmate)
 library(testthat)
-context("geomHexagon")
+context("gs_hexagon")
 
 
 test_that("output is valid geometry", {

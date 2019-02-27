@@ -34,7 +34,7 @@ test_that("getTable of an sf object", {
 })
 
 test_that("getTable returns an empty tibble when no attributes are given", {
-  input <- rtRasters$continuous
+  input <- gtRasters$continuous
 
   # test RasterLayer without attribute table
   output <- getTable(input)
@@ -42,15 +42,9 @@ test_that("getTable returns an empty tibble when no attributes are given", {
 })
 
 test_that("getTable returns a given attribute table", {
-  r <- raster(nrow=10, ncol=10)
-  r[] <- 1; r[51:100] <- 2; r[3:6, 1:5] <- 3
-  r <- ratify(r)
-  rat <- raster::levels(r)[[1]]
-  rat$landcover <- c('Pine', 'Oak', 'Meadow')
-  rat$code <- c(12,25,30)
-  levels(r) <- rat
+  input <- gtRasters$categorical
 
-  output <- getTable(r)
-  expect_data_frame(output, any.missing = FALSE, nrows = 3, ncols = 3)
-  expect_names(names(output), identical.to = c("ID", "landcover", "code"))
+  output <- getTable(input)
+  expect_data_frame(output, any.missing = FALSE, nrows = 9, ncols = 2)
+  expect_names(names(output), identical.to = c("id", "cover"))
 })

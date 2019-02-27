@@ -28,8 +28,8 @@ test_that("setTable of an sf object", {
 })
 
 test_that("setTable of a 'RasterLayer'", {
-  input <- rtRasters$continuous
-  attributes <- data.frame(id = 1:91, variable = rep(LETTERS, length.out = 91))
+  input <- raster(system.file("external/rlogo.grd", package="raster"))
+  attributes <- data.frame(id = 1:256, variable = sample(x = LETTERS, size = 256, replace = TRUE))
 
   # test RasterLayer without attribute table
   output <- setTable(input, attributes)

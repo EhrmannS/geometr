@@ -18,30 +18,26 @@ test_that("getHistory of a geom", {
 })
 
 test_that("getHistory of a RasterLayer", {
-  input <- rPatches(rBinarise(rtRasters$continuous, thresh = 40))
+  input <- gtRasters$categorical
+  input@history <- list("bla")
 
   output <- getHistory(input)
-  expect_list(output, len = 3, types = "character")
+  expect_list(output, len = 1, types = "character")
 })
 
 test_that("getHistory of a RasteBrick", {
   # seems like I don't have a brick within this package, so I create a random one
-  aBrick <- brick(system.file("external/rlogo.grd", package="raster"))
-  aBrick@history <- list("bla")
+  input <- brick(gtRasters)
+  input@history <- list("bla")
 
-  output <- getHistory(aBrick)
+  output <- getHistory(input)
   expect_list(output, len = 1, types = "character")
 })
 
 test_that("getHistory of a RasteStack", {
-  continuous <- rtRasters$continuous
-  patches <- rPatches(rBinarise(continuous, thresh = 40))
-  anAlgo <- list(background = list(operator = "rBinarise", thresh = 30),
-                 background = list(operator = "rPatches"),
-                 background = list(operator = "rSegregate", background = 0),
-                 background = list(operator = "rBinarise", thresh = 1))
-  input <- modify(input = continuous, by = anAlgo)
+  input <- stack(gtRasters)
+  input@history <- list("bla")
 
   output <- getHistory(input)
-  expect_list(output, len = 140)
+  expect_list(output, len = 2, types = "character")
 })

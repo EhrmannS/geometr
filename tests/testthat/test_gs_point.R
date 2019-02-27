@@ -1,5 +1,4 @@
 library(checkmate)
-
 library(testthat)
 context("gs_point")
 

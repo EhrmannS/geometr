@@ -11,7 +11,7 @@ test_that("setCRS of a geom", {
                        fid = 1)
   window <- data.frame(x = c(0, 80),
                        y = c(0, 80))
-  aGeom <- geomPolygon(anchor = coords, window = window)
+  aGeom <- gs_polygon(anchor = coords, window = window)
   output <- setCRS(x = aGeom, crs = projs$laea)
 
   expect_class(output, classes = "geom")

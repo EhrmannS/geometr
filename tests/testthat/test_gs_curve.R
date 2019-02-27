@@ -1,5 +1,5 @@
 library(checkmate)
-context("geomCurve")
+context("gs_curve")
 
 
 test_that("make tests", {

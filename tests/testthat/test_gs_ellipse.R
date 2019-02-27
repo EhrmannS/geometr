@@ -1,5 +1,5 @@
 library(checkmate)
-context("geomEllipse")
+context("gs_ellipse")
 
 
 test_that("make tests", {
