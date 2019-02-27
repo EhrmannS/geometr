@@ -8,13 +8,15 @@
 #' @return a \code{geom} of the type that comes closest to the type of the
 #'   input.
 #' @examples
-#' spPoly <- rtSP$SpatialPolygons
-#' plot(spPoly, col = "goldenrod")
-#' visualise(geom = gFrom(input = spPoly))
+#' library(raster)
 #'
-#' sfPoly <- rtSF$polygon
+#' spPoly <- gtSP$SpatialPolygons
+#' plot(spPoly, col = "goldenrod")
+#' visualise(geom = gt_as_geom(input = spPoly))
+#'
+#' sfPoly <- gtSF$polygon
 #' plot(sfPoly, col = "goldenrod")
-#' visualise(geom = gFrom(input = sfPoly))
+#' visualise(geom = gt_as_geom(input = sfPoly))
 #'
 #' @importFrom checkmate assertClass testDataFrame
 #' @importFrom methods as

@@ -19,7 +19,7 @@ if(!isGeneric("getTable")){
 #' # the attribute table of ...
 #'
 #' # ... a geom
-#' getTable(rtGeoms$mask)
+#' getTable(gtGeoms$mask)
 #'
 #' @importFrom tibble as_tibble
 #' @export
@@ -33,7 +33,7 @@ setMethod(f = "getTable",
 #' @rdname getTable
 #' @examples
 #' # ... any Spatial* object
-#' getTable(rtSP$SpatialPolygons)
+#' getTable(gtSP$SpatialPolygons)
 #'
 #' @importFrom tibble tibble as_tibble
 #' @importFrom dplyr bind_cols
@@ -128,7 +128,7 @@ setMethod(f = "getTable",
 #' @rdname getTable
 #' @examples
 #' # ... an sf object
-#' getTable(rtSF$multiline)
+#' getTable(gtSF$multiline)
 #' @importFrom tibble tibble as_tibble
 #' @importFrom sf st_geometry<-
 #' @export
@@ -212,7 +212,9 @@ setMethod(f = "getTable",
 
 #' @rdname getTable
 #' @examples
-#' getTable(rtRasters$categorical)
+#'
+#' # ... a RasterLayer
+#' getTable(gtRasters$categorical)
 #' @importFrom tibble tibble as_tibble
 #' @export
 setMethod(f = "getTable",

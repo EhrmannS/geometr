@@ -59,7 +59,7 @@
 #'   grid.clip unit grid.draw grid.grill upViewport grid.text gpar convertX
 #'   downViewport
 #' @importFrom grDevices colorRampPalette as.raster recordPlot rgb
-#' @importFrom raster nlayers values as.matrix ncol nrow
+#' @importFrom raster nlayers values as.matrix ncol nrow brick
 #' @importFrom stats quantile
 #' @export
 
@@ -70,6 +70,9 @@ visualise <- function(raster = NULL, geom = NULL, window = NULL, theme = gtTheme
   if(!is.null(raster)){
     existsRaster <- TRUE
     isRaster <- grepl("Raster", class(raster))
+    if(grepl("RasterStack", class(raster))){
+      raster <- brick(raster)
+    }
   } else{
     existsRaster <- FALSE
   }
@@ -78,7 +81,9 @@ visualise <- function(raster = NULL, geom = NULL, window = NULL, theme = gtTheme
     stop("please provide a valid 'geom' object to plot.")
   }
   stopifnot(any(existsRaster, existsGeom))
+  assertDataFrame(x = window, nrows = 2, min.cols = 2, null.ok = TRUE)
   if(!is.null(window) & existsGeom){
+    assertNames(names(window), must.include = c("x", "y"))
     geom <- setWindow(x = geom, to = window)
   }
   assertClass(x = theme, classes = "gtTheme", null.ok = TRUE)
@@ -613,7 +618,7 @@ visualise <- function(raster = NULL, geom = NULL, window = NULL, theme = gtTheme
   }
 
   if(trace){
-    if(grepl("RasterBrick", class(distances))){
+    if(grepl("RasterBrick", class(raster))){
       theHistory <- lapply(seq_along(names(raster)), function(x){
         temp <- unlist(raster[[x]]@history)
       })
@@ -685,10 +690,8 @@ visualise <- function(raster = NULL, geom = NULL, window = NULL, theme = gtTheme
 #' @param raster [ \code{named list(.)}]\cr \code{scale = 'someAttribute'} and
 #'   at least two \code{colours} to which to scale 'someAttribute' to.
 #' @examples
-#' input <- rtRasters$continuous
-#' myTheme <- setTheme(geom = list(pointsize = .5, pointsymbol = 21, linewidth = 1,
-#'                                 fill = c("#00204D", "#FFEA46"), line = "grey",
-#'                                 scale = list(x = "fill", to = "inequality")))
+#' input <- gtRasters$continuous
+#' (myTheme <- setTheme(title = list(plot = FALSE)))
 #'
 #' visualise(input, theme = myTheme)
 #' @importFrom checkmate assertList assertLogical assertNames

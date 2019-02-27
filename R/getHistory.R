@@ -48,7 +48,7 @@ setMethod(f = "getHistory",
           definition = function(x){
             hist <- list()
             for(i in 1:dim(x)[3]){
-              hist <- c(hist, x[[i]]@history)
+              hist <- c(hist, x@history)
             }
             return(hist)
           }
