@@ -32,7 +32,7 @@ setMethod(f = "setWindow",
               assertNames(names(to), must.include = c("x", "y"))
               xVals <- c(to$x[1], to$x[2])
               yVals <- c(to$y[1], to$y[2])
-            } else if(is.vector(to)){
+            } else if(is.vector(to) | "bbox" %in% class(to)){
               names(to) <- tolower(names(to))
               assertNames(names(to), must.include = c("xmin", "xmax", "ymin", "ymax"))
               xVals <- c(to["xmin"], to["xmax"])
