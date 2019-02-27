@@ -78,9 +78,7 @@ visualise <- function(raster = NULL, geom = NULL, window = NULL, theme = gtTheme
     stop("please provide a valid 'geom' object to plot.")
   }
   stopifnot(any(existsRaster, existsGeom))
-  assertDataFrame(x = window, nrows = 2, min.cols = 2, null.ok = TRUE)
   if(!is.null(window) & existsGeom){
-    assertNames(names(window), must.include = c("x", "y"))
     geom <- setWindow(x = geom, to = window)
   }
   assertClass(x = theme, classes = "gtTheme", null.ok = TRUE)
