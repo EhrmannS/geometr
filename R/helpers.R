@@ -1,34 +1,3 @@
-#' List arguments of the parent function
-#'
-#' Determine the name and value of the arguments called in a function.
-#' @return The output of \code{\link{match.call}} for the parent frame.
-#' @examples
-#'
-#' testFun <- function(x = "character", y = NULL, z = c(1, 2, 3)){
-#'   g <- listArgs()
-#'   return(g)
-#' }
-#' testFun(x = "hello world")
-
-listArgs <- function (){
-  as.list(
-    match.call(
-      definition = sys.function( -1 ),
-      call = sys.call( -1 )
-    )
-  )[-1]
-}
-
-#' Transform degree to radians
-#' @param degree [\code{numeric(1)}]\cr the degree value to transform.
-#' @return a radians value
-
-rad <- function(degree){
-  assertNumeric(degree)
-  (degree * pi)/180
-}
-
-
 #' Set the scale of a plot
 #'
 #' @param attr [\code{data.frame(1)}]\cr the attribute table from which to
@@ -38,6 +7,7 @@ rad <- function(degree){
 #' @return a list of parameters to a grob.
 #' @importFrom checkmate assertCharacter assertList assertTRUE
 #' @importFrom grDevices colorRampPalette
+#' @export
 
 scaleParameters <- function(attr = NULL, params = NULL){
 

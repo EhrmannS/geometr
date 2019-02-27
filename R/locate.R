@@ -127,12 +127,12 @@ locate <- function(samples = 1, raster = NULL, panel = NULL, identify = FALSE,
     seekViewport(geomVpPath)
   # }
 
-  # metaRaster <- grid.get(gPath("theRaster"), global = TRUE)
-  # if(length(panelNames) > 1){
-  #   matCol <- as.matrix(metaRaster[which(panel == panelNames)][[1]]$raster)
-  # } else{
-  #   matCol <- as.matrix(metaRaster$raster)
-  # }
+  metaRaster <- grid.get(gPath("theRaster"), global = TRUE)
+  if(length(panelNames) > 1){
+    matCol <- as.matrix(metaRaster[which(panel == panelNames)][[1]]$raster)
+  } else{
+    matCol <- as.matrix(metaRaster$raster)
+  }
 
   if(existsGridded){
     offsetGrob <- grid.get(gPath("offsetGrob"))
