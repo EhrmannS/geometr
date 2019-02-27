@@ -1,3 +1,13 @@
+#' An example raster stack
+#'
+#' A set of two conceptually different types of raster.
+#'
+#' @format The object of class RasterStack has no projection and is a
+#'   RasterStack object of 56 by 60 cells. The first raster represents
+#'   land-use classes and the second raster contains a continuous scale of
+#'   vegetation cover.
+"gtRasters"
+
 #' Example \code{geom} objects
 #'
 #' A set of two geometries.
