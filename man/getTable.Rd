@@ -27,12 +27,14 @@ Get the attribute table of a spatial object.
 # the attribute table of ...
 
 # ... a geom
-getTable(rtGeoms$mask)
+getTable(gtGeoms$mask)
 
 # ... any Spatial* object
-getTable(rtSP$SpatialPolygons)
+getTable(gtSP$SpatialPolygons)
 
 # ... an sf object
-getTable(rtSF$multiline)
-getTable(rtRasters$categorical)
+getTable(gtSF$multiline)
+
+# ... a RasterLayer
+getTable(gtRasters$categorical)
 }

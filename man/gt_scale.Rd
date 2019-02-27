@@ -29,12 +29,12 @@ coords <- data.frame(x = c(40, 70, 70, 50),
                      fid = 1)
 window <- data.frame(x = c(0, 80),
                      y = c(0, 80))
-aGeom <- geomPolygon(anchor = coords, window = window, col = "blue")
+aGeom <- gs_polygon(anchor = coords, window = window, col = "blue")
 
 # change to relative scale and back to absolute
-(relCoords <- gScale(geom = aGeom, to = "relative"))
-gScale(geom = relCoords, to = "absolute")
+(relCoords <- gt_scale(geom = aGeom, to = "relative"))
+gt_scale(geom = relCoords, to = "absolute")
 
-gScale(geom = aGeom, range = list(x = c(0, 100), y = c(10, 90)))
+gt_scale(geom = aGeom, range = list(x = c(0, 100), y = c(10, 90)))
 
 }

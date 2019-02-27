@@ -16,6 +16,3 @@
 \description{
 Set the reference window of a spatial object.
 }
-\examples{
-
-}

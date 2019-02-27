@@ -17,18 +17,20 @@
 \arguments{
 \item{x}{object to \code{subset}.}
 
+\item{...}{Logical predicates defined in terms of the variables in \code{x}.}
+
 \item{slot}{[\code{character(1)}]\cr the slot in which to determine a subset,
 either \code{"table"} or \code{"coords"}.}
-
-\item{subset}{[\code{integerish(.)} | \code{logical(.)} |
-\code{character(1)}]\cr coordinates to keep.}
 }
 \description{
 Get the subset of a spatial object.
 }
 \examples{
+(obj <- gtGeoms$locations) # has column a
 
-library(sf)
-nc <- st_read(system.file("shape/nc.shp", package="sf"))
-(aSfc <- getSubset(nc, attr = "NAME \%in\% c('Ashe', 'Surry')"))
+# get subset of features that have more than 3 vertices
+(getSubset(x = obj, n < 3, slot = "table"))
+(obj <- gtSF$polygon) # has column a
+
+(getSubset(x = obj, a == 1))
 }

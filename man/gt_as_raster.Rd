@@ -31,11 +31,11 @@ coords <- data.frame(x = c(40, 70, 70, 50),
                      fid = 1)
 window <- data.frame(x = c(0, 80),
                      y = c(0, 80))
-aGeom <- geomPolygon(anchor = coords, window = window)
+aGeom <- gs_polygon(anchor = coords, window = window)
 
-aRaster <- gToRaster(geom = aGeom)
-visualise(raster = aRaster, geom = aGeom, col = "deeppink")
+aRaster <- gt_as_raster(geom = aGeom)
+#visualise(raster = aRaster, geom = aGeom, col = "deeppink")
 
-negRaster <- gToRaster(geom = aGeom, negative = TRUE)
-visualise(raster = negRaster, geom = aGeom, col = "deeppink")
+negRaster <- gt_as_raster(geom = aGeom, negative = TRUE)
+#visualise(raster = negRaster, geom = aGeom, col = "deeppink")
 }

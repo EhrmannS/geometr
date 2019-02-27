@@ -58,10 +58,8 @@ at least two \code{colours} to which to scale 'someAttribute' to.}
 Assign parameters in an gtTheme to create a new theme.
 }
 \examples{
-input <- rtRasters$continuous
-myTheme <- setTheme(geom = list(pointsize = .5, pointsymbol = 21, linewidth = 1,
-                                fill = c("#00204D", "#FFEA46"), line = "grey",
-                                scale = list(x = "fill", to = "inequality")))
+input <- gtRasters$continuous
+(myTheme <- setTheme(title = list(plot = FALSE)))
 
 visualise(input, theme = myTheme)
 }
