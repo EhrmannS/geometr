@@ -4,13 +4,16 @@
 \alias{visualise}
 \title{Visualise raster and geom objects}
 \usage{
-visualise(raster = NULL, geom = NULL, theme = gtTheme,
-  trace = FALSE, image = FALSE, new = TRUE, ...)
+visualise(raster = NULL, geom = NULL, window = NULL,
+  theme = gtTheme, trace = FALSE, image = FALSE, new = TRUE, ...)
 }
 \arguments{
 \item{raster}{[\code{Raster*} | \code{matrix}]\cr raster object to plot.}
 
 \item{geom}{[\code{geom}]\cr geom to plot.}
+
+\item{window}{[\code{data.frame(1)}]\cr two oposing corners to which the plot
+is limited.}
 
 \item{theme}{[\code{list(7)}]\cr Visualising options; see
 \code{\link{setTheme}} for details.}
