@@ -32,7 +32,8 @@ Suggests: testthat,
     rmarkdown,
     magrittr,
     covr,
-    knitr
+    knitr,
+    rasterTools
 LinkingTo: Rcpp
 RoxygenNote: 6.1.1
 SystemRequirements: C++11
