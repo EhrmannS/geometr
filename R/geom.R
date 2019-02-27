@@ -70,6 +70,7 @@ geom <- setClass(Class = "geom",
 #' Print geom in the console
 #'
 #' @param object [\code{geom}]\cr object to \code{show}.
+#' @importFrom utils head
 
 setMethod(f = "show",
           signature = "geom",
