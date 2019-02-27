@@ -142,38 +142,51 @@
       <td><p>object to <code>subset</code>.</p></td>
     </tr>
     <tr>
+      <th>...</th>
+      <td><p>Logical predicates defined in terms of the variables in <code>x</code>.</p></td>
+    </tr>
+    <tr>
       <th>slot</th>
       <td><p>[<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code>]<br /> the slot in which to determine a subset,
 either <code>"table"</code> or <code>"coords"</code>.</p></td>
-    </tr>
-    <tr>
-      <th>subset</th>
-      <td><p>[<code>integerish(.)</code> | <code><a href='https://www.rdocumentation.org/packages/base/topics/logical'>logical(.)</a></code> |
-<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code>]<br /> coordinates to keep.</p></td>
     </tr>
     </table>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'>
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>library</a></span>(<span class='no'>sf</span>)</div><div class='output co'>#&gt; <span class='message'>Linking to GEOS 3.5.1, GDAL 2.2.2, PROJ 4.9.2</span></div><div class='input'><span class='no'>nc</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/sf/topics/st_read'>st_read</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/system.file'>system.file</a></span>(<span class='st'>"shape/nc.shp"</span>, <span class='kw'>package</span><span class='kw'>=</span><span class='st'>"sf"</span>))</div><div class='output co'>#&gt; Reading layer `nc' from data source `/home/steffen/R/x86_64-pc-linux-gnu-library/3.5/sf/shape/nc.shp' using driver `ESRI Shapefile'
-#&gt; Simple feature collection with 100 features and 14 fields
-#&gt; geometry type:  MULTIPOLYGON
+    <pre class="examples"><div class='input'>(<span class='no'>obj</span> <span class='kw'>&lt;-</span> <span class='no'>gtGeoms</span>$<span class='no'>locations</span>) <span class='co'># has column a</span></div><div class='output co'>#&gt; class      : geom
+#&gt; type       : point
+#&gt; features   : 16  (36 vertices)
+#&gt; window     : 5026652, 5311715, 3968689, 4147017  (xmin, xmax, ymin, ymax)
+#&gt; extent     : 5026652, 5311715, 3968689, 4147017  (xmin, xmax, ymin, ymax)
+#&gt; scale      : absolute
+#&gt; crs        : +proj=laea +lat_0=52 +lon_0=10 +x_0=4321000 +y_0=3210000 +ellps=GRS80 +units=m +no_defs
+#&gt; attributes : 2  (fid, n)</div><div class='input'>
+<span class='co'># get subset of features that have more than 3 vertices</span>
+(<span class='fu'>getSubset</span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>obj</span>, <span class='no'>n</span> <span class='kw'>&lt;</span> <span class='fl'>3</span>, <span class='kw'>slot</span> <span class='kw'>=</span> <span class='st'>"table"</span>))</div><div class='output co'>#&gt; class      : geom
+#&gt; type       : point
+#&gt; features   : 10  (16 vertices)
+#&gt; window     : 5026652, 5311715, 3968689, 4147017  (xmin, xmax, ymin, ymax)
+#&gt; extent     : 5026652, 5311715, 3968689, 4147017  (xmin, xmax, ymin, ymax)
+#&gt; scale      : absolute
+#&gt; crs        : +proj=laea +lat_0=52 +lon_0=10 +x_0=4321000 +y_0=3210000 +ellps=GRS80 +units=m +no_defs
+#&gt; attributes : 2  (fid, n)</div><div class='input'>(<span class='no'>obj</span> <span class='kw'>&lt;-</span> <span class='no'>gtSF</span>$<span class='no'>polygon</span>) <span class='co'># has column a</span></div><div class='output co'>#&gt; Simple feature collection with 2 features and 1 field
+#&gt; geometry type:  POLYGON
 #&gt; dimension:      XY
-#&gt; bbox:           xmin: -84.32385 ymin: 33.88199 xmax: -75.45698 ymax: 36.58965
-#&gt; epsg (SRID):    4267
-#&gt; proj4string:    +proj=longlat +datum=NAD27 +no_defs</div><div class='input'>(<span class='no'>aSfc</span> <span class='kw'>&lt;-</span> <span class='fu'>getSubset</span>(<span class='no'>nc</span>, <span class='kw'>attr</span> <span class='kw'>=</span> <span class='st'>"NAME %in% c('Ashe', 'Surry')"</span>))</div><div class='output co'>#&gt; Simple feature collection with 2 features and 14 fields
-#&gt; geometry type:  MULTIPOLYGON
+#&gt; bbox:           xmin: 0 ymin: 0 xmax: 12 ymax: 12
+#&gt; epsg (SRID):    NA
+#&gt; proj4string:    NA
+#&gt;   a                       geometry
+#&gt; 1 1 POLYGON ((0 0, 10 0, 10 10,...
+#&gt; 2 2 POLYGON ((11 11, 11 12, 12 ...</div><div class='input'>
+(<span class='fu'>getSubset</span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>obj</span>, <span class='no'>a</span> <span class='kw'>==</span> <span class='fl'>1</span>))</div><div class='output co'>#&gt; Simple feature collection with 1 feature and 1 field
+#&gt; geometry type:  POLYGON
 #&gt; dimension:      XY
-#&gt; bbox:           xmin: -81.74107 ymin: 36.23388 xmax: -80.43531 ymax: 36.58965
-#&gt; epsg (SRID):    4267
-#&gt; proj4string:    +proj=longlat +datum=NAD27 +no_defs
-#&gt;    AREA PERIMETER CNTY_ CNTY_ID  NAME  FIPS FIPSNO CRESS_ID BIR74 SID74 NWBIR74
-#&gt; 1 0.114     1.442  1825    1825  Ashe 37009  37009        5  1091     1      10
-#&gt; 3 0.143     1.630  1828    1828 Surry 37171  37171       86  3188     5     208
-#&gt;   BIR79 SID79 NWBIR79                       geometry
-#&gt; 1  1364     0      19 MULTIPOLYGON (((-81.47276 3...
-#&gt; 3  3616     6     260 MULTIPOLYGON (((-80.45634 3...</div></pre>
+#&gt; bbox:           xmin: 0 ymin: 0 xmax: 10 ymax: 10
+#&gt; epsg (SRID):    NA
+#&gt; proj4string:    NA
+#&gt;   a                       geometry
+#&gt; 1 1 POLYGON ((0 0, 10 0, 10 10,...</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

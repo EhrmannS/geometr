@@ -179,7 +179,8 @@ range of <code>extent</code>.</p></td>
                      <span class='kw'>y</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>0</span>, <span class='fl'>80</span>))
 <span class='no'>aGeom</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='gs_polygon.html'>gs_polygon</a></span>(<span class='kw'>anchor</span> <span class='kw'>=</span> <span class='no'>coords</span>, <span class='kw'>window</span> <span class='kw'>=</span> <span class='no'>window</span>, <span class='kw'>show</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
 
-<span class='no'>grouped</span> <span class='kw'>&lt;-</span> <span class='fu'>gGroup</span>(<span class='kw'>geom</span> <span class='kw'>=</span> <span class='no'>aGeom</span>, <span class='kw'>distance</span> <span class='kw'>=</span> <span class='fl'>40</span>)</div><div class='output co'>#&gt; <span class='error'>Error in gGroup(geom = aGeom, distance = 40): could not find function "gGroup"</span></div><div class='input'><span class='fu'><a href='visualise.html'>visualise</a></span>(<span class='kw'>geom</span> <span class='kw'>=</span> <span class='no'>grouped</span>)</div><div class='output co'>#&gt; <span class='error'>Error in visualise(geom = grouped): object 'grouped' not found</span></div></pre>
+<span class='no'>grouped</span> <span class='kw'>&lt;-</span> <span class='fu'>gt_group</span>(<span class='kw'>geom</span> <span class='kw'>=</span> <span class='no'>aGeom</span>, <span class='kw'>distance</span> <span class='kw'>=</span> <span class='fl'>40</span>)
+<span class='fu'><a href='visualise.html'>visualise</a></span>(<span class='kw'>geom</span> <span class='kw'>=</span> <span class='no'>grouped</span>)</div><div class='img'><img src='gt_group-1.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

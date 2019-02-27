@@ -199,11 +199,22 @@ at least two <code>colours</code> to which to scale 'someAttribute' to.</p></td>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>input</span> <span class='kw'>&lt;-</span> <span class='no'>rtRasters</span>$<span class='no'>continuous</span></div><div class='output co'>#&gt; <span class='error'>Error in eval(expr, envir, enclos): object 'rtRasters' not found</span></div><div class='input'><span class='no'>myTheme</span> <span class='kw'>&lt;-</span> <span class='fu'>setTheme</span>(<span class='kw'>geom</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='kw'>pointsize</span> <span class='kw'>=</span> <span class='fl'>.5</span>, <span class='kw'>pointsymbol</span> <span class='kw'>=</span> <span class='fl'>21</span>, <span class='kw'>linewidth</span> <span class='kw'>=</span> <span class='fl'>1</span>,
-                                <span class='kw'>fill</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"#00204D"</span>, <span class='st'>"#FFEA46"</span>), <span class='kw'>line</span> <span class='kw'>=</span> <span class='st'>"grey"</span>,
-                                <span class='kw'>scale</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='st'>"fill"</span>, <span class='kw'>to</span> <span class='kw'>=</span> <span class='st'>"inequality"</span>)))
-
-<span class='fu'><a href='visualise.html'>visualise</a></span>(<span class='no'>input</span>, <span class='kw'>theme</span> <span class='kw'>=</span> <span class='no'>myTheme</span>)</div><div class='output co'>#&gt; <span class='error'>Error in visualise(input, theme = myTheme): object 'input' not found</span></div></pre>
+    <pre class="examples"><div class='input'><span class='no'>input</span> <span class='kw'>&lt;-</span> <span class='no'>gtRasters</span>$<span class='no'>continuous</span>
+(<span class='no'>myTheme</span> <span class='kw'>&lt;-</span> <span class='fu'>setTheme</span>(<span class='kw'>title</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='kw'>plot</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)))</div><div class='output co'>#&gt; <span style='color: #BB0000;'>✖</span><span style='color: #BBBB00;'> title    </span><span> 
+#&gt; </span><span style='color: #00BB00;'>✔</span><span style='color: #BBBB00;'> box      </span><span> in grey with 1 wide solid lines 
+#&gt; </span><span style='color: #00BB00;'>✔</span><span style='color: #BBBB00;'> xAxis    </span><span> with 4 bins and a margin of 5%
+#&gt; </span><span style='color: #00BB00;'>✔</span><span style='color: #BBBB00;'>  - label  </span><span>'x' in black with fontsize 12
+#&gt; </span><span style='color: #00BB00;'>✔</span><span style='color: #BBBB00;'>  - ticks  </span><span>in black with fontsize 10 rounded to 1 digit 
+#&gt; </span><span style='color: #00BB00;'>✔</span><span style='color: #BBBB00;'> yAxis    </span><span> with 4 bins and a margin of 5%
+#&gt; </span><span style='color: #00BB00;'>✔</span><span style='color: #BBBB00;'>  - label  </span><span>'y' in black with fontsize 12
+#&gt; </span><span style='color: #00BB00;'>✔</span><span style='color: #BBBB00;'>  - ticks  </span><span>in black with fontsize 10 rounded to 1 digit 
+#&gt; </span><span style='color: #00BB00;'>✔</span><span style='color: #BBBB00;'> grid     </span><span> in grey with 0.6 wide solid lines 
+#&gt; </span><span style='color: #00BB00;'>✔</span><span style='color: #BBBB00;'> legend   </span><span> with values ordered ascending in 5 bins and a relative height of 0.6
+#&gt; </span><span style='color: #00BB00;'>✔</span><span style='color: #BBBB00;'>  - label  </span><span>in black with fontsize 10
+#&gt; </span><span style='color: #00BB00;'>✔</span><span style='color: #BBBB00;'>  - box    </span><span>in black with 0.2 wide solid lines 
+#&gt; </span><span style='color: #00BB00;'>✔</span><span style='color: #BBBB00;'> geom     </span><span> with line-colour scaled to </span><span style='color: #00BBBB;'>fid</span><span>, 1 wide solid lines and 0.5 wide points of type 20
+#&gt; </span><span style='color: #00BB00;'>✔</span><span style='color: #BBBB00;'> raster   </span><span> with colours scaled to </span><span style='color: #00BBBB;'>id</span><span></div><div class='input'>
+<span class='fu'><a href='visualise.html'>visualise</a></span>(<span class='no'>input</span>, <span class='kw'>theme</span> <span class='kw'>=</span> <span class='no'>myTheme</span>)</div><div class='img'><img src='setTheme-1.png' alt='' width='700' height='433' /></div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

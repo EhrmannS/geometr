@@ -169,16 +169,17 @@ default)?</p></td>
     <pre class="examples"><div class='input'><span class='co'># create grid for GFC data</span>
 <span class='no'>gfcWindow</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/data.frame'>data.frame</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(-<span class='fl'>180</span>, <span class='fl'>180</span>),
                         <span class='kw'>y</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(-<span class='fl'>60</span>, <span class='fl'>80</span>))
-<span class='no'>tiles_gfc</span> <span class='kw'>&lt;-</span> <span class='fu'>geomTiles</span>(<span class='kw'>window</span> <span class='kw'>=</span> <span class='no'>gfcWindow</span>, <span class='kw'>cells</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>36</span>, <span class='fl'>14</span>), <span class='kw'>crs</span> <span class='kw'>=</span> <span class='no'>projs</span>$<span class='no'>longlat</span>)</div><div class='output co'>#&gt; <span class='error'>Error in geomTiles(window = gfcWindow, cells = c(36, 14), crs = projs$longlat): could not find function "geomTiles"</span></div><div class='input'>
+<span class='no'>tiles_gfc</span> <span class='kw'>&lt;-</span> <span class='fu'>gs_tiles</span>(<span class='kw'>window</span> <span class='kw'>=</span> <span class='no'>gfcWindow</span>, <span class='kw'>cells</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>36</span>, <span class='fl'>14</span>), <span class='kw'>crs</span> <span class='kw'>=</span> <span class='no'>projs</span>$<span class='no'>longlat</span>)
+
 <span class='co'># create grid for MODIS data</span>
 <span class='no'>modWindow</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/data.frame'>data.frame</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(-<span class='fl'>20015109.354</span>, <span class='fl'>20015109.354</span>),
                         <span class='kw'>y</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(-<span class='fl'>10007554.677</span>, <span class='fl'>10007554.677</span>))
-<span class='no'>tiles_modis</span> <span class='kw'>&lt;-</span> <span class='fu'>geomTiles</span>(<span class='kw'>window</span> <span class='kw'>=</span> <span class='no'>modWindow</span>, <span class='kw'>cells</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>36</span>, <span class='fl'>18</span>), <span class='kw'>crs</span> <span class='kw'>=</span> <span class='no'>projs</span>$<span class='no'>sinu</span>)</div><div class='output co'>#&gt; <span class='error'>Error in geomTiles(window = modWindow, cells = c(36, 18), crs = projs$sinu): could not find function "geomTiles"</span></div><div class='input'>
-# create grid for the sentinel data
-#sntWindow <- data.frame(x = c(),
-#                        y = c())
-#tiles_sentinel <- geomTiles(window = sntWindow, cells = c(), crs = projs$utm)
-</div></pre>
+<span class='no'>tiles_modis</span> <span class='kw'>&lt;-</span> <span class='fu'>gs_tiles</span>(<span class='kw'>window</span> <span class='kw'>=</span> <span class='no'>modWindow</span>, <span class='kw'>cells</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>36</span>, <span class='fl'>18</span>), <span class='kw'>crs</span> <span class='kw'>=</span> <span class='no'>projs</span>$<span class='no'>sinu</span>)
+
+<span class='co'># create grid for the sentinel data</span>
+<span class='co'>#sntWindow &lt;- data.frame(x = c(),</span>
+<span class='co'>#                        y = c())</span>
+<span class='co'>#tiles_sentinel &lt;- gs_tiles(window = sntWindow, cells = c(), crs = projs$utm)</span></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

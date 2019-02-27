@@ -46,6 +46,9 @@
     <loc>http://EhrmannS.github.io/geometr/reference/gtGeoms.html</loc>
   </url>
   <url>
+    <loc>http://EhrmannS.github.io/geometr/reference/gtRasters.html</loc>
+  </url>
+  <url>
     <loc>http://EhrmannS.github.io/geometr/reference/gtSF.html</loc>
   </url>
   <url>
@@ -82,9 +85,6 @@
     <loc>http://EhrmannS.github.io/geometr/reference/length-geom-method.html</loc>
   </url>
   <url>
-    <loc>http://EhrmannS.github.io/geometr/reference/listArgs.html</loc>
-  </url>
-  <url>
     <loc>http://EhrmannS.github.io/geometr/reference/load_csv.html</loc>
   </url>
   <url>
@@ -95,9 +95,6 @@
   </url>
   <url>
     <loc>http://EhrmannS.github.io/geometr/reference/projs.html</loc>
-  </url>
-  <url>
-    <loc>http://EhrmannS.github.io/geometr/reference/rad.html</loc>
   </url>
   <url>
     <loc>http://EhrmannS.github.io/geometr/reference/scaleParameters.html</loc>

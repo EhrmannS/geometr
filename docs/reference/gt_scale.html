@@ -160,10 +160,32 @@ ignored in case <code>range != NULL</code>.</p></td>
                      <span class='kw'>fid</span> <span class='kw'>=</span> <span class='fl'>1</span>)
 <span class='no'>window</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/data.frame'>data.frame</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>0</span>, <span class='fl'>80</span>),
                      <span class='kw'>y</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>0</span>, <span class='fl'>80</span>))
-<span class='no'>aGeom</span> <span class='kw'>&lt;-</span> <span class='fu'>geomPolygon</span>(<span class='kw'>anchor</span> <span class='kw'>=</span> <span class='no'>coords</span>, <span class='kw'>window</span> <span class='kw'>=</span> <span class='no'>window</span>, <span class='kw'>col</span> <span class='kw'>=</span> <span class='st'>"blue"</span>)</div><div class='output co'>#&gt; <span class='error'>Error in geomPolygon(anchor = coords, window = window, col = "blue"): could not find function "geomPolygon"</span></div><div class='input'>
+<span class='no'>aGeom</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='gs_polygon.html'>gs_polygon</a></span>(<span class='kw'>anchor</span> <span class='kw'>=</span> <span class='no'>coords</span>, <span class='kw'>window</span> <span class='kw'>=</span> <span class='no'>window</span>, <span class='kw'>col</span> <span class='kw'>=</span> <span class='st'>"blue"</span>)
+
 <span class='co'># change to relative scale and back to absolute</span>
-(<span class='no'>relCoords</span> <span class='kw'>&lt;-</span> <span class='fu'>gScale</span>(<span class='kw'>geom</span> <span class='kw'>=</span> <span class='no'>aGeom</span>, <span class='kw'>to</span> <span class='kw'>=</span> <span class='st'>"relative"</span>))</div><div class='output co'>#&gt; <span class='error'>Error in gScale(geom = aGeom, to = "relative"): could not find function "gScale"</span></div><div class='input'><span class='fu'>gScale</span>(<span class='kw'>geom</span> <span class='kw'>=</span> <span class='no'>relCoords</span>, <span class='kw'>to</span> <span class='kw'>=</span> <span class='st'>"absolute"</span>)</div><div class='output co'>#&gt; <span class='error'>Error in gScale(geom = relCoords, to = "absolute"): could not find function "gScale"</span></div><div class='input'>
-<span class='fu'>gScale</span>(<span class='kw'>geom</span> <span class='kw'>=</span> <span class='no'>aGeom</span>, <span class='kw'>range</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>0</span>, <span class='fl'>100</span>), <span class='kw'>y</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>10</span>, <span class='fl'>90</span>)))</div><div class='output co'>#&gt; <span class='error'>Error in gScale(geom = aGeom, range = list(x = c(0, 100), y = c(10, 90))): could not find function "gScale"</span></div><div class='input'>
+(<span class='no'>relCoords</span> <span class='kw'>&lt;-</span> <span class='fu'>gt_scale</span>(<span class='kw'>geom</span> <span class='kw'>=</span> <span class='no'>aGeom</span>, <span class='kw'>to</span> <span class='kw'>=</span> <span class='st'>"relative"</span>))</div><div class='output co'>#&gt; class      : geom
+#&gt; type       : polygon
+#&gt; features   : 1  (4 vertices)
+#&gt; window     : 0, 80, 0, 80  (xmin, xmax, ymin, ymax)
+#&gt; extent     : 0.5, 0.875, 0.5, 0.875  (xmin, xmax, ymin, ymax)
+#&gt; scale      : relative
+#&gt; crs        : NA
+#&gt; attributes : 2  (fid, n)</div><div class='input'><span class='fu'>gt_scale</span>(<span class='kw'>geom</span> <span class='kw'>=</span> <span class='no'>relCoords</span>, <span class='kw'>to</span> <span class='kw'>=</span> <span class='st'>"absolute"</span>)</div><div class='output co'>#&gt; class      : geom
+#&gt; type       : polygon
+#&gt; features   : 1  (4 vertices)
+#&gt; window     : 0, 80, 0, 80  (xmin, xmax, ymin, ymax)
+#&gt; extent     : 40, 70, 40, 70  (xmin, xmax, ymin, ymax)
+#&gt; scale      : absolute
+#&gt; crs        : NA
+#&gt; attributes : 2  (fid, n)</div><div class='input'>
+<span class='fu'>gt_scale</span>(<span class='kw'>geom</span> <span class='kw'>=</span> <span class='no'>aGeom</span>, <span class='kw'>range</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>0</span>, <span class='fl'>100</span>), <span class='kw'>y</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>10</span>, <span class='fl'>90</span>)))</div><div class='output co'>#&gt; class      : geom
+#&gt; type       : polygon
+#&gt; features   : 1  (4 vertices)
+#&gt; window     : 0, 100, 10, 90  (xmin, xmax, ymin, ymax)
+#&gt; extent     : 50, 87.5, 50, 80  (xmin, xmax, ymin, ymax)
+#&gt; scale      : absolute
+#&gt; crs        : NA
+#&gt; attributes : 2  (fid, n)</div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
