@@ -2,8 +2,7 @@
 #' @param x object to \code{subset}.
 #' @param slot [\code{character(1)}]\cr the slot in which to determine a subset,
 #'   either \code{"table"} or \code{"coords"}.
-#' @param subset [\code{integerish(.)} | \code{logical(.)} |
-#'   \code{character(1)}]\cr coordinates to keep.
+#' @param ... Logical predicates defined in terms of the variables in \code{x}.
 #' @name getSubset
 #' @rdname getSubset
 NULL
@@ -19,6 +18,12 @@ if(!isGeneric("getSubset")){
 }
 
 #' @rdname getSubset
+#' @importFrom checkmate assertCharacter assertChoice
+#' @examples
+#' (obj <- gtGeoms$locations) # has column a
+#'
+#' # get subset of features that have more than 3 vertices
+#' (getSubset(x = obj, n < 3, slot = "table"))
 #' @export
 setMethod(f = "getSubset",
           signature = signature("geom"),
@@ -66,10 +71,9 @@ setMethod(f = "getSubset",
 
 #' @rdname getSubset
 #' @examples
+#' (obj <- gtSF$polygon) # has column a
 #'
-#' library(sf)
-#' nc <- st_read(system.file("shape/nc.shp", package="sf"))
-#' (aSfc <- getSubset(nc, attr = "NAME %in% c('Ashe', 'Surry')"))
+#' (getSubset(x = obj, a == 1))
 #' @export
 setMethod(f = "getSubset",
           signature = signature("sf"),
