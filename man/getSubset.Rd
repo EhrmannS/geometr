@@ -8,19 +8,19 @@
 \alias{getSubset,sf-method}
 \title{Get the subset of a spatial object.}
 \usage{
-\S4method{getSubset}{geom}(x, attr, coords)
+\S4method{getSubset}{geom}(x, ..., slot = "table")
 
-\S4method{getSubset}{Spatial}(x, attr)
+\S4method{getSubset}{Spatial}(x, ...)
 
-\S4method{getSubset}{sf}(x, attr)
+\S4method{getSubset}{sf}(x, ...)
 }
 \arguments{
 \item{x}{object to \code{subset}.}
 
-\item{attr}{[\code{integerish(.)} | \code{logical(.)} |
-\code{character(1)}]\cr rows of the attribute table to keep.}
+\item{slot}{[\code{character(1)}]\cr the slot in which to determine a subset,
+either \code{"table"} or \code{"coords"}.}
 
-\item{coords}{[\code{integerish(.)} | \code{logical(.)} |
+\item{subset}{[\code{integerish(.)} | \code{logical(.)} |
 \code{character(1)}]\cr coordinates to keep.}
 }
 \description{

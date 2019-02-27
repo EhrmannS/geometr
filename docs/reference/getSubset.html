@@ -126,13 +126,13 @@
     </div>
 
     <pre class="usage"><span class='co'># S4 method for geom</span>
-<span class='fu'>getSubset</span>(<span class='no'>x</span>, <span class='no'>attr</span>, <span class='no'>coords</span>)
+<span class='fu'>getSubset</span>(<span class='no'>x</span>, <span class='no'>...</span>, <span class='kw'>slot</span> <span class='kw'>=</span> <span class='st'>"table"</span>)
 
 <span class='co'># S4 method for Spatial</span>
-<span class='fu'>getSubset</span>(<span class='no'>x</span>, <span class='no'>attr</span>)
+<span class='fu'>getSubset</span>(<span class='no'>x</span>, <span class='no'>...</span>)
 
 <span class='co'># S4 method for sf</span>
-<span class='fu'>getSubset</span>(<span class='no'>x</span>, <span class='no'>attr</span>)</pre>
+<span class='fu'>getSubset</span>(<span class='no'>x</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -142,12 +142,12 @@
       <td><p>object to <code>subset</code>.</p></td>
     </tr>
     <tr>
-      <th>attr</th>
-      <td><p>[<code>integerish(.)</code> | <code><a href='https://www.rdocumentation.org/packages/base/topics/logical'>logical(.)</a></code> |
-<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code>]<br /> rows of the attribute table to keep.</p></td>
+      <th>slot</th>
+      <td><p>[<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code>]<br /> the slot in which to determine a subset,
+either <code>"table"</code> or <code>"coords"</code>.</p></td>
     </tr>
     <tr>
-      <th>coords</th>
+      <th>subset</th>
       <td><p>[<code>integerish(.)</code> | <code><a href='https://www.rdocumentation.org/packages/base/topics/logical'>logical(.)</a></code> |
 <code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code>]<br /> coordinates to keep.</p></td>
     </tr>

@@ -125,8 +125,8 @@
     
     </div>
 
-    <pre class="usage"><span class='fu'>visualise</span>(<span class='kw'>raster</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>geom</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>theme</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>trace</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>image</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>new</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>visualise</span>(<span class='kw'>raster</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>geom</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>window</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>theme</span> <span class='kw'>=</span> <span class='no'>gtTheme</span>, <span class='kw'>trace</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>image</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>new</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -138,6 +138,11 @@
     <tr>
       <th>geom</th>
       <td><p>[<code>geom</code>]<br /> geom to plot.</p></td>
+    </tr>
+    <tr>
+      <th>window</th>
+      <td><p>[<code><a href='https://www.rdocumentation.org/packages/base/topics/data.frame'>data.frame(1)</a></code>]<br /> two oposing corners to which the plot
+is limited.</p></td>
     </tr>
     <tr>
       <th>theme</th>
@@ -206,7 +211,7 @@ simply plot the object (<code>FALSE</code>, default).</p></td>
 #&gt; attributes : 2  (fid, n)</div><div class='input'>
 <span class='co'># if plotted on top of an existing plot, the relative coordinate values</span>
 <span class='co'># will be used to construct the grob.</span>
-<span class='fu'>visualise</span>(<span class='kw'>raster</span> <span class='kw'>=</span> <span class='no'>input</span>, <span class='kw'>geom</span> <span class='kw'>=</span> <span class='no'>aGeom</span>)</div><div class='output co'>#&gt; <span class='error'>Error in visualise(raster = input, geom = aGeom): object 'input' not found</span></div><div class='input'><span class='fu'>visualise</span>(<span class='kw'>geom</span> <span class='kw'>=</span> <span class='no'>aGeom</span>)</div><div class='output co'>#&gt; <span class='error'>Error in isTRUE(lhs): trying to get slot "geom" from an object of a basic class ("NULL") with no slots</span></div><div class='input'>
+<span class='fu'>visualise</span>(<span class='kw'>raster</span> <span class='kw'>=</span> <span class='no'>input</span>, <span class='kw'>geom</span> <span class='kw'>=</span> <span class='no'>aGeom</span>)</div><div class='output co'>#&gt; <span class='error'>Error in visualise(raster = input, geom = aGeom): object 'input' not found</span></div><div class='input'><span class='fu'>visualise</span>(<span class='kw'>geom</span> <span class='kw'>=</span> <span class='no'>aGeom</span>)</div><div class='img'><img src='visualise-1.png' alt='' width='700' height='433' /></div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

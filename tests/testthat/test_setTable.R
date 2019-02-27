@@ -26,3 +26,13 @@ test_that("setTable of a Spatial object", {
 test_that("setTable of an sf object", {
 
 })
+
+test_that("setTable of a 'RasterLayer'", {
+  input <- rtRasters$continuous
+  attributes <- data.frame(id = 1:91, variable = rep(LETTERS, length.out = 91))
+
+  # test RasterLayer without attribute table
+  output <- setTable(input, attributes)
+  expect_class(output, "RasterLayer")
+  expect_true(output@data@isfactor)
+})

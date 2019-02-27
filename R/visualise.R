@@ -63,6 +63,7 @@
 #' @importFrom stats quantile
 #' @export
 
+
 visualise <- function(raster = NULL, geom = NULL, window = NULL, theme = gtTheme,
                       trace = FALSE, image = FALSE, new = TRUE, ...){
 

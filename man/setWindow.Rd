@@ -11,9 +11,11 @@
 \arguments{
 \item{x}{the object in which to set the reference window.}
 
-\item{to}{[\code{data.frame(1)}]\cr two oposing corners or all four
-corners of the rectangle.}
+\item{to}{[\code{data.frame(1)}]\cr two oposing corners.}
 }
 \description{
 Set the reference window of a spatial object.
+}
+\examples{
+
 }

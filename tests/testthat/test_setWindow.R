@@ -13,13 +13,13 @@ test_that("setWindow of a 'geom'", {
   window2 <- data.frame(x = c(0, 0, 80, 80),
                         y = c(0, 80, 80, 0))
   input <- gs_polygon(anchor = coords)
-
+  
   # test short notation
   output <- setWindow(input, window)
   expect_class(output, "geom")
   expect_data_frame(getWindow(output))
   expect_equal(dim(getWindow(output)),  c(4, 2))
-
+  
   # test long notation
   output <- setWindow(input, window2)
   expect_class(output, "geom")

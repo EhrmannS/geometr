@@ -10,15 +10,15 @@ locate(samples = 1, raster = NULL, panel = NULL, identify = FALSE,
 \arguments{
 \item{samples}{[\code{integerish(1)}]\cr the number of clicks.}
 
-\item{raster}{[\code{Raster*} | \code{matrix}]\cr the raster object in
-which to locate.}
+\item{raster}{[\code{Raster*} | \code{matrix}]\cr the raster object in which
+to locate.}
 
 \item{panel}{[\code{character(1)}]\cr the panel in which to locate (i.e. the
 title shown over the plot). Does not have to be accurate, as it matches
 with \code{\link{grep}}.}
 
-\item{identify}{[\code{logical(1)}]\cr get the value at the sampled location
-(\code{TRUE}) or merely the location (\code{FALSE}, default).}
+\item{identify}{[\code{logical(1)}]\cr get the raster value at the sampled
+location (\code{TRUE}) or merely the location (\code{FALSE}, default).}
 
 \item{snap}{[\code{logical(1)}]\cr should the returned value(s) be set to the
 nearest grid cell's center (\code{TRUE}) or should they remain the

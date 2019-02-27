@@ -11,17 +11,20 @@ test_that("setCRS of a geom", {
                        fid = 1)
   window <- data.frame(x = c(0, 80),
                        y = c(0, 80))
-  aGeom <- gs_polygon(anchor = coords, window = window)
-
-  # setting a CRS on a geom that hasn't had one before
+  aGeom <- geomPolygon(anchor = coords, window = window)
   output <- setCRS(x = aGeom, crs = projs$laea)
+
   expect_class(output, classes = "geom")
   expect_character(getCRS(output), any.missing = FALSE, pattern = "+proj=laea", len = 1)
 
-  # setting a CRS on a geom that had one before
-  output <- setCRS(x = output, crs = projs$longlat)
+  anSpGeom <- setCRS(x = aGeom, crs = projs$laea)
+  output <- setCRS(x = anSpGeom, crs = projs$longlat)
   expect_class(output, classes = "geom")
   expect_character(getCRS(output), any.missing = FALSE, pattern = "+proj=longlat", len = 1)
+
+  output <- setCRS(x = output, crs = projs$laea)
+  expect_class(output, classes = "geom")
+  expect_character(getCRS(output), any.missing = FALSE, pattern = "+proj=laea", len = 1)
 })
 
 test_that("getExtent of a Spatial object", {
@@ -46,4 +49,21 @@ test_that("getExtent of an sf object", {
   output <- setCRS(x = input, crs = projs$laea)
   expect_class(output, classes = "sf")
   expect_character(st_crs(output)$proj4string, any.missing = FALSE, pattern = "+proj=laea", len = 1)
+})
+
+test_that("getExtent of a Raster", {
+  aRaster <- raster(xmn=-110, xmx=-90, ymn=40, ymx=60, ncols=40, nrows=40)
+  aRaster[] <- 1:ncell(aRaster)
+  theCRS <- projection(aRaster)
+  crs(aRaster) <- as.character(NA)
+
+  # test when crs is missing
+  output <- setCRS(x = aRaster, crs = theCRS)
+  expect_class(crs(output), classes = "CRS")
+  expect_character(crs(output)@projargs, any.missing = FALSE, pattern = "+proj=longlat", len = 1)
+
+  # test to reproject an existing crs
+  output <- setCRS(x = output, crs = projs$laea)
+  expect_class(crs(output), classes = "CRS")
+  expect_character(crs(output)@projargs, any.missing = FALSE, pattern = "+proj=laea", len = 1)
 })
