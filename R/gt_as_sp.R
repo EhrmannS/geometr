@@ -9,19 +9,20 @@
 #'   \code{\link{SpatialPointsDataFrame}}, \code{\link{SpatialLinesDataFrame}}
 #'   or \code{\link{SpatialPolygonsDataFrame}} object.
 #' @examples
-#' require(magrittr)
+#' library(magrittr)
+#'
 #' somePoints <- data.frame(X = c(5027609, 5190599, 5326537, 5222810,
 #'                          5234735, 5281527, 5189955, 5041066),
 #'                          Y = c(3977612, 3971119, 4028167, 3997230,
 #'                          4060164, 4117856, 4118207, 4062838),
 #'                          fid = c(1:8))
 #'
-#' pointsGeom <- geomPoint(anchor = somePoints)
-#' polyGeom <- gGroup(geom = pointsGeom, index = c(rep(1, 8))) %>%
-#'   geomPolygon()
+#' pointsGeom <- gs_point(anchor = somePoints)
+#' polyGeom <- gt_group(geom = pointsGeom, index = c(rep(1, 8))) %>%
+#'   gs_polygon()
 #'
-#' (spPoints <- gToSp(geom = pointsGeom, crs = projs$laea))
-#' (spPolygon <- gToSp(geom = polyGeom, crs = projs$laea))
+#' (spPoints <- gt_as_sp(geom = pointsGeom, crs = projs$laea))
+#' (spPolygon <- gt_as_sp(geom = polyGeom, crs = projs$laea))
 #' @importFrom checkmate assertClass assertCharacter
 #' @importFrom raster crs
 #' @importFrom sp SpatialPoints SpatialPointsDataFrame Polygon Polygons

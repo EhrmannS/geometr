@@ -15,17 +15,17 @@
 #'                      fid = c(1, 1, 1, 1, 2, 2, 2))
 #' window <- data.frame(x = c(0, 80),
 #'                      y = c(0, 80))
-#' aGeom <- geomPolygon(anchor = coords, window = window, show = TRUE)
+#' aGeom <- gs_polygon(anchor = coords, window = window, show = TRUE)
 #'
-#' rotatedGeom <- gRotate(geom = aGeom, angle = 90, about = c(40, 40))
+#' rotatedGeom <- gt_rotate(geom = aGeom, angle = 90, about = c(40, 40))
 #' visualise(geom = rotatedGeom)
 #'
 #' # rotate single objects
-#' rotatedTriangle <- gRotate(geom = aGeom, angle = -180, about = c(30, 40), fid = 2)
+#' rotatedTriangle <- gt_rotate(geom = aGeom, angle = -180, about = c(30, 40), fid = 2)
 #' visualise(geom = rotatedTriangle, col = "goldenrod1")
 #'
 #' # rotate different objects about different centers by different angles
-#' rotateMore <- gRotate(geom = aGeom,
+#' rotateMore <- gt_rotate(geom = aGeom,
 #'                       angle = list(90, -180),
 #'                       about = list(c(40, 40), c(30, 40)))
 #' visualise(geom = rotateMore, col = "deeppink")

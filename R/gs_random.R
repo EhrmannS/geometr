@@ -22,11 +22,11 @@
 #'
 #' # create a random geometry with five vertices
 #' set.seed(1)
-#' someGeom <- geomRand(type = "polygon", vertices = 5)
+#' someGeom <- gs_random(type = "polygon", vertices = 5)
 #' visualise(geom = someGeom)
 #'
 #' # in case template is given, this serves as source for the window extent
-#' someGeom <- geomRand(template = input, col = "green", show = TRUE)
+#' someGeom <- gs_random(template = input, col = "green", show = TRUE)
 #' @importFrom stats runif
 #' @export
 

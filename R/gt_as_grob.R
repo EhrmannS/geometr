@@ -19,9 +19,9 @@
 #'                              3, 3, 3, 4, 4, 4, 5, 5, 5, 5))
 #' window <- data.frame(x = c(0, 80),
 #'                      y = c(0, 80))
-#' aGeom <- geomPolygon(anchor = coords, window = window)
+#' aGeom <- gs_polygon(anchor = coords, window = window)
 #'
-#' aGrob <- gToGrob(geom = aGeom)
+#' aGrob <- gt_as_grob(geom = aGeom)
 #' str(aGrob)
 #' @importFrom checkmate assertNames assertSubset assertList
 #' @importFrom grid gpar unit pointsGrob gList pathGrob polylineGrob clipGrob

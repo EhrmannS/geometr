@@ -16,13 +16,13 @@
 #'                      fid = 1)
 #' window <- data.frame(x = c(0, 80),
 #'                      y = c(0, 80))
-#' aGeom <- geomPolygon(anchor = coords, window = window)
+#' aGeom <- gs_polygon(anchor = coords, window = window)
 #'
-#' aRaster <- gToRaster(geom = aGeom)
-#' visualise(raster = aRaster, geom = aGeom, col = "deeppink")
+#' aRaster <- gt_as_raster(geom = aGeom)
+#' #visualise(raster = aRaster, geom = aGeom, col = "deeppink")
 #'
-#' negRaster <- gToRaster(geom = aGeom, negative = TRUE)
-#' visualise(raster = negRaster, geom = aGeom, col = "deeppink")
+#' negRaster <- gt_as_raster(geom = aGeom, negative = TRUE)
+#' #visualise(raster = negRaster, geom = aGeom, col = "deeppink")
 #' @importFrom methods new
 #' @importFrom raster raster extent<-
 #' @export
@@ -52,17 +52,17 @@ gt_as_raster <- function(geom, negative = FALSE, res = c(1, 1), crs = NULL){
 
   temp <- matrix(data = 0, ncol = outCols, nrow = outRows)
   coords <- geom@coords[c("x", "y")]
-  coords[,1] <- round(coords[,1]/res[1])
-  coords[,2] <- round(coords[,2]/res[2])
+  coords[, 1] <- round(coords[, 1]/res[1])
+  coords[, 2] <- round(coords[, 2]/res[2])
   vertices <- as.matrix(coords)
   if(!any(theWindow$x == 0)){
-    vertices[,1] <- vertices[,1] - min(vertices[,1], na.rm = TRUE)
+    vertices[, 1] <- vertices[, 1] - min(vertices[, 1], na.rm = TRUE)
   }
   if(!any(theWindow$y == 0)){
-    vertices[,2] <- vertices[,2] - min(vertices[,2], na.rm = TRUE)
+    vertices[, 2] <- vertices[, 2] - min(vertices[, 2], na.rm = TRUE)
   }
-  if(any(coords[dim(coords)[1],] != coords[1,])){
-    vertices <- rbind(vertices, vertices[1,])
+  if(any(coords[dim(coords)[1],] != coords[1, ])){
+    vertices <- rbind(vertices, vertices[1, ])
   }
   geomRaster <- matInGeomC(mat = temp, geom = vertices, negative = negative)
   out <- raster(geomRaster, xmn = 0, xmx = outCols, ymn = 0, ymx = outRows, crs = as.character(sourceCRS))

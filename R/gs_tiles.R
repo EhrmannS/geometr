@@ -17,17 +17,17 @@
 #' # create grid for GFC data
 #' gfcWindow <- data.frame(x = c(-180, 180),
 #'                         y = c(-60, 80))
-#' tiles_gfc <- geomTiles(window = gfcWindow, cells = c(36, 14), crs = projs$longlat)
+#' tiles_gfc <- gs_tiles(window = gfcWindow, cells = c(36, 14), crs = projs$longlat)
 #'
 #' # create grid for MODIS data
 #' modWindow <- data.frame(x = c(-20015109.354, 20015109.354),
 #'                         y = c(-10007554.677, 10007554.677))
-#' tiles_modis <- geomTiles(window = modWindow, cells = c(36, 18), crs = projs$sinu)
+#' tiles_modis <- gs_tiles(window = modWindow, cells = c(36, 18), crs = projs$sinu)
 #'
 #' # create grid for the sentinel data
 #' #sntWindow <- data.frame(x = c(),
 #' #                        y = c())
-#' #tiles_sentinel <- geomTiles(window = sntWindow, cells = c(), crs = projs$utm)
+#' #tiles_sentinel <- gs_tiles(window = sntWindow, cells = c(), crs = projs$utm)
 #' @importFrom checkmate testDataFrame assertNames testClass testIntegerish
 #'   assertDataFrame assertNames assertCharacter assertSubset assertLogical
 #' @importFrom tibble tibble
