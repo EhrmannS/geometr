@@ -4,3 +4,4 @@
 .Ruserdata
 .Rbuildignore
 geomTools.Rproj
+tests/testthat/Rplots.pdf
