@@ -1,6 +1,5 @@
 library(checkmate)
 library(raster)
-library(rasterTools)
 context("setTheme")
 
 
@@ -84,7 +83,6 @@ test_that("modifying yAxis works", {
 
 test_that("modifying grid works", {
   continuous <- gtRasters$continuous
-  patches <- rPatches(rBinarise(continuous, thresh = 40))
 
   myTheme <- setTheme(grid = list(plot = TRUE,
                                   minor = FALSE,
@@ -92,13 +90,12 @@ test_that("modifying grid works", {
                                   linetype = "dashed",
                                   linewidth = 2),
                       xAxis = list(bins = 6))
-  output <- visualise(raster = patches, theme = myTheme)
+  output <- visualise(raster = continuous, theme = myTheme)
   expect_class(output, "recordedplot")
 })
 
 test_that("modifying legend works", {
   continuous <- gtRasters$continuous
-  patches <- rPatches(rBinarise(continuous, thresh = 40))
 
   myTheme <- setTheme(legend = list(plot = TRUE,
                                     common = TRUE,
@@ -114,7 +111,7 @@ test_that("modifying legend works", {
                                       linetype = "dashed",
                                       linewidth = 1,
                                       colour = "black")))
-  output <- visualise(raster = brick(continuous, patches), theme = myTheme)
+  output <- visualise(raster = continuous, theme = myTheme)
   expect_class(output, "recordedplot")
 })
 

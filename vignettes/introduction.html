@@ -12,7 +12,7 @@
 
 <meta name="author" content="Steffen Ehrmann" />
 
-<meta name="date" content="2019-02-25" />
+<meta name="date" content="2019-02-27" />
 
 <title>geometr - Introduction</title>
 
@@ -92,7 +92,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 <h1 class="title toc-ignore">geometr - Introduction</h1>
 <h4 class="author"><em>Steffen Ehrmann</em></h4>
-<h4 class="date"><em>2019-02-25</em></h4>
+<h4 class="date"><em>2019-02-27</em></h4>
 
 
 
@@ -100,8 +100,8 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <h1>Introduction</h1>
 <div id="a-new-spatial-class-geom" class="section level2">
 <h2>A new (spatial) class: <code>geom</code></h2>
-<p><code>rasterTools</code> comes with its own (spatial) S4 class. This class provides only the feature types <code>point</code>, <code>line</code> and <code>polygon</code> (yes, there are no <em>multi</em>-x features in <code>rasterTools</code>), where each of them consist of a set of tables describing the relevant aspects.</p>
-<p>The slot <code>@coords</code> is a table that contains all information related to the vertex coordinates, so one row for each coordinate. By default there are at least the columns <code>fid</code> (feature ID), <code>vid</code> (vertex ID), <code>x</code> and <code>y</code>, the two-dimentional coordinate values. All vertices with the same <code>fid</code> are part of the same feature and there may be several features per geometry. The slot <code>@attr</code> is a table that contains all information at the level of features, so one row for each feature. By default there are at least the columns <code>fid</code> (feature ID) and <code>n</code> (number of vertices of that feature). Both of those tables are accessible and can be joined with additional columns to characterise in more detail the vertex or feature attributes. This is the basis for a couple of planned functions in <code>rasterTools</code>, such as manipulation of single vertices and in-R georeferencing.</p>
+<p><code>geometr</code> comes with its own (spatial) S4 class. This class provides only the feature types <code>point</code>, <code>line</code> and <code>polygon</code> (yes, there are no <em>multi</em>-x features in <code>geometr</code>), where each of them consist of a set of tables describing the relevant aspects.</p>
+<p>The slot <code>@coords</code> is a table that contains all information related to the vertex coordinates, so one row for each coordinate. By default there are at least the columns <code>fid</code> (feature ID), <code>vid</code> (vertex ID), <code>x</code> and <code>y</code>, the two-dimentional coordinate values. All vertices with the same <code>fid</code> are part of the same feature and there may be several features per geometry. The slot <code>@attr</code> is a table that contains all information at the level of features, so one row for each feature. By default there are at least the columns <code>fid</code> (feature ID) and <code>n</code> (number of vertices of that feature). Both of those tables are accessible and can be joined with additional columns to characterise in more detail the vertex or feature attributes. This is the basis for a couple of planned functions in <code>geometr</code>, such as manipulation of single vertices and in-R georeferencing.</p>
 <p><strong>problem with “multi* features”; for me the “multi”-nature is not part of the feature, but is an attribute, hence I have set up everything so that there are no multi-features and that the features that are transformed from other spatial classes contain a column <code>grp</code> that captures this informaiton. with the function <code>gGroup()</code> one can then add groups also to non-multi-features</strong></p>
 <p>An object of class <code>geom</code> can be created with various functions, such as the default <code>gs_point()</code>, <code>gs_curve()</code> and <code>gs_polygon()</code> but also with functions that create specific geometric shapes such as <code>gs_hexagon()</code>, which creates exclusively hexagonal polygons, or <code>gs_tiles()</code>, which creates a regular tiling geometry.</p>
 <p>These geometries are deliberately per default not <em>“geographic”</em> in nature and do thus also work within an ordinary cartesian coordinate system. They can be transformed into a spatial object by assigning a <em>coordinate reference system</em>. We learn a lot about them by simply creating and plotting one:</p>
@@ -113,7 +113,7 @@ coords &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span cl
 window &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">x =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">80</span>),
                      <span class="dt">y =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">80</span>))
 <span class="co">#(aGeom &lt;- gs_polygon(anchor = coords, window = window, show = TRUE))</span></code></pre></div>
-<p>The main aspect of this sort of “spatial” class is that it can be created/sketched relatively simply by providing a set of coordinates as socalled anchor values, or by clicking into an open plot. It has moreover a new slot, <code>@window</code>, which defines the frame within which it would be plotted. A wide range of “getters” and “setters” (for example <code>getExtent()</code> or <code>setCRS()</code>) have been defined as methods for <code>geom</code> and also the other spatial classes. This is an attempt to standardise the handling of various different spatial formats that was originally developed to accommodate the modular nature of <code>rasterTools</code>. One can for instance use <code>setCRS()</code> on any of the classes <code>Raster*</code>, <code>sp</code>, <code>sf</code> and also <code>geom</code> to reproject the object to a new <em>CRS</em>. This should come in handy when prototyping new <code>obtain()</code> operators or writing reproducible code in general.</p>
+<p>The main aspect of this sort of “spatial” class is that it can be created/sketched relatively simply by providing a set of coordinates as socalled anchor values, or by clicking into an open plot. It has moreover a new slot, <code>@window</code>, which defines the frame within which it would be plotted. A wide range of “getters” and “setters” (for example <code>getExtent()</code> or <code>setCRS()</code>) have been defined as methods for <code>geom</code> and also the other spatial classes. This is an attempt to standardise the handling of various different spatial formats that was originally developed to accommodate the modular nature of <code>geometr</code>. One can for instance use <code>setCRS()</code> on any of the classes <code>Raster*</code>, <code>sp</code>, <code>sf</code> and also <code>geom</code> to reproject the object to a new <em>CRS</em>. This should come in handy when prototyping new <code>obtain()</code> operators or writing reproducible code in general.</p>
 </div>
 </div>
 <div id="example-workflow" class="section level1">

@@ -47,21 +47,6 @@ To create a plot with your own style, design it with
   \code{blue} and set \code{image = TRUE}.
 }
 \examples{
-library(rasterTools)
-input <- rtRasters$continuous
-binarised <- rBinarise(input, thresh = 40)
-visualise(raster = rDistance(binarised), trace = TRUE)
-
-# visualise also RasterBrick/-Stack objects
-getDistances <- list(disEuc = list(operator = "rDistance"),
-                     disMht = list(operator = "rDistance",
-                                   method = "manhattan"),
-                     disChb = list(operator = "rDistance",
-                                   method = "chessboard"))
-distances <- modify(input = binarised, by = getDistances, merge = TRUE)
-distances <- raster::brick(binarised, distances)
-visualise(distances)
-
 # define a geometry
 coords <- data.frame(x = c(30, 60, 60, 40),
                      y = c(40, 40, 60, 70),
@@ -72,7 +57,7 @@ window <- data.frame(x = c(0, 80),
 
 # if plotted on top of an existing plot, the relative coordinate values
 # will be used to construct the grob.
-visualise(raster = input, geom = aGeom)
+visualise(raster = gtRasters$continuous, geom = aGeom)
 visualise(geom = aGeom)
 
 }
