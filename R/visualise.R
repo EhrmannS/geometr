@@ -44,7 +44,7 @@
 #'   grid.clip unit grid.draw grid.grill upViewport grid.text gpar convertX
 #'   downViewport
 #' @importFrom grDevices colorRampPalette as.raster recordPlot rgb
-#' @importFrom raster nlayers values as.matrix ncol nrow brick
+#' @importFrom raster nlayers values as.matrix ncol nrow stack
 #' @importFrom stats quantile
 #' @export
 
@@ -55,8 +55,8 @@ visualise <- function(raster = NULL, geom = NULL, window = NULL, theme = gtTheme
   if(!is.null(raster)){
     existsRaster <- TRUE
     isRaster <- grepl("Raster", class(raster))
-    if(grepl("RasterStack", class(raster))){
-      raster <- brick(raster)
+    if(grepl("RasterBrick", class(raster))){
+      raster <- stack(raster)
     }
   } else{
     existsRaster <- FALSE
@@ -93,7 +93,9 @@ visualise <- function(raster = NULL, geom = NULL, window = NULL, theme = gtTheme
     if(isRaster){
 
       plotLayers <- nlayers(raster)
-      griddedNames <- raster@data@names
+      griddedNames <- lapply(1:plotLayers, function(x){
+        raster[[x]]@data@names
+      })
       vals <- lapply(1:plotLayers, function(x){
         raster[[x]]@data@values
       })
@@ -170,20 +172,24 @@ visualise <- function(raster = NULL, geom = NULL, window = NULL, theme = gtTheme
   # turn 'geom' into a grob that can be plotted
   if(existsGeom){
 
+    geom <- gt_scale(geom = geom, to = "relative")
+
     if(isOpenPlot){
       extentGrobMeta <- grid.get(gPath("extentGrob"))
       panelExt <- tibble(x = c(0, as.numeric(extentGrobMeta$width)) + as.numeric(extentGrobMeta$x),
                          y = c(0, as.numeric(extentGrobMeta$height)) + as.numeric(extentGrobMeta$y))
+      geom <- setWindow(x = geom, to = panelExt)
     } else{
       if(!existsRaster){
         panelExt <- tibble(x = c(min(geom@window$x), max(geom@window$x)),
                            y = c(min(geom@window$y), max(geom@window$y)))
         plotLayers <- 1
         panelNames <- geom@type
+      } else{
+        geom <- setWindow(x = geom, to = panelExt)
       }
     }
 
-    geom <- setWindow(x = geom, to = panelExt)
     geomGrob <- gt_as_grob(geom = geom, theme = theme, ...)
 
   }
@@ -352,7 +358,7 @@ visualise <- function(raster = NULL, geom = NULL, window = NULL, theme = gtTheme
 
   # start plotting the different elements
   for(i in 1:plotLayers){
-    plotName <- panelNames[i]
+    plotName <- panelNames[[i]]
 
     if(!isOpenPlot){
 
