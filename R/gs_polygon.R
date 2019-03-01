@@ -163,7 +163,8 @@ gs_polygon <- function(anchor = NULL, window = NULL, template = NULL, features =
         message(paste0("please click the ", vertices[i], " vertices."))
         clicks <- vertices[i]
       }
-      theClicks <- locate(raster = template, samples = clicks, panel = tempName, silent = TRUE, show = FALSE, ...)
+      visualise(raster = template)
+      theClicks <- locate(samples = clicks, panel = tempName, silent = TRUE, show = TRUE, ...)
       window <- tibble(x = c(0, dims[2]),
                        y = c(0, dims[1]))
       tempAnchor <- tibble(fid = i,

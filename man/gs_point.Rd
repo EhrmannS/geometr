@@ -5,7 +5,7 @@
 \title{Create a point geometry}
 \usage{
 gs_point(anchor = NULL, window = NULL, template = NULL,
-  vertices = NULL, show = FALSE, ...)
+  vertices = NULL, ...)
 }
 \arguments{
 \item{anchor}{[\code{data.frame(1)}]\cr Object to derive the \code{geom}
@@ -21,12 +21,8 @@ that serves as template to sketch the geometry.}
 
 \item{vertices}{[\code{integer(1)}]\cr number of vertices.}
 
-\item{show}{[\code{logical(1)}]\cr in case \code{template} is set, should the
-points be plotted (\code{TRUE}) or should it not be plotted (\code{FALSE},
-default)?}
-
-\item{...}{[various]\cr graphical parameter, in case \code{show = TRUE}; see
-\code{\link{gpar}}.}
+\item{...}{[various]\cr graphical parameters to \code{\link{locate}}, in case
+points are sketched; see \code{\link{gpar}}.}
 }
 \value{
 An invisible \code{geom}.
@@ -35,21 +31,25 @@ An invisible \code{geom}.
 Create a point geometry
 }
 \examples{
+library(magrittr)
+
 # create points programmatically
 somePoints <- data.frame(X = c(5190599, 5222810, 5041066, 5234735,
                          5326537, 5027609, 5281527, 5189955), Y = c(3977612,
                          4060164, 3997230, 4117856, 4028167, 3971119, 4118207,
                          4062838))
-(pointsGeom <- gs_point(anchor = somePoints, col = "darkorange", show = TRUE))
+(pointsGeom <- gs_point(anchor = somePoints)) \%>\%
+  visualise(geom = ., col = "darkorange")
 
 \dontrun{
 
-input <- rtRasters$continuous
+input <- gtRasters$continuous
 
 # create points interactively
-myPoints <- gs_point(template = input, vertices = 5, show = TRUE, col = "deeppink")
-myPoints <- geom_group(myPoints, index = rep(1, 5))
-anExtent <- gs_ractangle(myPoints, show = TRUE, col = "green")
+myPoints <- gs_point(template = input, vertices = 5, col = "deeppink") \%>\%
+  gt_group(, index = rep(1, 5))
+anExtent <- gs_rectangle(myPoints)
+visualise(geom = anExtent, col = "green", new = FALSE)
 }
 }
 \seealso{

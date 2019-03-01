@@ -9,29 +9,30 @@
 #' @param template [\code{RasterLayer(1)} | \code{matrix(1)}]\cr Gridded object
 #'   that serves as template to sketch the geometry.
 #' @param vertices [\code{integer(1)}]\cr number of vertices.
-#' @param show [\code{logical(1)}]\cr in case \code{template} is set, should the
-#'   points be plotted (\code{TRUE}) or should it not be plotted (\code{FALSE},
-#'   default)?
-#' @param ... [various]\cr graphical parameter, in case \code{show = TRUE}; see
-#'   \code{\link{gpar}}.
+#' @param ... [various]\cr graphical parameters to \code{\link{locate}}, in case
+#'   points are sketched; see \code{\link{gpar}}.
 #' @return An invisible \code{geom}.
 #' @family shapes
 #' @examples
+#' library(magrittr)
+#'
 #' # create points programmatically
 #' somePoints <- data.frame(X = c(5190599, 5222810, 5041066, 5234735,
 #'                          5326537, 5027609, 5281527, 5189955), Y = c(3977612,
 #'                          4060164, 3997230, 4117856, 4028167, 3971119, 4118207,
 #'                          4062838))
-#' (pointsGeom <- gs_point(anchor = somePoints, col = "darkorange", show = TRUE))
+#' (pointsGeom <- gs_point(anchor = somePoints)) %>%
+#'   visualise(geom = ., col = "darkorange")
 #'
 #' \dontrun{
 #'
-#' input <- rtRasters$continuous
+#' input <- gtRasters$continuous
 #'
 #' # create points interactively
-#' myPoints <- gs_point(template = input, vertices = 5, show = TRUE, col = "deeppink")
-#' myPoints <- geom_group(myPoints, index = rep(1, 5))
-#' anExtent <- gs_ractangle(myPoints, show = TRUE, col = "green")
+#' myPoints <- gs_point(template = input, vertices = 5, col = "deeppink") %>%
+#'   gt_group(, index = rep(1, 5))
+#' anExtent <- gs_rectangle(myPoints)
+#' visualise(geom = anExtent, col = "green", new = FALSE)
 #' }
 #' @importFrom checkmate testDataFrame assertNames testNull assert testClass
 #'   assertLogical assertIntegerish
@@ -41,7 +42,7 @@
 #' @export
 
 gs_point <- function(anchor = NULL, window = NULL, template = NULL,
-                     vertices = NULL, show = FALSE, ...){
+                     vertices = NULL, ...){
 
   # check arguments
   anchorExists <- !testNull(anchor)
@@ -71,7 +72,6 @@ gs_point <- function(anchor = NULL, window = NULL, template = NULL,
   if(!anchorExists & !templateExists){
     stop("please provide either 'anchor' or 'template'.")
   }
-  assertLogical(show)
   if(!anchorExists){
     assertIntegerish(vertices, min.len = 1, any.missing = FALSE)
   } else{
@@ -97,7 +97,8 @@ gs_point <- function(anchor = NULL, window = NULL, template = NULL,
   # if anchor does not exists, make it
   if(!anchorExists){
     message("please click the ", vertices, " vertices.")
-    coords <- locate(raster = template, samples = vertices, panel = tempName, silent = TRUE, show = FALSE, ...)
+    visualise(raster = template)
+    coords <- locate(samples = vertices, panel = tempName, silent = TRUE, show = TRUE, ...)
     window <- tibble(x = c(0, dims[2]),
                      y = c(0, dims[1]))
     anchor <- tibble(x = coords$x,
@@ -124,14 +125,6 @@ gs_point <- function(anchor = NULL, window = NULL, template = NULL,
                  scale = "absolute",
                  crs = as.character(projection),
                  history = list(paste0("geometry was created as 'point'")))
-
-  if(show){
-    if(!any(names(listArgs()) == "new")){
-      visualise(geom = theGeom, new = TRUE, ...)
-    } else{
-      visualise(geom = theGeom, ...)
-    }
-  }
 
   invisible(theGeom)
 }
