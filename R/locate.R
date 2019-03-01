@@ -2,8 +2,6 @@
 #'
 #' Click into a plot to get the location or identify values
 #' @param samples [\code{integerish(1)}]\cr the number of clicks.
-#' @param raster [\code{Raster*} | \code{matrix}]\cr the raster object in which
-#'   to locate.
 #' @param panel [\code{character(1)}]\cr the panel in which to locate (i.e. the
 #'   title shown over the plot). Does not have to be accurate, as it matches
 #'   with \code{\link{grep}}.
@@ -28,19 +26,25 @@
 #'   shown in the plot.
 #' @examples
 #' \dontrun{
-#' input <- rtRasters$continuous
-#' patches <- rPatches(rBinarise(input, thresh = 30))
+#' # define a geometry
+#' coords <- data.frame(x = c(30, 60, 60, 40),
+#'                      y = c(40, 40, 60, 70),
+#'                      fid = 1)
+#' window <- data.frame(x = c(0, 80),
+#'                      y = c(0, 80))
+#' (aGeom <- gs_polygon(anchor = coords, window = window, col = "blue"))
 #'
-#' # locate from a not yet plotted object
-#' locate(samples = 3, raster = input, show = TRUE, col = "green")
+#' # locate coordinates with geoms
+#' visualise(geom = aGeom)
+#' locate(samples = 2)
 #'
-#' # or from one that is already plotted
-#' visualise(raster = input)
+#' # locate or identify values with rasters
+#' visualise(raster = gtRasters$continuous)
 #' locate(identify = TRUE, snap = TRUE)
 #'
 #' # with several panels, specify a target
-#' visualise(raster = raster::brick(input, patches))
-#' locate(samples = 4, panel = "patches", identify = TRUE, show = TRUE)
+#' visualise(raster = raster::stack(gtRasters$continuous, gtRasters$categorical))
+#' locate(samples = 4, panel = "categorical", snap = TRUE, identify = TRUE, show = TRUE)
 #' }
 #' @importFrom grDevices dev.list
 #' @importFrom tibble tibble
@@ -49,16 +53,13 @@
 #' @importFrom raster as.matrix
 #' @export
 
-locate <- function(samples = 1, raster = NULL, panel = NULL, identify = FALSE,
-                   snap = FALSE, raw = FALSE, silent = FALSE, show = FALSE, ...){
+locate <- function(samples = 1, panel = NULL, identify = FALSE, snap = FALSE,
+                   raw = FALSE, silent = FALSE, show = FALSE, ...){
 
-  # samples = 2; raster = NULL; panel = NULL; identify = FALSE; snap = FALSE; raw = FALSE; silent = FALSE; show = FALSE
+  # samples = 2; panel = NULL; identify = FALSE; snap = FALSE; raw = FALSE; silent = FALSE; show = FALSE
 
   # check arguments
   assertIntegerish(samples, lower = 1, max.len = 1)
-  isRaster <- testClass(raster, "Raster")
-  isMatrix <- testClass(raster, "matrix")
-  existsGridded <- ifelse(c(isRaster | isMatrix), TRUE, FALSE)
   assertCharacter(panel, ignore.case = TRUE, len = 1, null.ok = TRUE)
   assertLogical(identify, len = 1)
   assertLogical(snap, len = 1)
@@ -69,39 +70,27 @@ locate <- function(samples = 1, raster = NULL, panel = NULL, identify = FALSE,
   if(!is.null(dev.list())){
     objViewports <- grid.ls(viewports = TRUE, grobs = FALSE, print = FALSE)
     mainVP <- grid.grep("vpLomm", grobs = FALSE, viewports = TRUE, grep = TRUE)
-    isOpenPlot <- ifelse(any(mainVP == "vpLomm"), TRUE, FALSE)
+    if(!ifelse(any(mainVP == "vpLomm"), TRUE, FALSE)){
+      stop("please create a plot with geometr::visualise()")
+    }
 
     panelNames <- objViewports$name[objViewports$vpDepth == 2 & objViewports$name != "1"]
     panelNames <- panelNames[!duplicated(panelNames)]
   } else{
-    isOpenPlot <- FALSE
+    stop("please create a plot with geometr::visualise()")
   }
 
-  # if(isOpenPlot){
-  #   if(existsGridded){
-  #     # if both are given, check whether their names are the same. If not, prepare
-  #     # to plot obj
-  #     if(!all(names(raster) == panelNames)){
-  #       panelNames <- names(raster)
-  #       visualise(raster = raster)
-  #     }
-  #   } else{
-      isLegendInPlot <- !identical(grid.grep("legend", grobs = FALSE, viewports = TRUE, grep = TRUE), character(0))
-      isRasterInPlot <- !identical(grid.grep("raster", grobs = FALSE, viewports = TRUE, grep = TRUE), character(0))
-      isGeomInPlot <- !identical(grid.grep("geom", grobs = FALSE, viewports = TRUE, grep = TRUE), character(0))
-  #     if(identify & (!isLegendInPlot & !isRasterInPlot)){
-  #       stop("to identify raster values, please provide either a legend or 'raster'.")
-  #     }
-  #   }
-  # } else{
-  #   if(!existsGridded){
-  #     stop("please either provide 'raster' or create a plot with rasterTools::visualise().")
-  #   } else{
-  #     panelNames <- names(raster)
-  #     visualise(raster = raster)
-  #   }
-  # }
-
+  isLegendInPlot <- !identical(grid.grep("legend", grobs = FALSE, viewports = TRUE, grep = TRUE), character(0))
+  isRasterInPlot <- !identical(grid.grep("raster", grobs = FALSE, viewports = TRUE, grep = TRUE), character(0))
+  if(isRasterInPlot & isLegendInPlot){
+    canIdentify <- TRUE
+  } else{
+    canIdentify <- FALSE
+  }
+  isGeomInPlot <- !identical(grid.grep("geom", grobs = FALSE, viewports = TRUE, grep = TRUE), character(0))
+  if(identify & !canIdentify){
+    stop("to identify raster values the plot needs to contain a legend.")
+  }
 
   # get the panel in which locations should be determined
   if(is.null(panel)){
@@ -118,71 +107,55 @@ locate <- function(samples = 1, raster = NULL, panel = NULL, identify = FALSE,
   }
 
   # find the correct viewport to limit actions to this area of the plot
-  # if(isRasterInPlot){
-  #   rasterVpPath <- grid.grep(paste0(panel, "::plot::grid::raster"), grobs = FALSE, viewports = TRUE, grep = TRUE)
-  #   seekViewport(rasterVpPath)
-  # }
-  # if(isGeomInPlot){
+  if(isRasterInPlot){
+    rasterVpPath <- grid.grep(paste0(panel, "::plot::grid::raster"), grobs = FALSE, viewports = TRUE, grep = TRUE)
+    seekViewport(rasterVpPath)
+
+    metaRaster <- grid.get(gPath("theRaster"), global = TRUE)
+    if(length(panelNames) > 1){
+      matCol <- as.matrix(metaRaster[which(panel == panelNames)][[1]]$raster)
+    } else{
+      matCol <- as.matrix(metaRaster$raster)
+    }
+  } else{
+    raw <- FALSE
+    snap <- FALSE
+  }
+  if(isGeomInPlot){
     geomVpPath <- grid.grep(paste0(panel, "::plot::grid::geom"), grobs = FALSE, viewports = TRUE, grep = TRUE)
     seekViewport(geomVpPath)
-  # }
-
-  metaRaster <- grid.get(gPath("theRaster"), global = TRUE)
-  if(length(panelNames) > 1){
-    matCol <- as.matrix(metaRaster[which(panel == panelNames)][[1]]$raster)
-  } else{
-    matCol <- as.matrix(metaRaster$raster)
   }
 
-  if(existsGridded){
-    offsetGrob <- grid.get(gPath("offsetGrob"))
-    panelExt <- c(xMin = as.numeric(offsetGrob$x), xMax = as.numeric(offsetGrob$x) + dim(matCol)[2],
-                  yMin = as.numeric(offsetGrob$y), yMax = as.numeric(offsetGrob$y) + dim(matCol)[1])
-  } else{
-    extentGrobMeta <- grid.get(gPath("extentGrob"))
-    panelExt <- tibble(x = c(0, as.numeric(extentGrobMeta$width)) + as.numeric(extentGrobMeta$x),
-                       y = c(0, as.numeric(extentGrobMeta$height)) + as.numeric(extentGrobMeta$y))
-  }
+  extentGrobMeta <- grid.get(gPath("extentGrob"))
+  panelExt <- tibble(x = c(0, as.numeric(extentGrobMeta$width)) + as.numeric(extentGrobMeta$x),
+                     y = c(0, as.numeric(extentGrobMeta$height)) + as.numeric(extentGrobMeta$y))
 
   if(identify){
-    if(!existsGridded){
-
-      if(isLegendInPlot){
-        metaLegend <- grid.get(gPath("theLegend"), global = TRUE)
-        metaValues <- grid.get(gPath("legendValues"), global = TRUE)
-        if(length(panelNames) > 1){
-          legend <- metaLegend[which(panel == panelNames)][[1]]$raster
-          values <- as.numeric(metaValues[which(panel == panelNames)][[1]]$label)
-        } else{
-          legend <- metaLegend$raster
-          values <- as.numeric(metaValues$label)
-        }
-        matVal <- subChrIntC(matCol,
-                             replace = legend,
-                             with = values)
+    if(isLegendInPlot){
+      metaLegend <- grid.get(gPath("theLegend"), global = TRUE)
+      metaValues <- grid.get(gPath("legendValues"), global = TRUE)
+      if(length(panelNames) > 1){
+        legend <- metaLegend[which(panel == panelNames)][[1]]$raster
+        values <- as.numeric(metaValues[which(panel == panelNames)][[1]]$label)
       } else{
-        matVal <- NULL
+        legend <- metaLegend$raster
+        values <- as.numeric(metaValues$label)
       }
-
+      matVal <- subChrIntC(matCol,
+                           replace = legend,
+                           with = values)
     } else{
-      if(isRaster){
-        matVal <- as.matrix(eval(parse(text = paste0("raster$", panel))))
-      } else{
-        matVal <- raster
-      }
+      matVal <- NULL
     }
   }
 
-  # get ranges of the x and y-axis (that is the range of the background grid,
-  # exceeding the actual range of the raster)
-
-  if(snap & existsGridded){
-    theGrid <- data.frame(x = rep(seq(0.5, panelExt[[2]], 1), times = panelExt[[4]]),
-                          xmin = rep(seq(0, panelExt[[2]]-1), times = panelExt[[4]]),
-                          xmax = rep(seq(1, panelExt[[2]]), times = panelExt[[4]]),
-                          y = rep(seq(panelExt[[4]]-0.5, 0), each = panelExt[[2]]),
-                          ymin = rep(seq(panelExt[[4]]-1, 0), each = panelExt[[2]]),
-                          ymax = rep(seq(panelExt[[4]], 1), each = panelExt[[2]]))
+  if(snap){
+    theGrid <- data.frame(x = rep(seq(panelExt$x[1] + 0.5, panelExt$x[2], 1), times = panelExt$y[2]),
+                          xmin = rep(seq(panelExt$x[1], panelExt$x[2]-1), times = panelExt$y[2]),
+                          xmax = rep(seq(panelExt$x[1]+1, panelExt$x[2]), times = panelExt$y[2]),
+                          y = rep(seq(panelExt$y[2]-0.5, panelExt$y[1]), each = panelExt$x[2]),
+                          ymin = rep(seq(panelExt$y[2]-1, panelExt$y[1]), each = panelExt$x[2]),
+                          ymax = rep(seq(panelExt$y[2], panelExt$y[1]+1), each = panelExt$x[2]))
   }
 
   if(!silent){
@@ -201,7 +174,7 @@ locate <- function(samples = 1, raster = NULL, panel = NULL, identify = FALSE,
     values[2] <- round(((panelExt$y[2] - panelExt$y[1])*(values[2] - 0) / (1 - 0)) + panelExt$y[1], 1)
 
     # snap to the middle of the selected raster cells
-    if(snap & existsGridded){
+    if(snap){
       matPos <- theGrid[which(values[1] > theGrid$xmin & values[1] <= theGrid$xmax &
                                 values[2] > theGrid$ymin & values[2] <= theGrid$ymax),c(1, 4)]
       values[1] <- matPos$x
@@ -234,7 +207,6 @@ locate <- function(samples = 1, raster = NULL, panel = NULL, identify = FALSE,
     }
 
     if(show){
-      #  put gp = gpar(...) back into all the grobs
       if(identify){
         toDraw <- gList(pointsGrob(x = click$x,
                                    y = click$y,

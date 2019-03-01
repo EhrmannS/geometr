@@ -4,14 +4,11 @@
 \alias{locate}
 \title{Locate (and identify) clicks}
 \usage{
-locate(samples = 1, raster = NULL, panel = NULL, identify = FALSE,
-  snap = FALSE, raw = FALSE, silent = FALSE, show = FALSE, ...)
+locate(samples = 1, panel = NULL, identify = FALSE, snap = FALSE,
+  raw = FALSE, silent = FALSE, show = FALSE, ...)
 }
 \arguments{
 \item{samples}{[\code{integerish(1)}]\cr the number of clicks.}
-
-\item{raster}{[\code{Raster*} | \code{matrix}]\cr the raster object in which
-to locate.}
 
 \item{panel}{[\code{character(1)}]\cr the panel in which to locate (i.e. the
 title shown over the plot). Does not have to be accurate, as it matches
@@ -49,18 +46,24 @@ Click into a plot to get the location or identify values
 }
 \examples{
 \dontrun{
-input <- rtRasters$continuous
-patches <- rPatches(rBinarise(input, thresh = 30))
+# define a geometry
+coords <- data.frame(x = c(30, 60, 60, 40),
+                     y = c(40, 40, 60, 70),
+                     fid = 1)
+window <- data.frame(x = c(0, 80),
+                     y = c(0, 80))
+(aGeom <- gs_polygon(anchor = coords, window = window, col = "blue"))
 
-# locate from a not yet plotted object
-locate(samples = 3, raster = input, show = TRUE, col = "green")
+# locate coordinates with geoms
+visualise(geom = aGeom)
+locate(samples = 2)
 
-# or from one that is already plotted
-visualise(raster = input)
+# locate or identify values with rasters
+visualise(raster = gtRasters$continuous)
 locate(identify = TRUE, snap = TRUE)
 
 # with several panels, specify a target
-visualise(raster = raster::brick(input, patches))
-locate(samples = 4, panel = "patches", identify = TRUE, show = TRUE)
+visualise(raster = raster::stack(gtRasters$continuous, gtRasters$categorical))
+locate(samples = 4, panel = "categorical", snap = TRUE, identify = TRUE, show = TRUE)
 }
 }
