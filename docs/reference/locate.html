@@ -125,8 +125,8 @@
     
     </div>
 
-    <pre class="usage"><span class='fu'>locate</span>(<span class='kw'>samples</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>raster</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>panel</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>identify</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>snap</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>raw</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>silent</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>show</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>locate</span>(<span class='kw'>samples</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>panel</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>identify</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>snap</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>raw</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>silent</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>show</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -134,11 +134,6 @@
     <tr>
       <th>samples</th>
       <td><p>[<code>integerish(1)</code>]<br /> the number of clicks.</p></td>
-    </tr>
-    <tr>
-      <th>raster</th>
-      <td><p>[<code>Raster*</code> | <code>matrix</code>]<br /> the raster object in which
-to locate.</p></td>
     </tr>
     <tr>
       <th>panel</th>
@@ -191,19 +186,25 @@ created when <code>show = TRUE</code>.</p></td>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><span class='co'># NOT RUN {</span>
-<span class='no'>input</span> <span class='kw'>&lt;-</span> <span class='no'>rtRasters</span>$<span class='no'>continuous</span>
-<span class='no'>patches</span> <span class='kw'>&lt;-</span> <span class='fu'>rPatches</span>(<span class='fu'>rBinarise</span>(<span class='no'>input</span>, <span class='kw'>thresh</span> <span class='kw'>=</span> <span class='fl'>30</span>))
+<span class='co'># define a geometry</span>
+<span class='no'>coords</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/data.frame'>data.frame</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>30</span>, <span class='fl'>60</span>, <span class='fl'>60</span>, <span class='fl'>40</span>),
+                     <span class='kw'>y</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>40</span>, <span class='fl'>40</span>, <span class='fl'>60</span>, <span class='fl'>70</span>),
+                     <span class='kw'>fid</span> <span class='kw'>=</span> <span class='fl'>1</span>)
+<span class='no'>window</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/data.frame'>data.frame</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>0</span>, <span class='fl'>80</span>),
+                     <span class='kw'>y</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>0</span>, <span class='fl'>80</span>))
+(<span class='no'>aGeom</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='gs_polygon.html'>gs_polygon</a></span>(<span class='kw'>anchor</span> <span class='kw'>=</span> <span class='no'>coords</span>, <span class='kw'>window</span> <span class='kw'>=</span> <span class='no'>window</span>, <span class='kw'>col</span> <span class='kw'>=</span> <span class='st'>"blue"</span>))
 
-<span class='co'># locate from a not yet plotted object</span>
-<span class='fu'>locate</span>(<span class='kw'>samples</span> <span class='kw'>=</span> <span class='fl'>3</span>, <span class='kw'>raster</span> <span class='kw'>=</span> <span class='no'>input</span>, <span class='kw'>show</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>col</span> <span class='kw'>=</span> <span class='st'>"green"</span>)
+<span class='co'># locate coordinates with geoms</span>
+<span class='fu'><a href='visualise.html'>visualise</a></span>(<span class='kw'>geom</span> <span class='kw'>=</span> <span class='no'>aGeom</span>)
+<span class='fu'>locate</span>(<span class='kw'>samples</span> <span class='kw'>=</span> <span class='fl'>2</span>)
 
-<span class='co'># or from one that is already plotted</span>
-<span class='fu'><a href='visualise.html'>visualise</a></span>(<span class='kw'>raster</span> <span class='kw'>=</span> <span class='no'>input</span>)
+<span class='co'># locate or identify values with rasters</span>
+<span class='fu'><a href='visualise.html'>visualise</a></span>(<span class='kw'>raster</span> <span class='kw'>=</span> <span class='no'>gtRasters</span>$<span class='no'>continuous</span>)
 <span class='fu'>locate</span>(<span class='kw'>identify</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>snap</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
 
 <span class='co'># with several panels, specify a target</span>
-<span class='fu'><a href='visualise.html'>visualise</a></span>(<span class='kw'>raster</span> <span class='kw'>=</span> <span class='kw pkg'>raster</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/raster/topics/brick'>brick</a></span>(<span class='no'>input</span>, <span class='no'>patches</span>))
-<span class='fu'>locate</span>(<span class='kw'>samples</span> <span class='kw'>=</span> <span class='fl'>4</span>, <span class='kw'>panel</span> <span class='kw'>=</span> <span class='st'>"patches"</span>, <span class='kw'>identify</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>show</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+<span class='fu'><a href='visualise.html'>visualise</a></span>(<span class='kw'>raster</span> <span class='kw'>=</span> <span class='kw pkg'>raster</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/raster/topics/stack'>stack</a></span>(<span class='no'>gtRasters</span>$<span class='no'>continuous</span>, <span class='no'>gtRasters</span>$<span class='no'>categorical</span>))
+<span class='fu'>locate</span>(<span class='kw'>samples</span> <span class='kw'>=</span> <span class='fl'>4</span>, <span class='kw'>panel</span> <span class='kw'>=</span> <span class='st'>"categorical"</span>, <span class='kw'>snap</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>identify</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>show</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
 <span class='co'># }</span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
