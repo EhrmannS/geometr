@@ -16,3 +16,11 @@
 \description{
 Set the reference window of a spatial object.
 }
+\examples{
+visualise(geom = gtGeoms$mask)
+
+buffered <- data.frame(x = c(5074000, 5110000),
+                       y = c(4050800, 4076000))
+visualise(geom = setWindow(x = gtGeoms$mask,
+                           to = buffered))
+}

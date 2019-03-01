@@ -1,11 +1,11 @@
 #' Set the reference window of a spatial object.
 #' @param x the object in which to set the reference window.
 #' @param to [\code{data.frame(1)}]\cr two oposing corners.
-#' @example
+#' @examples
 #' visualise(geom = gtGeoms$mask)
 #'
-#' buffered <- tibble(x = c(5074000, 5110000),
-#'                    y = c(4050800, 4076000))
+#' buffered <- data.frame(x = c(5074000, 5110000),
+#'                        y = c(4050800, 4076000))
 #' visualise(geom = setWindow(x = gtGeoms$mask,
 #'                            to = buffered))
 #' @name setWindow
