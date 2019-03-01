@@ -13,13 +13,13 @@ test_that("getSubset of a geom", {
   input <- gs_polygon(anchor = coords, window = window)
 
   # get a subset of the coords
-  output <- getSubset(x = input, coords = "fid == 2")
+  output <- getSubset(x = input, fid == 2, slot = "coords")
   expect_class(output, "geom")
   expect_true(dim(output@coords)[1] == 2)
 
   # get a subset of the attributes
   input <- setTable(x = input, table = tibble(fid = c(1, 2), a = c("a", "b")))
-  output <- getSubset(x = input, attr = "a == 'b'")
+  output <- getSubset(x = input, a == 'b', slot = "table")
   expect_class(output, "geom")
   expect_true(dim(output@coords)[1] == 2)
 })

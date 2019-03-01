@@ -93,7 +93,7 @@ visualise <- function(raster = NULL, geom = NULL, window = NULL, theme = gtTheme
     if(isRaster){
 
       plotLayers <- nlayers(raster)
-      griddedNames <- lapply(1:plotLayers, function(x){
+      griddedNames <- sapply(1:plotLayers, function(x){
         raster[[x]]@data@names
       })
       vals <- lapply(1:plotLayers, function(x){
