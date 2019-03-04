@@ -2,7 +2,7 @@
 % Please edit documentation in R/helpers.R
 \name{scaleParameters}
 \alias{scaleParameters}
-\title{Set the scale of a plot}
+\title{Determine plot parameters}
 \usage{
 scaleParameters(attr = NULL, params = NULL, ...)
 }
@@ -11,11 +11,28 @@ scaleParameters(attr = NULL, params = NULL, ...)
 derive values.}
 
 \item{params}{[\code{list(7)}]\cr the parameters of the geom that shall be
-scaled.}
+scaled; see Details.}
+
+\item{...}{graphical parameters in the form of \code{parameter = column},
+where \code{parameter} would be scaled (colours) or repeated along (other
+parameters) \code{column}.}
 }
 \value{
 a list of parameters to a grob.
 }
 \description{
-Set the scale of a plot
+Parameter values are determined based on the columns of an attribute table.
+}
+\details{
+This function serves merely to determine parameter values from a
+  given theme based on a given attribute table, it does not set the
+  parameters in a plot. The provided value range thus depends on the values
+  provided in the theme. Use \code{\link{setTheme}} to set the values to a
+  modified range.
+
+  The paramaters that can be scaled can be found in \code{gtTheme@geom}. They
+  are by default: \itemize{ \item \code{linecol = c("#00204DFF",
+  "#FFEA46FF")} \item \code{fillcol = c("#00204DFF", "#FFEA46FF")}, \item
+  \code{linetype = "solid"}, \item \code{linewidth = 1}, \item
+  \code{pointsize = 0.5}, \item \code{pointsymbol = 20}.}
 }
