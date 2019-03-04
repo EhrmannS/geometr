@@ -28,7 +28,7 @@ simply plot the object (\code{FALSE}, default).}
 
 \item{new}{[\code{logical(1)}]\cr force a new plot (\code{TRUE}, default).}
 
-\item{...}{[various]\cr Graphical parameters to \code{geom}.}
+\item{...}{[various]\cr graphical parameters to plot a \code{geom}.}
 }
 \value{
 Returns invisibly an object of class \code{recordedplot}, see

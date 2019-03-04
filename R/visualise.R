@@ -13,7 +13,7 @@
 #'   \code{red}, \code{green} and \code{blue}, i.e. is it an "image"
 #'   (\code{TRUE}) or is this not the case (\code{FALSE}, default)?
 #' @param new [\code{logical(1)}]\cr force a new plot (\code{TRUE}, default).
-#' @param ... [various]\cr Graphical parameters to \code{geom}.
+#' @param ... [various]\cr graphical parameters to plot a \code{geom}.
 #' @details To create a plot with your own style, design it with
 #'   \code{\link{setTheme}} and use it in \code{theme}.
 #'
