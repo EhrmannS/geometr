@@ -117,17 +117,17 @@ test_that("modifying legend works", {
 
 test_that("modifying geom works", {
   coords <- data.frame(x = c(40, 70, 70, 50, 40, 60, 70, 40, 60,
-                             40, 10, 20, 30, 30, 20, 50, 40, 10, 20),
+                             40, 10, 20, 50, 40, 10, 20, 50, 30, 30, 20, 30),
                        y = c(40, 40, 60, 70, 40, 20, 40, 10, 20,
-                             40, 20, 20, 50, 40, 40, 70, 40, 20, 60),
+                             40, 20, 20, 70, 40, 20, 60, 70, 50, 40, 40, 50),
                        fid = c(1, 1, 1, 1, 2, 2, 2, 3, 3,
-                               3, 3, 3, 4, 4, 4, 5, 5, 5, 5))
+                               3, 3, 3, 4, 4, 4, 4, 4, 4, 4, 4, 4))
   window <- data.frame(x = c(0, 80),
                        y = c(0, 80))
   aGeom <- gs_polygon(anchor = coords, window = window)
-  myTheme <- setTheme(geom = list(scale = list(x = "fill", to = "fid"),
-                                  line = "grey",
-                                  fill = c("#00204DFF", "#FFEA46FF"),
+  myTheme <- setTheme(geom = list(scale = list(x = "fillcol", to = "fid"),
+                                  linecol = "grey",
+                                  fillcol = c("#00204DFF", "#FFEA46FF"),
                                   linetype = "dashed",
                                   linewidth = 1,
                                   pointsize = 2,

@@ -4,8 +4,8 @@ context("gs_tiles")
 
 
 test_that("output is valid geometry", {
-  window <- data.frame(x = c(-180, 180),
-                       y = c(-80, 80))
+  window <- data.frame(x = c(-40, 40),
+                       y = c(-20, 20))
 
   output <- gs_tiles(window = window, cells = c(8, 4), crs = projs$longlat)
   expect_class(output, classes = "geom")
@@ -37,11 +37,14 @@ test_that("output has the correct number of vertices and polygons", {
 test_that("Error if arguments have wrong value", {
   window <- data.frame(x = c(-40, 40),
                        y = c(-20, 20))
+  wrongWindow <- data.frame(x = c(-180, 180),
+                            y = c(-80, 80))
 
   expect_error(gs_tiles(window = "bla"))
   expect_error(gs_tiles(window = window))
   expect_error(gs_tiles(window = window, cells = "bla"))
   expect_error(gs_tiles(window = window, cells = c(1, 1)))
+  expect_error(gs_tiles(window = wrongWindow, cells = c(8, 4)))
   expect_error(gs_tiles(window = window, cells = c(8, 4), tiling = "bla"))
   expect_error(gs_tiles(window = window, cells = c(8, 4), centroids = "bla"))
 })
