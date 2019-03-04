@@ -18,9 +18,9 @@
 #'   \code{\link{setTheme}} and use it in \code{theme}.
 #'
 #'   In case you want to plot an image (simiar to
-#'   \code{\link[raster]{plotRGB}}), you have to provide a \code{RasterStack} or
-#'   \code{RasterBrick} with the three layers \code{red}, \code{green} and
-#'   \code{blue} and set \code{image = TRUE}.
+#'   \code{\link[raster]{plotRGB}}), you have to provide a \code{RasterStack}
+#'   with the three layers \code{red}, \code{green} and \code{blue} and set
+#'   \code{image = TRUE}.
 #' @return Returns invisibly an object of class \code{recordedplot}, see
 #'   \code{\link{recordPlot}} for details (and warnings).
 #' @examples
@@ -843,7 +843,7 @@ setTheme <- function(from = NULL, title = NULL, box = NULL, xAxis = NULL,
 
   assertList(geom, any.missing = FALSE, max.len = 7, null.ok = TRUE)
   if(!is.null(geom)){
-    assertNames(names(geom), subset.of = c("scale", "line", "fill", "linetype", "linewidth", "pointsize", "pointsymbol"))
+    assertNames(names(geom), subset.of = c("scale", "linecol", "fillcol", "linetype", "linewidth", "pointsize", "pointsymbol"))
     previous <- from@geom
     for(i in seq_along(names(geom))){
       out@geom[which(names(previous) == names(geom)[i])] <- geom[i]
