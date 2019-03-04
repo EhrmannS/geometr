@@ -16,20 +16,23 @@ test_that("getSubset of a geom", {
   output <- getSubset(x = input, fid == 2, slot = "coords")
   expect_class(output, "geom")
   expect_true(dim(output@coords)[1] == 2)
+  expect_true(dim(output@coords)[1] < dim(input@coords)[1])
 
   # get a subset of the attributes
-  input <- setTable(x = input, table = tibble(fid = c(1, 2), a = c("a", "b")))
+  input <- setTable(x = input, table = data.frame(fid = c(1, 2), a = c("a", "b")))
   output <- getSubset(x = input, a == 'b', slot = "table")
   expect_class(output, "geom")
   expect_true(dim(output@coords)[1] == 2)
+  expect_true(dim(output@coords)[1] < dim(input@coords)[1])
 })
 
 test_that("getSubset of a Spatial* object", {
-  # input <- gtSP$SpatialPoints
-  #
-  # output <- getExtent(input)
-  # expect_data_frame(output, any.missing = FALSE, nrows = 2, ncols = 2)
-  # expect_names(names(output), identical.to = c("x", "y"))
+  input <- gtSP$SpatialPointsDataFrame
+
+  output <- getSubset(x = input, a == 2)
+  expect_class(output, "SpatialPointsDataFrame")
+  expect_true(length(output) == 1)
+  expect_true(length(output) < length(input))
 })
 
 test_that("getSubset of an sf object", {

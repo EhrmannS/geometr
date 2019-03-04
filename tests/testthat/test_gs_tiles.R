@@ -4,8 +4,8 @@ context("gs_tiles")
 
 
 test_that("output is valid geometry", {
-  window <- data.frame(x = c(-40, 40),
-                       y = c(-20, 20))
+  window <- data.frame(x = c(-180, 180),
+                       y = c(-80, 80))
 
   output <- gs_tiles(window = window, cells = c(8, 4), crs = projs$longlat)
   expect_class(output, classes = "geom")

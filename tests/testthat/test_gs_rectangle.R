@@ -6,39 +6,26 @@ context("gs_rectangle")
 test_that("output is valid geometry", {
   coords <- data.frame(x = c(40, 70, 70, 50),
                        y = c(40, 40, 60, 70),
-                       id = 1)
-  extent <- data.frame(x = c(0, 80),
-                       y = c(0, 80))
+                       fid = 1)
 
-  output <- gs_rectangle(anchor = coords, extent = extent)
+  output <- gs_rectangle(anchor = coords)
   expect_class(output, classes = "geom")
+  expect_true(output@type == "polygon")
+  expect_data_frame(output@coords, any.missing = FALSE, nrows = 4, ncols = 4)
 })
 
 test_that("template instead of anchor", {
-  # input <- rtRasters$continuous
+  # input <- gtRasters$continuous
   #
-  # output <- gs_point(template = input, vertices = 5, show = TRUE, new = FALSE, col = "deeppink")
+  # output <- gs_rectangle(template = input)
   # expect_class(output, classes = "geom")
-  # expect_true(output@type == "point")
-})
-
-test_that("output has the correct number of vertices", {
-  coords <- data.frame(x = c(40, 70, 70, 50),
-                       y = c(40, 40, 60, 70),
-                       id = 1)
-  extent <- data.frame(x = c(0, 80),
-                       y = c(0, 80))
-
-  output <- gs_rectangle(anchor = coords, extent = extent)
-  expect_data_frame(output@coords, any.missing = FALSE, nrows = 4, ncols = 4)
+  # expect_true(output@type == "polygon")
 })
 
 test_that("Error if arguments have wrong value", {
   coords <- data.frame(x = c(40, 70, 70, 50),
                        y = c(40, 40, 60, 70),
                        id = 1)
-  extent <- data.frame(x = c(0, 80),
-                       y = c(0, 80))
 
   expect_error(gs_rectangle(anchor = "bla"))
   expect_error(gs_rectangle(anchor = coords, window = "bla"))

@@ -7,31 +7,19 @@ test_that("output is valid geometry", {
   coords <- data.frame(x = c(40, 70, 70, 50),
                        y = c(40, 40, 60, 70),
                        fid = 1)
-  window <- data.frame(x = c(0, 80),
-                       y = c(0, 80))
 
-  output <- gs_polygon(anchor = coords, window = window)
+  output <- gs_polygon(anchor = coords)
   expect_class(output, classes = "geom")
   expect_true(output@type == "polygon")
+  expect_data_frame(output@coords, any.missing = FALSE, nrows = 4, ncols = 4)
 })
 
 test_that("template instead of anchor", {
-  # input <- rtRasters$continuous
+  # input <- gtRasters$continuous
   #
-  # output <- gs_point(template = input, vertices = 5, show = TRUE, new = FALSE, col = "deeppink")
+  # output <- gs_polygon(template = input, vertices = 5, show = TRUE, col = "deeppink")
   # expect_class(output, classes = "geom")
-  # expect_true(output@type == "point")
-})
-
-test_that("output has the correct number of vertices", {
-  coords <- data.frame(x = c(40, 40),
-                       y = c(40, 70),
-                       fid = c(1))
-  window <- data.frame(x = c(0, 80),
-                       y = c(0, 80))
-
-  output <- gs_polygon(anchor = coords, window = window, regular = TRUE, vertices = 6)
-  expect_true(length(output@coords$fid) == 6)
+  # expect_true(output@type == "polygon")
 })
 
 test_that("Error if arguments have wrong value", {
