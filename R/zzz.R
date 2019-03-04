@@ -1,5 +1,5 @@
 #' @useDynLib geometr
-globalVariables(c("gtTheme"))
+globalVariables(c("gtTheme", "fid"))
 
 listArgs <- function (){
   as.list(
@@ -8,10 +8,6 @@ listArgs <- function (){
       call = sys.call( -1 )
     )
   )[-1]
-}
-
-dots <- function(...){
-  eval(substitute(alist(...)))
 }
 
 rad <- function(degree){
