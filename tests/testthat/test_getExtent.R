@@ -6,7 +6,7 @@ context("getExtent")
 
 
 test_that("getExtent of a geom", {
-  input <- gtGeoms$locations
+  input <- gtGeoms$point
 
   output <- getExtent(input)
   expect_data_frame(output, any.missing = FALSE, nrows = 2, ncols = 2)

@@ -6,7 +6,8 @@ context("getCRS")
 
 
 test_that("getCRS of a geom", {
-  input <- gtGeoms$locations
+  input <- gtGeoms$polygon
+  input <- setCRS(x = input, crs = "+proj=laea +lat_0=52 +lon_0=10 +x_0=4321000 +y_0=3210000 +ellps=GRS80 +units=m +no_defs")
 
   output <- getCRS(input)
   expect_character(output, any.missing = FALSE, pattern = "+proj=laea", len = 1)
@@ -14,7 +15,7 @@ test_that("getCRS of a geom", {
 
 test_that("getExtent of a Spatial object", {
   input <- gtSP$SpatialPoints
-  proj4string(input) <- projs$laea
+  input <- setCRS(x = input, crs = "+proj=laea +lat_0=52 +lon_0=10 +x_0=4321000 +y_0=3210000 +ellps=GRS80 +units=m +no_defs")
 
   output <- getCRS(input)
   expect_character(output, any.missing = FALSE, pattern = "+proj=laea", len = 1)
@@ -22,7 +23,7 @@ test_that("getExtent of a Spatial object", {
 
 test_that("getExtent of an sf object", {
   input <- gtSF$point
-  input <- st_set_crs(x = input, value = projs$laea)
+  input <- setCRS(x = input, crs = "+proj=laea +lat_0=52 +lon_0=10 +x_0=4321000 +y_0=3210000 +ellps=GRS80 +units=m +no_defs")
 
   output <- getCRS(input)
   expect_character(output, any.missing = FALSE, pattern = "+proj=laea", len = 1)
