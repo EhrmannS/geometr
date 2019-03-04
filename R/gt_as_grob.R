@@ -38,8 +38,8 @@ gt_as_grob <- function(geom = NULL, theme = gtTheme, ...){
 
   attr <- getTable(x = geom)
   pars <- scaleParameters(attr = attr, params = theme@geom, ...)
-  # https://github.com/ropensci/rgbif/blob/d7fdbdc4fcba8015f5e1aeadfc8cc789cf3ed155/R/occ_issues.r
   # return(pars)
+
   if(featureType %in% "point"){
 
     geomGrob <- pointsGrob(x = unit(coords$x, "npc"),
