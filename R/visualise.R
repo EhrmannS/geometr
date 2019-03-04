@@ -67,9 +67,11 @@ visualise <- function(raster = NULL, geom = NULL, window = NULL, theme = gtTheme
   }
   stopifnot(any(existsRaster, existsGeom))
   assertDataFrame(x = window, nrows = 2, min.cols = 2, null.ok = TRUE)
-  if(!is.null(window) & existsGeom){
+  if(!is.null(window)){
     assertNames(names(window), must.include = c("x", "y"))
-    geom <- setWindow(x = geom, to = window)
+    if(existsGeom){
+      geom <- setWindow(x = geom, to = window)
+    }
   }
   assertClass(x = theme, classes = "gtTheme", null.ok = TRUE)
   assertLogical(trace)
@@ -134,6 +136,19 @@ visualise <- function(raster = NULL, geom = NULL, window = NULL, theme = gtTheme
       plotLayers <- 1
     }
 
+    # set panelExt to window, if that exists
+    if(!is.null(window)){
+      window <- tibble(x = c(min(window$x), max(window$x)),
+                       y = c(min(window$y), max(window$y)))
+      xFactor <- (panelExt$x[2] - panelExt$x[1])/abs(window$x[2] - window$x[1])
+      yFactor <- (panelExt$y[2] - panelExt$y[1])/abs(window$y[2] - window$y[1])
+      xRasterOffset <- window$x[1] / abs(window$x[2] - window$x[1])
+      yRasterOffset <- window$y[1] / abs(window$y[2] - window$y[1])
+      panelExt <- window
+    } else{
+      xFactor <- yFactor <- 1
+      xRasterOffset <- yRasterOffset <- 0
+    }
   }
 
   if(isOpenPlot){
@@ -549,13 +564,20 @@ visualise <- function(raster = NULL, geom = NULL, window = NULL, theme = gtTheme
 
       # the raster viewport
       if(existsRaster){
-        pushViewport(viewport(width = unit(1, "npc") - unit(2*margin$x, "native"),
-                              height = unit(1, "npc") - unit(2*margin$y, "native"),
+        pushViewport(viewport(width = unit(1, "npc") - unit(2*margin$x, "native") + unit(theme@box$linewidth, "points"),
+                              height = unit(1, "npc") - unit(2*margin$y, "native") + unit(theme@box$linewidth, "points"),
                               xscale = c(panelExt$x[1]-margin$x, panelExt$x[2]+margin$x),
                               yscale = c(panelExt$y[1]-margin$y, panelExt$y[2]+margin$y),
                               name = "raster"))
-        grid.raster(width = unit(1, "npc"),
-                    height = unit(1, "npc"),
+        grid.clip(width = unit(1, "npc") - unit(theme@box$linewidth, "points"),
+                  height = unit(1, "npc") - unit(theme@box$linewidth, "points"))
+        # return(c(unit(xRasterOffset, "npc"), unit(yRasterOffset, "npc")))
+        grid.raster(x = unit(0, "npc") - unit(xRasterOffset, "npc"),
+                    y = unit(0, "npc") - unit(yRasterOffset, "npc"),
+                    width = unit(1, "npc")*xFactor,
+                    height = unit(1, "npc")*yFactor,
+                    hjust = 0,
+                    vjust = 0,
                     image = matrix(data = theColours[[i]], nrow = dims[1], ncol = dims[2], byrow = TRUE),
                     name = "theRaster",
                     interpolate = FALSE)
@@ -569,8 +591,8 @@ visualise <- function(raster = NULL, geom = NULL, window = NULL, theme = gtTheme
                               xscale = c(panelExt$x[1]-margin$x, panelExt$x[2]+margin$x),
                               yscale = c(panelExt$y[1]-margin$y, panelExt$y[2]+margin$y),
                               name = "geom"))
-        grid.clip(width = unit(1, "npc") + unit(theme@box$linewidth, "native"),
-                  height = unit(1, "npc") + unit(theme@box$linewidth, "native"))
+        grid.clip(width = unit(1, "npc") + unit(theme@box$linewidth, "points"),
+                  height = unit(1, "npc") + unit(theme@box$linewidth, "points"))
         grid.draw(geomGrob)
         upViewport() # exit geom
       }
