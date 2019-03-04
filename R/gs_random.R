@@ -23,7 +23,7 @@
 #'
 #' # in case template is given, this serves as source for the window extent
 #' someGeom <- gs_random(template = input) %>%
-#'   visualise(geom = ., new = FALSE, col = "red")
+#'   visualise(geom = ., new = FALSE, linecol = "red")
 #' @importFrom stats runif
 #' @export
 

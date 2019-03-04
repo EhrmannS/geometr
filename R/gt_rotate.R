@@ -10,25 +10,28 @@
 #'   rotated.
 #' @return Rotated \code{geom}.
 #' @examples
+#' # the original object
 #' coords <- data.frame(x = c(30, 60, 60, 40, 10, 40, 20),
 #'                      y = c(40, 40, 60, 70, 10, 20, 40),
 #'                      fid = c(1, 1, 1, 1, 2, 2, 2))
 #' window <- data.frame(x = c(0, 80),
 #'                      y = c(0, 80))
 #' aGeom <- gs_polygon(anchor = coords, window = window, show = TRUE)
+#' visualise(geom = aGeom)
 #'
+#' # rotate it alltogether
 #' rotatedGeom <- gt_rotate(geom = aGeom, angle = 90, about = c(40, 40))
 #' visualise(geom = rotatedGeom)
 #'
 #' # rotate single objects
 #' rotatedTriangle <- gt_rotate(geom = aGeom, angle = -180, about = c(30, 40), fid = 2)
-#' visualise(geom = rotatedTriangle, col = "goldenrod1")
+#' visualise(geom = rotatedTriangle)
 #'
 #' # rotate different objects about different centers by different angles
 #' rotateMore <- gt_rotate(geom = aGeom,
-#'                       angle = list(90, -180),
-#'                       about = list(c(40, 40), c(30, 40)))
-#' visualise(geom = rotateMore, col = "deeppink")
+#'                         angle = list(90, -180),
+#'                         about = list(c(40, 40), c(30, 40)))
+#' visualise(geom = rotateMore)
 #' @importFrom checkmate assertNames testList testNumeric assertNumeric
 #' @importFrom methods new
 #' @export

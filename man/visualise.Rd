@@ -42,9 +42,9 @@ To create a plot with your own style, design it with
   \code{\link{setTheme}} and use it in \code{theme}.
 
   In case you want to plot an image (simiar to
-  \code{\link[raster]{plotRGB}}), you have to provide a \code{RasterStack} or
-  \code{RasterBrick} with the three layers \code{red}, \code{green} and
-  \code{blue} and set \code{image = TRUE}.
+  \code{\link[raster]{plotRGB}}), you have to provide a \code{RasterStack}
+  with the three layers \code{red}, \code{green} and \code{blue} and set
+  \code{image = TRUE}.
 }
 \examples{
 # define a geometry

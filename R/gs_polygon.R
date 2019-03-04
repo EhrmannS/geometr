@@ -48,17 +48,17 @@
 #' visualise(geom = gs_polygon(anchor = coords,
 #'                             vertices = 6, regular = TRUE))
 #' gs_triangle(anchor = coords, window = window) %>%
-#'   visualise(geom = ., col = "green", new = FALSE)
+#'   visualise(geom = ., linecol = "green", new = FALSE)
 #'
 #' # when a geom is used in 'anchor', its properties (e.g. 'window') are passed on
 #' aGeom <- setWindow(x = aGeom, to = window)
 #' gs_polygon(anchor = aGeom) %>%
-#'   visualise(geom = ., fill = "deeppink")
+#'   visualise(geom = ., fillcol = "deeppink")
 #'
 #' # when a geom is piped to visualise, the output is a "recordedplot"
 #' (anExtent <- gs_rectangle(anchor = aGeom))
 #' anExtentPlot <- anExtent %>%
-#'   visualise(geom = ., lty = 2)
+#'   visualise(geom = ., linetype = 2, new = FALSE)
 #' class(anExtentPlot)
 #'
 #' # geoms with more than one element are treated element-wise
@@ -73,15 +73,15 @@
 #'
 #' # create a square interactively
 #' squareGeom <- gs_square(template = input) %>%
-#'   visualise(geom = ., col = "orange", new = FALSE)
+#'   visualise(geom = ., linecol = "orange", new = FALSE)
 #'
 #' # ... or an approximate circle (actually a hectogon)
 #' circleGeom <- gs_polygon(template = input, vertices = 100, regular = TRUE) %>%
-#'   visualise(geom = ., col = "deeppink", new = FALSE)
+#'   visualise(geom = ., linecol = "deeppink", new = FALSE)
 #'
 #' # create two arbitrary polygons interactively
 #' polyGeom <- gs_polygon(template = input, features = 2, vertices = c(4, 6)) %>%
-#'   visualise(geom = ., col = "green", lwd = 1, lty = "dashed", new = FALSE)
+#'   visualise(geom = ., linecol = "green", lwd = 1, lty = "dashed", new = FALSE)
 #' }
 #' @importFrom stats dist
 #' @importFrom checkmate testDataFrame assertNames testClass assertDataFrame testTRUE testNull

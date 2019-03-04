@@ -32,7 +32,7 @@ This function serves merely to determine parameter values from a
 
   The paramaters that can be scaled can be found in \code{gtTheme@geom}. They
   are by default: \itemize{ \item \code{linecol = c("#00204DFF",
-  "#FFEA46FF")} \item \code{fillcol = c("#00204DFF", "#FFEA46FF")}, \item
+  "#FFEA46FF")} \item \code{fillcol = NA}, \item
   \code{linetype = "solid"}, \item \code{linewidth = 1}, \item
   \code{pointsize = 0.5}, \item \code{pointsymbol = 20}.}
 }

@@ -39,7 +39,7 @@ somePoints <- data.frame(X = c(5190599, 5222810, 5041066, 5234735,
                          4060164, 3997230, 4117856, 4028167, 3971119, 4118207,
                          4062838))
 (pointsGeom <- gs_point(anchor = somePoints)) \%>\%
-  visualise(geom = ., col = "darkorange")
+  visualise(geom = ., linecol = "darkorange")
 
 \dontrun{
 
@@ -49,7 +49,7 @@ input <- gtRasters$continuous
 myPoints <- gs_point(template = input, vertices = 5, col = "deeppink") \%>\%
   gt_group(, index = rep(1, 5))
 anExtent <- gs_rectangle(myPoints)
-visualise(geom = anExtent, col = "green", new = FALSE)
+visualise(geom = anExtent, linecol = "green", new = FALSE)
 }
 }
 \seealso{
