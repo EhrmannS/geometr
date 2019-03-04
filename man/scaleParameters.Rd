@@ -4,7 +4,7 @@
 \alias{scaleParameters}
 \title{Set the scale of a plot}
 \usage{
-scaleParameters(attr = NULL, params = NULL)
+scaleParameters(attr = NULL, params = NULL, ...)
 }
 \arguments{
 \item{attr}{[\code{data.frame(1)}]\cr the attribute table from which to

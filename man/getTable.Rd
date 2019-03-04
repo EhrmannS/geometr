@@ -24,17 +24,11 @@
 Get the attribute table of a spatial object.
 }
 \examples{
-# the attribute table of ...
-
-# ... a geom
 getTable(gtGeoms$mask)
 
-# ... any Spatial* object
 getTable(gtSP$SpatialPolygons)
 
-# ... an sf object
 getTable(gtSF$multiline)
 
-# ... a RasterLayer
 getTable(gtRasters$categorical)
 }

@@ -26,3 +26,14 @@
 \description{
 Get the extent (bounding box) of a spatial object.
 }
+\examples{
+getTable(gtGeoms$mask)
+
+getExtent(gtSP$SpatialPolygons)
+
+getExtent(gtSF$multilinestring)
+
+getExtent(gtRasters$categorical)
+
+getExtent(matrix(0, 3, 5))
+}

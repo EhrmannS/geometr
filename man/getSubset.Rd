@@ -17,7 +17,9 @@
 \arguments{
 \item{x}{object to \code{subset}.}
 
-\item{...}{Logical predicates defined in terms of the variables in \code{x}.}
+\item{...}{Logical predicates defined in terms of the variables in \code{x}.
+Multiple conditions are combined with &. Only rows where the condition
+evaluates to TRUE are kept.}
 
 \item{slot}{[\code{character(1)}]\cr the slot in which to determine a subset,
 either \code{"table"} or \code{"coords"}.}
@@ -26,11 +28,17 @@ either \code{"table"} or \code{"coords"}.}
 Get the subset of a spatial object.
 }
 \examples{
-(obj <- gtGeoms$locations) # has column a
+(obj <- gtGeoms$locations)
 
-# get subset of features that have more than 3 vertices
-(getSubset(x = obj, n < 3, slot = "table"))
-(obj <- gtSF$polygon) # has column a
+# get subset of features that have less than 3 vertices
+(getSubset(x = gtGeoms$locations, n < 3))
 
+# get subset of features 1 to 6 with more than 2 vertices
+(getSubset(x = gtGeoms$locations, fid < 6 & n > 2))
+
+(obj <- gtSP$SpatialPolygonsDataFrame)
+(getSubset(x = obj, a == 2))
+
+(obj <- gtSF$polygon)
 (getSubset(x = obj, a == 1))
 }

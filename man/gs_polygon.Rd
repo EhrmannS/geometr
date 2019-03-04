@@ -98,22 +98,27 @@ window <- data.frame(x = c(0, 80),
 (aGeom <- gs_polygon(anchor = coords))
 
 # the vertices are plottet relative to the window
-visualise(geom = gs_polygon(anchor = coords, window = window,
-                            vertices = 3, regular = TRUE))
-gs_hexagon(anchor = coords) \%>\% visualise(geom = ., col = "green")
+visualise(geom = gs_polygon(anchor = coords,
+                            vertices = 6, regular = TRUE))
+gs_triangle(anchor = coords, window = window) \%>\%
+  visualise(geom = ., col = "green", new = FALSE)
 
 # when a geom is used in 'anchor', its properties (e.g. 'window') are passed on
 aGeom <- setWindow(x = aGeom, to = window)
-gs_polygon(anchor = aGeom) \%>\% visualise(geom = ., fill = "deeppink")
+gs_polygon(anchor = aGeom) \%>\%
+  visualise(geom = ., fill = "deeppink")
 
 # when a geom is piped to visualise, the output is a "recordedplot"
 (anExtent <- gs_rectangle(anchor = aGeom))
-anExtentPlot <- anExtent \%>\% visualise(geom = ., lty = 2)
+anExtentPlot <- anExtent \%>\%
+  visualise(geom = ., lty = 2)
+class(anExtentPlot)
 
 # geoms with more than one element are treated element-wise
 aGeom <- gt_group(geom = aGeom, index = c(1, 2, 1, 2))
 visualise(geom = aGeom)
-gs_rectangle(anchor = aGeom) \%>\% visualise(geom = .)
+gs_rectangle(anchor = aGeom) \%>\%
+  visualise(geom = .)
 
 \dontrun{
 

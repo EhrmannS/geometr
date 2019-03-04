@@ -5,7 +5,7 @@
 \title{Create a regular tiling geometry}
 \usage{
 gs_tiles(window = NULL, cells = NULL, crs = NULL,
-  tiling = "rectangular", centroids = FALSE)
+  tiling = "squared", centroids = FALSE)
 }
 \arguments{
 \item{window}{[\code{data.frame(1)}]\cr the origin (lower left corner) and
@@ -14,11 +14,11 @@ the maximum value (upper right corner) of the tiling.}
 \item{cells}{[\code{integerish(2)}]\cr number of tiles in \code{x} and
 \code{y} dimension.}
 
-\item{crs}{[\code{character(1)}]\cr corrdinate reference system of the
-object in proj4 notation.}
+\item{crs}{[\code{character(1)}]\cr corrdinate reference system of the object
+in proj4 notation.}
 
 \item{tiling}{[\code{character(1)}]\cr pattern of the tiling. Possible
-options are \code{"rectangular"} (default), \code{"hexagonal"},
+options are \code{"squared"} (default), \code{"hexagonal"},
 \code{"triangular"}.}
 
 \item{centroids}{[\code{logical(1)}]\cr should the centroids of the tiling be

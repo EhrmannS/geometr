@@ -4,8 +4,7 @@
 \alias{gs_random}
 \title{Create a geometry randomly}
 \usage{
-gs_random(type = "point", template = NULL, vertices = NULL,
-  show = FALSE, ...)
+gs_random(type = "point", template = NULL, vertices = NULL)
 }
 \arguments{
 \item{type}{[\code{character(1)}]\cr Either one of the three main feature
@@ -19,19 +18,13 @@ that serves as template to sketch the geometry.}
 should have; only meaningful if \code{type} does not indicate the number of
 vertices already. If left at \code{NULL} the minimum number of vertices for
 the \code{geom} type, i.e. 1 for \code{point}, 2 for \code{line} and 3 for
-\code{polygon}}
-
-\item{show}{[\code{logical(1)}]\cr should the geometry be plotted
-(\code{TRUE}) or should it not be plotted (\code{FALSE}, default)? In case
-\code{template} is set, it is automatically \code{TRUE}.}
-
-\item{...}{[various]\cr graphical parameter, in case \code{show = TRUE}; see
-\code{\link{gpar}}.}
+\code{polygon}.}
 }
 \description{
 This function creates a random geometry
 }
 \examples{
+library(magrittr)
 input <- matrix(nrow = 100, ncol = 100, data = 0)
 
 # create a random geometry with five vertices
@@ -40,7 +33,8 @@ someGeom <- gs_random(type = "polygon", vertices = 5)
 visualise(geom = someGeom)
 
 # in case template is given, this serves as source for the window extent
-someGeom <- gs_random(template = input, col = "green", show = TRUE)
+someGeom <- gs_random(template = input) \%>\%
+  visualise(geom = ., new = FALSE, col = "red")
 }
 \seealso{
 Other shapes: \code{\link{gs_point}},

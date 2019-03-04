@@ -17,10 +17,14 @@
 Set the reference window of a spatial object.
 }
 \examples{
-visualise(geom = gtGeoms$mask)
+# create a polygon programmatically
+coords <- data.frame(x = c(40, 70, 70, 50),
+                     y = c(40, 40, 60, 70))
+(aGeom <- gs_polygon(anchor = coords))
 
-buffered <- data.frame(x = c(5074000, 5110000),
-                       y = c(4050800, 4076000))
-visualise(geom = setWindow(x = gtGeoms$mask,
-                           to = buffered))
+window <- data.frame(x = c(0, 80),
+                     y = c(0, 80))
+(aGeom <- setWindow(x = aGeom, to = window))
+
+visualise(geom = aGeom, new = FALSE)
 }

@@ -21,14 +21,9 @@
 Get the table of coordinates of a spatial object.
 }
 \examples{
-# coordinates of ...
+getCoords(gtGeoms$polygon)
 
-# ... a geom
-getCoords(gtGeoms$mask)
-
-# ... a Spatial* object
 getCoords(gtSP$SpatialPoints)
 
-# ... an sf* object
 getCoords(gtSF$multilinestring)
 }
