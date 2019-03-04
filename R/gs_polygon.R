@@ -45,22 +45,27 @@
 #' (aGeom <- gs_polygon(anchor = coords))
 #'
 #' # the vertices are plottet relative to the window
-#' visualise(geom = gs_polygon(anchor = coords, window = window,
-#'                             vertices = 3, regular = TRUE))
-#' gs_hexagon(anchor = coords) %>% visualise(geom = ., col = "green")
+#' visualise(geom = gs_polygon(anchor = coords,
+#'                             vertices = 6, regular = TRUE))
+#' gs_triangle(anchor = coords, window = window) %>%
+#'   visualise(geom = ., col = "green", new = FALSE)
 #'
 #' # when a geom is used in 'anchor', its properties (e.g. 'window') are passed on
 #' aGeom <- setWindow(x = aGeom, to = window)
-#' gs_polygon(anchor = aGeom) %>% visualise(geom = ., fill = "deeppink")
+#' gs_polygon(anchor = aGeom) %>%
+#'   visualise(geom = ., fill = "deeppink")
 #'
 #' # when a geom is piped to visualise, the output is a "recordedplot"
 #' (anExtent <- gs_rectangle(anchor = aGeom))
-#' anExtentPlot <- anExtent %>% visualise(geom = ., lty = 2)
+#' anExtentPlot <- anExtent %>%
+#'   visualise(geom = ., lty = 2)
+#' class(anExtentPlot)
 #'
 #' # geoms with more than one element are treated element-wise
 #' aGeom <- gt_group(geom = aGeom, index = c(1, 2, 1, 2))
 #' visualise(geom = aGeom)
-#' gs_rectangle(anchor = aGeom) %>% visualise(geom = .)
+#' gs_rectangle(anchor = aGeom) %>%
+#'   visualise(geom = .)
 #'
 #' \dontrun{
 #'
@@ -79,10 +84,11 @@
 #'   visualise(geom = ., col = "green", lwd = 1, lty = "dashed", new = FALSE)
 #' }
 #' @importFrom stats dist
-#' @importFrom checkmate testDataFrame assertNames testList testTRUE testNull
-#'   testClass assertIntegerish assertLogical
+#' @importFrom checkmate testDataFrame assertNames testClass assertDataFrame testTRUE testNull
+#'   testClass assertIntegerish assertLogical assert
 #' @importFrom tibble tibble
 #' @importFrom dplyr bind_cols bind_rows
+#' @importFrom rlang !!
 #' @export
 
 gs_polygon <- function(anchor = NULL, window = NULL, template = NULL, features = 1,
@@ -164,7 +170,7 @@ gs_polygon <- function(anchor = NULL, window = NULL, template = NULL, features =
         clicks <- vertices[i]
       }
       visualise(raster = template)
-      theClicks <- locate(samples = clicks, panel = tempName, silent = TRUE, show = TRUE, ...)
+      theClicks <- locate(samples = clicks, panel = tempName, silent = TRUE, ...)
       window <- tibble(x = c(0, dims[2]),
                        y = c(0, dims[1]))
       tempAnchor <- tibble(fid = i,
@@ -247,21 +253,21 @@ gs_polygon <- function(anchor = NULL, window = NULL, template = NULL, features =
 #' @export
 
 gs_triangle <- function(anchor = NULL, window = NULL, template = NULL,
-                         features = 1, ...){
+                        features = 1, ...){
 
   if(is.null(anchor) & is.null(template)){
     stop("please provide either 'anchor' or 'template'.")
   }
   assertDataFrame(window, types = "numeric", any.missing = FALSE, ncols = 2, null.ok = TRUE)
   assertIntegerish(features, len = 1, lower = 1)
-  # assertLogical(show)
 
   theGeom <- gs_polygon(anchor = anchor,
-                         window = window,
-                         template = template,
-                         features = features,
-                         vertices = 3,
-                         regular = TRUE)
+                        window = window,
+                        template = template,
+                        features = features,
+                        vertices = 3,
+                        regular = TRUE,
+                        ...)
 
   invisible(theGeom)
 }
@@ -272,34 +278,27 @@ gs_triangle <- function(anchor = NULL, window = NULL, template = NULL,
 #' @export
 
 gs_square <- function(anchor = NULL, window = NULL, template = NULL,
-                       features = 1, ...){
+                      features = 1, ...){
 
   if(is.null(anchor) & is.null(template)){
     stop("please provide either 'anchor' or 'template'.")
   }
   assertDataFrame(window, types = "numeric", any.missing = FALSE, ncols = 2, null.ok = TRUE)
   assertIntegerish(features, len = 1, lower = 1)
-  # assertLogical(show)
 
   theGeom <- gs_polygon(anchor = anchor,
-                         window = window,
-                         template = template,
-                         features = features,
-                         vertices = 4,
-                         regular = TRUE)
+                        window = window,
+                        template = template,
+                        features = features,
+                        vertices = 4,
+                        regular = TRUE,
+                        ...)
 
   centroid <- colMeans(theGeom@coords[c("x", "y")])
   rotGeom <- gt_rotate(geom = theGeom,
-                     angle = 45,
-                     about = centroid)
+                       angle = 45,
+                       about = centroid)
 
-  # if(show){
-  #   if(!any(names(listArgs()) == "new")){
-  #     visualise(geom = rotGeom, new = TRUE, ...)
-  #   } else{
-  #     visualise(geom = rotGeom, ...)
-  #   }
-  # }
   invisible(rotGeom)
 }
 
@@ -309,56 +308,35 @@ gs_square <- function(anchor = NULL, window = NULL, template = NULL,
 #' @export
 
 gs_rectangle <- function(anchor = NULL, window = NULL, template = NULL,
-                          features = 1, ...){
+                         features = 1, ...){
 
-  anchorIsDF <- testDataFrame(anchor, types = "numeric", any.missing = FALSE, min.cols = 2)
-  anchorIsGeom <- testClass(anchor, classes = "geom")
   if(is.null(anchor) & is.null(template)){
     stop("please provide either 'anchor' or 'template'.")
   }
   assertDataFrame(window, types = "numeric", any.missing = FALSE, ncols = 2, null.ok = TRUE)
   assertIntegerish(features, len = 1, lower = 1)
-  # assertLogical(show)
 
-  if(anchorIsGeom){
-    anchors <- anchor@coords
-    window <- anchor@window
-  } else{
-    anchors <- anchor
+  theGeom <- gs_polygon(anchor = anchor,
+                        window = window,
+                        template = template,
+                        features = features,
+                        vertices = 4,
+                        regular = FALSE,
+                        ...)
+
+  outTable <- NULL
+  for(i in seq_along(theGeom@attr$fid)){
+    geomSubset <- getSubset(theGeom, fid == !!i, slot = "table")
+    temp <- getExtent(geomSubset)
+    temp <- tibble(fid = i,
+                   vid = 1:4,
+                   x = rep(temp$x, each = 2),
+                   y = c(temp$y, rev(temp$y)))
+    outTable <- bind_rows(outTable, temp)
   }
 
-  newCoords <- NULL
-  if(!any(colnames(anchors) == "fid")){
-    anchors <- cbind(anchors, fid = 1)
-  }
+  theGeom@coords <- outTable
 
-  for(i in unique(anchors$fid)){
-    tempAnchor <- anchors[anchors$fid == i,]
-    # get minimum and maximum value of x and y
-    tempAnchor <- tibble(fid = i,
-                         x = c(min(tempAnchor$x), max(tempAnchor$x)),
-                         y = c(min(tempAnchor$y), max(tempAnchor$y)))
-    # change positions of vertices, so that they follow a square
-    tempAnchor <- tibble(fid = i,
-                         x = rep(tempAnchor$x, each = 2),
-                         y = c(tempAnchor$y, rev(tempAnchor$y)))
-    newCoords <- rbind(newCoords, tempAnchor)
-  }
-
-  theGeom <- gs_polygon(anchor = newCoords,
-                         window = window,
-                         template = template,
-                         features = features,
-                         vertices = 4,
-                         regular = FALSE)
-
-  # if(show){
-  #   if(!any(names(listArgs()) == "new")){
-  #     visualise(geom = theGeom, new = TRUE, ...)
-  #   } else{
-  #     visualise(geom = theGeom, ...)
-  #   }
-  # }
   invisible(theGeom)
 }
 
@@ -367,28 +345,21 @@ gs_rectangle <- function(anchor = NULL, window = NULL, template = NULL,
 #' @export
 
 gs_hexagon <- function(anchor = NULL, window = NULL, template = NULL,
-                        features = 1, ...){
+                       features = 1, ...){
 
   if(is.null(anchor) & is.null(template)){
     stop("please provide either 'anchor' or 'template'.")
   }
   assertDataFrame(window, types = "numeric", any.missing = FALSE, ncols = 2, null.ok = TRUE)
   assertIntegerish(features, len = 1, lower = 1)
-  # assertLogical(show)
 
   theGeom <- gs_polygon(anchor = anchor,
-                         window = window,
-                         template = template,
-                         features = features,
-                         vertices = 6,
-                         regular = TRUE)
+                        window = window,
+                        template = template,
+                        features = features,
+                        vertices = 6,
+                        regular = TRUE,
+                        ...)
 
-  # if(show){
-  #   if(!any(names(listArgs()) == "new")){
-  #     visualise(geom = theGeom, new = TRUE, ...)
-  #   } else{
-  #     visualise(geom = theGeom, ...)
-  #   }
-  # }
   invisible(theGeom)
 }

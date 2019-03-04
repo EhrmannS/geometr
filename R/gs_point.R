@@ -98,7 +98,7 @@ gs_point <- function(anchor = NULL, window = NULL, template = NULL,
   if(!anchorExists){
     message("please click the ", vertices, " vertices.")
     visualise(raster = template)
-    coords <- locate(samples = vertices, panel = tempName, silent = TRUE, show = TRUE, ...)
+    coords <- locate(samples = vertices, panel = tempName, silent = TRUE, ...)
     window <- tibble(x = c(0, dims[2]),
                      y = c(0, dims[1]))
     anchor <- tibble(x = coords$x,

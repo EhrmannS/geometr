@@ -4,10 +4,10 @@
 #'   the maximum value (upper right corner) of the tiling.
 #' @param cells [\code{integerish(2)}]\cr number of tiles in \code{x} and
 #'   \code{y} dimension.
-#' @param crs [\code{character(1)}]\cr corrdinate reference system of the
-#'   object in proj4 notation.
+#' @param crs [\code{character(1)}]\cr corrdinate reference system of the object
+#'   in proj4 notation.
 #' @param tiling [\code{character(1)}]\cr pattern of the tiling. Possible
-#'   options are \code{"rectangular"} (default), \code{"hexagonal"},
+#'   options are \code{"squared"} (default), \code{"hexagonal"},
 #'   \code{"triangular"}.
 #' @param centroids [\code{logical(1)}]\cr should the centroids of the tiling be
 #'   returned (\code{TRUE}) or should the tiling be returned (\code{FALSE},
@@ -35,7 +35,7 @@
 #' @export
 
 gs_tiles <- function(window = NULL, cells = NULL, crs = NULL,
-                      tiling = "rectangular", centroids = FALSE){
+                     tiling = "squared", centroids = FALSE){
 
   # check arguments
   assertIntegerish(cells, len = 2, any.missing = FALSE)
@@ -44,7 +44,7 @@ gs_tiles <- function(window = NULL, cells = NULL, crs = NULL,
   assertNames(names(window), must.include = c("x", "y"))
   assertCharacter(crs, fixed = "+proj", null.ok = TRUE)
   assertCharacter(tiling, ignore.case = TRUE, any.missing = FALSE, len = 1)
-  assertSubset(tiling, choices = c("rectangular", "hexagonal", "triangular"))
+  assertSubset(tiling, choices = c("squared", "hexagonal", "triangular"))
   assertLogical(centroids)
 
   if(!is.null(crs)){
@@ -53,7 +53,7 @@ gs_tiles <- function(window = NULL, cells = NULL, crs = NULL,
     projection <- NA
   }
 
-  if(tiling == "rectangular"){
+  if(tiling == "squared"){
 
     xDist <- (abs(min(window$x)) + abs(max(window$x)))/cells[1]
     yDist <- (abs(min(window$y)) + abs(max(window$y)))/cells[2]
@@ -72,6 +72,7 @@ gs_tiles <- function(window = NULL, cells = NULL, crs = NULL,
     angles <- seq(from = 45, to = 360-angle+45, by = angle)
     radius <- sqrt(xDist**2 + yDist**2)/2
 
+    nCoords <- 4
   } else if(tiling == "hexagonal"){
 
     height <- (abs(min(window$y)) + abs(max(window$y)))/cells[2]
@@ -95,7 +96,10 @@ gs_tiles <- function(window = NULL, cells = NULL, crs = NULL,
     angles <- seq(from = 0, to = 360-angle, by = angle)
     radius <- width/2
 
+    nCoords <- 6
   } else if(tiling == "triangular"){
+
+    nCoords <- 3
   }
 
   if(!centroids){
@@ -118,7 +122,7 @@ gs_tiles <- function(window = NULL, cells = NULL, crs = NULL,
   theTiles <- new(Class = "geom",
                   type = theType,
                   coords = nodes,
-                  attr = tibble(fid = unique(nodes$fid), n = 1),
+                  attr = tibble(fid = unique(nodes$fid), n = nCoords),
                   window = window,
                   scale = "absolute",
                   crs = as.character(projection),

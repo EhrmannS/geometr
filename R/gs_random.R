@@ -10,14 +10,10 @@
 #'   should have; only meaningful if \code{type} does not indicate the number of
 #'   vertices already. If left at \code{NULL} the minimum number of vertices for
 #'   the \code{geom} type, i.e. 1 for \code{point}, 2 for \code{line} and 3 for
-#'   \code{polygon}
-#' @param show [\code{logical(1)}]\cr should the geometry be plotted
-#'   (\code{TRUE}) or should it not be plotted (\code{FALSE}, default)? In case
-#'   \code{template} is set, it is automatically \code{TRUE}.
-#' @param ... [various]\cr graphical parameter, in case \code{show = TRUE}; see
-#'   \code{\link{gpar}}.
+#'   \code{polygon}.
 #' @family shapes
 #' @examples
+#' library(magrittr)
 #' input <- matrix(nrow = 100, ncol = 100, data = 0)
 #'
 #' # create a random geometry with five vertices
@@ -26,12 +22,12 @@
 #' visualise(geom = someGeom)
 #'
 #' # in case template is given, this serves as source for the window extent
-#' someGeom <- gs_random(template = input, col = "green", show = TRUE)
+#' someGeom <- gs_random(template = input) %>%
+#'   visualise(geom = ., new = FALSE, col = "red")
 #' @importFrom stats runif
 #' @export
 
-gs_random <- function(type = "point", template = NULL, vertices = NULL,
-                      show = FALSE, ...){
+gs_random <- function(type = "point", template = NULL, vertices = NULL){
 
   assertSubset(type, choices = c("point", "line", "rectangle", "square", "polygon", "spline", "ellipse", "circle", "triangle", "hexagon"))
   templateExists <- !testNull(template)
@@ -43,7 +39,6 @@ gs_random <- function(type = "point", template = NULL, vertices = NULL,
     }
   }
   assertIntegerish(vertices, any.missing = FALSE, len = 1, null.ok = TRUE)
-  assertLogical(show)
 
   if(type %in% "point"){
     if(is.null(vertices)){
@@ -91,12 +86,5 @@ gs_random <- function(type = "point", template = NULL, vertices = NULL,
     theGeom <- gt_scale(theGeom, to = "absolute")
   }
 
-  if(show){
-    if(!any(names(listArgs()) == "new")){
-      visualise(geom = theGeom, new = TRUE, ...)
-    } else{
-      visualise(geom = theGeom, ...)
-    }
-  }
   invisible(theGeom)
 }
