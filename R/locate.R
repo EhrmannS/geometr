@@ -56,8 +56,6 @@
 locate <- function(samples = 1, panel = NULL, identify = FALSE, snap = FALSE,
                    raw = FALSE, silent = FALSE, show = FALSE, ...){
 
-  # samples = 2; panel = NULL; identify = FALSE; snap = FALSE; raw = FALSE; silent = FALSE; show = FALSE
-
   # check arguments
   assertIntegerish(samples, lower = 1, max.len = 1)
   assertCharacter(panel, ignore.case = TRUE, len = 1, null.ok = TRUE)
@@ -242,3 +240,50 @@ locate <- function(samples = 1, panel = NULL, identify = FALSE, snap = FALSE,
 
   return(out)
 }
+
+
+# from lattice::panel.identify (might be useful for identifying vertices to modify)
+# function (x, y = NULL, subscripts = seq_along(x), labels = subscripts,
+#           n = length(x), offset = 0.5, threshold = 18, panel.args = trellis.panelArgs(),
+#           ...)
+# {
+#   if (missing(x)) {
+#     x <- panel.args$x
+#     y <- panel.args$y
+#     if (missing(subscripts) && !is.null(panel.args$subscripts))
+#       subscripts <- panel.args$subscripts
+#   }
+#   xy <- xy.coords(x, y, recycle = TRUE)
+#   x <- xy$x
+#   y <- xy$y
+#   px <- convertX(unit(x, "native"), "points", TRUE)
+#   py <- convertY(unit(y, "native"), "points", TRUE)
+#   labels <- as.character(labels)
+#   if (length(labels) > length(subscripts))
+#     labels <- labels[subscripts]
+#   unmarked <- rep(TRUE, length(x))
+#   count <- 0
+#   while (count < n) {
+#     ll <- grid.locator(unit = "points")
+#     if (is.null(ll))
+#       break
+#     lx <- convertX(ll$x, "points", TRUE)
+#     ly <- convertY(ll$y, "points", TRUE)
+#     pdists <- sqrt((px - lx)^2 + (py - ly)^2)
+#     if (min(pdists, na.rm = TRUE) > threshold)
+#       warning("no observations within ", threshold, " points")
+#     else {
+#       w <- which.min(pdists)
+#       if (unmarked[w]) {
+#         pos <- getTextPosition(x = lx - px[w], y = ly -
+#                                  py[w])
+#         ltext(x[w], y[w], labels[w], pos = pos, offset = offset,
+#               ..., identifier = "identify")
+#         unmarked[w] <- FALSE
+#         count <- count + 1
+#       }
+#       else warning("nearest observation already identified")
+#     }
+#   }
+#   subscripts[!unmarked]
+# }
