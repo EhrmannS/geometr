@@ -1,13 +1,6 @@
 #' Set the reference window of a spatial object.
 #' @param x the object in which to set the reference window.
 #' @param to [\code{data.frame(1)}]\cr two oposing corners.
-#' @examples
-#' visualise(geom = gtGeoms$mask)
-#'
-#' buffered <- data.frame(x = c(5074000, 5110000),
-#'                        y = c(4050800, 4076000))
-#' visualise(geom = setWindow(x = gtGeoms$mask,
-#'                            to = buffered))
 #' @name setWindow
 #' @rdname setWindow
 NULL
@@ -23,6 +16,17 @@ if(!isGeneric("setWindow")){
 }
 
 #' @rdname setWindow
+#' @examples
+#' # create a polygon programmatically
+#' coords <- data.frame(x = c(40, 70, 70, 50),
+#'                      y = c(40, 40, 60, 70))
+#' (aGeom <- gs_polygon(anchor = coords))
+#'
+#' window <- data.frame(x = c(0, 80),
+#'                      y = c(0, 80))
+#' (aGeom <- setWindow(x = aGeom, to = window))
+#'
+#' visualise(geom = aGeom, new = FALSE)
 #' @importFrom checkmate testSubset assert
 #' @importFrom tibble tibble
 #' @export

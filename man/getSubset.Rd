@@ -28,13 +28,11 @@ either \code{"table"} or \code{"coords"}.}
 Get the subset of a spatial object.
 }
 \examples{
-(obj <- gtGeoms$locations)
+(obj <- gtGeoms$point)
 
 # get subset of features that have less than 3 vertices
-(getSubset(x = gtGeoms$locations, n < 3))
+(getSubset(x = gtGeoms$line, n < 5))
 
-# get subset of features 1 to 6 with more than 2 vertices
-(getSubset(x = gtGeoms$locations, fid < 6 & n > 2))
 
 (obj <- gtSP$SpatialPolygonsDataFrame)
 (getSubset(x = obj, a == 2))

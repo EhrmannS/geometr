@@ -74,7 +74,7 @@ setMethod(f = "show",
                                      paste0(green(symbol$tick), yellow("  - box    "), "in ", object@legend$box$colour, " with ", object@legend$box$linewidth, " wide ", object@legend$box$linetype, " lines"),
                                      paste0(red(symbol$cross), yellow("  - box    ")))),
                        paste0(red(symbol$cross), yellow(" legend    "))), "\n")
-            cat(paste0(green(symbol$tick), yellow(" geom     "), " with ", object@geom$scale$x, "-colour scaled to ", cyan(object@geom$scale$to), ", ", object@geom$linewidth, " wide ", object@geom$linetype, " lines and ", object@geom$pointsize, " wide points of type ", object@geom$pointsymbol, "\n"))
+            cat(paste0(green(symbol$tick), yellow(" geom     "), " with '", object@geom$scale$x, "' scaled to ", cyan(object@geom$scale$to), ", ", object@geom$linewidth, " wide ", object@geom$linetype, " lines or points with size ", object@geom$pointsize, " of type ", object@geom$pointsymbol, "\n"))
             cat(paste0(green(symbol$tick), yellow(" raster   "), " with colours scaled to ", cyan(object@raster$scale)))
           }
 )

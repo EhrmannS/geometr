@@ -24,7 +24,7 @@
 Get the attribute table of a spatial object.
 }
 \examples{
-getTable(gtGeoms$mask)
+getTable(gtGeoms$polygon)
 
 getTable(gtSP$SpatialPolygons)
 

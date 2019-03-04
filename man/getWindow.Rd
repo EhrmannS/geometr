@@ -16,5 +16,5 @@ Get the reference window of a spatial object.
 }
 \examples{
 
-getWindow(gtGeoms$mask)
+getWindow(gtGeoms$line)
 }

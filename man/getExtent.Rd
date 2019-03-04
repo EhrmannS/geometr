@@ -27,7 +27,7 @@
 Get the extent (bounding box) of a spatial object.
 }
 \examples{
-getTable(gtGeoms$mask)
+getTable(gtGeoms$polygon)
 
 getExtent(gtSP$SpatialPolygons)
 

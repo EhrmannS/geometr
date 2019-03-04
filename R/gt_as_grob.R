@@ -11,18 +11,12 @@
 #'   \code{\link{linesGrob}}, \code{\link{polylineGrob}} or a
 #'   \code{\link{polygonGrob}}.
 #' @examples
-#' coords <- data.frame(x = c(40, 70, 70, 50, 40, 60, 70, 40, 60,
-#'                            40, 10, 20, 30, 30, 20, 50, 40, 10, 20),
-#'                      y = c(40, 40, 60, 70, 40, 20, 40, 10, 20,
-#'                            40, 20, 20, 50, 40, 40, 70, 40, 20, 60),
-#'                      fid = c(1, 1, 1, 1, 2, 2, 2, 3, 3,
-#'                              3, 3, 3, 4, 4, 4, 5, 5, 5, 5))
-#' window <- data.frame(x = c(0, 80),
-#'                      y = c(0, 80))
-#' aGeom <- gs_polygon(anchor = coords, window = window)
-#'
-#' aGrob <- gt_as_grob(geom = aGeom)
+#' aGrob <- gt_as_grob(geom = gtGeoms$polygon)
 #' str(aGrob)
+#'
+#' library(grid)
+#' grid.newpage()
+#' grid.draw(aGrob)
 #' @importFrom checkmate assertNames assertSubset assertList
 #' @importFrom grid gpar unit pointsGrob gList pathGrob polylineGrob clipGrob
 #' @export
@@ -43,70 +37,63 @@ gt_as_grob <- function(geom = NULL, theme = gtTheme, ...){
   coords <- outGeom@coords
 
   attr <- getTable(x = geom)
-  # if a "hole" (in an fid) has been defined, assign a common id
-  if(any(names(attr) == "in_fid")){
-    c1 <- ifelse(is.na(attr$in_fid), attr$fid,  attr$in_fid)
-    c2 <- attr$fid
-    attr$fid <- c1
-    attr$in_fid <- c2
-  } else{
-    attr$in_fid <- attr$fid
-  }
-  pars <- scaleParameters(attr = attr, params = theme@geom)
+  pars <- scaleParameters(attr = attr, params = theme@geom, ...)
   # https://github.com/ropensci/rgbif/blob/d7fdbdc4fcba8015f5e1aeadfc8cc789cf3ed155/R/occ_issues.r
-
-  if(featureType %in% c("point")){
+  # return(pars)
+  if(featureType %in% "point"){
 
     geomGrob <- pointsGrob(x = unit(coords$x, "npc"),
                            y = unit(coords$y, "npc"),
-                           pch = theme@geom$pointsymbol,
-                           size = unit(theme@geom$pointsize, "char"),
+                           pch = pars$pointsymbol,
+                           size = unit(pars$pointsize, "char"),
                            gp = gpar(
-                             col = pars$line,
-                             fill = pars$fill,
-                             ...))
+                             col = pars$linecol,
+                             fill = pars$fillcol))
 
   } else if(featureType %in% "line"){
 
     geomGrob <- polylineGrob(x = coords$x,
                              y = coords$y,
                              id = as.numeric(as.factor(tempCoords$fid)),
-                             gp = gpar(col = pars$line,
+                             gp = gpar(col = pars$linecol,
                                        lty = pars$linetype,
-                                       lwd = pars$linewidth,
-                                       ...))
+                                       lwd = pars$linewidth))
 
-  } else if(featureType %in% c("polygon")){
+  } else if(featureType %in% "polygon"){
 
     geomGrob <- NULL
     for(i in seq_along(unique(attr$fid))){
 
       theID <- unique(attr$fid)[i]
       tempIDs <- attr[attr$fid == theID, ]
-      tempCoords <- coords[coords$fid %in% tempIDs$in_fid, ]
+      tempCoords <- coords[coords$fid %in% tempIDs$fid, ]
+
+      # determine subpaths by searching for duplicates. Whenever there is a
+      # duplicate in the vertices, the next vertex is part of the next subpaths
+      dups <- as.numeric(duplicated(tempCoords[c("x", "y")]))
+      dups <- c(0, dups[-length(dups)])
+      tempCoords$vid <- 1 + cumsum(dups)
       if(i == 1){
         geomGrob <- pathGrob(x = tempCoords$x,
                              y = tempCoords$y,
-                             id = as.numeric(as.factor(tempCoords$fid)),
+                             id = as.numeric(as.factor(tempCoords$vid)),
                              rule = "evenodd",
                              gp = gpar(
-                               col = pars$line[i],
-                               fill = pars$fill[i],
+                               col = pars$linecol[i],
+                               fill = pars$fillcol[i],
                                lty = pars$linetype[i],
-                               lwd = pars$linewidth[i],
-                               ...))
+                               lwd = pars$linewidth[i]))
       } else{
         geomGrob <- gList(geomGrob,
                           pathGrob(x = tempCoords$x,
                                    y = tempCoords$y,
-                                   id = as.numeric(as.factor(tempCoords$fid)),
+                                   id = as.numeric(as.factor(tempCoords$vid)),
                                    rule = "evenodd",
                                    gp = gpar(
-                                     col = pars$line[i],
-                                     fill = pars$fill[i],
+                                     col = pars$linecol[i],
+                                     fill = pars$fillcol[i],
                                      lty = pars$linetype[i],
-                                     lwd = pars$linewidth[i],
-                                     ...)))
+                                     lwd = pars$linewidth[i])))
       }
 
     }
