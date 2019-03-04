@@ -15,6 +15,8 @@ if(!isGeneric("getExtent")){
 }
 
 #' @rdname getExtent
+#' @examples
+#' getTable(gtGeoms$polygon)
 #' @importFrom dplyr bind_cols
 #' @export
 setMethod(f = "getExtent",
@@ -26,6 +28,9 @@ setMethod(f = "getExtent",
 )
 
 #' @rdname getExtent
+#' @examples
+#'
+#' getExtent(gtSP$SpatialPolygons)
 #' @importFrom raster extent
 #' @importFrom tibble tibble
 #' @export
@@ -39,6 +44,9 @@ setMethod(f = "getExtent",
 )
 
 #' @rdname getExtent
+#' @examples
+#'
+#' getExtent(gtSF$multilinestring)
 #' @importFrom sf st_bbox
 #' @importFrom tibble tibble
 #' @export
@@ -52,6 +60,9 @@ setMethod(f = "getExtent",
 )
 
 #' @rdname getExtent
+#' @examples
+#'
+#' getExtent(gtRasters$categorical)
 #' @importFrom raster extent
 #' @importFrom dplyr bind_cols
 #' @export
@@ -65,9 +76,11 @@ setMethod(f = "getExtent",
 )
 
 #' @rdname getExtent
+#' @examples
+#'
+#' getExtent(matrix(0, 3, 5))
 #' @importFrom dplyr bind_cols
 #' @export
-
 setMethod(f = "getExtent",
           signature = "matrix",
           definition = function(x){

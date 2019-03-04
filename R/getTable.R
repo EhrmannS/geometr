@@ -16,11 +16,7 @@ if(!isGeneric("getTable")){
 
 #' @rdname getTable
 #' @examples
-#' # the attribute table of ...
-#'
-#' # ... a geom
-#' getTable(gtGeoms$mask)
-#'
+#' getTable(gtGeoms$polygon)
 #' @importFrom tibble as_tibble
 #' @export
 setMethod(f = "getTable",
@@ -32,9 +28,8 @@ setMethod(f = "getTable",
 
 #' @rdname getTable
 #' @examples
-#' # ... any Spatial* object
-#' getTable(gtSP$SpatialPolygons)
 #'
+#' getTable(gtSP$SpatialPolygons)
 #' @importFrom tibble tibble as_tibble
 #' @importFrom dplyr bind_cols
 #' @export
@@ -127,7 +122,7 @@ setMethod(f = "getTable",
 
 #' @rdname getTable
 #' @examples
-#' # ... an sf object
+#'
 #' getTable(gtSF$multiline)
 #' @importFrom tibble tibble as_tibble
 #' @importFrom sf st_geometry<-
@@ -148,12 +143,19 @@ setMethod(f = "getTable",
                 data <- x
                 st_geometry(data) <- NULL
                 fids <- seq_along(theCoords[, 1])
-
                 new <- tibble(fid = fids, nos = 1)
                 out <- bind_cols(new, data)
                 colnames(out) <- c("fid", "n", names(data))
 
-              } else if(sourceClass %in% c("MULTIPOINT", "LINESTRING")){
+              } else if(sourceClass %in% c("MULTIPOINT")){
+
+                data <- x
+                st_geometry(data) <- NULL
+                fids <- seq_along(theCoords[, 1])
+                out <- tibble(fid = fids, nos = 1, theCoords[,3])
+                colnames(out) <- c("fid", "n", names(data))
+
+              } else if(sourceClass %in% c("LINESTRING")){
 
                 data <- x
                 st_geometry(data) <- NULL
@@ -213,7 +215,6 @@ setMethod(f = "getTable",
 #' @rdname getTable
 #' @examples
 #'
-#' # ... a RasterLayer
 #' getTable(gtRasters$categorical)
 #' @importFrom tibble tibble as_tibble
 #' @export

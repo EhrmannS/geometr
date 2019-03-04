@@ -1,16 +1,7 @@
 #' Get the table of coordinates of a spatial object.
 #' @param x the object from which to extract the coordinates
 #' @examples
-#' # coordinates of ...
-#'
-#' # ... a geom
-#' getCoords(gtGeoms$mask)
-#'
-#' # ... a Spatial* object
-#' getCoords(gtSP$SpatialPoints)
-#'
-#' # ... an sf* object
-#' getCoords(gtSF$multilinestring)
+#' getCoords(gtGeoms$polygon)
 #' @name getCoords
 #' @rdname getCoords
 NULL
@@ -36,12 +27,14 @@ setMethod(f = "getCoords",
 )
 
 #' @rdname getCoords
+#' @examples
+#'
+#' getCoords(gtSP$SpatialPoints)
 #' @importFrom tibble tibble as_tibble
 #' @export
 setMethod(f = "getCoords",
           signature = "Spatial",
           definition = function(x){
-
             theCoords <- NULL
             prev <- 0
             sourceClass <- class(x)[1]
@@ -115,6 +108,9 @@ setMethod(f = "getCoords",
 )
 
 #' @rdname getCoords
+#' @examples
+#'
+#' getCoords(gtSF$multilinestring)
 #' @importFrom tibble as_tibble
 #' @importFrom sf st_geometry_type st_coordinates
 #' @export
@@ -124,9 +120,6 @@ setMethod(f = "getCoords",
 
             sourceClass <- st_geometry_type(x)
             theCoords <- st_coordinates(x)
-            # if(dim(theCoords)[1] > 1){
-            #   theCoords <- theCoords[!duplicated(theCoords),]
-            # }
             if(length(unique(sourceClass)) == 1){
               sourceClass <- unique(sourceClass)
               if(sourceClass %in% c("POINT")){
@@ -209,6 +202,7 @@ setMethod(f = "getCoords",
               }
             } else{
               # what happens if a sf-object has different feature-types?
+              stop("simple features with multiple feature types are not yet supported.")
             }
 
             return(theCoords)

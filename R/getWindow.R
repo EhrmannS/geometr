@@ -15,6 +15,9 @@ if(!isGeneric("getWindow")){
 }
 
 #' @rdname getWindow
+#' @examples
+#'
+#' getWindow(gtGeoms$line)
 #' @importFrom tibble as_tibble
 #' @export
 setMethod(f = "getWindow",
