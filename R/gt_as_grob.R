@@ -34,10 +34,11 @@ gt_as_grob <- function(geom = NULL, theme = gtTheme, ...){
   }
 
   featureType <- geom@type
-  coords <- outGeom@coords
+  coords <- getCoords(x = outGeom)
 
   attr <- getTable(x = geom)
   pars <- scaleParameters(attr = attr, params = theme@geom, ...)
+  # pars <- makeColours(input = geom, theme = theme, ...)
 
   ids <- eval(parse(text = pars$scale$to), envir = attr)
   if(is.factor(ids)) ids <- as.character(ids)
@@ -57,6 +58,7 @@ gt_as_grob <- function(geom = NULL, theme = gtTheme, ...){
     geomGrob <- polylineGrob(x = coords$x,
                              y = coords$y,
                              id = as.numeric(as.factor(tempCoords$fid)),
+                             name = ids,
                              gp = gpar(col = pars$linecol,
                                        lty = pars$linetype,
                                        lwd = pars$linewidth))
@@ -80,6 +82,7 @@ gt_as_grob <- function(geom = NULL, theme = gtTheme, ...){
                              y = tempCoords$y,
                              id = as.numeric(as.factor(tempCoords$vid)),
                              rule = "evenodd",
+                             name = ids[i],
                              gp = gpar(
                                col = pars$linecol[i],
                                fill = pars$fillcol[i],
@@ -91,6 +94,7 @@ gt_as_grob <- function(geom = NULL, theme = gtTheme, ...){
                                    y = tempCoords$y,
                                    id = as.numeric(as.factor(tempCoords$vid)),
                                    rule = "evenodd",
+                                   name = ids[i],
                                    gp = gpar(
                                      col = pars$linecol[i],
                                      fill = pars$fillcol[i],
