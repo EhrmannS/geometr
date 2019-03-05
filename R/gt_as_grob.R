@@ -38,7 +38,9 @@ gt_as_grob <- function(geom = NULL, theme = gtTheme, ...){
 
   attr <- getTable(x = geom)
   pars <- scaleParameters(attr = attr, params = theme@geom, ...)
-  # return(pars)
+
+  ids <- eval(parse(text = pars$scale$to), envir = attr)
+  if(is.factor(ids)) ids <- as.character(ids)
 
   if(featureType %in% "point"){
 

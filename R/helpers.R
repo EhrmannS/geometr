@@ -24,6 +24,7 @@
 #' @importFrom grDevices colorRampPalette
 #' @importFrom rlang exprs rep_along
 #' @importFrom stats setNames
+#' @importFrom dplyr left_join
 #' @export
 
 scaleParameters <- function(attr = NULL, params = NULL, ...){
@@ -32,40 +33,51 @@ scaleParameters <- function(attr = NULL, params = NULL, ...){
   assertDataFrame(x = attr)
   assertList(params, len = 7, any.missing = FALSE)
 
+  # capture display arguments
   displayArgs <- exprs(..., .named = TRUE)
   out <- params
 
+  # when there are display arguments, take them, otherwise take the theme datault
   if(length(displayArgs) != 0){
     tempArgs <- displayArgs
   } else{
     tempArgs <- setNames(list(params$scale$to), params$scale$x)
+  }
+  if(!any(names(tempArgs) == "fillcol")){
+    tempArgs <- c(tempArgs, setNames(list(NA_character_), "fillcol"))
   }
 
   defaultArgs <- params[!names(params) %in% names(tempArgs)]
 
   for(i in seq_along(tempArgs)){
 
+    # determine value and name of the i-th display argument
     thisArg <- tempArgs[[i]]
     thisArgName <- names(tempArgs)[i]
     pos <- which(names(params) %in% thisArgName)
 
+    # check whether the parameter value if a column in 'attr'
     if(as.character(thisArg) %in% colnames(attr)){
 
       vals <- eval(parse(text = paste0(thisArg)), envir = attr)
-      uniqueVals <- sort(unique(vals))
+      vals <- as.numeric(as.factor(vals))
+      uniqueVals <- unique(vals)
 
+      # if the argument is a colour argument, construct a color ramp from two or more values
       if(thisArgName %in% c("linecol", "fillcol")){
+        out$scale$x <- thisArgName
+        out$scale$to <- thisArg
 
-        procVals <- as.numeric(as.factor(uniqueVals))
+        procVals <- seq_along(uniqueVals)
+        # test that there is in fact more than one value
         if(length(procVals) > 1){
           if(length(params[[pos]]) < 2){
-            stop(paste0("the parameter ", params$scale$x, " must contain more than 1 value."))
+            stop(paste0("the parameter '", thisArgName, "' must contain more than 1 value."))
           }
         }
         uniqueColours <- colorRampPalette(colors = params[[pos]])(length(procVals))
-        breaks <- c(procVals[1]-1, procVals)
         breaks <- c(0, procVals)
-        valCuts <- cut(procVals, breaks = breaks, include.lowest = TRUE)
+        valCuts <- cut(vals, breaks = breaks, include.lowest = FALSE)
         tempOut <- uniqueColours[valCuts]
 
       } else{
