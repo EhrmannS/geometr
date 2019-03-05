@@ -98,19 +98,19 @@ visualise <- function(raster = NULL, geom = NULL, window = NULL, theme = gtTheme
       griddedNames <- sapply(1:plotLayers, function(x){
         raster[[x]]@data@names
       })
-      vals <- lapply(1:plotLayers, function(x){
-        raster[[x]]@data@values
-      })
-      uniqueVals <- lapply(1:plotLayers, function(x){
-        sortUniqueC(vals[[x]][!is.na(vals[[x]])])
-      })
+      # vals <- lapply(1:plotLayers, function(x){
+      #   raster[[x]]@data@values
+      # })
+      # uniqueVals <- lapply(1:plotLayers, function(x){
+      #   sortUniqueC(vals[[x]][!is.na(vals[[x]])])
+      # })
       dims <- c(raster@nrows, raster@ncols)
       ext <- raster[[1]]@extent
       panelExt <- tibble(x = c(ext@xmin, ext@xmax),
                          y = c(ext@ymin, ext@ymax))
-      hasColourTable <- lapply(1:plotLayers, function(x){
-        as.logical(length(raster[[x]]@legend@colortable))
-      })
+      # hasColourTable <- lapply(1:plotLayers, function(x){
+      #   as.logical(length(raster[[x]]@legend@colortable))
+      # })
       isFactor <- lapply(1:plotLayers, function(x){
         raster[[x]]@data@isfactor
       })
@@ -120,11 +120,11 @@ visualise <- function(raster = NULL, geom = NULL, window = NULL, theme = gtTheme
       plotLayers <- 1
       griddedNames <- "layer"
       vals <- list(getValuesMatC(raster))
-      uniqueVals <- list(sort(unique(vals[[1]], na.rm = TRUE)))
+      # uniqueVals <- list(sort(unique(vals[[1]], na.rm = TRUE)))
       dims <- dim(raster)
       panelExt <- tibble(x = c(0, ncol(raster)),
                          y = c(0, nrow(raster)))
-      hasColourTable <- FALSE
+      # hasColourTable <- FALSE
       isFactor <- FALSE
 
     }
@@ -205,53 +205,35 @@ visualise <- function(raster = NULL, geom = NULL, window = NULL, theme = gtTheme
       }
     }
 
-    geomGrob <- gt_as_grob(geom = geom, theme = theme, fillcol = NAME)
+    geomGrob <- gt_as_grob(geom = geom, theme = theme, ...)
 
-    # colours for the legend
-    uniqueColours <- unlist(lapply(seq_along(geomGrob), function(x){
-      tempGrob <- geomGrob[[x]]
-      tempGrob$gp$fill
-    }))
-
-    if(!all(is.na(uniqueColours))){
-
-      tickValues <- lapply(seq_along(uniqueVals), function(x){
-        if(length(uniqueVals[[x]]) > theme@legend$bins){
-          quantile(uniqueVals[[x]], probs = seq(0, 1, length.out = theme@legend$bins+1), type = 1, names = FALSE)
-        } else{
-          uniqueVals[[x]]
-        }
-      })
-      tickLabels <- lapply(seq_along(uniqueVals), function(x){
-        round(tickValues[[x]], 1)
-      })
-    } else{
-      theme@legend$plot <- FALSE
-    }
-
-
-    # colours for the legend
-    uniqueColours <- unlist(lapply(seq_along(geomGrob), function(x){
-      tempGrob <- geomGrob[[x]]
-      tempGrob$gp$fill
-    }))
-
-    if(!all(is.na(uniqueColours))){
-
-      tickValues <- lapply(seq_along(uniqueVals), function(x){
-        if(length(uniqueVals[[x]]) > theme@legend$bins){
-          quantile(uniqueVals[[x]], probs = seq(0, 1, length.out = theme@legend$bins+1), type = 1, names = FALSE)
-        } else{
-          uniqueVals[[x]]
-        }
-      })
-      tickLabels <- lapply(seq_along(uniqueVals), function(x){
-        round(tickValues[[x]], 1)
-      })
-    } else{
-      theme@legend$plot <- FALSE
-    }
-
+    # # colours for the legend
+    # uniqueColours <- unlist(lapply(seq_along(geomGrob), function(x){
+    #   tempGrob <- geomGrob[[x]]
+    #   tempGrob$gp$fill
+    # }))
+    #
+    # if(!all(is.na(uniqueColours))){
+    #   uniqueVals <- list(unlist(lapply(seq_along(geomGrob), function(x){
+    #     tempGrob <- geomGrob[[x]]
+    #     tempGrob$name
+    #   })))
+    #
+    #   tickValues <- lapply(seq_along(uniqueVals), function(x){
+    #     if(length(uniqueVals[[x]]) > theme@legend$bins){
+    #       quantile(uniqueVals[[x]], probs = seq(0, 1, length.out = theme@legend$bins+1), type = 1, names = FALSE)
+    #     } else{
+    #       uniqueVals[[x]]
+    #     }
+    #   })
+    #
+    #   tickLabels <- unlist(lapply(seq_along(geomGrob), function(x){
+    #     tempGrob <- geomGrob[[x]]
+    #     tempGrob$name
+    #   }))
+    # } else{
+    #   theme@legend$plot <- FALSE
+    # }
 
   }
 
@@ -299,23 +281,23 @@ visualise <- function(raster = NULL, geom = NULL, window = NULL, theme = gtTheme
       theColours <- list(rgb(red = red, green = green, blue = blue, maxColorValue = 255))
       panelNames <- "image"
     } else{
-      uniqueColours <- lapply(seq_along(uniqueVals), function(x){
-        tempVals <- uniqueVals[[x]]
-        nrVals <- length(tempVals)
-        if(tempVals[1] == 0){
-          tempVals <- tempVals+1
-        }
-        if(nrVals < 256){
-          nrColours <- nrVals
-        } else{
-          nrColours <- 256
-        }
-        if(hasColourTable[[x]]){
-          raster[[x]]@legend@colortable[tempVals]
-        } else{
-          colorRampPalette(colors = theme@raster$colours)(nrColours)
-        }
-      })
+      # uniqueColours <- lapply(seq_along(uniqueVals), function(x){
+      #   tempVals <- uniqueVals[[x]]
+      #   nrVals <- length(tempVals)
+      #   if(tempVals[1] == 0){
+      #     tempVals <- tempVals+1
+      #   }
+      #   if(nrVals < 256){
+      #     nrColours <- nrVals
+      #   } else{
+      #     nrColours <- 256
+      #   }
+      #   if(hasColourTable[[x]]){
+      #     raster[[x]]@legend@colortable[tempVals]
+      #   } else{
+      #     colorRampPalette(colors = theme@raster$colours)(nrColours)
+      #   }
+      # })
 
       # if(theme@legend$common){
       #   uniqueVals <- lapply(seq_along(uniqueVals), function(x){
@@ -324,54 +306,54 @@ visualise <- function(raster = NULL, geom = NULL, window = NULL, theme = gtTheme
       #   })
       # }
 
-      theColours <- lapply(seq_along(uniqueVals), function(x){
-        tempVals <- uniqueVals[[x]]
-        nrVals <- length(tempVals)
-        if(nrVals == 1){
-          if(tempVals == 0){
-            tempVals <- 1
-          }
-        }
-        if(nrVals < 256){
-          nrColours <- nrVals
-        } else{
-          nrColours <- 256
-        }
-
-        if(hasColourTable[[x]]){
-          breaksTemp <- c(tempVals[1]-1, tempVals)
-        } else if(isFactor[[x]]){
-          attr <- raster[[x]]@data@attributes[[1]]
-          idPos <- grep("id", colnames(attr), ignore.case = TRUE)
-          breaksTemp <- c(tempVals[1]-1, attr[,idPos])
-        } else{
-          breaksTemp <- c(tempVals[1]-1, seq(tempVals[1], tempVals[[length(tempVals)]], length.out = nrColours))
-        }
-        valCuts <- cut(vals[[x]], breaks = breaksTemp, include.lowest = TRUE)
-        uniqueColours[[x]][valCuts]
-      })
+      # theColours <- lapply(seq_along(uniqueVals), function(x){
+      #   tempVals <- uniqueVals[[x]]
+      #   nrVals <- length(tempVals)
+      #   if(nrVals == 1){
+      #     if(tempVals == 0){
+      #       tempVals <- 1
+      #     }
+      #   }
+      #   if(nrVals < 256){
+      #     nrColours <- nrVals
+      #   } else{
+      #     nrColours <- 256
+      #   }
+      #
+      #   if(hasColourTable[[x]]){
+      #     breaksTemp <- c(tempVals[1]-1, tempVals)
+      #   } else if(isFactor[[x]]){
+      #     attr <- raster[[x]]@data@attributes[[1]]
+      #     idPos <- grep("id", colnames(attr), ignore.case = TRUE)
+      #     breaksTemp <- c(tempVals[1]-1, attr[,idPos])
+      #   } else{
+      #     breaksTemp <- c(tempVals[1]-1, seq(tempVals[1], tempVals[[length(tempVals)]], length.out = nrColours))
+      #   }
+      #   valCuts <- cut(vals[[x]], breaks = breaksTemp, include.lowest = TRUE)
+      #   uniqueColours[[x]][valCuts]
+      # })
     }
 
     # colours for the legend
-    tickValues <- lapply(seq_along(uniqueVals), function(x){
-      if(length(uniqueVals[[x]]) > theme@legend$bins){
-        quantile(uniqueVals[[x]], probs = seq(0, 1, length.out = theme@legend$bins+1), type = 1, names = FALSE)
-      } else{
-        uniqueVals[[x]]
-      }
-    })
-    tickLabels <- lapply(seq_along(uniqueVals), function(x){
-      round(tickValues[[x]], 1)
-    })
+    # tickValues <- lapply(seq_along(uniqueVals), function(x){
+    #   if(length(uniqueVals[[x]]) > theme@legend$bins){
+    #     quantile(uniqueVals[[x]], probs = seq(0, 1, length.out = theme@legend$bins+1), type = 1, names = FALSE)
+    #   } else{
+    #     uniqueVals[[x]]
+    #   }
+    # })
+    # tickLabels <- lapply(seq_along(uniqueVals), function(x){
+    #   round(tickValues[[x]], 1)
+    # })
 
   } else if(isOpenPlot){
     if(isLegendInPlot){
       legendMeta <- grid.get(gPath("legendValues"))
       tickLabels <- as.numeric(legendMeta$label)
     }
-  }# else{
-  #   theme@legend$plot <- FALSE
-  # }
+  } else{
+    theme@legend$plot <- FALSE
+  }
 
   # height and width of the plot elements
   if(theme@title$plot){
@@ -463,26 +445,20 @@ visualise <- function(raster = NULL, geom = NULL, window = NULL, theme = gtTheme
       # the legend viewport
       if(theme@legend$plot){
 
-        if(length(tickValues[[i]]) < 2){
-          pushViewport(viewport(height = unit(1, "npc")*theme@legend$sizeRatio,
-                                yscale = c(1, length(uniqueVals[[i]])+0.1),
-                                name = "legend"))
-        } else{
-          pushViewport(viewport(height = unit(1, "npc")*theme@legend$sizeRatio,
-                                yscale = c(1, length(uniqueVals[[i]])+0.1),
-                                name = "legend"))
-        }
+        pushViewport(viewport(height = unit(1, "npc")*theme@legend$sizeRatio,
+                              yscale = c(1, length(uniqueVals[[i]])+0.1),
+                              name = "legend"))
 
         # order the legend
-        if(theme@legend$ascending){
-          theLegend <- matrix(data = rev(uniqueColours[[i]]), ncol = 1, nrow = length(uniqueColours[[i]]))
-          theValues <- rev(uniqueVals[[i]])
-          valPos <- unit(which(uniqueVals[[i]] %in% tickValues[[i]]), "native")
-        } else{
-          theLegend <- matrix(data = uniqueColours[[i]], ncol = 1, nrow = length(uniqueColours[[i]]))
-          theValues <- uniqueVals[[i]]
-          valPos <- rev(unit(which(uniqueVals[[i]] %in% tickValues[[i]]), "native"))
-        }
+        # if(theme@legend$ascending){
+        #   theLegend <- matrix(data = rev(uniqueColours[[i]]), ncol = 1, nrow = length(uniqueColours[[i]]))
+        #   theValues <- rev(uniqueVals[[i]])
+        #   valPos <- unit(which(uniqueVals[[i]] %in% tickValues[[i]]), "native")
+        # } else{
+        #   theLegend <- matrix(data = uniqueColours[[i]], ncol = 1, nrow = length(uniqueColours[[i]]))
+        #   theValues <- uniqueVals[[i]]
+        #   valPos <- rev(unit(which(uniqueVals[[i]] %in% tickValues[[i]]), "native"))
+        # }
 
         grid.raster(x = unit(1, "npc") + unit(10, "points"),
                     width = unit(10, "points"),
