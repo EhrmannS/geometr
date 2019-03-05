@@ -205,7 +205,30 @@ visualise <- function(raster = NULL, geom = NULL, window = NULL, theme = gtTheme
       }
     }
 
-    geomGrob <- gt_as_grob(geom = geom, theme = theme, ...)
+    geomGrob <- gt_as_grob(geom = geom, theme = theme, fillcol = NAME)
+
+    # colours for the legend
+    uniqueColours <- unlist(lapply(seq_along(geomGrob), function(x){
+      tempGrob <- geomGrob[[x]]
+      tempGrob$gp$fill
+    }))
+
+    if(!all(is.na(uniqueColours))){
+
+      tickValues <- lapply(seq_along(uniqueVals), function(x){
+        if(length(uniqueVals[[x]]) > theme@legend$bins){
+          quantile(uniqueVals[[x]], probs = seq(0, 1, length.out = theme@legend$bins+1), type = 1, names = FALSE)
+        } else{
+          uniqueVals[[x]]
+        }
+      })
+      tickLabels <- lapply(seq_along(uniqueVals), function(x){
+        round(tickValues[[x]], 1)
+      })
+    } else{
+      theme@legend$plot <- FALSE
+    }
+
 
     # colours for the legend
     uniqueColours <- unlist(lapply(seq_along(geomGrob), function(x){
