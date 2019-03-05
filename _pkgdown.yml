@@ -55,6 +55,7 @@ reference:
       - '`gtGeoms`'
       - '`gtSP`'
       - '`gtSF`'
+      - '`gtRasters`'
 navbar:
   left:
     - text: "Getting Started"
