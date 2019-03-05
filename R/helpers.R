@@ -105,3 +105,85 @@ scaleParameters <- function(attr = NULL, params = NULL, ...){
 
   return(out)
 }
+
+#' Gather colours for the plot
+#'
+#' @param input []
+#' @param theme []
+#'
+
+makeColours <- function(input = NULL, theme = NULL){
+
+  isRaster <- testClass(x = input, classes = "Raster")
+  isGeom <- testClass(x = input, classes = "geom")
+
+  attr <- getTable(input)
+
+  if(isRaster){
+    # get some meta of input
+    hasColourTable <- as.logical(length(input@legend@colortable))
+    isFactor <- input@data@isfactor
+    vals <- input@data@values
+    uniqueVals <- sortUniqueC(input[!is.na(input)])
+    nrVals <- length(uniqueVals)
+    targetColours <- theme@raster$colours
+
+    # limit values to 256, this is the number of distinct colours that can be
+    # represented
+    if(nrVals < 256){
+      nrVals <- nrVals
+    } else{
+      nrVals <- 256
+    }
+
+    # # values must start at 1
+    # if(uniqueVals[1] == 0){
+    #   uniqueVals <- uniqueVals+1
+    # }
+
+  } else if(isGeom){
+
+
+  }
+
+  if(hasColourTable){
+    uniqueColours <- input@legend@colortable[uniqueVals]
+    breaksTemp <- c(uniqueVals[1]-1, uniqueVals)
+  } else if(isFactor){
+    uniqueColours <- colorRampPalette(colors = targetColours)(nrVals)
+    idPos <- grep("id", colnames(attr), ignore.case = TRUE)
+    breaksTemp <- c(uniqueVals[1]-1, attr[[idPos]])
+  } else {
+    uniqueColours <- colorRampPalette(colors = targetColours)(nrVals)
+    breaksTemp <- c(uniqueVals[1]-1, seq(uniqueVals[1], uniqueVals[[length(uniqueVals)]], length.out = nrVals))
+  }
+
+  valCuts <- cut(vals, breaks = breaksTemp, include.lowest = TRUE)
+  out.cols <- uniqueColours[valCuts]
+
+  # determine the tick values ...
+  if(length(uniqueVals) > theme@legend$bins){
+    tickValues <- quantile(uniqueVals, probs = seq(0, 1, length.out = theme@legend$bins+1), type = 1, names = FALSE)
+  } else{
+    tickValues <- uniqueVals
+  }
+
+  # ... and their labels
+  legend.labels <- round(tickValues, 1)
+
+  if(theme@legend$ascending){
+    legend.array <- matrix(data = rev(uniqueColours), ncol = 1, nrow = length(uniqueColours))
+    legend.values <- rev(uniqueVals)
+    legend.labels.pos <- unit(which(uniqueVals %in% tickValues), "native")
+  } else{
+    legend.array <- matrix(data = uniqueColours[[i]], ncol = 1, nrow = length(uniqueColours[[i]]))
+    legend.values <- uniqueVals[[i]]
+    legend.labels.pos <- rev(unit(which(uniqueVals[[i]] %in% tickValues[[i]]), "native"))
+  }
+
+  out <- list(out.cols = out.cols,
+              legend.array = legend.array,
+              legend.values = legend.values,
+              legend.labels = legend.labels,
+              legend.labels.pos = legend.labels.pos)
+}
