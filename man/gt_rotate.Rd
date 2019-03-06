@@ -7,7 +7,7 @@
 gt_rotate(geom, angle, about = c(0, 0), fid = NULL)
 }
 \arguments{
-\item{geom}{[\code{geom}]\cr Object of class \code{\link{geom}}.}
+\item{geom}{[\code{geom}]\cr object of class \code{\link{geom}}.}
 
 \item{angle}{[\code{numeric(1)}]\cr the counter-clockwise angle by which
 \code{geom} shall be rotated.}

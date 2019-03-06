@@ -143,11 +143,28 @@
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='visualise.html'>visualise</a></span>(<span class='kw'>geom</span> <span class='kw'>=</span> <span class='no'>gtGeoms</span>$<span class='no'>mask</span>)</div><div class='img'><img src='setWindow-1.png' alt='' width='700' height='433' /></div><div class='input'>
-<span class='no'>buffered</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/data.frame'>data.frame</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>5074000</span>, <span class='fl'>5110000</span>),
-                       <span class='kw'>y</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>4050800</span>, <span class='fl'>4076000</span>))
-<span class='fu'><a href='visualise.html'>visualise</a></span>(<span class='kw'>geom</span> <span class='kw'>=</span> <span class='fu'>setWindow</span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>gtGeoms</span>$<span class='no'>mask</span>,
-                           <span class='kw'>to</span> <span class='kw'>=</span> <span class='no'>buffered</span>))</div><div class='img'><img src='setWindow-2.png' alt='' width='700' height='433' /></div></pre>
+    <pre class="examples"><div class='input'><span class='co'># create a polygon programmatically</span>
+<span class='no'>coords</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/data.frame'>data.frame</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>40</span>, <span class='fl'>70</span>, <span class='fl'>70</span>, <span class='fl'>50</span>),
+                     <span class='kw'>y</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>40</span>, <span class='fl'>40</span>, <span class='fl'>60</span>, <span class='fl'>70</span>))
+(<span class='no'>aGeom</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='gs_polygon.html'>gs_polygon</a></span>(<span class='kw'>anchor</span> <span class='kw'>=</span> <span class='no'>coords</span>))</div><div class='output co'>#&gt; class      : geom
+#&gt; type       : polygon
+#&gt; features   : 1  (4 vertices)
+#&gt; window     : 40, 70, 40, 70  (xmin, xmax, ymin, ymax)
+#&gt; extent     : 40, 70, 40, 70  (xmin, xmax, ymin, ymax)
+#&gt; scale      : absolute
+#&gt; crs        : NA
+#&gt; attributes : 2  (fid, n)</div><div class='input'>
+<span class='no'>window</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/data.frame'>data.frame</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>0</span>, <span class='fl'>80</span>),
+                     <span class='kw'>y</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>0</span>, <span class='fl'>80</span>))
+(<span class='no'>aGeom</span> <span class='kw'>&lt;-</span> <span class='fu'>setWindow</span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>aGeom</span>, <span class='kw'>to</span> <span class='kw'>=</span> <span class='no'>window</span>))</div><div class='output co'>#&gt; class      : geom
+#&gt; type       : polygon
+#&gt; features   : 1  (4 vertices)
+#&gt; window     : 0, 80, 0, 80  (xmin, xmax, ymin, ymax)
+#&gt; extent     : 40, 70, 40, 70  (xmin, xmax, ymin, ymax)
+#&gt; scale      : absolute
+#&gt; crs        : NA
+#&gt; attributes : 2  (fid, n)</div><div class='input'>
+<span class='fu'><a href='visualise.html'>visualise</a></span>(<span class='kw'>geom</span> <span class='kw'>=</span> <span class='no'>aGeom</span>, <span class='kw'>new</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</div><div class='img'><img src='setWindow-1.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

@@ -132,7 +132,7 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>geom</th>
-      <td><p>[<code>geom</code>]<br /> Object of class <code><a href='geom-class.html'>geom</a></code>.</p></td>
+      <td><p>[<code>geom</code>]<br /> object of class <code><a href='geom-class.html'>geom</a></code>.</p></td>
     </tr>
     <tr>
       <th>angle</th>
@@ -157,23 +157,25 @@ rotated.</p></td>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>coords</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/data.frame'>data.frame</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>30</span>, <span class='fl'>60</span>, <span class='fl'>60</span>, <span class='fl'>40</span>, <span class='fl'>10</span>, <span class='fl'>40</span>, <span class='fl'>20</span>),
+    <pre class="examples"><div class='input'><span class='co'># the original object</span>
+<span class='no'>coords</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/data.frame'>data.frame</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>30</span>, <span class='fl'>60</span>, <span class='fl'>60</span>, <span class='fl'>40</span>, <span class='fl'>10</span>, <span class='fl'>40</span>, <span class='fl'>20</span>),
                      <span class='kw'>y</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>40</span>, <span class='fl'>40</span>, <span class='fl'>60</span>, <span class='fl'>70</span>, <span class='fl'>10</span>, <span class='fl'>20</span>, <span class='fl'>40</span>),
                      <span class='kw'>fid</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>1</span>, <span class='fl'>1</span>, <span class='fl'>1</span>, <span class='fl'>1</span>, <span class='fl'>2</span>, <span class='fl'>2</span>, <span class='fl'>2</span>))
 <span class='no'>window</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/data.frame'>data.frame</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>0</span>, <span class='fl'>80</span>),
                      <span class='kw'>y</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>0</span>, <span class='fl'>80</span>))
 <span class='no'>aGeom</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='gs_polygon.html'>gs_polygon</a></span>(<span class='kw'>anchor</span> <span class='kw'>=</span> <span class='no'>coords</span>, <span class='kw'>window</span> <span class='kw'>=</span> <span class='no'>window</span>, <span class='kw'>show</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
-
+<span class='fu'><a href='visualise.html'>visualise</a></span>(<span class='kw'>geom</span> <span class='kw'>=</span> <span class='no'>aGeom</span>)</div><div class='img'><img src='gt_rotate-1.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='co'># rotate it alltogether</span>
 <span class='no'>rotatedGeom</span> <span class='kw'>&lt;-</span> <span class='fu'>gt_rotate</span>(<span class='kw'>geom</span> <span class='kw'>=</span> <span class='no'>aGeom</span>, <span class='kw'>angle</span> <span class='kw'>=</span> <span class='fl'>90</span>, <span class='kw'>about</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>40</span>, <span class='fl'>40</span>))
-<span class='fu'><a href='visualise.html'>visualise</a></span>(<span class='kw'>geom</span> <span class='kw'>=</span> <span class='no'>rotatedGeom</span>)</div><div class='img'><img src='gt_rotate-1.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='fu'><a href='visualise.html'>visualise</a></span>(<span class='kw'>geom</span> <span class='kw'>=</span> <span class='no'>rotatedGeom</span>)</div><div class='img'><img src='gt_rotate-2.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># rotate single objects</span>
 <span class='no'>rotatedTriangle</span> <span class='kw'>&lt;-</span> <span class='fu'>gt_rotate</span>(<span class='kw'>geom</span> <span class='kw'>=</span> <span class='no'>aGeom</span>, <span class='kw'>angle</span> <span class='kw'>=</span> -<span class='fl'>180</span>, <span class='kw'>about</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>30</span>, <span class='fl'>40</span>), <span class='kw'>fid</span> <span class='kw'>=</span> <span class='fl'>2</span>)
-<span class='fu'><a href='visualise.html'>visualise</a></span>(<span class='kw'>geom</span> <span class='kw'>=</span> <span class='no'>rotatedTriangle</span>, <span class='kw'>col</span> <span class='kw'>=</span> <span class='st'>"goldenrod1"</span>)</div><div class='img'><img src='gt_rotate-2.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='fu'><a href='visualise.html'>visualise</a></span>(<span class='kw'>geom</span> <span class='kw'>=</span> <span class='no'>rotatedTriangle</span>)</div><div class='img'><img src='gt_rotate-3.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># rotate different objects about different centers by different angles</span>
 <span class='no'>rotateMore</span> <span class='kw'>&lt;-</span> <span class='fu'>gt_rotate</span>(<span class='kw'>geom</span> <span class='kw'>=</span> <span class='no'>aGeom</span>,
-                      <span class='kw'>angle</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='fl'>90</span>, -<span class='fl'>180</span>),
-                      <span class='kw'>about</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>40</span>, <span class='fl'>40</span>), <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>30</span>, <span class='fl'>40</span>)))
-<span class='fu'><a href='visualise.html'>visualise</a></span>(<span class='kw'>geom</span> <span class='kw'>=</span> <span class='no'>rotateMore</span>, <span class='kw'>col</span> <span class='kw'>=</span> <span class='st'>"deeppink"</span>)</div><div class='img'><img src='gt_rotate-3.png' alt='' width='700' height='433' /></div></pre>
+                        <span class='kw'>angle</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='fl'>90</span>, -<span class='fl'>180</span>),
+                        <span class='kw'>about</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>40</span>, <span class='fl'>40</span>), <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>30</span>, <span class='fl'>40</span>)))
+<span class='fu'><a href='visualise.html'>visualise</a></span>(<span class='kw'>geom</span> <span class='kw'>=</span> <span class='no'>rotateMore</span>)</div><div class='img'><img src='gt_rotate-4.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

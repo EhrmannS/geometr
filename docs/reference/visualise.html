@@ -141,12 +141,12 @@
     </tr>
     <tr>
       <th>window</th>
-      <td><p>[<code><a href='https://www.rdocumentation.org/packages/base/topics/data.frame'>data.frame(1)</a></code>]<br /> two oposing corners to which the plot
-is limited.</p></td>
+      <td><p>[<code><a href='https://www.rdocumentation.org/packages/base/topics/data.frame'>data.frame(1)</a></code>]<br /> two oposing corners of a rectangle to
+which the plot is limited.</p></td>
     </tr>
     <tr>
       <th>theme</th>
-      <td><p>[<code><a href='https://www.rdocumentation.org/packages/base/topics/list'>list(7)</a></code>]<br /> Visualising options; see
+      <td><p>[<code><a href='https://www.rdocumentation.org/packages/base/topics/list'>list(7)</a></code>]<br /> visualising options; see
 <code><a href='setTheme.html'>setTheme</a></code> for details.</p></td>
     </tr>
     <tr>
@@ -157,9 +157,8 @@ simply plot the object (<code>FALSE</code>, default).</p></td>
     </tr>
     <tr>
       <th>image</th>
-      <td><p>[<code><a href='https://www.rdocumentation.org/packages/base/topics/logical'>logical(1)</a></code>]<br /> Does <code>raster</code> have the channels
-<code>red</code>, <code>green</code> and <code>blue</code>, i.e. is it an "image"
-(<code>TRUE</code>) or is this not the case (<code>FALSE</code>, default)?</p></td>
+      <td><p>[<code><a href='https://www.rdocumentation.org/packages/base/topics/logical'>logical(1)</a></code>]<br /> is <code>raster</code> actually an image
+(<code>TRUE</code>) or is this not the case (<code>FALSE</code>, default)? See Details.</p></td>
     </tr>
     <tr>
       <th>new</th>
@@ -167,7 +166,7 @@ simply plot the object (<code>FALSE</code>, default).</p></td>
     </tr>
     <tr>
       <th>...</th>
-      <td><p>[various]<br /> Graphical parameters to <code>geom</code>.</p></td>
+      <td><p>[various]<br /> graphical parameters to plot a <code>geom</code>.</p></td>
     </tr>
     </table>
     
@@ -178,12 +177,13 @@ simply plot the object (<code>FALSE</code>, default).</p></td>
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>To create a plot with your own style, design it with
-  <code><a href='setTheme.html'>setTheme</a></code> and use it in <code>theme</code>.</p>
-<p>In case you want to plot an image (simiar to
-  <code><a href='https://www.rdocumentation.org/packages/raster/topics/plotRGB'>plotRGB</a></code>), you have to provide a <code>RasterStack</code> or
-  <code>RasterBrick</code> with the three layers <code>red</code>, <code>green</code> and
-  <code>blue</code> and set <code>image = TRUE</code>.</p>
+    <p>In case you want to plot an image (simiar to
+  <code><a href='https://www.rdocumentation.org/packages/raster/topics/plotRGB'>plotRGB</a></code>), you either have to:</p><ol>
+<li><p>provide a <code>RasterStack</code> with the three layers <code>red</code>, <code>green</code>
+  and <code>blue</code> or</p></li>
+<li><p>provide a matrix with hexadecimal colour values
+  (e.g. '#000000')</p></li>
+</ol><p>and set <code>image = TRUE</code>.</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>

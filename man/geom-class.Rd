@@ -6,24 +6,26 @@
 \alias{geom}
 \title{Geometry class (S4) and methods}
 \description{
-A \code{geom} stores the vertices that outline shape, and all additional
-information that characterise a geometry. A \code{geom} can be spatial, but
-does not have to be. A \code{geom} can either have absolute or relative
-values, where relative values specify the vertex position relative to the
-\code{window} slot.
+A \code{geom} stores the vertices and all additional information that
+characterise a geometry. A \code{geom} can be spatial, but is not by default.
+A \code{geom} can either have absolute or relative values, where relative
+values specify the vertex position relative to the \code{window} slot.
 }
 \details{
 A \code{geom} either has the feature type \itemize{ \item \code{"point"},
 when none of the vertices are connected to other vertices, \item
 \code{"line"}, where vertices with the same \code{fid} are connected
 following the sequence of their order, without the line closing in itself and
-\item \code{"polygon"} according to the same definition, except that the line
-closes in itself.} Moreover, a \code{geom} does NOT have the slot
-\emph{extent}, which characterises the minimum and maximum value of the
-vertex coordinates and which is thus derived "on the fly" from the vertices.
-Instead it has a \emph{reference window}, which is sort of a second extent
-that may be bigger than \code{extent} and which determines the relative
-position of the vertices when plotting.
+\item \code{"polygon"}, where vertices with the same \code{fid} are connected
+following the sequence of their order, where the last vertex is identical to
+the first and the lines thus closes in on itself.}
+
+Moreover, a \code{geom} does not have the slot \emph{extent}, which
+characterises the minimum and maximum value of the vertex coordinates and
+which is thus derived "on the fly" from the vertices. Instead it has a
+\emph{reference window}, which is sort of a second extent that may be bigger
+(or smaller) than \code{extent} and which determines the relative position of
+the vertices when plotting.
 }
 \section{Slots}{
 
@@ -31,11 +33,12 @@ position of the vertices when plotting.
 \item{\code{type}}{[\code{character(1)}]\cr the type of feature, recently either
 \code{"point"}, \code{"line"} or \code{"polygon"}.}
 
-\item{\code{coords}}{[\code{data.frame(1)}]\cr the \code{fid}, \code{x} and \code{y}
-coordinates per vertex.}
+\item{\code{coords}}{[\code{data.frame(1)}]\cr the \code{vid} (vertex ID), \code{fid}
+(feature ID), \code{x} and \code{y} coordinates per vertex and optional
+arbitrary coordinate attributes.}
 
-\item{\code{attr}}{[\code{data.frame(1)}]\cr arbitrary number of attributes per
-unique id in \code{coords}}
+\item{\code{attr}}{[\code{data.frame(1)}]\cr \code{fid}, \code{n} (number of
+vertices) and optional arbitrary feature attributes.}
 
 \item{\code{window}}{[\code{data.frame(1)}]\cr the minimum and maximum value in x and
 y dimension of the reference window in which the \code{geom} dwells.}

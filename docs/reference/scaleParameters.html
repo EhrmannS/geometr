@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Set the scale of a plot — scaleParameters • geometr</title>
+<title>Determine plot parameters — scaleParameters • geometr</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,9 +30,9 @@
 
 
 
-<meta property="og:title" content="Set the scale of a plot — scaleParameters" />
+<meta property="og:title" content="Determine plot parameters — scaleParameters" />
 
-<meta property="og:description" content="Set the scale of a plot" />
+<meta property="og:description" content="Parameter values are determined based on the columns of an attribute table." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -114,18 +114,18 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Set the scale of a plot</h1>
+    <h1>Determine plot parameters</h1>
     <small class="dont-index">Source: <a href='https://github.com/EhrmannS/geometr/blob/master/R/helpers.R'><code>R/helpers.R</code></a></small>
     <div class="hidden name"><code>scaleParameters.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Set the scale of a plot</p>
+    <p>Parameter values are determined based on the columns of an attribute table.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>scaleParameters</span>(<span class='kw'>attr</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>params</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+    <pre class="usage"><span class='fu'>scaleParameters</span>(<span class='kw'>attr</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>params</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -138,13 +138,37 @@ derive values.</p></td>
     <tr>
       <th>params</th>
       <td><p>[<code><a href='https://www.rdocumentation.org/packages/base/topics/list'>list(7)</a></code>]<br /> the parameters of the geom that shall be
-scaled.</p></td>
+scaled; see Details.</p></td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td><p>graphical parameters in the form of <code>parameter = column</code>,
+where <code>parameter</code> would be scaled (colours) or repeated along (other
+parameters) <code>column</code>.</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>a list of parameters to a grob.</p>
+    
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>This function serves merely to determine parameter values from a
+  given theme based on a given attribute table, it does not set the
+  parameters in a plot. The provided value range thus depends on the values
+  provided in the theme. Use <code><a href='setTheme.html'>setTheme</a></code> to set the values to a
+  modified range.</p>
+<p>The paramaters that can be scaled can be found in <code>gtTheme@geom</code>. They
+  are by default:</p><ul>
+<li><p><code>linecol = c("#00204DFF",
+  "#FFEA46FF")</code></p></li>
+<li><p><code>fillcol = NA</code>,</p></li>
+<li><p><code>linetype = "solid"</code>,</p></li>
+<li><p><code>linewidth = 1</code>,</p></li>
+<li><p><code>pointsize = 0.5</code>,</p></li>
+<li><p><code>pointsymbol = 20</code>.</p></li>
+</ul>
     
 
   </div>
@@ -154,6 +178,8 @@ scaled.</p></td>
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
+
+      <li><a href="#details">Details</a></li>
           </ul>
 
   </div>

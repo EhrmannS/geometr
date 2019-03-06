@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Geometry class (S4) and methods — geom-class • geometr</title>
+<title>Gather colours for the plot — makeColours • geometr</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,12 +30,9 @@
 
 
 
-<meta property="og:title" content="Geometry class (S4) and methods — geom-class" />
+<meta property="og:title" content="Gather colours for the plot — makeColours" />
 
-<meta property="og:description" content="A geom stores the vertices and all additional information that
-characterise a geometry. A geom can be spatial, but is not by default.
-A geom can either have absolute or relative values, where relative
-values specify the vertex position relative to the window slot." />
+<meta property="og:description" content="Gather colours for the plot" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -117,70 +114,43 @@ values specify the vertex position relative to the window slot." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Geometry class (S4) and methods</h1>
-    <small class="dont-index">Source: <a href='https://github.com/EhrmannS/geometr/blob/master/R/geom.R'><code>R/geom.R</code></a></small>
-    <div class="hidden name"><code>geom-class.Rd</code></div>
+    <h1>Gather colours for the plot</h1>
+    <small class="dont-index">Source: <a href='https://github.com/EhrmannS/geometr/blob/master/R/helpers.R'><code>R/helpers.R</code></a></small>
+    <div class="hidden name"><code>makeColours.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>A <code>geom</code> stores the vertices and all additional information that
-characterise a geometry. A <code>geom</code> can be spatial, but is not by default.
-A <code>geom</code> can either have absolute or relative values, where relative
-values specify the vertex position relative to the <code>window</code> slot.</p>
+    <p>Gather colours for the plot</p>
     
     </div>
 
-        
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
-
-    <p>A <code>geom</code> either has the feature type</p><ul>
-<li><p><code>"point"</code>,
-when none of the vertices are connected to other vertices,</p></li>
-<li><p><code>"line"</code>, where vertices with the same <code>fid</code> are connected
-following the sequence of their order, without the line closing in itself and</p></li>
-<li><p><code>"polygon"</code>, where vertices with the same <code>fid</code> are connected
-following the sequence of their order, where the last vertex is identical to
-the first and the lines thus closes in on itself.</p></li>
-</ul>
-    <p>Moreover, a <code>geom</code> does not have the slot <em>extent</em>, which
-characterises the minimum and maximum value of the vertex coordinates and
-which is thus derived "on the fly" from the vertices. Instead it has a
-<em>reference window</em>, which is sort of a second extent that may be bigger
-(or smaller) than <code>extent</code> and which determines the relative position of
-the vertices when plotting.</p>
+    <pre class="usage"><span class='fu'>makeColours</span>(<span class='kw'>input</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>theme</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>)</pre>
     
-    <h2 class="hasAnchor" id="slots"><a class="anchor" href="#slots"></a>Slots</h2>
-
-    
-    <dl class='dl-horizontal'>
-<dt><code>type</code></dt><dd><p>[<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code>]<br /> the type of feature, recently either
-<code>"point"</code>, <code>"line"</code> or <code>"polygon"</code>.</p></dd>
-    <dt><code>coords</code></dt><dd><p>[<code><a href='https://www.rdocumentation.org/packages/base/topics/data.frame'>data.frame(1)</a></code>]<br /> the <code>vid</code> (vertex ID), <code>fid</code>
-(feature ID), <code>x</code> and <code>y</code> coordinates per vertex and optional
-arbitrary coordinate attributes.</p></dd>
-    <dt><code>attr</code></dt><dd><p>[<code><a href='https://www.rdocumentation.org/packages/base/topics/data.frame'>data.frame(1)</a></code>]<br /> <code>fid</code>, <code>n</code> (number of
-vertices) and optional arbitrary feature attributes.</p></dd>
-    <dt><code>window</code></dt><dd><p>[<code><a href='https://www.rdocumentation.org/packages/base/topics/data.frame'>data.frame(1)</a></code>]<br /> the minimum and maximum value in x and
-y dimension of the reference window in which the <code>geom</code> dwells.</p></dd>
-    <dt><code>scale</code></dt><dd><p>[<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code>]<br /> whether the vertex coordinates are
-stored as <code>"absolute"</code> values, or <code>"relative"</code> to <code>window</code>.</p></dd>
-    <dt><code>crs</code></dt><dd><p>[<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code>]<br /> the coordinate reference system in proj4
-notation.</p></dd>
-    <dt><code>history</code></dt><dd><p>[<code><a href='https://www.rdocumentation.org/packages/base/topics/list'>list(.)</a></code>]<br /> a list of steps taken to derive the
-<code>geom</code> in focus.</p></dd>
-</dl>
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>input</th>
+      <td><p>[]</p></td>
+    </tr>
+    <tr>
+      <th>theme</th>
+      <td><p>[]</p></td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td><p>[]</p></td>
+    </tr>
+    </table>
     
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
-      
-      <li><a href="#details">Details</a></li>
-
-      <li><a href="#slots">Slots</a></li>
-          </ul>
+      <li><a href="#arguments">Arguments</a></li>
+                </ul>
 
   </div>
 </div>

@@ -180,7 +180,7 @@ points are sketched; see <code>gpar</code>.</p></td>
                          <span class='fl'>4060164</span>, <span class='fl'>3997230</span>, <span class='fl'>4117856</span>, <span class='fl'>4028167</span>, <span class='fl'>3971119</span>, <span class='fl'>4118207</span>,
                          <span class='fl'>4062838</span>))
 (<span class='no'>pointsGeom</span> <span class='kw'>&lt;-</span> <span class='fu'>gs_point</span>(<span class='kw'>anchor</span> <span class='kw'>=</span> <span class='no'>somePoints</span>)) <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='visualise.html'>visualise</a></span>(<span class='kw'>geom</span> <span class='kw'>=</span> <span class='no'>.</span>, <span class='kw'>col</span> <span class='kw'>=</span> <span class='st'>"darkorange"</span>)</div><div class='img'><img src='gs_point-1.png' alt='' width='700' height='433' /></div><div class='input'>
+  <span class='fu'><a href='visualise.html'>visualise</a></span>(<span class='kw'>geom</span> <span class='kw'>=</span> <span class='no'>.</span>, <span class='kw'>linecol</span> <span class='kw'>=</span> <span class='st'>"darkorange"</span>)</div><div class='img'><img src='gs_point-1.png' alt='' width='700' height='433' /></div><div class='input'>
 </div><span class='co'># NOT RUN {</span>
 <span class='no'>input</span> <span class='kw'>&lt;-</span> <span class='no'>gtRasters</span>$<span class='no'>continuous</span>
 
@@ -188,7 +188,7 @@ points are sketched; see <code>gpar</code>.</p></td>
 <span class='no'>myPoints</span> <span class='kw'>&lt;-</span> <span class='fu'>gs_point</span>(<span class='kw'>template</span> <span class='kw'>=</span> <span class='no'>input</span>, <span class='kw'>vertices</span> <span class='kw'>=</span> <span class='fl'>5</span>, <span class='kw'>col</span> <span class='kw'>=</span> <span class='st'>"deeppink"</span>) <span class='kw'>%&gt;%</span>
   <span class='fu'><a href='gt_group.html'>gt_group</a></span>(, <span class='kw'>index</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/rep'>rep</a></span>(<span class='fl'>1</span>, <span class='fl'>5</span>))
 <span class='no'>anExtent</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='gs_polygon.html'>gs_rectangle</a></span>(<span class='no'>myPoints</span>)
-<span class='fu'><a href='visualise.html'>visualise</a></span>(<span class='kw'>geom</span> <span class='kw'>=</span> <span class='no'>anExtent</span>, <span class='kw'>col</span> <span class='kw'>=</span> <span class='st'>"green"</span>, <span class='kw'>new</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
+<span class='fu'><a href='visualise.html'>visualise</a></span>(<span class='kw'>geom</span> <span class='kw'>=</span> <span class='no'>anExtent</span>, <span class='kw'>linecol</span> <span class='kw'>=</span> <span class='st'>"green"</span>, <span class='kw'>new</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
 <span class='co'># }</span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

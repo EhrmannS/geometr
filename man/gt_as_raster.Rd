@@ -7,7 +7,7 @@
 gt_as_raster(geom, negative = FALSE, res = c(1, 1), crs = NULL)
 }
 \arguments{
-\item{geom}{[\code{geom}]\cr Object of class \code{\link{geom}}.}
+\item{geom}{[\code{geom}]\cr object of class \code{\link{geom}}.}
 
 \item{negative}{[\code{logical(1)}]\cr should the area covered by \code{geom}
 be set to 0 (\code{TRUE}) or should it be set to 1 (\code{FALSE}, default)?}
