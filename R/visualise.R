@@ -2,25 +2,23 @@
 #'
 #' @param raster [\code{Raster*} | \code{matrix}]\cr raster object to plot.
 #' @param geom [\code{geom}]\cr geom to plot.
-#' @param window [\code{data.frame(1)}]\cr two oposing corners to which the plot
-#'   is limited.
-#' @param theme [\code{list(7)}]\cr Visualising options; see
+#' @param window [\code{data.frame(1)}]\cr two oposing corners of a rectangle to
+#'   which the plot is limited.
+#' @param theme [\code{list(7)}]\cr visualising options; see
 #'   \code{\link{setTheme}} for details.
 #' @param trace [\code{logical(1)}]\cr Print the raster object's history (i.e.
 #'   the process according to which it has been created) (\code{TRUE}), or
 #'   simply plot the object (\code{FALSE}, default).
-#' @param image [\code{logical(1)}]\cr Does \code{raster} have the channels
-#'   \code{red}, \code{green} and \code{blue}, i.e. is it an "image"
-#'   (\code{TRUE}) or is this not the case (\code{FALSE}, default)?
+#' @param image [\code{logical(1)}]\cr is \code{raster} actually an image
+#'   (\code{TRUE}) or is this not the case (\code{FALSE}, default)? See Details.
 #' @param new [\code{logical(1)}]\cr force a new plot (\code{TRUE}, default).
 #' @param ... [various]\cr graphical parameters to plot a \code{geom}.
-#' @details To create a plot with your own style, design it with
-#'   \code{\link{setTheme}} and use it in \code{theme}.
+#' @details In case you want to plot an image (simiar to
+#'   \code{\link[raster]{plotRGB}}), you either have to: \enumerate{ \item
+#'   provide a \code{RasterStack} with the three layers \code{red}, \code{green}
+#'   and \code{blue} or \item provide a matrix with hexadecimal colour values
+#'   (e.g. '#000000')} and set \code{image = TRUE}.
 #'
-#'   In case you want to plot an image (simiar to
-#'   \code{\link[raster]{plotRGB}}), you have to provide a \code{RasterStack}
-#'   with the three layers \code{red}, \code{green} and \code{blue} and set
-#'   \code{image = TRUE}.
 #' @return Returns invisibly an object of class \code{recordedplot}, see
 #'   \code{\link{recordPlot}} for details (and warnings).
 #' @examples

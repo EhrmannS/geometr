@@ -2,7 +2,7 @@
 #'
 #' An object of class \code{RasterLayer} is the raster-package representation of
 #' a \code{geom}.
-#' @param geom [\code{geom}]\cr Object of class \code{\link{geom}}.
+#' @param geom [\code{geom}]\cr object of class \code{\link{geom}}.
 #' @param negative [\code{logical(1)}]\cr should the area covered by \code{geom}
 #'   be set to 0 (\code{TRUE}) or should it be set to 1 (\code{FALSE}, default)?
 #' @param res [\code{numeric(2)}]\cr resolution in x and y direction.
