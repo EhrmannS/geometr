@@ -125,8 +125,8 @@ makeColours <- function(input = NULL, theme = NULL, ...){
     # get some meta of input
     hasColourTable <- as.logical(length(input@legend@colortable))
     isFactor <- input@data@isfactor
-    vals <- input@data@values
-    uniqueVals <- sortUniqueC(input[!is.na(input)])
+    vals <- getValues(input)
+    uniqueVals <- sortUniqueC(vals[!is.na(vals)])
     nrVals <- length(uniqueVals)
     targetColours <- theme@raster$colours
 
@@ -186,7 +186,7 @@ makeColours <- function(input = NULL, theme = NULL, ...){
       if(as.character(thisArg) %in% colnames(attr)){
 
         vals <- eval(parse(text = paste0(thisArg)), envir = attr)
-        vals <- as.numeric(as.factor(vals))
+        # vals <- as.numeric(as.factor(vals))
         uniqueVals <- unique(vals)
 
         # if the argument is a colour argument, construct a color ramp from two or more values
@@ -203,7 +203,7 @@ makeColours <- function(input = NULL, theme = NULL, ...){
           }
           uniqueColours <- colorRampPalette(colors = params[[pos]])(length(procVals))
           breaks <- c(0, procVals)
-          valCuts <- cut(vals, breaks = breaks, include.lowest = FALSE)
+          valCuts <- cut(procVals, breaks = breaks, include.lowest = FALSE)
           tempOut <- uniqueColours[valCuts]
 
         } else{
@@ -212,8 +212,8 @@ makeColours <- function(input = NULL, theme = NULL, ...){
 
       } else{
         tempOut <- thisArg
-        uniqueVals <- thisArg
-        uniqueColours <- thisArg
+        uniqueColours <- params[which(names(params) == params$scale$x)][[1]]
+        uniqueVals <- seq_along(uniqueColours)
       }
 
       params[[pos]] <- tempOut

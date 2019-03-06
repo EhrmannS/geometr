@@ -38,13 +38,13 @@
 #' visualise(geom = aGeom)
 #'
 #' @importFrom checkmate testClass testList assertNames assertList assertLogical
-#'   testCharacter testIntegerish
+#'   testCharacter testIntegerish testNames
 #' @importFrom tibble tibble
 #' @importFrom grid grid.newpage pushViewport viewport grid.rect grid.raster
 #'   grid.clip unit grid.draw grid.grill upViewport grid.text gpar convertX
 #'   downViewport
 #' @importFrom grDevices colorRampPalette as.raster recordPlot rgb
-#' @importFrom raster nlayers values as.matrix ncol nrow stack
+#' @importFrom raster nlayers getValues as.matrix ncol nrow stack
 #' @importFrom stats quantile
 #' @export
 
@@ -52,20 +52,10 @@ visualise <- function(raster = NULL, geom = NULL, window = NULL, theme = gtTheme
                       trace = FALSE, image = FALSE, new = TRUE, ...){
 
   # check arguments
-  if(!is.null(raster)){
-    existsRaster <- TRUE
-    isRaster <- grepl("Raster", class(raster))
-    if(grepl("RasterBrick", class(raster))){
-      raster <- stack(raster)
-    }
-  } else{
-    existsRaster <- FALSE
-  }
+  existsRaster <- !is.null(raster)
   existsGeom <- !is.null(geom)
-  if(!existsGeom & !is.null(geom)){
-    stop("please provide a valid 'geom' object to plot.")
-  }
   stopifnot(any(existsRaster, existsGeom))
+
   assertDataFrame(x = window, nrows = 2, min.cols = 2, null.ok = TRUE)
   if(!is.null(window)){
     assertNames(names(window), must.include = c("x", "y"))
@@ -92,41 +82,60 @@ visualise <- function(raster = NULL, geom = NULL, window = NULL, theme = gtTheme
   # turn raster into an array and extract meta-data
   if(existsRaster){
 
+    isRaster <- any(grepl("Raster", class(raster)))
     if(isRaster){
+      if(grepl("RasterBrick", class(raster))){
+        raster <- stack(raster)
+      }
+    }
+    isMatrix <- is.matrix(raster)
+    if(isMatrix){
+      if(!grepl("matrix", class(raster)[1]) & !image){
+        warning("please provide a raw matrix in 'raster' or set 'image = TRUE'.", immediate. = T)
+      }
+    }
 
+    if(isRaster){
       plotLayers <- nlayers(raster)
       griddedNames <- sapply(1:plotLayers, function(x){
         raster[[x]]@data@names
       })
       dims <- c(raster@nrows, raster@ncols)
-      ext <- raster[[1]]@extent
-      panelExt <- tibble(x = c(ext@xmin, ext@xmax),
-                         y = c(ext@ymin, ext@ymax))
+      panelExt <- getExtent(raster)
+    }
 
-    } else{
-
+    if(isMatrix){
       plotLayers <- 1
       griddedNames <- "layer"
-      # vals <- list(getValuesMatC(raster))
       dims <- dim(raster)
       panelExt <- tibble(x = c(0, ncol(raster)),
                          y = c(0, nrow(raster)))
-
     }
 
     # checks in case raster is supposed to be an "image"
     if(image){
-      red <- as.integer(vals[[which(panelNames == "red")]])
-      red[is.na(red)] <- 255L
-      green <- as.integer(vals[[which(panelNames == "green")]])
-      green[is.na(green)] <- 255L
-      blue <- as.integer(vals[[which(panelNames == "blue")]])
-      blue[is.na(blue)] <- 255L
-      theColours <- list(rgb(red = red, green = green, blue = blue, maxColorValue = 255))
-      panelNames <- "image"
-      assertNames(griddedNames, permutation.of = c("red", "green", "blue"))
-      assertIntegerish(plotLayers, lower = 3, upper = 3)
+      isRGB <- testNames(names(raster), permutation.of = c("red", "green", "blue"))
+      isHex <- testCharacter(x = raster[1], pattern = "\\#(.{6,8})")
+
+      if(isRGB){
+        red <- getValues(raster[[which(griddedNames == "red")]])
+        # red[is.na(red)] <- 255L
+        green <- getValues(raster[[which(griddedNames == "green")]])
+        # green[is.na(green)] <- 255L
+        blue <- getValues(raster[[which(griddedNames == "blue")]])
+        # blue[is.na(blue)] <- 255L
+        theColours <- rgb(red = red, green = green, blue = blue, maxColorValue = 255)
+      } else if(isHex){
+        theColours <- as.vector(raster)
+      } else{
+        stop("please either provide rgb (in 3 layers) or hex values in 'raster'")
+      }
+
+      # meta stuff
       plotLayers <- 1
+      griddedNames <- "image"
+      theme@legend$plot <- FALSE
+
     }
 
     # set panelExt to window, if that exists
@@ -172,11 +181,6 @@ visualise <- function(raster = NULL, geom = NULL, window = NULL, theme = gtTheme
     isGeomInPlot <-FALSE
   }
 
-  # override legend in some cases
-  if(image){
-    theme@legend$plot <- FALSE
-  }
-
   # turn 'geom' into a grob that can be plotted
   if(existsGeom){
 
@@ -199,7 +203,6 @@ visualise <- function(raster = NULL, geom = NULL, window = NULL, theme = gtTheme
     }
 
     geomGrob <- gt_as_grob(geom = geom, theme = theme, ...)
-
   }
 
   # checkup concerning plot size
@@ -271,15 +274,14 @@ visualise <- function(raster = NULL, geom = NULL, window = NULL, theme = gtTheme
     if(!isOpenPlot){
 
       # get colours for this panel
-      if(existsRaster){
-        cls <- makeColours(input = raster[[i]], theme = theme)
-      } else if(existsGeom){
-        cls <- makeColours(input = geom, theme = theme)
-        if(is.na(cls$legend$values)){
-          theme@legend$plot <- FALSE
+      if(!image){
+        if(existsRaster){
+          cls <- makeColours(input = raster[[i]], theme = theme, ...)
+        } else if(existsGeom){
+          cls <- makeColours(input = geom, theme = theme, ...)
         }
+        theColours <- cls$out.cols
       }
-      theColours <- cls$out.cols
 
       # the panel viewport
       pushViewport(viewport(x = (panelPosX[i]/ncol)-(1/ncol/2),
@@ -324,17 +326,6 @@ visualise <- function(raster = NULL, geom = NULL, window = NULL, theme = gtTheme
         pushViewport(viewport(height = unit(1, "npc")*theme@legend$sizeRatio,
                               yscale = c(1, length(cls$legend$values)+0.1),
                               name = "legend"))
-
-        # order the legend
-        # if(theme@legend$ascending){
-        #   theLegend <- matrix(data = rev(uniqueColours[[i]]), ncol = 1, nrow = length(uniqueColours[[i]]))
-        #   theValues <- rev(uniqueVals[[i]])
-        #   valPos <- unit(which(uniqueVals[[i]] %in% tickValues[[i]]), "native")
-        # } else{
-        #   theLegend <- matrix(data = uniqueColours[[i]], ncol = 1, nrow = length(uniqueColours[[i]]))
-        #   theValues <- uniqueVals[[i]]
-        #   valPos <- rev(unit(which(uniqueVals[[i]] %in% tickValues[[i]]), "native"))
-        # }
 
         grid.raster(x = unit(1, "npc") + unit(10, "points"),
                     width = unit(10, "points"),
