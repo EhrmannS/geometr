@@ -37,8 +37,8 @@ gt_as_grob <- function(geom = NULL, theme = gtTheme, ...){
   coords <- getCoords(x = outGeom)
 
   attr <- getTable(x = geom)
-  pars <- scaleParameters(attr = attr, params = theme@geom, ...)
-  # pars <- makeColours(input = geom, theme = theme, ...)
+  pars <- makeColours(input = geom, theme = theme, ...)
+  pars <- pars$params
 
   ids <- eval(parse(text = pars$scale$to), envir = attr)
   if(is.factor(ids)) ids <- as.character(ids)

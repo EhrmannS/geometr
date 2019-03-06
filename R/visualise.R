@@ -98,39 +98,32 @@ visualise <- function(raster = NULL, geom = NULL, window = NULL, theme = gtTheme
       griddedNames <- sapply(1:plotLayers, function(x){
         raster[[x]]@data@names
       })
-      # vals <- lapply(1:plotLayers, function(x){
-      #   raster[[x]]@data@values
-      # })
-      # uniqueVals <- lapply(1:plotLayers, function(x){
-      #   sortUniqueC(vals[[x]][!is.na(vals[[x]])])
-      # })
       dims <- c(raster@nrows, raster@ncols)
       ext <- raster[[1]]@extent
       panelExt <- tibble(x = c(ext@xmin, ext@xmax),
                          y = c(ext@ymin, ext@ymax))
-      # hasColourTable <- lapply(1:plotLayers, function(x){
-      #   as.logical(length(raster[[x]]@legend@colortable))
-      # })
-      isFactor <- lapply(1:plotLayers, function(x){
-        raster[[x]]@data@isfactor
-      })
 
     } else{
 
       plotLayers <- 1
       griddedNames <- "layer"
-      vals <- list(getValuesMatC(raster))
-      # uniqueVals <- list(sort(unique(vals[[1]], na.rm = TRUE)))
+      # vals <- list(getValuesMatC(raster))
       dims <- dim(raster)
       panelExt <- tibble(x = c(0, ncol(raster)),
                          y = c(0, nrow(raster)))
-      # hasColourTable <- FALSE
-      isFactor <- FALSE
 
     }
 
     # checks in case raster is supposed to be an "image"
     if(image){
+      red <- as.integer(vals[[which(panelNames == "red")]])
+      red[is.na(red)] <- 255L
+      green <- as.integer(vals[[which(panelNames == "green")]])
+      green[is.na(green)] <- 255L
+      blue <- as.integer(vals[[which(panelNames == "blue")]])
+      blue[is.na(blue)] <- 255L
+      theColours <- list(rgb(red = red, green = green, blue = blue, maxColorValue = 255))
+      panelNames <- "image"
       assertNames(griddedNames, permutation.of = c("red", "green", "blue"))
       assertIntegerish(plotLayers, lower = 3, upper = 3)
       plotLayers <- 1
@@ -207,34 +200,6 @@ visualise <- function(raster = NULL, geom = NULL, window = NULL, theme = gtTheme
 
     geomGrob <- gt_as_grob(geom = geom, theme = theme, ...)
 
-    # # colours for the legend
-    # uniqueColours <- unlist(lapply(seq_along(geomGrob), function(x){
-    #   tempGrob <- geomGrob[[x]]
-    #   tempGrob$gp$fill
-    # }))
-    #
-    # if(!all(is.na(uniqueColours))){
-    #   uniqueVals <- list(unlist(lapply(seq_along(geomGrob), function(x){
-    #     tempGrob <- geomGrob[[x]]
-    #     tempGrob$name
-    #   })))
-    #
-    #   tickValues <- lapply(seq_along(uniqueVals), function(x){
-    #     if(length(uniqueVals[[x]]) > theme@legend$bins){
-    #       quantile(uniqueVals[[x]], probs = seq(0, 1, length.out = theme@legend$bins+1), type = 1, names = FALSE)
-    #     } else{
-    #       uniqueVals[[x]]
-    #     }
-    #   })
-    #
-    #   tickLabels <- unlist(lapply(seq_along(geomGrob), function(x){
-    #     tempGrob <- geomGrob[[x]]
-    #     tempGrob$name
-    #   }))
-    # } else{
-    #   theme@legend$plot <- FALSE
-    # }
-
   }
 
   # checkup concerning plot size
@@ -246,113 +211,13 @@ visualise <- function(raster = NULL, geom = NULL, window = NULL, theme = gtTheme
     }
   }
 
-  # manage plot properties
-  ratio <- list(x = (panelExt$x[2] - panelExt$x[1])/(panelExt$y[2] - panelExt$y[1]),
-                y = (panelExt$y[2] - panelExt$y[1])/(panelExt$x[2] - panelExt$x[1]))
-  xBins <- theme@xAxis$bins
-  yBins <- theme@yAxis$bins
-  xBinSize <- (panelExt$x[2] - panelExt$x[1])/xBins
-  yBinSize <- (panelExt$y[2] - panelExt$y[1])/yBins
-  axisSteps <- list(x1 = seq(from = panelExt$x[1],
-                             to = panelExt$x[2],
-                             by = (panelExt$x[2] - panelExt$x[1])/xBins),
-                    x2 = seq(from = panelExt$x[1] + (xBinSize/2),
-                             to = panelExt$x[2],
-                             by = (panelExt$x[2] - panelExt$x[1])/xBins),
-                    y1 = seq(from = panelExt$y[1],
-                             to = panelExt$y[2],
-                             by = (panelExt$y[2] - panelExt$y[1])/yBins),
-                    y2 = seq(from = panelExt$y[1] + (yBinSize/2),
-                             to = panelExt$y[2],
-                             by = (panelExt$y[2] - panelExt$y[1])/yBins))
-  margin <- list(x = (panelExt$x[2]-panelExt$x[1])*theme@yAxis$margin,
-                 y = (panelExt$y[2]-panelExt$y[1])*theme@xAxis$margin)
+  format <- makeFormat(panelExt = panelExt, theme = theme)
 
-  # manage the raster colours
-  if(existsRaster){
-
-    if(image){
-      red <- as.integer(vals[[which(panelNames == "red")]])
-      red[is.na(red)] <- 255L
-      green <- as.integer(vals[[which(panelNames == "green")]])
-      green[is.na(green)] <- 255L
-      blue <- as.integer(vals[[which(panelNames == "blue")]])
-      blue[is.na(blue)] <- 255L
-      theColours <- list(rgb(red = red, green = green, blue = blue, maxColorValue = 255))
-      panelNames <- "image"
-    } else{
-      # uniqueColours <- lapply(seq_along(uniqueVals), function(x){
-      #   tempVals <- uniqueVals[[x]]
-      #   nrVals <- length(tempVals)
-      #   if(tempVals[1] == 0){
-      #     tempVals <- tempVals+1
-      #   }
-      #   if(nrVals < 256){
-      #     nrColours <- nrVals
-      #   } else{
-      #     nrColours <- 256
-      #   }
-      #   if(hasColourTable[[x]]){
-      #     raster[[x]]@legend@colortable[tempVals]
-      #   } else{
-      #     colorRampPalette(colors = theme@raster$colours)(nrColours)
-      #   }
-      # })
-
-      # if(theme@legend$common){
-      #   uniqueVals <- lapply(seq_along(uniqueVals), function(x){
-      #     sort(unique(unlist(uniqueVals), na.rm = TRUE))
-      #
-      #   })
-      # }
-
-      # theColours <- lapply(seq_along(uniqueVals), function(x){
-      #   tempVals <- uniqueVals[[x]]
-      #   nrVals <- length(tempVals)
-      #   if(nrVals == 1){
-      #     if(tempVals == 0){
-      #       tempVals <- 1
-      #     }
-      #   }
-      #   if(nrVals < 256){
-      #     nrColours <- nrVals
-      #   } else{
-      #     nrColours <- 256
-      #   }
-      #
-      #   if(hasColourTable[[x]]){
-      #     breaksTemp <- c(tempVals[1]-1, tempVals)
-      #   } else if(isFactor[[x]]){
-      #     attr <- raster[[x]]@data@attributes[[1]]
-      #     idPos <- grep("id", colnames(attr), ignore.case = TRUE)
-      #     breaksTemp <- c(tempVals[1]-1, attr[,idPos])
-      #   } else{
-      #     breaksTemp <- c(tempVals[1]-1, seq(tempVals[1], tempVals[[length(tempVals)]], length.out = nrColours))
-      #   }
-      #   valCuts <- cut(vals[[x]], breaks = breaksTemp, include.lowest = TRUE)
-      #   uniqueColours[[x]][valCuts]
-      # })
-    }
-
-    # colours for the legend
-    # tickValues <- lapply(seq_along(uniqueVals), function(x){
-    #   if(length(uniqueVals[[x]]) > theme@legend$bins){
-    #     quantile(uniqueVals[[x]], probs = seq(0, 1, length.out = theme@legend$bins+1), type = 1, names = FALSE)
-    #   } else{
-    #     uniqueVals[[x]]
-    #   }
-    # })
-    # tickLabels <- lapply(seq_along(uniqueVals), function(x){
-    #   round(tickValues[[x]], 1)
-    # })
-
-  } else if(isOpenPlot){
+  if(isOpenPlot){
     if(isLegendInPlot){
       legendMeta <- grid.get(gPath("legendValues"))
       tickLabels <- as.numeric(legendMeta$label)
     }
-  } else{
-    theme@legend$plot <- FALSE
   }
 
   # height and width of the plot elements
@@ -362,13 +227,13 @@ visualise <- function(raster = NULL, geom = NULL, window = NULL, theme = gtTheme
     titleH <- unit(0, "points")
   }
   if(theme@legend$plot){
-    legendW <- ceiling(convertX(unit(1, "strwidth", as.character(max(unlist(tickLabels)))) + unit(30, "points"), "points"))
+    legendW <- ceiling(convertX(unit(1, "strwidth", as.character(100)) + unit(30, "points"), "points"))
   } else{
     legendW <- unit(0, "points")
   }
   if(theme@yAxis$plot){
     yAxisTitleW <- unit(theme@yAxis$label$fontsize+6, units = "points")
-    yAxisTicksW <- ceiling(convertX(unit(1, "strwidth", as.character(max(round(axisSteps$y1, theme@yAxis$ticks$digits)))), "points"))
+    yAxisTicksW <- ceiling(convertX(unit(1, "strwidth", as.character(max(round(format$yMajG, theme@yAxis$ticks$digits)))), "points"))
   } else{
     yAxisTitleW <- unit(0, "points")
     yAxisTicksW <- unit(0, "points")
@@ -405,6 +270,17 @@ visualise <- function(raster = NULL, geom = NULL, window = NULL, theme = gtTheme
 
     if(!isOpenPlot){
 
+      # get colours for this panel
+      if(existsRaster){
+        cls <- makeColours(input = raster[[i]], theme = theme)
+      } else if(existsGeom){
+        cls <- makeColours(input = geom, theme = theme)
+        if(is.na(cls$legend$values)){
+          theme@legend$plot <- FALSE
+        }
+      }
+      theColours <- cls$out.cols
+
       # the panel viewport
       pushViewport(viewport(x = (panelPosX[i]/ncol)-(1/ncol/2),
                             y = (panelPosY[i]/nrow)-(1/nrow/2),
@@ -421,9 +297,9 @@ visualise <- function(raster = NULL, geom = NULL, window = NULL, theme = gtTheme
 
       # determine dimensions for this plot
       gridH <- unit(1, "grobheight", "panelGrob") - xAxisTitleH - xAxisTicksH - titleH
-      gridHr <- unit(1, "grobwidth", "panelGrob")*ratio$y - yAxisTitleW*ratio$y - yAxisTicksW*ratio$y - legendW*ratio$y
+      gridHr <- unit(1, "grobwidth", "panelGrob")*format$yRat - yAxisTitleW*format$yRat - yAxisTicksW*format$yRat - legendW*format$yRat
       gridW <- unit(1, "grobwidth", "panelGrob") - yAxisTitleW - yAxisTicksW - legendW
-      gridWr <- unit(1, "grobheight", "panelGrob")*ratio$x - xAxisTitleH*ratio$x- xAxisTicksH*ratio$x - titleH*ratio$x
+      gridWr <- unit(1, "grobheight", "panelGrob")*format$xRat - xAxisTitleH*format$xRat- xAxisTicksH*format$xRat - titleH*format$xRat
 
       pushViewport(viewport(x = unit(0.5, "npc") + unit(xOffset, "points"),
                             y = unit(0.5, "npc") + unit(yOffset, "points"),
@@ -446,7 +322,7 @@ visualise <- function(raster = NULL, geom = NULL, window = NULL, theme = gtTheme
       if(theme@legend$plot){
 
         pushViewport(viewport(height = unit(1, "npc")*theme@legend$sizeRatio,
-                              yscale = c(1, length(uniqueVals[[i]])+0.1),
+                              yscale = c(1, length(cls$legend$values)+0.1),
                               name = "legend"))
 
         # order the legend
@@ -464,7 +340,7 @@ visualise <- function(raster = NULL, geom = NULL, window = NULL, theme = gtTheme
                     width = unit(10, "points"),
                     height = unit(1, "npc"),
                     just = "left",
-                    image = theLegend,
+                    image = cls$legend$array,
                     name = "theLegend",
                     interpolate = FALSE)
         if(theme@legend$box$plot){
@@ -477,9 +353,9 @@ visualise <- function(raster = NULL, geom = NULL, window = NULL, theme = gtTheme
                               lwd = theme@legend$box$linewidth))
         }
         if(theme@legend$label$plot){
-          grid.text(label = tickLabels[[i]],
+          grid.text(label = cls$legend$labels,
                     x = unit(1, "npc") + unit(1, "grobwidth", "theLegend") + unit(20, "points"),
-                    y = valPos,
+                    y = cls$legend$labelsPos,
                     just = c("left"),
                     gp = gpar(fontsize = theme@legend$label$fontsize,
                               col = theme@legend$label$colour))
@@ -487,7 +363,7 @@ visualise <- function(raster = NULL, geom = NULL, window = NULL, theme = gtTheme
 
         # this is a little hack to get all the values that are contained in the
         # raster "into" the plotted object for later use (e.g. by locate())
-        grid.text(label = theValues,
+        grid.text(label = cls$legend$labels,
                   name = "legendValues",
                   gp = gpar(col = NA))
 
@@ -519,39 +395,39 @@ visualise <- function(raster = NULL, geom = NULL, window = NULL, theme = gtTheme
       }
 
       # the grid viewport
-      pushViewport(viewport(xscale = c(panelExt$x[1]-margin$x, panelExt$x[2]+margin$x),
-                            yscale = c(panelExt$y[1]-margin$y, panelExt$y[2]+margin$y),
+      pushViewport(viewport(xscale = c(panelExt$x[1]-format$xMar, panelExt$x[2]+format$xMar),
+                            yscale = c(panelExt$y[1]-format$yMar, panelExt$y[2]+format$yMar),
                             name = "grid"))
       grid.rect(gp = gpar(col = NA, fill = NA), name = "gridGrob")
 
       if(theme@grid$plot){
 
         # the grid and axes viewport
-        pushViewport(viewport(xscale = c(panelExt$x[1]-margin$x, panelExt$x[2]+margin$x),
-                              yscale = c(panelExt$y[1]-margin$y, panelExt$y[2]+margin$y),
+        pushViewport(viewport(xscale = c(panelExt$x[1]-format$xMar, panelExt$x[2]+format$xMar),
+                              yscale = c(panelExt$y[1]-format$yMar, panelExt$y[2]+format$yMar),
                               name = "majorGrid"))
 
         if(theme@xAxis$ticks$plot){
-          grid.text(label = as.character(round(axisSteps$x1, theme@xAxis$ticks$digits)),
+          grid.text(label = as.character(round(format$xMajG, theme@xAxis$ticks$digits)),
                     just = "top",
-                    x = unit(axisSteps$x1, "native"),
+                    x = unit(format$xMajG, "native"),
                     y = unit(-0.005, "npc"),
                     name = "xAxisTicks",
                     gp = gpar(fontsize = theme@xAxis$ticks$fontsize,
                               col = theme@xAxis$ticks$colour))
         }
         if(theme@yAxis$ticks$plot){
-          grid.text(label = as.character(round(axisSteps$y1, theme@yAxis$ticks$digits)),
+          grid.text(label = as.character(round(format$yMajG, theme@yAxis$ticks$digits)),
                     just = "right",
                     x = unit(-0.005, "npc"),
-                    y = unit(axisSteps$y1, "native"),
+                    y = unit(format$yMajG, "native"),
                     name = "yAxisTicks",
                     gp = gpar(fontsize = theme@yAxis$ticks$fontsize,
                               col = theme@yAxis$ticks$colour))
         }
 
-        grid.grill(h = unit(axisSteps$y1, "native"),
-                   v = unit(axisSteps$x1, "native"),
+        grid.grill(h = unit(format$yMajG, "native"),
+                   v = unit(format$xMajG, "native"),
                    gp = gpar(col = theme@grid$colour,
                              lwd = theme@grid$linewidth,
                              lty = theme@grid$linetype))
@@ -559,11 +435,11 @@ visualise <- function(raster = NULL, geom = NULL, window = NULL, theme = gtTheme
 
         # plot the minor grid
         if(theme@grid$minor){
-          pushViewport(viewport(xscale = c(panelExt$x[1]-margin$x, panelExt$x[2]+margin$x),
-                                yscale = c(panelExt$y[1]-margin$y, panelExt$y[2]+margin$y),
+          pushViewport(viewport(xscale = c(panelExt$x[1]-format$xMar, panelExt$x[2]+format$xMar),
+                                yscale = c(panelExt$y[1]-format$yMar, panelExt$y[2]+format$yMar),
                                 name = "minorGrid"))
-          grid.grill(h = unit(axisSteps$y2, "native"),
-                     v = unit(axisSteps$x2, "native"),
+          grid.grill(h = unit(format$yMinG, "native"),
+                     v = unit(format$xMinG, "native"),
                      gp = gpar(col = theme@grid$colour,
                                lwd = theme@grid$linewidth/2,
                                lty = theme@grid$linetype))
@@ -573,8 +449,8 @@ visualise <- function(raster = NULL, geom = NULL, window = NULL, theme = gtTheme
 
       # the box viewport
       if(theme@box$plot){
-        pushViewport(viewport(width = unit(1, "npc") - unit(2*margin$x, "native"),
-                              height = unit(1, "npc") - unit(2*margin$y, "native"),
+        pushViewport(viewport(width = unit(1, "npc") - unit(2*format$xMar, "native"),
+                              height = unit(1, "npc") - unit(2*format$yMar, "native"),
                               name = "box"))
         grid.rect(gp = gpar(fill = NA,
                             col = theme@box$colour,
@@ -586,10 +462,10 @@ visualise <- function(raster = NULL, geom = NULL, window = NULL, theme = gtTheme
 
       # the raster viewport
       if(existsRaster){
-        pushViewport(viewport(width = unit(1, "npc") - unit(2*margin$x, "native") + unit(theme@box$linewidth, "points"),
-                              height = unit(1, "npc") - unit(2*margin$y, "native") + unit(theme@box$linewidth, "points"),
-                              xscale = c(panelExt$x[1]-margin$x, panelExt$x[2]+margin$x),
-                              yscale = c(panelExt$y[1]-margin$y, panelExt$y[2]+margin$y),
+        pushViewport(viewport(width = unit(1, "npc") - unit(2*format$xMar, "native") + unit(theme@box$linewidth, "points"),
+                              height = unit(1, "npc") - unit(2*format$yMar, "native") + unit(theme@box$linewidth, "points"),
+                              xscale = c(panelExt$x[1]-format$xMar, panelExt$x[2]+format$xMar),
+                              yscale = c(panelExt$y[1]-format$yMar, panelExt$y[2]+format$yMar),
                               name = "raster"))
         grid.clip(width = unit(1, "npc") - unit(theme@box$linewidth, "points"),
                   height = unit(1, "npc") - unit(theme@box$linewidth, "points"))
@@ -600,7 +476,7 @@ visualise <- function(raster = NULL, geom = NULL, window = NULL, theme = gtTheme
                     height = unit(1, "npc")*yFactor,
                     hjust = 0,
                     vjust = 0,
-                    image = matrix(data = theColours[[i]], nrow = dims[1], ncol = dims[2], byrow = TRUE),
+                    image = matrix(data = theColours, nrow = dims[1], ncol = dims[2], byrow = TRUE),
                     name = "theRaster",
                     interpolate = FALSE)
         upViewport() # exit raster
@@ -608,10 +484,10 @@ visualise <- function(raster = NULL, geom = NULL, window = NULL, theme = gtTheme
 
       # the geom viewport
       if(existsGeom){
-        pushViewport(viewport(width = unit(1, "npc") - unit(2*margin$x, "native"),
-                              height = unit(1, "npc") - unit(2*margin$y, "native"),
-                              xscale = c(panelExt$x[1]-margin$x, panelExt$x[2]+margin$x),
-                              yscale = c(panelExt$y[1]-margin$y, panelExt$y[2]+margin$y),
+        pushViewport(viewport(width = unit(1, "npc") - unit(2*format$xMar, "native"),
+                              height = unit(1, "npc") - unit(2*format$yMar, "native"),
+                              xscale = c(panelExt$x[1]-format$xMar, panelExt$x[2]+format$xMar),
+                              yscale = c(panelExt$y[1]-format$yMar, panelExt$y[2]+format$yMar),
                               name = "geom"))
         grid.clip(width = unit(1, "npc") + unit(theme@box$linewidth, "points"),
                   height = unit(1, "npc") + unit(theme@box$linewidth, "points"))
@@ -631,10 +507,10 @@ visualise <- function(raster = NULL, geom = NULL, window = NULL, theme = gtTheme
 
       if(!isGeomInPlot){
         # grid.clip()
-        pushViewport(viewport(width = unit(1, "npc") - unit(2*margin$x, "native"),
-                              height = unit(1, "npc") - unit(2*margin$y, "native"),
-                              # xscale = c(panelExt$x[1]-margin$x, panelExt$x[2]+margin$x),
-                              # yscale = c(panelExt$y[1]-margin$y, panelExt$y[2]+margin$y),
+        pushViewport(viewport(width = unit(1, "npc") - unit(2*format$xMar, "native"),
+                              height = unit(1, "npc") - unit(2*format$yMar, "native"),
+                              # xscale = c(panelExt$x[1]-format$xMar, panelExt$x[2]+format$xMar),
+                              # yscale = c(panelExt$y[1]-format$yMar, panelExt$y[2]+format$yMar),
                               name = "geom"))
       } else{
         downViewport("geom")
