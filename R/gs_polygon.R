@@ -55,12 +55,6 @@
 #' gs_polygon(anchor = aGeom) %>%
 #'   visualise(geom = ., fillcol = "deeppink")
 #'
-#' # when a geom is piped to visualise, the output is a "recordedplot"
-#' (anExtent <- gs_rectangle(anchor = aGeom))
-#' anExtentPlot <- anExtent %>%
-#'   visualise(geom = ., linetype = 2, new = FALSE)
-#' class(anExtentPlot)
-#'
 #' # geoms with more than one element are treated element-wise
 #' aGeom <- gt_group(geom = aGeom, index = c(1, 2, 1, 2))
 #' visualise(geom = aGeom)
@@ -72,8 +66,8 @@
 #' input <- rtRasters$continuous
 #'
 #' # create a square interactively
-#' squareGeom <- gs_square(template = input) %>%
-#'   visualise(geom = ., linecol = "orange", new = FALSE)
+#' squareGeom <- gs_square(template = input)
+#' visualise(geom = squareGeom, linecol = "orange", new = FALSE)
 #'
 #' # ... or an approximate circle (actually a hectogon)
 #' circleGeom <- gs_polygon(template = input, vertices = 100, regular = TRUE) %>%
@@ -109,6 +103,11 @@ gs_polygon <- function(anchor = NULL, window = NULL, template = NULL, features =
   }
   anchorIsGeom <- testClass(anchor, classes = "geom")
   if(anchorIsGeom){
+    # fid and vid values need to be transformed
+    if(anchor@type == "point"){
+      anchor@coords$fid <- rep(1, length(anchor@coords$fid))
+      anchor@coords$vid <- seq_along(anchor@coords$vid)
+    }
     features <- length(unique(anchor@coords$fid))
   }
   windowExists <- !testNull(window)
@@ -129,7 +128,6 @@ gs_polygon <- function(anchor = NULL, window = NULL, template = NULL, features =
   }
   assertIntegerish(features, len = 1, lower = 1)
   assertLogical(regular)
-  # assertLogical(show)
   if(!anchorIsDF & !anchorIsGeom){
     assertIntegerish(vertices, min.len = 1, lower = 2, any.missing = FALSE)
     if(length(vertices) != features){
@@ -157,8 +155,8 @@ gs_polygon <- function(anchor = NULL, window = NULL, template = NULL, features =
 
   # build a regular geometry
   nodes <- fids <- NULL
-  out <- NULL
   for(i in 1:features){
+
     # if anchor does not exists, make it
     if(!anchorIsDF & !anchorIsGeom){
 
@@ -205,30 +203,12 @@ gs_polygon <- function(anchor = NULL, window = NULL, template = NULL, features =
         window <- tibble(x = c(min(theNodes$x), max(theNodes$x)), y = c(min(theNodes$y), max(theNodes$y)))
       }
 
-      temp <- new(Class = "geom",
-                  type = "polygon",
-                  coords = theNodes,
-                  attr = tibble(fid = unique(theNodes$fid), n = length(unique(theNodes$vid))),
-                  window = tibble(x = rep(c(min(window$x), max(window$x)), each = 2), y = c(min(window$y), max(window$y), max(window$y), min(window$y))),
-                  scale = "absolute",
-                  crs = as.character(projection),
-                  history = list(paste0()))
-
       nodes <- bind_rows(nodes, theNodes)
       fids <- c(fids, length(unique(theNodes$fid)))
 
     } else{
 
       theNodes <- tempAnchor[c("fid", "vid", "x", "y")]
-
-      temp <- new(Class = "geom",
-                  type = "polygon",
-                  coords = theNodes,
-                  attr = tibble(fid = unique(theNodes$fid), n = length(unique(theNodes$vid))),
-                  window = tibble(x = rep(c(min(window$x), max(window$x)), each = 2), y = c(min(window$y), max(window$y), max(window$y), min(window$y))),
-                  scale = "absolute",
-                  crs = as.character(projection),
-                  history = list(paste0()))
 
       nodes <- bind_rows(nodes, theNodes)
       fids <- c(fids, length(unique(theNodes$vid)))

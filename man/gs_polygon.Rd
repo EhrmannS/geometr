@@ -108,12 +108,6 @@ aGeom <- setWindow(x = aGeom, to = window)
 gs_polygon(anchor = aGeom) \%>\%
   visualise(geom = ., fillcol = "deeppink")
 
-# when a geom is piped to visualise, the output is a "recordedplot"
-(anExtent <- gs_rectangle(anchor = aGeom))
-anExtentPlot <- anExtent \%>\%
-  visualise(geom = ., linetype = 2, new = FALSE)
-class(anExtentPlot)
-
 # geoms with more than one element are treated element-wise
 aGeom <- gt_group(geom = aGeom, index = c(1, 2, 1, 2))
 visualise(geom = aGeom)
@@ -125,8 +119,8 @@ gs_rectangle(anchor = aGeom) \%>\%
 input <- rtRasters$continuous
 
 # create a square interactively
-squareGeom <- gs_square(template = input) \%>\%
-  visualise(geom = ., linecol = "orange", new = FALSE)
+squareGeom <- gs_square(template = input)
+visualise(geom = squareGeom, linecol = "orange", new = FALSE)
 
 # ... or an approximate circle (actually a hectogon)
 circleGeom <- gs_polygon(template = input, vertices = 100, regular = TRUE) \%>\%
@@ -138,7 +132,7 @@ polyGeom <- gs_polygon(template = input, features = 2, vertices = c(4, 6)) \%>\%
 }
 }
 \seealso{
-Other shapes: \code{\link{gs_point}},
-  \code{\link{gs_random}}
+Other shapes: \code{\link{gs_line}},
+  \code{\link{gs_point}}, \code{\link{gs_random}}
 }
 \concept{shapes}

@@ -28,32 +28,45 @@ points are sketched; see \code{\link{gpar}}.}
 An invisible \code{geom}.
 }
 \description{
-Create a point geometry
+Create a point geometry (of class \code{\link{geom}}) either by specifying
+its parameters or by sketching it.
 }
 \examples{
 library(magrittr)
 
-# create points programmatically
-somePoints <- data.frame(X = c(5190599, 5222810, 5041066, 5234735,
-                         5326537, 5027609, 5281527, 5189955), Y = c(3977612,
-                         4060164, 3997230, 4117856, 4028167, 3971119, 4118207,
-                         4062838))
-(pointsGeom <- gs_point(anchor = somePoints)) \%>\%
-  visualise(geom = ., linecol = "darkorange")
+# create a points programmatically
+coords <- data.frame(x = c(40, 70, 70, 50),
+                     y = c(40, 40, 60, 70))
+window <- data.frame(x = c(0, 80),
+                     y = c(0, 80))
+
+# if no window is set, the bounding box (i.e. min/max values) will be set as window
+(aGeom <- gs_point(anchor = coords))
+
+# the vertices are plottet relative to the window
+visualise(geom = gs_point(anchor = coords))
+gs_point(anchor = coords, window = window) \%>\%
+  visualise(geom = ., linecol = "green", new = FALSE)
+
+# when a geom is used in 'anchor', its properties (e.g. 'window') are passed on
+aGeom <- setWindow(x = aGeom, to = window)
+gs_point(anchor = aGeom) \%>\%
+  visualise(geom = ., linecol = "deeppink")
 
 \dontrun{
 
 input <- gtRasters$continuous
 
 # create points interactively
-myPoints <- gs_point(template = input, vertices = 5, col = "deeppink") \%>\%
-  gt_group(, index = rep(1, 5))
+myPoints <- gs_point(template = input, vertices = 5)
+visualise(geom = myPoints, linecol = "deeppink", new = FALSE)
+
 anExtent <- gs_rectangle(myPoints)
 visualise(geom = anExtent, linecol = "green", new = FALSE)
 }
 }
 \seealso{
-Other shapes: \code{\link{gs_polygon}},
-  \code{\link{gs_random}}
+Other shapes: \code{\link{gs_line}},
+  \code{\link{gs_polygon}}, \code{\link{gs_random}}
 }
 \concept{shapes}
