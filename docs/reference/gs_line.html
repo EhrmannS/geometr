@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Create a point geometry — gs_point • geometr</title>
+<title>Create a line geometry — gs_line • geometr</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,10 +30,10 @@
 
 
 
-<meta property="og:title" content="Create a point geometry — gs_point" />
+<meta property="og:title" content="Create a line geometry — gs_line" />
 
-<meta property="og:description" content="Create a point geometry (of class geom) either by specifying
-its parameters or by sketching it." />
+<meta property="og:description" content="Create a line geometry (of class geom) either by specifying its
+parameters or by sketching it." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -115,20 +115,20 @@ its parameters or by sketching it." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Create a point geometry</h1>
-    <small class="dont-index">Source: <a href='https://github.com/EhrmannS/geometr/blob/master/R/gs_point.R'><code>R/gs_point.R</code></a></small>
-    <div class="hidden name"><code>gs_point.Rd</code></div>
+    <h1>Create a line geometry</h1>
+    <small class="dont-index">Source: <a href='https://github.com/EhrmannS/geometr/blob/master/R/gs_line.R'><code>R/gs_line.R</code></a></small>
+    <div class="hidden name"><code>gs_line.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Create a point geometry (of class <code><a href='geom-class.html'>geom</a></code>) either by specifying
-its parameters or by sketching it.</p>
+    <p>Create a line geometry (of class <code><a href='geom-class.html'>geom</a></code>) either by specifying its
+parameters or by sketching it.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>gs_point</span>(<span class='kw'>anchor</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>window</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>template</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>vertices</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>gs_line</span>(<span class='kw'>anchor</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>window</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>template</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>features</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>vertices</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -151,8 +151,14 @@ specify this here.</p></td>
 that serves as template to sketch the geometry.</p></td>
     </tr>
     <tr>
+      <th>features</th>
+      <td><p>[<code>integerish(1)</code>]<br /> number of geometries to create.</p></td>
+    </tr>
+    <tr>
       <th>vertices</th>
-      <td><p>[<code><a href='https://www.rdocumentation.org/packages/base/topics/integer'>integer(1)</a></code>]<br /> number of vertices.</p></td>
+      <td><p>[<code>integerish(.)</code>]<br /> number of vertices per geometry;
+will be recycled if it does not have as many elements as specified in
+<code>features</code>.</p></td>
     </tr>
     <tr>
       <th>...</th>
@@ -165,15 +171,22 @@ points are sketched; see <code>gpar</code>.</p></td>
 
     <p>An invisible <code>geom</code>.</p>
     
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>http://www.antigrain.com/research/bezier_interpolation/
+https://en.wikipedia.org/wiki/B<!-- %C3%A9zier_curve --></p>
+    
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p>Other shapes: <code><a href='gs_line.html'>gs_line</a></code>,
+    <div class='dont-index'><p>Other shapes: <code><a href='gs_point.html'>gs_point</a></code>,
   <code><a href='gs_polygon.html'>gs_polygon</a></code>, <code><a href='gs_random.html'>gs_random</a></code></p></div>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>library</a></span>(<span class='no'>magrittr</span>)
-
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>library</a></span>(<span class='no'>magrittr</span>)</div><div class='output co'>#&gt; <span class='message'></span>
+#&gt; <span class='message'>Attaching package: ‘magrittr’</span></div><div class='output co'>#&gt; <span class='message'>The following objects are masked from ‘package:testthat’:</span>
+#&gt; <span class='message'></span>
+#&gt; <span class='message'>    equals, is_less_than, not</span></div><div class='input'>
 <span class='co'># create a points programmatically</span>
 <span class='no'>coords</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/data.frame'>data.frame</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>40</span>, <span class='fl'>70</span>, <span class='fl'>70</span>, <span class='fl'>50</span>),
                      <span class='kw'>y</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>40</span>, <span class='fl'>40</span>, <span class='fl'>60</span>, <span class='fl'>70</span>))
@@ -181,29 +194,29 @@ points are sketched; see <code>gpar</code>.</p></td>
                      <span class='kw'>y</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>0</span>, <span class='fl'>80</span>))
 
 <span class='co'># if no window is set, the bounding box (i.e. min/max values) will be set as window</span>
-(<span class='no'>aGeom</span> <span class='kw'>&lt;-</span> <span class='fu'>gs_point</span>(<span class='kw'>anchor</span> <span class='kw'>=</span> <span class='no'>coords</span>))</div><div class='output co'>#&gt; class      : geom
-#&gt; type       : point
-#&gt; features   : 4  (4 vertices)
+(<span class='no'>aGeom</span> <span class='kw'>&lt;-</span> <span class='fu'>gs_line</span>(<span class='kw'>anchor</span> <span class='kw'>=</span> <span class='no'>coords</span>))</div><div class='output co'>#&gt; class      : geom
+#&gt; type       : line
+#&gt; features   : 1  (4 vertices)
 #&gt; window     : 40, 70, 40, 70  (xmin, xmax, ymin, ymax)
 #&gt; extent     : 40, 70, 40, 70  (xmin, xmax, ymin, ymax)
 #&gt; scale      : absolute
 #&gt; crs        : NA
 #&gt; attributes : 2  (fid, n)</div><div class='input'>
 <span class='co'># the vertices are plottet relative to the window</span>
-<span class='fu'><a href='visualise.html'>visualise</a></span>(<span class='kw'>geom</span> <span class='kw'>=</span> <span class='fu'>gs_point</span>(<span class='kw'>anchor</span> <span class='kw'>=</span> <span class='no'>coords</span>))</div><div class='input'><span class='fu'>gs_point</span>(<span class='kw'>anchor</span> <span class='kw'>=</span> <span class='no'>coords</span>, <span class='kw'>window</span> <span class='kw'>=</span> <span class='no'>window</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='visualise.html'>visualise</a></span>(<span class='kw'>geom</span> <span class='kw'>=</span> <span class='no'>.</span>, <span class='kw'>linecol</span> <span class='kw'>=</span> <span class='st'>"green"</span>, <span class='kw'>new</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</div><div class='img'><img src='gs_point-1.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='fu'><a href='visualise.html'>visualise</a></span>(<span class='kw'>geom</span> <span class='kw'>=</span> <span class='fu'>gs_line</span>(<span class='kw'>anchor</span> <span class='kw'>=</span> <span class='no'>coords</span>))</div><div class='input'><span class='fu'>gs_line</span>(<span class='kw'>anchor</span> <span class='kw'>=</span> <span class='no'>coords</span>, <span class='kw'>window</span> <span class='kw'>=</span> <span class='no'>window</span>) <span class='kw'>%&gt;%</span>
+  <span class='fu'><a href='visualise.html'>visualise</a></span>(<span class='kw'>geom</span> <span class='kw'>=</span> <span class='no'>.</span>, <span class='kw'>linecol</span> <span class='kw'>=</span> <span class='st'>"green"</span>, <span class='kw'>new</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</div><div class='img'><img src='gs_line-1.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># when a geom is used in 'anchor', its properties (e.g. 'window') are passed on</span>
 <span class='no'>aGeom</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='setWindow.html'>setWindow</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>aGeom</span>, <span class='kw'>to</span> <span class='kw'>=</span> <span class='no'>window</span>)
-<span class='fu'>gs_point</span>(<span class='kw'>anchor</span> <span class='kw'>=</span> <span class='no'>aGeom</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='visualise.html'>visualise</a></span>(<span class='kw'>geom</span> <span class='kw'>=</span> <span class='no'>.</span>, <span class='kw'>linecol</span> <span class='kw'>=</span> <span class='st'>"deeppink"</span>)</div><div class='img'><img src='gs_point-2.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='fu'>gs_line</span>(<span class='kw'>anchor</span> <span class='kw'>=</span> <span class='no'>aGeom</span>) <span class='kw'>%&gt;%</span>
+  <span class='fu'><a href='visualise.html'>visualise</a></span>(<span class='kw'>geom</span> <span class='kw'>=</span> <span class='no'>.</span>, <span class='kw'>linecol</span> <span class='kw'>=</span> <span class='st'>"deeppink"</span>)</div><div class='img'><img src='gs_line-2.png' alt='' width='700' height='433' /></div><div class='input'>
 </div><span class='co'># NOT RUN {</span>
 <span class='no'>input</span> <span class='kw'>&lt;-</span> <span class='no'>gtRasters</span>$<span class='no'>continuous</span>
 
 <span class='co'># create points interactively</span>
-<span class='no'>myPoints</span> <span class='kw'>&lt;-</span> <span class='fu'>gs_point</span>(<span class='kw'>template</span> <span class='kw'>=</span> <span class='no'>input</span>, <span class='kw'>vertices</span> <span class='kw'>=</span> <span class='fl'>5</span>)
-<span class='fu'><a href='visualise.html'>visualise</a></span>(<span class='kw'>geom</span> <span class='kw'>=</span> <span class='no'>myPoints</span>, <span class='kw'>linecol</span> <span class='kw'>=</span> <span class='st'>"deeppink"</span>, <span class='kw'>new</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
+<span class='no'>myLine</span> <span class='kw'>&lt;-</span> <span class='fu'>gs_line</span>(<span class='kw'>template</span> <span class='kw'>=</span> <span class='no'>input</span>, <span class='kw'>vertices</span> <span class='kw'>=</span> <span class='fl'>5</span>)
+<span class='fu'><a href='visualise.html'>visualise</a></span>(<span class='kw'>geom</span> <span class='kw'>=</span> <span class='no'>myLine</span>, <span class='kw'>linecol</span> <span class='kw'>=</span> <span class='st'>"deeppink"</span>, <span class='kw'>new</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
 
-<span class='no'>anExtent</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='gs_polygon.html'>gs_rectangle</a></span>(<span class='no'>myPoints</span>)
+<span class='no'>anExtent</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='gs_polygon.html'>gs_rectangle</a></span>(<span class='no'>myLine</span>)
 <span class='fu'><a href='visualise.html'>visualise</a></span>(<span class='kw'>geom</span> <span class='kw'>=</span> <span class='no'>anExtent</span>, <span class='kw'>linecol</span> <span class='kw'>=</span> <span class='st'>"green"</span>, <span class='kw'>new</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
 <span class='co'># }</span></pre>
   </div>
@@ -213,6 +226,8 @@ points are sketched; see <code>gpar</code>.</p></td>
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
+
+      <li><a href="#details">Details</a></li>
 
       <li><a href="#see-also">See also</a></li>
       

@@ -13,7 +13,7 @@ reference:
     desc: paramatrise or sketch geometries
     contents:
       - '`gs_point`'
-      - '`gs_curve`'
+      - '`gs_line`'
       - '`gs_polygon`'
       - '`gs_random`'
       - '`gs_tiles`'

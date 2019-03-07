@@ -225,8 +225,8 @@ the two given opposing corners.</p></li>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p>Other shapes: <code><a href='gs_point.html'>gs_point</a></code>,
-  <code><a href='gs_random.html'>gs_random</a></code></p></div>
+    <div class='dont-index'><p>Other shapes: <code><a href='gs_line.html'>gs_line</a></code>,
+  <code><a href='gs_point.html'>gs_point</a></code>, <code><a href='gs_random.html'>gs_random</a></code></p></div>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
@@ -254,17 +254,7 @@ the two given opposing corners.</p></li>
 <span class='co'># when a geom is used in 'anchor', its properties (e.g. 'window') are passed on</span>
 <span class='no'>aGeom</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='setWindow.html'>setWindow</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>aGeom</span>, <span class='kw'>to</span> <span class='kw'>=</span> <span class='no'>window</span>)
 <span class='fu'>gs_polygon</span>(<span class='kw'>anchor</span> <span class='kw'>=</span> <span class='no'>aGeom</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='visualise.html'>visualise</a></span>(<span class='kw'>geom</span> <span class='kw'>=</span> <span class='no'>.</span>, <span class='kw'>fillcol</span> <span class='kw'>=</span> <span class='st'>"deeppink"</span>)</div><div class='input'>
-<span class='co'># when a geom is piped to visualise, the output is a "recordedplot"</span>
-(<span class='no'>anExtent</span> <span class='kw'>&lt;-</span> <span class='fu'>gs_rectangle</span>(<span class='kw'>anchor</span> <span class='kw'>=</span> <span class='no'>aGeom</span>))</div><div class='output co'>#&gt; class      : geom
-#&gt; type       : polygon
-#&gt; features   : 1  (4 vertices)
-#&gt; window     : 0, 80, 0, 80  (xmin, xmax, ymin, ymax)
-#&gt; extent     : 40, 70, 40, 70  (xmin, xmax, ymin, ymax)
-#&gt; scale      : absolute
-#&gt; crs        : NA
-#&gt; attributes : 2  (fid, n)</div><div class='input'><span class='no'>anExtentPlot</span> <span class='kw'>&lt;-</span> <span class='no'>anExtent</span> <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='visualise.html'>visualise</a></span>(<span class='kw'>geom</span> <span class='kw'>=</span> <span class='no'>.</span>, <span class='kw'>linetype</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>new</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</div><div class='img'><img src='gs_polygon-2.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/class'>class</a></span>(<span class='no'>anExtentPlot</span>)</div><div class='output co'>#&gt; [1] "recordedplot"</div><div class='input'>
+  <span class='fu'><a href='visualise.html'>visualise</a></span>(<span class='kw'>geom</span> <span class='kw'>=</span> <span class='no'>.</span>, <span class='kw'>fillcol</span> <span class='kw'>=</span> <span class='st'>"deeppink"</span>)</div><div class='img'><img src='gs_polygon-2.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># geoms with more than one element are treated element-wise</span>
 <span class='no'>aGeom</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='gt_group.html'>gt_group</a></span>(<span class='kw'>geom</span> <span class='kw'>=</span> <span class='no'>aGeom</span>, <span class='kw'>index</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>1</span>, <span class='fl'>2</span>, <span class='fl'>1</span>, <span class='fl'>2</span>))
 <span class='fu'><a href='visualise.html'>visualise</a></span>(<span class='kw'>geom</span> <span class='kw'>=</span> <span class='no'>aGeom</span>)</div><div class='img'><img src='gs_polygon-3.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'>gs_rectangle</span>(<span class='kw'>anchor</span> <span class='kw'>=</span> <span class='no'>aGeom</span>) <span class='kw'>%&gt;%</span>
@@ -273,8 +263,8 @@ the two given opposing corners.</p></li>
 <span class='no'>input</span> <span class='kw'>&lt;-</span> <span class='no'>rtRasters</span>$<span class='no'>continuous</span>
 
 <span class='co'># create a square interactively</span>
-<span class='no'>squareGeom</span> <span class='kw'>&lt;-</span> <span class='fu'>gs_square</span>(<span class='kw'>template</span> <span class='kw'>=</span> <span class='no'>input</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='visualise.html'>visualise</a></span>(<span class='kw'>geom</span> <span class='kw'>=</span> <span class='no'>.</span>, <span class='kw'>linecol</span> <span class='kw'>=</span> <span class='st'>"orange"</span>, <span class='kw'>new</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
+<span class='no'>squareGeom</span> <span class='kw'>&lt;-</span> <span class='fu'>gs_square</span>(<span class='kw'>template</span> <span class='kw'>=</span> <span class='no'>input</span>)
+<span class='fu'><a href='visualise.html'>visualise</a></span>(<span class='kw'>geom</span> <span class='kw'>=</span> <span class='no'>squareGeom</span>, <span class='kw'>linecol</span> <span class='kw'>=</span> <span class='st'>"orange"</span>, <span class='kw'>new</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
 
 <span class='co'># ... or an approximate circle (actually a hectogon)</span>
 <span class='no'>circleGeom</span> <span class='kw'>&lt;-</span> <span class='fu'>gs_polygon</span>(<span class='kw'>template</span> <span class='kw'>=</span> <span class='no'>input</span>, <span class='kw'>vertices</span> <span class='kw'>=</span> <span class='fl'>100</span>, <span class='kw'>regular</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>) <span class='kw'>%&gt;%</span>

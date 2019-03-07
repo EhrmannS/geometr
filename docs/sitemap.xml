@@ -31,6 +31,9 @@
     <loc>http://EhrmannS.github.io/geometr/reference/getWindow.html</loc>
   </url>
   <url>
+    <loc>http://EhrmannS.github.io/geometr/reference/gs_line.html</loc>
+  </url>
+  <url>
     <loc>http://EhrmannS.github.io/geometr/reference/gs_point.html</loc>
   </url>
   <url>
@@ -101,9 +104,6 @@
   </url>
   <url>
     <loc>http://EhrmannS.github.io/geometr/reference/projs.html</loc>
-  </url>
-  <url>
-    <loc>http://EhrmannS.github.io/geometr/reference/scaleParameters.html</loc>
   </url>
   <url>
     <loc>http://EhrmannS.github.io/geometr/reference/setCRS.html</loc>
