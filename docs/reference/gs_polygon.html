@@ -192,20 +192,19 @@ a polygon is sketched; see <code>gpar</code>.</p></td>
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>The arguments <code>anchor</code> and <code>template</code> have <code>NULL</code>
-  value, because leaving them unset is meant to result in a specific
-  behaviour:</p><ul>
-<li><p><code>anchor</code>: if unset, this argument triggers
-  that the geometry is created interactively (hence, <code>template</code> must be
-  set); if set, the input provided is used to parameterise the geometry:</p><ul>
-<li><p>if <code>regular = FALSE</code> the resulting geometry is the
-  line connecting the vertices,</p></li>
+    <p>The arguments <code>anchor</code> and <code>template</code> indicate how the
+  geometry is created:</p><ul>
+<li><p><code>anchor</code>: if set, the geometry is
+  created parametrically, the input provided is used to parameterise the
+  geometry</p><ul>
+<li><p>if <code>regular = FALSE</code> the resulting geometry
+  is the convex hull per feature,</p></li>
 <li><p>if <code>regular = TRUE</code>, only the
-  first two coordinates are considered as center and indicating the (outer)
+  first two vertices are considered, as center and indicating the (outer)
   radius.</p></li>
 </ul></li>
-<li><p><code>template</code>: if unset, this argument triggers that the
-  geometry is created programmatically (hence, <code>anchor</code> must be set).</p></li>
+<li><p><code>template</code>: if set, the geometry is created
+  interactively, by clicking into the plot.</p></li>
 </ul>
     
     <h2 class="hasAnchor" id="functions"><a class="anchor" href="#functions"></a>Functions</h2>
