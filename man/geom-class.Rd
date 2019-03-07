@@ -18,7 +18,7 @@ when none of the vertices are connected to other vertices, \item
 following the sequence of their order, without the line closing in itself and
 \item \code{"polygon"}, where vertices with the same \code{fid} are connected
 following the sequence of their order, where the last vertex is identical to
-the first and the lines thus closes in on itself.}
+the first and the line thus closes in on itself.}
 
 Moreover, a \code{geom} does not have the slot \emph{extent}, which
 characterises the minimum and maximum value of the vertex coordinates and
