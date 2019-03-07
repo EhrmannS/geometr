@@ -79,7 +79,7 @@ gt_as_sp <- function(geom, crs = NULL){
   } else if(featureType %in% c("polygon")){
 
     temp <- list()
-    # go through distinct ids and check whether the last coordinate is equat to the first.
+    # go through distinct ids and check whether the last coordinate is equal to the first.
     for(i in seq_along(features)){
       thePoly <- coords[c("x", "y")][coords$fid == features[i],]
       if(!all(thePoly[1,] == thePoly[dim(thePoly)[1],])){
