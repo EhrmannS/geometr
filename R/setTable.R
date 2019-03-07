@@ -62,7 +62,7 @@ setMethod(f = "setTable",
               }
             }
 
-            return(x)
+            return(out)
           }
 )
 
