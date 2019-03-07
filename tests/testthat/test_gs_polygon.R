@@ -5,8 +5,7 @@ context("gs_polygon")
 
 test_that("output is valid geometry", {
   coords <- data.frame(x = c(40, 70, 70, 50),
-                       y = c(40, 40, 60, 70),
-                       fid = 1)
+                       y = c(40, 40, 60, 70))
 
   output <- gs_polygon(anchor = coords)
   expect_class(output, classes = "geom")
