@@ -29,19 +29,6 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// subNumNumC
-NumericMatrix subNumNumC(NumericMatrix& mat, NumericVector& replace, NumericVector with);
-RcppExport SEXP _geometr_subNumNumC(SEXP matSEXP, SEXP replaceSEXP, SEXP withSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< NumericMatrix& >::type mat(matSEXP);
-    Rcpp::traits::input_parameter< NumericVector& >::type replace(replaceSEXP);
-    Rcpp::traits::input_parameter< NumericVector >::type with(withSEXP);
-    rcpp_result_gen = Rcpp::wrap(subNumNumC(mat, replace, with));
-    return rcpp_result_gen;
-END_RCPP
-}
 // subChrIntC
 IntegerMatrix subChrIntC(CharacterMatrix& mat, CharacterVector& replace, IntegerVector& with);
 RcppExport SEXP _geometr_subChrIntC(SEXP matSEXP, SEXP replaceSEXP, SEXP withSEXP) {
@@ -70,7 +57,6 @@ END_RCPP
 static const R_CallMethodDef CallEntries[] = {
     {"_geometr_matInGeomC", (DL_FUNC) &_geometr_matInGeomC, 3},
     {"_geometr_getValuesMatC", (DL_FUNC) &_geometr_getValuesMatC, 1},
-    {"_geometr_subNumNumC", (DL_FUNC) &_geometr_subNumNumC, 3},
     {"_geometr_subChrIntC", (DL_FUNC) &_geometr_subChrIntC, 3},
     {"_geometr_sortUniqueC", (DL_FUNC) &_geometr_sortUniqueC, 1},
     {NULL, NULL, 0}

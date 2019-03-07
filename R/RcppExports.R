@@ -9,10 +9,6 @@ getValuesMatC <- function(mat) {
     .Call('_geometr_getValuesMatC', PACKAGE = 'geometr', mat)
 }
 
-subNumNumC <- function(mat, replace, with) {
-    .Call('_geometr_subNumNumC', PACKAGE = 'geometr', mat, replace, with)
-}
-
 subChrIntC <- function(mat, replace, with) {
     .Call('_geometr_subChrIntC', PACKAGE = 'geometr', mat, replace, with)
 }
