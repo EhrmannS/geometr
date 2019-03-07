@@ -31,6 +31,13 @@ An invisible \code{geom}.
 Create a point geometry (of class \code{\link{geom}}) either by specifying
 its parameters or by sketching it.
 }
+\details{
+The arguments \code{anchor} and \code{template} indicate how the
+  geometry is created: \itemize{ \item \code{anchor}: if set, the geometry is
+  created parametrically, the input provided is used to parameterise the
+  geometry. \item \code{template}: if set, the geometry is created
+  interactively, by clicking into the plot.}
+}
 \examples{
 library(magrittr)
 

@@ -57,16 +57,14 @@ Create any (regular) polygon geometry (of class \code{\link{geom}}) either by
 specifying its parameters or by sketching it.
 }
 \details{
-The arguments \code{anchor} and \code{template} have \code{NULL}
-  value, because leaving them unset is meant to result in a specific
-  behaviour: \itemize{ \item \code{anchor}: if unset, this argument triggers
-  that the geometry is created interactively (hence, \code{template} must be
-  set); if set, the input provided is used to parameterise the geometry:
-  \itemize{ \item if \code{regular = FALSE} the resulting geometry is the
-  line connecting the vertices, \item if \code{regular = TRUE}, only the
-  first two coordinates are considered as center and indicating the (outer)
-  radius.} \item \code{template}: if unset, this argument triggers that the
-  geometry is created programmatically (hence, \code{anchor} must be set).}
+The arguments \code{anchor} and \code{template} indicate how the
+  geometry is created: \itemize{ \item \code{anchor}: if set, the geometry is
+  created parametrically, the input provided is used to parameterise the
+  geometry \itemize{ \item if \code{regular = FALSE} the resulting geometry
+  is the convex hull per feature, \item if \code{regular = TRUE}, only the
+  first two vertices are considered, as center and indicating the (outer)
+  radius.} \item \code{template}: if set, the geometry is created
+  interactively, by clicking into the plot.}
 }
 \section{Functions}{
 \itemize{

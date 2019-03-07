@@ -21,16 +21,14 @@
 #' @param ... [various]\cr graphical parameters to \code{\link{locate}}, in case
 #'   a polygon is sketched; see \code{\link{gpar}}.
 #' @return An invisible \code{geom}.
-#' @details The arguments \code{anchor} and \code{template} have \code{NULL}
-#'   value, because leaving them unset is meant to result in a specific
-#'   behaviour: \itemize{ \item \code{anchor}: if unset, this argument triggers
-#'   that the geometry is created interactively (hence, \code{template} must be
-#'   set); if set, the input provided is used to parameterise the geometry:
-#'   \itemize{ \item if \code{regular = FALSE} the resulting geometry is the
-#'   line connecting the vertices, \item if \code{regular = TRUE}, only the
-#'   first two coordinates are considered as center and indicating the (outer)
-#'   radius.} \item \code{template}: if unset, this argument triggers that the
-#'   geometry is created programmatically (hence, \code{anchor} must be set).}
+#' @details The arguments \code{anchor} and \code{template} indicate how the
+#'   geometry is created: \itemize{ \item \code{anchor}: if set, the geometry is
+#'   created parametrically, the input provided is used to parameterise the
+#'   geometry \itemize{ \item if \code{regular = FALSE} the resulting geometry
+#'   is the convex hull per feature, \item if \code{regular = TRUE}, only the
+#'   first two vertices are considered, as center and indicating the (outer)
+#'   radius.} \item \code{template}: if set, the geometry is created
+#'   interactively, by clicking into the plot.}
 #' @family shapes
 #' @examples
 #' library(magrittr)
@@ -78,8 +76,8 @@
 #'   visualise(geom = ., linecol = "green", lwd = 1, lty = "dashed", new = FALSE)
 #' }
 #' @importFrom stats dist
-#' @importFrom checkmate testDataFrame assertNames testClass assertDataFrame testTRUE testNull
-#'   testClass assertIntegerish assertLogical assert
+#' @importFrom checkmate testDataFrame assertNames testClass assertDataFrame
+#'   testTRUE testNull testClass assertIntegerish assertLogical assert
 #' @importFrom tibble tibble
 #' @importFrom dplyr bind_cols bind_rows
 #' @importFrom rlang !!

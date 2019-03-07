@@ -15,6 +15,11 @@
 #'   points are sketched; see \code{\link{gpar}}.
 #' @return An invisible \code{geom}.
 #' @family shapes
+#' @details The arguments \code{anchor} and \code{template} indicate how the
+#'   geometry is created: \itemize{ \item \code{anchor}: if set, the geometry is
+#'   created parametrically, the input provided is used to parameterise the
+#'   geometry. \item \code{template}: if set, the geometry is created
+#'   interactively, by clicking into the plot.}
 #' @examples
 #' library(magrittr)
 #'

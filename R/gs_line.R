@@ -16,10 +16,13 @@
 #'   \code{features}.
 #' @param ... [various]\cr graphical parameters to \code{\link{locate}}, in case
 #'   points are sketched; see \code{\link{gpar}}.
-#' @details http://www.antigrain.com/research/bezier_interpolation/
-#' https://en.wikipedia.org/wiki/B%C3%A9zier_curve
 #' @return An invisible \code{geom}.
 #' @family shapes
+#' @details The arguments \code{anchor} and \code{template} indicate how the
+#'   geometry is created: \itemize{ \item \code{anchor}: if set, the geometry is
+#'   created parametrically, the input provided is used to parameterise the
+#'   geometry. \item \code{template}: if set, the geometry is created
+#'   interactively, by clicking into the plot.}
 #' @examples
 #' library(magrittr)
 #'
@@ -60,6 +63,8 @@
 
 gs_line <- function(anchor = NULL, window = NULL, template = NULL, features = 1,
                     vertices = NULL, ...){
+
+  # http://www.antigrain.com/research/bezier_interpolation/
 
   # check arguments
   anchorIsDF <- testDataFrame(anchor, types = "numeric", any.missing = FALSE, min.cols = 2)
