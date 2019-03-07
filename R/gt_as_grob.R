@@ -55,9 +55,9 @@ gt_as_grob <- function(geom = NULL, theme = gtTheme, ...){
 
   } else if(featureType %in% "line"){
 
-    geomGrob <- polylineGrob(x = coords$x,
-                             y = coords$y,
-                             id = as.numeric(as.factor(tempCoords$fid)),
+    geomGrob <- polylineGrob(x = unit(coords$x, "npc"),
+                             y = unit(coords$y, "npc"),
+                             id = as.numeric(as.factor(coords$fid)),
                              name = ids,
                              gp = gpar(col = pars$linecol,
                                        lty = pars$linetype,
