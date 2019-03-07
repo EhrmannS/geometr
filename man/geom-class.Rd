@@ -17,8 +17,21 @@ when none of the vertices are connected to other vertices, \item
 \code{"line"}, where vertices with the same \code{fid} are connected
 following the sequence of their order, without the line closing in itself and
 \item \code{"polygon"}, where vertices with the same \code{fid} are connected
-following the sequence of their order, where the last vertex is identical to
-the first and the line thus closes in on itself.}
+following the sequence of their order and the line thus closes in on itself.}
+
+The data model for storing vertices follows the spaghetti model. Vertices are
+stored as a sequence of x and y values, additionally characterised with two
+IDs. The feature ID (\code{fid}) assigns coordinates to shapes and the vertex
+ID (\code{vid}) enumerates all vertices per feature. Points and Lines are
+implemented straightforward in this model, but polygons, which may contain
+holes, are a bit trickier. In \code{geometr} they are implemented as follows:
+\enumerate{ \item All vertices with the same \code{fid} make up one polygon,
+irrespective of it containing holes or not. \item The outer path/ring of a
+polygon is composed of all vertices until a duplicated of its first vertex
+occurs. This signals that all following vertices are part of another
+path/ring, which is a hole when it is inside the polygon and which consists
+of all vertices until a duplicate of it's first vertex occurs. This repeats
+until all vertices of the feature are processed.}
 
 Moreover, a \code{geom} does not have the slot \emph{extent}, which
 characterises the minimum and maximum value of the vertex coordinates and
