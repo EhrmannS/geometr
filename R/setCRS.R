@@ -23,7 +23,6 @@ if(!isGeneric("setCRS")){
 }
 
 #' @rdname setCRS
-#' @importFrom stringr str_split
 #' @importFrom rgdal project
 #' @export
 setMethod(f = "setCRS",
@@ -33,7 +32,7 @@ setMethod(f = "setCRS",
               x@crs <- crs
             } else{
               theCoords <- x@coords[which(names(x@coords) %in% c("x", "y"))]
-              if(!all(c("+proj=longlat", "+ellps=WGS84") %in% str_split(x@crs, " ")[[1]])){
+              if(!all(c("+proj=longlat", "+ellps=WGS84") %in% strsplit(x@crs, " ")[[1]])){
                 geographic <- project(as.matrix(theCoords), proj = as.character(x@crs), inv = TRUE)
               } else{
                 geographic <- as.matrix(theCoords)
