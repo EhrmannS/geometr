@@ -108,16 +108,16 @@ setMethod(f = "show",
           }
 )
 
-#' Determin number of vertices
-#'
-#' @param x [\code{geom}]\cr object from which to determine \code{length}.
+# Determin number of vertices
+#
+# @param x [\code{geom}]\cr object from which to determine \code{length}.
 
-setMethod(f = "length",
-          signature = signature("geom"),
-          definition = function(x){
-            dim(x@coords)[1]
-          }
-)
+# setMethod(f = "length",
+#           signature = signature("geom"),
+#           definition = function(x){
+#             dim(x@coords)[1]
+#           }
+# )
 
 # setMethod(f = "head",
 #           signature = signature("geom"),
