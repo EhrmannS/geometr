@@ -19,8 +19,51 @@ test_that("setTable of a 'geom'", {
   expect_names(names(output@attr), must.include = c("fid", "n", "variable"))
 })
 
-test_that("setTable of a Spatial object", {
+test_that("setTable of a Spatial*DataFrame object", {
+  input <- gtSP$SpatialPolygonsDataFrame
+  newData1 <- data.frame(x = c("a", "b"))
+  newData2 <- data.frame(a = 1:2, x = c("a", "b"))
 
+  # without matcing columns in x
+  output <- setTable(x = input, table = newData1)
+  expect_class(output, "SpatialPolygonsDataFrame")
+  expect_data_frame(output@data, nrows = 2, ncols = 2)
+  expect_names(names(output@data), must.include = c("a", "x"))
+
+  # with matcing columns in x
+  output <- setTable(x = input, table = newData2)
+  expect_class(output, "SpatialPolygonsDataFrame")
+  expect_data_frame(output@data, nrows = 2, ncols = 2)
+  expect_names(names(output@data), must.include = c("a", "x"))
+})
+
+test_that("setTable of a Spatial* objects", {
+  newData1 <- data.frame(x = c("a", "b"))
+  newData2 <- data.frame(x = 1:4)
+
+  # SpatialPoints
+  output <- setTable(x = gtSP$SpatialPoints, table = newData2)
+  expect_class(output, "SpatialPointsDataFrame")
+  expect_data_frame(output@data, nrows = 4, ncols = 1)
+  expect_names(names(output@data), must.include = c("x"))
+
+  # SpatialMultiPoints
+  output <- setTable(x = gtSP$SpatialMultiPoints, table = newData1)
+  expect_class(output, "SpatialMultiPointsDataFrame")
+  expect_data_frame(output@data, nrows = 2, ncols = 1)
+  expect_names(names(output@data), must.include = c("x"))
+
+  # SpatialLines
+  output <- setTable(x = gtSP$SpatialLines, table = newData1)
+  expect_class(output, "SpatialLinesDataFrame")
+  expect_data_frame(output@data, nrows = 2, ncols = 1)
+  expect_names(names(output@data), must.include = c("x"))
+
+  # SpatialPolygons
+  output <- setTable(x = gtSP$SpatialPolygons, table = newData1)
+  expect_class(output, "SpatialPolygonsDataFrame")
+  expect_data_frame(output@data, nrows = 2, ncols = 1)
+  expect_names(names(output@data), must.include = c("x"))
 })
 
 test_that("setTable of an sf object", {
