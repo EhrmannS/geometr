@@ -64,8 +64,6 @@
 gs_line <- function(anchor = NULL, window = NULL, template = NULL, features = 1,
                     vertices = NULL, ...){
 
-  # http://www.antigrain.com/research/bezier_interpolation/
-
   # check arguments
   anchorIsDF <- testDataFrame(anchor, types = "numeric", any.missing = FALSE, min.cols = 2)
   if(anchorIsDF){
