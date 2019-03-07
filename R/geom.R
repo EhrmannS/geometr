@@ -23,7 +23,7 @@
 #' polygon is composed of all vertices until a duplicated of its first vertex
 #' occurs. This signals that all following vertices are part of another
 #' path/ring, which is a hole when it is inside the polygon and which consists
-#' of all vertices until a duplicate of it's first vertex occurs. This repeats
+#' of all vertices until a duplicate of it's first vertex occurs. \item This repeats
 #' until all vertices of the feature are processed.}
 #'
 #' Moreover, a \code{geom} does not have the slot \emph{extent}, which
