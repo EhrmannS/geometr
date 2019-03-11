@@ -27,7 +27,12 @@ The geometr package provides a standardised and reproducible approach to generat
 
 ## Planned for future versions
 
-- `gs_curve()` to create lines and curves,
+- `gt_curvify()` will add control points that round off corners so that the resulting geometry is a curve rather than a polygon/straight line,
 
-- `gs_voronoi()` to create a pattern of voronoi polygons with a random or given point pattern as anchor.
+- `gs_voronoi()` creates a pattern of voronoi polygons with a random or given point pattern as anchor,
 
+- `gt_skew()`, `gt_stretch()`, `gt_buffer()`, ... to modify geoms,
+
+- `gt_edit()`, which will allow to modify the position of individual vertices of any geom,
+
+- ...

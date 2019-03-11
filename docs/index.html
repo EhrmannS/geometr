@@ -101,11 +101,11 @@
 <ol style="list-style-type: decimal">
 <li>
 <p>Install the development version from github via:</p>
-<pre><code><a href="https://www.rdocumentation.org/packages/devtools/topics/reexports"> devtools::install_github("EhrmannS/geometr")</a></code></pre>
+<pre><code><a href="https://www.rdocumentation.org/packages/devtools/topics/reexports">devtools::install_github("EhrmannS/geometr")</a></code></pre>
 </li>
 <li>
 <p>Read a <strong>brief introduction</strong> to understand the philosophy of <code>geometr</code>:</p>
-<pre><code><a href="reference/geometr.html"> ?`geometr-package`</a></code></pre>
+<pre><code><a href="reference/geometr.html">?`geometr-package`</a></code></pre>
 </li>
 <li><p>Read an in detail <a href="articles/introduction.html">Introduction</a>.</p></li>
 </ol>
@@ -120,8 +120,11 @@
 <h2 class="hasAnchor">
 <a href="#planned-for-future-versions" class="anchor"></a>Planned for future versions</h2>
 <ul>
-<li><p><code>gs_curve()</code> to create lines and curves,</p></li>
-<li><p><code>gs_voronoi()</code> to create a pattern of voronoi polygons with a random or given point pattern as anchor.</p></li>
+<li><p><code>gt_curvify()</code> will add control points that round off corners so that the resulting geometry is a curve rather than a polygon/straight line,</p></li>
+<li><p><code>gs_voronoi()</code> creates a pattern of voronoi polygons with a random or given point pattern as anchor,</p></li>
+<li><p><code>gt_skew()</code>, <code>gt_stretch()</code>, <code>gt_buffer()</code>, … to modify geoms,</p></li>
+<li><p><code>gt_edit()</code>, which will allow to modify the position of individual vertices of any geom.</p></li>
+<li><p>…</p></li>
 </ul>
 <hr>
 </div>
