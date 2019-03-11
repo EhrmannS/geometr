@@ -119,13 +119,17 @@ visualise <- function(raster = NULL, geom = NULL, window = NULL, theme = gtTheme
       isHex <- testCharacter(x = raster[1], pattern = "\\#(.{6,8})")
 
       if(isRGB){
+        alpha <- rep(255, length(raster[[1]]))
         red <- getValues(raster[[which(griddedNames == "red")]])
-        # red[is.na(red)] <- 255L
+        alpha[is.na(red)] <- 0L
+        red[is.na(red)] <- 255L
         green <- getValues(raster[[which(griddedNames == "green")]])
-        # green[is.na(green)] <- 255L
+        alpha[is.na(green)] <- 0L
+        green[is.na(green)] <- 255L
         blue <- getValues(raster[[which(griddedNames == "blue")]])
-        # blue[is.na(blue)] <- 255L
-        theColours <- rgb(red = red, green = green, blue = blue, maxColorValue = 255)
+        alpha[is.na(blue)] <- 0L
+        blue[is.na(blue)] <- 255L
+        theColours <- rgb(red = red, green = green, blue = blue, alpha = alpha, maxColorValue = 255)
       } else if(isHex){
         theColours <- as.vector(raster)
       } else{
