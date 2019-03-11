@@ -98,6 +98,9 @@ visualise <- function(raster = NULL, geom = NULL, window = NULL, theme = gtTheme
       griddedNames <- sapply(1:plotLayers, function(x){
         raster[[x]]@data@names
       })
+      if(nchar(griddedNames[[1]]) == 0){
+        griddedNames[[1]] <- "layer"
+      }
       dims <- c(raster@nrows, raster@ncols)
       panelExt <- getExtent(raster)
     }
