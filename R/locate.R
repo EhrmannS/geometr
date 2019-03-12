@@ -80,15 +80,15 @@ locate <- function(samples = 1, panel = NULL, identify = FALSE, snap = FALSE,
 
   isLegendInPlot <- !identical(grid.grep("legend", grobs = FALSE, viewports = TRUE, grep = TRUE), character(0))
   isRasterInPlot <- !identical(grid.grep("raster", grobs = FALSE, viewports = TRUE, grep = TRUE), character(0))
-  if(isRasterInPlot & isLegendInPlot){
-    canIdentify <- TRUE
-  } else{
-    canIdentify <- FALSE
-  }
+  # if(isRasterInPlot & isLegendInPlot){
+  #   canIdentify <- TRUE
+  # } else{
+  #   canIdentify <- FALSE
+  # }
   isGeomInPlot <- !identical(grid.grep("geom", grobs = FALSE, viewports = TRUE, grep = TRUE), character(0))
-  if(identify & !canIdentify){
-    stop("to identify raster values the plot needs to contain a legend.")
-  }
+  # if(identify & !canIdentify){
+  #   stop("to identify raster values the plot needs to contain a legend.")
+  # }
 
   # get the panel in which locations should be determined
   if(is.null(panel)){
@@ -143,7 +143,7 @@ locate <- function(samples = 1, panel = NULL, identify = FALSE, snap = FALSE,
                            replace = legend,
                            with = values)
     } else{
-      matVal <- NULL
+      matVal <- matCol
     }
   }
 
