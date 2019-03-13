@@ -19,32 +19,138 @@ knitr::opts_chunk$set(
 
 # Introduction
 
-## A new (spatial) class: `geom`
-`geometr` comes with its own (spatial) S4 class. This class provides only the feature types `point`, `line` and `polygon` (yes, there are no *multi*-x features in `geometr`), where each of them consist of a set of tables describing the relevant aspects.
+`geometr` was developed due to a perceived lack of functionality that would allow manipulating geometries at vertex level, and all the possible applications that follow thereof.
 
-The slot `@coords` is a table that contains all information related to the vertex coordinates, so one row for each coordinate. By default there are at least the columns `fid` (feature ID), `vid` (vertex ID), `x` and `y`, the two-dimentional coordinate values. All vertices with the same `fid` are part of the same feature and there may be several features per geometry. The slot `@attr` is a table that contains all information at the level of features, so one row for each feature. By default there are at least the columns `fid` (feature ID) and `n` (number of vertices of that feature).
-Both of those tables are accessible and can be joined with additional columns to characterise in more detail the vertex or feature attributes. This is the basis for a couple of planned functions in `geometr`, such as manipulation of single vertices and in-R georeferencing.
+The idea of `geometr` is to enable you to create and process geometries intuitively, thereby turning you into a [geometer](https://en.wikipedia.org/wiki/List_of_geometers). Using `geometr` you typically provide a set of coordinates that outline geometries either as so-called anchor and control vertices (parametrisation), or by clicking into an open plot (sketching). Then you'd either modify individual vertices or the overall geometry, depending on the use-case.
 
-**problem with "multi* features"; for me the "multi"-nature is not part of the feature, but is an attribute, hence I have set up everything so that there are no multi-features and that the features that are transformed from other spatial classes contain a column `grp` that captures this informaiton. with the function `gGroup()` one can then add groups also to non-multi-features**
+Moreover, as there seems to be an ever increasing collection of spatial classes - to which `geometr` adds yet another - a standardised approach to deal with the properties of objects of those classes is proposed by `geometr`.
 
-An object of class `geom` can be created with various functions, such as the default `gs_point()`, `gs_curve()` and `gs_polygon()` but also with functions that create specific geometric shapes such as `gs_hexagon()`, which creates exclusively hexagonal polygons, or `gs_tiles()`, which creates a regular tiling geometry.
+## A new (geographic/spatial) class: `geom`
+`geometr` comes with the S4 class `geom`. A `geom` stores only those information that can't be derived on the fly from its generic values. An example of this would be the extent/bounding box, which actually is a statistical measure, the range of coordinate values, and thus a derived and not generic value of the geometry. Moreover, this class is deliberately by default not *geographic* in nature. It can be transformed into a geographic object by assigning a *coordinate reference system*. One could say the default CRS is the cartesian coordinate system.
 
-These geometries are deliberately per default not *"geographic"* in nature and do thus also work within an ordinary cartesian coordinate system. They can be transformed into a spatial object by assigning a *coordinate reference system*. We learn a lot about them by simply creating and plotting one:
+We learn a lot about the class by simply creating and visualising a `geom`:
 
-```{r}
+```{r, fig.width=7, out.width='100%'}
 library(geometr)
+library(tibble)
 
-coords <- data.frame(x = c(40, 70, 70, 50),
-                     y = c(40, 40, 60, 70),
-                     fid = 1)
-window <- data.frame(x = c(0, 80),
-                     y = c(0, 80))
-#(aGeom <- gs_polygon(anchor = coords, window = window, show = TRUE))
+coords <- tibble(x = c(40, 70, 70, 50),
+                 y = c(40, 40, 60, 70),
+                 fid = 1)
+(aGeom <- gs_polygon(anchor = coords))
+visualise(geom = aGeom)
 ```
 
-The main aspect of this sort of "spatial" class is that it can be created/sketched relatively simply by providing a set of coordinates as socalled anchor values, or by clicking into an open plot. It has moreover a new slot, `@window`, which defines the frame within which it would be plotted. A wide range of "getters" and "setters" (for example `getExtent()` or `setCRS()`) have been defined as methods for `geom` and also the other spatial classes. This is an attempt to standardise the handling of various different spatial formats that was originally developed to accommodate the modular nature of `geometr`. One can for instance use `setCRS()` on any of the classes `Raster*`, `sp`, `sf` and also `geom` to reproject the object to a new *CRS*. This should come in handy when prototyping new `obtain()` operators or writing reproducible code in general.
+As an S4 class, `geom` consists of a set of slots, which we can inspect with `str()`:
+
+```{r}
+str(aGeom)
+```
+
+The core of this class are three tables that characterise the coordinates, the feature attributes and the window. This separation of coordinates and features is an important aspect that distinguishes `geometr` from other R packages that work with "spatial objects".
+
+- The slot `@coords` is a table that contains all information related to the vertices, with one row for each vertex. By default there are at least the columns `fid` (feature ID), `vid` (vertex ID), `x` and `y`, the two-dimensional coordinate values. The feature ID assigns coordinates to shapes and the vertex ID enumerates all vertices per feature.
+- The slot `@attr` is a table that contains all information at the level of features, with one row for each feature. By default there are at least the columns `fid` (feature ID) and `n` (number of vertices of that feature).
+- The slot `@window` is a table that defines the frame within which the geometry would be plotted. This is sort of a second extent that may be bigger (or smaller) than `extent/bbox` and which determines the relative position of the vertices when plotting.
+
+```{r, fig.width=7, out.width='100%'}
+window <- tibble(x = c(0, 80),
+                 y = c(0, 80))
+
+aGeom <- setWindow(x = aGeom, to = window)
+visualise(geom = aGeom)
+```
+
+A `geom` either has the feature type:
+
+- `point`, when none of the vertices are connected to other vertices, 
+- `line`, where vertices with the same `fid` are connected following the sequence of their order, without the path closing in itself and
+- `polygon`, where vertices with the same `fid` are connected following the sequence of their order and the path closes in on itself.
+
+```{r, fig.width=7, out.width='100%'}
+visualise(geom = gtGeoms$polygon, fillcol = fid)
+visualise(geom = gtGeoms$line, linecol = "green", new = FALSE)
+visualise(geom = gtGeoms$point, linecol = "deeppink", new = FALSE)
+
+```
+
+Points and Lines are implemented quite straightforward in this data model, but polygons, which may contain
+holes, are a bit trickier. In `geometr` they are implemented as follows:
+
+- All vertices with the same `fid` make up one polygon, irrespective of it containing holes or not.
+- The outer path/ring of a polygon is composed of all vertices until a duplicate of its first vertex
+occurs. This signals that all following vertices are part of another path/ring, which is a hole when it is inside the polygon and which consists of all vertices until a duplicate of it's first vertex occurs.
+- This repeats until all vertices of the feature are processed.
+
+## Getters and Setters
+
+Most properties of a geom are accessible via specific functions. They can thus be extracted, modified and re-assigned, which is the basis for various "meta-operations", such as reprojecting or appending additional attributes to features.
+
+```{r}
+# Get properties of a geom
+getCoords(x = gtGeoms$polygon)
+getTable(x = gtGeoms$polygon)
+getWindow(x = gtGeoms$polygon)
+getCRS(x = gtGeoms$polygon)
+# does not contain any value and is thus only valid in the cartesian coordinate
+# system
+getHistory(x = gtGeoms$polygon)
+# does not contain any values because so far no operations have been carried out
+# on it
+
+# Set properties of a geom ...
+# ... such as feature attributes
+newAttrs <- tibble(fid = c(2, 1), weight = c(10, 5))
+newGeom <- setTable(x = gtGeoms$polygon, table = newAttrs)
+getTable(x = newGeom)
+visualise(geom = newGeom, fillcol = weight)
+```
+
+In an attempt to standardise the handling of various different spatial formats, these functions have been developed as generics and they come with a couple of methods for the most-used spatial classes, such as `Raster*`, `sp`, `sf`. Originally this was developed to accommodate the modular nature of `rasterTools` but is now offered as a stand-alone. One can for instance use `getCoords()` to get a standardised output of the coordinate values across all supported spatial classes.
+
+```{r}
+getCoords(gtGeoms$point)
+getCoords(gtSP$SpatialMultiPoints)
+getCoords(gtSF$multipoint)
+```
+
+## Rationale
 
 
-# Example workflow
+Separating coordinates and features allows addressing coordinates just as simply as features and separately from each other
 
-# References
+
+**sf increases complexity, the listed nature of geometries requires additional code-logic to extract geometric information; too many classes with different behaviour, which renders re-use of code/scripts overly complicated**
+
+**https://r-spatial.github.io/sf/articles/sf1.html**
+**problem with "multi* features"; for me the "multi"-nature is not part of the feature, but is an attribute, hence I have set up everything so that there are no multi-features and that the features that are transformed from other spatial classes contain a column `grp` that captures this informaiton. with the function `gGroup()` one can then add groups also to non-multi-features**
+
+```{r}
+
+```
+
+
+## Example workflow
+
+```{r, fig.width=7, out.width='100%'}
+library(sf)
+nc <- st_read(system.file("shape/nc.shp", package="sf"))
+
+visualise(geom = gt_as_geom(nc), fillcol = NWBIR74)
+```
+
+
+```{r}
+
+coords <- tibble(x = c(30, 60, 60, 40, 10, 40, 20),
+                 y = c(40, 40, 60, 70, 10, 20, 40),
+                 fid = c(1, 1, 1, 1, 2, 2, 2))
+
+twoGeoms <- gs_polygon(anchor = coords, window = window)
+visualise(geom = twoGeoms)
+
+rotatedGeoms <- gt_rotate(geom = twoGeoms, angle = 90, about = c(40, 40))
+visualise(geom = rotatedGeoms, new = FALSE)
+```
+
+An object of class `geom` can be created with various functions, such as the default `gs_point()`, `gs_curve()` and `gs_polygon()` but also with functions that create specific geometric shapes such as `gs_hexagon()`, which creates exclusively hexagonal polygons, or `gs_tiles()`, which creates a regular tiling geometry.
