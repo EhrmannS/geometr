@@ -84,7 +84,7 @@ makeColours <- function(input = NULL, theme = NULL, ...){
 
       # check whether the parameter value is a column in 'attr', otherwise take
       # the default scale$to parameter
-      if(!is.na(thisArg)){
+      if(!is.na(as.character(thisArg))){
         if(as.character(thisArg) %in% colnames(attr)){
           toEval <- thisArg
           toRamp <- params[[which(names(params) %in% thisArgName)]]
@@ -101,16 +101,10 @@ makeColours <- function(input = NULL, theme = NULL, ...){
           params$scale$x <- thisArgName
           params$scale$cls <- thisArg
 
-          procVals <- seq_along(uniqueVals)
-          # # test that there is in fact more than one value
-          # if(length(procVals) > 1){
-          #   if(length(toRamp) < 2){
-          #     stop(paste0("the parameter '", thisArgName, "' must contain more than 1 value."))
-          #   }
-          # }
-          uniqueColours <- colorRampPalette(colors = toRamp)(length(procVals))
-          breaks <- c(0, procVals)
-          valCuts <- cut(procVals, breaks = breaks, include.lowest = FALSE)
+          # procVals <- seq_along(vals)
+          uniqueColours <- colorRampPalette(colors = toRamp)(length(uniqueVals))
+          breaks <- c(0, uniqueVals)
+          valCuts <- cut(vals, breaks = breaks, include.lowest = FALSE)
           tempOut <- uniqueColours[valCuts]
 
         } else{
@@ -150,11 +144,11 @@ makeColours <- function(input = NULL, theme = NULL, ...){
   if(theme@legend$ascending){
     array <- matrix(data = rev(uniqueColours), ncol = 1, nrow = length(uniqueColours))
     values <- rev(uniqueVals)
-    labelsPos <- unit(which(uniqueVals %in% tickValues), "native")
+    labelsPos <- unit(which(sort(uniqueVals) %in% tickValues), "native")
   } else{
     array <- matrix(data = uniqueColours, ncol = 1, nrow = length(uniqueColours))
     values <- uniqueVals
-    labelsPos <- rev(unit(which(uniqueVals %in% tickValues), "native"))
+    labelsPos <- rev(unit(which(sort(uniqueVals) %in% tickValues), "native"))
   }
 
   out <- list(out.cols = out.cols,

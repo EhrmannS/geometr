@@ -30,8 +30,8 @@ irrespective of it containing holes or not. \item The outer path/ring of a
 polygon is composed of all vertices until a duplicated of its first vertex
 occurs. This signals that all following vertices are part of another
 path/ring, which is a hole when it is inside the polygon and which consists
-of all vertices until a duplicate of it's first vertex occurs. \item This repeats
-until all vertices of the feature are processed.}
+of all vertices until a duplicate of it's first vertex occurs. \item This
+repeats until all vertices of the feature are processed.}
 
 Moreover, a \code{geom} does not have the slot \emph{extent}, which
 characterises the minimum and maximum value of the vertex coordinates and
@@ -43,7 +43,7 @@ the vertices when plotting.
 \section{Slots}{
 
 \describe{
-\item{\code{type}}{[\code{character(1)}]\cr the type of feature, recently either
+\item{\code{type}}{[\code{character(1)}]\cr the type of feature, either
 \code{"point"}, \code{"line"} or \code{"polygon"}.}
 
 \item{\code{coords}}{[\code{data.frame(1)}]\cr the \code{vid} (vertex ID), \code{fid}

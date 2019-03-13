@@ -13,6 +13,7 @@ before_install:
   - sudo add-apt-repository ppa:ubuntugis/ubuntugis-unstable --yes
   - sudo apt-get --yes --force-yes update -qq
   - sudo apt-get install --yes libproj-dev libgeos-dev libgdal-dev libgdal1-dev gdal-bin libudunits2-dev
+  - Rscript -e 'install.packages("rgdal", repos="https://r-forge.r-project.org/")'
 
 after_success:
   - Rscript -e 'covr::codecov()'

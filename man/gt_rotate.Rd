@@ -31,7 +31,7 @@ coords <- data.frame(x = c(30, 60, 60, 40, 10, 40, 20),
                      fid = c(1, 1, 1, 1, 2, 2, 2))
 window <- data.frame(x = c(0, 80),
                      y = c(0, 80))
-aGeom <- gs_polygon(anchor = coords, window = window, show = TRUE)
+aGeom <- gs_polygon(anchor = coords, window = window)
 visualise(geom = aGeom)
 
 # rotate it alltogether

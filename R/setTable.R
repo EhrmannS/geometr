@@ -67,10 +67,19 @@ setMethod(f = "setTable",
 )
 
 #' @rdname setTable
+#' @details When setting the attribute table of a simple feature (\code{sf}) -
+#'   which is already a "data.frame-like object" - this really means that a
+#'   table is joined to the already existing table.
+#'
+#'   When setting the the attribute table of a simple feature geometry
+#'   (\code{sfg}) or to a simple feature geometry column (\code{sfc}), this
+#'   upgrades the former object to an \code{sf} object.
+#' @importFrom checkmate assertDataFrame
 #' @export
 setMethod(f = "setTable",
           signature = "sf",
           definition = function(x, table){
+            assertDataFrame(table)
 
           }
 )
@@ -78,11 +87,12 @@ setMethod(f = "setTable",
 
 #' @rdname setTable
 #' @importFrom raster ratify
+#' @importFrom checkmate assertDataFrame
 #' @export
 setMethod(f = "setTable",
           signature = "RasterLayer",
           definition = function(x, table){
-            stopifnot(is.data.frame(table))
+            assertDataFrame(table)
             temp <- ratify(x)
             nIDs <- length(temp@data@attributes[[1]][,1])
             stopifnot(dim(table)[1] == nIDs)

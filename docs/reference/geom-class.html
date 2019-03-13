@@ -155,8 +155,8 @@ polygon is composed of all vertices until a duplicated of its first vertex
 occurs. This signals that all following vertices are part of another
 path/ring, which is a hole when it is inside the polygon and which consists
 of all vertices until a duplicate of it's first vertex occurs.</p></li>
-<li><p>This repeats
-until all vertices of the feature are processed.</p></li>
+<li><p>This
+repeats until all vertices of the feature are processed.</p></li>
 </ol>
     <p>Moreover, a <code>geom</code> does not have the slot <em>extent</em>, which
 characterises the minimum and maximum value of the vertex coordinates and
@@ -169,7 +169,7 @@ the vertices when plotting.</p>
 
     
     <dl class='dl-horizontal'>
-<dt><code>type</code></dt><dd><p>[<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code>]<br /> the type of feature, recently either
+<dt><code>type</code></dt><dd><p>[<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code>]<br /> the type of feature, either
 <code>"point"</code>, <code>"line"</code> or <code>"polygon"</code>.</p></dd>
     <dt><code>coords</code></dt><dd><p>[<code><a href='https://www.rdocumentation.org/packages/base/topics/data.frame'>data.frame(1)</a></code>]<br /> the <code>vid</code> (vertex ID), <code>fid</code>
 (feature ID), <code>x</code> and <code>y</code> coordinates per vertex and optional

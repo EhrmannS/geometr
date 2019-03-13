@@ -172,6 +172,8 @@ visualise <- function(raster = NULL, geom = NULL, window = NULL, theme = gtTheme
   } else{
     if(existsRaster){
       panelNames <- griddedNames
+    } else{
+      panelNames <- geom@type
     }
   }
 
@@ -201,7 +203,6 @@ visualise <- function(raster = NULL, geom = NULL, window = NULL, theme = gtTheme
         panelExt <- tibble(x = c(min(geom@window$x), max(geom@window$x)),
                            y = c(min(geom@window$y), max(geom@window$y)))
         plotLayers <- 1
-        panelNames <- geom@type
       } else{
         geom <- setWindow(x = geom, to = panelExt)
       }
@@ -284,6 +285,7 @@ visualise <- function(raster = NULL, geom = NULL, window = NULL, theme = gtTheme
           cls <- makeColours(input = raster[[i]], theme = theme, ...)
         } else if(existsGeom){
           cls <- makeColours(input = geom, theme = theme, ...)
+          plotName <- as.character(cls$params$scale$cls)
         }
         theColours <- cls$out.cols
       }
