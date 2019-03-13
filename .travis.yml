@@ -1,6 +1,5 @@
 # R for travis: see documentation at https://docs.travis-ci.com/user/languages/r
 
-dist: xenial
 language: R
 sudo: true
 cache: packages
@@ -14,6 +13,7 @@ before_install:
   - sudo add-apt-repository ppa:ubuntugis/ubuntugis-unstable --yes
   - sudo apt-get --yes --force-yes update -qq
   - sudo apt-get install --yes libproj-dev libgeos-dev libgdal-dev libgdal1-dev gdal-bin libudunits2-dev
+  - R -q -e 'install.packages("rgdal", repos="http://R-Forge.R-project.org ")
 
 after_success:
   - Rscript -e 'covr::codecov()'
