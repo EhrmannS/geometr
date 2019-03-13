@@ -25,3 +25,12 @@
 \description{
 Set the attribute table of a spatial object.
 }
+\details{
+When setting the attribute table of a simple feature (\code{sf}) -
+  which is already a "data.frame-like object" - this really means that a
+  table is joined to the already existing table.
+
+  When setting the the attribute table of a simple feature geometry
+  (\code{sfg}) or to a simple feature geometry column (\code{sfc}), this
+  upgrades the former object to an \code{sf} object.
+}
