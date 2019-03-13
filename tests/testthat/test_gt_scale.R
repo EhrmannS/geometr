@@ -10,7 +10,7 @@ test_that("output is valid geometry", {
   extent <- data.frame(x = c(0, 80),
                        y = c(0, 80))
   rectGeom <- gs_polygon(anchor = coords, extent = extent)
-  spRectGeom <- setCRS(rectGeom, crs = projs$laea)
+  spRectGeom <- setCRS(rectGeom, crs = "+proj=laea +lat_0=52 +lon_0=10 +x_0=4321000 +y_0=3210000 +ellps=GRS80 +units=m +no_defs")
   rectGeomRel <- gt_scale(geom = rectGeom, to = "relative")
   spRectGeomRel <- gt_scale(geom = spRectGeom, to = "relative")
   rectGeomAbs <- gt_scale(geom = rectGeomRel, to = "absolute")

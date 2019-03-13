@@ -16,19 +16,6 @@
 #'   package.
 "gtGeoms"
 
-#' Projections which are in use in lomm
-#'
-#' @format List with 5 elemens. \describe{ \item{\code{laea}}{Lambert azimuthal
-#'   equal-area projection,\cr Based on the Geodetic Reference System 1980 (GRS
-#'   80) Ellipsoid} \item{\code{longlat}}{Longitude/Latitude "projection",\cr
-#'   Based on the World Geodetic System 1985 (WGS 84) Ellipsoid}
-#'   \item{\code{utm}}{Universal Transverse Mercator "projection", zone 32,\cr
-#'   Based on the World Geodetic System 1985 (WGS 84) Ellipsoid}
-#'   \item{\code{sinu}}{Sinusoidal projection,\cr Based on a pseudocylinder}
-#'   \item{\code{tmerc}}{Transverse Mercator projection,\cr Based on the Bessel
-#'   ellipsoid} }
-"projs"
-
 #' Example \code{Spatial} objects
 #'
 #' A set of four sp objects

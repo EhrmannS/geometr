@@ -7,15 +7,15 @@ test_that("output is valid geometry", {
   window <- data.frame(x = c(-40, 40),
                        y = c(-20, 20))
 
-  output <- gs_tiles(window = window, cells = c(8, 4), crs = projs$longlat)
+  output <- gs_tiles(window = window, cells = c(8, 4), crs = "+proj=longlat +ellps=WGS84 +towgs84=0,0,0,0,0,0,0 +no_defs")
   expect_class(output, classes = "geom")
   expect_true(output@type == "polygon")
 
-  output <- gs_tiles(window = window, cells = c(8, 4), crs = projs$longlat, tiling = "hexagonal")
+  output <- gs_tiles(window = window, cells = c(8, 4), crs = "+proj=longlat +ellps=WGS84 +towgs84=0,0,0,0,0,0,0 +no_defs", tiling = "hexagonal")
   expect_class(output, classes = "geom")
   expect_true(output@type == "polygon")
 
-  output <- gs_tiles(window = window, cells = c(8, 4), crs = projs$longlat, centroids = TRUE)
+  output <- gs_tiles(window = window, cells = c(8, 4), crs = "+proj=longlat +ellps=WGS84 +towgs84=0,0,0,0,0,0,0 +no_defs", centroids = TRUE)
   expect_class(output, classes = "geom")
   expect_true(output@type == "point")
 })
@@ -24,13 +24,13 @@ test_that("output has the correct number of vertices and polygons", {
   window <- data.frame(x = c(-40, 40),
                        y = c(-20, 20))
 
-  output <- gs_tiles(window = window, cells = c(8, 4), crs = projs$longlat)
+  output <- gs_tiles(window = window, cells = c(8, 4), crs = "+proj=longlat +ellps=WGS84 +towgs84=0,0,0,0,0,0,0 +no_defs")
   expect_true(length(output@coords$fid) == 128)
 
-  output <- gs_tiles(window = window, cells = c(8, 4), crs = projs$longlat, tiling = "hexagonal")
+  output <- gs_tiles(window = window, cells = c(8, 4), crs = "+proj=longlat +ellps=WGS84 +towgs84=0,0,0,0,0,0,0 +no_defs", tiling = "hexagonal")
   expect_true(length(output@coords$fid) == 270)
 
-  output <- gs_tiles(window = window, cells = c(8, 4), crs = projs$longlat, centroids = TRUE)
+  output <- gs_tiles(window = window, cells = c(8, 4), crs = "+proj=longlat +ellps=WGS84 +towgs84=0,0,0,0,0,0,0 +no_defs", centroids = TRUE)
   expect_true(length(output@coords$fid) == 32)
 })
 

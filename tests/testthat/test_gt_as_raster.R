@@ -26,13 +26,13 @@ test_that("output has proper coordinate reference system", {
                             4060164, 4117856, 4118207, 4062838),
                       fid = c(1, 1, 2, 2, 2, 2, 1, 1))
   aGeom <- gs_polygon(anchor = input)
-  aRaster <- gt_as_raster(geom = aGeom, crs = projs$laea, res = c(1000, 1000))
-  expect_equal(aRaster@crs@projargs, projs$laea)
+  aRaster <- gt_as_raster(geom = aGeom, crs = "+proj=laea +lat_0=52 +lon_0=10 +x_0=4321000 +y_0=3210000 +ellps=GRS80 +units=m +no_defs", res = c(1000, 1000))
+  expect_equal(aRaster@crs@projargs, "+proj=laea +lat_0=52 +lon_0=10 +x_0=4321000 +y_0=3210000 +ellps=GRS80 +units=m +no_defs")
 
   aGeom <- gs_polygon(anchor = input)
-  aGeom <- setCRS(x = aGeom, crs = projs$laea)
-  aRaster <- gt_as_raster(geom = aGeom, crs = projs$laea, res = c(1000, 1000))
-  expect_equal(aRaster@crs@projargs, projs$laea)
+  aGeom <- setCRS(x = aGeom, crs = "+proj=laea +lat_0=52 +lon_0=10 +x_0=4321000 +y_0=3210000 +ellps=GRS80 +units=m +no_defs")
+  aRaster <- gt_as_raster(geom = aGeom, crs = "+proj=laea +lat_0=52 +lon_0=10 +x_0=4321000 +y_0=3210000 +ellps=GRS80 +units=m +no_defs", res = c(1000, 1000))
+  expect_equal(aRaster@crs@projargs, "+proj=laea +lat_0=52 +lon_0=10 +x_0=4321000 +y_0=3210000 +ellps=GRS80 +units=m +no_defs")
 })
 
 test_that("output is correct resolution", {
@@ -52,7 +52,7 @@ test_that("output is correct resolution", {
                             4060164, 4117856, 4118207, 4062838),
                       fid = c(1, 1, 2, 2, 2, 2, 1, 1))
   aGeom <- gs_polygon(anchor = coords, extent = extent)
-  aRaster <- gt_as_raster(geom = aGeom, crs = projs$laea, res = c(100, 100))
+  aRaster <- gt_as_raster(geom = aGeom, crs = "+proj=laea +lat_0=52 +lon_0=10 +x_0=4321000 +y_0=3210000 +ellps=GRS80 +units=m +no_defs", res = c(100, 100))
   expect_equal(res(aRaster), c(100, 100))
 })
 

@@ -133,8 +133,8 @@ test_that("output has coordinate reference system, if set", {
   #                           4060164, 4117856, 4118207, 4062838),
   #                     id = c(1, 1, 2, 2, 2, 2, 1, 1))
   # polyGeom <- geomPolygon(anchor = input, show = FALSE)
-  # spPolygon <- gToSp(geom = polyGeom, crs = projs$laea)
-  # expect_equal(spPolygon@proj4string@projargs, projs$laea)
+  # spPolygon <- gToSp(geom = polyGeom, crs = "+proj=laea +lat_0=52 +lon_0=10 +x_0=4321000 +y_0=3210000 +ellps=GRS80 +units=m +no_defs")
+  # expect_equal(spPolygon@proj4string@projargs, "+proj=laea +lat_0=52 +lon_0=10 +x_0=4321000 +y_0=3210000 +ellps=GRS80 +units=m +no_defs")
 })
 
 test_that("Error if arguments have wrong value", {

@@ -2,6 +2,7 @@ library(checkmate)
 library(testthat)
 library(raster)
 library(sp)
+library(sf)
 context("setCRS")
 
 
@@ -12,17 +13,17 @@ test_that("setCRS of a geom", {
   window <- data.frame(x = c(0, 80),
                        y = c(0, 80))
   aGeom <- gs_polygon(anchor = coords, window = window)
-  output <- setCRS(x = aGeom, crs = projs$laea)
+  output <- setCRS(x = aGeom, crs = "+proj=laea +lat_0=52 +lon_0=10 +x_0=4321000 +y_0=3210000 +ellps=GRS80 +units=m +no_defs")
 
   expect_class(output, classes = "geom")
   expect_character(getCRS(output), any.missing = FALSE, pattern = "+proj=laea", len = 1)
 
-  anSpGeom <- setCRS(x = aGeom, crs = projs$laea)
-  output <- setCRS(x = anSpGeom, crs = projs$longlat)
+  anSpGeom <- setCRS(x = aGeom, crs = "+proj=laea +lat_0=52 +lon_0=10 +x_0=4321000 +y_0=3210000 +ellps=GRS80 +units=m +no_defs")
+  output <- setCRS(x = anSpGeom, crs = "+proj=longlat +ellps=WGS84 +towgs84=0,0,0,0,0,0,0 +no_defs")
   expect_class(output, classes = "geom")
   expect_character(getCRS(output), any.missing = FALSE, pattern = "+proj=longlat", len = 1)
 
-  output <- setCRS(x = output, crs = projs$laea)
+  output <- setCRS(x = output, crs = "+proj=laea +lat_0=52 +lon_0=10 +x_0=4321000 +y_0=3210000 +ellps=GRS80 +units=m +no_defs")
   expect_class(output, classes = "geom")
   expect_character(getCRS(output), any.missing = FALSE, pattern = "+proj=laea", len = 1)
 })
@@ -33,12 +34,12 @@ test_that("getExtent of a Spatial object", {
   aSpatial <- SpatialPoints(cbind(x, y))
 
   # setting a CRS on a Spatial* that hasn't had one before
-  output <- setCRS(x = aSpatial, crs = projs$laea)
+  output <- setCRS(x = aSpatial, crs = "+proj=laea +lat_0=52 +lon_0=10 +x_0=4321000 +y_0=3210000 +ellps=GRS80 +units=m +no_defs")
   expect_class(output, classes = "SpatialPoints")
   expect_character(proj4string(output), any.missing = FALSE, pattern = "+proj=laea", len = 1)
 
   # setting a CRS on a Spatial* that had one before
-  output <- setCRS(x = output, crs = projs$longlat)
+  output <- setCRS(x = output, crs = "+proj=longlat +ellps=WGS84 +towgs84=0,0,0,0,0,0,0 +no_defs")
   expect_class(output, classes = "SpatialPoints")
   expect_character(proj4string(output), any.missing = FALSE, pattern = "+proj=longlat", len = 1)
 })
@@ -46,7 +47,7 @@ test_that("getExtent of a Spatial object", {
 test_that("getExtent of an sf object", {
   input <- gtSF$polygon
 
-  output <- setCRS(x = input, crs = projs$laea)
+  output <- setCRS(x = input, crs = "+proj=laea +lat_0=52 +lon_0=10 +x_0=4321000 +y_0=3210000 +ellps=GRS80 +units=m +no_defs")
   expect_class(output, classes = "sf")
   expect_character(st_crs(output)$proj4string, any.missing = FALSE, pattern = "+proj=laea", len = 1)
 })
@@ -63,7 +64,7 @@ test_that("getExtent of a Raster", {
   expect_character(crs(output)@projargs, any.missing = FALSE, pattern = "+proj=longlat", len = 1)
 
   # test to reproject an existing crs
-  output <- setCRS(x = output, crs = projs$laea)
+  output <- setCRS(x = output, crs = "+proj=laea +lat_0=52 +lon_0=10 +x_0=4321000 +y_0=3210000 +ellps=GRS80 +units=m +no_defs")
   expect_class(crs(output), classes = "CRS")
   expect_character(crs(output)@projargs, any.missing = FALSE, pattern = "+proj=laea", len = 1)
 })

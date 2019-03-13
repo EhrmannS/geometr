@@ -35,15 +35,12 @@ Create a regular tiling geometry
 # create grid for GFC data
 gfcWindow <- data.frame(x = c(-180, 180),
                         y = c(-60, 80))
-tiles_gfc <- gs_tiles(window = gfcWindow, cells = c(36, 14), crs = projs$longlat)
+tiles_gfc <- gs_tiles(window = gfcWindow, cells = c(36, 14),
+                      crs = "+proj=longlat +ellps=WGS84 +towgs84=0,0,0,0,0,0,0 +no_defs")
 
 # create grid for MODIS data
 modWindow <- data.frame(x = c(-20015109.354, 20015109.354),
                         y = c(-10007554.677, 10007554.677))
-tiles_modis <- gs_tiles(window = modWindow, cells = c(36, 18), crs = projs$sinu)
-
-# create grid for the sentinel data
-#sntWindow <- data.frame(x = c(),
-#                        y = c())
-#tiles_sentinel <- gs_tiles(window = sntWindow, cells = c(), crs = projs$utm)
+tiles_modis <- gs_tiles(window = modWindow, cells = c(36, 18),
+  crs = "+proj=sinu +lon_0=0 +x_0=0 +y_0=0 +a=6371007.181 +b=6371007.181 +units=m +no_defs")
 }
