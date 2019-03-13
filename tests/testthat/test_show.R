@@ -7,7 +7,7 @@ test_that("show works, less than 9 attributes", {
   output <- capture.output(gtGeoms$polygon)
 
   expect_character(x = output, len = 8)
-  expect_true(output[8] == "attributes : 3  (fid, n, a)")
+  expect_true(output[8] == "attributes : 2  (fid, n)")
 })
 
 test_that("show works, more than 9 attributes", {
@@ -23,5 +23,5 @@ test_that("show works, more than 9 attributes", {
   output <- capture.output(temp)
 
   expect_character(x = output, len = 8)
-  expect_true(output[8] == "attributes : 10  (fid, n, a, af, asd, adf, addsa, aslk, ial, ...)")
+  expect_true(output[8] == "attributes : 9  (fid, n, af, asd, adf, addsa, aslk, ial, afasdsa, ...)")
 })
