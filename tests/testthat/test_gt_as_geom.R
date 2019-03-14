@@ -27,7 +27,7 @@ test_that("transform from 'Spatial*", {
   output <- gt_as_geom(input)
   expect_class(output, "geom")
   expect_true(output@type == "point")
-  expect_true(length(unique(output@coords$fid)) == 2)
+  expect_true(length(unique(output@coords$fid)) == 8)
 
   # test 'SpatialMultiPointsDataFrame'
   input <- SpatialMultiPointsDataFrame(input, data = data.frame(a = 1:2))

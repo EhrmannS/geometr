@@ -47,25 +47,29 @@ setMethod(f = "getCoords",
             } else if(sourceClass %in% "SpatialPixelsDataFrame"){
               x <- as(x, "SpatialPointsDataFrame")
             }
-            sourceClass <- class(x)[1]
 
             if(sourceClass %in% c("SpatialPoints", "SpatialPointsDataFrame")){
 
               theCoords <- bind_cols(fid = seq_along(x@coords[,1]),
-                                     vid = seq_along(x@coords[,1]),
+                                     vid = rep(1, length(x@coords[,1])),
                                      as_tibble(x@coords))
               colnames(theCoords) <- c("fid", "vid", "x", "y")
 
             } else if(sourceClass %in% c("SpatialMultiPoints", "SpatialMultiPointsDataFrame")){
 
               temp <- x
+              nCoords <- 0
               for(i in seq_along(temp@coords)){
-                tempCoords <- tibble(fid = i,
-                                     vid = seq_along(temp@coords[[i]][,1]),
-                                     x = temp@coords[[i]][,1],
-                                     y = temp@coords[[i]][,2])
+                tempCoords <- tibble(x = temp@coords[[i]][,1],
+                                     y = temp@coords[[i]][,2],
+                                     grp = i)
                 theCoords <- bind_rows(theCoords, tempCoords)
               }
+              theCoords <- tibble(fid = seq_along(theCoords$x),
+                                   vid = 1,
+                                   x = theCoords$x,
+                                   y = theCoords$y,
+                                   grp = theCoords$grp)
 
             } else if(sourceClass %in% c("SpatialLines", "SpatialLinesDataFrame")){
 
