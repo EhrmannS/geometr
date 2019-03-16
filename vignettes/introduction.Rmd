@@ -21,12 +21,12 @@ knitr::opts_chunk$set(
 
 `geometr` was developed due to a perceived lack of functionality that would allow manipulating geometries at vertex level, and all the possible applications that follow thereof.
 
-The idea of `geometr` is to enable you to create and process geometries intuitively, thereby turning you into a [geometer](https://en.wikipedia.org/wiki/List_of_geometers). Using `geometr` you typically provide a set of coordinates that outline geometries either as so-called anchor and control vertices (parametrisation), or by clicking into an open plot (sketching). Then you'd either modify individual vertices or the overall geometry, depending on the use-case.
+The idea of `geometr` is to enable you to create and process geometries intuitively, thereby turning you into a [geometer](https://en.wikipedia.org/wiki/List_of_geometers). Using `geometr` you typically provide a set of coordinates that outline geometries either as so-called anchor and control vertices (parametrisation), or by clicking into an open plot (sketching). Depending on the use-case, you'd then either modify individual vertices or the overall geometry.
 
 Moreover, as there seems to be an ever increasing collection of spatial classes - to which `geometr` adds yet another - a standardised approach to deal with the properties of objects of those classes is proposed by `geometr`.
 
 ## A new (geographic/spatial) class: `geom`
-`geometr` comes with the S4 class `geom`. A `geom` stores only those information that can't be derived on the fly from its generic values. An example of this would be the extent/bounding box, which actually is a statistical measure, the range of coordinate values, and thus a derived and not generic value of the geometry. Moreover, this class is deliberately by default not *geographic* in nature. It can be transformed into a geographic object by assigning a *coordinate reference system*. One could say the default CRS is the cartesian coordinate system.
+`geometr` comes with the S4 class `geom`. A `geom` stores only those information that can't be derived on the fly from its generic values. An example of derived information would be the extent/bounding box, which actually is a statistical measure, the range of coordinate values, and thus not a generic value of the geometry. Moreover, this class is deliberately by default not *geographic* in nature. It can be transformed into a geographic object by assigning a *coordinate reference system*. One could say the default CRS is the cartesian coordinate system.
 
 We learn a lot about the class by simply creating and visualising a `geom`:
 
@@ -47,10 +47,10 @@ As an S4 class, `geom` consists of a set of slots, which we can inspect with `st
 str(aGeom)
 ```
 
-The core of this class are three tables that characterise the coordinates, the feature attributes and the window. This separation of coordinates and features is an important aspect that distinguishes `geometr` from other R packages that work with "spatial objects".
+The core of this class are three tables that characterise the coordinates, the feature attributes and the window. This presentation of coordinates and features in separate tables is an important aspect that distinguishes `geometr` from other spatial classes in R.
 
-- The slot `@coords` is a table that contains all information related to the vertices, with one row for each vertex. By default there are at least the columns `fid` (feature ID), `vid` (vertex ID), `x` and `y`, the two-dimensional coordinate values. The feature ID assigns coordinates to shapes and the vertex ID enumerates all vertices per feature.
-- The slot `@attr` is a table that contains all information at the level of features, with one row for each feature. By default there are at least the columns `fid` (feature ID) and `n` (number of vertices of that feature).
+- The slot `@vert` is a table that contains all information related to the vertices, with one row for each vertex. By default there are at least the columns `fid` (feature ID), `vid` (vertex ID), `x` and `y`, the two-dimensional coordinate values. The feature ID relates coordinates to features and thus common attributes and the vertex ID enumerates all vertices per feature.
+- The slot `@attr` is a table that contains all feature attributes, with one row for each feature. By default there are at least the columns `fid` (feature ID) and `gid` (group ID). The group ID captures groups of features that would be part of the same *multi*feature in a "simple feature (`sf`) and is thus by default the same as `fid` except when the `geom` has been derived from a simple multi-feature.
 - The slot `@window` is a table that defines the frame within which the geometry would be plotted. This is sort of a second extent that may be bigger (or smaller) than `extent/bbox` and which determines the relative position of the vertices when plotting.
 
 ```{r, fig.width=7, out.width='100%'}
@@ -71,7 +71,6 @@ A `geom` either has the feature type:
 visualise(geom = gtGeoms$polygon, fillcol = fid)
 visualise(geom = gtGeoms$line, linecol = "green", new = FALSE)
 visualise(geom = gtGeoms$point, linecol = "deeppink", new = FALSE)
-
 ```
 
 Points and Lines are implemented quite straightforward in this data model, but polygons, which may contain
@@ -84,19 +83,15 @@ occurs. This signals that all following vertices are part of another path/ring, 
 
 ## Getters and Setters
 
-Most properties of a geom are accessible via specific functions. They can thus be extracted, modified and re-assigned, which is the basis for various "meta-operations", such as reprojecting or appending additional attributes to features.
+Most properties of a `geom` are accessible via specific functions. They can thus be extracted, modified and re-assigned, which is the basis for various "meta-operations", such as reprojecting or appending additional attributes to features.
 
 ```{r}
 # Get properties of a geom
-getCoords(x = gtGeoms$polygon)
+getVertices(x = gtGeoms$polygon)
 getTable(x = gtGeoms$polygon)
 getWindow(x = gtGeoms$polygon)
-getCRS(x = gtGeoms$polygon)
-# does not contain any value and is thus only valid in the cartesian coordinate
-# system
+getCRS(x = gtGeoms$polygon) # does not contain any value and is thus only valid in the cartesian coordinate system
 getHistory(x = gtGeoms$polygon)
-# does not contain any values because so far no operations have been carried out
-# on it
 
 # Set properties of a geom ...
 # ... such as feature attributes
@@ -106,19 +101,35 @@ getTable(x = newGeom)
 visualise(geom = newGeom, fillcol = weight)
 ```
 
-In an attempt to standardise the handling of various different spatial formats, these functions have been developed as generics and they come with a couple of methods for the most-used spatial classes, such as `Raster*`, `sp`, `sf`. Originally this was developed to accommodate the modular nature of `rasterTools` but is now offered as a stand-alone. One can for instance use `getCoords()` to get a standardised output of the coordinate values across all supported spatial classes.
+In an attempt to standardise the handling of various different spatial formats, these functions have been developed as generics and they come with a couple of methods for the most-used spatial classes, such as `Raster*`, `sp`, `sf`. Originally this was developed to accommodate the modular nature of `rasterTools` but is now offered as a stand-alone. One can for instance use `getVertices()` to get a standardised output of the coordinate values across all supported spatial classes.
 
 ```{r}
-getCoords(gtGeoms$point)
-getCoords(gtSP$SpatialMultiPoints)
-getCoords(gtSF$multipoint)
+getVertices(gtGeoms$point)
+getVertices(gtSP$SpatialMultiPoints)
+getVertices(gtSF$multipoint)
 ```
 
 ## Rationale
 
+To outline the rationale for starting the development of `geometr`, I first want to describe the aspects of `sp` and `sf` that seemed improvable to me.
+
+All this makes clear that `geom` is an improvement of the `sp` classes with a stance on storing geometric information that differes from the `sf` classes. The aim is to clearly separate geometric information and feature attributes and thereby make the geometric information more accessible. 
+
+While `geometr` relates geometry and attributes by assigning the same `fid` to both, `sf` achieves this by storing them in the same row. `sf` confuses this trick with simplicity and relies at the same time on introducing the classes 
+
+- `sf`, which comprises attributes and geometries of one simple feature, 
+- `sfg`, which comprises only the geometry of one simple feature and 
+- `sfc`, which represents the geometries of all simple features and thus spans, in contrast to the former two, across all simple features.
+
+While `sf` makes geometries accessible to the tidy workflow, it replaces the list-apocalypsis of the `sp` package with the class-disaster we find now.
+
+`geometr` is clearly superior to `sp` classes because both coordinates and attributes, including an ID that clearly relates them, are available as properly accessible `data.frames/tibbles`. Both, coordinates and attributes can be easily retrieved either by calling the respective getters or by a simple call to the `@` function.
 
 Separating coordinates and features allows addressing coordinates just as simply as features and separately from each other
 
+I am interested in addressing each single feature, also in a multi-feature. this can be achieved by calling the fid or the gid, if interested in the multi*feature
+
+http://strimas.com/r/tidy-sf/
 
 **sf increases complexity, the listed nature of geometries requires additional code-logic to extract geometric information; too many classes with different behaviour, which renders re-use of code/scripts overly complicated**
 
