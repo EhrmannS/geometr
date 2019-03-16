@@ -14,7 +14,7 @@ test_that("getTable of a 'geom'", {
   output <- getTable(aGeom)
 
   expect_data_frame(output, any.missing = FALSE, nrows = 1, ncols = 2)
-  expect_names(names(output), identical.to = c("fid", "n"))
+  expect_names(names(output), identical.to = c("fid", "gid"))
 })
 
 test_that("getTable of a Spatial* object", {
@@ -22,7 +22,7 @@ test_that("getTable of a Spatial* object", {
 
   output <- getTable(input)
   expect_data_frame(output, any.missing = FALSE, nrows = 2, ncols = 2)
-  expect_names(names(output), identical.to = c("fid", "n"))
+  expect_names(names(output), identical.to = c("fid", "gid"))
 })
 
 test_that("getTable of an sf object", {
@@ -30,7 +30,7 @@ test_that("getTable of an sf object", {
 
   output <- getTable(input)
   expect_data_frame(output, any.missing = FALSE, nrows = 2, ncols = 3)
-  expect_names(names(output), identical.to = c("fid", "n", "a"))
+  expect_names(names(output), identical.to = c("fid", "gid", "a"))
 })
 
 test_that("getTable returns an empty tibble when no attributes are given", {
@@ -48,3 +48,4 @@ test_that("getTable returns a given attribute table", {
   expect_data_frame(output, any.missing = FALSE, nrows = 9, ncols = 2)
   expect_names(names(output), identical.to = c("id", "cover"))
 })
+

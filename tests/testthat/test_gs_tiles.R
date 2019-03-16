@@ -25,13 +25,13 @@ test_that("output has the correct number of vertices and polygons", {
                        y = c(-20, 20))
 
   output <- gs_tiles(window = window, cells = c(8, 4), crs = "+proj=longlat +ellps=WGS84 +towgs84=0,0,0,0,0,0,0 +no_defs")
-  expect_true(length(output@coords$fid) == 128)
+  expect_true(length(output@vert$fid) == 128)
 
   output <- gs_tiles(window = window, cells = c(8, 4), crs = "+proj=longlat +ellps=WGS84 +towgs84=0,0,0,0,0,0,0 +no_defs", tiling = "hexagonal")
-  expect_true(length(output@coords$fid) == 270)
+  expect_true(length(output@vert$fid) == 270)
 
   output <- gs_tiles(window = window, cells = c(8, 4), crs = "+proj=longlat +ellps=WGS84 +towgs84=0,0,0,0,0,0,0 +no_defs", centroids = TRUE)
-  expect_true(length(output@coords$fid) == 32)
+  expect_true(length(output@vert$fid) == 32)
 })
 
 test_that("Error if arguments have wrong value", {

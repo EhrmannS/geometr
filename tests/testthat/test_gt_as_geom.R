@@ -27,7 +27,7 @@ test_that("transform from 'Spatial*", {
   output <- gt_as_geom(input)
   expect_class(output, "geom")
   expect_true(output@type == "point")
-  expect_true(length(unique(output@coords$fid)) == 8)
+  expect_true(length(unique(output@vert$fid)) == 8)
 
   # test 'SpatialMultiPointsDataFrame'
   input <- SpatialMultiPointsDataFrame(input, data = data.frame(a = 1:2))
@@ -35,7 +35,7 @@ test_that("transform from 'Spatial*", {
   output <- gt_as_geom(input)
   expect_class(output, "geom")
   expect_true(output@type == "point")
-  expect_data_frame(getTable(output), nrows = 2, ncols = 3)
+  expect_data_frame(getTable(output), nrows = 8, ncols = 3)
 
   # test 'SpatialLines'
   input <- gtSP$SpatialLines
@@ -43,7 +43,7 @@ test_that("transform from 'Spatial*", {
   output <- gt_as_geom(input)
   expect_class(output, "geom")
   expect_true(output@type == "line")
-  expect_true(length(unique(output@coords$fid)) == 2)
+  expect_true(length(unique(output@vert$fid)) == 2)
 
   # test 'SpatialLinesDataFrame'
   input <- SpatialLinesDataFrame(input, data = data.frame(a = 1:2), match.ID = FALSE)

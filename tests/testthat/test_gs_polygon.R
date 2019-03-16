@@ -10,7 +10,7 @@ test_that("output is valid geometry", {
   output <- gs_polygon(anchor = coords)
   expect_class(output, classes = "geom")
   expect_true(output@type == "polygon")
-  expect_data_frame(output@coords, any.missing = FALSE, nrows = 4, ncols = 4)
+  expect_data_frame(output@vert, any.missing = FALSE, nrows = 4, ncols = 4)
 })
 
 test_that("template instead of anchor", {

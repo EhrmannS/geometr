@@ -12,7 +12,7 @@ test_that("output is valid geometry", {
   output <- gs_point(anchor = coords, window = window)
   expect_class(output, classes = "geom")
   expect_true(output@type == "point")
-  expect_data_frame(output@coords, any.missing = FALSE, nrows = 2, ncols = 4)
+  expect_data_frame(output@vert, any.missing = FALSE, nrows = 2, ncols = 4)
 })
 
 test_that("template instead of anchor", {

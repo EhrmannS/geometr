@@ -16,7 +16,7 @@ test_that("setTable of a 'geom'", {
   output <- setTable(input, attributes)
   expect_class(output, "geom")
   expect_data_frame(output@attr, ncols = 3)
-  expect_names(names(output@attr), must.include = c("fid", "n", "variable"))
+  expect_names(names(output@attr), must.include = c("fid", "gid", "variable"))
 })
 
 test_that("setTable of a Spatial*DataFrame object", {

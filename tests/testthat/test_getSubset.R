@@ -13,17 +13,17 @@ test_that("getSubset of a geom", {
   input <- gs_polygon(anchor = coords, window = window)
 
   # get a subset of the coords
-  output <- getSubset(x = input, fid == 2, slot = "coords")
+  output <- getSubset(x = input, fid == 2, slot = "vert")
   expect_class(output, "geom")
-  expect_true(dim(output@coords)[1] == 2)
-  expect_true(dim(output@coords)[1] < dim(input@coords)[1])
+  expect_true(dim(output@vert)[1] == 2)
+  expect_true(dim(output@vert)[1] < dim(input@vert)[1])
 
   # get a subset of the attributes
   input <- setTable(x = input, table = data.frame(fid = c(1, 2), a = c("a", "b")))
   output <- getSubset(x = input, a == 'b', slot = "table")
   expect_class(output, "geom")
-  expect_true(dim(output@coords)[1] == 2)
-  expect_true(dim(output@coords)[1] < dim(input@coords)[1])
+  expect_true(dim(output@vert)[1] == 2)
+  expect_true(dim(output@vert)[1] < dim(input@vert)[1])
 })
 
 test_that("getSubset of a Spatial* object", {
