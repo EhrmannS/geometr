@@ -22,7 +22,7 @@ Multiple conditions are combined with &. Only rows where the condition
 evaluates to TRUE are kept.}
 
 \item{slot}{[\code{character(1)}]\cr the slot in which to determine a subset,
-either \code{"table"} or \code{"coords"}.}
+either \code{"table"} or \code{"vert"}.}
 }
 \description{
 Get the subset of a spatial object.
@@ -30,8 +30,8 @@ Get the subset of a spatial object.
 \examples{
 (obj <- gtGeoms$point)
 
-# get subset of features that have less than 3 vertices
-(getSubset(x = gtGeoms$line, n < 5))
+# get feature 1
+(getSubset(x = gtGeoms$line, fid == 1))
 
 
 (obj <- gtSP$SpatialPolygonsDataFrame)

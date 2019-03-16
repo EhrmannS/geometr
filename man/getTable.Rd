@@ -26,7 +26,7 @@ Get the attribute table of a spatial object.
 \examples{
 getTable(gtGeoms$polygon)
 
-getTable(gtSP$SpatialPolygons)
+getTable(x = gtSP$SpatialPolygons)
 
 getTable(gtSF$multiline)
 

@@ -21,17 +21,17 @@ following the sequence of their order and the line thus closes in on itself.}
 
 The data model for storing vertices follows the spaghetti model. Vertices are
 stored as a sequence of x and y values, additionally characterised with two
-IDs. The feature ID (\code{fid}) assigns coordinates to shapes and the vertex
-ID (\code{vid}) enumerates all vertices per feature. Points and Lines are
-implemented straightforward in this model, but polygons, which may contain
-holes, are a bit trickier. In \code{geometr} they are implemented as follows:
-\enumerate{ \item All vertices with the same \code{fid} make up one polygon,
-irrespective of it containing holes or not. \item The outer path/ring of a
-polygon is composed of all vertices until a duplicated of its first vertex
-occurs. This signals that all following vertices are part of another
-path/ring, which is a hole when it is inside the polygon and which consists
-of all vertices until a duplicate of it's first vertex occurs. \item This
-repeats until all vertices of the feature are processed.}
+IDs. The feature ID relates coordinates to features and thus common
+attributes and the vertex ID enumerates all vertices per feature. Points and
+Lines are implemented straightforward in this model, but polygons, which may
+contain holes, are a bit trickier. In \code{geometr} they are implemented as
+follows: \enumerate{ \item All vertices with the same \code{fid} make up one
+polygon, irrespective of it containing holes or not. \item The outer
+path/ring of a polygon is composed of all vertices until a duplicated of its
+first vertex occurs. This signals that all following vertices are part of
+another path/ring, which is a hole when it is inside the polygon and which
+consists of all vertices until a duplicate of it's first vertex occurs. \item
+This repeats until all vertices of the feature are processed.}
 
 Moreover, a \code{geom} does not have the slot \emph{extent}, which
 characterises the minimum and maximum value of the vertex coordinates and
@@ -46,12 +46,12 @@ the vertices when plotting.
 \item{\code{type}}{[\code{character(1)}]\cr the type of feature, either
 \code{"point"}, \code{"line"} or \code{"polygon"}.}
 
-\item{\code{coords}}{[\code{data.frame(1)}]\cr the \code{vid} (vertex ID), \code{fid}
-(feature ID), \code{x} and \code{y} coordinates per vertex and optional
+\item{\code{vert}}{[\code{data.frame(1)}]\cr the \code{fid} (feature ID), \code{vid}
+(vertex ID), \code{x} and \code{y} coordinates per vertex and optional
 arbitrary coordinate attributes.}
 
-\item{\code{attr}}{[\code{data.frame(1)}]\cr \code{fid}, \code{n} (number of
-vertices) and optional arbitrary feature attributes.}
+\item{\code{attr}}{[\code{data.frame(1)}]\cr \code{fid} (feature ID), \code{gid}
+(group ID) and optional arbitrary feature attributes.}
 
 \item{\code{window}}{[\code{data.frame(1)}]\cr the minimum and maximum value in x and
 y dimension of the reference window in which the \code{geom} dwells.}

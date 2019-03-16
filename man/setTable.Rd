@@ -6,6 +6,7 @@
 \alias{setTable,geom-method}
 \alias{setTable,Spatial-method}
 \alias{setTable,sf-method}
+\alias{setTable,sfc-method}
 \alias{setTable,RasterLayer-method}
 \title{Set the attribute table of a spatial object.}
 \usage{
@@ -14,6 +15,8 @@
 \S4method{setTable}{Spatial}(x, table)
 
 \S4method{setTable}{sf}(x, table)
+
+\S4method{setTable}{sfc}(x, table)
 
 \S4method{setTable}{RasterLayer}(x, table)
 }
@@ -30,7 +33,22 @@ When setting the attribute table of a simple feature (\code{sf}) -
   which is already a "data.frame-like object" - this really means that a
   table is joined to the already existing table.
 
-  When setting the the attribute table of a simple feature geometry
-  (\code{sfg}) or to a simple feature geometry column (\code{sfc}), this
-  upgrades the former object to an \code{sf} object.
+  When setting the attribute table of a simple feature geometry column
+  (\code{sfc}), this upgrades the object to an \code{sf} object.
+}
+\examples{
+
+# set table to an sf
+sfObj <- gtSF$polygon
+
+# ... with common columns
+myAttributes <- data.frame(a = c(2, 1), b = c("X", "Y"))
+setTable(x = sfObj, table = myAttributes)
+
+# ... without common columns
+setTable(x = sfObj, table = myAttributes[2])
+
+# set table to an sfc (no join possible)
+sfcObj = gtSF$polygon$geometry
+setTable(x = sfcObj, table = myAttributes)
 }
