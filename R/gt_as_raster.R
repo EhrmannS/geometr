@@ -51,17 +51,17 @@ gt_as_raster <- function(geom, negative = FALSE, res = c(1, 1), crs = NULL){
   outRows <- round(max(extRows, na.rm = TRUE) - min(extRows, na.rm = TRUE))
 
   temp <- matrix(data = 0, ncol = outCols, nrow = outRows)
-  coords <- geom@coords[c("x", "y")]
-  coords[, 1] <- round(coords[, 1]/res[1])
-  coords[, 2] <- round(coords[, 2]/res[2])
-  vertices <- as.matrix(coords)
+  vert <- geom@vert[c("x", "y")]
+  vert[, 1] <- round(vert[, 1]/res[1])
+  vert[, 2] <- round(vert[, 2]/res[2])
+  vertices <- as.matrix(vert)
   if(!any(theWindow$x == 0)){
     vertices[, 1] <- vertices[, 1] - min(vertices[, 1], na.rm = TRUE)
   }
   if(!any(theWindow$y == 0)){
     vertices[, 2] <- vertices[, 2] - min(vertices[, 2], na.rm = TRUE)
   }
-  if(any(coords[dim(coords)[1],] != coords[1, ])){
+  if(any(vert[dim(vert)[1],] != vert[1, ])){
     vertices <- rbind(vertices, vertices[1, ])
   }
   geomRaster <- matInGeomC(mat = temp, geom = vertices, negative = negative)

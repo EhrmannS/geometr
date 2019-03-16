@@ -34,7 +34,7 @@ gt_as_grob <- function(geom = NULL, theme = gtTheme, ...){
   }
 
   featureType <- geom@type
-  coords <- getCoords(x = outGeom)
+  vert <- getVertices(x = outGeom)
 
   attr <- getTable(x = geom)
   pars <- makeColours(input = geom, theme = theme, ...)
@@ -45,8 +45,8 @@ gt_as_grob <- function(geom = NULL, theme = gtTheme, ...){
 
   if(featureType %in% "point"){
 
-    geomGrob <- pointsGrob(x = unit(coords$x, "npc"),
-                           y = unit(coords$y, "npc"),
+    geomGrob <- pointsGrob(x = unit(vert$x, "npc"),
+                           y = unit(vert$y, "npc"),
                            pch = pars$pointsymbol,
                            size = unit(pars$pointsize, "char"),
                            gp = gpar(
@@ -55,9 +55,9 @@ gt_as_grob <- function(geom = NULL, theme = gtTheme, ...){
 
   } else if(featureType %in% "line"){
 
-    geomGrob <- polylineGrob(x = unit(coords$x, "npc"),
-                             y = unit(coords$y, "npc"),
-                             id = as.numeric(as.factor(coords$fid)),
+    geomGrob <- polylineGrob(x = unit(vert$x, "npc"),
+                             y = unit(vert$y, "npc"),
+                             id = as.numeric(as.factor(vert$fid)),
                              name = ids,
                              gp = gpar(col = pars$linecol,
                                        lty = pars$linetype,
@@ -70,7 +70,7 @@ gt_as_grob <- function(geom = NULL, theme = gtTheme, ...){
 
       theID <- unique(attr$fid)[i]
       tempIDs <- attr[attr$fid == theID, ]
-      tempCoords <- coords[coords$fid %in% tempIDs$fid, ]
+      tempCoords <- vert[vert$fid %in% tempIDs$fid, ]
 
       # determine subpaths by searching for duplicates. Whenever there is a
       # duplicate in the vertices, the next vertex is part of the next subpaths

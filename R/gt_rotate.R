@@ -53,8 +53,8 @@ gt_rotate <- function(geom, angle, about = c(0, 0), fid = NULL){
   }
   existsID <- !is.null(fid)
 
-  coords <- geom@coords
-  ids <- unique(coords$fid)
+  vert <- geom@vert
+  ids <- unique(vert$fid)
   if(existsID){
     doRotate <- ids %in% fid
   } else{
@@ -73,7 +73,7 @@ gt_rotate <- function(geom, angle, about = c(0, 0), fid = NULL){
   # out <- geom
   temp <- NULL
   for(i in seq_along(ids)){
-    tempCoords <- coords[coords$fid == ids[i],]
+    tempCoords <- vert[vert$fid == ids[i],]
 
     if(doRotate[i]){
       tempAngle <- angle[[i]]
@@ -100,7 +100,7 @@ gt_rotate <- function(geom, angle, about = c(0, 0), fid = NULL){
   }
   out <- new(Class = "geom",
              type = geom@type,
-             coords = temp,
+             vert = temp,
              attr = geom@attr,
              window = geom@window,
              scale = geom@scale,

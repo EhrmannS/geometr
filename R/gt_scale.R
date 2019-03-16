@@ -41,7 +41,7 @@ gt_scale <- function(geom, range = NULL, to = "relative"){
     to <- match.arg(to, c("relative", "absolute"))
   }
 
-  coords <- geom@coords
+  vert <- geom@vert
   window <- geom@window
 
   out <- NULL
@@ -66,7 +66,7 @@ gt_scale <- function(geom, range = NULL, to = "relative"){
     maxY <- 1
   }
 
-  temp <- coords
+  temp <- vert
   temp$x <- (temp$x - minX) * (rangeX[2] - rangeX[1]) / (maxX - minX) + rangeX[1]
   temp$y <- (temp$y - minY) * (rangeY[2] - rangeY[1]) / (maxY - minY) + rangeY[1]
   out <- rbind(out, temp)
@@ -77,7 +77,7 @@ gt_scale <- function(geom, range = NULL, to = "relative"){
   }
   out <- new(Class = "geom",
              type = geom@type,
-             coords = out,
+             vert = out,
              attr = geom@attr,
              window = window,
              scale = to,

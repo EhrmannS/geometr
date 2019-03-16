@@ -1,7 +1,7 @@
 #' Get the subset of a spatial object.
 #' @param x object to \code{subset}.
 #' @param slot [\code{character(1)}]\cr the slot in which to determine a subset,
-#'   either \code{"table"} or \code{"coords"}.
+#'   either \code{"table"} or \code{"vert"}.
 #' @param ... Logical predicates defined in terms of the variables in \code{x}.
 #'   Multiple conditions are combined with &. Only rows where the condition
 #'   evaluates to TRUE are kept.
@@ -23,8 +23,8 @@ if(!isGeneric("getSubset")){
 #' @examples
 #' (obj <- gtGeoms$point)
 #'
-#' # get subset of features that have less than 3 vertices
-#' (getSubset(x = gtGeoms$line, n < 5))
+#' # get feature 1
+#' (getSubset(x = gtGeoms$line, fid == 1))
 #'
 #' @importFrom checkmate assertCharacter assertChoice
 #' @importFrom rlang exprs
@@ -33,21 +33,17 @@ setMethod(f = "getSubset",
           signature = signature("geom"),
           definition = function(x, ..., slot = "table"){
             assertCharacter(x = slot, len = 1, any.missing = FALSE)
-            assertChoice(x = slot, choices = c("table", "coords"))
+            assertChoice(x = slot, choices = c("table", "vert"))
             subset <- exprs(...)
             if(slot == "table"){
               matches <- eval(parse(text = subset), envir = x@attr)
               x@attr <- x@attr[matches,]
-              x@coords <- x@coords[x@coords$fid %in% x@attr$fid,]
+              x@vert <- x@vert[x@vert$fid %in% x@attr$fid,]
             } else{
-              matches <- eval(parse(text = subset), envir = x@coords)
-              x@coords <- x@coords[matches,]
-              x@attr <- x@attr[x@attr$fid %in% x@coords$fid,]
+              matches <- eval(parse(text = subset), envir = x@vert)
+              x@vert <- x@vert[matches,]
+              x@attr <- x@attr[x@attr$fid %in% x@vert$fid,]
             }
-            nVids <- sapply(unique(x@coords$fid), function(i){
-              length(x@coords$vid[x@coords$fid == i])
-            })
-            x@attr$n <- nVids
 
             return(x)
           }

@@ -80,10 +80,10 @@ gs_point <- function(anchor = NULL, window = NULL, template = NULL,
   if(anchorIsGeom){
     # fid and vid values need to be transformed
     if(anchor@type != "point"){
-      anchor@coords$fid <- seq_along(anchor@coords$fid)
-      anchor@coords$vid <- rep(1, times = length(anchor@coords$vid))
+      anchor@vert$fid <- seq_along(anchor@vert$fid)
+      anchor@vert$vid <- rep(1, times = length(anchor@vert$vid))
     }
-    features <- length(unique(anchor@coords$fid))
+    features <- length(unique(anchor@vert$fid))
   }
   windowExists <- !testNull(window)
   if(windowExists){
@@ -138,7 +138,7 @@ gs_point <- function(anchor = NULL, window = NULL, template = NULL,
     if(!windowExists){
       window <- anchor@window
     }
-    anchor <- anchor@coords
+    anchor <- anchor@vert
   } else if(anchorIsDF){
     if(!windowExists){
       window <- tibble(x = c(min(anchor$x), max(anchor$x)),
@@ -148,8 +148,8 @@ gs_point <- function(anchor = NULL, window = NULL, template = NULL,
 
   theGeom <- new(Class = "geom",
                  type = "point",
-                 coords = anchor,
-                 attr = tibble(fid = unique(anchor$fid), n = as.data.frame(table(anchor$fid))$Freq),
+                 vert = anchor,
+                 attr = tibble(fid = unique(anchor$fid), gid = unique(anchor$fid)),
                  window = tibble(x = rep(window$x, each = 2), y = c(window$y, rev(window$y))),
                  scale = "absolute",
                  crs = as.character(projection),

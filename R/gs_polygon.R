@@ -103,10 +103,10 @@ gs_polygon <- function(anchor = NULL, window = NULL, template = NULL, features =
   if(anchorIsGeom){
     # fid and vid values need to be transformed
     if(anchor@type == "point"){
-      anchor@coords$fid <- rep(1, length(anchor@coords$fid))
-      anchor@coords$vid <- seq_along(anchor@coords$vid)
+      anchor@vert$fid <- rep(1, length(anchor@vert$fid))
+      anchor@vert$vid <- seq_along(anchor@vert$vid)
     }
-    features <- length(unique(anchor@coords$fid))
+    features <- length(unique(anchor@vert$fid))
   }
   windowExists <- !testNull(window)
   if(windowExists){
@@ -178,7 +178,7 @@ gs_polygon <- function(anchor = NULL, window = NULL, template = NULL, features =
       if(!windowExists){
         window <- anchor@window
       }
-      tempAnchor <- anchor@coords[anchor@coords$fid == i,]
+      tempAnchor <- anchor@vert[anchor@vert$fid == i,]
     } else if(anchorIsDF){
       if(!windowExists){
         window <- tibble(x = c(min(anchor$x), max(anchor$x)),
@@ -216,8 +216,8 @@ gs_polygon <- function(anchor = NULL, window = NULL, template = NULL, features =
 
   out <- new(Class = "geom",
              type = "polygon",
-             coords = nodes,
-             attr = tibble(fid = unique(nodes$fid), n = fids),
+             vert = nodes,
+             attr = tibble(fid = unique(nodes$fid), gid = unique(nodes$fid)),
              window = tibble(x = rep(c(min(window$x), max(window$x)), each = 2), y = c(min(window$y), max(window$y), max(window$y), min(window$y))),
              scale = "absolute",
              crs = as.character(projection),
@@ -272,7 +272,7 @@ gs_square <- function(anchor = NULL, window = NULL, template = NULL,
                         regular = TRUE,
                         ...)
 
-  centroid <- colMeans(theGeom@coords[c("x", "y")])
+  centroid <- colMeans(theGeom@vert[c("x", "y")])
   rotGeom <- gt_rotate(geom = theGeom,
                        angle = 45,
                        about = centroid)
@@ -313,7 +313,7 @@ gs_rectangle <- function(anchor = NULL, window = NULL, template = NULL,
     outTable <- bind_rows(outTable, temp)
   }
 
-  theGeom@coords <- outTable
+  theGeom@vert <- outTable
 
   invisible(theGeom)
 }

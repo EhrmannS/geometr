@@ -46,8 +46,8 @@ gt_group <- function(geom, index = NULL, distance = NULL, clusters = NULL, ...){
     stop("please provide either 'distance', 'index' or 'clusters'.")
   }
 
-  coords <- geom@coords
-  toGroup <- coords[c("x", "y")]
+  vert <- geom@vert
+  toGroup <- vert[c("x", "y")]
 
   if(!is.null(index)){
     newId <- rep(index, length.out = dim(toGroup)[1])
@@ -62,7 +62,7 @@ gt_group <- function(geom, index = NULL, distance = NULL, clusters = NULL, ...){
     newId <- temp$cluster
   }
 
-  temp <- bind_cols(fid = newId, vid = coords$vid, toGroup)
+  temp <- bind_cols(fid = newId, vid = vert$vid, toGroup)
   temp <- temp[order(temp$fid),]
   if(geom@type == "point"){
     vertices <- as.integer(table(newId))
@@ -72,7 +72,7 @@ gt_group <- function(geom, index = NULL, distance = NULL, clusters = NULL, ...){
 
   out <- new(Class = "geom",
              type = geom@type,
-             coords = temp,
+             vert = temp,
              attr = tibble(fid = unique(newId), n = vertices),
              window = geom@window,
              scale = geom@scale,

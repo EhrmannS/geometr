@@ -49,12 +49,12 @@ gt_as_sp <- function(geom, crs = NULL){
   }
 
   featureType <- geom@type
-  coords <- geom@coords
-  features <- unique(coords$fid)
+  vert <- geom@vert
+  features <- unique(vert$fid)
 
   if(featureType %in% c("point")){
 
-    temp <- coords[c("x", "y")]
+    temp <- vert[c("x", "y")]
     geomSp <- SpatialPoints(temp, proj4string = crs(sourceCrs))
     if(!all(names(geom@attr) %in% c("fid", "n"))){
       attr <- geom@attr[,!names(geom@attr) %in% c("fid", "n")]
@@ -66,7 +66,7 @@ gt_as_sp <- function(geom, crs = NULL){
     #   temp <- list()
     #   # go through distinct ids and check whether the last coordinate is equal to the first.
     #   for(i in seq_along(id)){
-    #     thePoly <- coords[c(1, 2)][coords$id == id[i],]
+    #     thePoly <- vert[c(1, 2)][vert$id == id[i],]
     #     if(!all(thePoly[1,] == thePoly[dim(thePoly)[1],])){
     #       thePoly <- rbind(thePoly, thePoly[1,])
     #     }
@@ -83,7 +83,7 @@ gt_as_sp <- function(geom, crs = NULL){
     temp <- list()
     # go through distinct ids and check whether the last coordinate is equal to the first.
     for(i in seq_along(features)){
-      thePoly <- coords[c("x", "y")][coords$fid == features[i],]
+      thePoly <- vert[c("x", "y")][vert$fid == features[i],]
       if(!all(thePoly[1,] == thePoly[dim(thePoly)[1],])){
         thePoly <- rbind(thePoly, thePoly[1,])
       }

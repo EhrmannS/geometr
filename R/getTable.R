@@ -29,7 +29,7 @@ setMethod(f = "getTable",
 #' @rdname getTable
 #' @examples
 #'
-#' getTable(gtSP$SpatialPolygons)
+#' getTable(x = gtSP$SpatialPolygons)
 #' @importFrom tibble tibble as_tibble
 #' @importFrom dplyr bind_cols
 #' @export
@@ -45,28 +45,37 @@ setMethod(f = "getTable",
               type <- "point"
 
               if(sourceClass %in% "SpatialPointsDataFrame"){
-                theData <- tibble(fid = seq_along(x@coords[,1]), n = 1)
+                theData <- tibble(fid = seq_along(x@coords[,1]),
+                                  gid = seq_along(x@coords[,1]))
                 theData <- bind_cols(theData, x@data)
               } else{
-                theData <- tibble(fid = seq_along(x@coords[,1]), n = 1)
+                theData <- tibble(fid = seq_along(x@coords[,1]),
+                                  gid = seq_along(x@coords[,1]))
               }
 
             } else if(sourceClass %in% c("SpatialMultiPoints", "SpatialMultiPointsDataFrame")){
               type <- "point"
 
               for(i in seq_along(x@coords)){
+                tempCoords <- x@coords[[i]]
 
                 if(sourceClass %in% "SpatialMultiPointsDataFrame"){
-                  tempData <- tibble(i, length(x@coords[[i]][,1]), x@data[i,])
+                  tempData <- tibble(fid = seq_along(tempCoords[,1])+prev,
+                                     gid = i,
+                                     x@data[i,])
+                  j <- length(tempCoords[,1])
+
                   theData <- bind_rows(theData, tempData)
                   otherNames <- colnames(x@data)
                 } else{
-                  tempData <- tibble(i, length(x@coords[[i]][,1]))
+                  tempData <- tibble(fid = seq_along(tempCoords[,1])+prev,
+                                     gid = i)
+                  j <- length(tempCoords[,1])
                   theData <- bind_rows(theData, tempData)
                   otherNames <- NULL
                 }
               }
-              colnames(theData) <- c("fid", "n", otherNames)
+              colnames(theData) <- c("fid", "gid", otherNames)
 
             } else if(sourceClass %in% c("SpatialLines", "SpatialLinesDataFrame")){
               type <- "line"
@@ -76,25 +85,24 @@ setMethod(f = "getTable",
 
                 for(j in seq_along(theLines@Lines)){
                   if(sourceClass %in% "SpatialLinesDataFrame"){
-                    tempData <- tibble(prev + j, dim(theLines@Lines[[j]]@coords)[1], x@data[i,])
+                    tempData <- tibble(fid = prev + j, gid = prev + j, x@data[i,])
                     theData <- bind_rows(theData, tempData)
                     otherNames <- colnames(x@data)
                   } else{
-                    theData <- bind_rows(theData, tibble(prev + j, dim(theLines@Lines[[j]]@coords)[1]))
+                    theData <- bind_rows(theData, tibble(fid = prev + j, gid = prev + j))
                     otherNames <- NULL
                   }
                 }
                 prev <- prev + length(theLines@Lines)
 
               }
-              colnames(theData) <- c("fid", "n", otherNames)
+              colnames(theData) <- c("fid", "gid", otherNames)
 
             } else if(sourceClass %in% c("SpatialPolygons", "SpatialPolygonsDataFrame", "SpatialGrid", "SpatialGridDataFrame")){
               type <- "polygon"
 
               for(i in seq_along(x@polygons)){
                 thePolys <- x@polygons[[i]]
-                prev <- 0
 
                 if(sourceClass %in% "SpatialPolygonsDataFrame"){
                   tempData <- tibble(x@data[i,])
@@ -107,14 +115,13 @@ setMethod(f = "getTable",
                 for(j in seq_along(thePolys@Polygons)){
                   polyCoords <- thePolys@Polygons[[j]]@coords
                   polyCoords <- polyCoords[!duplicated(polyCoords),]
-                  prev <- prev + dim(polyCoords)[1]
                 }
-                tempData <- bind_cols(tibble(i, prev), tempData)
+                tempData <- bind_cols(tibble(fid = i, gid = i), tempData)
 
                 theData <- bind_rows(theData, tempData)
 
               }
-              colnames(theData) <- c("fid", "n", otherNames)
+              colnames(theData) <- c("fid", "gid", otherNames)
 
             }
             return(theData)
@@ -133,9 +140,6 @@ setMethod(f = "getTable",
 
             sourceClass <- st_geometry_type(x)
             theCoords <- st_coordinates(x)
-            # if(dim(theCoords)[1] > 1){
-            #   theCoords <- theCoords[!duplicated(theCoords),]
-            # }
             if(length(unique(sourceClass)) == 1){
               sourceClass <- unique(sourceClass)
               if(sourceClass %in% c("POINT")){
@@ -143,66 +147,68 @@ setMethod(f = "getTable",
                 data <- x
                 st_geometry(data) <- NULL
                 fids <- seq_along(theCoords[, 1])
-                new <- tibble(fid = fids, nos = 1)
+                new <- tibble(fid = fids, gid = fids)
                 out <- bind_cols(new, data)
-                colnames(out) <- c("fid", "n", names(data))
+                colnames(out) <- c("fid", "gid", names(data))
 
               } else if(sourceClass %in% c("MULTIPOINT")){
 
                 data <- x
                 st_geometry(data) <- NULL
                 fids <- seq_along(theCoords[, 1])
-                out <- tibble(fid = fids, nos = 1, theCoords[,3])
-                colnames(out) <- c("fid", "n", names(data))
+                gids <- theCoords[, 3]
+                out <- tibble(fid = fids, gid = gids, theCoords[,3])
+                colnames(out) <- c("fid", "gid", names(data))
 
               } else if(sourceClass %in% c("LINESTRING")){
 
                 data <- x
                 st_geometry(data) <- NULL
                 fids <- unique(theCoords[, 3])
-                nos <- unlist(lapply(fids, function(i){
-                  length(which(theCoords[, 3] == i))
-                }))
-                new <- tibble(fids, nos)
+                new <- tibble(fid = fids, gid = fids)
                 out <- bind_cols(new, data)
-                colnames(out) <- c("fid", "n", names(data))
+                colnames(out) <- c("fid", "gid", names(data))
 
-              } else if(sourceClass %in% c("MULTILINESTRING", "POLYGON")){
+              } else if(sourceClass %in% c("MULTILINESTRING")){
 
                 data <- x
                 st_geometry(data) <- NULL
-                fids <- unique(theCoords[, 4])
-                nos <- unlist(lapply(fids, function(i){
-                  length(which(theCoords[, 4] == i))
-                }))
-                new <- tibble(fids, nos)
+                dataNames <- names(data)
+                fids <- lapply(unique(theCoords[,4]), function(i){
+                  temp <- theCoords[which(theCoords[,4] == i),]
+                  unique(temp[,3])
+                })
+                new <- tibble(fid = seq_along(unlist(fids)),
+                              gid = rep(seq_along(fids), lengths(fids)))
+                data <- tibble(rep(data[,1], lengths(fids)))
                 out <- bind_cols(new, data)
-                colnames(out) <- c("fid", "n", names(data))
+                colnames(out) <- c("fid", "gid", dataNames)
+
+              } else if(sourceClass %in% c("POLYGON")){
+
+                data <- x
+                st_geometry(data) <- NULL
+                dataNames <- names(data)
+                fids <- unique(theCoords[, 4])
+                new <- tibble(fid = fids, gid = fids)
+                out <- bind_cols(new, data)
+                colnames(out) <- c("fid", "gid", dataNames)
 
               } else if(sourceClass %in% c("MULTIPOLYGON")){
 
-                # check whether this is also required for the other types
                 data <- x
                 st_geometry(data) <- NULL
-                dataName <- colnames(data)
-                fids <- unique(theCoords[,5])
-                nos <- lapply(fids, function(i){
+                dataNames <- colnames(data)
+                fids <- lapply(unique(theCoords[,5]), function(i){
                   temp <- theCoords[which(theCoords[,5] == i),]
-
-                  lapply(unique(temp[,4]), function(j){
-                    length(which(temp[,4] == j))
-                  })
+                  unique(temp[,4])
                 })
-
-                data <- data[rep(row.names(data), lengths(nos)),]
-                data <- as_tibble(data)
-
-                nos <- unlist(nos)
-                fids <- seq_along(nos)
-
-                new <- tibble(fids, nos)
+                new <- tibble(fid = seq_along(unlist(fids)),
+                              gid = rep(seq_along(fids), lengths(fids)))
+                data <- as.data.frame(data[rep(seq_len(nrow(data)), lengths(fids)),])
                 out <- bind_cols(new, data)
-                colnames(out) <- c("fid", "n", dataName)
+                colnames(out) <- c("fid", "gid", dataNames)
+
               }
             } else{
               # what happens if a sf-object has different feature-types?
