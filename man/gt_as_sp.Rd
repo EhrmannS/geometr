@@ -4,13 +4,10 @@
 \alias{gt_as_sp}
 \title{Transform geometry to spatial object}
 \usage{
-gt_as_sp(geom, crs = NULL)
+gt_as_sp(geom = NULL)
 }
 \arguments{
 \item{geom}{[\code{geom}]\cr Object of class \code{\link{geom}}.}
-
-\item{crs}{[\code{character(1)}]\cr corrdinate reference system of the
-object in proj4 notation.}
 }
 \value{
 Depending on the provided geometry either a
@@ -22,20 +19,7 @@ An object of class \code{Spatial*} is the sp-package representation of a
 \code{geom}.
 }
 \examples{
-library(magrittr)
-
-somePoints <- data.frame(X = c(5027609, 5190599, 5326537, 5222810,
-                         5234735, 5281527, 5189955, 5041066),
-                         Y = c(3977612, 3971119, 4028167, 3997230,
-                         4060164, 4117856, 4118207, 4062838),
-                         fid = c(1:8))
-
-pointsGeom <- gs_point(anchor = somePoints)
-polyGeom <- gt_group(geom = pointsGeom, index = c(rep(1, 8))) \%>\%
-  gs_polygon()
-
-(spPoints <- gt_as_sp(geom = pointsGeom,
-  crs = "+proj=laea +lat_0=52 +lon_0=10 +x_0=4321000 +y_0=3210000 +ellps=GRS80 +units=m +no_defs"))
-(spPolygon <- gt_as_sp(geom = polyGeom,
-  crs = "+proj=laea +lat_0=52 +lon_0=10 +x_0=4321000 +y_0=3210000 +ellps=GRS80 +units=m +no_defs"))
+(spPoints <- gt_as_sp(geom = gtGeoms$point))
+(spLines <- gt_as_sp(geom = gtGeoms$line))
+(spPolygon <- gt_as_sp(geom = gtGeoms$polygon))
 }
