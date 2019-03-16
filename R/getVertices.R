@@ -1,38 +1,38 @@
 #' Get the table of coordinates of a spatial object.
 #' @param x the object from which to extract the coordinates
 #' @examples
-#' getCoords(gtGeoms$polygon)
-#' @name getCoords
-#' @rdname getCoords
+#' getVertices(gtGeoms$polygon)
+#' @name getVertices
+#' @rdname getVertices
 NULL
 
-#' @rdname getCoords
+#' @rdname getVertices
 #' @export
-if(!isGeneric("getCoords")){
-  setGeneric(name = "getCoords",
+if(!isGeneric("getVertices")){
+  setGeneric(name = "getVertices",
              def = function(x, ...){
-               standardGeneric("getCoords")
+               standardGeneric("getVertices")
              }
   )
 }
 
-#' @rdname getCoords
+#' @rdname getVertices
 #' @importFrom tibble as_tibble
 #' @export
-setMethod(f = "getCoords",
+setMethod(f = "getVertices",
           signature = "geom",
           definition = function(x){
-            as_tibble(x@coords)
+            as_tibble(x@vert)
           }
 )
 
-#' @rdname getCoords
+#' @rdname getVertices
 #' @examples
 #'
-#' getCoords(gtSP$SpatialPoints)
+#' getVertices(gtSP$SpatialPoints)
 #' @importFrom tibble tibble as_tibble
 #' @export
-setMethod(f = "getCoords",
+setMethod(f = "getVertices",
           signature = "Spatial",
           definition = function(x){
             theCoords <- NULL
@@ -61,15 +61,13 @@ setMethod(f = "getCoords",
               nCoords <- 0
               for(i in seq_along(temp@coords)){
                 tempCoords <- tibble(x = temp@coords[[i]][,1],
-                                     y = temp@coords[[i]][,2],
-                                     grp = i)
+                                     y = temp@coords[[i]][,2])
                 theCoords <- bind_rows(theCoords, tempCoords)
               }
               theCoords <- tibble(fid = seq_along(theCoords$x),
-                                   vid = 1,
-                                   x = theCoords$x,
-                                   y = theCoords$y,
-                                   grp = theCoords$grp)
+                                  vid = 1,
+                                  x = theCoords$x,
+                                  y = theCoords$y)
 
             } else if(sourceClass %in% c("SpatialLines", "SpatialLinesDataFrame")){
 
@@ -111,14 +109,14 @@ setMethod(f = "getCoords",
           }
 )
 
-#' @rdname getCoords
+#' @rdname getVertices
 #' @examples
 #'
-#' getCoords(gtSF$multilinestring)
+#' getVertices(gtSF$multilinestring)
 #' @importFrom tibble as_tibble
 #' @importFrom sf st_geometry_type st_coordinates
 #' @export
-setMethod(f = "getCoords",
+setMethod(f = "getVertices",
           signature = "sf",
           definition = function(x){
 
@@ -138,8 +136,7 @@ setMethod(f = "getCoords",
                 theCoords <- tibble(fid = seq_along(theCoords[, 1]),
                                     vid = 1,
                                     x = theCoords[,1],
-                                    y = theCoords[,2],
-                                    grp = theCoords[,3])
+                                    y = theCoords[,2])
 
               } else if(sourceClass %in% c("LINESTRING")){
 
@@ -169,8 +166,7 @@ setMethod(f = "getCoords",
                 theCoords <- tibble(fid = fids,
                                     vid = unlist(vids),
                                     x = theCoords[,1],
-                                    y = theCoords[,2],
-                                    grp = grps)
+                                    y = theCoords[,2])
 
               } else if(sourceClass %in% c("POLYGON")){
 
@@ -200,8 +196,7 @@ setMethod(f = "getCoords",
                 theCoords <- tibble(fid = fids,
                                     vid = unlist(vids),
                                     x = theCoords[,1],
-                                    y = theCoords[,2],
-                                    grps = grps)
+                                    y = theCoords[,2])
 
               }
             } else{
