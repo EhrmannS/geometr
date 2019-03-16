@@ -9,7 +9,8 @@
 \title{Create a polygon geometry}
 \usage{
 gs_polygon(anchor = NULL, window = NULL, template = NULL,
-  features = 1, vertices = NULL, regular = FALSE, ...)
+  features = 1, vertices = NULL, regular = FALSE, fixed = TRUE,
+  ...)
 
 gs_triangle(anchor = NULL, window = NULL, template = NULL,
   features = 1, ...)
@@ -46,6 +47,10 @@ will be recycled if it does not have as many elements as specified in
 point symmetric (\code{TRUE}) or should the vertices be selected according
 to \code{anchor} or \code{vertices} (\code{FALSE}, default)?}
 
+\item{fixed}{[\code{logical(1)}]\cr should the polygon be aligned vertically
+(\code{TRUE}, default), or sohuld it be aligned according to the second
+click (\code{FALSE}); only relevant if \code{regular = TRUE}.}
+
 \item{...}{[various]\cr graphical parameters to \code{\link{locate}}, in case
 a polygon is sketched; see \code{\link{gpar}}.}
 }
@@ -61,7 +66,7 @@ The arguments \code{anchor} and \code{template} indicate how the
   geometry is created: \itemize{ \item \code{anchor}: if set, the geometry is
   created parametrically, the input provided is used to parameterise the
   geometry \itemize{ \item if \code{regular = FALSE} the resulting geometry
-  is the convex hull per feature, \item if \code{regular = TRUE}, only the
+  is the boundary per feature, \item if \code{regular = TRUE}, only the
   first two vertices are considered, as center and indicating the (outer)
   radius.} \item \code{template}: if set, the geometry is created
   interactively, by clicking into the plot.}
@@ -71,9 +76,8 @@ The arguments \code{anchor} and \code{template} indicate how the
 \item \code{gs_triangle}: wrapper of gs_polygon where \code{vertices = 3} and
 \code{regular = TRUE}.
 
-\item \code{gs_square}: wrapper of gs_polygon where \code{vertices = 4},
-\code{regular = TRUE} and a rotation by 45° about the centroid has been
-applied.
+\item \code{gs_square}: wrapper of gs_polygon where \code{vertices = 4} and
+\code{regular = TRUE}.
 
 \item \code{gs_rectangle}: wrapper of gs_polygon where \code{vertices = 2},
 \code{regular = FALSE} and the two complementing corners are derived from
@@ -114,7 +118,7 @@ gs_rectangle(anchor = aGeom) \%>\%
 
 \dontrun{
 
-input <- rtRasters$continuous
+input <- gtRasters$continuous
 
 # create a square interactively
 squareGeom <- gs_square(template = input)

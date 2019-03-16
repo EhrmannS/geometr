@@ -18,6 +18,9 @@
 #' @param regular [\code{logical(1)}]\cr should the polygon be regular, i.e.
 #'   point symmetric (\code{TRUE}) or should the vertices be selected according
 #'   to \code{anchor} or \code{vertices} (\code{FALSE}, default)?
+#' @param fixed [\code{logical(1)}]\cr should the polygon be aligned vertically
+#'   (\code{TRUE}, default), or sohuld it be aligned according to the second
+#'   click (\code{FALSE}); only relevant if \code{regular = TRUE}.
 #' @param ... [various]\cr graphical parameters to \code{\link{locate}}, in case
 #'   a polygon is sketched; see \code{\link{gpar}}.
 #' @return An invisible \code{geom}.
@@ -25,7 +28,7 @@
 #'   geometry is created: \itemize{ \item \code{anchor}: if set, the geometry is
 #'   created parametrically, the input provided is used to parameterise the
 #'   geometry \itemize{ \item if \code{regular = FALSE} the resulting geometry
-#'   is the convex hull per feature, \item if \code{regular = TRUE}, only the
+#'   is the boundary per feature, \item if \code{regular = TRUE}, only the
 #'   first two vertices are considered, as center and indicating the (outer)
 #'   radius.} \item \code{template}: if set, the geometry is created
 #'   interactively, by clicking into the plot.}
@@ -61,7 +64,7 @@
 #'
 #' \dontrun{
 #'
-#' input <- rtRasters$continuous
+#' input <- gtRasters$continuous
 #'
 #' # create a square interactively
 #' squareGeom <- gs_square(template = input)
@@ -84,7 +87,7 @@
 #' @export
 
 gs_polygon <- function(anchor = NULL, window = NULL, template = NULL, features = 1,
-                       vertices = NULL, regular = FALSE, ...){
+                       vertices = NULL, regular = FALSE, fixed = TRUE, ...){
 
   # check arguments
   anchorIsDF <- testDataFrame(anchor, types = "numeric", any.missing = FALSE, min.cols = 2)
@@ -126,6 +129,7 @@ gs_polygon <- function(anchor = NULL, window = NULL, template = NULL, features =
   }
   assertIntegerish(features, len = 1, lower = 1)
   assertLogical(regular)
+  assertLogical(fixed)
   if(!anchorIsDF & !anchorIsGeom){
     assertIntegerish(vertices, min.len = 1, lower = 2, any.missing = FALSE)
     if(length(vertices) != features){
@@ -174,24 +178,33 @@ gs_polygon <- function(anchor = NULL, window = NULL, template = NULL, features =
                            x = theClicks$x,
                            y = theClicks$y)
 
+      if(fixed){
+        openingAngle <- 0
+      } else{
+        # get the angle between the first and second click
+        openingAngle <- atan((theClicks$x[1] - theClicks$x[2]) / (theClicks$y[1] - theClicks$y[2])) * 180 / pi
+      }
+
     } else if(anchorIsGeom){
       if(!windowExists){
         window <- anchor@window
       }
       tempAnchor <- anchor@vert[anchor@vert$fid == i,]
+      openingAngle <- 0
     } else if(anchorIsDF){
       if(!windowExists){
         window <- tibble(x = c(min(anchor$x), max(anchor$x)),
                          y = c(min(anchor$y), max(anchor$y)))
       }
       tempAnchor <- anchor[anchor$fid == i, ]
+      openingAngle <- 0
     }
 
     if(regular){
 
       # trigonometry
       angle <- 360/vertices[i]
-      angles <- seq(from = 90, to = 360-angle+90, by = angle)
+      angles <- seq(from = 90, to = 360-angle+90, by = angle) - openingAngle
 
       radius <- dist(tempAnchor[c(1:2),])
       cx <- tempAnchor$x[1] + radius*cos(rad(angles))
@@ -250,9 +263,8 @@ gs_triangle <- function(anchor = NULL, window = NULL, template = NULL,
   invisible(theGeom)
 }
 
-#' @describeIn gs_polygon wrapper of gs_polygon where \code{vertices = 4},
-#'   \code{regular = TRUE} and a rotation by 45° about the centroid has been
-#'   applied.
+#' @describeIn gs_polygon wrapper of gs_polygon where \code{vertices = 4} and
+#'   \code{regular = TRUE}.
 #' @export
 
 gs_square <- function(anchor = NULL, window = NULL, template = NULL,
@@ -272,12 +284,12 @@ gs_square <- function(anchor = NULL, window = NULL, template = NULL,
                         regular = TRUE,
                         ...)
 
-  centroid <- colMeans(theGeom@vert[c("x", "y")])
-  rotGeom <- gt_rotate(geom = theGeom,
-                       angle = 45,
-                       about = centroid)
+  # centroid <- colMeans(theGeom@vert[c("x", "y")])
+  # rotGeom <- gt_rotate(geom = theGeom,
+  #                      angle = 45,
+  #                      about = centroid)
 
-  invisible(rotGeom)
+  invisible(theGeom)
 }
 
 #' @describeIn gs_polygon wrapper of gs_polygon where \code{vertices = 2},
@@ -298,8 +310,7 @@ gs_rectangle <- function(anchor = NULL, window = NULL, template = NULL,
                         window = window,
                         template = template,
                         features = features,
-                        vertices = 4,
-                        regular = FALSE,
+                        vertices = 2,
                         ...)
 
   outTable <- NULL
