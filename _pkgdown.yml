@@ -22,7 +22,6 @@ reference:
   - title: getters and setters
     desc: methods that standardise dealing with spatial objects
     contents:
-      - '`getCoords`'
       - '`getCRS`'
       - '`setCRS`'
       - '`getExtent`'
@@ -30,6 +29,7 @@ reference:
       - '`getSubset`'
       - '`getTable`'
       - '`setTable`'
+      - '`getVertices`'
       - '`getWindow`'
       - '`setWindow`'
   - title: utilities

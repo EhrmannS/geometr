@@ -83,7 +83,7 @@
       <h1>geometr - Introduction</h1>
                         <h4 class="author">Steffen Ehrmann</h4>
             
-            <h4 class="date">2019-03-14</h4>
+            <h4 class="date">2019-03-16</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/EhrmannS/geometr/blob/master/vignettes/introduction.Rmd"><code>vignettes/introduction.Rmd</code></a></small>
       <div class="hidden name"><code>introduction.Rmd</code></div>
@@ -96,13 +96,13 @@
 <h1 class="hasAnchor">
 <a href="#introduction" class="anchor"></a>Introduction</h1>
 <p><code>geometr</code> was developed due to a perceived lack of functionality that would allow manipulating geometries at vertex level, and all the possible applications that follow thereof.</p>
-<p>The idea of <code>geometr</code> is to enable you to create and process geometries intuitively, thereby turning you into a <a href="https://en.wikipedia.org/wiki/List_of_geometers">geometer</a>. Using <code>geometr</code> you typically provide a set of coordinates that outline geometries either as so-called anchor and control vertices (parametrisation), or by clicking into an open plot (sketching). Then you’d either modify individual vertices or the overall geometry, depending on the use-case.</p>
+<p>The idea of <code>geometr</code> is to enable you to create and process geometries intuitively, thereby turning you into a <a href="https://en.wikipedia.org/wiki/List_of_geometers">geometer</a>. Using <code>geometr</code> you typically provide a set of coordinates that outline geometries either as so-called anchor and control vertices (parametrisation), or by clicking into an open plot (sketching). Depending on the use-case, you’d then either modify individual vertices or the overall geometry.</p>
 <p>Moreover, as there seems to be an ever increasing collection of spatial classes - to which <code>geometr</code> adds yet another - a standardised approach to deal with the properties of objects of those classes is proposed by <code>geometr</code>.</p>
 <div id="a-new-geographicspatial-class-geom" class="section level2">
 <h2 class="hasAnchor">
 <a href="#a-new-geographicspatial-class-geom" class="anchor"></a>A new (geographic/spatial) class: <code>geom</code>
 </h2>
-<p><code>geometr</code> comes with the S4 class <code>geom</code>. A <code>geom</code> stores only those information that can’t be derived on the fly from its generic values. An example of this would be the extent/bounding box, which actually is a statistical measure, the range of coordinate values, and thus a derived and not generic value of the geometry. Moreover, this class is deliberately by default not <em>geographic</em> in nature. It can be transformed into a geographic object by assigning a <em>coordinate reference system</em>. One could say the default CRS is the cartesian coordinate system.</p>
+<p><code>geometr</code> comes with the S4 class <code>geom</code>. A <code>geom</code> stores only those information that can’t be derived on the fly from its generic values. An example of derived information would be the extent/bounding box, which actually is a statistical measure, the range of coordinate values, and thus not a generic value of the geometry. Moreover, this class is deliberately by default not <em>geographic</em> in nature. It can be transformed into a geographic object by assigning a <em>coordinate reference system</em>. One could say the default CRS is the cartesian coordinate system.</p>
 <p>We learn a lot about the class by simply creating and visualising a <code>geom</code>:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(geometr)
 <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(tibble)
@@ -118,21 +118,21 @@ coords &lt;-<span class="st"> </span><span class="kw"><a href="https://tibble.ti
 <span class="co">#&gt; extent     : 40, 70, 40, 70  (xmin, xmax, ymin, ymax)</span>
 <span class="co">#&gt; scale      : absolute</span>
 <span class="co">#&gt; crs        : NA</span>
-<span class="co">#&gt; attributes : 2  (fid, n)</span>
+<span class="co">#&gt; attributes : 2  (fid, gid)</span>
 <span class="kw"><a href="../reference/visualise.html">visualise</a></span>(<span class="dt">geom =</span> aGeom)</code></pre></div>
 <p><img src="introduction_files/figure-html/unnamed-chunk-1-1.png" width="100%"></p>
 <p>As an S4 class, <code>geom</code> consists of a set of slots, which we can inspect with <code><a href="https://www.rdocumentation.org/packages/utils/topics/str">str()</a></code>:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/str">str</a></span>(aGeom)
 <span class="co">#&gt; Formal class 'geom' [package "geometr"] with 7 slots</span>
 <span class="co">#&gt;   ..@ type   : chr "polygon"</span>
-<span class="co">#&gt;   ..@ coords :Classes 'tbl_df', 'tbl' and 'data.frame':  4 obs. of  4 variables:</span>
+<span class="co">#&gt;   ..@ vert   :Classes 'tbl_df', 'tbl' and 'data.frame':  4 obs. of  4 variables:</span>
 <span class="co">#&gt;   .. ..$ fid: num [1:4] 1 1 1 1</span>
 <span class="co">#&gt;   .. ..$ vid: int [1:4] 1 2 3 4</span>
 <span class="co">#&gt;   .. ..$ x  : num [1:4] 40 70 70 50</span>
 <span class="co">#&gt;   .. ..$ y  : num [1:4] 40 40 60 70</span>
 <span class="co">#&gt;   ..@ attr   :Classes 'tbl_df', 'tbl' and 'data.frame':  1 obs. of  2 variables:</span>
 <span class="co">#&gt;   .. ..$ fid: num 1</span>
-<span class="co">#&gt;   .. ..$ n  : int 4</span>
+<span class="co">#&gt;   .. ..$ gid: num 1</span>
 <span class="co">#&gt;   ..@ window :Classes 'tbl_df', 'tbl' and 'data.frame':  4 obs. of  2 variables:</span>
 <span class="co">#&gt;   .. ..$ x: num [1:4] 40 40 70 70</span>
 <span class="co">#&gt;   .. ..$ y: num [1:4] 40 70 70 40</span>
@@ -140,10 +140,10 @@ coords &lt;-<span class="st"> </span><span class="kw"><a href="https://tibble.ti
 <span class="co">#&gt;   ..@ crs    : chr NA</span>
 <span class="co">#&gt;   ..@ history:List of 1</span>
 <span class="co">#&gt;   .. ..$ : chr "geometry was created as 'polygon'"</span></code></pre></div>
-<p>The core of this class are three tables that characterise the coordinates, the feature attributes and the window. This separation of coordinates and features is an important aspect that distinguishes <code>geometr</code> from other R packages that work with “spatial objects”.</p>
+<p>The core of this class are three tables that characterise the coordinates, the feature attributes and the window. This presentation of coordinates and features in separate tables is an important aspect that distinguishes <code>geometr</code> from other spatial classes in R.</p>
 <ul>
-<li>The slot <code>@coords</code> is a table that contains all information related to the vertices, with one row for each vertex. By default there are at least the columns <code>fid</code> (feature ID), <code>vid</code> (vertex ID), <code>x</code> and <code>y</code>, the two-dimensional coordinate values. The feature ID assigns coordinates to shapes and the vertex ID enumerates all vertices per feature.</li>
-<li>The slot <code>@attr</code> is a table that contains all information at the level of features, with one row for each feature. By default there are at least the columns <code>fid</code> (feature ID) and <code>n</code> (number of vertices of that feature).</li>
+<li>The slot <code>@vert</code> is a table that contains all information related to the vertices, with one row for each vertex. By default there are at least the columns <code>fid</code> (feature ID), <code>vid</code> (vertex ID), <code>x</code> and <code>y</code>, the two-dimensional coordinate values. The feature ID relates coordinates to features and thus common attributes and the vertex ID enumerates all vertices per feature.</li>
+<li>The slot <code>@attr</code> is a table that contains all feature attributes, with one row for each feature. By default there are at least the columns <code>fid</code> (feature ID) and <code>gid</code> (group ID). The group ID captures groups of features that would be part of the same <em>multi</em>feature in a “simple feature (<code>sf</code>) and is thus by default the same as <code>fid</code> except when the <code>geom</code> has been derived from a simple multi-feature.</li>
 <li>The slot <code>@window</code> is a table that defines the frame within which the geometry would be plotted. This is sort of a second extent that may be bigger (or smaller) than <code>extent/bbox</code> and which determines the relative position of the vertices when plotting.</li>
 </ul>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">window &lt;-<span class="st"> </span><span class="kw"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span>(<span class="dt">x =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">0</span>, <span class="dv">80</span>),
@@ -175,9 +175,9 @@ aGeom &lt;-<span class="st"> </span><span class="kw"><a href="../reference/setWi
 <div id="getters-and-setters" class="section level2">
 <h2 class="hasAnchor">
 <a href="#getters-and-setters" class="anchor"></a>Getters and Setters</h2>
-<p>Most properties of a geom are accessible via specific functions. They can thus be extracted, modified and re-assigned, which is the basis for various “meta-operations”, such as reprojecting or appending additional attributes to features.</p>
+<p>Most properties of a <code>geom</code> are accessible via specific functions. They can thus be extracted, modified and re-assigned, which is the basis for various “meta-operations”, such as reprojecting or appending additional attributes to features.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Get properties of a geom</span>
-<span class="kw"><a href="../reference/getCoords.html">getCoords</a></span>(<span class="dt">x =</span> gtGeoms<span class="op">$</span>polygon)
+<span class="kw"><a href="../reference/getVertices.html">getVertices</a></span>(<span class="dt">x =</span> gtGeoms<span class="op">$</span>polygon)
 <span class="co">#&gt; # A tibble: 15 x 4</span>
 <span class="co">#&gt;      fid   vid     x     y</span>
 <span class="co">#&gt;    &lt;dbl&gt; &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt;</span>
@@ -198,10 +198,10 @@ aGeom &lt;-<span class="st"> </span><span class="kw"><a href="../reference/setWi
 <span class="co">#&gt; 15     2     5    11    11</span>
 <span class="kw"><a href="../reference/getTable.html">getTable</a></span>(<span class="dt">x =</span> gtGeoms<span class="op">$</span>polygon)
 <span class="co">#&gt; # A tibble: 2 x 2</span>
-<span class="co">#&gt;     fid     n</span>
+<span class="co">#&gt;     fid   gid</span>
 <span class="co">#&gt;   &lt;dbl&gt; &lt;dbl&gt;</span>
-<span class="co">#&gt; 1     1    10</span>
-<span class="co">#&gt; 2     2     5</span>
+<span class="co">#&gt; 1     1     1</span>
+<span class="co">#&gt; 2     2     2</span>
 <span class="kw"><a href="../reference/getWindow.html">getWindow</a></span>(<span class="dt">x =</span> gtGeoms<span class="op">$</span>polygon)
 <span class="co">#&gt; # A tibble: 4 x 2</span>
 <span class="co">#&gt;       x     y</span>
@@ -210,14 +210,11 @@ aGeom &lt;-<span class="st"> </span><span class="kw"><a href="../reference/setWi
 <span class="co">#&gt; 2     0    12</span>
 <span class="co">#&gt; 3    12    12</span>
 <span class="co">#&gt; 4    12     0</span>
-<span class="kw"><a href="../reference/getCRS.html">getCRS</a></span>(<span class="dt">x =</span> gtGeoms<span class="op">$</span>polygon)
+<span class="kw"><a href="../reference/getCRS.html">getCRS</a></span>(<span class="dt">x =</span> gtGeoms<span class="op">$</span>polygon) <span class="co"># does not contain any value and is thus only valid in the cartesian coordinate system</span>
 <span class="co">#&gt; [1] NA</span>
-<span class="co"># does not contain any value and is thus only valid in the cartesian coordinate</span>
-<span class="co"># system</span>
 <span class="kw"><a href="../reference/getHistory.html">getHistory</a></span>(<span class="dt">x =</span> gtGeoms<span class="op">$</span>polygon)
-<span class="co">#&gt; list()</span>
-<span class="co"># does not contain any values because so far no operations have been carried out</span>
-<span class="co"># on it</span>
+<span class="co">#&gt; [[1]]</span>
+<span class="co">#&gt; [1] "geometry was created as 'polygon'"</span>
 
 <span class="co"># Set properties of a geom ...</span>
 <span class="co"># ... such as feature attributes</span>
@@ -226,54 +223,73 @@ newGeom &lt;-<span class="st"> </span><span class="kw"><a href="../reference/set
 <span class="co">#&gt; Joining, by = "fid"</span>
 <span class="kw"><a href="../reference/getTable.html">getTable</a></span>(<span class="dt">x =</span> newGeom)
 <span class="co">#&gt; # A tibble: 2 x 3</span>
-<span class="co">#&gt;     fid     n weight</span>
+<span class="co">#&gt;     fid   gid weight</span>
 <span class="co">#&gt;   &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;</span>
-<span class="co">#&gt; 1     1    10      5</span>
-<span class="co">#&gt; 2     2     5     10</span>
+<span class="co">#&gt; 1     1     1      5</span>
+<span class="co">#&gt; 2     2     2     10</span>
 <span class="kw"><a href="../reference/visualise.html">visualise</a></span>(<span class="dt">geom =</span> newGeom, <span class="dt">fillcol =</span> weight)</code></pre></div>
 <p><img src="introduction_files/figure-html/unnamed-chunk-5-1.png" width="700"></p>
-<p>In an attempt to standardise the handling of various different spatial formats, these functions have been developed as generics and they come with a couple of methods for the most-used spatial classes, such as <code>Raster*</code>, <code>sp</code>, <code>sf</code>. Originally this was developed to accommodate the modular nature of <code>rasterTools</code> but is now offered as a stand-alone. One can for instance use <code><a href="../reference/getCoords.html">getCoords()</a></code> to get a standardised output of the coordinate values across all supported spatial classes.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/getCoords.html">getCoords</a></span>(gtGeoms<span class="op">$</span>point)
-<span class="co">#&gt; # A tibble: 8 x 5</span>
-<span class="co">#&gt;     fid   vid     x     y   grp</span>
-<span class="co">#&gt;   &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span>
-<span class="co">#&gt; 1     1     1     0     0     1</span>
-<span class="co">#&gt; 2     2     1    10     0     1</span>
-<span class="co">#&gt; 3     3     1    10    10     1</span>
-<span class="co">#&gt; 4     4     1     0    10     1</span>
-<span class="co">#&gt; 5     5     1    11    11     2</span>
-<span class="co">#&gt; 6     6     1    11    12     2</span>
-<span class="co">#&gt; 7     7     1    12    12     2</span>
-<span class="co">#&gt; 8     8     1    12    11     2</span>
-<span class="kw"><a href="../reference/getCoords.html">getCoords</a></span>(gtSP<span class="op">$</span>SpatialMultiPoints)
-<span class="co">#&gt; # A tibble: 8 x 5</span>
-<span class="co">#&gt;     fid   vid     x     y   grp</span>
-<span class="co">#&gt;   &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt;</span>
-<span class="co">#&gt; 1     1     1     0     0     1</span>
-<span class="co">#&gt; 2     2     1    10     0     1</span>
-<span class="co">#&gt; 3     3     1    10    10     1</span>
-<span class="co">#&gt; 4     4     1     0    10     1</span>
-<span class="co">#&gt; 5     5     1    11    11     2</span>
-<span class="co">#&gt; 6     6     1    11    12     2</span>
-<span class="co">#&gt; 7     7     1    12    12     2</span>
-<span class="co">#&gt; 8     8     1    12    11     2</span>
-<span class="kw"><a href="../reference/getCoords.html">getCoords</a></span>(gtSF<span class="op">$</span>multipoint)
-<span class="co">#&gt; # A tibble: 8 x 5</span>
-<span class="co">#&gt;     fid   vid     x     y   grp</span>
-<span class="co">#&gt;   &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span>
-<span class="co">#&gt; 1     1     1     0     0     1</span>
-<span class="co">#&gt; 2     2     1    10     0     1</span>
-<span class="co">#&gt; 3     3     1    10    10     1</span>
-<span class="co">#&gt; 4     4     1     0    10     1</span>
-<span class="co">#&gt; 5     5     1    11    11     2</span>
-<span class="co">#&gt; 6     6     1    11    12     2</span>
-<span class="co">#&gt; 7     7     1    12    12     2</span>
-<span class="co">#&gt; 8     8     1    12    11     2</span></code></pre></div>
+<p>In an attempt to standardise the handling of various different spatial formats, these functions have been developed as generics and they come with a couple of methods for the most-used spatial classes, such as <code>Raster*</code>, <code>sp</code>, <code>sf</code>. Originally this was developed to accommodate the modular nature of <code>rasterTools</code> but is now offered as a stand-alone. One can for instance use <code><a href="../reference/getVertices.html">getVertices()</a></code> to get a standardised output of the coordinate values across all supported spatial classes.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/getVertices.html">getVertices</a></span>(gtGeoms<span class="op">$</span>point)
+<span class="co">#&gt; # A tibble: 12 x 4</span>
+<span class="co">#&gt;      fid   vid     x     y</span>
+<span class="co">#&gt;    &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span>
+<span class="co">#&gt;  1     1     1     0     0</span>
+<span class="co">#&gt;  2     2     1     0    10</span>
+<span class="co">#&gt;  3     3     1    10    10</span>
+<span class="co">#&gt;  4     4     1    10     0</span>
+<span class="co">#&gt;  5     5     1     1     1</span>
+<span class="co">#&gt;  6     6     1     1     2</span>
+<span class="co">#&gt;  7     7     1     2     2</span>
+<span class="co">#&gt;  8     8     1     2     1</span>
+<span class="co">#&gt;  9     9     1    11    11</span>
+<span class="co">#&gt; 10    10     1    11    12</span>
+<span class="co">#&gt; 11    11     1    12    12</span>
+<span class="co">#&gt; 12    12     1    12    11</span>
+<span class="kw"><a href="../reference/getVertices.html">getVertices</a></span>(gtSP<span class="op">$</span>SpatialMultiPoints)
+<span class="co">#&gt; # A tibble: 8 x 4</span>
+<span class="co">#&gt;     fid   vid     x     y</span>
+<span class="co">#&gt;   &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span>
+<span class="co">#&gt; 1     1     1     0     0</span>
+<span class="co">#&gt; 2     2     1    10     0</span>
+<span class="co">#&gt; 3     3     1    10    10</span>
+<span class="co">#&gt; 4     4     1     0    10</span>
+<span class="co">#&gt; 5     5     1    11    11</span>
+<span class="co">#&gt; 6     6     1    11    12</span>
+<span class="co">#&gt; 7     7     1    12    12</span>
+<span class="co">#&gt; 8     8     1    12    11</span>
+<span class="kw"><a href="../reference/getVertices.html">getVertices</a></span>(gtSF<span class="op">$</span>multipoint)
+<span class="co">#&gt; # A tibble: 8 x 4</span>
+<span class="co">#&gt;     fid   vid     x     y</span>
+<span class="co">#&gt;   &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span>
+<span class="co">#&gt; 1     1     1     0     0</span>
+<span class="co">#&gt; 2     2     1    10     0</span>
+<span class="co">#&gt; 3     3     1    10    10</span>
+<span class="co">#&gt; 4     4     1     0    10</span>
+<span class="co">#&gt; 5     5     1    11    11</span>
+<span class="co">#&gt; 6     6     1    11    12</span>
+<span class="co">#&gt; 7     7     1    12    12</span>
+<span class="co">#&gt; 8     8     1    12    11</span></code></pre></div>
 </div>
 <div id="rationale" class="section level2">
 <h2 class="hasAnchor">
 <a href="#rationale" class="anchor"></a>Rationale</h2>
+<p>To outline the rationale for starting the development of <code>geometr</code>, I first want to describe the aspects of <code>sp</code> and <code>sf</code> that seemed improvable to me.</p>
+<p>All this makes clear that <code>geom</code> is an improvement of the <code>sp</code> classes with a stance on storing geometric information that differes from the <code>sf</code> classes. The aim is to clearly separate geometric information and feature attributes and thereby make the geometric information more accessible.</p>
+<p>While <code>geometr</code> relates geometry and attributes by assigning the same <code>fid</code> to both, <code>sf</code> achieves this by storing them in the same row. <code>sf</code> confuses this trick with simplicity and relies at the same time on introducing the classes</p>
+<ul>
+<li>
+<code>sf</code>, which comprises attributes and geometries of one simple feature,</li>
+<li>
+<code>sfg</code>, which comprises only the geometry of one simple feature and</li>
+<li>
+<code>sfc</code>, which represents the geometries of all simple features and thus spans, in contrast to the former two, across all simple features.</li>
+</ul>
+<p>While <code>sf</code> makes geometries accessible to the tidy workflow, it replaces the list-apocalypsis of the <code>sp</code> package with the class-disaster we find now.</p>
+<p><code>geometr</code> is clearly superior to <code>sp</code> classes because both coordinates and attributes, including an ID that clearly relates them, are available as properly accessible <code>data.frames/tibbles</code>. Both, coordinates and attributes can be easily retrieved either by calling the respective getters or by a simple call to the <code>@</code> function.</p>
 <p>Separating coordinates and features allows addressing coordinates just as simply as features and separately from each other</p>
+<p>I am interested in addressing each single feature, also in a multi-feature. this can be achieved by calling the fid or the gid, if interested in the multi*feature</p>
+<p><a href="http://strimas.com/r/tidy-sf/" class="uri">http://strimas.com/r/tidy-sf/</a></p>
 <p><strong>sf increases complexity, the listed nature of geometries requires additional code-logic to extract geometric information; too many classes with different behaviour, which renders re-use of code/scripts overly complicated</strong></p>
 <p><strong><a href="https://r-spatial.github.io/sf/articles/sf1.html**" class="uri">https://r-spatial.github.io/sf/articles/sf1.html**</a> </strong>problem with “multi* features”; for me the “multi”-nature is not part of the feature, but is an attribute, hence I have set up everything so that there are no multi-features and that the features that are transformed from other spatial classes contain a column <code>grp</code> that captures this informaiton. with the function <code>gGroup()</code> one can then add groups also to non-multi-features**</p>
 </div>

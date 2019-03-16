@@ -150,7 +150,7 @@ evaluates to TRUE are kept.</p></td>
     <tr>
       <th>slot</th>
       <td><p>[<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code>]<br /> the slot in which to determine a subset,
-either <code>"table"</code> or <code>"coords"</code>.</p></td>
+either <code>"table"</code> or <code>"vert"</code>.</p></td>
     </tr>
     </table>
     
@@ -158,21 +158,21 @@ either <code>"table"</code> or <code>"coords"</code>.</p></td>
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>(<span class='no'>obj</span> <span class='kw'>&lt;-</span> <span class='no'>gtGeoms</span>$<span class='no'>point</span>)</div><div class='output co'>#&gt; class      : geom
 #&gt; type       : point
-#&gt; features   : 8  (8 vertices)
+#&gt; features   : 12  (12 vertices)
 #&gt; window     : 0, 12, 0, 12  (xmin, xmax, ymin, ymax)
 #&gt; extent     : 0, 12, 0, 12  (xmin, xmax, ymin, ymax)
 #&gt; scale      : absolute
 #&gt; crs        : NA
-#&gt; attributes : 2  (fid, n)</div><div class='input'>
-<span class='co'># get subset of features that have less than 3 vertices</span>
-(<span class='fu'>getSubset</span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>gtGeoms</span>$<span class='no'>line</span>, <span class='no'>n</span> <span class='kw'>&lt;</span> <span class='fl'>5</span>))</div><div class='output co'>#&gt; class      : geom
+#&gt; attributes : 2  (fid, gid)</div><div class='input'>
+<span class='co'># get feature 1</span>
+(<span class='fu'>getSubset</span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>gtGeoms</span>$<span class='no'>line</span>, <span class='no'>fid</span> <span class='kw'>==</span> <span class='fl'>1</span>))</div><div class='output co'>#&gt; class      : geom
 #&gt; type       : line
 #&gt; features   : 1  (4 vertices)
 #&gt; window     : 0, 12, 0, 12  (xmin, xmax, ymin, ymax)
-#&gt; extent     : 1, 2, 1, 2  (xmin, xmax, ymin, ymax)
+#&gt; extent     : 0, 10, 0, 10  (xmin, xmax, ymin, ymax)
 #&gt; scale      : absolute
 #&gt; crs        : NA
-#&gt; attributes : 2  (fid, n)</div><div class='input'>
+#&gt; attributes : 2  (fid, gid)</div><div class='input'>
 
 (<span class='no'>obj</span> <span class='kw'>&lt;-</span> <span class='no'>gtSP</span>$<span class='no'>SpatialPolygonsDataFrame</span>)</div><div class='output co'>#&gt; class       : SpatialPolygonsDataFrame 
 #&gt; features    : 2 

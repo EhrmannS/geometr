@@ -134,6 +134,9 @@
 <span class='co'># S4 method for sf</span>
 <span class='fu'>setTable</span>(<span class='no'>x</span>, <span class='no'>table</span>)
 
+<span class='co'># S4 method for sfc</span>
+<span class='fu'>setTable</span>(<span class='no'>x</span>, <span class='no'>table</span>)
+
 <span class='co'># S4 method for RasterLayer</span>
 <span class='fu'>setTable</span>(<span class='no'>x</span>, <span class='no'>table</span>)</pre>
     
@@ -155,11 +158,47 @@
     <p>When setting the attribute table of a simple feature (<code>sf</code>) -
   which is already a "data.frame-like object" - this really means that a
   table is joined to the already existing table.</p>
-<p>When setting the the attribute table of a simple feature geometry
-  (<code>sfg</code>) or to a simple feature geometry column (<code>sfc</code>), this
-  upgrades the former object to an <code>sf</code> object.</p>
+<p>When setting the attribute table of a simple feature geometry column
+  (<code>sfc</code>), this upgrades the object to an <code>sf</code> object.</p>
     
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'>
+<span class='co'># set table to an sf</span>
+<span class='no'>sfObj</span> <span class='kw'>&lt;-</span> <span class='no'>gtSF</span>$<span class='no'>polygon</span>
+
+<span class='co'># ... with common columns</span>
+<span class='no'>myAttributes</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/data.frame'>data.frame</a></span>(<span class='kw'>a</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>2</span>, <span class='fl'>1</span>), <span class='kw'>b</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"X"</span>, <span class='st'>"Y"</span>))
+<span class='fu'>setTable</span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>sfObj</span>, <span class='kw'>table</span> <span class='kw'>=</span> <span class='no'>myAttributes</span>)</div><div class='output co'>#&gt; <span class='message'>Joining, by = "a"</span></div><div class='output co'>#&gt; Simple feature collection with 2 features and 2 fields
+#&gt; geometry type:  POLYGON
+#&gt; dimension:      XY
+#&gt; bbox:           xmin: 0 ymin: 0 xmax: 12 ymax: 12
+#&gt; epsg (SRID):    NA
+#&gt; proj4string:    NA
+#&gt;   a b                       geometry
+#&gt; 1 1 Y POLYGON ((0 0, 10 0, 10 10,...
+#&gt; 2 2 X POLYGON ((11 11, 11 12, 12 ...</div><div class='input'>
+<span class='co'># ... without common columns</span>
+<span class='fu'>setTable</span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>sfObj</span>, <span class='kw'>table</span> <span class='kw'>=</span> <span class='no'>myAttributes</span>[<span class='fl'>2</span>])</div><div class='output co'>#&gt; Simple feature collection with 2 features and 2 fields
+#&gt; geometry type:  POLYGON
+#&gt; dimension:      XY
+#&gt; bbox:           xmin: 0 ymin: 0 xmax: 12 ymax: 12
+#&gt; epsg (SRID):    NA
+#&gt; proj4string:    NA
+#&gt;   b a                       geometry
+#&gt; 1 X 1 POLYGON ((0 0, 10 0, 10 10,...
+#&gt; 2 Y 2 POLYGON ((11 11, 11 12, 12 ...</div><div class='input'>
+<span class='co'># set table to an sfc (no join possible)</span>
+<span class='no'>sfcObj</span> <span class='kw'>=</span> <span class='no'>gtSF</span>$<span class='no'>polygon</span>$<span class='no'>geometry</span>
+<span class='fu'>setTable</span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>sfcObj</span>, <span class='kw'>table</span> <span class='kw'>=</span> <span class='no'>myAttributes</span>)</div><div class='output co'>#&gt; Simple feature collection with 2 features and 2 fields
+#&gt; geometry type:  POLYGON
+#&gt; dimension:      XY
+#&gt; bbox:           xmin: 0 ymin: 0 xmax: 12 ymax: 12
+#&gt; epsg (SRID):    NA
+#&gt; proj4string:    NA
+#&gt;   a b                           geom
+#&gt; 1 2 X POLYGON ((0 0, 10 0, 10 10,...
+#&gt; 2 1 Y POLYGON ((11 11, 11 12, 12 ...</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -167,7 +206,9 @@
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#details">Details</a></li>
-          </ul>
+      
+      <li><a href="#examples">Examples</a></li>
+    </ul>
 
   </div>
 </div>
