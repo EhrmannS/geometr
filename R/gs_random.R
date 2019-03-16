@@ -75,8 +75,8 @@ gs_random <- function(type = "point", template = NULL, vertices = NULL){
 
   theGeom <- new(Class = "geom",
                  type = outType,
-                 coords = anchor,
-                 attr = tibble(fid = unique(anchor$fid), n = 1),
+                 vert = anchor,
+                 attr = tibble(fid = unique(anchor$fid), gid = unique(anchor$fid)),
                  window = window,
                  scale = "relative",
                  crs = as.character(NA),
