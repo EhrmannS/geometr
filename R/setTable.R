@@ -1,6 +1,12 @@
 #' Set the attribute table of a spatial object.
 #' @param x the object to which to assign \code{table}.
 #' @param table [\code{data.frame(.)}]\cr the attribute table.
+#' @details When setting the attribute table of a simple feature (\code{sf}) -
+#'   which is already a "data.frame-like object" - this really means that a
+#'   table is joined to the already existing table.
+#'
+#'   When setting the attribute table of a simple feature geometry column
+#'   (\code{sfc}), this upgrades the object to an \code{sf} object.
 #' @name setTable
 #' @rdname setTable
 NULL
@@ -67,23 +73,59 @@ setMethod(f = "setTable",
 )
 
 #' @rdname setTable
-#' @details When setting the attribute table of a simple feature (\code{sf}) -
-#'   which is already a "data.frame-like object" - this really means that a
-#'   table is joined to the already existing table.
+#' @examples
 #'
-#'   When setting the the attribute table of a simple feature geometry
-#'   (\code{sfg}) or to a simple feature geometry column (\code{sfc}), this
-#'   upgrades the former object to an \code{sf} object.
-#' @importFrom checkmate assertDataFrame
+#' # set table to an sf
+#' sfObj <- gtSF$polygon
+#'
+#' # ... with common columns
+#' myAttributes <- data.frame(a = c(2, 1), b = c("X", "Y"))
+#' setTable(x = sfObj, table = myAttributes)
+#'
+#' # ... without common columns
+#' setTable(x = sfObj, table = myAttributes[2])
+#' @importFrom checkmate assertDataFrame assertTRUE
+#' @importFrom sf st_sf st_geometry
+#' @importFrom dplyr left_join bind_cols
 #' @export
 setMethod(f = "setTable",
-          signature = "sf",
+          signature = signature("sf"),
           definition = function(x, table){
             assertDataFrame(table)
-
+            assertTRUE(nrow(x) == nrow(table))
+            if(any(colnames(table) %in% colnames(x))){
+              out <- left_join(x, table)
+            } else{
+              out <- st_sf(bind_cols(table, x))
+            }
+            return(out)
           }
 )
 
+#' @rdname setTable
+#' @examples
+#'
+#' # set table to an sfc (no join possible)
+#' sfcObj = gtSF$polygon$geometry
+#' setTable(x = sfcObj, table = myAttributes)
+#' @importFrom checkmate assertDataFrame assertTRUE
+#' @importFrom sf st_sf
+#' @importFrom dplyr left_join bind_cols
+#' @export
+setMethod(f = "setTable",
+          signature = signature("sfc"),
+          definition = function(x, table){
+            assertDataFrame(table)
+            temp <- st_sf(geom = x)
+            assertTRUE(nrow(temp) == nrow(table))
+            if(any(colnames(table) %in% colnames(temp))){
+              out <- left_join(temp, table)
+            } else{
+              out <- st_sf(bind_cols(table, temp))
+            }
+            return(out)
+          }
+)
 
 #' @rdname setTable
 #' @importFrom raster ratify
