@@ -127,7 +127,7 @@ geom." />
     
     </div>
 
-    <pre class="usage"><span class='fu'>gt_as_sp</span>(<span class='no'>geom</span>, <span class='kw'>crs</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+    <pre class="usage"><span class='fu'>gt_as_sp</span>(<span class='kw'>geom</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -135,11 +135,6 @@ geom." />
     <tr>
       <th>geom</th>
       <td><p>[<code>geom</code>]<br /> Object of class <code><a href='geom-class.html'>geom</a></code>.</p></td>
-    </tr>
-    <tr>
-      <th>crs</th>
-      <td><p>[<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code>]<br /> corrdinate reference system of the
-object in proj4 notation.</p></td>
     </tr>
     </table>
     
@@ -151,34 +146,16 @@ object in proj4 notation.</p></td>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>library</a></span>(<span class='no'>magrittr</span>)
-
-<span class='no'>somePoints</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/data.frame'>data.frame</a></span>(<span class='kw'>X</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>5027609</span>, <span class='fl'>5190599</span>, <span class='fl'>5326537</span>, <span class='fl'>5222810</span>,
-                         <span class='fl'>5234735</span>, <span class='fl'>5281527</span>, <span class='fl'>5189955</span>, <span class='fl'>5041066</span>),
-                         <span class='kw'>Y</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>3977612</span>, <span class='fl'>3971119</span>, <span class='fl'>4028167</span>, <span class='fl'>3997230</span>,
-                         <span class='fl'>4060164</span>, <span class='fl'>4117856</span>, <span class='fl'>4118207</span>, <span class='fl'>4062838</span>),
-                         <span class='kw'>fid</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>1</span>:<span class='fl'>8</span>))
-
-<span class='no'>pointsGeom</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='gs_point.html'>gs_point</a></span>(<span class='kw'>anchor</span> <span class='kw'>=</span> <span class='no'>somePoints</span>)
-<span class='no'>polyGeom</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='gt_group.html'>gt_group</a></span>(<span class='kw'>geom</span> <span class='kw'>=</span> <span class='no'>pointsGeom</span>, <span class='kw'>index</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/rep'>rep</a></span>(<span class='fl'>1</span>, <span class='fl'>8</span>))) <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='gs_polygon.html'>gs_polygon</a></span>()
-
-(<span class='no'>spPoints</span> <span class='kw'>&lt;-</span> <span class='fu'>gt_as_sp</span>(<span class='kw'>geom</span> <span class='kw'>=</span> <span class='no'>pointsGeom</span>,
-  <span class='kw'>crs</span> <span class='kw'>=</span> <span class='st'>"+proj=laea +lat_0=52 +lon_0=10 +x_0=4321000 +y_0=3210000 +ellps=GRS80 +units=m +no_defs"</span>))</div><div class='output co'>#&gt; class       : SpatialPointsDataFrame 
-#&gt; features    : 8 
-#&gt; extent      : 5027609, 5326537, 3971119, 4118207  (xmin, xmax, ymin, ymax)
-#&gt; coord. ref. : +proj=laea +lat_0=52 +lon_0=10 +x_0=4321000 +y_0=3210000 +ellps=GRS80 +units=m +no_defs 
-#&gt; variables   : 1
-#&gt; names       : gid 
-#&gt; min values  :   1 
-#&gt; max values  :   8 </div><div class='input'>(<span class='no'>spPolygon</span> <span class='kw'>&lt;-</span> <span class='fu'>gt_as_sp</span>(<span class='kw'>geom</span> <span class='kw'>=</span> <span class='no'>polyGeom</span>,
-  <span class='kw'>crs</span> <span class='kw'>=</span> <span class='st'>"+proj=laea +lat_0=52 +lon_0=10 +x_0=4321000 +y_0=3210000 +ellps=GRS80 +units=m +no_defs"</span>))</div><div class='output co'>#&gt; class       : SpatialPolygonsDataFrame 
-#&gt; features    : 1 
-#&gt; extent      : 5027609, 5326537, 3971119, 4118207  (xmin, xmax, ymin, ymax)
-#&gt; coord. ref. : +proj=laea +lat_0=52 +lon_0=10 +x_0=4321000 +y_0=3210000 +ellps=GRS80 +units=m +no_defs 
-#&gt; variables   : 1
-#&gt; names       : gid 
-#&gt; value       :   1 </div></pre>
+    <pre class="examples"><div class='input'>(<span class='no'>spPoints</span> <span class='kw'>&lt;-</span> <span class='fu'>gt_as_sp</span>(<span class='kw'>geom</span> <span class='kw'>=</span> <span class='no'>gtGeoms</span>$<span class='no'>point</span>))</div><div class='output co'>#&gt; class       : SpatialPoints 
+#&gt; features    : 12 
+#&gt; extent      : 0, 12, 0, 12  (xmin, xmax, ymin, ymax)
+#&gt; coord. ref. : NA </div><div class='input'>(<span class='no'>spLines</span> <span class='kw'>&lt;-</span> <span class='fu'>gt_as_sp</span>(<span class='kw'>geom</span> <span class='kw'>=</span> <span class='no'>gtGeoms</span>$<span class='no'>line</span>))</div><div class='output co'>#&gt; class       : SpatialLines 
+#&gt; features    : 3 
+#&gt; extent      : 0, 12, 0, 12  (xmin, xmax, ymin, ymax)
+#&gt; coord. ref. : NA </div><div class='input'>(<span class='no'>spPolygon</span> <span class='kw'>&lt;-</span> <span class='fu'>gt_as_sp</span>(<span class='kw'>geom</span> <span class='kw'>=</span> <span class='no'>gtGeoms</span>$<span class='no'>polygon</span>))</div><div class='output co'>#&gt; class       : SpatialPolygons 
+#&gt; features    : 2 
+#&gt; extent      : 0, 12, 0, 12  (xmin, xmax, ymin, ymax)
+#&gt; coord. ref. : NA </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

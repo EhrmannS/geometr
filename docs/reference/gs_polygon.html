@@ -128,7 +128,8 @@ specifying its parameters or by sketching it.</p>
     </div>
 
     <pre class="usage"><span class='fu'>gs_polygon</span>(<span class='kw'>anchor</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>window</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>template</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>features</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>vertices</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>regular</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='no'>...</span>)
+  <span class='kw'>features</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>vertices</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>regular</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>fixed</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='no'>...</span>)
 
 <span class='fu'>gs_triangle</span>(<span class='kw'>anchor</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>window</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>template</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>features</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='no'>...</span>)
@@ -180,6 +181,12 @@ point symmetric (<code>TRUE</code>) or should the vertices be selected according
 to <code>anchor</code> or <code>vertices</code> (<code>FALSE</code>, default)?</p></td>
     </tr>
     <tr>
+      <th>fixed</th>
+      <td><p>[<code><a href='https://www.rdocumentation.org/packages/base/topics/logical'>logical(1)</a></code>]<br /> should the polygon be aligned vertically
+(<code>TRUE</code>, default), or sohuld it be aligned according to the second
+click (<code>FALSE</code>); only relevant if <code>regular = TRUE</code>.</p></td>
+    </tr>
+    <tr>
       <th>...</th>
       <td><p>[various]<br /> graphical parameters to <code><a href='locate.html'>locate</a></code>, in case
 a polygon is sketched; see <code>gpar</code>.</p></td>
@@ -198,7 +205,7 @@ a polygon is sketched; see <code>gpar</code>.</p></td>
   created parametrically, the input provided is used to parameterise the
   geometry</p><ul>
 <li><p>if <code>regular = FALSE</code> the resulting geometry
-  is the convex hull per feature,</p></li>
+  is the boundary per feature,</p></li>
 <li><p>if <code>regular = TRUE</code>, only the
   first two vertices are considered, as center and indicating the (outer)
   radius.</p></li>
@@ -212,9 +219,8 @@ a polygon is sketched; see <code>gpar</code>.</p></td>
     <ul>
 <li><p><code>gs_triangle</code>: wrapper of gs_polygon where <code>vertices = 3</code> and
 <code>regular = TRUE</code>.</p></li>
-<li><p><code>gs_square</code>: wrapper of gs_polygon where <code>vertices = 4</code>,
-<code>regular = TRUE</code> and a rotation by 45° about the centroid has been
-applied.</p></li>
+<li><p><code>gs_square</code>: wrapper of gs_polygon where <code>vertices = 4</code> and
+<code>regular = TRUE</code>.</p></li>
 <li><p><code>gs_rectangle</code>: wrapper of gs_polygon where <code>vertices = 2</code>,
 <code>regular = FALSE</code> and the two complementing corners are derived from
 the two given opposing corners.</p></li>
@@ -259,7 +265,7 @@ the two given opposing corners.</p></li>
 <span class='fu'><a href='visualise.html'>visualise</a></span>(<span class='kw'>geom</span> <span class='kw'>=</span> <span class='no'>aGeom</span>)</div><div class='img'><img src='gs_polygon-3.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'>gs_rectangle</span>(<span class='kw'>anchor</span> <span class='kw'>=</span> <span class='no'>aGeom</span>) <span class='kw'>%&gt;%</span>
   <span class='fu'><a href='visualise.html'>visualise</a></span>(<span class='kw'>geom</span> <span class='kw'>=</span> <span class='no'>.</span>)</div><div class='img'><img src='gs_polygon-4.png' alt='' width='700' height='433' /></div><div class='input'>
 </div><span class='co'># NOT RUN {</span>
-<span class='no'>input</span> <span class='kw'>&lt;-</span> <span class='no'>rtRasters</span>$<span class='no'>continuous</span>
+<span class='no'>input</span> <span class='kw'>&lt;-</span> <span class='no'>gtRasters</span>$<span class='no'>continuous</span>
 
 <span class='co'># create a square interactively</span>
 <span class='no'>squareGeom</span> <span class='kw'>&lt;-</span> <span class='fu'>gs_square</span>(<span class='kw'>template</span> <span class='kw'>=</span> <span class='no'>input</span>)
