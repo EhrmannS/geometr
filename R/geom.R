@@ -72,18 +72,6 @@ geom <- setClass(Class = "geom",
 #   }
 # })
 
-# setClass("SpatialPolygonsDataFrame",
-#          contains = "SpatialPolygons",
-#          slots = c(data = "data.frame"),
-#          validity = function(object) {
-#            if (!inherits(object@data, "data.frame"))
-#              stop("data should be of class data.frame")
-#            if (nrow(object@data) != length(object@polygons))
-#              stop("number of rows in data.frame and polygons in SpatialPolygons don't match")
-#            return(TRUE)
-#          }
-# )
-
 #' Print geom in the console
 #'
 #' @param object [\code{geom}]\cr object to \code{show}.
@@ -121,22 +109,15 @@ setMethod(f = "show",
 
 # setMethod(f = "head",
 #           signature = signature("geom"),
-#           definition = function(x){
-#
+#           definition = function(x, n){
+# # subset all tables to cover only the first n vertices
 #           }
 # )
 #
 # setMethod(f = "tail",
 #           signature = signature("geom"),
-#           definition = function(x){
-#
-#           }
-# )
-#
-# setMethod(f = "plot",
-#           signature = signature("geom"),
-#           definition = function(x){
-#
+#           definition = function(x, n){
+# # subset all tables to cover only the last n vertices
 #           }
 # )
 #
