@@ -17,6 +17,7 @@ LazyData: true
 Imports: checkmate,
     cli,
     crayon,
+    deldir,
     dplyr,
     grDevices,
     grid,
