@@ -5,6 +5,7 @@
 NULL
 
 #' @rdname getHistory
+#' @name getHistory
 #' @export
 if(!isGeneric("getHistory")){
   setGeneric(name = "getHistory",

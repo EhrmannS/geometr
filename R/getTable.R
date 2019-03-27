@@ -5,6 +5,7 @@
 NULL
 
 #' @rdname getTable
+#' @name getTable
 #' @export
 if(!isGeneric("getTable")){
   setGeneric(name = "getTable",

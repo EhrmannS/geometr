@@ -5,6 +5,7 @@
 NULL
 
 #' @rdname getExtent
+#' @name getExtent
 #' @export
 if(!isGeneric("getExtent")){
   setGeneric(name = "getExtent",

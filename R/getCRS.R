@@ -5,6 +5,7 @@
 NULL
 
 #' @rdname getCRS
+#' @name getCRS
 #' @export
 if(!isGeneric("getCRS")){
   setGeneric(name = "getCRS",

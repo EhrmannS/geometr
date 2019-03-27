@@ -7,6 +7,7 @@
 NULL
 
 #' @rdname getVertices
+#' @name getVertices
 #' @export
 if(!isGeneric("getVertices")){
   setGeneric(name = "getVertices",

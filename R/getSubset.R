@@ -10,6 +10,7 @@
 NULL
 
 #' @rdname getSubset
+#' @name getSubset
 #' @export
 if(!isGeneric("getSubset")){
   setGeneric(name = "getSubset",
