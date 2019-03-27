@@ -1,17 +1,25 @@
 #' Set the attribute table of a spatial object.
 #' @param x the object to which to assign \code{table}.
 #' @param table [\code{data.frame(.)}]\cr the attribute table.
-#' @details When setting the attribute table of a simple feature (\code{sf}) -
-#'   which is already a "data.frame-like object" - this really means that a
-#'   table is joined to the already existing table.
+#' @details If \code{table} does not have columns in common with \code{x}, the
+#'   new columns are simply bound to the original attribute table. If there are
+#'   common coloums, they are joined.
 #'
-#'   When setting the attribute table of a simple feature geometry column
-#'   (\code{sfc}), this upgrades the object to an \code{sf} object.
+#'   If a \code{geom} gets assigned a table with individual values per feature
+#'   (\code{fid}), and not per group (\code{gid}), groups are by default
+#'   reassigned per individual value. This is neccessary as \code{geom}s can
+#'   have individual values per feature. An \code{sf} can consist of MULTI*
+#'   features, where it is not possible to store feature-specific information,
+#'   hence \code{regroup = TRUE} asserts that features with individual values
+#'   are not cast to a MULTI* feature - and thereby lose the information they
+#'   carry - by modifying \code{gid} accordingly.
+#'
 #' @name setTable
 #' @rdname setTable
 NULL
 
 #' @rdname setTable
+#' @name setTable
 #' @export
 if(!isGeneric("setTable")){
   setGeneric(name = "setTable",
@@ -22,15 +30,43 @@ if(!isGeneric("setTable")){
 }
 
 #' @rdname setTable
-#' @importFrom dplyr left_join
+#' @param regroup [\code{logical(1)}]\cr rearrange groups when new attributes
+#'   are not unique per group but per feature (\code{TRUE}, default) or
+#'   suppress this behaviour (\code{FALSE}).
+#' @examples
+#' # set table of a geom
+#' # individual attributes per point/line/polygon feature
+#' getTable(gtGeoms$point)
+#' x1 <- setTable(x = gtGeoms$point,
+#'                table = data.frame(attr = letters[c(1:5, 5:11)]))
+#' getTable(x1)
+#' x2 <- setTable(x = gtGeoms$point,
+#'                table = data.frame(gid = c(1:3), attr = letters[1:3]))
+#' getTable(x2)
+#' @importFrom dplyr left_join select everything
+#' @importFrom tibble tibble
 #' @export
 setMethod(f = "setTable",
           signature = "geom",
-          definition = function(x, table){
+          definition = function(x, table, regroup = TRUE){
             assertDataFrame(table)
-            stopifnot(any(names(table) %in% "fid"))
-            nIDs <- length(x@attr$fid)
-            x@attr <- left_join(x@attr, table)
+            attr <- table[!names(table) %in% c("gid", "fid")]
+            if(any(colnames(table) %in% colnames(x@attr))){
+              x@attr <- left_join(x@attr, table)
+            } else{
+              x@attr <- bind_cols(x@attr, table)
+            }
+            if(regroup){
+              # regroup if there are individual values per feature
+              if(dim(unique(attr))[1] != length(unique(x@attr$gid))){
+                names <- colnames(attr)
+                newGid <- tibble(seq_along(unique(attr[,1])), unique(attr[,1]))
+                colnames(newGid) <- c("gid", names)
+                x@attr <- left_join(x@attr[!names(x@attr) %in% c("gid")], newGid)
+                x@attr <- select(x@attr, "fid", "gid", everything())
+              }
+            }
+
             return(x)
           }
 )
@@ -75,11 +111,11 @@ setMethod(f = "setTable",
 #' @rdname setTable
 #' @examples
 #'
-#' # set table to an sf
+#' # set table of an sf
 #' sfObj <- gtSF$polygon
 #'
 #' # ... with common columns
-#' myAttributes <- data.frame(a = c(2, 1), b = c("X", "Y"))
+#' myAttributes <- data.frame(a = c(2, 1), attr = letters[1:2])
 #' setTable(x = sfObj, table = myAttributes)
 #'
 #' # ... without common columns
