@@ -125,8 +125,8 @@
     
     </div>
 
-    <pre class="usage"><span class='fu'>gs_tiles</span>(<span class='kw'>window</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>cells</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>crs</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>tiling</span> <span class='kw'>=</span> <span class='st'>"squared"</span>, <span class='kw'>centroids</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
+    <pre class="usage"><span class='fu'>gs_tiles</span>(<span class='kw'>window</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>cells</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>tiling</span> <span class='kw'>=</span> <span class='st'>"squared"</span>,
+  <span class='kw'>centroids</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -142,11 +142,6 @@ the maximum value (upper right corner) of the tiling.</p></td>
 <code>y</code> dimension.</p></td>
     </tr>
     <tr>
-      <th>crs</th>
-      <td><p>[<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code>]<br /> corrdinate reference system of the object
-in proj4 notation.</p></td>
-    </tr>
-    <tr>
       <th>tiling</th>
       <td><p>[<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code>]<br /> pattern of the tiling. Possible
 options are <code>"squared"</code> (default), <code>"hexagonal"</code>,
@@ -158,6 +153,11 @@ options are <code>"squared"</code> (default), <code>"hexagonal"</code>,
 returned (<code>TRUE</code>) or should the tiling be returned (<code>FALSE</code>,
 default)?</p></td>
     </tr>
+    <tr>
+      <th>crs</th>
+      <td><p>[<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code>]<br /> corrdinate reference system of the object
+in proj4 notation.</p></td>
+    </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
@@ -166,17 +166,15 @@ default)?</p></td>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># create grid for GFC data</span>
-<span class='no'>gfcWindow</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/data.frame'>data.frame</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(-<span class='fl'>180</span>, <span class='fl'>180</span>),
-                        <span class='kw'>y</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(-<span class='fl'>60</span>, <span class='fl'>80</span>))
-<span class='no'>tiles_gfc</span> <span class='kw'>&lt;-</span> <span class='fu'>gs_tiles</span>(<span class='kw'>window</span> <span class='kw'>=</span> <span class='no'>gfcWindow</span>, <span class='kw'>cells</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>36</span>, <span class='fl'>14</span>),
-                      <span class='kw'>crs</span> <span class='kw'>=</span> <span class='st'>"+proj=longlat +ellps=WGS84 +towgs84=0,0,0,0,0,0,0 +no_defs"</span>)
+    <pre class="examples"><div class='input'><span class='co'># create a squared tiling</span>
+<span class='no'>aWindow</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/data.frame'>data.frame</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(-<span class='fl'>180</span>, <span class='fl'>180</span>),
+                      <span class='kw'>y</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(-<span class='fl'>60</span>, <span class='fl'>80</span>))
+<span class='no'>tiles</span> <span class='kw'>&lt;-</span> <span class='fu'>gs_tiles</span>(<span class='kw'>window</span> <span class='kw'>=</span> <span class='no'>aWindow</span>, <span class='kw'>cells</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>36</span>, <span class='fl'>14</span>))
 
-<span class='co'># create grid for MODIS data</span>
-<span class='no'>modWindow</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/data.frame'>data.frame</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(-<span class='fl'>20015109.354</span>, <span class='fl'>20015109.354</span>),
-                        <span class='kw'>y</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(-<span class='fl'>10007554.677</span>, <span class='fl'>10007554.677</span>))
-<span class='no'>tiles_modis</span> <span class='kw'>&lt;-</span> <span class='fu'>gs_tiles</span>(<span class='kw'>window</span> <span class='kw'>=</span> <span class='no'>modWindow</span>, <span class='kw'>cells</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>36</span>, <span class='fl'>18</span>),
-  <span class='kw'>crs</span> <span class='kw'>=</span> <span class='st'>"+proj=sinu +lon_0=0 +x_0=0 +y_0=0 +a=6371007.181 +b=6371007.181 +units=m +no_defs"</span>)</div></pre>
+<span class='co'># create a hexagonal tiling spanning the whole world</span>
+<span class='no'>theWorld</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/data.frame'>data.frame</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(-<span class='fl'>180</span>, <span class='fl'>180</span>),
+                       <span class='kw'>y</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(-<span class='fl'>90</span>, <span class='fl'>90</span>))
+<span class='no'>comb</span> <span class='kw'>&lt;-</span> <span class='fu'>gs_tiles</span>(<span class='kw'>window</span> <span class='kw'>=</span> <span class='no'>theWorld</span>, <span class='kw'>cells</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>36</span>, <span class='fl'>18</span>))</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

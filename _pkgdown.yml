@@ -17,6 +17,7 @@ reference:
       - '`gs_polygon`'
       - '`gs_random`'
       - '`gs_tiles`'
+      - '`gs_voronoi`'
       - starts_with("geom")
       - -starts_with("geometr")
   - title: getters and setters

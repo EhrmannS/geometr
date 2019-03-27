@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Derive a <code>geom</code> from other spatial objects — gt_as_geom • geometr</title>
+<title>Transform a <code>geom</code> to an sf object — gt_as_sf • geometr</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,9 +30,10 @@
 
 
 
-<meta property="og:title" content="Derive a <code>geom</code> from other spatial objects — gt_as_geom" />
+<meta property="og:title" content="Transform a <code>geom</code> to an sf object — gt_as_sf" />
 
-<meta property="og:description" content="See geom for details on the class." />
+<meta property="og:description" content="An object of class sf is the sf-package representation of a
+geom." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -114,49 +115,55 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Derive a <code>geom</code> from other spatial objects</h1>
-    <small class="dont-index">Source: <a href='https://github.com/EhrmannS/geometr/blob/master/R/gt_as_geom.R'><code>R/gt_as_geom.R</code></a></small>
-    <div class="hidden name"><code>gt_as_geom.Rd</code></div>
+    <h1>Transform a <code>geom</code> to an sf object</h1>
+    <small class="dont-index">Source: <a href='https://github.com/EhrmannS/geometr/blob/master/R/gt_as_sf.R'><code>R/gt_as_sf.R</code></a></small>
+    <div class="hidden name"><code>gt_as_sf.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>See <code><a href='geom-class.html'>geom</a></code> for details on the class.</p>
+    <p>An object of class <code>sf</code> is the sf-package representation of a
+<code>geom</code>.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>gt_as_geom</span>(<span class='no'>input</span>)</pre>
+    <pre class="usage"><span class='fu'>gt_as_sf</span>(<span class='kw'>geom</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>input</th>
-      <td><p>[<code>Spatial*</code> | <code>sf</code>]<br /> the spatial object to build a
-<code>geom</code> from.</p></td>
+      <th>geom</th>
+      <td><p>[<code>geom</code>]<br /> Object of class <code><a href='geom-class.html'>geom</a></code>.</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>a <code>geom</code> of the type that comes closest to the type of the
-  input.</p>
-    
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
-
-    <p>bla</p>
+    <p>If <code>geom</code> has attributes other than <code>fid</code> and <code>gid</code> a
+  "Simple feature collection", otherwise a "Geometry set". Several features
+  of the <code>geom</code> are returned as MULTI* feature, when they have
+  <code>gid</code> and optionally other attributes in common, otherwise they are
+  returned as a single simple feature.</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>library</a></span>(<span class='no'>raster</span>)</div><div class='output co'>#&gt; <span class='message'>Loading required package: sp</span></div><div class='output co'>#&gt; <span class='message'></span>
-#&gt; <span class='message'>Attaching package: ‘raster’</span></div><div class='output co'>#&gt; <span class='message'>The following object is masked from ‘package:magrittr’:</span>
-#&gt; <span class='message'></span>
-#&gt; <span class='message'>    extract</span></div><div class='input'>
-<span class='no'>spPoly</span> <span class='kw'>&lt;-</span> <span class='no'>gtSP</span>$<span class='no'>SpatialPolygons</span>
-<span class='fu'><a href='https://www.rdocumentation.org/packages/raster/topics/plot'>plot</a></span>(<span class='no'>spPoly</span>)</div><div class='input'><span class='fu'><a href='visualise.html'>visualise</a></span>(<span class='kw'>geom</span> <span class='kw'>=</span> <span class='fu'>gt_as_geom</span>(<span class='kw'>input</span> <span class='kw'>=</span> <span class='no'>spPoly</span>))</div><div class='img'><img src='gt_as_geom-1.png' alt='' width='700' height='433' /></div><div class='img'><img src='gt_as_geom-2.png' alt='' width='700' height='433' /></div><div class='input'>
-<span class='no'>sfPoly</span> <span class='kw'>&lt;-</span> <span class='no'>gtSF</span>$<span class='no'>polygon</span>
-<span class='fu'><a href='https://www.rdocumentation.org/packages/raster/topics/plot'>plot</a></span>(<span class='no'>sfPoly</span>)</div><div class='img'><img src='gt_as_geom-3.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='visualise.html'>visualise</a></span>(<span class='kw'>geom</span> <span class='kw'>=</span> <span class='fu'>gt_as_geom</span>(<span class='kw'>input</span> <span class='kw'>=</span> <span class='no'>sfPoly</span>))</div><div class='img'><img src='gt_as_geom-4.png' alt='' width='700' height='433' /></div><div class='input'>
-</div></pre>
+    <pre class="examples"><div class='input'>(<span class='no'>sfPoints</span> <span class='kw'>&lt;-</span> <span class='fu'>gt_as_sf</span>(<span class='kw'>geom</span> <span class='kw'>=</span> <span class='no'>gtGeoms</span>$<span class='no'>point</span>))</div><div class='output co'>#&gt; Geometry set for 3 features 
+#&gt; geometry type:  MULTIPOINT
+#&gt; dimension:      XY
+#&gt; bbox:           xmin: 0 ymin: 0 xmax: 12 ymax: 12
+#&gt; epsg (SRID):    NA
+#&gt; proj4string:    NA</div><div class='output co'>#&gt; <span class='message'>MULTIPOINT (0 0, 0 10, 10 10, 10 0)</span></div><div class='output co'>#&gt; <span class='message'>MULTIPOINT (1 1, 1 2, 2 2, 2 1)</span></div><div class='output co'>#&gt; <span class='message'>MULTIPOINT (11 11, 11 12, 12 12, 12 11)</span></div><div class='input'>(<span class='no'>sfLines</span> <span class='kw'>&lt;-</span> <span class='fu'>gt_as_sf</span>(<span class='kw'>geom</span> <span class='kw'>=</span> <span class='no'>gtGeoms</span>$<span class='no'>line</span>))</div><div class='output co'>#&gt; Geometry set for 2 features 
+#&gt; geometry type:  GEOMETRY
+#&gt; dimension:      XY
+#&gt; bbox:           xmin: 0 ymin: 0 xmax: 12 ymax: 12
+#&gt; epsg (SRID):    NA
+#&gt; proj4string:    NA</div><div class='output co'>#&gt; <span class='message'>MULTILINESTRING ((0 0, 0 10, 10 10, 10 0), (1 1...</span></div><div class='output co'>#&gt; <span class='message'>LINESTRING (11 11, 11 12, 12 12, 12 11)</span></div><div class='input'>(<span class='no'>sfPolygon</span> <span class='kw'>&lt;-</span> <span class='fu'>gt_as_sf</span>(<span class='kw'>geom</span> <span class='kw'>=</span> <span class='no'>gtGeoms</span>$<span class='no'>polygon</span>))</div><div class='output co'>#&gt; Geometry set for 2 features 
+#&gt; geometry type:  POLYGON
+#&gt; dimension:      XY
+#&gt; bbox:           xmin: 0 ymin: 0 xmax: 12 ymax: 12
+#&gt; epsg (SRID):    NA
+#&gt; proj4string:    NA</div><div class='output co'>#&gt; <span class='message'>POLYGON ((0 0, 10 0, 10 10, 0 10, 0 0), (1 1, 1...</span></div><div class='output co'>#&gt; <span class='message'>POLYGON ((11 11, 11 12, 12 12, 12 11, 11 11))</span></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -164,8 +171,6 @@
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
-
-      <li><a href="#details">Details</a></li>
       
       <li><a href="#examples">Examples</a></li>
     </ul>
