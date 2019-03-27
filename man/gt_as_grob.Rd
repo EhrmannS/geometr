@@ -2,7 +2,7 @@
 % Please edit documentation in R/gt_as_grob.R
 \name{gt_as_grob}
 \alias{gt_as_grob}
-\title{Transform geometry to grob}
+\title{Transform a \code{geom} to a grob object}
 \usage{
 gt_as_grob(geom = NULL, theme = gtTheme, ...)
 }
@@ -17,18 +17,9 @@ specific graphic parameters (see \code{\link{gpar}}) separately; see
 }
 \value{
 Depending on the provided geometry either a \code{\link{pointsGrob}},
-  \code{\link{linesGrob}}, \code{\link{polylineGrob}} or a
-  \code{\link{polygonGrob}}.
+  \code{\link{polylineGrob}} or a \code{\link{pathGrob}}.
 }
 \description{
-A \code{\link{grob}} (graphical object) is the grid-package representation of
-a \code{geom} and is used for plotting.
-}
-\examples{
-aGrob <- gt_as_grob(geom = gtGeoms$polygon)
-str(aGrob)
-
-library(grid)
-grid.newpage()
-grid.draw(aGrob)
+An object of class \code{\link{grob}} is the grid-package representation of a
+\code{geom} and is used for plotting.
 }

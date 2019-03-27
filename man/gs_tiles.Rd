@@ -2,45 +2,63 @@
 % Please edit documentation in R/gs_tiles.R
 \name{gs_tiles}
 \alias{gs_tiles}
-\title{Create a regular tiling geometry}
+\title{Create a regular tiling}
 \usage{
-gs_tiles(window = NULL, cells = NULL, crs = NULL,
-  tiling = "squared", centroids = FALSE)
+gs_tiles(anchor = NULL, window = NULL, size = NULL,
+  features = NULL, tiling = "squared", align = "vertical",
+  rotation = 0, centroids = FALSE)
 }
 \arguments{
 \item{window}{[\code{data.frame(1)}]\cr the origin (lower left corner) and
 the maximum value (upper right corner) of the tiling.}
 
-\item{cells}{[\code{integerish(2)}]\cr number of tiles in \code{x} and
-\code{y} dimension.}
-
-\item{crs}{[\code{character(1)}]\cr corrdinate reference system of the object
-in proj4 notation.}
+\item{size}{[\code{numeric(1)}]\cr the diameter of each tile.}
 
 \item{tiling}{[\code{character(1)}]\cr pattern of the tiling. Possible
-options are \code{"squared"} (default), \code{"hexagonal"},
-\code{"triangular"}.}
+options are \code{"squared"} (default) or \code{"hexagonal"}.}
+
+\item{align}{[\code{logical(1)}]\cr should the tiles be aligned so that they
+converge to the same area at the boundary in x-dimension (\code{TRUE}), or
+should they converge in y-dimension (\code{FALSE}, default).}
+
+\item{rotation}{[\code{numeric(1)}]\cr the degree by which the tiles should
+be rotated.}
 
 \item{centroids}{[\code{logical(1)}]\cr should the centroids of the tiling be
 returned (\code{TRUE}) or should the tiling be returned (\code{FALSE},
 default)?}
+
+\item{cells}{[\code{integerish(2)}]\cr the number of cells in x and/or y
+dimension.}
 }
 \value{
 An invisible \code{geom}.
 }
 \description{
-Create a regular tiling geometry
+Create a regular tiling
+}
+\details{
+When deriving a regular tiling for a prescribed window, there is
+  only a limited set of legal combinations of cells in x and y dimension. For
+  instance, a window of 100 by 100 can't comprise 10 by 5 squares of
+  side-length 10, because then the y-dimension wouldn't be fully covered. The
+  same is true for hexagonal and triangular tilings. In case it is only
+  properly clear how many tiles there should be in one dimension, but not the
+  other, this can be specified by setting one of the cell counts to
+  \code{NA}, such as \code{cells = c(NA, 18)}.
 }
 \examples{
-# create grid for GFC data
-gfcWindow <- data.frame(x = c(-180, 180),
-                        y = c(-60, 80))
-tiles_gfc <- gs_tiles(window = gfcWindow, cells = c(36, 14),
-                      crs = "+proj=longlat +ellps=WGS84 +towgs84=0,0,0,0,0,0,0 +no_defs")
+# create a squared tiling
+#aWindow <- data.frame(x = c(-180, 180),
+#                       y = c(-60, 80))
+#tiles <- gs_tiles(window = aWindow, size = 10)
 
-# create grid for MODIS data
-modWindow <- data.frame(x = c(-20015109.354, 20015109.354),
-                        y = c(-10007554.677, 10007554.677))
-tiles_modis <- gs_tiles(window = modWindow, cells = c(36, 18),
-  crs = "+proj=sinu +lon_0=0 +x_0=0 +y_0=0 +a=6371007.181 +b=6371007.181 +units=m +no_defs")
+# create a hexagonal tiling spanning the whole world
+#theWorld <- data.frame(x = c(-180, 180),
+#                        y = c(-90, 90))
+#comb <- gs_tiles(window = theWorld, size = 10, tiling = "hexagonal")
 }
+\seealso{
+Other tilings: \code{\link{gs_voronoi}}
+}
+\concept{tilings}

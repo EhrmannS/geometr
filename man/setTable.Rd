@@ -10,7 +10,7 @@
 \alias{setTable,RasterLayer-method}
 \title{Set the attribute table of a spatial object.}
 \usage{
-\S4method{setTable}{geom}(x, table)
+\S4method{setTable}{geom}(x, table, regroup = TRUE)
 
 \S4method{setTable}{Spatial}(x, table)
 
@@ -24,25 +24,44 @@
 \item{x}{the object to which to assign \code{table}.}
 
 \item{table}{[\code{data.frame(.)}]\cr the attribute table.}
+
+\item{regroup}{[\code{logical(1)}]\cr rearrange groups when new attributes
+are not unique per group but per feature (\code{TRUE}, default) or
+suppress this behaviour (\code{FALSE}).}
 }
 \description{
 Set the attribute table of a spatial object.
 }
 \details{
-When setting the attribute table of a simple feature (\code{sf}) -
-  which is already a "data.frame-like object" - this really means that a
-  table is joined to the already existing table.
+If \code{table} does not have columns in common with \code{x}, the
+  new columns are simply bound to the original attribute table. If there are
+  common coloums, they are joined.
 
-  When setting the attribute table of a simple feature geometry column
-  (\code{sfc}), this upgrades the object to an \code{sf} object.
+  If a \code{geom} gets assigned a table with individual values per feature
+  (\code{fid}), and not per group (\code{gid}), groups are by default
+  reassigned per individual value. This is neccessary as \code{geom}s can
+  have individual values per feature. An \code{sf} can consist of MULTI*
+  features, where it is not possible to store feature-specific information,
+  hence \code{regroup = TRUE} asserts that features with individual values
+  are not cast to a MULTI* feature - and thereby lose the information they
+  carry - by modifying \code{gid} accordingly.
 }
 \examples{
+# set table of a geom
+# individual attributes per point/line/polygon feature
+getTable(gtGeoms$point)
+x1 <- setTable(x = gtGeoms$point,
+               table = data.frame(attr = letters[c(1:5, 5:11)]))
+getTable(x1)
+x2 <- setTable(x = gtGeoms$point,
+               table = data.frame(gid = c(1:3), attr = letters[1:3]))
+getTable(x2)
 
-# set table to an sf
+# set table of an sf
 sfObj <- gtSF$polygon
 
 # ... with common columns
-myAttributes <- data.frame(a = c(2, 1), b = c("X", "Y"))
+myAttributes <- data.frame(a = c(2, 1), attr = letters[1:2])
 setTable(x = sfObj, table = myAttributes)
 
 # ... without common columns

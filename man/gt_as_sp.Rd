@@ -2,7 +2,7 @@
 % Please edit documentation in R/gt_as_sp.R
 \name{gt_as_sp}
 \alias{gt_as_sp}
-\title{Transform geometry to spatial object}
+\title{Transform a \code{geom} to a Spatial* object}
 \usage{
 gt_as_sp(geom = NULL)
 }
@@ -10,7 +10,7 @@ gt_as_sp(geom = NULL)
 \item{geom}{[\code{geom}]\cr Object of class \code{\link{geom}}.}
 }
 \value{
-Depending on the provided geometry either a
+Depending on the provided \code{geom} either a
   \code{\link{SpatialPointsDataFrame}}, \code{\link{SpatialLinesDataFrame}}
   or \code{\link{SpatialPolygonsDataFrame}} object.
 }

@@ -109,12 +109,8 @@ gs_triangle(anchor = coords, window = window) \%>\%
 aGeom <- setWindow(x = aGeom, to = window)
 gs_polygon(anchor = aGeom) \%>\%
   visualise(geom = ., fillcol = "deeppink")
-
-# geoms with more than one element are treated element-wise
-aGeom <- gt_group(geom = aGeom, index = c(1, 2, 1, 2))
-visualise(geom = aGeom)
 gs_rectangle(anchor = aGeom) \%>\%
-  visualise(geom = .)
+  visualise(geom = ., new = FALSE)
 
 \dontrun{
 

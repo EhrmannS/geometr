@@ -15,8 +15,7 @@ a \code{geom} of the type that comes closest to the type of the
   input.
 }
 \description{
-See \code{\link{geom-class}} for details on differences between objects of
-class \code{geom} and other spatial classes.
+See \code{\link{geom}} for details on the class.
 }
 \details{
 bla
@@ -25,11 +24,11 @@ bla
 library(raster)
 
 spPoly <- gtSP$SpatialPolygons
-plot(spPoly, col = "goldenrod")
+plot(spPoly)
 visualise(geom = gt_as_geom(input = spPoly))
 
 sfPoly <- gtSF$polygon
-plot(sfPoly, col = "goldenrod")
+plot(sfPoly)
 visualise(geom = gt_as_geom(input = sfPoly))
 
 }
