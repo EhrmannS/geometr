@@ -1,7 +1,6 @@
 #' Derive a \code{geom} from other spatial objects
 #'
-#' See \code{\link{geom-class}} for details on differences between objects of
-#' class \code{geom} and other spatial classes.
+#' See \code{\link{geom}} for details on the class.
 #' @param input [\code{Spatial*} | \code{sf}]\cr the spatial object to build a
 #'   \code{geom} from.
 #' @details bla
@@ -11,11 +10,11 @@
 #' library(raster)
 #'
 #' spPoly <- gtSP$SpatialPolygons
-#' plot(spPoly, col = "goldenrod")
+#' plot(spPoly)
 #' visualise(geom = gt_as_geom(input = spPoly))
 #'
 #' sfPoly <- gtSF$polygon
-#' plot(sfPoly, col = "goldenrod")
+#' plot(sfPoly)
 #' visualise(geom = gt_as_geom(input = sfPoly))
 #'
 #' @importFrom checkmate assertClass testDataFrame

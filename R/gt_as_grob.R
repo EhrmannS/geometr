@@ -1,22 +1,14 @@
-#' Transform geometry to grob
+#' Transform a \code{geom} to a grob object
 #'
-#' A \code{\link{grob}} (graphical object) is the grid-package representation of
-#' a \code{geom} and is used for plotting.
+#' An object of class \code{\link{grob}} is the grid-package representation of a
+#' \code{geom} and is used for plotting.
 #' @param geom [\code{geom}]\cr Object of class \code{\link{geom}}.
 #' @param theme [\code{list(7)}]\cr Visualising options; see
 #' @param ... instead of providing a \code{gtTheme}, you can also determine
 #'   specific graphic parameters (see \code{\link{gpar}}) separately; see
 #'   \code{\link{setTheme}} for details.
 #' @return Depending on the provided geometry either a \code{\link{pointsGrob}},
-#'   \code{\link{linesGrob}}, \code{\link{polylineGrob}} or a
-#'   \code{\link{polygonGrob}}.
-#' @examples
-#' aGrob <- gt_as_grob(geom = gtGeoms$polygon)
-#' str(aGrob)
-#'
-#' library(grid)
-#' grid.newpage()
-#' grid.draw(aGrob)
+#'   \code{\link{polylineGrob}} or a \code{\link{pathGrob}}.
 #' @importFrom checkmate assertNames assertSubset assertList
 #' @importFrom grid gpar unit pointsGrob gList pathGrob polylineGrob clipGrob
 #' @export
