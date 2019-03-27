@@ -12,6 +12,7 @@
 NULL
 
 #' @rdname setCRS
+#' @name setCRS
 #' @docType methods
 #' @export
 if(!isGeneric("setCRS")){

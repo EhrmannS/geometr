@@ -6,6 +6,7 @@
 NULL
 
 #' @rdname setWindow
+#' @name setWindow
 #' @export
 if(!isGeneric("setWindow")){
   setGeneric(name = "setWindow",

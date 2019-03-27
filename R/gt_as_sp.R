@@ -1,17 +1,16 @@
-#' Transform geometry to spatial object
+#' Transform a \code{geom} to a Spatial* object
 #'
 #' An object of class \code{Spatial*} is the sp-package representation of a
 #' \code{geom}.
 #' @param geom [\code{geom}]\cr Object of class \code{\link{geom}}.
-#' @return Depending on the provided geometry either a
+#' @return Depending on the provided \code{geom} either a
 #'   \code{\link{SpatialPointsDataFrame}}, \code{\link{SpatialLinesDataFrame}}
 #'   or \code{\link{SpatialPolygonsDataFrame}} object.
 #' @examples
 #' (spPoints <- gt_as_sp(geom = gtGeoms$point))
 #' (spLines <- gt_as_sp(geom = gtGeoms$line))
 #' (spPolygon <- gt_as_sp(geom = gtGeoms$polygon))
-#' @importFrom checkmate assertClass assertCharacter
-#' @importFrom raster crs
+#' @importFrom checkmate assertClass
 #' @importFrom sp SpatialPoints SpatialPointsDataFrame Line Lines SpatialLines
 #'   SpatialLinesDataFrame Polygon Polygons SpatialPolygons
 #'   SpatialPolygonsDataFrame
