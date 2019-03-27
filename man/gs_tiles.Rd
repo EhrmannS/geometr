@@ -9,10 +9,16 @@ gs_tiles(anchor = NULL, window = NULL, size = NULL,
   rotation = 0, centroids = FALSE)
 }
 \arguments{
+\item{anchor}{[\code{data.frame(1)}]\cr Object to derive the \code{geom}
+from. It must include column names \code{x}, \code{y} and optinal variables
+such as \code{fid}; see Examples.}
+
 \item{window}{[\code{data.frame(1)}]\cr the origin (lower left corner) and
 the maximum value (upper right corner) of the tiling.}
 
 \item{size}{[\code{numeric(1)}]\cr the diameter of each tile.}
+
+\item{features}{[\code{integerish(1)}]\cr number of geometries to create.}
 
 \item{tiling}{[\code{character(1)}]\cr pattern of the tiling. Possible
 options are \code{"squared"} (default) or \code{"hexagonal"}.}
@@ -27,9 +33,6 @@ be rotated.}
 \item{centroids}{[\code{logical(1)}]\cr should the centroids of the tiling be
 returned (\code{TRUE}) or should the tiling be returned (\code{FALSE},
 default)?}
-
-\item{cells}{[\code{integerish(2)}]\cr the number of cells in x and/or y
-dimension.}
 }
 \value{
 An invisible \code{geom}.

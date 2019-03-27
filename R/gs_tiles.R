@@ -1,10 +1,12 @@
 #' Create a regular tiling
 #'
+#' @param anchor [\code{data.frame(1)}]\cr Object to derive the \code{geom}
+#'   from. It must include column names \code{x}, \code{y} and optinal variables
+#'   such as \code{fid}; see Examples.
 #' @param window [\code{data.frame(1)}]\cr the origin (lower left corner) and
 #'   the maximum value (upper right corner) of the tiling.
-#' @param cells [\code{integerish(2)}]\cr the number of cells in x and/or y
-#'   dimension.
 #' @param size [\code{numeric(1)}]\cr the diameter of each tile.
+#' @param features [\code{integerish(1)}]\cr number of geometries to create.
 #' @param tiling [\code{character(1)}]\cr pattern of the tiling. Possible
 #'   options are \code{"squared"} (default) or \code{"hexagonal"}.
 #' @param align [\code{logical(1)}]\cr should the tiles be aligned so that they

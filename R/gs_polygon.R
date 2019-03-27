@@ -2,10 +2,9 @@
 #'
 #' Create any (regular) polygon geometry (of class \code{\link{geom}}) either by
 #' specifying its parameters or by sketching it.
-#' @param anchor [\code{geom} | \code{data.frame(1)}]\cr Object to derive the
-#'   \code{geom} from. In case of \code{data.frame}, it must include column
-#'   names \code{x}, \code{y} and optinal variables such as \code{id}; see
-#'   Examples.
+#' @param anchor [\code{data.frame(1)}]\cr Object to derive the \code{geom}
+#'   from. It must include column names \code{x}, \code{y} and optinal variables
+#'   such as \code{fid}; see Examples.
 #' @param window [\code{data.frame(1)}]\cr in case the reference window deviates
 #'   from the bounding box of \code{anchor} (minimum and maximum values),
 #'   specify this here.
