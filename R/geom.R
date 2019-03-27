@@ -60,17 +60,98 @@ geom <- setClass(Class = "geom",
                  )
 )
 
-# setValidity("geom", function(){
+setValidity("geom", function(object){
 
-# this must include a warning when for instance a polygon has less than 3 vertices, other such cases?
-#
-#   if(existsGeom){
-#     assertNames(names(geom), identical.to = c("vert", "extent", "type"))
-#     assertNames(names(geom$vert), permutation.of = c("x", "y", "id"))
-#     assertNames(names(geom$extent), permutation.of = c("x", "y"))
-#     assertSubset(geom$type, choices = c("point", "points", "line", "lines", "polygon", "polygons"))
-#   }
-# })
+  errors = character()
+
+  if(!.hasSlot(object = object, name = "vert")){
+    errors = c(errors, "the geom does not have a 'vert' slot.")
+  } else {
+    if(!is.data.frame(object@vert)){
+      errors = c(errors, "the slot 'vert' is not a data.frame.")
+    }
+    if(!all(c("fid", "vid", "x" ,"y") %in% names(object@vert))){
+      errors = c(errors, "the geom must have a table of vertices with names 'fid', 'vid', 'x' and 'y'.")
+    }
+  }
+
+  if(!.hasSlot(object = object, name = "type")){
+    errors = c(errors, "the geom does not have a 'type' slot.")
+  } else {
+    if(!any(object@type %in% c("point", "line", "polygon"))){
+      errors = c(errors, "the geom must either be of type 'point', 'line' or 'polygon'.")
+    } else if(object@type == "point"){
+      if(dim(object@vert)[1] < 1){
+        errors = c(errors, "a geom of type 'point' must have at least 1 vertex.")
+      }
+    } else if(object@type == "line"){
+      if(dim(object@vert)[1] < 2){
+        errors = c(errors, "a geom of type 'line' must have at least 2 vertices.")
+      }
+    } else if(object@type == "polygon"){
+      if(dim(object@vert)[1] < 3){
+        errors = c(errors, "a geom of type 'polygon' must have at least 3 vertices.")
+      }
+    }
+  }
+
+  if(!.hasSlot(object = object, name = "attr")){
+    errors = c(errors, "the geom does not have a 'attr' slot.")
+  } else {
+    if(!is.data.frame(object@attr)){
+      errors = c(errors, "the slot 'attr' is not a data.frame.")
+    }
+    if(!all(c("fid", "gid") %in% names(object@attr))){
+      errors = c(errors, "the geom must have an attribute table with names 'fid' and 'gid'.")
+    }
+  }
+
+  if(!.hasSlot(object = object, name = "window")){
+    errors = c(errors, "the geom does not have a 'window' slot.")
+  } else {
+    if(!is.data.frame(object@window)){
+      errors = c(errors, "the slot 'window' is not a data.frame.")
+    }
+    if(!all(c("x" ,"y") %in% names(object@window))){
+    errors = c(errors, "the geom must have a window table with names 'x' and 'y'.")
+    }
+  }
+
+  if(!.hasSlot(object = object, name = "scale")){
+    errors = c(errors, "the geom does not have a 'scale' slot.")
+  } else {
+    if(!is.character(object@scale)){
+      errors = c(errors, "the slot 'scale' is not a character vector.")
+    } else {
+      if(!any(object@scale %in% c("absolute", "relative"))){
+        errors = c(errors, "the scale must either be 'absolute' or 'relative'.")
+      }
+    }
+  }
+
+  if(!.hasSlot(object = object, name = "crs")){
+    errors = c(errors, "the geom does not have a 'crs' slot.")
+  } else {
+    if(!is.character(object@crs)){
+      errors = c(errors, "the slot 'crs' is not a character vector.")
+    }
+  }
+
+  if(!.hasSlot(object = object, name = "history")){
+    errors = c(errors, "the geom does not have a 'history' slot.")
+  } else {
+    if(!is.list(object@history)){
+      errors = c(errors, "the slot 'history' is not a list.")
+    }
+  }
+
+  if(length(errors) == 0){
+    return(TRUE)
+  } else {
+    return(errors)
+  }
+
+})
 
 #' Print geom in the console
 #'
