@@ -1,7 +1,9 @@
-#' Group geometries
+#' Group point geometries
 #'
-#' \code{gGroup} assigns the vertices of a \code{geom} into groups of features.
-#' @param geom [\code{geom}]\cr Object of class \code{\link{geom}}.
+#' \code{gt_vGroup} assigns the vertices of a \code{geom} of type \code{point}
+#' into new groups.
+#' @param geom [\code{geom}]\cr object of class \code{\link{geom}} and type
+#'   \code{point}.
 #' @param index [\code{integerish(.)}]\cr a vector with a value for each vertex,
 #'   according to which to group.
 #' @param distance [\code{numeric(1)}]\cr specific distance of two vertices
@@ -12,12 +14,8 @@
 #' @param ...  [various]\cr additional arguments either to
 #'   \code{\link[stats]{hclust}} or to \code{\link[stats]{kmeans}}.
 #' @details Only one of the three arguments \code{index}, \code{distance} or
-#'   \code{clusters} need to be set, as grouping is only carried out by one of
+#'   \code{clusters} needs to be set, as grouping is only carried out by one of
 #'   them.
-#'
-#'   In case the geom had an attribute table, this has to be redefined by
-#'   default because it is impossible to determine how these attributes should
-#'   be reattributed without external information.
 #' @return \code{geom} with grouped coordinates.
 #' @examples
 #' coords <- data.frame(x = c(30, 60, 60, 40, 10, 40, 20),
@@ -25,20 +23,21 @@
 #'                      fid = c(1, 1, 1, 1, 2, 2, 2))
 #' window <- data.frame(x = c(0, 80),
 #'                      y = c(0, 80))
-#' aGeom <- gs_polygon(anchor = coords, window = window, show = TRUE)
+#' aGeom <- gs_point(anchor = coords, window = window)
 #'
-#' grouped <- gt_group(geom = aGeom, distance = 40)
+#' grouped <- gt_vGroup(geom = aGeom, distance = 40)
 #' visualise(geom = grouped)
 #' @importFrom checkmate testList assertNames assertDataFrame
 #' @importFrom tibble tibble
-#' @importFrom dplyr bind_cols
+#' @importFrom dplyr bind_cols left_join
 #' @importFrom methods new
 #' @importFrom stats kmeans dist hclust cutree
 #' @export
 
-gt_group <- function(geom, index = NULL, distance = NULL, clusters = NULL, ...){
+gt_vGroup <- function(geom, index = NULL, distance = NULL, clusters = NULL, ...){
 
   assertClass(geom, classes = "geom")
+  assertTRUE(geom@type == "point")
   assertIntegerish(index, min.len = 1, any.missing = FALSE, null.ok = TRUE)
   assertNumeric(distance, finite = TRUE, null.ok = TRUE)
   assertIntegerish(clusters, min.len = 1, any.missing = FALSE, null.ok = TRUE)
@@ -46,34 +45,35 @@ gt_group <- function(geom, index = NULL, distance = NULL, clusters = NULL, ...){
     stop("please provide either 'distance', 'index' or 'clusters'.")
   }
 
-  vert <- geom@vert
+  vert <- getVertices(x = geom)
+  attr <- getTable(x = geom)
   toGroup <- vert[c("x", "y")]
 
+  # determine new fids
   if(!is.null(index)){
-    newId <- rep(index, length.out = dim(toGroup)[1])
+    newFids <- rep(index, length.out = dim(toGroup)[1])
   }
   if(!is.null(distance)){
     temp <- dist(toGroup)
     h <- hclust(temp, ...)
-    newId <- cutree(h, h=distance)
+    newFids <- cutree(h, h=distance)
   }
   if(!is.null(clusters)){
     temp <- kmeans(toGroup, centers = clusters, ...)
-    newId <- temp$cluster
+    newFids <- temp$cluster
   }
 
-  temp <- bind_cols(fid = newId, vid = vert$vid, toGroup)
-  temp <- temp[order(temp$fid),]
-  if(geom@type == "point"){
-    vertices <- as.integer(table(newId))
-  } else{
-    vertices <- rep(1, length(unique(newId)))
-  }
+  newAttr <- tibble(fid = newFids, gid = newFids)
+  newAttr <- left_join(newAttr, attr[-which(colnames(attr) == "gid")], by = "fid")
+
+  # determine vers
+  vertices <- bind_cols(fid = newFids, vid = vert$vid, toGroup)
+  vertices <- vertices[order(vertices$fid),]
 
   out <- new(Class = "geom",
              type = geom@type,
-             vert = temp,
-             attr = tibble(fid = unique(newId), n = vertices),
+             vert = vertices,
+             attr = newAttr,
              window = geom@window,
              scale = geom@scale,
              crs = geom@crs,
