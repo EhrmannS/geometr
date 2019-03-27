@@ -55,12 +55,8 @@
 #' aGeom <- setWindow(x = aGeom, to = window)
 #' gs_polygon(anchor = aGeom) %>%
 #'   visualise(geom = ., fillcol = "deeppink")
-#'
-#' # geoms with more than one element are treated element-wise
-#' aGeom <- gt_group(geom = aGeom, index = c(1, 2, 1, 2))
-#' visualise(geom = aGeom)
 #' gs_rectangle(anchor = aGeom) %>%
-#'   visualise(geom = .)
+#'   visualise(geom = ., new = FALSE)
 #'
 #' \dontrun{
 #'
@@ -144,7 +140,7 @@ gs_polygon <- function(anchor = NULL, window = NULL, template = NULL, features =
     if(testClass(template, "RasterLayer")){
       tempName <- names(template)
       dims <- dim(template)
-      projection <- crs(template, asText = TRUE)
+      projection <- getCRS(x = template)
     } else{
       tempName <- "layer"
       dims <- dim(template)

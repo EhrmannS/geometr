@@ -118,7 +118,7 @@ gs_line <- function(anchor = NULL, window = NULL, template = NULL, features = 1,
     if(testClass(template, "RasterLayer")){
       tempName <- names(template)
       dims <- dim(template)
-      projection <- crs(template, asText = TRUE)
+      projection <- getCRS(x = template)
     } else{
       tempName <- "layer"
       dims <- dim(template)
