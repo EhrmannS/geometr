@@ -9,7 +9,7 @@
 #' @param template [\code{RasterLayer(1)} | \code{matrix(1)}]\cr Gridded object
 #'   that serves as template to sketch the tiling.
 #' @param features [\code{integerish(1)}]\cr number of tiles to create.
-#' @param ... [various]\cr graphical parameters to \code{\link{locate}}, in case
+#' @param ... [various]\cr graphical parameters to \code{\link{gt_locate}}, in case
 #'   the tiling is sketched; see \code{\link{gpar}}.
 #' @return An invisible \code{geom}.
 #' @family tilings
@@ -80,7 +80,7 @@ gs_voronoi <- function(anchor = NULL, window = NULL, template = NULL, features =
     message(paste0("please click the ", features, " vertices."))
 
     visualise(raster = template)
-    theClicks <- locate(samples = features, panel = tempName, silent = TRUE, ...)
+    theClicks <- gt_locate(samples = features, panel = tempName, silent = TRUE, ...)
     window <- c(0, dims[2], 0, dims[1])
     tempAnchor <- tibble(fid = 1:features,
                          vid = 1,
