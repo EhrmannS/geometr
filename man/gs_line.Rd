@@ -25,7 +25,7 @@ that serves as template to sketch the geometry.}
 will be recycled if it does not have as many elements as specified in
 \code{features}.}
 
-\item{...}{[various]\cr graphical parameters to \code{\link{locate}}, in case
+\item{...}{[various]\cr graphical parameters to \code{\link{gt_locate}}, in case
 points are sketched; see \code{\link{gpar}}.}
 }
 \value{

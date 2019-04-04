@@ -50,7 +50,7 @@ to \code{anchor} or \code{vertices} (\code{FALSE}, default)?}
 (\code{TRUE}, default), or sohuld it be aligned according to the second
 click (\code{FALSE}); only relevant if \code{regular = TRUE}.}
 
-\item{...}{[various]\cr graphical parameters to \code{\link{locate}}, in case
+\item{...}{[various]\cr graphical parameters to \code{\link{gt_locate}}, in case
 a polygon is sketched; see \code{\link{gpar}}.}
 }
 \value{

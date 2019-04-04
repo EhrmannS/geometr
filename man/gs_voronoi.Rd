@@ -21,7 +21,7 @@ that serves as template to sketch the tiling.}
 
 \item{features}{[\code{integerish(1)}]\cr number of tiles to create.}
 
-\item{...}{[various]\cr graphical parameters to \code{\link{locate}}, in case
+\item{...}{[various]\cr graphical parameters to \code{\link{gt_locate}}, in case
 the tiling is sketched; see \code{\link{gpar}}.}
 }
 \value{
@@ -29,8 +29,5 @@ An invisible \code{geom}.
 }
 \description{
 Create a voronoi tiling
-}
-\seealso{
-Other tilings: \code{\link{gs_tiles}}
 }
 \concept{tilings}

@@ -21,7 +21,7 @@ that serves as template to sketch the geometry.}
 
 \item{vertices}{[\code{integer(1)}]\cr number of vertices.}
 
-\item{...}{[various]\cr graphical parameters to \code{\link{locate}}, in case
+\item{...}{[various]\cr graphical parameters to \code{\link{gt_locate}}, in case
 points are sketched; see \code{\link{gpar}}.}
 }
 \value{
