@@ -208,7 +208,7 @@ visualise <- function(raster = NULL, geom = NULL, window = NULL, theme = gtTheme
       }
     }
 
-    geomGrob <- gt_as_grob(geom = geom, theme = theme, ...)
+    geomGrob <- gt_grob(input = geom, theme = theme, ...)
   }
 
   # checkup concerning plot size
