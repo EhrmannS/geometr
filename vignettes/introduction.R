@@ -56,7 +56,7 @@ getVertices(gtSF$multipoint)
 library(sf)
 nc <- st_read(system.file("shape/nc.shp", package="sf"))
 
-visualise(geom = gt_as_geom(nc), fillcol = NWBIR74)
+visualise(geom = gt_sf(nc), fillcol = NWBIR74)
 
 ## ------------------------------------------------------------------------
 
