@@ -1,5 +1,5 @@
 #' @useDynLib geometr
-globalVariables(c("gtTheme", "fid"))
+globalVariables(c("gtTheme", "fid", "gid", "targetGrob"))
 
 listArgs <- function (){
   as.list(
