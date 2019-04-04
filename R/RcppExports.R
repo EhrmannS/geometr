@@ -5,6 +5,10 @@ matInGeomC <- function(mat, geom, negative) {
     .Call('_geometr_matInGeomC', PACKAGE = 'geometr', mat, geom, negative)
 }
 
+vertInGeomC <- function(vert, geom, invert) {
+    .Call('_geometr_vertInGeomC', PACKAGE = 'geometr', vert, geom, invert)
+}
+
 getValuesMatC <- function(mat) {
     .Call('_geometr_getValuesMatC', PACKAGE = 'geometr', mat)
 }

@@ -1,6 +1,7 @@
 #include <Rcpp.h>
 using namespace Rcpp;
 
+// winding number test for a point in a polygon
 // http://geomalgorithms.com/a03-_inclusion.html
 // Copyright 2000 softSurfer, 2012 Dan Sunday
 // This code may be freely used and modified for any purpose
@@ -13,7 +14,8 @@ using namespace Rcpp;
 NumericMatrix matInGeomC(NumericMatrix &mat, NumericMatrix &geom, bool negative){
   int mRows = mat.nrow(), mCols = mat.ncol();
   int cRows = geom.nrow();
-  int isLeft, inside, outside;
+  double isLeft;
+  int inside, outside;
   NumericMatrix out = clone(mat);
   NumericMatrix vert = clone(geom);
   vert(_, 0) = vert(_, 0);
@@ -32,7 +34,7 @@ NumericMatrix matInGeomC(NumericMatrix &mat, NumericMatrix &geom, bool negative)
 
   // warning if first and last coordinate are not the same
   if(any(vert(0, _) != vert(cRows-1, _)).is_true()){
-    stop("first and last cooridnate are not the same!");
+    stop("first and last vertex must be the same.");
   }
 
   for(int x = 0; x < mCols; x++){
@@ -72,6 +74,80 @@ NumericMatrix matInGeomC(NumericMatrix &mat, NumericMatrix &geom, bool negative)
         out(y, x) = outside;
       }
     }
+  }
+
+  return(out);
+}
+
+// [[Rcpp::export]]
+bool vertInGeomC(NumericMatrix &vert, NumericMatrix &geom, bool invert){
+  int cRows = geom.nrow();
+  double isLeft;
+  bool out, inside, outside;
+  if(invert){
+    inside = FALSE;
+    outside = TRUE;
+  } else{
+    inside = TRUE;
+    outside = FALSE;
+  }
+
+  // get bounding box of geom
+  double xMin = min(geom(_, 0)), xMax = max(geom(_, 0));
+  double yMin = min(geom(_, 1)), yMax = max(geom(_, 1));
+
+  // warning if first and last coordinate are not the same
+  if(any(geom(0, _) != geom(cRows-1, _)).is_true()){
+    stop("first and last vertex must be the same.");
+  }
+  // Rcout << geom << std::endl;
+
+  double x = vert[0];
+  double y = vert[1];
+  // Rcout << x << " " << y << std::endl;
+
+  // if the coordinate is within the bounding box, proceed, otherwise value is definitely 0
+  if((x <= xMax) & (x >= xMin) & (y <= yMax) & (y >= yMin)){
+    int wn = 0;                            // the  winding number counter
+    // Rcout << "\ninside extent" << std::endl;
+
+    // loop through all edges of the polygon and find wn
+    for (int i = 0; i < cRows-1; i++){
+
+      // Rcout << "\n" << i+1 << ". ----\n" << y << std::endl;
+      // Rcout << geom(i, 1) << ", " << geom(i+1, 1) << std::endl;
+
+      if (y >= geom(i, 1)){
+        if (y < geom(i+1, 1)){             // an upward crossing
+          isLeft = (geom(i+1, 0) - geom(i, 0)) * (y - geom(i, 1)) - (x -  geom(i, 0)) * (geom(i+1, 1) - geom(i, 1));
+          // Rcout << "is left: " << isLeft << std::endl;
+          if(isLeft > 0){                  // P left of edge
+            ++wn;                          // have  a valid up intersect
+          }
+        }
+        // Rcout << "wn: " << wn << std::endl;
+
+      } else {
+        if (y >= geom(i+1, 1)){            // a downward crossing
+          isLeft = (geom(i+1, 0) - geom(i, 0)) * (y - geom(i, 1)) - (x -  geom(i, 0)) * (geom(i+1, 1) - geom(i, 1));
+          // Rcout << "is left: " << isLeft << std::endl;
+          if(isLeft < 0){                  // P right of edge
+            --wn;                          // have  a valid down intersect
+          }
+        }
+        // Rcout << "wn: " << wn << std::endl;
+
+      }
+
+    }
+
+    if(wn == 0){
+      out = outside;
+    } else{
+      out = inside;
+    }
+  } else{
+    out = outside;
   }
 
   return(out);
