@@ -75,6 +75,8 @@ gt_scale <- function(geom, range = NULL, to = "relative"){
     window <- as.data.frame(range)
     to <- "absolute"
   }
+
+  theHistory <- c(getHistory(x = geom), paste0("geometry values were scaled to '", to, "'"))
   out <- new(Class = "geom",
              type = geom@type,
              vert = out,
@@ -82,7 +84,7 @@ gt_scale <- function(geom, range = NULL, to = "relative"){
              window = window,
              scale = to,
              crs = geom@crs,
-             history = list(paste0("geometry values were scaled to '", to, "'")))
+             history = theHistory)
 
   return(out)
 }
