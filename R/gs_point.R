@@ -11,7 +11,7 @@
 #' @param template [\code{RasterLayer(1)} | \code{matrix(1)}]\cr Gridded object
 #'   that serves as template to sketch the geometry.
 #' @param vertices [\code{integer(1)}]\cr number of vertices.
-#' @param ... [various]\cr graphical parameters to \code{\link{locate}}, in case
+#' @param ... [various]\cr graphical parameters to \code{\link{gt_locate}}, in case
 #'   points are sketched; see \code{\link{gpar}}.
 #' @return An invisible \code{geom}.
 #' @family shapes
@@ -127,7 +127,7 @@ gs_point <- function(anchor = NULL, window = NULL, template = NULL,
   if(!anchorIsDF & !anchorIsGeom){
     message("please click the ", vertices, " vertices.")
     visualise(raster = template)
-    coords <- locate(samples = vertices, panel = tempName, silent = TRUE, ...)
+    coords <- gt_locate(samples = vertices, panel = tempName, silent = TRUE, ...)
     window <- tibble(x = c(0, dims[2]),
                      y = c(0, dims[1]))
     anchor <- tibble(fid = 1:vertices,

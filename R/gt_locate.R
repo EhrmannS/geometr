@@ -36,15 +36,15 @@
 #'
 #' # locate coordinates with geoms
 #' visualise(geom = aGeom)
-#' locate(samples = 2)
+#' gt_locate(samples = 2)
 #'
 #' # locate or identify values with rasters
 #' visualise(raster = gtRasters$continuous)
-#' locate(identify = TRUE, snap = TRUE)
+#' gt_locate(identify = TRUE, snap = TRUE)
 #'
 #' # with several panels, specify a target
 #' visualise(raster = raster::stack(gtRasters$continuous, gtRasters$categorical))
-#' locate(samples = 4, panel = "categorical", snap = TRUE, identify = TRUE, show = TRUE)
+#' gt_locate(samples = 4, panel = "categorical", snap = TRUE, identify = TRUE, show = TRUE)
 #' }
 #' @importFrom grDevices dev.list
 #' @importFrom tibble tibble
@@ -53,8 +53,8 @@
 #' @importFrom raster as.matrix
 #' @export
 
-locate <- function(samples = 1, panel = NULL, identify = FALSE, snap = FALSE,
-                   raw = FALSE, silent = FALSE, show = FALSE, ...){
+gt_locate <- function(samples = 1, panel = NULL, identify = FALSE, snap = FALSE,
+                      raw = FALSE, silent = FALSE, show = FALSE, ...){
 
   # check arguments
   assertIntegerish(samples, lower = 1, max.len = 1)
@@ -64,7 +64,7 @@ locate <- function(samples = 1, panel = NULL, identify = FALSE, snap = FALSE,
   assertLogical(silent, len = 1)
   assertLogical(show, len = 1)
 
-  # test whether a rasterTools plot is already open
+  # test whether a geometr plot is already open
   if(!is.null(dev.list())){
     objViewports <- grid.ls(viewports = TRUE, grobs = FALSE, print = FALSE)
     mainVP <- grid.grep("vpLomm", grobs = FALSE, viewports = TRUE, grep = TRUE)
@@ -168,8 +168,8 @@ locate <- function(samples = 1, panel = NULL, identify = FALSE, snap = FALSE,
     if(any(values < 0)) values <- c(NA, NA)
 
     # values need to be rescaled to the dimension of the marked window.
-    values[1] <- round(((panelExt$x[2] - panelExt$x[1])*(values[1] - 0) / (1 - 0)) + panelExt$x[1], 1)
-    values[2] <- round(((panelExt$y[2] - panelExt$y[1])*(values[2] - 0) / (1 - 0)) + panelExt$y[1], 1)
+    values[1] <- ((panelExt$x[2] - panelExt$x[1])*(values[1] - 0) / (1 - 0)) + panelExt$x[1]
+    values[2] <- ((panelExt$y[2] - panelExt$y[1])*(values[2] - 0) / (1 - 0)) + panelExt$y[1]
 
     # snap to the middle of the selected raster cells
     if(snap){

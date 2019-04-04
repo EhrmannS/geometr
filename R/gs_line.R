@@ -14,7 +14,7 @@
 #' @param vertices [\code{integerish(.)}]\cr number of vertices per geometry;
 #'   will be recycled if it does not have as many elements as specified in
 #'   \code{features}.
-#' @param ... [various]\cr graphical parameters to \code{\link{locate}}, in case
+#' @param ... [various]\cr graphical parameters to \code{\link{gt_locate}}, in case
 #'   points are sketched; see \code{\link{gpar}}.
 #' @return An invisible \code{geom}.
 #' @family shapes
@@ -137,7 +137,7 @@ gs_line <- function(anchor = NULL, window = NULL, template = NULL, features = 1,
 
       message(paste0("please click the ", vertices[i], " vertices."))
       visualise(raster = template)
-      theClicks <- locate(samples = vertices[i], panel = tempName, silent = TRUE, ...)
+      theClicks <- gt_locate(samples = vertices[i], panel = tempName, silent = TRUE, ...)
       window <- tibble(x = c(0, dims[2]),
                        y = c(0, dims[1]))
       tempAnchor <- tibble(fid = i,

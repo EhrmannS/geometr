@@ -20,7 +20,7 @@
 #' @param fixed [\code{logical(1)}]\cr should the polygon be aligned vertically
 #'   (\code{TRUE}, default), or sohuld it be aligned according to the second
 #'   click (\code{FALSE}); only relevant if \code{regular = TRUE}.
-#' @param ... [various]\cr graphical parameters to \code{\link{locate}}, in case
+#' @param ... [various]\cr graphical parameters to \code{\link{gt_locate}}, in case
 #'   a polygon is sketched; see \code{\link{gpar}}.
 #' @return An invisible \code{geom}.
 #' @details The arguments \code{anchor} and \code{template} indicate how the
@@ -165,7 +165,7 @@ gs_polygon <- function(anchor = NULL, window = NULL, template = NULL, features =
         clicks <- vertices[i]
       }
       visualise(raster = template)
-      theClicks <- locate(samples = clicks, panel = tempName, silent = TRUE, ...)
+      theClicks <- gt_locate(samples = clicks, panel = tempName, silent = TRUE, ...)
       window <- tibble(x = c(0, dims[2]),
                        y = c(0, dims[1]))
       tempAnchor <- tibble(fid = i,
