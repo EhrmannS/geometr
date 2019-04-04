@@ -18,16 +18,16 @@
 #'                      y = c(0, 80))
 #' aGeom <- gs_polygon(anchor = coords, window = window)
 #'
-#' aRaster <- gt_as_raster(geom = aGeom)
+#' aRaster <- gt_raster(geom = aGeom)
 #' #visualise(raster = aRaster, geom = aGeom, col = "deeppink")
 #'
-#' negRaster <- gt_as_raster(geom = aGeom, negative = TRUE)
+#' negRaster <- gt_raster(geom = aGeom, negative = TRUE)
 #' #visualise(raster = negRaster, geom = aGeom, col = "deeppink")
 #' @importFrom methods new
 #' @importFrom raster raster extent<-
 #' @export
 
-gt_as_raster <- function(geom, negative = FALSE, res = c(1, 1), crs = NULL){
+gt_raster <- function(geom, negative = FALSE, res = c(1, 1), crs = NULL){
 
   assertClass(geom, classes = "geom")
   assertLogical(negative)
