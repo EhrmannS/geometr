@@ -1,6 +1,6 @@
 library(checkmate)
 library(testthat)
-context("gt_as_grob")
+context("gt_grob")
 
 
 test_that("output is valid grob", {
@@ -10,14 +10,14 @@ test_that("output is valid grob", {
   window <- data.frame(x = c(0, 80),
                        y = c(0, 80))
   aPolyGeom <- gs_polygon(anchor = coords, window = window, col = "blue")
-  aPolyGrob <- gt_as_grob(geom = aPolyGeom)
+  aPolyGrob <- gt_grob(input = aPolyGeom)
 
   expect_list(aPolyGrob)
   expect_names(names(aPolyGrob), permutation.of = c("x", "y", "id", "id.lengths", "rule", "name", "gp", "vp"))
   expect_class(aPolyGrob, classes = c("pathgrob", "grob"))
 
   aPointGeom <- gs_point(anchor = coords, window = window, col = "blue")
-  aPointGrob <- gt_as_grob(geom = aPointGeom)
+  aPointGrob <- gt_grob(input = aPointGeom)
 
   expect_list(aPointGrob)
   expect_names(names(aPointGrob), permutation.of = c("x", "y", "pch", "size", "name", "gp", "vp"))
@@ -34,6 +34,6 @@ test_that("Error if arguments have wrong value", {
                        y = c(0, 80))
   aGeom <- gs_polygon(anchor = coords, extent = extent, col = "blue")
 
-  expect_error(gt_as_grob(geom = notAGeom))
-  expect_error(gt_as_grob(geom = aGeom, theme = "bla"))
+  expect_error(gt_grob(input = notAGeom))
+  expect_error(gt_grob(input = aGeom, theme = "bla"))
 })
