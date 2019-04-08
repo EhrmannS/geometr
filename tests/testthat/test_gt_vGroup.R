@@ -1,6 +1,6 @@
 library(checkmate)
 library(testthat)
-context("gt_vGroup")
+context("gt_group")
 
 
 test_that("output is valid geometry", {
@@ -11,13 +11,13 @@ test_that("output is valid geometry", {
                       y = c(0, 80))
   aGeom <- gs_point(anchor = input, window = extent)
 
-  groupedGeom <- gt_vGroup(geom = aGeom, distance = 40)
+  groupedGeom <- gt_group(geom = aGeom, distance = 40)
   expect_class(groupedGeom, classes = "geom")
 
-  groupedGeom <- gt_vGroup(geom = aGeom, index = c(1, 1, 1, 1, 2, 2, 2, 2))
+  groupedGeom <- gt_group(geom = aGeom, index = c(1, 1, 1, 1, 2, 2, 2, 2))
   expect_class(groupedGeom, classes = "geom")
 
-  groupedGeom <- gt_vGroup(geom = aGeom, clusters = 2)
+  groupedGeom <- gt_group(geom = aGeom, clusters = 2)
   expect_class(groupedGeom, classes = "geom")
 })
 
@@ -29,13 +29,13 @@ test_that("output has different values (fid) than input", {
                       y = c(0, 80))
   aGeom <- gs_point(anchor = input, window = extent)
 
-  groupedGeom <- gt_vGroup(geom = aGeom, distance = 40)
+  groupedGeom <- gt_group(geom = aGeom, distance = 40)
   expect_false(length(aGeom@attr$fid) == length(groupedGeom@attr$fid))
 
-  groupedGeom <- gt_vGroup(geom = aGeom, index = c(1, 1, 1, 1, 2, 2, 2, 2))
+  groupedGeom <- gt_group(geom = aGeom, index = c(1, 1, 1, 1, 2, 2, 2, 2))
   expect_false(length(aGeom@attr$fid) == length(groupedGeom@attr$fid))
 
-  groupedGeom <- gt_vGroup(geom = aGeom, clusters = 2)
+  groupedGeom <- gt_group(geom = aGeom, clusters = 2)
   expect_false(length(aGeom@attr$fid) == length(groupedGeom@attr$fid))
 })
 
@@ -47,10 +47,10 @@ test_that("Error if arguments have wrong value", {
                       y = c(0, 80))
   aGeom <- gs_polygon(anchor = input, extent = extent)
 
-  expect_error(gt_vGroup(geom = "bla"))
-  expect_error(gt_vGroup(geom = aGeom))
-  expect_error(gt_vGroup(geom = aGeom, distance = "bla"))
-  expect_error(gt_vGroup(geom = aGeom, index = "bla"))
-  expect_error(gt_vGroup(geom = aGeom, clusters = "bla"))
-  expect_error(gt_vGroup(geom = aGeom, clusters = 2.3))
+  expect_error(gt_group(geom = "bla"))
+  expect_error(gt_group(geom = aGeom))
+  expect_error(gt_group(geom = aGeom, distance = "bla"))
+  expect_error(gt_group(geom = aGeom, index = "bla"))
+  expect_error(gt_group(geom = aGeom, clusters = "bla"))
+  expect_error(gt_group(geom = aGeom, clusters = 2.3))
 })
