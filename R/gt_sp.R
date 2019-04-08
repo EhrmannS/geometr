@@ -5,7 +5,7 @@
 #' @param input [\code{geom} | \code{sp}]\cr Object to transform.
 #' @return Depending on \code{input} either a \code{geom} or a \code{sp}
 #'   reflecting the type of \code{input}.
-#' @family geometry tools
+#' @family spatial classes
 #' @examples
 #' (spPoints <- gt_sp(input = gtGeoms$point))
 #' (spLines <- gt_sp(input = gtGeoms$line))

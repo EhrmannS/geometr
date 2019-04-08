@@ -11,7 +11,7 @@
 #'
 #'   If \code{input} is a \code{sf}, a \code{geom} that reflects the simple
 #'   feature type.
-#' @family geometry tools
+#' @family spatial classes
 #' @examples
 #' (sfPoints <- gt_sf(input = gtGeoms$point))
 #' (sfLines <- gt_sf(input = gtGeoms$line))

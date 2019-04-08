@@ -10,6 +10,7 @@
 #'   object in proj4 notation.
 #' @return a binary \code{\link{raster}} with the dimensions of the reference
 #'   window of \code{geom} and the resolution \code{res}.
+#' @family spatial classes
 #' @examples
 #' coords <- data.frame(x = c(40, 70, 70, 50),
 #'                      y = c(40, 40, 60, 70),

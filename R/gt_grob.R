@@ -12,7 +12,7 @@
 #'   \code{\link{setTheme}} for details.
 #' @return Depending on the provided geometry either a \code{\link{pointsGrob}},
 #'   \code{\link{polylineGrob}} or a \code{\link{pathGrob}}.
-#' @family geometry tools
+#' @family spatial classes
 #' @importFrom checkmate assertNames assertSubset assertList
 #' @importFrom grid gpar unit pointsGrob gList pathGrob polylineGrob clipGrob
 #' @export
