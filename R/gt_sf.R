@@ -1,4 +1,4 @@
-#' Transform a \code{geom} to an sf object
+#' Transform a \code{geom} to and from an \code{sf} object
 #'
 #' An object of class \code{sf} is the sf-package representation of a
 #' \code{geom}.
@@ -11,6 +11,7 @@
 #'
 #'   If \code{input} is a \code{sf}, a \code{geom} that reflects the simple
 #'   feature type.
+#' @family geometry tools
 #' @examples
 #' (sfPoints <- gt_sf(input = gtGeoms$point))
 #' (sfLines <- gt_sf(input = gtGeoms$line))
