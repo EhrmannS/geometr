@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Visualise raster and geom objects — visualise • geometr</title>
+<title>Locate (and identify) clicks — gt_locate • geometr</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,9 +30,9 @@
 
 
 
-<meta property="og:title" content="Visualise raster and geom objects — visualise" />
+<meta property="og:title" content="Locate (and identify) clicks — gt_locate" />
 
-<meta property="og:description" content="Visualise raster and geom objects" />
+<meta property="og:description" content="Click into a plot to get the location or identify values" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -114,97 +114,98 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Visualise raster and geom objects</h1>
-    <small class="dont-index">Source: <a href='https://github.com/EhrmannS/geometr/blob/master/R/visualise.R'><code>R/visualise.R</code></a></small>
-    <div class="hidden name"><code>visualise.Rd</code></div>
+    <h1>Locate (and identify) clicks</h1>
+    <small class="dont-index">Source: <a href='https://github.com/EhrmannS/geometr/blob/master/R/gt_locate.R'><code>R/gt_locate.R</code></a></small>
+    <div class="hidden name"><code>gt_locate.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Visualise raster and geom objects</p>
+    <p>Click into a plot to get the location or identify values</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>visualise</span>(<span class='kw'>raster</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>geom</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>window</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>theme</span> <span class='kw'>=</span> <span class='no'>gtTheme</span>, <span class='kw'>trace</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>image</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>new</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>gt_locate</span>(<span class='kw'>samples</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>panel</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>identify</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>snap</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>raw</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>silent</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>show</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>raster</th>
-      <td><p>[<code>Raster*</code> | <code>matrix</code>]<br /> raster object to plot.</p></td>
+      <th>samples</th>
+      <td><p>[<code>integerish(1)</code>]<br /> the number of clicks.</p></td>
     </tr>
     <tr>
-      <th>geom</th>
-      <td><p>[<code>geom</code>]<br /> Object of class <code><a href='geom-class.html'>geom</a></code>.</p></td>
+      <th>panel</th>
+      <td><p>[<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code>]<br /> the panel in which to locate (i.e. the
+title shown over the plot). Does not have to be accurate, as it matches
+with <code><a href='https://www.rdocumentation.org/packages/base/topics/grep'>grep</a></code>.</p></td>
     </tr>
     <tr>
-      <th>window</th>
-      <td><p>[<code><a href='https://www.rdocumentation.org/packages/base/topics/data.frame'>data.frame(1)</a></code>]<br /> two oposing corners of a rectangle to
-which the plot is limited.</p></td>
+      <th>identify</th>
+      <td><p>[<code><a href='https://www.rdocumentation.org/packages/base/topics/logical'>logical(1)</a></code>]<br /> get the raster value at the sampled
+location (<code>TRUE</code>) or merely the location (<code>FALSE</code>, default).</p></td>
     </tr>
     <tr>
-      <th>theme</th>
-      <td><p>[<code><a href='https://www.rdocumentation.org/packages/base/topics/list'>list(7)</a></code>]<br /> visualising options; see
-<code><a href='setTheme.html'>setTheme</a></code> for details.</p></td>
+      <th>snap</th>
+      <td><p>[<code><a href='https://www.rdocumentation.org/packages/base/topics/logical'>logical(1)</a></code>]<br /> should the returned value(s) be set to the
+nearest grid cell's center (<code>TRUE</code>) or should they remain the
+selected, "real" value (<code>FALSE</code>, default)?</p></td>
     </tr>
     <tr>
-      <th>trace</th>
-      <td><p>[<code><a href='https://www.rdocumentation.org/packages/base/topics/logical'>logical(1)</a></code>]<br /> Print the raster object's history (i.e.
-the process according to which it has been created) (<code>TRUE</code>), or
-simply plot the object (<code>FALSE</code>, default).</p></td>
+      <th>raw</th>
+      <td><p>[<code><a href='https://www.rdocumentation.org/packages/base/topics/logical'>logical(1)</a></code>]<br /> should the complete statistics about the
+clicks be returned (<code>TRUE</code>), or should only the basic output be
+returned (<code>FALSE</code>, default)?</p></td>
     </tr>
     <tr>
-      <th>image</th>
-      <td><p>[<code><a href='https://www.rdocumentation.org/packages/base/topics/logical'>logical(1)</a></code>]<br /> set this to <code>TRUE</code> if <code>raster</code>
-is actually an image; see Details.</p></td>
+      <th>silent</th>
+      <td><p>[<code><a href='https://www.rdocumentation.org/packages/base/topics/logical'>logical(1)</a></code>]<br /> should all messages except errors be
+suppressed (<code>TRUE</code>), or should all messages be printed (<code>FALSE</code>,
+default)?</p></td>
     </tr>
     <tr>
-      <th>new</th>
-      <td><p>[<code><a href='https://www.rdocumentation.org/packages/base/topics/logical'>logical(1)</a></code>]<br /> force a new plot (<code>TRUE</code>, default).</p></td>
+      <th>show</th>
+      <td><p>[<code><a href='https://www.rdocumentation.org/packages/base/topics/logical'>logical(1)</a></code>]<br /> should information about the selected
+cells be included in the plot (<code>TRUE</code>), or should they merely be
+returned in the console (<code>FALSE, default</code>)?</p></td>
     </tr>
     <tr>
       <th>...</th>
-      <td><p>[various]<br /> graphical parameters to plot a <code>geom</code>.</p></td>
+      <td><p>[<code>various</code>]<br /> graphical parameters of the objects that are
+created when <code>show = TRUE</code>.</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>Returns invisibly an object of class <code>recordedplot</code>, see
-  <code><a href='https://www.rdocumentation.org/packages/grDevices/topics/recordplot'>recordPlot</a></code> for details (and warnings).</p>
-    
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
-
-    <p>In case you want to plot an image (simiar to
-  <code><a href='https://www.rdocumentation.org/packages/raster/topics/plotRGB'>plotRGB</a></code>), you either have to:</p><ol>
-<li><p>provide a <code>RasterStack</code> with the three layers <code>red</code>, <code>green</code>
-  and <code>blue</code> or</p></li>
-<li><p>provide a matrix with hexadecimal colour values
-  (e.g. '#000000')</p></li>
-</ol><p>and set <code>image = TRUE</code>.</p>
+    <p>a <code>data.frame</code> of the selected locations and, if <code>identify
+  = TRUE</code>, the respective values. If <code>show = TRUE</code> the values are also
+  shown in the plot.</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># define a geometry</span>
+    <pre class="examples"><span class='co'># NOT RUN {</span>
+<span class='co'># define a geometry</span>
 <span class='no'>coords</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/data.frame'>data.frame</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>30</span>, <span class='fl'>60</span>, <span class='fl'>60</span>, <span class='fl'>40</span>),
                      <span class='kw'>y</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>40</span>, <span class='fl'>40</span>, <span class='fl'>60</span>, <span class='fl'>70</span>),
                      <span class='kw'>fid</span> <span class='kw'>=</span> <span class='fl'>1</span>)
 <span class='no'>window</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/data.frame'>data.frame</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>0</span>, <span class='fl'>80</span>),
                      <span class='kw'>y</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>0</span>, <span class='fl'>80</span>))
-(<span class='no'>aGeom</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='gs_polygon.html'>gs_polygon</a></span>(<span class='kw'>anchor</span> <span class='kw'>=</span> <span class='no'>coords</span>, <span class='kw'>window</span> <span class='kw'>=</span> <span class='no'>window</span>, <span class='kw'>col</span> <span class='kw'>=</span> <span class='st'>"blue"</span>))</div><div class='output co'>#&gt; class      : geom
-#&gt; type       : polygon
-#&gt; features   : 1  (4 vertices)
-#&gt; window     : 0, 80, 0, 80  (xmin, xmax, ymin, ymax)
-#&gt; extent     : 30, 60, 40, 70  (xmin, xmax, ymin, ymax)
-#&gt; scale      : absolute
-#&gt; crs        : NA
-#&gt; attributes : 2  (fid, gid)</div><div class='input'>
-<span class='co'># if plotted on top of an existing plot, the relative coordinate values</span>
-<span class='co'># will be used to construct the grob.</span>
-<span class='fu'>visualise</span>(<span class='kw'>raster</span> <span class='kw'>=</span> <span class='no'>gtRasters</span>$<span class='no'>continuous</span>, <span class='kw'>geom</span> <span class='kw'>=</span> <span class='no'>aGeom</span>)</div><div class='img'><img src='visualise-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'>visualise</span>(<span class='kw'>geom</span> <span class='kw'>=</span> <span class='no'>aGeom</span>)</div><div class='img'><img src='visualise-2.png' alt='' width='700' height='433' /></div><div class='input'>
-</div></pre>
+(<span class='no'>aGeom</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='gs_polygon.html'>gs_polygon</a></span>(<span class='kw'>anchor</span> <span class='kw'>=</span> <span class='no'>coords</span>, <span class='kw'>window</span> <span class='kw'>=</span> <span class='no'>window</span>, <span class='kw'>col</span> <span class='kw'>=</span> <span class='st'>"blue"</span>))
+
+<span class='co'># locate coordinates with geoms</span>
+<span class='fu'><a href='visualise.html'>visualise</a></span>(<span class='kw'>geom</span> <span class='kw'>=</span> <span class='no'>aGeom</span>)
+<span class='fu'>gt_locate</span>(<span class='kw'>samples</span> <span class='kw'>=</span> <span class='fl'>2</span>)
+
+<span class='co'># locate or identify values with rasters</span>
+<span class='fu'><a href='visualise.html'>visualise</a></span>(<span class='kw'>raster</span> <span class='kw'>=</span> <span class='no'>gtRasters</span>$<span class='no'>continuous</span>)
+<span class='fu'>gt_locate</span>(<span class='kw'>identify</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>snap</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+
+<span class='co'># with several panels, specify a target</span>
+<span class='fu'><a href='visualise.html'>visualise</a></span>(<span class='kw'>raster</span> <span class='kw'>=</span> <span class='kw pkg'>raster</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/raster/topics/stack'>stack</a></span>(<span class='no'>gtRasters</span>$<span class='no'>continuous</span>, <span class='no'>gtRasters</span>$<span class='no'>categorical</span>))
+<span class='fu'>gt_locate</span>(<span class='kw'>samples</span> <span class='kw'>=</span> <span class='fl'>4</span>, <span class='kw'>panel</span> <span class='kw'>=</span> <span class='st'>"categorical"</span>, <span class='kw'>snap</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>identify</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>show</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+<span class='co'># }</span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -212,8 +213,6 @@ is actually an image; see Details.</p></td>
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
-
-      <li><a href="#details">Details</a></li>
       
       <li><a href="#examples">Examples</a></li>
     </ul>

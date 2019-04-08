@@ -18,8 +18,13 @@ reference:
       - '`gs_random`'
       - '`gs_tiles`'
       - '`gs_voronoi`'
-      - starts_with("geom")
-      - -starts_with("geometr")
+  - title: other classes
+    desc: functions that transform geometries
+    contents:
+      - '`gt_sf`'
+      - '`gt_sp`'
+      - '`gt_grob`'
+      - '`gt_raster`'
   - title: getters and setters
     desc: methods that standardise dealing with spatial objects
     contents:
@@ -33,29 +38,27 @@ reference:
       - '`getVertices`'
       - '`getWindow`'
       - '`setWindow`'
-  - title: utilities
+  - title: utility functions
     desc: functions that modify geometries
     contents:
-      - '`gt_as_geom`'
-      - '`gt_as_grob`'
-      - '`gt_as_raster`'
-      - '`gt_as_sp`'
-      - '`gt_as_sf`'
+      - '`gt_edit`'
+      - '`gt_locate`'
       - '`gt_group`'
       - '`gt_rotate`'
+      - '`gt_skew`'
+      - '`gt_stretch`'
       - '`gt_scale`'
   - title: visualise
     desc: plot spatial objects and locate coordinates
     contents:
       - '`visualise`'
       - '`setTheme`'
-      - '`locate`'
   - title: example data
     desc: data that are used throughout the documentation
     contents:
       - '`gtGeoms`'
-      - '`gtSP`'
       - '`gtSF`'
+      - '`gtSP`'
       - '`gtRasters`'
 navbar:
   left:

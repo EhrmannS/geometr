@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Example <code>RasterStack</code> — gtRasters • geometr</title>
+<title>Transform a <code>geom</code> to and from a <code>grob</code> object — gt_grob • geometr</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,9 +30,10 @@
 
 
 
-<meta property="og:title" content="Example <code>RasterStack</code> — gtRasters" />
+<meta property="og:title" content="Transform a <code>geom</code> to and from a <code>grob</code> object — gt_grob" />
 
-<meta property="og:description" content="A set of two conceptually different types of raster." />
+<meta property="og:description" content="An object of class grob is the grid-package representation of a
+geom and is used for plotting." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -114,33 +115,65 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Example <code>RasterStack</code></h1>
-    <small class="dont-index">Source: <a href='https://github.com/EhrmannS/geometr/blob/master/R/data.R'><code>R/data.R</code></a></small>
-    <div class="hidden name"><code>gtRasters.Rd</code></div>
+    <h1>Transform a <code>geom</code> to and from a <code>grob</code> object</h1>
+    <small class="dont-index">Source: <a href='https://github.com/EhrmannS/geometr/blob/master/R/gt_grob.R'><code>R/gt_grob.R</code></a></small>
+    <div class="hidden name"><code>gt_grob.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>A set of two conceptually different types of raster.</p>
+    <p>An object of class <code>grob</code> is the grid-package representation of a
+<code>geom</code> and is used for plotting.</p>
     
     </div>
 
-    <pre class="usage"><span class='no'>gtRasters</span></pre>
-        
-    <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
+    <pre class="usage"><span class='fu'>gt_grob</span>(<span class='kw'>input</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>window</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>theme</span> <span class='kw'>=</span> <span class='no'>gtTheme</span>, <span class='no'>...</span>)</pre>
+    
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>input</th>
+      <td><p>[<code>geom</code>]<br /> Object to transform.</p></td>
+    </tr>
+    <tr>
+      <th>window</th>
+      <td><p>[<code><a href='https://www.rdocumentation.org/packages/base/topics/data.frame'>data.frame(1)</a></code>]<br /> in case the reference window deviates
+from the bounding box of <code>input</code> (minimum and maximum values),
+specify this here.</p></td>
+    </tr>
+    <tr>
+      <th>theme</th>
+      <td><p>[<code><a href='https://www.rdocumentation.org/packages/base/topics/list'>list(7)</a></code>]<br /> visualising options; see</p></td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td><p>instead of providing a <code>gtTheme</code>, you can also determine
+specific graphic parameters (see <code>gpar</code>) separately; see
+<code><a href='setTheme.html'>setTheme</a></code> for details.</p></td>
+    </tr>
+    </table>
+    
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>The object of class RasterStack has no projection and is a
-  RasterStack object of 56 by 60 cells. The first raster represents
-  land-use classes and the second raster contains a continuous scale of
-  vegetation cover.</p>
+    <p>Depending on the provided geometry either a <code>pointsGrob</code>,
+  <code>polylineGrob</code> or a <code>pathGrob</code>.</p>
+    
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <div class='dont-index'><p>Other spatial classes: <code><a href='gt_raster.html'>gt_raster</a></code>,
+  <code><a href='gt_sf.html'>gt_sf</a></code>, <code><a href='gt_sp.html'>gt_sp</a></code></p></div>
     
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
+      <li><a href="#arguments">Arguments</a></li>
       
-      <li><a href="#format">Format</a></li>
+      <li><a href="#value">Value</a></li>
+
+      <li><a href="#see-also">See also</a></li>
           </ul>
 
   </div>

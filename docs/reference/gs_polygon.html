@@ -148,10 +148,9 @@ specifying its parameters or by sketching it.</p>
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>anchor</th>
-      <td><p>[<code>geom</code> | <code><a href='https://www.rdocumentation.org/packages/base/topics/data.frame'>data.frame(1)</a></code>]<br /> Object to derive the
-<code>geom</code> from. In case of <code>data.frame</code>, it must include column
-names <code>x</code>, <code>y</code> and optinal variables such as <code>id</code>; see
-Examples.</p></td>
+      <td><p>[<code><a href='https://www.rdocumentation.org/packages/base/topics/data.frame'>data.frame(1)</a></code>]<br /> Object to derive the <code>geom</code>
+from. It must include column names <code>x</code>, <code>y</code> and optinal variables
+such as <code>fid</code>; see Examples.</p></td>
     </tr>
     <tr>
       <th>window</th>
@@ -188,7 +187,7 @@ click (<code>FALSE</code>); only relevant if <code>regular = TRUE</code>.</p></t
     </tr>
     <tr>
       <th>...</th>
-      <td><p>[various]<br /> graphical parameters to <code><a href='locate.html'>locate</a></code>, in case
+      <td><p>[various]<br /> graphical parameters to <code><a href='gt_locate.html'>gt_locate</a></code>, in case
 a polygon is sketched; see <code>gpar</code>.</p></td>
     </tr>
     </table>
@@ -230,8 +229,8 @@ the two given opposing corners.</p></li>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p>Other shapes: <code><a href='gs_line.html'>gs_line</a></code>,
-  <code><a href='gs_point.html'>gs_point</a></code>, <code><a href='gs_random.html'>gs_random</a></code></p></div>
+    <div class='dont-index'><p>Other geometry shapes: <code><a href='gs_line.html'>gs_line</a></code>,
+  <code><a href='gs_point.html'>gs_point</a></code></p></div>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
@@ -259,11 +258,8 @@ the two given opposing corners.</p></li>
 <span class='co'># when a geom is used in 'anchor', its properties (e.g. 'window') are passed on</span>
 <span class='no'>aGeom</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='setWindow.html'>setWindow</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>aGeom</span>, <span class='kw'>to</span> <span class='kw'>=</span> <span class='no'>window</span>)
 <span class='fu'>gs_polygon</span>(<span class='kw'>anchor</span> <span class='kw'>=</span> <span class='no'>aGeom</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='visualise.html'>visualise</a></span>(<span class='kw'>geom</span> <span class='kw'>=</span> <span class='no'>.</span>, <span class='kw'>fillcol</span> <span class='kw'>=</span> <span class='st'>"deeppink"</span>)</div><div class='img'><img src='gs_polygon-2.png' alt='' width='700' height='433' /></div><div class='input'>
-<span class='co'># geoms with more than one element are treated element-wise</span>
-<span class='no'>aGeom</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='gt_group.html'>gt_group</a></span>(<span class='kw'>geom</span> <span class='kw'>=</span> <span class='no'>aGeom</span>, <span class='kw'>index</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>1</span>, <span class='fl'>2</span>, <span class='fl'>1</span>, <span class='fl'>2</span>))
-<span class='fu'><a href='visualise.html'>visualise</a></span>(<span class='kw'>geom</span> <span class='kw'>=</span> <span class='no'>aGeom</span>)</div><div class='img'><img src='gs_polygon-3.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'>gs_rectangle</span>(<span class='kw'>anchor</span> <span class='kw'>=</span> <span class='no'>aGeom</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='visualise.html'>visualise</a></span>(<span class='kw'>geom</span> <span class='kw'>=</span> <span class='no'>.</span>)</div><div class='img'><img src='gs_polygon-4.png' alt='' width='700' height='433' /></div><div class='input'>
+  <span class='fu'><a href='visualise.html'>visualise</a></span>(<span class='kw'>geom</span> <span class='kw'>=</span> <span class='no'>.</span>, <span class='kw'>fillcol</span> <span class='kw'>=</span> <span class='st'>"deeppink"</span>)</div><div class='input'><span class='fu'>gs_rectangle</span>(<span class='kw'>anchor</span> <span class='kw'>=</span> <span class='no'>aGeom</span>) <span class='kw'>%&gt;%</span>
+  <span class='fu'><a href='visualise.html'>visualise</a></span>(<span class='kw'>geom</span> <span class='kw'>=</span> <span class='no'>.</span>, <span class='kw'>new</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</div><div class='img'><img src='gs_polygon-2.png' alt='' width='700' height='433' /></div><div class='input'>
 </div><span class='co'># NOT RUN {</span>
 <span class='no'>input</span> <span class='kw'>&lt;-</span> <span class='no'>gtRasters</span>$<span class='no'>continuous</span>
 

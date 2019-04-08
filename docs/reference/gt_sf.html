@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Create a geometry randomly — gs_random • geometr</title>
+<title>Transform a <code>geom</code> to and from an <code>sf</code> object — gt_sf • geometr</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,9 +30,10 @@
 
 
 
-<meta property="og:title" content="Create a geometry randomly — gs_random" />
+<meta property="og:title" content="Transform a <code>geom</code> to and from an <code>sf</code> object — gt_sf" />
 
-<meta property="og:description" content="This function creates a random geometry" />
+<meta property="og:description" content="An object of class sf is the sf-package representation of a
+geom." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -114,61 +115,74 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Create a geometry randomly</h1>
-    <small class="dont-index">Source: <a href='https://github.com/EhrmannS/geometr/blob/master/R/gs_random.R'><code>R/gs_random.R</code></a></small>
-    <div class="hidden name"><code>gs_random.Rd</code></div>
+    <h1>Transform a <code>geom</code> to and from an <code>sf</code> object</h1>
+    <small class="dont-index">Source: <a href='https://github.com/EhrmannS/geometr/blob/master/R/gt_sf.R'><code>R/gt_sf.R</code></a></small>
+    <div class="hidden name"><code>gt_sf.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>This function creates a random geometry</p>
+    <p>An object of class <code>sf</code> is the sf-package representation of a
+<code>geom</code>.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>gs_random</span>(<span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"point"</span>, <span class='kw'>template</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>vertices</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+    <pre class="usage"><span class='fu'>gt_sf</span>(<span class='kw'>input</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>type</th>
-      <td><p>[<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code>]<br /> Either one of the three main feature
-types <code>"point"</code>, <code>"line"</code> or <code>"polygon"</code>, or more
-specifically one of their subtypes, e.g. <code>"hexagon"</code>.</p></td>
-    </tr>
-    <tr>
-      <th>template</th>
-      <td><p>[<code>RasterLayer(1)</code> | <code><a href='https://www.rdocumentation.org/packages/base/topics/matrix'>matrix(1)</a></code>]<br /> Gridded object
-that serves as template to sketch the geometry.</p></td>
-    </tr>
-    <tr>
-      <th>vertices</th>
-      <td><p>[<code>integerish(1)</code>]<br /> the number of vertices the geometry
-should have; only meaningful if <code>type</code> does not indicate the number of
-vertices already. If left at <code>NULL</code> the minimum number of vertices for
-the <code>geom</code> type, i.e. 1 for <code>point</code>, 2 for <code>line</code> and 3 for
-<code>polygon</code>.</p></td>
+      <th>input</th>
+      <td><p>[<code>geom</code> | <code>sf</code>]<br /> Object to transform.</p></td>
     </tr>
     </table>
     
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>If <code>input</code> is a <code>geom</code> and has attributes other than
+  <code>fid</code> and <code>gid</code>, a "Simple feature collection", otherwise a
+  "Geometry set". Several features of the <code>geom</code> are returned as MULTI*
+  feature, when they have <code>gid</code> and optionally other attributes in
+  common, otherwise they are returned as a single simple feature.</p>
+<p>If <code>input</code> is a <code>sf</code>, a <code>geom</code> that reflects the simple
+  feature type.</p>
+    
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <div class='dont-index'><p>Other spatial classes: <code><a href='gt_grob.html'>gt_grob</a></code>,
+  <code><a href='gt_raster.html'>gt_raster</a></code>, <code><a href='gt_sp.html'>gt_sp</a></code></p></div>
+    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>library</a></span>(<span class='no'>magrittr</span>)
-<span class='no'>input</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/matrix'>matrix</a></span>(<span class='kw'>nrow</span> <span class='kw'>=</span> <span class='fl'>100</span>, <span class='kw'>ncol</span> <span class='kw'>=</span> <span class='fl'>100</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='fl'>0</span>)
-
-<span class='co'># create a random geometry with five vertices</span>
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/Random'>set.seed</a></span>(<span class='fl'>1</span>)
-<span class='no'>someGeom</span> <span class='kw'>&lt;-</span> <span class='fu'>gs_random</span>(<span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"polygon"</span>, <span class='kw'>vertices</span> <span class='kw'>=</span> <span class='fl'>5</span>)
-<span class='fu'><a href='visualise.html'>visualise</a></span>(<span class='kw'>geom</span> <span class='kw'>=</span> <span class='no'>someGeom</span>)</div><div class='input'>
-<span class='co'># in case template is given, this serves as source for the window extent</span>
-<span class='no'>someGeom</span> <span class='kw'>&lt;-</span> <span class='fu'>gs_random</span>(<span class='kw'>template</span> <span class='kw'>=</span> <span class='no'>input</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='visualise.html'>visualise</a></span>(<span class='kw'>geom</span> <span class='kw'>=</span> <span class='no'>.</span>, <span class='kw'>new</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>linecol</span> <span class='kw'>=</span> <span class='st'>"red"</span>)</div><div class='img'><img src='gs_random-1.png' alt='' width='700' height='433' /></div></pre>
+    <pre class="examples"><div class='input'>(<span class='no'>sfPoints</span> <span class='kw'>&lt;-</span> <span class='fu'>gt_sf</span>(<span class='kw'>input</span> <span class='kw'>=</span> <span class='no'>gtGeoms</span>$<span class='no'>point</span>))</div><div class='output co'>#&gt; Geometry set for 3 features 
+#&gt; geometry type:  MULTIPOINT
+#&gt; dimension:      XY
+#&gt; bbox:           xmin: 0 ymin: 0 xmax: 12 ymax: 12
+#&gt; epsg (SRID):    NA
+#&gt; proj4string:    NA</div><div class='output co'>#&gt; <span class='message'>MULTIPOINT (0 0, 0 10, 10 10, 10 0)</span></div><div class='output co'>#&gt; <span class='message'>MULTIPOINT (1 1, 1 2, 2 2, 2 1)</span></div><div class='output co'>#&gt; <span class='message'>MULTIPOINT (11 11, 11 12, 12 12, 12 11)</span></div><div class='input'>(<span class='no'>sfLines</span> <span class='kw'>&lt;-</span> <span class='fu'>gt_sf</span>(<span class='kw'>input</span> <span class='kw'>=</span> <span class='no'>gtGeoms</span>$<span class='no'>line</span>))</div><div class='output co'>#&gt; Geometry set for 2 features 
+#&gt; geometry type:  GEOMETRY
+#&gt; dimension:      XY
+#&gt; bbox:           xmin: 0 ymin: 0 xmax: 12 ymax: 12
+#&gt; epsg (SRID):    NA
+#&gt; proj4string:    NA</div><div class='output co'>#&gt; <span class='message'>MULTILINESTRING ((0 0, 0 10, 10 10, 10 0), (1 1...</span></div><div class='output co'>#&gt; <span class='message'>LINESTRING (11 11, 11 12, 12 12, 12 11)</span></div><div class='input'>(<span class='no'>sfPolygon</span> <span class='kw'>&lt;-</span> <span class='fu'>gt_sf</span>(<span class='kw'>input</span> <span class='kw'>=</span> <span class='no'>gtGeoms</span>$<span class='no'>polygon</span>))</div><div class='output co'>#&gt; Geometry set for 2 features 
+#&gt; geometry type:  POLYGON
+#&gt; dimension:      XY
+#&gt; bbox:           xmin: 0 ymin: 0 xmax: 12 ymax: 12
+#&gt; epsg (SRID):    NA
+#&gt; proj4string:    NA</div><div class='output co'>#&gt; <span class='message'>POLYGON ((0 0, 10 0, 10 10, 0 10, 0 0), (1 1, 1...</span></div><div class='output co'>#&gt; <span class='message'>POLYGON ((11 11, 11 12, 12 12, 12 11, 11 11))</span></div><div class='input'>
+<span class='no'>sfPoly</span> <span class='kw'>&lt;-</span> <span class='no'>gtSF</span>$<span class='no'>polygon</span>
+<span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/plot'>plot</a></span>(<span class='no'>sfPoly</span>)</div><div class='input'><span class='fu'><a href='visualise.html'>visualise</a></span>(<span class='kw'>geom</span> <span class='kw'>=</span> <span class='fu'>gt_sf</span>(<span class='kw'>input</span> <span class='kw'>=</span> <span class='no'>sfPoly</span>))</div><div class='img'><img src='gt_sf-1.png' alt='' width='700' height='433' /></div><div class='img'><img src='gt_sf-2.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-            
+      
+      <li><a href="#value">Value</a></li>
+
+      <li><a href="#see-also">See also</a></li>
+      
       <li><a href="#examples">Examples</a></li>
     </ul>
 

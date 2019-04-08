@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Example <code>RasterStack</code> — gtRasters • geometr</title>
+<title>Create a voronoi tiling — gs_voronoi • geometr</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,9 +30,9 @@
 
 
 
-<meta property="og:title" content="Example <code>RasterStack</code> — gtRasters" />
+<meta property="og:title" content="Create a voronoi tiling — gs_voronoi" />
 
-<meta property="og:description" content="A set of two conceptually different types of raster." />
+<meta property="og:description" content="Create a voronoi tiling" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -114,33 +114,69 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Example <code>RasterStack</code></h1>
-    <small class="dont-index">Source: <a href='https://github.com/EhrmannS/geometr/blob/master/R/data.R'><code>R/data.R</code></a></small>
-    <div class="hidden name"><code>gtRasters.Rd</code></div>
+    <h1>Create a voronoi tiling</h1>
+    <small class="dont-index">Source: <a href='https://github.com/EhrmannS/geometr/blob/master/R/gs_voronoi.R'><code>R/gs_voronoi.R</code></a></small>
+    <div class="hidden name"><code>gs_voronoi.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>A set of two conceptually different types of raster.</p>
+    <p>Create a voronoi tiling</p>
     
     </div>
 
-    <pre class="usage"><span class='no'>gtRasters</span></pre>
-        
-    <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
+    <pre class="usage"><span class='fu'>gs_voronoi</span>(<span class='kw'>anchor</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>window</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>template</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>features</span> <span class='kw'>=</span> <span class='fl'>3</span>, <span class='no'>...</span>)</pre>
+    
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>anchor</th>
+      <td><p>[<code>geom</code> | <code><a href='https://www.rdocumentation.org/packages/base/topics/data.frame'>data.frame(1)</a></code>]<br /> Object to derive the
+<code>geom</code> from. In case of <code>data.frame</code>, it must include column
+names <code>x</code>, <code>y</code>, <code>fid</code> and optinal attributes; see Examples.</p></td>
+    </tr>
+    <tr>
+      <th>window</th>
+      <td><p>[<code><a href='https://www.rdocumentation.org/packages/base/topics/data.frame'>data.frame(1)</a></code>]<br /> in case the reference window deviates
+from the bounding box of <code>anchor</code> (minimum and maximum values),
+specify this here.</p></td>
+    </tr>
+    <tr>
+      <th>template</th>
+      <td><p>[<code>RasterLayer(1)</code> | <code><a href='https://www.rdocumentation.org/packages/base/topics/matrix'>matrix(1)</a></code>]<br /> Gridded object
+that serves as template to sketch the tiling.</p></td>
+    </tr>
+    <tr>
+      <th>features</th>
+      <td><p>[<code>integerish(1)</code>]<br /> number of tiles to create.</p></td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td><p>[various]<br /> graphical parameters to <code><a href='gt_locate.html'>gt_locate</a></code>, in case
+the tiling is sketched; see <code>gpar</code>.</p></td>
+    </tr>
+    </table>
+    
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>The object of class RasterStack has no projection and is a
-  RasterStack object of 56 by 60 cells. The first raster represents
-  land-use classes and the second raster contains a continuous scale of
-  vegetation cover.</p>
+    <p>An invisible <code>geom</code>.</p>
+    
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <div class='dont-index'><p>Other tilings: <code><a href='gs_tiles.html'>gs_tiles</a></code></p></div>
     
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
+      <li><a href="#arguments">Arguments</a></li>
       
-      <li><a href="#format">Format</a></li>
+      <li><a href="#value">Value</a></li>
+
+      <li><a href="#see-also">See also</a></li>
           </ul>
 
   </div>

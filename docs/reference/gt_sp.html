@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Example <code>RasterStack</code> — gtRasters • geometr</title>
+<title>Transform a <code>geom</code> to and from a <code>Spatial*</code> object — gt_sp • geometr</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,9 +30,10 @@
 
 
 
-<meta property="og:title" content="Example <code>RasterStack</code> — gtRasters" />
+<meta property="og:title" content="Transform a <code>geom</code> to and from a <code>Spatial*</code> object — gt_sp" />
 
-<meta property="og:description" content="A set of two conceptually different types of raster." />
+<meta property="og:description" content="An object of class Spatial* is the sp-package representation of a
+geom." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -114,34 +115,65 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Example <code>RasterStack</code></h1>
-    <small class="dont-index">Source: <a href='https://github.com/EhrmannS/geometr/blob/master/R/data.R'><code>R/data.R</code></a></small>
-    <div class="hidden name"><code>gtRasters.Rd</code></div>
+    <h1>Transform a <code>geom</code> to and from a <code>Spatial*</code> object</h1>
+    <small class="dont-index">Source: <a href='https://github.com/EhrmannS/geometr/blob/master/R/gt_sp.R'><code>R/gt_sp.R</code></a></small>
+    <div class="hidden name"><code>gt_sp.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>A set of two conceptually different types of raster.</p>
+    <p>An object of class <code>Spatial*</code> is the sp-package representation of a
+<code>geom</code>.</p>
     
     </div>
 
-    <pre class="usage"><span class='no'>gtRasters</span></pre>
-        
-    <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
+    <pre class="usage"><span class='fu'>gt_sp</span>(<span class='kw'>input</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+    
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>input</th>
+      <td><p>[<code>geom</code> | <code>sp</code>]<br /> Object to transform.</p></td>
+    </tr>
+    </table>
+    
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>The object of class RasterStack has no projection and is a
-  RasterStack object of 56 by 60 cells. The first raster represents
-  land-use classes and the second raster contains a continuous scale of
-  vegetation cover.</p>
+    <p>Depending on <code>input</code> either a <code>geom</code> or a <code>sp</code>
+  reflecting the type of <code>input</code>.</p>
+    
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <div class='dont-index'><p>Other spatial classes: <code><a href='gt_grob.html'>gt_grob</a></code>,
+  <code><a href='gt_raster.html'>gt_raster</a></code>, <code><a href='gt_sf.html'>gt_sf</a></code></p></div>
     
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'>(<span class='no'>spPoints</span> <span class='kw'>&lt;-</span> <span class='fu'>gt_sp</span>(<span class='kw'>input</span> <span class='kw'>=</span> <span class='no'>gtGeoms</span>$<span class='no'>point</span>))</div><div class='output co'>#&gt; class       : SpatialPoints 
+#&gt; features    : 12 
+#&gt; extent      : 0, 12, 0, 12  (xmin, xmax, ymin, ymax)
+#&gt; coord. ref. : NA </div><div class='input'>(<span class='no'>spLines</span> <span class='kw'>&lt;-</span> <span class='fu'>gt_sp</span>(<span class='kw'>input</span> <span class='kw'>=</span> <span class='no'>gtGeoms</span>$<span class='no'>line</span>))</div><div class='output co'>#&gt; class       : SpatialLines 
+#&gt; features    : 3 
+#&gt; extent      : 0, 12, 0, 12  (xmin, xmax, ymin, ymax)
+#&gt; coord. ref. : NA </div><div class='input'>(<span class='no'>spPolygon</span> <span class='kw'>&lt;-</span> <span class='fu'>gt_sp</span>(<span class='kw'>input</span> <span class='kw'>=</span> <span class='no'>gtGeoms</span>$<span class='no'>polygon</span>))</div><div class='output co'>#&gt; class       : SpatialPolygons 
+#&gt; features    : 2 
+#&gt; extent      : 0, 12, 0, 12  (xmin, xmax, ymin, ymax)
+#&gt; coord. ref. : NA </div><div class='input'>
+<span class='no'>spPoly</span> <span class='kw'>&lt;-</span> <span class='no'>gtSP</span>$<span class='no'>SpatialPolygons</span>
+<span class='kw pkg'>sp</span><span class='kw ns'>::</span><span class='fu'>plot</span>(<span class='no'>spPoly</span>)</div><div class='input'><span class='fu'><a href='visualise.html'>visualise</a></span>(<span class='kw'>geom</span> <span class='kw'>=</span> <span class='fu'>gt_sp</span>(<span class='kw'>input</span> <span class='kw'>=</span> <span class='no'>spPoly</span>))</div><div class='img'><img src='gt_sp-1.png' alt='' width='700' height='433' /></div><div class='img'><img src='gt_sp-2.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
+      <li><a href="#arguments">Arguments</a></li>
       
-      <li><a href="#format">Format</a></li>
-          </ul>
+      <li><a href="#value">Value</a></li>
+
+      <li><a href="#see-also">See also</a></li>
+      
+      <li><a href="#examples">Examples</a></li>
+    </ul>
 
   </div>
 </div>

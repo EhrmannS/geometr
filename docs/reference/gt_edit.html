@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Group the vertices of geometries — gt_group • geometr</title>
+<title>Edit the vertices of geometries — gt_edit • geometr</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,9 +30,9 @@
 
 
 
-<meta property="og:title" content="Group the vertices of geometries — gt_group" />
+<meta property="og:title" content="Edit the vertices of geometries — gt_edit" />
 
-<meta property="og:description" content="gt_group assigns the vertices of a geom into new groups." />
+<meta property="og:description" content="gt_edit allows to edit the vertices of any geom." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -114,76 +114,64 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Group the vertices of geometries</h1>
-    <small class="dont-index">Source: <a href='https://github.com/EhrmannS/geometr/blob/master/R/gt_group.R'><code>R/gt_group.R</code></a></small>
-    <div class="hidden name"><code>gt_group.Rd</code></div>
+    <h1>Edit the vertices of geometries</h1>
+    <small class="dont-index">Source: <a href='https://github.com/EhrmannS/geometr/blob/master/R/gt_edit.R'><code>R/gt_edit.R</code></a></small>
+    <div class="hidden name"><code>gt_edit.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p><code>gt_group</code> assigns the vertices of a <code>geom</code> into new groups.</p>
+    <p><code>gt_edit</code> allows to edit the vertices of any <code>geom</code>.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>gt_group</span>(<span class='no'>geom</span>, <span class='kw'>index</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>distance</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>clusters</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>gt_edit</span>(<span class='kw'>panel</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>tolerance</span> <span class='kw'>=</span> <span class='fl'>0.01</span>, <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>centroid</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>geom</th>
-      <td><p>[<code>geom</code>]<br /> object of class <code><a href='geom-class.html'>geom</a></code> and type
-<code>point</code>.</p></td>
+      <th>panel</th>
+      <td><p>[<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code>]<br /> the panel in which to edit vertices
+(i.e. the title shown over the plot).</p></td>
     </tr>
     <tr>
-      <th>index</th>
-      <td><p>[<code>integerish(.)</code>]<br /> a vector with group values for all
-vertices.</p></td>
+      <th>tolerance</th>
+      <td><p>[<code><a href='https://www.rdocumentation.org/packages/base/topics/numeric'>numeric(1)</a></code>]<br /> width of the locator-boxes as
+proportion of the overall box width.</p></td>
     </tr>
     <tr>
-      <th>distance</th>
-      <td><p>[<code><a href='https://www.rdocumentation.org/packages/base/topics/numeric'>numeric(1)</a></code>]<br /> specific distance of two vertices
-below which they will be included in the same cluster.</p></td>
+      <th>verbose</th>
+      <td><p>[<code><a href='https://www.rdocumentation.org/packages/base/topics/logical'>logical(1)</a></code>]<br /> be verbose about intermediate steps?</p></td>
     </tr>
     <tr>
-      <th>clusters</th>
-      <td><p>[<code>integerish(1)</code>]<br /> the number of clusters for
-<code><a href='https://www.rdocumentation.org/packages/stats/topics/kmeans'>kmeans</a></code> clustering.</p></td>
-    </tr>
-    <tr>
-      <th>...</th>
-      <td><p>[various]<br /> additional arguments either to
-<code><a href='https://www.rdocumentation.org/packages/stats/topics/hclust'>hclust</a></code> or to <code><a href='https://www.rdocumentation.org/packages/stats/topics/kmeans'>kmeans</a></code>.</p></td>
+      <th>centroid</th>
+      <td><p>[<code><a href='https://www.rdocumentation.org/packages/base/topics/logical'>logical(1)</a></code>]<br /> instead of moving the vertices of a
+<code>geom</code>, move the centroid and thus the overall <code>geom</code>.</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p><code>geom</code> with (re)grouped coordinates.</p>
-    
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
-
-    <p>Only one of the three arguments <code>index</code>, <code>distance</code> or
-  <code>clusters</code> needs to be set, as grouping is only carried out by one of
-  them.</p>
+    <p>An invisible <code>geom</code>.</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p>Other geometry tools: <code><a href='gt_edit.html'>gt_edit</a></code>,
+    <div class='dont-index'><p>Other geometry tools: <code><a href='gt_group.html'>gt_group</a></code>,
   <code><a href='gt_rotate.html'>gt_rotate</a></code>, <code><a href='gt_scale.html'>gt_scale</a></code>,
   <code><a href='gt_skew.html'>gt_skew</a></code>, <code><a href='gt_stretch.html'>gt_stretch</a></code></p></div>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>coords</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/data.frame'>data.frame</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>30</span>, <span class='fl'>60</span>, <span class='fl'>60</span>, <span class='fl'>40</span>, <span class='fl'>10</span>, <span class='fl'>40</span>, <span class='fl'>20</span>),
-                     <span class='kw'>y</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>40</span>, <span class='fl'>40</span>, <span class='fl'>60</span>, <span class='fl'>70</span>, <span class='fl'>10</span>, <span class='fl'>20</span>, <span class='fl'>40</span>),
-                     <span class='kw'>fid</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>1</span>, <span class='fl'>1</span>, <span class='fl'>2</span>, <span class='fl'>2</span>, <span class='fl'>2</span>, <span class='fl'>2</span>, <span class='fl'>2</span>))
-<span class='no'>window</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/data.frame'>data.frame</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>0</span>, <span class='fl'>80</span>),
-                     <span class='kw'>y</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>0</span>, <span class='fl'>80</span>))
-<span class='no'>aGeom</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='gs_point.html'>gs_point</a></span>(<span class='kw'>anchor</span> <span class='kw'>=</span> <span class='no'>coords</span>, <span class='kw'>window</span> <span class='kw'>=</span> <span class='no'>window</span>)
+    <pre class="examples"><span class='co'># NOT RUN {</span>
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>library</a></span>(<span class='no'>sf</span>)
 
-<span class='no'>grouped</span> <span class='kw'>&lt;-</span> <span class='fu'>gt_group</span>(<span class='kw'>geom</span> <span class='kw'>=</span> <span class='no'>aGeom</span>, <span class='kw'>distance</span> <span class='kw'>=</span> <span class='fl'>40</span>)
-<span class='fu'><a href='visualise.html'>visualise</a></span>(<span class='kw'>geom</span> <span class='kw'>=</span> <span class='no'>grouped</span>)</div><div class='img'><img src='gt_group-1.png' alt='' width='700' height='433' /></div></pre>
+<span class='no'>nc</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/sf/topics/st_read'>st_read</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/system.file'>system.file</a></span>(<span class='st'>"shape/nc.shp"</span>, <span class='kw'>package</span><span class='kw'>=</span><span class='st'>"sf"</span>))
+<span class='no'>nc_geom</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='gt_sf.html'>gt_sf</a></span>(<span class='kw'>input</span> <span class='kw'>=</span> <span class='no'>nc</span>)
+<span class='fu'><a href='visualise.html'>visualise</a></span>(<span class='kw'>geom</span> <span class='kw'>=</span> <span class='no'>nc_geom</span>, <span class='kw'>window</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/data.frame'>data.frame</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(-<span class='fl'>82.1</span>, -<span class='fl'>81</span>), <span class='kw'>y</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>36.6</span>, <span class='fl'>35.9</span>)))
+<span class='no'>modGeom</span> <span class='kw'>&lt;-</span> <span class='fu'>gt_edit</span>()
+<span class='co'># }</span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -191,8 +179,6 @@ below which they will be included in the same cluster.</p></td>
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
-
-      <li><a href="#details">Details</a></li>
 
       <li><a href="#see-also">See also</a></li>
       

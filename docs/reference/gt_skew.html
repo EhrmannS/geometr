@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Rotate geometries — gt_rotate • geometr</title>
+<title>Skew geometries — gt_skew • geometr</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,9 +30,9 @@
 
 
 
-<meta property="og:title" content="Rotate geometries — gt_rotate" />
+<meta property="og:title" content="Skew geometries — gt_skew" />
 
-<meta property="og:description" content="Rotate geoms by a certain angle about a center" />
+<meta property="og:description" content="Skew geoms by a shear factor in x and y-dimension." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -114,18 +114,18 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Rotate geometries</h1>
-    <small class="dont-index">Source: <a href='https://github.com/EhrmannS/geometr/blob/master/R/gt_rotate.R'><code>R/gt_rotate.R</code></a></small>
-    <div class="hidden name"><code>gt_rotate.Rd</code></div>
+    <h1>Skew geometries</h1>
+    <small class="dont-index">Source: <a href='https://github.com/EhrmannS/geometr/blob/master/R/gt_skew.R'><code>R/gt_skew.R</code></a></small>
+    <div class="hidden name"><code>gt_skew.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Rotate <code>geom</code>s by a certain angle about a center</p>
+    <p>Skew <code>geom</code>s by a shear factor in x and y-dimension.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>gt_rotate</span>(<span class='no'>geom</span>, <span class='kw'>angle</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>about</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>0</span>, <span class='fl'>0</span>), <span class='kw'>fid</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+    <pre class="usage"><span class='fu'>gt_skew</span>(<span class='no'>geom</span>, <span class='kw'>x</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>fid</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -135,31 +135,29 @@
       <td><p>[<code>geom</code>]<br /> object of class <code><a href='geom-class.html'>geom</a></code>.</p></td>
     </tr>
     <tr>
-      <th>angle</th>
-      <td><p>[<code><a href='https://www.rdocumentation.org/packages/base/topics/numeric'>numeric(1)</a></code>]<br /> the counter-clockwise angle by which
-<code>geom</code> shall be rotated.</p></td>
+      <th>x</th>
+      <td><p>[<code><a href='https://www.rdocumentation.org/packages/base/topics/numeric'>numeric(1)</a></code>]<br /> the shear factor in x-dimension.</p></td>
     </tr>
     <tr>
-      <th>about</th>
-      <td><p>[<code><a href='https://www.rdocumentation.org/packages/base/topics/numeric'>numeric(2)</a></code>]<br /> the point about which <code>geom</code> shall
-be rotated.</p></td>
+      <th>y</th>
+      <td><p>[<code><a href='https://www.rdocumentation.org/packages/base/topics/numeric'>numeric(1)</a></code>]<br /> the shear factor in y-dimension.</p></td>
     </tr>
     <tr>
       <th>fid</th>
       <td><p>[<code>integerish(.)</code>]<br /> vector of features that should be
-rotated.</p></td>
+skewed.</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>Rotated <code>geom</code>.</p>
+    <p>Skewed <code>geom</code>.</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>Other geometry tools: <code><a href='gt_edit.html'>gt_edit</a></code>,
-  <code><a href='gt_group.html'>gt_group</a></code>, <code><a href='gt_scale.html'>gt_scale</a></code>,
-  <code><a href='gt_skew.html'>gt_skew</a></code>, <code><a href='gt_stretch.html'>gt_stretch</a></code></p></div>
+  <code><a href='gt_group.html'>gt_group</a></code>, <code><a href='gt_rotate.html'>gt_rotate</a></code>,
+  <code><a href='gt_scale.html'>gt_scale</a></code>, <code><a href='gt_stretch.html'>gt_stretch</a></code></p></div>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
@@ -170,18 +168,11 @@ rotated.</p></td>
 <span class='no'>window</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/data.frame'>data.frame</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>0</span>, <span class='fl'>80</span>),
                      <span class='kw'>y</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>0</span>, <span class='fl'>80</span>))
 <span class='no'>aGeom</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='gs_polygon.html'>gs_polygon</a></span>(<span class='kw'>anchor</span> <span class='kw'>=</span> <span class='no'>coords</span>, <span class='kw'>window</span> <span class='kw'>=</span> <span class='no'>window</span>)
-<span class='fu'><a href='visualise.html'>visualise</a></span>(<span class='kw'>geom</span> <span class='kw'>=</span> <span class='no'>aGeom</span>)</div><div class='img'><img src='gt_rotate-1.png' alt='' width='700' height='433' /></div><div class='input'>
-<span class='co'># rotate all geoms</span>
-<span class='no'>rotatedGeom</span> <span class='kw'>&lt;-</span> <span class='fu'>gt_rotate</span>(<span class='kw'>geom</span> <span class='kw'>=</span> <span class='no'>aGeom</span>, <span class='kw'>angle</span> <span class='kw'>=</span> <span class='fl'>90</span>, <span class='kw'>about</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>40</span>, <span class='fl'>40</span>))
-<span class='fu'><a href='visualise.html'>visualise</a></span>(<span class='kw'>geom</span> <span class='kw'>=</span> <span class='no'>rotatedGeom</span>)</div><div class='img'><img src='gt_rotate-2.png' alt='' width='700' height='433' /></div><div class='input'>
-<span class='co'># rotate single geom</span>
-<span class='no'>rotatedTriangle</span> <span class='kw'>&lt;-</span> <span class='fu'>gt_rotate</span>(<span class='kw'>geom</span> <span class='kw'>=</span> <span class='no'>aGeom</span>, <span class='kw'>angle</span> <span class='kw'>=</span> -<span class='fl'>180</span>, <span class='kw'>about</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>30</span>, <span class='fl'>40</span>), <span class='kw'>fid</span> <span class='kw'>=</span> <span class='fl'>2</span>)
-<span class='fu'><a href='visualise.html'>visualise</a></span>(<span class='kw'>geom</span> <span class='kw'>=</span> <span class='no'>rotatedTriangle</span>)</div><div class='img'><img src='gt_rotate-3.png' alt='' width='700' height='433' /></div><div class='input'>
-<span class='co'># rotate different geoms about different centers by different angles</span>
-<span class='no'>rotateMore</span> <span class='kw'>&lt;-</span> <span class='fu'>gt_rotate</span>(<span class='kw'>geom</span> <span class='kw'>=</span> <span class='no'>aGeom</span>,
-                        <span class='kw'>angle</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='fl'>90</span>, -<span class='fl'>180</span>),
-                        <span class='kw'>about</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>40</span>, <span class='fl'>40</span>), <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>30</span>, <span class='fl'>40</span>)))
-<span class='fu'><a href='visualise.html'>visualise</a></span>(<span class='kw'>geom</span> <span class='kw'>=</span> <span class='no'>rotateMore</span>)</div><div class='img'><img src='gt_rotate-4.png' alt='' width='700' height='433' /></div></pre>
+
+<span class='co'># skew several geoms</span>
+<span class='fu'><a href='visualise.html'>visualise</a></span>(<span class='kw'>geom</span> <span class='kw'>=</span> <span class='fu'>gt_skew</span>(<span class='kw'>geom</span> <span class='kw'>=</span> <span class='no'>aGeom</span>, <span class='kw'>x</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='fl'>0.5</span>), <span class='kw'>y</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='fl'>0</span>, <span class='fl'>0.2</span>)))</div><div class='img'><img src='gt_skew-1.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='co'># skew single geom</span>
+<span class='fu'><a href='visualise.html'>visualise</a></span>(<span class='kw'>geom</span> <span class='kw'>=</span> <span class='fu'>gt_skew</span>(<span class='kw'>geom</span> <span class='kw'>=</span> <span class='no'>aGeom</span>, <span class='kw'>x</span> <span class='kw'>=</span> <span class='fl'>0.5</span>, <span class='kw'>fid</span> <span class='kw'>=</span> <span class='fl'>1</span>))</div><div class='img'><img src='gt_skew-2.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

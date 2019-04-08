@@ -162,9 +162,41 @@
       </tr><tr>
         
         <td>
-          <p><code><a href="geom-class.html">geom-class</a></code> </p>
+          <p><code><a href="gs_voronoi.html">gs_voronoi()</a></code> </p>
         </td>
-        <td><p>Geometry class (S4) and methods</p></td>
+        <td><p>Create a voronoi tiling</p></td>
+      </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-other-classes" class="hasAnchor"><a href="#section-other-classes" class="anchor"></a>other classes</h2>
+          <p class="section-desc"><p>functions that transform geometries</p></p>
+        </th>
+      </tr>
+      <tr>
+        
+        <td>
+          <p><code><a href="gt_sf.html">gt_sf()</a></code> </p>
+        </td>
+        <td><p>Transform a <code>geom</code> to and from an <code>sf</code> object</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="gt_sp.html">gt_sp()</a></code> </p>
+        </td>
+        <td><p>Transform a <code>geom</code> to and from a <code>Spatial*</code> object</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="gt_grob.html">gt_grob()</a></code> </p>
+        </td>
+        <td><p>Transform a <code>geom</code> to and from a <code>grob</code> object</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="gt_raster.html">gt_raster()</a></code> </p>
+        </td>
+        <td><p>Transform a <code>geom</code> to a raster object</p></td>
       </tr>
     </tbody><tbody>
       <tr>
@@ -237,52 +269,46 @@
     </tbody><tbody>
       <tr>
         <th colspan="2">
-          <h2 id="section-utilities" class="hasAnchor"><a href="#section-utilities" class="anchor"></a>utilities</h2>
+          <h2 id="section-utility-functions" class="hasAnchor"><a href="#section-utility-functions" class="anchor"></a>utility functions</h2>
           <p class="section-desc"><p>functions that modify geometries</p></p>
         </th>
       </tr>
       <tr>
         
         <td>
-          <p><code><a href="gt_as_geom.html">gt_as_geom()</a></code> </p>
+          <p><code><a href="gt_edit.html">gt_edit()</a></code> </p>
         </td>
-        <td><p>Derive a <code>geom</code> from other spatial objects</p></td>
+        <td><p>Edit the vertices of geometries</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="gt_as_grob.html">gt_as_grob()</a></code> </p>
+          <p><code><a href="gt_locate.html">gt_locate()</a></code> </p>
         </td>
-        <td><p>Transform a <code>geom</code> to a grob object</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="gt_as_raster.html">gt_as_raster()</a></code> </p>
-        </td>
-        <td><p>Transform geometry to raster</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="gt_as_sp.html">gt_as_sp()</a></code> </p>
-        </td>
-        <td><p>Transform a <code>geom</code> to a Spatial* object</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="gt_as_sf.html">gt_as_sf()</a></code> </p>
-        </td>
-        <td><p>Transform a <code>geom</code> to an sf object</p></td>
+        <td><p>Locate (and identify) clicks</p></td>
       </tr><tr>
         
         <td>
           <p><code><a href="gt_group.html">gt_group()</a></code> </p>
         </td>
-        <td><p>Group point geometries</p></td>
+        <td><p>Group the vertices of geometries</p></td>
       </tr><tr>
         
         <td>
           <p><code><a href="gt_rotate.html">gt_rotate()</a></code> </p>
         </td>
         <td><p>Rotate geometries</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="gt_skew.html">gt_skew()</a></code> </p>
+        </td>
+        <td><p>Skew geometries</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="gt_stretch.html">gt_stretch()</a></code> </p>
+        </td>
+        <td><p>Stretch geometries</p></td>
       </tr><tr>
         
         <td>
@@ -309,12 +335,6 @@
           <p><code><a href="setTheme.html">setTheme()</a></code> </p>
         </td>
         <td><p>Create a new theme</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="locate.html">locate()</a></code> </p>
-        </td>
-        <td><p>Locate (and identify) clicks</p></td>
       </tr>
     </tbody><tbody>
       <tr>
@@ -332,21 +352,21 @@
       </tr><tr>
         
         <td>
-          <p><code><a href="gtSP.html">gtSP</a></code> </p>
-        </td>
-        <td><p>Example <code>Spatial</code> objects</p></td>
-      </tr><tr>
-        
-        <td>
           <p><code><a href="gtSF.html">gtSF</a></code> </p>
         </td>
         <td><p>Example <code>sf</code> objects</p></td>
       </tr><tr>
         
         <td>
+          <p><code><a href="gtSP.html">gtSP</a></code> </p>
+        </td>
+        <td><p>Example <code>Spatial</code> objects</p></td>
+      </tr><tr>
+        
+        <td>
           <p><code><a href="gtRasters.html">gtRasters</a></code> </p>
         </td>
-        <td><p>An example raster stack</p></td>
+        <td><p>Example <code>RasterStack</code></p></td>
       </tr>
     </tbody>
     </table>
@@ -356,8 +376,9 @@
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#section-geometries">geometries</a></li>
+      <li><a href="#section-other-classes">other classes</a></li>
       <li><a href="#section-getters-and-setters">getters and setters</a></li>
-      <li><a href="#section-utilities">utilities</a></li>
+      <li><a href="#section-utility-functions">utility functions</a></li>
       <li><a href="#section-visualise">visualise</a></li>
       <li><a href="#section-example-data">example data</a></li>
     </ul>
