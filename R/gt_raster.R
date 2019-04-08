@@ -1,4 +1,4 @@
-#' Transform geometry to raster
+#' Transform a \code{geom} to a raster object
 #'
 #' An object of class \code{RasterLayer} is the raster-package representation of
 #' a \code{geom}.

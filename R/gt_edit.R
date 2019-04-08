@@ -1,15 +1,15 @@
-#' Edit point geometries
+#' Edit the vertices of geometries
 #'
-#' \code{gt_edit} allows to edit the vertices of a \code{geom} of type
-#' \code{point}.
+#' \code{gt_edit} allows to edit the vertices of any \code{geom}.
 #' @param panel [\code{character(1)}]\cr the panel in which to edit vertices
-#'   (i.e. the title shown over the plot). Does not have to be accurate, as it
-#'   matches with \code{\link{grep}}.
+#'   (i.e. the title shown over the plot).
 #' @param tolerance [\code{numeric(1)}]\cr width of the locator-boxes as
+#'   proportion of the overall box width.
 #' @param verbose [\code{logical(1)}]\cr be verbose about intermediate steps?
 #' @param centroid [\code{logical(1)}]\cr instead of moving the vertices of a
-#'   \code{geom}, move the centroid and thus the overall \code{geom}. proportion
-#'   of the overall box width.
+#'   \code{geom}, move the centroid and thus the overall \code{geom}.
+#' @return An invisible \code{geom}.
+#' @family geometry tools
 #' @examples
 #' \dontrun{
 #' library(sf)
@@ -135,7 +135,6 @@ gt_edit <- function(panel = NULL, tolerance = 0.01, verbose = FALSE, centroid = 
 
 
   }
-  # targetGrob <- grid.get(gPath("1"), global = TRUE)
   targetGrob <- grid.get(gPath(targetGrobN), global = TRUE)
 
   # create locator boxes

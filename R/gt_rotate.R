@@ -9,6 +9,7 @@
 #' @param fid [\code{integerish(.)}]\cr vector of features that should be
 #'   rotated.
 #' @return Rotated \code{geom}.
+#' @family geometry tools
 #' @examples
 #' # the original object
 #' coords <- data.frame(x = c(30, 60, 60, 40, 10, 40, 20),
@@ -19,24 +20,24 @@
 #' aGeom <- gs_polygon(anchor = coords, window = window)
 #' visualise(geom = aGeom)
 #'
-#' # rotate it alltogether
+#' # rotate all geoms
 #' rotatedGeom <- gt_rotate(geom = aGeom, angle = 90, about = c(40, 40))
 #' visualise(geom = rotatedGeom)
 #'
-#' # rotate single objects
+#' # rotate single geom
 #' rotatedTriangle <- gt_rotate(geom = aGeom, angle = -180, about = c(30, 40), fid = 2)
 #' visualise(geom = rotatedTriangle)
 #'
-#' # rotate different objects about different centers by different angles
+#' # rotate different geoms about different centers by different angles
 #' rotateMore <- gt_rotate(geom = aGeom,
 #'                         angle = list(90, -180),
 #'                         about = list(c(40, 40), c(30, 40)))
 #' visualise(geom = rotateMore)
-#' @importFrom checkmate assertNames testList testNumeric assertNumeric
+#' @importFrom checkmate assertClass assertNames testList testNumeric assertNumeric
 #' @importFrom methods new
 #' @export
 
-gt_rotate <- function(geom, angle, about = c(0, 0), fid = NULL){
+gt_rotate <- function(geom, angle = NULL, about = c(0, 0), fid = NULL){
 
   assertClass(geom, classes = "geom")
   angleIsList <- testList(angle, types = "numeric", any.missing = FALSE)
@@ -45,6 +46,13 @@ gt_rotate <- function(geom, angle, about = c(0, 0), fid = NULL){
   aboutIsNumeric <- testNumeric(about, any.missing = FALSE, len = 2)
   assert(angleIsList, angleIsNumeric)
   assert(aboutIsList, aboutIsNumeric)
+
+  if(length(geom) == 1){
+    newHistory <- paste0("geometry was rotated")
+  } else {
+    newHistory <- paste0("geometries were rotated")
+  }
+
   if(aboutIsNumeric){
     about <- list(about)
   }
@@ -70,7 +78,6 @@ gt_rotate <- function(geom, angle, about = c(0, 0), fid = NULL){
 
   digits <- getOption("digits")
 
-  # out <- geom
   temp <- NULL
   for(i in seq_along(ids)){
     tempCoords <- vert[vert$fid == ids[i],]
@@ -95,7 +102,7 @@ gt_rotate <- function(geom, angle, about = c(0, 0), fid = NULL){
         tempCoords$y <- tempCoords$y - offset[2]
       }
     }
-    temp <- rbind(temp, tempCoords)
+    temp <- bind_rows(temp, tempCoords)
 
   }
   out <- new(Class = "geom",
@@ -105,7 +112,7 @@ gt_rotate <- function(geom, angle, about = c(0, 0), fid = NULL){
              window = geom@window,
              scale = geom@scale,
              crs = geom@crs,
-             history = list(paste0("geometry was rotated")))
+             history = c(geom@history, list(newHistory)))
 
   return(out)
 }

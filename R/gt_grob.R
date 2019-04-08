@@ -1,4 +1,4 @@
-#' Transform a \code{geom} to a grob object
+#' Transform a \code{geom} to and from a \code{grob} object
 #'
 #' An object of class \code{\link{grob}} is the grid-package representation of a
 #' \code{geom} and is used for plotting.
@@ -6,12 +6,13 @@
 #' @param window [\code{data.frame(1)}]\cr in case the reference window deviates
 #'   from the bounding box of \code{input} (minimum and maximum values),
 #'   specify this here.
-#' @param theme [\code{list(7)}]\cr Visualising options; see
+#' @param theme [\code{list(7)}]\cr visualising options; see
 #' @param ... instead of providing a \code{gtTheme}, you can also determine
 #'   specific graphic parameters (see \code{\link{gpar}}) separately; see
 #'   \code{\link{setTheme}} for details.
 #' @return Depending on the provided geometry either a \code{\link{pointsGrob}},
 #'   \code{\link{polylineGrob}} or a \code{\link{pathGrob}}.
+#' @family geometry tools
 #' @importFrom checkmate assertNames assertSubset assertList
 #' @importFrom grid gpar unit pointsGrob gList pathGrob polylineGrob clipGrob
 #' @export

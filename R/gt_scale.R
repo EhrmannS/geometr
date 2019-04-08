@@ -1,7 +1,7 @@
 #' Scale geometries
 #'
-#' Relative coordinates are required to work with grobs of \code{geom}s, absolute
-#' coordinates are required to create spatial objects thereof.
+#' Scale the vertex values of \code{geom}s so that they are either relative to
+#' the \code{@window} slot, or absolute values.
 #' @param geom [\code{geom}]\cr Object of class \code{\link{geom}}.
 #' @param range [\code{list(2)}]\cr integerish vector of length two for \code{x}
 #'   and \code{y}.
@@ -9,13 +9,14 @@
 #'   be transformed; possible are \code{"relative"} and \code{"absolute"};
 #'   ignored in case \code{range != NULL}.
 #' @return Scaled \code{geom}.
+#' @family geometry tools
 #' @examples
-#' coords <- data.frame(x = c(40, 70, 70, 50),
-#'                      y = c(40, 40, 60, 70),
+#' coords <- data.frame(x = c(40, 70, 70, 50, 40),
+#'                      y = c(40, 40, 60, 70, 40),
 #'                      fid = 1)
 #' window <- data.frame(x = c(0, 80),
 #'                      y = c(0, 80))
-#' aGeom <- gs_polygon(anchor = coords, window = window, col = "blue")
+#' aGeom <- gs_polygon(anchor = coords, window = window)
 #'
 #' # change to relative scale and back to absolute
 #' (relCoords <- gt_scale(geom = aGeom, to = "relative"))
@@ -38,7 +39,7 @@ gt_scale <- function(geom, range = NULL, to = "relative"){
     assertIntegerish(range$y, len = 2, any.missing = FALSE)
     to <- "relative"
   } else{
-    to <- match.arg(to, c("relative", "absolute"))
+    to <- assertChoice(x = to, choices = c("relative", "absolute"))
   }
 
   vert <- geom@vert
@@ -47,9 +48,11 @@ gt_scale <- function(geom, range = NULL, to = "relative"){
   out <- NULL
   if(to == "relative"){
     if(existsRange){
+      newScale <- "an 'absolute'"
       rangeX <- range$x
       rangeY <- range$y
     } else{
+      newScale <- "a 'relative'"
       rangeX <- c(0, 1)
       rangeY <- c(0, 1)
     }
@@ -58,6 +61,7 @@ gt_scale <- function(geom, range = NULL, to = "relative"){
     minY <- min(window$y)
     maxY <- max(window$y)
   } else{
+    newScale <- "an 'absolute'"
     rangeX <- c(min(window$x), max(window$x))
     rangeY <- c(min(window$y), max(window$y))
     minX <- 0
@@ -73,10 +77,8 @@ gt_scale <- function(geom, range = NULL, to = "relative"){
 
   if(existsRange){
     window <- as.data.frame(range)
-    to <- "absolute"
   }
 
-  theHistory <- c(getHistory(x = geom), paste0("geometry values were scaled to '", to, "'"))
   out <- new(Class = "geom",
              type = geom@type,
              vert = out,
@@ -84,7 +86,7 @@ gt_scale <- function(geom, range = NULL, to = "relative"){
              window = window,
              scale = to,
              crs = geom@crs,
-             history = theHistory)
+             history = c(geom@history, list(paste0("vertex values were scaled to ", newScale, " scale."))))
 
   return(out)
 }
