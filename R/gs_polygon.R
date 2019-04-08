@@ -22,7 +22,6 @@
 #'   click (\code{FALSE}); only relevant if \code{regular = TRUE}.
 #' @param ... [various]\cr graphical parameters to \code{\link{gt_locate}}, in case
 #'   a polygon is sketched; see \code{\link{gpar}}.
-#' @return An invisible \code{geom}.
 #' @details The arguments \code{anchor} and \code{template} indicate how the
 #'   geometry is created: \itemize{ \item \code{anchor}: if set, the geometry is
 #'   created parametrically, the input provided is used to parameterise the
@@ -31,7 +30,8 @@
 #'   first two vertices are considered, as center and indicating the (outer)
 #'   radius.} \item \code{template}: if set, the geometry is created
 #'   interactively, by clicking into the plot.}
-#' @family shapes
+#' @return An invisible \code{geom}.
+#' @family geometry shapes
 #' @examples
 #' library(magrittr)
 #'

@@ -17,7 +17,7 @@
 #' @param ... [various]\cr graphical parameters to \code{\link{gt_locate}}, in case
 #'   points are sketched; see \code{\link{gpar}}.
 #' @return An invisible \code{geom}.
-#' @family shapes
+#' @family geometry shapes
 #' @details The arguments \code{anchor} and \code{template} indicate how the
 #'   geometry is created: \itemize{ \item \code{anchor}: if set, the geometry is
 #'   created parametrically, the input provided is used to parameterise the
