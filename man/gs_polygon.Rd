@@ -129,7 +129,7 @@ polyGeom <- gs_polygon(template = input, features = 2, vertices = c(4, 6)) \%>\%
 }
 }
 \seealso{
-Other shapes: \code{\link{gs_line}},
-  \code{\link{gs_point}}, \code{\link{gs_random}}
+Other geometry shapes: \code{\link{gs_line}},
+  \code{\link{gs_point}}
 }
-\concept{shapes}
+\concept{geometry shapes}

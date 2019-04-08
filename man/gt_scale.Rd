@@ -20,16 +20,16 @@ ignored in case \code{range != NULL}.}
 Scaled \code{geom}.
 }
 \description{
-Relative coordinates are required to work with grobs of \code{geom}s, absolute
-coordinates are required to create spatial objects thereof.
+Scale the vertex values of \code{geom}s so that they are either relative to
+the \code{@window} slot, or absolute values.
 }
 \examples{
-coords <- data.frame(x = c(40, 70, 70, 50),
-                     y = c(40, 40, 60, 70),
+coords <- data.frame(x = c(40, 70, 70, 50, 40),
+                     y = c(40, 40, 60, 70, 40),
                      fid = 1)
 window <- data.frame(x = c(0, 80),
                      y = c(0, 80))
-aGeom <- gs_polygon(anchor = coords, window = window, col = "blue")
+aGeom <- gs_polygon(anchor = coords, window = window)
 
 # change to relative scale and back to absolute
 (relCoords <- gt_scale(geom = aGeom, to = "relative"))
@@ -38,3 +38,9 @@ gt_scale(geom = relCoords, to = "absolute")
 gt_scale(geom = aGeom, range = list(x = c(0, 100), y = c(10, 90)))
 
 }
+\seealso{
+Other geometry tools: \code{\link{gt_edit}},
+  \code{\link{gt_group}}, \code{\link{gt_rotate}},
+  \code{\link{gt_skew}}, \code{\link{gt_stretch}}
+}
+\concept{geometry tools}

@@ -2,7 +2,7 @@
 % Please edit documentation in R/gt_grob.R
 \name{gt_grob}
 \alias{gt_grob}
-\title{Transform a \code{geom} to a grob object}
+\title{Transform a \code{geom} to and from a \code{grob} object}
 \usage{
 gt_grob(input = NULL, window = NULL, theme = gtTheme, ...)
 }
@@ -13,7 +13,7 @@ gt_grob(input = NULL, window = NULL, theme = gtTheme, ...)
 from the bounding box of \code{input} (minimum and maximum values),
 specify this here.}
 
-\item{theme}{[\code{list(7)}]\cr Visualising options; see}
+\item{theme}{[\code{list(7)}]\cr visualising options; see}
 
 \item{...}{instead of providing a \code{gtTheme}, you can also determine
 specific graphic parameters (see \code{\link{gpar}}) separately; see
@@ -27,3 +27,8 @@ Depending on the provided geometry either a \code{\link{pointsGrob}},
 An object of class \code{\link{grob}} is the grid-package representation of a
 \code{geom} and is used for plotting.
 }
+\seealso{
+Other spatial classes: \code{\link{gt_raster}},
+  \code{\link{gt_sf}}, \code{\link{gt_sp}}
+}
+\concept{spatial classes}

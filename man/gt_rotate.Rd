@@ -4,7 +4,7 @@
 \alias{gt_rotate}
 \title{Rotate geometries}
 \usage{
-gt_rotate(geom, angle, about = c(0, 0), fid = NULL)
+gt_rotate(geom, angle = NULL, about = c(0, 0), fid = NULL)
 }
 \arguments{
 \item{geom}{[\code{geom}]\cr object of class \code{\link{geom}}.}
@@ -34,17 +34,23 @@ window <- data.frame(x = c(0, 80),
 aGeom <- gs_polygon(anchor = coords, window = window)
 visualise(geom = aGeom)
 
-# rotate it alltogether
+# rotate all geoms
 rotatedGeom <- gt_rotate(geom = aGeom, angle = 90, about = c(40, 40))
 visualise(geom = rotatedGeom)
 
-# rotate single objects
+# rotate single geom
 rotatedTriangle <- gt_rotate(geom = aGeom, angle = -180, about = c(30, 40), fid = 2)
 visualise(geom = rotatedTriangle)
 
-# rotate different objects about different centers by different angles
+# rotate different geoms about different centers by different angles
 rotateMore <- gt_rotate(geom = aGeom,
                         angle = list(90, -180),
                         about = list(c(40, 40), c(30, 40)))
 visualise(geom = rotateMore)
 }
+\seealso{
+Other geometry tools: \code{\link{gt_edit}},
+  \code{\link{gt_group}}, \code{\link{gt_scale}},
+  \code{\link{gt_skew}}, \code{\link{gt_stretch}}
+}
+\concept{geometry tools}

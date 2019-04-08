@@ -30,4 +30,7 @@ An invisible \code{geom}.
 \description{
 Create a voronoi tiling
 }
+\seealso{
+Other tilings: \code{\link{gs_tiles}}
+}
 \concept{tilings}

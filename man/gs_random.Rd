@@ -36,8 +36,4 @@ visualise(geom = someGeom)
 someGeom <- gs_random(template = input) \%>\%
   visualise(geom = ., new = FALSE, linecol = "red")
 }
-\seealso{
-Other shapes: \code{\link{gs_line}},
-  \code{\link{gs_point}}, \code{\link{gs_polygon}}
-}
 \concept{shapes}

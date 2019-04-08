@@ -2,27 +2,28 @@
 % Please edit documentation in R/gt_edit.R
 \name{gt_edit}
 \alias{gt_edit}
-\title{Edit point geometries}
+\title{Edit the vertices of geometries}
 \usage{
 gt_edit(panel = NULL, tolerance = 0.01, verbose = FALSE,
   centroid = FALSE)
 }
 \arguments{
 \item{panel}{[\code{character(1)}]\cr the panel in which to edit vertices
-(i.e. the title shown over the plot). Does not have to be accurate, as it
-matches with \code{\link{grep}}.}
+(i.e. the title shown over the plot).}
 
-\item{tolerance}{[\code{numeric(1)}]\cr width of the locator-boxes as}
+\item{tolerance}{[\code{numeric(1)}]\cr width of the locator-boxes as
+proportion of the overall box width.}
 
 \item{verbose}{[\code{logical(1)}]\cr be verbose about intermediate steps?}
 
 \item{centroid}{[\code{logical(1)}]\cr instead of moving the vertices of a
-\code{geom}, move the centroid and thus the overall \code{geom}. proportion
-of the overall box width.}
+\code{geom}, move the centroid and thus the overall \code{geom}.}
+}
+\value{
+An invisible \code{geom}.
 }
 \description{
-\code{gt_edit} allows to edit the vertices of a \code{geom} of type
-\code{point}.
+\code{gt_edit} allows to edit the vertices of any \code{geom}.
 }
 \examples{
 \dontrun{
@@ -34,3 +35,9 @@ visualise(geom = nc_geom, window = data.frame(x = c(-82.1, -81), y = c(36.6, 35.
 modGeom <- gt_edit()
 }
 }
+\seealso{
+Other geometry tools: \code{\link{gt_group}},
+  \code{\link{gt_rotate}}, \code{\link{gt_scale}},
+  \code{\link{gt_skew}}, \code{\link{gt_stretch}}
+}
+\concept{geometry tools}

@@ -2,7 +2,7 @@
 % Please edit documentation in R/gt_sp.R
 \name{gt_sp}
 \alias{gt_sp}
-\title{Transform a \code{geom} to a Spatial* object}
+\title{Transform a \code{geom} to and from a \code{Spatial*} object}
 \usage{
 gt_sp(input = NULL)
 }
@@ -26,3 +26,8 @@ spPoly <- gtSP$SpatialPolygons
 sp::plot(spPoly)
 visualise(geom = gt_sp(input = spPoly))
 }
+\seealso{
+Other spatial classes: \code{\link{gt_grob}},
+  \code{\link{gt_raster}}, \code{\link{gt_sf}}
+}
+\concept{spatial classes}

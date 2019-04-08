@@ -2,7 +2,7 @@
 % Please edit documentation in R/gt_sf.R
 \name{gt_sf}
 \alias{gt_sf}
-\title{Transform a \code{geom} to an sf object}
+\title{Transform a \code{geom} to and from an \code{sf} object}
 \usage{
 gt_sf(input = NULL)
 }
@@ -32,3 +32,8 @@ sfPoly <- gtSF$polygon
 plot(sfPoly)
 visualise(geom = gt_sf(input = sfPoly))
 }
+\seealso{
+Other spatial classes: \code{\link{gt_grob}},
+  \code{\link{gt_raster}}, \code{\link{gt_sp}}
+}
+\concept{spatial classes}

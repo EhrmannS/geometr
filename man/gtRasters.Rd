@@ -3,7 +3,7 @@
 \docType{data}
 \name{gtRasters}
 \alias{gtRasters}
-\title{An example raster stack}
+\title{Example \code{RasterStack}}
 \format{The object of class RasterStack has no projection and is a
   RasterStack object of 56 by 60 cells. The first raster represents
   land-use classes and the second raster contains a continuous scale of

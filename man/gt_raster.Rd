@@ -2,7 +2,7 @@
 % Please edit documentation in R/gt_raster.R
 \name{gt_raster}
 \alias{gt_raster}
-\title{Transform geometry to raster}
+\title{Transform a \code{geom} to a raster object}
 \usage{
 gt_raster(geom, negative = FALSE, res = c(1, 1), crs = NULL)
 }
@@ -39,3 +39,8 @@ aRaster <- gt_raster(geom = aGeom)
 negRaster <- gt_raster(geom = aGeom, negative = TRUE)
 #visualise(raster = negRaster, geom = aGeom, col = "deeppink")
 }
+\seealso{
+Other spatial classes: \code{\link{gt_grob}},
+  \code{\link{gt_sf}}, \code{\link{gt_sp}}
+}
+\concept{spatial classes}

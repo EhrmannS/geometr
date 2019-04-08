@@ -73,7 +73,7 @@ visualise(geom = anExtent, linecol = "green", new = FALSE)
 }
 }
 \seealso{
-Other shapes: \code{\link{gs_line}},
-  \code{\link{gs_polygon}}, \code{\link{gs_random}}
+Other geometry shapes: \code{\link{gs_line}},
+  \code{\link{gs_polygon}}
 }
-\concept{shapes}
+\concept{geometry shapes}

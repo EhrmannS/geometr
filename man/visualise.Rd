@@ -10,7 +10,7 @@ visualise(raster = NULL, geom = NULL, window = NULL,
 \arguments{
 \item{raster}{[\code{Raster*} | \code{matrix}]\cr raster object to plot.}
 
-\item{geom}{[\code{geom}]\cr geom to plot.}
+\item{geom}{[\code{geom}]\cr Object of class \code{\link{geom}}.}
 
 \item{window}{[\code{data.frame(1)}]\cr two oposing corners of a rectangle to
 which the plot is limited.}
@@ -22,8 +22,8 @@ which the plot is limited.}
 the process according to which it has been created) (\code{TRUE}), or
 simply plot the object (\code{FALSE}, default).}
 
-\item{image}{[\code{logical(1)}]\cr is \code{raster} actually an image
-(\code{TRUE}) or is this not the case (\code{FALSE}, default)? See Details.}
+\item{image}{[\code{logical(1)}]\cr set this to \code{TRUE} if \code{raster}
+is actually an image; see Details.}
 
 \item{new}{[\code{logical(1)}]\cr force a new plot (\code{TRUE}, default).}
 
