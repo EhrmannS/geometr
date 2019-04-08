@@ -1,4 +1,4 @@
-#' An example raster stack
+#' Example \code{RasterStack}
 #'
 #' A set of two conceptually different types of raster.
 #'
