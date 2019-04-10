@@ -41,7 +41,7 @@
 #' @export
 
 gs_tiles <- function(anchor = NULL, window = NULL, diameter = NULL, cells = NULL,
-                     pattern = "squared", centroids = FALSE){
+                     pattern = "squared", centroids = FALSE, ...){
 
   # if(tiling == "rectangular"){
   #
@@ -143,33 +143,43 @@ gs_tiles <- function(anchor = NULL, window = NULL, diameter = NULL, cells = NULL
   assertIntegerish(cells, len = 2, any.missing = FALSE)
   assertChoice(x = pattern, choices = c("squared", "hexagonal", "triangular"))
   # assertChoice(x = align, choices = c("horizontal", "vertical"))
-  assertIntegerish(x = rotation, lower = 0, upper = 360, len = 1)
+  # assertIntegerish(x = rotation, lower = 0, upper = 360, len = 1)
   assertLogical(centroids)
+
+
+  xCells <- (abs(min(window$x)) + abs(max(window$x)))/diameter
+  yCells <- (abs(min(window$y)) + abs(max(window$y)))/diameter
+
+  # determine centroids
+  xCentroids <- seq(min(window$x) + diameter/2, max(window$x), diameter)
+  yCentroids <- seq(min(window$y) + diameter/2, max(window$y), diameter)
+  cntrds <- tibble(fid = seq(1:(xCells*yCells)),
+                   x = rep(xCentroids, times = length(yCentroids)),
+                   y = rep(yCentroids, each = length(xCentroids)))
+  points <- gs_point(anchor = cntrds, window = window)
 
   # set pattern specific properties
   if(pattern == "squared"){
     vertices <- 4
     offset <- 45
 
-    # radius <- sqrt(diameter**2 + diameter**2)/2
-    radius <- diameter/2
-
-    xCells <- (abs(min(window$x)) + abs(max(window$x)))/diameter
-    yCells <- (abs(min(window$y)) + abs(max(window$y)))/diameter
-
-    # determine centroids
-    xCentroids <- seq(min(window$x) + diameter/2, max(window$x), diameter)
-    yCentroids <- seq(min(window$y) + diameter/2, max(window$y), diameter)
-    cntrds <- tibble(fid = seq(1:(xCells*yCells)),
-                     x = rep(xCentroids, times = length(yCentroids)),
-                     y = rep(yCentroids, each = length(xCentroids)))
+    newPoints <- points
+    # # radius <- sqrt(diameter**2 + diameter**2)/2
+    # radius <- diameter/2
 
   } else if(pattern == "hexagonal"){
     vertices <- 6
     offset <- 30
 
+    # https://www.redblobgames.com/grids/hexagons/
+
     radius <- diameter/2
-    inradius <- sqrt(3)/2 * radius
+    radius <- 2/sqrt(3) * radius
+
+    # gt_group to group 'fid' so that always two rows are grouped, then skew
+    newPoints <- gt_skew(geom = points, x = 0.5)
+    # then group so that all features are at 'fid = 1' and stretch
+    newPoints <- gt_stretch(geom = newPoints, y = sqrt(3)/2)
     # if(align){
     #   width <- abs(min(window$x)) + abs(max(window$x))
     #   xCells <- floor(width/(inradius*2))
@@ -177,21 +187,21 @@ gs_tiles <- function(anchor = NULL, window = NULL, diameter = NULL, cells = NULL
     #   radius <- inradius*2/sqrt(3)
     # }
 
-
-    # determine centroids
-    xC1 <- seq(min(window$x), max(window$x), by = inradius*2)
-    xC2 <- seq(min(window$x) + inradius, max(window$x), by = inradius*2)
-    yC1 <- seq(min(window$y), max(window$y) + radius, by = 3/2*radius*2)
-    yC2 <- seq(min(window$y) + 3/2*radius, max(window$y), by = 3/2*radius*2)
-
-    cntrds <- tibble(fid = seq(1:(length(yC1)*length(xC1) + length(yC2)*length(xC2))),
-                     x = c(rep(xC1, times = length(yC1)), rep(xC2, times = length(yC2))),
-                     y = c(rep(yC1, each = length(xC1)), rep(yC2, each = length(xC2))))
+    # # determine centroids
+    # xC1 <- seq(min(window$x), max(window$x), by = inradius*2)
+    # xC2 <- seq(min(window$x) + inradius, max(window$x), by = inradius*2)
+    # yC1 <- seq(min(window$y), max(window$y) + radius, by = 3/2*radius*2)
+    # yC2 <- seq(min(window$y) + 3/2*radius, max(window$y), by = 3/2*radius*2)
+    #
+    # cntrds <- tibble(fid = seq(1:(length(yC1)*length(xC1) + length(yC2)*length(xC2))),
+    #                  x = c(rep(xC1, times = length(yC1)), rep(xC2, times = length(yC2))),
+    #                  y = c(rep(yC1, each = length(xC1)), rep(yC2, each = length(xC2))))
 
   } else if(pattern == "triangular"){
     vertices <- 3
     offset <- 60
-    # radius <-
+
+    # newPoints <-
   }
 
   rotation <- offset
@@ -202,14 +212,14 @@ gs_tiles <- function(anchor = NULL, window = NULL, diameter = NULL, cells = NULL
   relY <- radius*sin(rad(angles))
 
   # make the window
-  window <- tibble(x = rep(window$x, each = 2),
-                   y = c(window$y, rev(window$y)))
+  # window <- tibble(x = rep(window$x, each = 2),
+  #                  y = c(window$y, rev(window$y)))
 
   if(!centroids){
     nodes <- NULL
-    for(i in seq_along(cntrds$fid)){
-      cx <- cntrds$x[i] + relX
-      cy <- cntrds$y[i] + relY
+    for(i in seq_along(newPoints@vert$fid)){
+      cx <- newPoints@vert$x[i] + relX
+      cy <- newPoints@vert$y[i] + relY
       theNodes <- tibble(fid = i, vid = 1:length(angles), x = cx, y = cy)
       # remove nodes that are not valid
       # theNodes$x[theNodes$x < min(window$x)] <- min(window$x)
