@@ -5,7 +5,7 @@
 \title{Create a regular tiling geometry}
 \usage{
 gs_tiles(anchor = NULL, window = NULL, diameter = NULL,
-  cells = NULL, pattern = "squared", centroids = FALSE)
+  cells = NULL, pattern = "squared", centroids = FALSE, ...)
 }
 \arguments{
 \item{anchor}{[\code{data.frame(1)}]\cr Object to derive the \code{geom}
