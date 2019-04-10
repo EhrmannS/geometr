@@ -94,8 +94,10 @@ gt_skew <- function(geom, x = NULL, y = NULL, fid = NULL){
       newCoords$x <- newCoords$x - offset$x
       newCoords$y <- newCoords$y - offset$y
 
-      newCoords <- bind_rows(newCoords, newCoords[1,])
-      newCoords$vid <- seq_along(newCoords$fid)
+      if(geom@type != "point"){
+        newCoords <- bind_rows(newCoords, newCoords[1,])
+        newCoords$vid <- seq_along(newCoords$fid)
+      }
     }
     temp <- bind_rows(temp, newCoords)
   }
