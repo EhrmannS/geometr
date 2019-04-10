@@ -41,7 +41,7 @@
 #' @export
 
 gs_tiles <- function(anchor = NULL, window = NULL, diameter = NULL, cells = NULL,
-                     pattern = "squared", centroids = FALSE, ...){
+                     pattern = "squared", centroids = FALSE){
 
   # if(tiling == "rectangular"){
   #
