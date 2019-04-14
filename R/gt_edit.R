@@ -5,6 +5,7 @@
 #'   (i.e. the title shown over the plot).
 #' @param tolerance [\code{numeric(1)}]\cr width of the locator-boxes as
 #'   proportion of the overall box width.
+#' @param fid [\code{integerish(.)}]\cr the features to edit.
 #' @param verbose [\code{logical(1)}]\cr be verbose about intermediate steps?
 #' @param centroid [\code{logical(1)}]\cr instead of moving the vertices of a
 #'   \code{geom}, move the centroid and thus the overall \code{geom}.
@@ -25,7 +26,8 @@
 #' @importFrom methods as
 #' @export
 
-gt_edit <- function(panel = NULL, tolerance = 0.01, verbose = FALSE, centroid = FALSE){
+gt_edit <- function(panel = NULL, tolerance = 0.01, fid = NULL, centroid = FALSE,
+                    verbose = FALSE){
 
   # function to make little squares (locator boxes) around all points that help
   # the user click on the vertices
@@ -120,9 +122,9 @@ gt_edit <- function(panel = NULL, tolerance = 0.01, verbose = FALSE, centroid = 
         aGrob <- grid.get(gPath(as.character(i)), global = TRUE)
         aGrob <- data.frame(x = min(theWindow$x) + (as.numeric(aGrob$x) * (max(theWindow$x) - min(theWindow$x))),
                             y = min(theWindow$y) + (as.numeric(aGrob$y) * (max(theWindow$y) - min(theWindow$y))))
-        inTargetGrob <- vertInGeomC(vert = as.matrix(targetClick[c("x", "y")]),
-                                    geom = as.matrix(aGrob),
-                                    invert = FALSE)
+        inTargetGrob <- pointInGeomC(vert = as.matrix(targetClick[c("x", "y")]),
+                                     geom = as.matrix(aGrob),
+                                     invert = FALSE)
 
         if(inTargetGrob){
           targetGrobN <- as.character(i)
@@ -160,7 +162,7 @@ gt_edit <- function(panel = NULL, tolerance = 0.01, verbose = FALSE, centroid = 
         tempCoords <- data.frame(x = min(theWindow$x) + (as.numeric(rectangles[[i]]$x) * (max(theWindow$x) - min(theWindow$x))),
                                  y = min(theWindow$y) + (as.numeric(rectangles[[i]]$y) * (max(theWindow$y) - min(theWindow$y))))
         # when editing a vertex in gt_sf(nc), no locator box is matched, which is probably due to c++
-        inRect <- vertInGeomC(vert = as.matrix(firstClick[c("x", "y")]), geom = as.matrix(tempCoords), invert = FALSE)
+        inRect <- pointInGeomC(vert = as.matrix(firstClick[c("x", "y")]), geom = as.matrix(tempCoords), invert = FALSE)
         if(inRect){
           targetRect <- i
         }
