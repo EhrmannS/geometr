@@ -1,9 +1,14 @@
-library(checkmate)
-library(testthat)
 context("gs_random")
 
 
 test_that("output is valid geometry", {
+  # test 'point'
+  output <- gs_random(type = "point", vertices = 3)
+  expect_class(output, classes = "geom")
+  expect_true(output@type == "point")
+  expect_data_frame(output@vert, any.missing = FALSE, nrows = 3, ncols = 4)
+
+  # test 'polygon'
   output <- gs_random(type = "polygon", vertices = 4)
   expect_class(output, classes = "geom")
   expect_true(output@type == "polygon")

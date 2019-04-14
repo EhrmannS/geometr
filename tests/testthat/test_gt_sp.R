@@ -38,7 +38,7 @@ test_that("something", {
   expect_true(output@type == "point")
 
   # test 'SpatialPointsDataFrame'
-  input <- SpatialPointsDataFrame(input, data.frame(a = 1:4), match.ID = TRUE)
+  input <- SpatialPointsDataFrame(input, data.frame(data = 1:4), match.ID = TRUE)
 
   output <- gt_sp(input)
   expect_class(output, "geom")
@@ -53,7 +53,7 @@ test_that("something", {
   expect_true(length(unique(output@vert$fid)) == 8)
 
   # test 'SpatialMultiPointsDataFrame'
-  input <- SpatialMultiPointsDataFrame(input, data = data.frame(a = 1:2))
+  input <- SpatialMultiPointsDataFrame(input, data = data.frame(data = 1:2))
 
   output <- gt_sp(input)
   expect_class(output, "geom")
@@ -69,7 +69,7 @@ test_that("something", {
   expect_true(length(unique(output@vert$fid)) == 2)
 
   # test 'SpatialLinesDataFrame'
-  input <- SpatialLinesDataFrame(input, data = data.frame(a = 1:2), match.ID = FALSE)
+  input <- SpatialLinesDataFrame(input, data = data.frame(data = 1:2), match.ID = FALSE)
 
   output <- gt_sp(input)
   expect_class(output, "geom")
@@ -84,7 +84,7 @@ test_that("something", {
   expect_true(output@type == "polygon")
 
   # test 'SpatialPolygonsDataFrame'
-  input <- SpatialPolygonsDataFrame(input, data = data.frame(a = 1:2), match.ID = FALSE)
+  input <- SpatialPolygonsDataFrame(input, data = data.frame(data = 1:2), match.ID = FALSE)
 
   output <- gt_sp(input)
   expect_class(output, "geom")
@@ -92,27 +92,33 @@ test_that("something", {
   expect_data_frame(getTable(output), nrows = 2, ncols = 3)
 
   # test 'SpatialGrid'
+  x = GridTopology(c(0,0), c(1,1), c(5,5))
+  input = SpatialGrid(grid = x)
 
-  # output <- gt_sp(input)
-  # expect_class(output, "geom")
-  # expect_true(output@type == "")
+  output <- gt_sp(input = input)
+  expect_class(output, "geom")
+  expect_true(output@type == "polygon")
 
   # test 'SpatialGridDataFrame'
+  input <- SpatialGridDataFrame(grid = input, data = data.frame(data = letters[1:25]))
 
-  # output <- gt_sp(input)
-  # expect_class(output, "geom")
-  # expect_true(output@type == "")
+  output <- gt_sp(input)
+  expect_class(output, "geom")
+  expect_true(output@type == "polygon")
 
   # test 'SpatialPixels'
+  data(meuse.grid)
+  pts = meuse.grid[c("x", "y")]
+  input = SpatialPixels(SpatialPoints(pts))
 
-  # output <- gt_sp(input)
-  # expect_class(output, "geom")
-  # expect_true(output@type == "")
+  output <- gt_sp(input)
+  expect_class(output, "geom")
+  expect_true(output@type == "point")
 
   # test 'SpatialPixelsDataFrame'
+  input <- SpatialPixelsDataFrame(points = input, data = meuse.grid)
 
-  # output <- gt_sp(input)
-  # expect_class(output, "geom")
-  # expect_true(output@type == "")
-
+  output <- gt_sp(input)
+  expect_class(output, "geom")
+  expect_true(output@type == "point")
 })

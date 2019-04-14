@@ -13,6 +13,25 @@ test_that("output is valid geometry", {
   expect_data_frame(output@vert, any.missing = FALSE, nrows = 5, ncols = 4)
 })
 
+test_that("casting to 'polygon' works", {
+  coords <- data.frame(x = c(40, 70, 70, 50),
+                       y = c(40, 40, 60, 70))
+
+  # from point to polygon
+  input <- gs_point(anchor = coords)
+  output <- gs_polygon(anchor = input)
+  expect_class(output, classes = "geom")
+  expect_true(output@type == "polygon")
+  expect_data_frame(output@vert, any.missing = FALSE, nrows = 5, ncols = 4)
+
+  # from line to polygon
+  input <- gs_line(anchor = coords)
+  output <- gs_polygon(anchor = input)
+  expect_class(output, classes = "geom")
+  expect_true(output@type == "polygon")
+  expect_data_frame(output@vert, any.missing = FALSE, nrows = 5, ncols = 4)
+})
+
 test_that("template instead of anchor", {
   # input <- gtRasters$continuous
   #
@@ -33,5 +52,8 @@ test_that("Error if arguments have wrong value", {
   expect_error(gs_polygon(anchor = coords, vertices = 4, regular = "bla"))
   expect_error(gs_polygon(vertices = 4, regular = TRUE))
   expect_error(gs_polygon(template = "bla", vertices = 4))
+
+  # function stops when trying to cast from line/point with less than 3 vertices
+
 })
 
