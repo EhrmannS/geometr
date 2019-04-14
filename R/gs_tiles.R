@@ -6,9 +6,6 @@
 #' @param window [\code{data.frame(1)}]\cr the origin (lower left corner) and
 #'   the maximum value (upper right corner) of the tiling.
 #' @param width [\code{numeric(1)}]\cr the width of a tile.
-#' @param cells [\code{integerish(2)}]\cr number of geometries to create. If two
-#'   values (including \code{NA}) are given, they are for x and y-dimension, if
-#'   only one value is given, it denotes the overall amount of cells.
 #' @param pattern [\code{character(1)}]\cr pattern of the tiling. Possible
 #'   options are \code{"squared"} (default) or \code{"hexagonal"}.
 #' @param rotation [\code{integerish(1)}]\cr
@@ -31,21 +28,21 @@
 #'                       y = c(-60, 80))
 #' tiles <- gs_tiles(window = aWindow, width = 10)
 #'
-#' # create a hexagonal tiling spanning the whole world
+#' # create a hexagonal tiling for a geom
 #' coords <- data.frame(x = c(40, 70, 70, 50),
 #'                      y = c(40, 40, 60, 70))
 #' window <- data.frame(x = c(0, 80),
 #'                      y = c(0, 80))
 #' aGeom <- gs_polygon(anchor = coords, window = window)
-#' comb <- gs_tiles(anchor = aGeom, width = 8, pattern = "hexagonal", rotation = 45)
+#' comb <- gs_tiles(anchor = aGeom, width = 8, pattern = "hexagonal", rotation = 30)
 #' @importFrom checkmate testDataFrame assertNames testClass testIntegerish
 #'   assertDataFrame assertNames assertCharacter assertSubset assertLogical
 #' @importFrom tibble tibble
-#' @importFrom dplyr bind_rows group_by summarise
+#' @importFrom dplyr bind_rows group_by summarise left_join select mutate
 #' @export
 
-gs_tiles <- function(anchor = NULL, window = NULL, width = NULL, cells = NULL,
-                     pattern = "squared", rotation = 0, centroids = FALSE){
+gs_tiles <- function(anchor = NULL, window = NULL, width = NULL, pattern = "squared",
+                     rotation = 0, centroids = FALSE){
 
   # check arguments
   anchorIsDF <- testDataFrame(anchor, types = "numeric", any.missing = FALSE, min.cols = 2)
@@ -90,14 +87,14 @@ gs_tiles <- function(anchor = NULL, window = NULL, width = NULL, cells = NULL,
   }
 
   assertIntegerish(width, len = 1)
-  # assertIntegerish(cells, len = 2, any.missing = FALSE)
   assertChoice(x = pattern, choices = c("squared", "hexagonal", "triangular"))
   assertNumeric(x = rotation, lower = 0, upper = 360, len = 1)
   assertLogical(centroids)
 
   targetRotation <- rotation
   if(targetRotation != 0){
-    originCentroid <- c(mean(x = anchor@vert$x), mean(x = anchor@vert$y))
+    coords <- getSubset(anchor, !!(!duplicated(anchor@vert[c("x", "y")])), slot = "vert")
+    originCentroid <- c(mean(x = coords@vert$x), mean(x = coords@vert$y))
     anchor <- gt_rotate(geom = anchor, about = originCentroid, angle = -targetRotation)
   }
 
@@ -107,16 +104,13 @@ gs_tiles <- function(anchor = NULL, window = NULL, width = NULL, cells = NULL,
     xRange <- max(anchor@vert$x) - min(anchor@vert$x)
     yRange <- max(anchor@vert$y) - min(anchor@vert$y)
 
-    # cols <- ceiling(xRange / width)
-    # rows <- ceiling(yRange / width)
-
     # determine centroids
-    xCentroids <- seq(min(anchor@vert$x) + width/2, max(anchor@vert$x), width)
-    yCentroids <- seq(min(anchor@vert$y) + width/2, max(anchor@vert$y), width)
+    xCentroids <- seq(min(anchor@vert$x) - 3*width/2, max(anchor@vert$x) + 3*width/2, width)
+    yCentroids <- seq(min(anchor@vert$y) - 3*width/2, max(anchor@vert$y) + 3*width/2, width)
     cntrds <- tibble(fid = seq(1:(length(xCentroids)*length(yCentroids))),
                      x = rep(xCentroids, times = length(yCentroids)),
                      y = rep(yCentroids, each = length(xCentroids)))
-    targetCentroids <- gs_point(anchor = cntrds, window = window)
+    targetCentroids <- gs_point(anchor = cntrds, window = anchor@window)
 
     offset <- 45
     vertices <- 4
@@ -133,9 +127,6 @@ gs_tiles <- function(anchor = NULL, window = NULL, width = NULL, cells = NULL,
     inRadius <- width/2
     circumRadius <- 2/sqrt(3) * inRadius
     radius <- circumRadius
-
-    # cols <- ceiling(xRange / (inRadius*2))
-    # rows <- ceiling(yRange / (3/2*circumRadius) / 2)
 
     # determine centroids
     xC1 <- seq(min(anchor@vert$x) - 2*inRadius, max(anchor@vert$x) + 2*inRadius, by = inRadius*2)
@@ -166,8 +157,10 @@ gs_tiles <- function(anchor = NULL, window = NULL, width = NULL, cells = NULL,
     nodes <- NULL
     for(i in seq_along(targetCentroids@vert$fid)){
       cx <- targetCentroids@vert$x[i] + relX
+      cx <- c(cx, cx[1])
       cy <- targetCentroids@vert$y[i] + relY
-      theNodes <- tibble(fid = i, vid = 1:length(angles), x = cx, y = cy)
+      cy <- c(cy, cy[1])
+      theNodes <- tibble(fid = i, vid = seq_along(cx), x = cx, y = cy)
       nodes <- bind_rows(nodes, theNodes)
     }
     theType <- "polygon"
@@ -193,8 +186,16 @@ gs_tiles <- function(anchor = NULL, window = NULL, width = NULL, cells = NULL,
   sbst <- summarise(sbst, sub = any(include == TRUE))
   theTiles <- getSubset(x = theTiles, !!sbst$sub, slot = "table")
 
+  # reconstruct IDs
+  newIDs <- tibble(fid = theTiles@attr$fid, new = seq_along(fid))
+  theTiles@vert <- left_join(theTiles@vert, newIDs, by = "fid")
+  theTiles@vert <- select(theTiles@vert, fid = new, vid, "x", "y")
+  theTiles@attr <- left_join(theTiles@attr, newIDs, by = "fid")
+  theTiles@attr <- mutate(theTiles@attr, fid = new, gid = fid)
+  theTiles@attr <- select(theTiles@attr, fid, gid)
+
   if(targetRotation != 0){
-    theTiles <- gt_rotate(geom = theTiles, about = originCentroid, angle = targetRotation)
+    theTiles <- gt_rotate(geom = theTiles, about = originCentroid, angle = targetRotation, update = FALSE)
   }
 
   invisible(theTiles)
