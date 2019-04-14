@@ -4,8 +4,8 @@
 \alias{gs_tiles}
 \title{Create a regular tiling geometry}
 \usage{
-gs_tiles(anchor = NULL, window = NULL, diameter = NULL,
-  cells = NULL, pattern = "squared", centroids = FALSE)
+gs_tiles(anchor = NULL, window = NULL, width = NULL, cells = NULL,
+  pattern = "squared", rotation = 0, centroids = FALSE)
 }
 \arguments{
 \item{anchor}{[\code{data.frame(1)}]\cr Object to derive the \code{geom}
@@ -15,7 +15,7 @@ such as \code{fid}; see Examples.}
 \item{window}{[\code{data.frame(1)}]\cr the origin (lower left corner) and
 the maximum value (upper right corner) of the tiling.}
 
-\item{diameter}{[\code{numeric(1)}]\cr the (outer) diameter of each tile.}
+\item{width}{[\code{numeric(1)}]\cr the width of a tile.}
 
 \item{cells}{[\code{integerish(2)}]\cr number of geometries to create. If two
 values (including \code{NA}) are given, they are for x and y-dimension, if
@@ -23,6 +23,8 @@ only one value is given, it denotes the overall amount of cells.}
 
 \item{pattern}{[\code{character(1)}]\cr pattern of the tiling. Possible
 options are \code{"squared"} (default) or \code{"hexagonal"}.}
+
+\item{rotation}{[\code{integerish(1)}]\cr}
 
 \item{centroids}{[\code{logical(1)}]\cr should the centroids of the tiling be
 returned (\code{TRUE}) or should the tiling be returned (\code{FALSE},
@@ -46,14 +48,17 @@ When deriving a regular tiling for a prescribed window, there is
 }
 \examples{
 # create a squared tiling
-#aWindow <- data.frame(x = c(-180, 180),
-#                       y = c(-60, 80))
-#tiles <- gs_tiles(window = aWindow, diameter = 10)
+aWindow <- data.frame(x = c(-180, 180),
+                      y = c(-60, 80))
+tiles <- gs_tiles(window = aWindow, width = 10)
 
 # create a hexagonal tiling spanning the whole world
-theWorld <- data.frame(x = c(-180, 180),
-                        y = c(-90, 90))
-#comb <- gs_tiles(window = theWorld, diameter = 10, pattern = "hexagonal")
+coords <- data.frame(x = c(40, 70, 70, 50),
+                     y = c(40, 40, 60, 70))
+window <- data.frame(x = c(0, 80),
+                     y = c(0, 80))
+aGeom <- gs_polygon(anchor = coords, window = window)
+comb <- gs_tiles(anchor = aGeom, width = 8, pattern = "hexagonal", rotation = 45)
 }
 \seealso{
 Other tilings: \code{\link{gs_voronoi}}

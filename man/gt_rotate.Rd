@@ -15,8 +15,7 @@ gt_rotate(geom, angle = NULL, about = c(0, 0), fid = NULL)
 \item{about}{[\code{numeric(2)}]\cr the point about which \code{geom} shall
 be rotated.}
 
-\item{fid}{[\code{integerish(.)}]\cr vector of features that should be
-rotated.}
+\item{fid}{[\code{integerish(.)}]\cr the features to rotate.}
 }
 \value{
 Rotated \code{geom}.

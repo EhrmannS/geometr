@@ -13,8 +13,7 @@ gt_skew(geom, x = NULL, y = NULL, fid = NULL)
 
 \item{y}{[\code{numeric(1)}]\cr the shear factor in y-dimension.}
 
-\item{fid}{[\code{integerish(.)}]\cr vector of features that should be
-skewed.}
+\item{fid}{[\code{integerish(.)}]\cr the features to skew.}
 }
 \value{
 Skewed \code{geom}.

@@ -13,16 +13,16 @@ gs_polygon(anchor = NULL, window = NULL, template = NULL,
   ...)
 
 gs_triangle(anchor = NULL, window = NULL, template = NULL,
-  features = 1, ...)
+  features = 1, fixed = FALSE, ...)
 
 gs_square(anchor = NULL, window = NULL, template = NULL,
-  features = 1, ...)
+  features = 1, fixed = FALSE, ...)
 
 gs_rectangle(anchor = NULL, window = NULL, template = NULL,
   features = 1, ...)
 
 gs_hexagon(anchor = NULL, window = NULL, template = NULL,
-  features = 1, ...)
+  features = 1, fixed = FALSE, ...)
 }
 \arguments{
 \item{anchor}{[\code{data.frame(1)}]\cr Object to derive the \code{geom}
@@ -47,7 +47,7 @@ point symmetric (\code{TRUE}) or should the vertices be selected according
 to \code{anchor} or \code{vertices} (\code{FALSE}, default)?}
 
 \item{fixed}{[\code{logical(1)}]\cr should the polygon be aligned vertically
-(\code{TRUE}, default), or sohuld it be aligned according to the second
+(\code{TRUE}, default), or should it be aligned according to the second
 click (\code{FALSE}); only relevant if \code{regular = TRUE}.}
 
 \item{...}{[various]\cr graphical parameters to \code{\link{gt_locate}}, in case

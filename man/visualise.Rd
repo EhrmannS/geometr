@@ -5,7 +5,8 @@
 \title{Visualise raster and geom objects}
 \usage{
 visualise(raster = NULL, geom = NULL, window = NULL,
-  theme = gtTheme, trace = FALSE, image = FALSE, new = TRUE, ...)
+  theme = gtTheme, trace = FALSE, image = FALSE, new = TRUE,
+  clip = TRUE, ...)
 }
 \arguments{
 \item{raster}{[\code{Raster*} | \code{matrix}]\cr raster object to plot.}
@@ -26,6 +27,9 @@ simply plot the object (\code{FALSE}, default).}
 is actually an image; see Details.}
 
 \item{new}{[\code{logical(1)}]\cr force a new plot (\code{TRUE}, default).}
+
+\item{clip}{[\code{logical(1)}]\cr clip the plot by the plot box
+(\code{TRUE}, default), or plot all of the objects.}
 
 \item{...}{[various]\cr graphical parameters to plot a \code{geom}.}
 }

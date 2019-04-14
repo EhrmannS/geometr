@@ -4,8 +4,8 @@
 \alias{gt_edit}
 \title{Edit the vertices of geometries}
 \usage{
-gt_edit(panel = NULL, tolerance = 0.01, verbose = FALSE,
-  centroid = FALSE)
+gt_edit(panel = NULL, tolerance = 0.01, fid = NULL,
+  centroid = FALSE, verbose = FALSE)
 }
 \arguments{
 \item{panel}{[\code{character(1)}]\cr the panel in which to edit vertices
@@ -14,10 +14,12 @@ gt_edit(panel = NULL, tolerance = 0.01, verbose = FALSE,
 \item{tolerance}{[\code{numeric(1)}]\cr width of the locator-boxes as
 proportion of the overall box width.}
 
-\item{verbose}{[\code{logical(1)}]\cr be verbose about intermediate steps?}
+\item{fid}{[\code{integerish(.)}]\cr the features to edit.}
 
 \item{centroid}{[\code{logical(1)}]\cr instead of moving the vertices of a
 \code{geom}, move the centroid and thus the overall \code{geom}.}
+
+\item{verbose}{[\code{logical(1)}]\cr be verbose about intermediate steps?}
 }
 \value{
 An invisible \code{geom}.
