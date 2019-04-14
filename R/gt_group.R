@@ -19,12 +19,12 @@
 #' @examples
 #' coords <- data.frame(x = c(30, 60, 60, 40, 10, 40, 20),
 #'                      y = c(40, 40, 60, 70, 10, 20, 40),
-#'                      fid = c(1, 1, 2, 2, 2, 2, 2))
+#'                      fid = c(1, 1, 1, 1, 2, 2, 2))
 #' window <- data.frame(x = c(0, 80),
 #'                      y = c(0, 80))
-#' aGeom <- gs_point(anchor = coords, window = window)
+#' aLine <- gs_line(anchor = coords, window = window)
 #'
-#' grouped <- gt_group(geom = aGeom, distance = 40)
+#' grouped <- gt_group(geom = aLine, distance = 40)
 #' visualise(geom = grouped)
 #' @importFrom checkmate testList assertNames assertDataFrame
 #' @importFrom tibble tibble
