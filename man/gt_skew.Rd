@@ -4,7 +4,7 @@
 \alias{gt_skew}
 \title{Skew geometries}
 \usage{
-gt_skew(geom, x = NULL, y = NULL, fid = NULL)
+gt_skew(geom, x = NULL, y = NULL, fid = NULL, update = TRUE)
 }
 \arguments{
 \item{geom}{[\code{geom}]\cr object of class \code{\link{geom}}.}
@@ -14,6 +14,9 @@ gt_skew(geom, x = NULL, y = NULL, fid = NULL)
 \item{y}{[\code{numeric(1)}]\cr the shear factor in y-dimension.}
 
 \item{fid}{[\code{integerish(.)}]\cr the features to skew.}
+
+\item{update}{[\code{logical(1)}]\cr whether or not to update the window slot
+after skewing.}
 }
 \value{
 Skewed \code{geom}.

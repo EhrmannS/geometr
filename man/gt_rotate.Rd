@@ -4,7 +4,8 @@
 \alias{gt_rotate}
 \title{Rotate geometries}
 \usage{
-gt_rotate(geom, angle = NULL, about = c(0, 0), fid = NULL)
+gt_rotate(geom, angle = NULL, about = c(0, 0), fid = NULL,
+  update = TRUE)
 }
 \arguments{
 \item{geom}{[\code{geom}]\cr object of class \code{\link{geom}}.}
@@ -16,6 +17,9 @@ gt_rotate(geom, angle = NULL, about = c(0, 0), fid = NULL)
 be rotated.}
 
 \item{fid}{[\code{integerish(.)}]\cr the features to rotate.}
+
+\item{update}{[\code{logical(1)}]\cr whether or not to update the window slot
+after rotation.}
 }
 \value{
 Rotated \code{geom}.

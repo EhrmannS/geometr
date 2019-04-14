@@ -4,7 +4,7 @@
 \alias{gt_stretch}
 \title{Stretch geometries}
 \usage{
-gt_stretch(geom, x = NULL, y = NULL, fid = NULL)
+gt_stretch(geom, x = NULL, y = NULL, fid = NULL, update = TRUE)
 }
 \arguments{
 \item{geom}{[\code{geom}]\cr object of class \code{\link{geom}}.}
@@ -14,6 +14,9 @@ gt_stretch(geom, x = NULL, y = NULL, fid = NULL)
 \item{y}{[\code{numeric(1)}]\cr the scale factor in y-dimension.}
 
 \item{fid}{[\code{integerish(.)}]\cr the features to stretch.}
+
+\item{update}{[\code{logical(1)}]\cr whether or not to update the window slot
+after stretching.}
 }
 \value{
 Stretched \code{geom}.

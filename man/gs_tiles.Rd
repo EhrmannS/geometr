@@ -4,7 +4,7 @@
 \alias{gs_tiles}
 \title{Create a regular tiling geometry}
 \usage{
-gs_tiles(anchor = NULL, window = NULL, width = NULL, cells = NULL,
+gs_tiles(anchor = NULL, window = NULL, width = NULL,
   pattern = "squared", rotation = 0, centroids = FALSE)
 }
 \arguments{
@@ -16,10 +16,6 @@ such as \code{fid}; see Examples.}
 the maximum value (upper right corner) of the tiling.}
 
 \item{width}{[\code{numeric(1)}]\cr the width of a tile.}
-
-\item{cells}{[\code{integerish(2)}]\cr number of geometries to create. If two
-values (including \code{NA}) are given, they are for x and y-dimension, if
-only one value is given, it denotes the overall amount of cells.}
 
 \item{pattern}{[\code{character(1)}]\cr pattern of the tiling. Possible
 options are \code{"squared"} (default) or \code{"hexagonal"}.}
@@ -52,13 +48,13 @@ aWindow <- data.frame(x = c(-180, 180),
                       y = c(-60, 80))
 tiles <- gs_tiles(window = aWindow, width = 10)
 
-# create a hexagonal tiling spanning the whole world
+# create a hexagonal tiling for a geom
 coords <- data.frame(x = c(40, 70, 70, 50),
                      y = c(40, 40, 60, 70))
 window <- data.frame(x = c(0, 80),
                      y = c(0, 80))
 aGeom <- gs_polygon(anchor = coords, window = window)
-comb <- gs_tiles(anchor = aGeom, width = 8, pattern = "hexagonal", rotation = 45)
+comb <- gs_tiles(anchor = aGeom, width = 8, pattern = "hexagonal", rotation = 30)
 }
 \seealso{
 Other tilings: \code{\link{gs_voronoi}}
