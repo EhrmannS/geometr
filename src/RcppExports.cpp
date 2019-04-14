@@ -18,16 +18,16 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// vertInGeomC
-bool vertInGeomC(NumericMatrix& vert, NumericMatrix& geom, bool invert);
-RcppExport SEXP _geometr_vertInGeomC(SEXP vertSEXP, SEXP geomSEXP, SEXP invertSEXP) {
+// pointInGeomC
+IntegerVector pointInGeomC(NumericMatrix& vert, NumericMatrix& geom, bool invert);
+RcppExport SEXP _geometr_pointInGeomC(SEXP vertSEXP, SEXP geomSEXP, SEXP invertSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< NumericMatrix& >::type vert(vertSEXP);
     Rcpp::traits::input_parameter< NumericMatrix& >::type geom(geomSEXP);
     Rcpp::traits::input_parameter< bool >::type invert(invertSEXP);
-    rcpp_result_gen = Rcpp::wrap(vertInGeomC(vert, geom, invert));
+    rcpp_result_gen = Rcpp::wrap(pointInGeomC(vert, geom, invert));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -69,7 +69,7 @@ END_RCPP
 
 static const R_CallMethodDef CallEntries[] = {
     {"_geometr_matInGeomC", (DL_FUNC) &_geometr_matInGeomC, 3},
-    {"_geometr_vertInGeomC", (DL_FUNC) &_geometr_vertInGeomC, 3},
+    {"_geometr_pointInGeomC", (DL_FUNC) &_geometr_pointInGeomC, 3},
     {"_geometr_getValuesMatC", (DL_FUNC) &_geometr_getValuesMatC, 1},
     {"_geometr_subChrIntC", (DL_FUNC) &_geometr_subChrIntC, 3},
     {"_geometr_sortUniqueC", (DL_FUNC) &_geometr_sortUniqueC, 1},

@@ -80,16 +80,18 @@ NumericMatrix matInGeomC(NumericMatrix &mat, NumericMatrix &geom, bool negative)
 }
 
 // [[Rcpp::export]]
-bool vertInGeomC(NumericMatrix &vert, NumericMatrix &geom, bool invert){
+IntegerVector pointInGeomC(NumericMatrix &vert, NumericMatrix &geom, bool invert){
+  int mRows = vert.nrow();
   int cRows = geom.nrow();
   double isLeft;
-  bool out, inside, outside;
+  int inside, outside;
+  IntegerVector out(mRows);
   if(invert){
-    inside = FALSE;
-    outside = TRUE;
+    inside = 0;
+    outside = 1;
   } else{
-    inside = TRUE;
-    outside = FALSE;
+    inside = 1;
+    outside = 0;
   }
 
   // get bounding box of geom
@@ -102,52 +104,55 @@ bool vertInGeomC(NumericMatrix &vert, NumericMatrix &geom, bool invert){
   }
   // Rcout << geom << std::endl;
 
-  double x = vert[0];
-  double y = vert[1];
-  // Rcout << x << " " << y << std::endl;
+  for(int j = 0; j < mRows; j++){
 
-  // if the coordinate is within the bounding box, proceed, otherwise value is definitely 0
-  if((x <= xMax) & (x >= xMin) & (y <= yMax) & (y >= yMin)){
-    int wn = 0;                            // the  winding number counter
-    // Rcout << "\ninside extent" << std::endl;
+    double x = vert(j, 0);
+    double y = vert(j, 1);
+    // Rcout << x << " " << y << std::endl;
 
-    // loop through all edges of the polygon and find wn
-    for (int i = 0; i < cRows-1; i++){
+    // if the coordinate is within the bounding box, proceed, otherwise value is definitely 0
+    if((x <= xMax) & (x >= xMin) & (y <= yMax) & (y >= yMin)){
+      int wn = 0;                            // the  winding number counter
+      // Rcout << "\ninside extent" << std::endl;
 
-      // Rcout << "\n" << i+1 << ". ----\n" << y << std::endl;
-      // Rcout << geom(i, 1) << ", " << geom(i+1, 1) << std::endl;
+      // loop through all edges of the polygon and find wn
+      for (int i = 0; i < cRows-1; i++){
 
-      if (y >= geom(i, 1)){
-        if (y < geom(i+1, 1)){             // an upward crossing
-          isLeft = (geom(i+1, 0) - geom(i, 0)) * (y - geom(i, 1)) - (x -  geom(i, 0)) * (geom(i+1, 1) - geom(i, 1));
-          // Rcout << "is left: " << isLeft << std::endl;
-          if(isLeft > 0){                  // P left of edge
-            ++wn;                          // have  a valid up intersect
+        // Rcout << "\n" << i+1 << ". ----\n" << y << std::endl;
+        // Rcout << geom(i, 1) << ", " << geom(i+1, 1) << std::endl;
+
+        if (y >= geom(i, 1)){
+          if (y < geom(i+1, 1)){             // an upward crossing
+            isLeft = (geom(i+1, 0) - geom(i, 0)) * (y - geom(i, 1)) - (x -  geom(i, 0)) * (geom(i+1, 1) - geom(i, 1));
+            // Rcout << "is left: " << isLeft << std::endl;
+            if(isLeft > 0){                  // P left of edge
+              ++wn;                          // have  a valid up intersect
+            }
           }
-        }
-        // Rcout << "wn: " << wn << std::endl;
+          // Rcout << "wn: " << wn << std::endl;
 
-      } else {
-        if (y >= geom(i+1, 1)){            // a downward crossing
-          isLeft = (geom(i+1, 0) - geom(i, 0)) * (y - geom(i, 1)) - (x -  geom(i, 0)) * (geom(i+1, 1) - geom(i, 1));
-          // Rcout << "is left: " << isLeft << std::endl;
-          if(isLeft < 0){                  // P right of edge
-            --wn;                          // have  a valid down intersect
+        } else {
+          if (y >= geom(i+1, 1)){            // a downward crossing
+            isLeft = (geom(i+1, 0) - geom(i, 0)) * (y - geom(i, 1)) - (x -  geom(i, 0)) * (geom(i+1, 1) - geom(i, 1));
+            // Rcout << "is left: " << isLeft << std::endl;
+            if(isLeft < 0){                  // P right of edge
+              --wn;                          // have  a valid down intersect
+            }
           }
+          // Rcout << "wn: " << wn << std::endl;
+
         }
-        // Rcout << "wn: " << wn << std::endl;
 
       }
 
-    }
-
-    if(wn == 0){
-      out = outside;
+      if(wn == 0){
+        out[j] = outside;
+      } else{
+        out[j] = inside;
+      }
     } else{
-      out = inside;
+      out[j] = outside;
     }
-  } else{
-    out = outside;
   }
 
   return(out);
