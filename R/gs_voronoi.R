@@ -13,6 +13,28 @@
 #'   the tiling is sketched; see \code{\link{gpar}}.
 #' @return An invisible \code{geom}.
 #' @family tilings
+#' @examples
+#' library(magrittr)
+#'
+#' # create voronoi polygons programmatically
+#' coords <- data.frame(x = c(40, 70, 70, 50),
+#'                      y = c(40, 40, 60, 70))
+#' window <- data.frame(x = c(0, 80),
+#'                      y = c(0, 80))
+#' aGeom <- gs_point(anchor = coords, window = window)
+#' visualise(geom = aGeom)
+#'
+#' tiles <- gs_voronoi(anchor = aGeom) %>%
+#'   visualise(geom = ., new = FALSE)
+#'
+#' \dontrun{
+#'
+#' input <- gtRasters$continuous
+#'
+#' # create voronoi polygons interactively
+#' tiles <- gs_voronoi(template = input)
+#' visualise(geom = tiles, linecol = "orange", new = FALSE)
+#' }
 #' @importFrom checkmate testDataFrame assertNames testClass testNull
 #'   assertDataFrame assert assertIntegerish
 #' @importFrom dplyr bind_cols bind_rows
