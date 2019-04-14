@@ -1,5 +1,5 @@
 #' @useDynLib geometr
-globalVariables(c("gtTheme", "fid", "gid", "targetGrob"))
+globalVariables(c("gtTheme", "fid", "gid", "targetGrob", "include"))
 
 listArgs <- function (){
   as.list(
@@ -9,6 +9,11 @@ listArgs <- function (){
     )
   )[-1]
 }
+
+#' Convert degree to radians
+#' @param degree [\code{numeric(1)}]\cr a degree value to convert to radians.
+#' @importFrom checkmate assertNumeric
+#' @export
 
 rad <- function(degree){
   assertNumeric(degree)
