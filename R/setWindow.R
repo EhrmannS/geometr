@@ -34,6 +34,7 @@ if(!isGeneric("setWindow")){
 setMethod(f = "setWindow",
           signature = "geom",
           definition = function(x, to){
+            assertClass(x = x, classes = "geom")
             if("Extent" %in% class(to)){
               xVals <- c(to@xmin, to@xmax)
               yVals <- c(to@ymin, to@ymax)
@@ -42,7 +43,7 @@ setMethod(f = "setWindow",
               assertNames(names(to), must.include = c("x", "y"))
               xVals <- c(to$x[1], to$x[2])
               yVals <- c(to$y[1], to$y[2])
-            } else if(is.vector(to) | "bbox" %in% class(to)){
+            } else if("bbox" %in% class(to)){
               names(to) <- tolower(names(to))
               assertNames(names(to), must.include = c("xmin", "xmax", "ymin", "ymax"))
               xVals <- c(to["xmin"], to["xmax"])
