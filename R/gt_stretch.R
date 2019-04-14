@@ -38,11 +38,6 @@ gt_stretch <- function(geom, x = NULL, y = NULL, fid = NULL, update = TRUE){
   assert(yIsList, yIsNumeric)
   assertIntegerish(x = fid, any.missing = FALSE, null.ok = TRUE)
 
-  if(length(geom) == 1){
-    newHistory <- paste0("geometry was stretched")
-  } else {
-    newHistory <- paste0("geometries were stretched")
-  }
 
   if(is.null(x)){
     x <- 1
@@ -107,6 +102,12 @@ gt_stretch <- function(geom, x = NULL, y = NULL, fid = NULL, update = TRUE){
     }
   } else {
     window <- geom@window
+  }
+
+  if(length(ids) == 1){
+    newHistory <- paste0("geometry was stretched")
+  } else {
+    newHistory <- paste0("geometries were stretched")
   }
 
   out <- new(Class = "geom",

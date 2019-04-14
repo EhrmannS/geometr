@@ -50,12 +50,6 @@ gt_rotate <- function(geom, angle = NULL, about = c(0, 0), fid = NULL, update = 
   assert(aboutIsList, aboutIsNumeric)
   assertIntegerish(x = fid, any.missing = FALSE, null.ok = TRUE)
 
-  if(length(geom) == 1){
-    newHistory <- paste0("geometry was rotated")
-  } else {
-    newHistory <- paste0("geometries were rotated")
-  }
-
   if(aboutIsNumeric){
     about <- list(about)
   }
@@ -121,6 +115,12 @@ gt_rotate <- function(geom, angle = NULL, about = c(0, 0), fid = NULL, update = 
     }
   } else {
     window <- geom@window
+  }
+
+  if(length(ids) == 1){
+    newHistory <- paste0("geometry was rotated")
+  } else {
+    newHistory <- paste0("geometries were rotated")
   }
 
   out <- new(Class = "geom",
