@@ -4,8 +4,8 @@
 #' @param geom [\code{geom}]\cr object of class \code{\link{geom}}.
 #' @param x [\code{numeric(1)}]\cr the shear factor in x-dimension.
 #' @param y [\code{numeric(1)}]\cr the shear factor in y-dimension.
-#' @param fid [\code{integerish(.)}]\cr vector of features that should be
-#'   skewed.
+#' @param fid [\code{integerish(.)}]\cr the features to skew.
+
 #' @return Skewed \code{geom}.
 #' @family geometry tools
 #' @examples
@@ -102,11 +102,20 @@ gt_skew <- function(geom, x = NULL, y = NULL, fid = NULL){
     temp <- bind_rows(temp, newCoords)
   }
 
+  inWindow <- pointInGeomC(vert = as.matrix(temp[c("x", "y")]),
+                           geom = as.matrix(bind_rows(geom@window[c("x", "y")], geom@window[c("x", "y")][1,])),
+                           invert = FALSE)
+
+  if(!all(inWindow == 1)){
+    window <- tibble(x = c(min(temp$x), max(temp$x)),
+                     y = c(min(temp$y), max(temp$y)))
+  }
+
   out <- new(Class = "geom",
              type = geom@type,
              vert = temp,
              attr = geom@attr,
-             window = geom@window,
+             window = window,
              scale = geom@scale,
              crs = geom@crs,
              history = c(geom@history, list(newHistory)))

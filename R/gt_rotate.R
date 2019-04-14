@@ -6,8 +6,7 @@
 #'   \code{geom} shall be rotated.
 #' @param about [\code{numeric(2)}]\cr the point about which \code{geom} shall
 #'   be rotated.
-#' @param fid [\code{integerish(.)}]\cr vector of features that should be
-#'   rotated.
+#' @param fid [\code{integerish(.)}]\cr the features to rotate.
 #' @return Rotated \code{geom}.
 #' @family geometry tools
 #' @examples
@@ -33,7 +32,8 @@
 #'                         angle = list(90, -180),
 #'                         about = list(c(40, 40), c(30, 40)))
 #' visualise(geom = rotateMore)
-#' @importFrom checkmate assertClass assertNames testList testNumeric assertNumeric
+#' @importFrom checkmate assertClass assertNames testList testNumeric
+#'   assertNumeric
 #' @importFrom methods new
 #' @export
 
@@ -104,13 +104,22 @@ gt_rotate <- function(geom, angle = NULL, about = c(0, 0), fid = NULL){
       }
     }
     temp <- bind_rows(temp, tempCoords)
-
   }
+
+  inWindow <- pointInGeomC(vert = as.matrix(temp[c("x", "y")]),
+                           geom = as.matrix(bind_rows(geom@window[c("x", "y")], geom@window[c("x", "y")][1,])),
+                           invert = FALSE)
+
+  if(!all(inWindow == 1)){
+    window <- tibble(x = c(min(temp$x), max(temp$x)),
+                     y = c(min(temp$y), max(temp$y)))
+  }
+
   out <- new(Class = "geom",
              type = geom@type,
              vert = temp,
              attr = geom@attr,
-             window = geom@window,
+             window = window,
              scale = geom@scale,
              crs = geom@crs,
              history = c(geom@history, list(newHistory)))
