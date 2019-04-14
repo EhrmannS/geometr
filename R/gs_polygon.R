@@ -18,7 +18,7 @@
 #'   point symmetric (\code{TRUE}) or should the vertices be selected according
 #'   to \code{anchor} or \code{vertices} (\code{FALSE}, default)?
 #' @param fixed [\code{logical(1)}]\cr should the polygon be aligned vertically
-#'   (\code{TRUE}, default), or sohuld it be aligned according to the second
+#'   (\code{TRUE}, default), or should it be aligned according to the second
 #'   click (\code{FALSE}); only relevant if \code{regular = TRUE}.
 #' @param ... [various]\cr graphical parameters to \code{\link{gt_locate}}, in case
 #'   a polygon is sketched; see \code{\link{gpar}}.
@@ -76,7 +76,7 @@
 #' @importFrom stats dist
 #' @importFrom checkmate testDataFrame assertNames testClass assertDataFrame
 #'   testTRUE testNull testClass assertIntegerish assertLogical assert
-#' @importFrom tibble tibble
+#' @importFrom tibble tibble add_row
 #' @importFrom dplyr bind_cols bind_rows
 #' @importFrom rlang !!
 #' @export
@@ -185,18 +185,17 @@ gs_polygon <- function(anchor = NULL, window = NULL, template = NULL, features =
         window <- anchor@window
       }
       tempAnchor <- anchor@vert[anchor@vert$fid == i,]
-      openingAngle <- 0
+      openingAngle <- atan((tempAnchor$x[1] - tempAnchor$x[2]) / (tempAnchor$y[1] - tempAnchor$y[2])) * 180 / pi
     } else if(anchorIsDF){
       if(!windowExists){
         window <- tibble(x = c(min(anchor$x), max(anchor$x)),
                          y = c(min(anchor$y), max(anchor$y)))
       }
       tempAnchor <- anchor[anchor$fid == i, ]
-      openingAngle <- 0
+      openingAngle <- atan((tempAnchor$x[1] - tempAnchor$x[2]) / (tempAnchor$y[1] - tempAnchor$y[2])) * 180 / pi
     }
 
     if(regular){
-
       # trigonometry
       angle <- 360/vertices[i]
       angles <- seq(from = 90, to = 360-angle+90, by = angle) - openingAngle
@@ -204,21 +203,39 @@ gs_polygon <- function(anchor = NULL, window = NULL, template = NULL, features =
       radius <- dist(tempAnchor[c(1:2),])
       cx <- tempAnchor$x[1] + radius*cos(rad(angles))
       cy <- tempAnchor$y[1] + radius*sin(rad(angles))
-      theNodes <- tibble(fid = i, vid = 1:vertices, x = cx, y = cy)
+      theNodes <- tibble(x = cx, y = cy)
       if(any(theNodes$x < min(window$x)) | any(theNodes$x > max(window$x)) | any(theNodes$y < min(window$y)) | any(theNodes$y > max(window$y))){
         window <- tibble(x = c(min(theNodes$x), max(theNodes$x)), y = c(min(theNodes$y), max(theNodes$y)))
       }
-
-      nodes <- bind_rows(nodes, theNodes)
-      fids <- c(fids, length(unique(theNodes$fid)))
-
     } else{
-
-      theNodes <- tempAnchor[c("fid", "vid", "x", "y")]
-
-      nodes <- bind_rows(nodes, theNodes)
-      fids <- c(fids, length(unique(theNodes$vid)))
+      theNodes <- tempAnchor[c("x", "y")]
     }
+
+    # create vertices that would close rings and thus make valid polygons
+    # check whether the first vertex has a duplicate...
+    dupBwd <- duplicated(theNodes, fromLast = TRUE)
+    if(!dupBwd[1]){
+      # ... if not, test whether there is any duplicate, hence any closed ring, or not
+      if(any(dupBwd)){
+        theNodes <- add_row(theNodes, x = theNodes$x[1], y = theNodes$y[1], .before = which(dupBwd))
+      } else {
+        theNodes <- add_row(theNodes, x = theNodes$x[1], y = theNodes$y[1])
+      }
+    }
+
+    # check whether the last vertex has a duplicate...
+    dupFwd <- duplicated(theNodes)
+    if(!dupFwd[dim(theNodes)[1]]){
+      # ... if not, test whether there is any duplicate, hence any closed ring, or not
+      if(any(dupFwd)){
+        theNodes <- add_row(theNodes, x = theNodes$x[dim(theNodes)[1]], y = theNodes$y[dim(theNodes)[1]], .after = which(dupFwd)+1)
+      } else {
+        theNodes <- add_row(theNodes, x = theNodes$x[1], y = theNodes$y[1])
+      }
+    }
+
+    theNodes <- tibble(fid = i, vid = seq_along(theNodes$x), x = theNodes$x, y = theNodes$y)
+    nodes <- bind_rows(nodes, theNodes)
 
   }
 
@@ -239,7 +256,7 @@ gs_polygon <- function(anchor = NULL, window = NULL, template = NULL, features =
 #' @export
 
 gs_triangle <- function(anchor = NULL, window = NULL, template = NULL,
-                        features = 1, ...){
+                        features = 1, fixed = FALSE, ...){
 
   if(is.null(anchor) & is.null(template)){
     stop("please provide either 'anchor' or 'template'.")
@@ -253,6 +270,7 @@ gs_triangle <- function(anchor = NULL, window = NULL, template = NULL,
                         features = features,
                         vertices = 3,
                         regular = TRUE,
+                        fixed = fixed,
                         ...)
 
   invisible(theGeom)
@@ -263,7 +281,7 @@ gs_triangle <- function(anchor = NULL, window = NULL, template = NULL,
 #' @export
 
 gs_square <- function(anchor = NULL, window = NULL, template = NULL,
-                      features = 1, ...){
+                      features = 1, fixed = FALSE, ...){
 
   if(is.null(anchor) & is.null(template)){
     stop("please provide either 'anchor' or 'template'.")
@@ -277,12 +295,8 @@ gs_square <- function(anchor = NULL, window = NULL, template = NULL,
                         features = features,
                         vertices = 4,
                         regular = TRUE,
+                        fixed = fixed,
                         ...)
-
-  # centroid <- colMeans(theGeom@vert[c("x", "y")])
-  # rotGeom <- gt_rotate(geom = theGeom,
-  #                      angle = 45,
-  #                      about = centroid)
 
   invisible(theGeom)
 }
@@ -313,9 +327,9 @@ gs_rectangle <- function(anchor = NULL, window = NULL, template = NULL,
     geomSubset <- getSubset(theGeom, fid == !!i, slot = "table")
     temp <- getExtent(geomSubset)
     temp <- tibble(fid = i,
-                   vid = 1:4,
-                   x = rep(temp$x, each = 2),
-                   y = c(temp$y, rev(temp$y)))
+                   vid = 1:5,
+                   x = c(rep(temp$x, each = 2), temp$x[1]),
+                   y = c(temp$y, rev(temp$y), temp$y[1]))
     outTable <- bind_rows(outTable, temp)
   }
 
@@ -329,7 +343,7 @@ gs_rectangle <- function(anchor = NULL, window = NULL, template = NULL,
 #' @export
 
 gs_hexagon <- function(anchor = NULL, window = NULL, template = NULL,
-                       features = 1, ...){
+                       features = 1, fixed = FALSE, ...){
 
   if(is.null(anchor) & is.null(template)){
     stop("please provide either 'anchor' or 'template'.")
@@ -343,6 +357,7 @@ gs_hexagon <- function(anchor = NULL, window = NULL, template = NULL,
                         features = features,
                         vertices = 6,
                         regular = TRUE,
+                        fixed = fixed,
                         ...)
 
   invisible(theGeom)
