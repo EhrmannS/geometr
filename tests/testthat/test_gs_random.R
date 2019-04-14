@@ -3,16 +3,22 @@ context("gs_random")
 
 test_that("output is valid geometry", {
   # test 'point'
-  output <- gs_random(type = "point", vertices = 3)
+  output <- gs_random(type = "point")
   expect_class(output, classes = "geom")
   expect_true(output@type == "point")
-  expect_data_frame(output@vert, any.missing = FALSE, nrows = 3, ncols = 4)
+  expect_data_frame(output@vert, any.missing = FALSE, nrows = 1, ncols = 4)
+
+  # test 'line'
+  output <- gs_random(type = "line")
+  expect_class(output, classes = "geom")
+  expect_true(output@type == "line")
+  expect_data_frame(output@vert, any.missing = FALSE, nrows = 2, ncols = 4)
 
   # test 'polygon'
-  output <- gs_random(type = "polygon", vertices = 4)
+  output <- gs_random(type = "polygon")
   expect_class(output, classes = "geom")
   expect_true(output@type == "polygon")
-  expect_data_frame(output@vert, any.missing = FALSE, nrows = 4, ncols = 4)
+  expect_data_frame(output@vert, any.missing = FALSE, nrows = 3, ncols = 4)
 })
 
 test_that("template instead of anchor", {
