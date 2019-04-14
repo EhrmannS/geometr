@@ -3,7 +3,7 @@ library(testthat)
 context("gt_sp")
 
 
-test_that("output has class Spatial*", {
+test_that("transform from geom to sp", {
   spPoints <- gt_sp(input = gtGeoms$point)
   expect_class(spPoints, "SpatialPoints")
 
@@ -19,16 +19,8 @@ test_that("output has correct length", {
   expect_equal(length(spPolygon), 12)
 })
 
-test_that("Error if arguments have wrong value", {
-  notAGeom <- data.frame(x = c(25, 40, 70, 60, 30),
-                         y = c(15, 25, 20, 40, 45))
 
-  expect_error(gt_sp(input = "bla"))
-  expect_error(gt_sp(input = notAGeom))
-})
-
-
-test_that("something", {
+test_that("transform from sp to geom", {
 
   # test 'SpatialPoints'
   input <- gtSP$SpatialPoints
@@ -121,4 +113,12 @@ test_that("something", {
   output <- gt_sp(input)
   expect_class(output, "geom")
   expect_true(output@type == "point")
+})
+
+test_that("Error if arguments have wrong value", {
+  notAGeom <- data.frame(x = c(25, 40, 70, 60, 30),
+                         y = c(15, 25, 20, 40, 45))
+
+  expect_error(gt_sp(input = "bla"))
+  expect_error(gt_sp(input = notAGeom))
 })

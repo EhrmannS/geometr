@@ -11,12 +11,19 @@ test_that("setTable of a 'geom'", {
   window <- data.frame(x = c(0, 80),
                        y = c(0, 80))
   input <- gs_polygon(anchor = coords, window = window)
-  attributes <- data.frame(fid = 1, variable = "A")
+  attributes <- data.frame(fid = 1, data = "A")
 
-  output <- setTable(input, attributes)
+  # set table with a knwn variable
+  output <- setTable(x = input, table = attributes)
   expect_class(output, "geom")
   expect_data_frame(output@attr, ncols = 3)
-  expect_names(names(output@attr), must.include = c("fid", "gid", "variable"))
+  expect_names(names(output@attr), must.include = c("fid", "gid", "data"))
+
+  # set table with only unknown variables
+  output <- setTable(x = input, table = data.frame(data = "B"))
+  expect_class(output, "geom")
+  expect_data_frame(output@attr, ncols = 3)
+  expect_names(names(output@attr), must.include = c("fid", "gid", "data"))
 })
 
 test_that("setTable of a Spatial*DataFrame object", {
@@ -76,7 +83,62 @@ test_that("setTable of a Spatial* objects", {
 })
 
 test_that("setTable of an sf object", {
+  newData1 <- data.frame(x = c("a", "b"))
+  newData2 <- data.frame(a = c(1, 2), x = c("a", "b"))
 
+  # test POINT
+  input <- gtSF$point
+  output <- setTable(x = input, newData1)
+  expect_class(output, classes = c("sf", "data.frame"))
+  expect_data_frame(x = output, nrows = 2, ncols = 3)
+  output <- setTable(x = input, newData2)
+  expect_class(output, classes = c("sf", "data.frame"))
+  expect_data_frame(x = output, nrows = 2, ncols = 3)
+
+  # test MULITPOINT
+  input <- gtSF$multipoint
+  output <- setTable(x = input, newData1)
+  expect_class(output, classes = c("sf", "data.frame"))
+  expect_data_frame(x = output, nrows = 2, ncols = 3)
+  output <- setTable(x = input, newData2)
+  expect_class(output, classes = c("sf", "data.frame"))
+  expect_data_frame(x = output, nrows = 2, ncols = 3)
+
+  # test LINESTRING
+  sfObj <- gtSF$linestring
+  output <- setTable(x = input, newData1)
+  expect_class(output, classes = c("sf", "data.frame"))
+  expect_data_frame(x = output, nrows = 2, ncols = 3)
+  output <- setTable(x = input, newData2)
+  expect_class(output, classes = c("sf", "data.frame"))
+  expect_data_frame(x = output, nrows = 2, ncols = 3)
+
+  # test MULTILINESTRING
+  sfObj <- gtSF$multilinestring
+  output <- setTable(x = input, newData1)
+  expect_class(output, classes = c("sf", "data.frame"))
+  expect_data_frame(x = output, nrows = 2, ncols = 3)
+  output <- setTable(x = input, newData2)
+  expect_class(output, classes = c("sf", "data.frame"))
+  expect_data_frame(x = output, nrows = 2, ncols = 3)
+
+  # test POLYGON
+  sfObj <- gtSF$polygon
+  output <- setTable(x = input, newData1)
+  expect_class(output, classes = c("sf", "data.frame"))
+  expect_data_frame(x = output, nrows = 2, ncols = 3)
+  output <- setTable(x = input, newData2)
+  expect_class(output, classes = c("sf", "data.frame"))
+  expect_data_frame(x = output, nrows = 2, ncols = 3)
+
+  # test MULTIPOLYGON
+  sfObj <- gtSF$multipolygon
+  output <- setTable(x = input, newData1)
+  expect_class(output, classes = c("sf", "data.frame"))
+  expect_data_frame(x = output, nrows = 2, ncols = 3)
+  output <- setTable(x = input, newData2)
+  expect_class(output, classes = c("sf", "data.frame"))
+  expect_data_frame(x = output, nrows = 2, ncols = 3)
 })
 
 test_that("setTable of a 'RasterLayer'", {

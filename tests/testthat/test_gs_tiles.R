@@ -42,6 +42,6 @@ test_that("Error if arguments have wrong value", {
   expect_error(gs_tiles(window = window, width = 10, pattern = "bla"))
   expect_error(gs_tiles(window = window, width = 10, pattern = "triangular"))
   expect_error(gs_tiles(window = window,  width = 10, rotation = "bla"))
-  expect_error(gs_tiles(window = window,  width = 10, centroid = "bla"))
+  expect_error(gs_tiles(window = window,  width = 10, centroids = "bla"))
 })
 

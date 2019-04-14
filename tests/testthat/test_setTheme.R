@@ -15,6 +15,11 @@ test_that("not plotting objects", {
   expect_class(output, "recordedplot")
 })
 
+test_that("showing the theme", {
+  output <- capture.output(gtTheme)
+  expect_character(x = output, len = 14)
+})
+
 test_that("modifying title works", {
   continuous <- gtRasters$continuous
 
