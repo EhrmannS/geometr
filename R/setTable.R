@@ -103,7 +103,6 @@ setMethod(f = "setTable",
                 out <- SpatialPolygonsDataFrame(Sr = x, data = table)
               }
             }
-
             return(out)
           }
 )
