@@ -75,8 +75,6 @@ gt_stretch <- function(geom, x = NULL, y = NULL, fid = NULL, update = TRUE){
     y <- rep(y, length.out = length(ids))
   }
 
-  verts <- verts[!duplicated(verts[c("x", "y")]),]
-
   temp <- NULL
   for(i in seq_along(ids)){
     tempCoords <- verts[verts$fid == ids[i],]
@@ -93,11 +91,6 @@ gt_stretch <- function(geom, x = NULL, y = NULL, fid = NULL, update = TRUE){
 
       newCoords$x <- newCoords$x - offset$x
       newCoords$y <- newCoords$y - offset$y
-
-      if(geom@type != "point"){
-        newCoords <- bind_rows(newCoords, newCoords[1,])
-        newCoords$vid <- seq_along(newCoords$fid)
-      }
     }
     temp <- bind_rows(temp, newCoords)
   }
