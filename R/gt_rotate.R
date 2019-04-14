@@ -7,6 +7,8 @@
 #' @param about [\code{numeric(2)}]\cr the point about which \code{geom} shall
 #'   be rotated.
 #' @param fid [\code{integerish(.)}]\cr the features to rotate.
+#' @param update [\code{logical(1)}]\cr whether or not to update the window slot
+#'   after rotation.
 #' @return Rotated \code{geom}.
 #' @family geometry tools
 #' @examples
@@ -37,7 +39,7 @@
 #' @importFrom methods new
 #' @export
 
-gt_rotate <- function(geom, angle = NULL, about = c(0, 0), fid = NULL){
+gt_rotate <- function(geom, angle = NULL, about = c(0, 0), fid = NULL, update = TRUE){
 
   assertClass(geom, classes = "geom")
   angleIsList <- testList(angle, types = "numeric", any.missing = FALSE)
@@ -106,13 +108,16 @@ gt_rotate <- function(geom, angle = NULL, about = c(0, 0), fid = NULL){
     temp <- bind_rows(temp, tempCoords)
   }
 
-  inWindow <- pointInGeomC(vert = as.matrix(temp[c("x", "y")]),
-                           geom = as.matrix(bind_rows(geom@window[c("x", "y")], geom@window[c("x", "y")][1,])),
-                           invert = FALSE)
-
-  if(!all(inWindow == 1)){
-    window <- tibble(x = c(min(temp$x), max(temp$x)),
-                     y = c(min(temp$y), max(temp$y)))
+  if(update){
+    inWindow <- pointInGeomC(vert = as.matrix(temp[c("x", "y")]),
+                             geom = as.matrix(bind_rows(geom@window[c("x", "y")], geom@window[c("x", "y")][1,])),
+                             invert = FALSE)
+    if(!all(inWindow == 1)){
+      window <- tibble(x = c(min(temp$x), max(temp$x)),
+                       y = c(min(temp$y), max(temp$y)))
+    }
+  } else {
+    window <- geom@window
   }
 
   out <- new(Class = "geom",

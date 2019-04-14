@@ -5,7 +5,8 @@
 #' @param x [\code{numeric(1)}]\cr the shear factor in x-dimension.
 #' @param y [\code{numeric(1)}]\cr the shear factor in y-dimension.
 #' @param fid [\code{integerish(.)}]\cr the features to skew.
-
+#' @param update [\code{logical(1)}]\cr whether or not to update the window slot
+#'   after skewing.
 #' @return Skewed \code{geom}.
 #' @family geometry tools
 #' @examples
@@ -28,7 +29,7 @@
 #' @importFrom methods new
 #' @export
 
-gt_skew <- function(geom, x = NULL, y = NULL, fid = NULL){
+gt_skew <- function(geom, x = NULL, y = NULL, fid = NULL, update = TRUE){
 
   assertClass(geom, classes = "geom")
   xIsList <- testList(x, types = "numeric", any.missing = FALSE)
@@ -102,13 +103,16 @@ gt_skew <- function(geom, x = NULL, y = NULL, fid = NULL){
     temp <- bind_rows(temp, newCoords)
   }
 
-  inWindow <- pointInGeomC(vert = as.matrix(temp[c("x", "y")]),
-                           geom = as.matrix(bind_rows(geom@window[c("x", "y")], geom@window[c("x", "y")][1,])),
-                           invert = FALSE)
-
-  if(!all(inWindow == 1)){
-    window <- tibble(x = c(min(temp$x), max(temp$x)),
-                     y = c(min(temp$y), max(temp$y)))
+  if(update){
+    inWindow <- pointInGeomC(vert = as.matrix(temp[c("x", "y")]),
+                             geom = as.matrix(bind_rows(geom@window[c("x", "y")], geom@window[c("x", "y")][1,])),
+                             invert = FALSE)
+    if(!all(inWindow == 1)){
+      window <- tibble(x = c(min(temp$x), max(temp$x)),
+                       y = c(min(temp$y), max(temp$y)))
+    }
+  } else {
+    window <- geom@window
   }
 
   out <- new(Class = "geom",
