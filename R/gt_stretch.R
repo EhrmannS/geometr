@@ -36,6 +36,7 @@ gt_stretch <- function(geom, x = NULL, y = NULL, fid = NULL, update = TRUE){
   yIsNumeric <- testNumeric(y, any.missing = FALSE, len = 1, null.ok = TRUE)
   assert(xIsList, xIsNumeric)
   assert(yIsList, yIsNumeric)
+  assertIntegerish(x = fid, any.missing = FALSE, null.ok = TRUE)
 
   if(length(geom) == 1){
     newHistory <- paste0("geometry was stretched")
@@ -108,6 +109,8 @@ gt_stretch <- function(geom, x = NULL, y = NULL, fid = NULL, update = TRUE){
     if(!all(inWindow == 1)){
       window <- tibble(x = c(min(temp$x), max(temp$x)),
                        y = c(min(temp$y), max(temp$y)))
+    } else {
+      window <- geom@window
     }
   } else {
     window <- geom@window

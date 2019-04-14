@@ -48,6 +48,7 @@ gt_rotate <- function(geom, angle = NULL, about = c(0, 0), fid = NULL, update = 
   aboutIsNumeric <- testNumeric(about, any.missing = FALSE, len = 2)
   assert(angleIsList, angleIsNumeric)
   assert(aboutIsList, aboutIsNumeric)
+  assertIntegerish(x = fid, any.missing = FALSE, null.ok = TRUE)
 
   if(length(geom) == 1){
     newHistory <- paste0("geometry was rotated")
@@ -115,6 +116,8 @@ gt_rotate <- function(geom, angle = NULL, about = c(0, 0), fid = NULL, update = 
     if(!all(inWindow == 1)){
       window <- tibble(x = c(min(temp$x), max(temp$x)),
                        y = c(min(temp$y), max(temp$y)))
+    } else {
+      window <- geom@window
     }
   } else {
     window <- geom@window
