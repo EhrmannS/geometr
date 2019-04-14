@@ -67,6 +67,7 @@ gs_voronoi <- function(anchor = NULL, window = NULL, template = NULL, features =
     assertDataFrame(window, types = "numeric", any.missing = FALSE, ncols = 2, null.ok = TRUE)
     colnames(window) <- tolower(colnames(window))
     assertNames(names(window), must.include = c("x", "y"))
+    window <- c(min(window$x), max(window$x), min(window$y), max(window$y))
   }
   templateExists <- !testNull(template)
   if(templateExists){
