@@ -47,6 +47,15 @@ test_that("setTable of a Spatial* objects", {
   expect_data_frame(output@data, nrows = 4, ncols = 1)
   expect_names(names(output@data), must.include = c("x"))
 
+  # SpatialPixel
+  data(meuse.grid)
+  pts = meuse.grid[c("x", "y")]
+  input = SpatialPixels(SpatialPoints(pts))
+  output <- setTable(x = input, table = data.frame(data = seq_along(input@coords[,1])))
+  expect_class(output, "SpatialPixelsDataFrame")
+  expect_data_frame(output@data, nrows = 3103, ncols = 1)
+  expect_names(names(output@data), must.include = c("data"))
+
   # SpatialMultiPoints
   output <- setTable(x = gtSP$SpatialMultiPoints, table = newData1)
   expect_class(output, "SpatialMultiPointsDataFrame")

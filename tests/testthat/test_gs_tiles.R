@@ -32,30 +32,16 @@ test_that("output is valid geometry", {
   expect_data_frame(output@vert, any.missing = FALSE, nrows = 2905, ncols = 4)
 })
 
-test_that("output has the correct number of vertices and polygons", {
-  # window <- data.frame(x = c(-40, 40),
-  #                      y = c(-20, 20))
-  #
-  # output <- gs_tiles(window = window, cells = c(8, 4))
-  # expect_true(length(output@vert$fid) == 128)
-  #
-  # output <- gs_tiles(window = window, cells = c(8, 4), tiling = "hexagonal")
-  # expect_true(length(output@vert$fid) == 270)
-  #
-  # output <- gs_tiles(window = window, cells = c(8, 4), centroids = TRUE)
-  # expect_true(length(output@vert$fid) == 32)
-})
-
 test_that("Error if arguments have wrong value", {
   aWindow <- data.frame(x = c(-180, 180),
                         y = c(-60, 80))
 
+  expect_error(gs_tiles(anchor = "bla"))
   expect_error(gs_tiles(window = "bla"))
-  # expect_error(gs_tiles(window = window))
-  # expect_error(gs_tiles(window = window, cells = "bla"))
-  # expect_error(gs_tiles(window = window, cells = c(1, 1)))
-  # expect_error(gs_tiles(window = wrongWindow, cells = c(8, 4)))
-  # expect_error(gs_tiles(window = window, cells = c(8, 4), tiling = "bla"))
-  # expect_error(gs_tiles(window = window, cells = c(8, 4), centroids = "bla"))
+  expect_error(gs_tiles(window = aWindow, width = "bla"))
+  expect_error(gs_tiles(window = window, width = 10, pattern = "bla"))
+  expect_error(gs_tiles(window = window, width = 10, pattern = "triangular"))
+  expect_error(gs_tiles(window = window,  width = 10, rotation = "bla"))
+  expect_error(gs_tiles(window = window,  width = 10, centroid = "bla"))
 })
 
