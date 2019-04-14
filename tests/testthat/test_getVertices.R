@@ -1,6 +1,3 @@
-library(checkmate)
-library(testthat)
-library(raster)
 context("getVertices")
 
 
@@ -13,7 +10,7 @@ test_that("getVertices of a 'geom'", {
   input <- gs_polygon(anchor = coords, window = window)
 
   output <- getVertices(input)
-  expect_data_frame(output, any.missing = FALSE, nrows = 4, ncols = 4)
+  expect_data_frame(output, any.missing = FALSE, nrows = 5, ncols = 4)
   expect_names(names(output), identical.to = c("fid", "vid", "x", "y"))
 })
 
@@ -39,3 +36,4 @@ test_that("getVertices of an sf object", {
   expect_data_frame(output, any.missing = FALSE, nrows = 15, ncols = 4)
   expect_names(names(output), identical.to = c("fid", "vid", "x", "y"))
 })
+

@@ -1,6 +1,3 @@
-library(checkmate)
-library(testthat)
-library(raster)
 context("getSubset")
 
 
@@ -15,14 +12,14 @@ test_that("getSubset of a geom", {
   # get a subset of the coords
   output <- getSubset(x = input, fid == 2, slot = "vert")
   expect_class(output, "geom")
-  expect_true(dim(output@vert)[1] == 2)
+  expect_true(dim(output@vert)[1] == 3)
   expect_true(dim(output@vert)[1] < dim(input@vert)[1])
 
   # get a subset of the attributes
   input <- setTable(x = input, table = data.frame(fid = c(1, 2), a = c("a", "b")))
   output <- getSubset(x = input, a == 'b', slot = "table")
   expect_class(output, "geom")
-  expect_true(dim(output@vert)[1] == 2)
+  expect_true(dim(output@vert)[1] == 3)
   expect_true(dim(output@vert)[1] < dim(input@vert)[1])
 })
 
