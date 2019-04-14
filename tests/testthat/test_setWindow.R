@@ -46,3 +46,12 @@ test_that("setWindow based on bbox", {
   expect_equal(dim(getWindow(output)),  c(4, 2))
 })
 
+test_that("Error if arguments have wrong value", {
+  coords <- data.frame(x = c(40, 70, 70, 50),
+                       y = c(40, 40, 60, 70),
+                       fid = 1)
+  input <- gs_polygon(anchor = coords)
+
+  expect_error(setWindow(x = input, to = "bla"))
+})
+

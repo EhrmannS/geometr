@@ -37,3 +37,10 @@ test_that("getVertices of an sf object", {
   expect_names(names(output), identical.to = c("fid", "vid", "x", "y"))
 })
 
+test_that("Error if arguments have wrong value", {
+  input <- st_sf(st_sfc(st_geometrycollection(list(st_point(1:2))),
+                        st_geometrycollection(list(st_linestring(matrix(1:4,2))))))
+
+  expect_error(getVertices(input))
+})
+

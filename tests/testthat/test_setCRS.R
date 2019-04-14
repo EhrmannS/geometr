@@ -1,8 +1,3 @@
-library(checkmate)
-library(testthat)
-library(raster)
-library(sp)
-library(sf)
 context("setCRS")
 
 
@@ -47,9 +42,15 @@ test_that("getExtent of a Spatial object", {
 test_that("getExtent of an sf object", {
   input <- gtSF$polygon
 
+  # setting a CRS on a sf that hasn't had one before
   output <- setCRS(x = input, crs = "+proj=laea +lat_0=52 +lon_0=10 +x_0=4321000 +y_0=3210000 +ellps=GRS80 +units=m +no_defs")
   expect_class(output, classes = "sf")
   expect_character(st_crs(output)$proj4string, any.missing = FALSE, pattern = "+proj=laea", len = 1)
+
+  # setting a CRS on a sf that had one before
+  output <- setCRS(x = output, crs = "+proj=longlat +ellps=WGS84 +towgs84=0,0,0,0,0,0,0 +no_defs")
+  expect_class(output, classes = "sf")
+  expect_character(st_crs(output)$proj4string, any.missing = FALSE, pattern = "+proj=longlat", len = 1)
 })
 
 test_that("getExtent of a Raster", {
