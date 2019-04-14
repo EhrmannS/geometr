@@ -12,6 +12,8 @@
 #' @param image [\code{logical(1)}]\cr set this to \code{TRUE} if \code{raster}
 #'   is actually an image; see Details.
 #' @param new [\code{logical(1)}]\cr force a new plot (\code{TRUE}, default).
+#' @param clip [\code{logical(1)}]\cr clip the plot by the plot box
+#'   (\code{TRUE}, default), or plot all of the objects.
 #' @param ... [various]\cr graphical parameters to plot a \code{geom}.
 #' @details In case you want to plot an image (simiar to
 #'   \code{\link[raster]{plotRGB}}), you either have to: \enumerate{ \item
@@ -44,10 +46,11 @@
 #' @importFrom grDevices colorRampPalette as.raster recordPlot rgb
 #' @importFrom raster nlayers getValues as.matrix ncol nrow stack
 #' @importFrom stats quantile
+#' @importFrom dplyr bind_rows
 #' @export
 
 visualise <- function(raster = NULL, geom = NULL, window = NULL, theme = gtTheme,
-                      trace = FALSE, image = FALSE, new = TRUE, ...){
+                      trace = FALSE, image = FALSE, new = TRUE, clip = TRUE, ...){
 
   # check arguments
   existsRaster <- !is.null(raster)
@@ -190,6 +193,16 @@ visualise <- function(raster = NULL, geom = NULL, window = NULL, theme = gtTheme
 
   # turn 'geom' into a grob that can be plotted
   if(existsGeom){
+
+    # test whether vertices are outside of 'window'
+    inWindow <- pointInGeomC(vert = as.matrix(geom@vert[c("x", "y")]),
+                             geom = as.matrix(bind_rows(geom@window[c("x", "y")], geom@window[c("x", "y")][1,])),
+                             invert = FALSE)
+    if(any(inWindow != 1)){
+      warning("some vertices are not within the plotting window.", immediate. = TRUE)
+    } else if(all(inWindow != 1)){
+      warning("no vertices are within the plotting window.", immediate. = TRUE)
+    }
 
     geom <- gt_scale(geom = geom, to = "relative")
 
@@ -465,8 +478,10 @@ visualise <- function(raster = NULL, geom = NULL, window = NULL, theme = gtTheme
                               xscale = c(panelExt$x[1]-format$xMar, panelExt$x[2]+format$xMar),
                               yscale = c(panelExt$y[1]-format$yMar, panelExt$y[2]+format$yMar),
                               name = "raster"))
-        grid.clip(width = unit(1, "npc") - unit(theme@box$linewidth, "points"),
-                  height = unit(1, "npc") - unit(theme@box$linewidth, "points"))
+        if(clip){
+          grid.clip(width = unit(1, "npc") - unit(theme@box$linewidth, "points"),
+                    height = unit(1, "npc") - unit(theme@box$linewidth, "points"))
+        }
         # return(c(unit(xRasterOffset, "npc"), unit(yRasterOffset, "npc")))
         grid.raster(x = unit(0, "npc") - unit(xRasterOffset, "npc"),
                     y = unit(0, "npc") - unit(yRasterOffset, "npc"),
@@ -487,8 +502,10 @@ visualise <- function(raster = NULL, geom = NULL, window = NULL, theme = gtTheme
                               xscale = c(panelExt$x[1]-format$xMar, panelExt$x[2]+format$xMar),
                               yscale = c(panelExt$y[1]-format$yMar, panelExt$y[2]+format$yMar),
                               name = "geom"))
-        grid.clip(width = unit(1, "npc") + unit(theme@box$linewidth, "points"),
-                  height = unit(1, "npc") + unit(theme@box$linewidth, "points"))
+        if(clip){
+          grid.clip(width = unit(1, "npc") + unit(theme@box$linewidth, "points"),
+                    height = unit(1, "npc") + unit(theme@box$linewidth, "points"))
+        }
         grid.draw(geomGrob)
         upViewport() # exit geom
       }
@@ -510,6 +527,10 @@ visualise <- function(raster = NULL, geom = NULL, window = NULL, theme = gtTheme
                               # xscale = c(panelExt$x[1]-format$xMar, panelExt$x[2]+format$xMar),
                               # yscale = c(panelExt$y[1]-format$yMar, panelExt$y[2]+format$yMar),
                               name = "geom"))
+        if(clip){
+          grid.clip(width = unit(1, "npc") + unit(theme@box$linewidth, "points"),
+                    height = unit(1, "npc") + unit(theme@box$linewidth, "points"))
+        }
       } else{
         downViewport("geom")
       }
