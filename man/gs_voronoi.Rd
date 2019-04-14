@@ -30,6 +30,29 @@ An invisible \code{geom}.
 \description{
 Create a voronoi tiling
 }
+\examples{
+library(magrittr)
+
+# create voronoi polygons programmatically
+coords <- data.frame(x = c(40, 70, 70, 50),
+                     y = c(40, 40, 60, 70))
+window <- data.frame(x = c(0, 80),
+                     y = c(0, 80))
+aGeom <- gs_point(anchor = coords, window = window)
+visualise(geom = aGeom)
+
+tiles <- gs_voronoi(anchor = aGeom) \%>\%
+  visualise(geom = ., new = FALSE)
+
+\dontrun{
+
+input <- gtRasters$continuous
+
+# create voronoi polygons interactively
+tiles <- gs_voronoi(template = input)
+visualise(geom = tiles, linecol = "orange", new = FALSE)
+}
+}
 \seealso{
 Other tilings: \code{\link{gs_tiles}}
 }
