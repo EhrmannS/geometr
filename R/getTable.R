@@ -31,6 +31,7 @@ setMethod(f = "getTable",
 #' @examples
 #'
 #' getTable(x = gtSP$SpatialPolygons)
+#' @importFrom methods as
 #' @importFrom tibble tibble as_tibble
 #' @importFrom dplyr bind_cols
 #' @export
@@ -40,9 +41,19 @@ setMethod(f = "getTable",
 
             theData <- NULL
             sourceClass <- class(x)[1]
+            if(sourceClass %in% c("SpatialGrid")){
+              sourceClass <- "SpatialPolygons"
+            } else if(sourceClass %in% "SpatialGridDataFrame"){
+              sourceClass <- "SpatialPolygonsDataFrame"
+            } else if(sourceClass %in% "SpatialPixels"){
+              sourceClass <- "SpatialPoints"
+            } else if(sourceClass %in% "SpatialPixelsDataFrame"){
+              sourceClass <- "SpatialPointsDataFrame"
+            }
+            x <- as(x, sourceClass)
             prev <- 0
 
-            if(sourceClass %in% c("SpatialPoints", "SpatialPointsDataFrame", "SpatialPixels", "SpatialPixelsDataFrame")){
+            if(sourceClass %in% c("SpatialPoints", "SpatialPointsDataFrame")){
               type <- "point"
 
               if(sourceClass %in% "SpatialPointsDataFrame"){
@@ -99,7 +110,7 @@ setMethod(f = "getTable",
               }
               colnames(theData) <- c("fid", "gid", otherNames)
 
-            } else if(sourceClass %in% c("SpatialPolygons", "SpatialPolygonsDataFrame", "SpatialGrid", "SpatialGridDataFrame")){
+            } else if(sourceClass %in% c("SpatialPolygons", "SpatialPolygonsDataFrame")){
               type <- "polygon"
 
               for(i in seq_along(x@polygons)){

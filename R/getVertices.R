@@ -31,6 +31,7 @@ setMethod(f = "getVertices",
 #' @examples
 #'
 #' getVertices(gtSP$SpatialPoints)
+#' @importFrom methods as
 #' @importFrom tibble tibble as_tibble
 #' @export
 setMethod(f = "getVertices",
@@ -40,14 +41,15 @@ setMethod(f = "getVertices",
             prev <- 0
             sourceClass <- class(x)[1]
             if(sourceClass %in% c("SpatialGrid")){
-              x <- as(x, "SpatialPolygons")
+              sourceClass <- "SpatialPolygons"
             } else if(sourceClass %in% "SpatialGridDataFrame"){
-              x <- as(x, "SpatialPolygonsDataFrame")
+              sourceClass <- "SpatialPolygonsDataFrame"
             } else if(sourceClass %in% "SpatialPixels"){
-              x <- as(x, "SpatialPoints")
+              sourceClass <- "SpatialPoints"
             } else if(sourceClass %in% "SpatialPixelsDataFrame"){
-              x <- as(x, "SpatialPointsDataFrame")
+              sourceClass <- "SpatialPointsDataFrame"
             }
+            x <- as(x, sourceClass)
 
             if(sourceClass %in% c("SpatialPoints", "SpatialPointsDataFrame")){
 
