@@ -40,7 +40,7 @@ gs_random <- function(type = "point", template = NULL, vertices = NULL){
   }
   assertIntegerish(vertices, any.missing = FALSE, len = 1, null.ok = TRUE)
 
-  if(type %in% "point"){
+  if(type == "point"){
     if(is.null(vertices)){
       vertices <- 1
     }
@@ -49,19 +49,30 @@ gs_random <- function(type = "point", template = NULL, vertices = NULL){
                      vid = 1:vertices,
                      x = runif(vertices),
                      y = runif(vertices))
-    # } else if(type %in% c("line", "spline")){
-    #   if(is.null(vertices)){
-    #     vertices <- 2
-    #   }
-    #   outType <- "line"
-    #
-  } else{
+  } else if(type == "line"){
+      if(is.null(vertices)){
+        vertices <- 2
+      } else {
+        if(vertices < 2){
+          stop("I can't create a line with less than two vertices.")
+        }
+      }
+      outType <- type
+      anchor <- tibble(fid = 1,
+                       vid = 1:vertices,
+                       x = runif(vertices),
+                       y = runif(vertices))
+  } else if(type == "polygon"){
     if(is.null(vertices)){
       vertices <- 3
+    } else {
+      if(vertices < 3){
+        stop("I can't create a polygon with less than three vertices.")
+      }
     }
-    outType <- "polygon"
+    outType <- type
     anchor <- tibble(fid = 1,
-                     vid = 1,
+                     vid = 1:vertices,
                      x = runif(vertices),
                      y = runif(vertices))
   }
