@@ -211,3 +211,27 @@ rad <- function(degree){
   assertNumeric(degree)
   (degree * pi)/180
 }
+
+#' Update the window slot
+#'
+#' Set the extent of a window to smaller/larger values, if the vertices would be
+#' beyond the window otherwise.
+#' @param geom [\code{geom}]\cr a geom for which a new window should be derived.
+#' @param window [\code{tibble(1)}]\cr the old window.
+#' @export
+
+updateWindow <- function(geom = NULL, window = NULL){
+  if(min(geom$x) < min(window$x)){
+    window$x[which.min(window$x)] <- min(geom$x)
+  }
+  if(max(geom$x) > max(window$x)){
+    window$x[which.max(window$x)] <- max(geom$x)
+  }
+  if(min(geom$y) < min(window$y)){
+    window$y[which.min(window$y)] <- min(geom$y)
+  }
+  if(max(geom$y) > max(window$y)){
+    window$y[which.max(window$y)] <- max(geom$y)
+  }
+  return(window)
+}
