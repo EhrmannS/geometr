@@ -113,7 +113,6 @@ IntegerVector pointInGeomC(NumericMatrix &vert, NumericMatrix &geom, bool invert
     // if the coordinate is within the bounding box, proceed, otherwise value is definitely 0
     if((x <= xMax) & (x >= xMin) & (y <= yMax) & (y >= yMin)){
       int wn = 0;                            // the  winding number counter
-      // Rcout << "\ninside extent" << std::endl;
 
       // loop through all edges of the polygon and find wn
       for (int i = 0; i < cRows-1; i++){
