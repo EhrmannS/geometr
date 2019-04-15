@@ -57,12 +57,12 @@ gt_locate <- function(samples = 1, panel = NULL, identify = FALSE, snap = FALSE,
                       raw = FALSE, silent = FALSE, show = FALSE, ...){
 
   # check arguments
-  assertIntegerish(samples, lower = 1, max.len = 1)
-  assertCharacter(panel, ignore.case = TRUE, len = 1, null.ok = TRUE)
-  assertLogical(identify, len = 1)
-  assertLogical(snap, len = 1)
-  assertLogical(silent, len = 1)
-  assertLogical(show, len = 1)
+  assertIntegerish(x = samples, lower = 1, max.len = 1)
+  assertCharacter(x = panel, ignore.case = TRUE, len = 1, null.ok = TRUE)
+  assertLogical(x = identify, len = 1)
+  assertLogical(x = snap, len = 1)
+  assertLogical(x = silent, len = 1)
+  assertLogical(x = show, len = 1)
 
   # test whether a geometr plot is already open
   if(!is.null(dev.list())){

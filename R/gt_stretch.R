@@ -38,7 +38,6 @@ gt_stretch <- function(geom, x = NULL, y = NULL, fid = NULL, update = TRUE){
   assert(yIsList, yIsNumeric)
   assertIntegerish(x = fid, any.missing = FALSE, null.ok = TRUE)
 
-
   if(is.null(x)){
     x <- 1
   }
@@ -91,15 +90,7 @@ gt_stretch <- function(geom, x = NULL, y = NULL, fid = NULL, update = TRUE){
   }
 
   if(update){
-    inWindow <- pointInGeomC(vert = as.matrix(temp[c("x", "y")]),
-                             geom = as.matrix(bind_rows(geom@window[c("x", "y")], geom@window[c("x", "y")][1,])),
-                             invert = FALSE)
-    if(!all(inWindow == 1)){
-      window <- tibble(x = c(min(temp$x), max(temp$x)),
-                       y = c(min(temp$y), max(temp$y)))
-    } else {
-      window <- geom@window
-    }
+    window <- updateWindow(geom = temp, window = geom@window)
   } else {
     window <- geom@window
   }
