@@ -5,7 +5,7 @@
 #'   (i.e. the title shown over the plot).
 #' @param tolerance [\code{numeric(1)}]\cr width of the locator-boxes as
 #'   proportion of the overall box width.
-#' @param fid [\code{integerish(.)}]\cr the features to edit.
+#' @param fid [\code{integerish(1)}]\cr the feature to edit.
 #' @param verbose [\code{logical(1)}]\cr be verbose about intermediate steps?
 #' @param centroid [\code{logical(1)}]\cr instead of moving the vertices of a
 #'   \code{geom}, move the centroid and thus the overall \code{geom}.
@@ -28,6 +28,13 @@
 
 gt_edit <- function(panel = NULL, tolerance = 0.01, fid = NULL, centroid = FALSE,
                     verbose = FALSE){
+
+  # check arguments
+  assertCharacter(x = panel, ignore.case = TRUE, len = 1, null.ok = TRUE)
+  assertNumeric(x = tolerance, upper = 1, lower = 0.001, finite = TRUE)
+  assertIntegerish(x = fid, any.missing = FALSE, len = 1, null.ok = TRUE)
+  assertLogical(x = centroid, any.missing = FALSE, len = 1)
+  assertLogical(x = verbose, any.missing = FALSE, len = 1)
 
   # function to make little squares (locator boxes) around all points that help
   # the user click on the vertices
@@ -109,6 +116,12 @@ gt_edit <- function(panel = NULL, tolerance = 0.01, fid = NULL, centroid = FALSE
 
   # get list of geoms in the plot
   theGrobs <- grid.grep(gPath("^\\d*$"), grep = TRUE, global = TRUE)
+  if(!is.null(fid)){
+    temp <- unlist(lapply(seq_along(theGrobs), function(x){
+      as.numeric(theGrobs[x][[1]]$name) %in% fid
+    }))
+    theGrobs <- theGrobs[temp]
+  }
 
   # if there is more than one grob, ask the user to click in the panel to chose the 'targetGrob'
   if(length(theGrobs) > 1){
@@ -125,7 +138,9 @@ gt_edit <- function(panel = NULL, tolerance = 0.01, fid = NULL, centroid = FALSE
         inTargetGrob <- pointInGeomC(vert = as.matrix(targetClick[c("x", "y")]),
                                      geom = as.matrix(aGrob),
                                      invert = FALSE)
-
+        if(inTargetGrob){
+          targetRect <- i
+        }
         if(inTargetGrob){
           targetGrobN <- as.character(i)
         }
@@ -134,8 +149,8 @@ gt_edit <- function(panel = NULL, tolerance = 0.01, fid = NULL, centroid = FALSE
         message("I did not match an object, please click again.")
       }
     }
-
-
+  } else {
+    targetGrobN <- as.character(fid)
   }
   targetGrob <- grid.get(gPath(targetGrobN), global = TRUE)
 
