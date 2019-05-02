@@ -78,8 +78,8 @@ gs_tiles <- function(anchor = NULL, window = NULL, width = NULL, pattern = "squa
       window <- tibble(x = rep(c(min(window$x), max(window$x)), each = 2), y = c(min(window$y), max(window$y), max(window$y), min(window$y)))
     }
   } else {
-    window <- tibble(x = c(min(anchor@window$x), max(anchor@window$x)),
-                     y = c(min(anchor@window$y), max(anchor@window$y)))
+    window <- tibble(x = rep(c(min(anchor@window$x), max(anchor@window$x)), each = 2),
+                     y = c(min(anchor@window$y), max(anchor@window$y), max(anchor@window$y), min(anchor@window$y)))
   }
 
   if(!anchorIsDF & !anchorIsGeom){
