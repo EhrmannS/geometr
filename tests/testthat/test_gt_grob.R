@@ -13,7 +13,7 @@ test_that("output is valid grob", {
   aPolyGrob <- gt_grob(input = aPolyGeom)
 
   expect_list(aPolyGrob)
-  expect_names(names(aPolyGrob), permutation.of = c("x", "y", "id", "id.lengths", "rule", "name", "gp", "vp"))
+  expect_names(names(aPolyGrob), permutation.of = c("x", "y", "id", "id.lengths", "pathId", "pathId.lengths", "rule", "name", "gp", "vp"))
   expect_class(aPolyGrob, classes = c("pathgrob", "grob"))
 
   aPointGeom <- gs_point(anchor = coords, window = window, col = "blue")
