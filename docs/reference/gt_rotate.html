@@ -125,7 +125,8 @@
     
     </div>
 
-    <pre class="usage"><span class='fu'>gt_rotate</span>(<span class='no'>geom</span>, <span class='kw'>angle</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>about</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>0</span>, <span class='fl'>0</span>), <span class='kw'>fid</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+    <pre class="usage"><span class='fu'>gt_rotate</span>(<span class='no'>geom</span>, <span class='kw'>angle</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>about</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>0</span>, <span class='fl'>0</span>), <span class='kw'>fid</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>update</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -146,8 +147,12 @@ be rotated.</p></td>
     </tr>
     <tr>
       <th>fid</th>
-      <td><p>[<code>integerish(.)</code>]<br /> vector of features that should be
-rotated.</p></td>
+      <td><p>[<code>integerish(.)</code>]<br /> the features to rotate.</p></td>
+    </tr>
+    <tr>
+      <th>update</th>
+      <td><p>[<code><a href='https://www.rdocumentation.org/packages/base/topics/logical'>logical(1)</a></code>]<br /> whether or not to update the window slot
+after rotation.</p></td>
     </tr>
     </table>
     

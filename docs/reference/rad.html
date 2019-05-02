@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Relocate the vertices of geometries — gt_edit • geometr</title>
+<title>Convert degree to radians — rad • geometr</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,9 +30,9 @@
 
 
 
-<meta property="og:title" content="Relocate the vertices of geometries — gt_edit" />
+<meta property="og:title" content="Convert degree to radians — rad" />
 
-<meta property="og:description" content="gt_edit allows to edit the vertices of any geom." />
+<meta property="og:description" content="Convert degree to radians" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -114,80 +114,35 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Relocate the vertices of geometries</h1>
-    <small class="dont-index">Source: <a href='https://github.com/EhrmannS/geometr/blob/master/R/gt_edit.R'><code>R/gt_edit.R</code></a></small>
-    <div class="hidden name"><code>gt_edit.Rd</code></div>
+    <h1>Convert degree to radians</h1>
+    <small class="dont-index">Source: <a href='https://github.com/EhrmannS/geometr/blob/master/R/helpers.R'><code>R/helpers.R</code></a></small>
+    <div class="hidden name"><code>rad.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p><code>gt_edit</code> allows to edit the vertices of any <code>geom</code>.</p>
+    <p>Convert degree to radians</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>gt_edit</span>(<span class='kw'>panel</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>tolerance</span> <span class='kw'>=</span> <span class='fl'>0.01</span>, <span class='kw'>fid</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>centroid</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
+    <pre class="usage"><span class='fu'>rad</span>(<span class='no'>degree</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>panel</th>
-      <td><p>[<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code>]<br /> the panel in which to edit vertices
-(i.e. the title shown over the plot).</p></td>
-    </tr>
-    <tr>
-      <th>tolerance</th>
-      <td><p>[<code><a href='https://www.rdocumentation.org/packages/base/topics/numeric'>numeric(1)</a></code>]<br /> width of the locator-boxes as
-proportion of the overall box width.</p></td>
-    </tr>
-    <tr>
-      <th>fid</th>
-      <td><p>[<code>integerish(1)</code>]<br /> the feature to edit.</p></td>
-    </tr>
-    <tr>
-      <th>centroid</th>
-      <td><p>[<code><a href='https://www.rdocumentation.org/packages/base/topics/logical'>logical(1)</a></code>]<br /> instead of moving the vertices of a
-<code>geom</code>, move the centroid and thus the overall <code>geom</code>.</p></td>
-    </tr>
-    <tr>
-      <th>verbose</th>
-      <td><p>[<code><a href='https://www.rdocumentation.org/packages/base/topics/logical'>logical(1)</a></code>]<br /> be verbose about intermediate steps?</p></td>
+      <th>degree</th>
+      <td><p>[<code><a href='https://www.rdocumentation.org/packages/base/topics/numeric'>numeric(1)</a></code>]<br /> a degree value to convert to radians.</p></td>
     </tr>
     </table>
     
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>An invisible <code>geom</code>.</p>
-    
-    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
-
-    <div class='dont-index'><p>Other geometry tools: <code><a href='gt_group.html'>gt_group</a></code>,
-  <code><a href='gt_rotate.html'>gt_rotate</a></code>, <code><a href='gt_scale.html'>gt_scale</a></code>,
-  <code><a href='gt_skew.html'>gt_skew</a></code>, <code><a href='gt_stretch.html'>gt_stretch</a></code></p></div>
-    
-
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><span class='co'># NOT RUN {</span>
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>library</a></span>(<span class='no'>sf</span>)
-
-<span class='no'>nc</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/sf/topics/st_read'>st_read</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/system.file'>system.file</a></span>(<span class='st'>"shape/nc.shp"</span>, <span class='kw'>package</span><span class='kw'>=</span><span class='st'>"sf"</span>))
-<span class='no'>nc_geom</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='gt_sf.html'>gt_sf</a></span>(<span class='kw'>input</span> <span class='kw'>=</span> <span class='no'>nc</span>)
-<span class='fu'><a href='visualise.html'>visualise</a></span>(<span class='kw'>geom</span> <span class='kw'>=</span> <span class='no'>nc_geom</span>, <span class='kw'>window</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/data.frame'>data.frame</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(-<span class='fl'>82.1</span>, -<span class='fl'>81</span>), <span class='kw'>y</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>36.6</span>, <span class='fl'>35.9</span>)))
-<span class='no'>modGeom</span> <span class='kw'>&lt;-</span> <span class='fu'>gt_edit</span>()
-<span class='co'># }</span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-      
-      <li><a href="#value">Value</a></li>
-
-      <li><a href="#see-also">See also</a></li>
-      
-      <li><a href="#examples">Examples</a></li>
-    </ul>
+                </ul>
 
   </div>
 </div>

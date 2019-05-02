@@ -83,7 +83,7 @@
       <h1>geometr - Introduction</h1>
                         <h4 class="author">Steffen Ehrmann</h4>
             
-            <h4 class="date">2019-04-10</h4>
+            <h4 class="date">2019-05-02</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/EhrmannS/geometr/blob/master/vignettes/introduction.Rmd"><code>vignettes/introduction.Rmd</code></a></small>
       <div class="hidden name"><code>introduction.Rmd</code></div>
@@ -113,26 +113,28 @@ coords &lt;-<span class="st"> </span><span class="kw"><a href="https://tibble.ti
 (aGeom &lt;-<span class="st"> </span><span class="kw"><a href="../reference/gs_polygon.html">gs_polygon</a></span>(<span class="dt">anchor =</span> coords))
 <span class="co">#&gt; class      : geom</span>
 <span class="co">#&gt; type       : polygon</span>
-<span class="co">#&gt; features   : 1  (4 vertices)</span>
+<span class="co">#&gt; features   : 1  (5 vertices)</span>
 <span class="co">#&gt; window     : 40, 70, 40, 70  (xmin, xmax, ymin, ymax)</span>
 <span class="co">#&gt; extent     : 40, 70, 40, 70  (xmin, xmax, ymin, ymax)</span>
 <span class="co">#&gt; scale      : absolute</span>
 <span class="co">#&gt; crs        : NA</span>
 <span class="co">#&gt; attributes : 2  (fid, gid)</span>
-<span class="kw"><a href="../reference/visualise.html">visualise</a></span>(<span class="dt">geom =</span> aGeom)</code></pre></div>
+<span class="kw"><a href="../reference/visualise.html">visualise</a></span>(<span class="dt">geom =</span> aGeom)
+<span class="co">#&gt; Warning in visualise(geom = aGeom): some vertices are not within the</span>
+<span class="co">#&gt; plotting window.</span></code></pre></div>
 <p><img src="introduction_files/figure-html/unnamed-chunk-1-1.png" width="100%"></p>
 <p>As an S4 class, <code>geom</code> consists of a set of slots, which we can inspect with <code><a href="https://www.rdocumentation.org/packages/utils/topics/str">str()</a></code>:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/str">str</a></span>(aGeom)
 <span class="co">#&gt; Formal class 'geom' [package "geometr"] with 7 slots</span>
 <span class="co">#&gt;   ..@ type   : chr "polygon"</span>
-<span class="co">#&gt;   ..@ vert   :Classes 'tbl_df', 'tbl' and 'data.frame':  4 obs. of  4 variables:</span>
-<span class="co">#&gt;   .. ..$ fid: num [1:4] 1 1 1 1</span>
-<span class="co">#&gt;   .. ..$ vid: int [1:4] 1 2 3 4</span>
-<span class="co">#&gt;   .. ..$ x  : num [1:4] 40 70 70 50</span>
-<span class="co">#&gt;   .. ..$ y  : num [1:4] 40 40 60 70</span>
+<span class="co">#&gt;   ..@ vert   :Classes 'tbl_df', 'tbl' and 'data.frame':  5 obs. of  4 variables:</span>
+<span class="co">#&gt;   .. ..$ fid: int [1:5] 1 1 1 1 1</span>
+<span class="co">#&gt;   .. ..$ vid: int [1:5] 1 2 3 4 5</span>
+<span class="co">#&gt;   .. ..$ x  : num [1:5] 40 70 70 50 40</span>
+<span class="co">#&gt;   .. ..$ y  : num [1:5] 40 40 60 70 40</span>
 <span class="co">#&gt;   ..@ attr   :Classes 'tbl_df', 'tbl' and 'data.frame':  1 obs. of  2 variables:</span>
-<span class="co">#&gt;   .. ..$ fid: num 1</span>
-<span class="co">#&gt;   .. ..$ gid: num 1</span>
+<span class="co">#&gt;   .. ..$ fid: int 1</span>
+<span class="co">#&gt;   .. ..$ gid: int 1</span>
 <span class="co">#&gt;   ..@ window :Classes 'tbl_df', 'tbl' and 'data.frame':  4 obs. of  2 variables:</span>
 <span class="co">#&gt;   .. ..$ x: num [1:4] 40 40 70 70</span>
 <span class="co">#&gt;   .. ..$ y: num [1:4] 40 70 70 40</span>
@@ -162,8 +164,14 @@ aGeom &lt;-<span class="st"> </span><span class="kw"><a href="../reference/setWi
 <code>polygon</code>, where vertices with the same <code>fid</code> are connected following the sequence of their order and the path closes in on itself.</li>
 </ul>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/visualise.html">visualise</a></span>(<span class="dt">geom =</span> gtGeoms<span class="op">$</span>polygon, <span class="dt">fillcol =</span> fid)
+<span class="co">#&gt; Warning in visualise(geom = gtGeoms$polygon, fillcol = fid): some vertices</span>
+<span class="co">#&gt; are not within the plotting window.</span>
 <span class="kw"><a href="../reference/visualise.html">visualise</a></span>(<span class="dt">geom =</span> gtGeoms<span class="op">$</span>line, <span class="dt">linecol =</span> <span class="st">"green"</span>, <span class="dt">new =</span> <span class="ot">FALSE</span>)
-<span class="kw"><a href="../reference/visualise.html">visualise</a></span>(<span class="dt">geom =</span> gtGeoms<span class="op">$</span>point, <span class="dt">linecol =</span> <span class="st">"deeppink"</span>, <span class="dt">new =</span> <span class="ot">FALSE</span>)</code></pre></div>
+<span class="co">#&gt; Warning in visualise(geom = gtGeoms$line, linecol = "green", new = FALSE):</span>
+<span class="co">#&gt; some vertices are not within the plotting window.</span>
+<span class="kw"><a href="../reference/visualise.html">visualise</a></span>(<span class="dt">geom =</span> gtGeoms<span class="op">$</span>point, <span class="dt">linecol =</span> <span class="st">"deeppink"</span>, <span class="dt">new =</span> <span class="ot">FALSE</span>)
+<span class="co">#&gt; Warning in visualise(geom = gtGeoms$point, linecol = "deeppink", new =</span>
+<span class="co">#&gt; FALSE): some vertices are not within the plotting window.</span></code></pre></div>
 <p><img src="introduction_files/figure-html/unnamed-chunk-4-1.png" width="100%"></p>
 <p>Points and Lines are implemented quite straightforward in this data model, but polygons, which may contain holes, are a bit trickier. In <code>geometr</code> they are implemented as follows:</p>
 <ul>
@@ -227,7 +235,9 @@ newGeom &lt;-<span class="st"> </span><span class="kw"><a href="../reference/set
 <span class="co">#&gt;   &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;</span>
 <span class="co">#&gt; 1     1     1      5</span>
 <span class="co">#&gt; 2     2     2     10</span>
-<span class="kw"><a href="../reference/visualise.html">visualise</a></span>(<span class="dt">geom =</span> newGeom, <span class="dt">fillcol =</span> weight)</code></pre></div>
+<span class="kw"><a href="../reference/visualise.html">visualise</a></span>(<span class="dt">geom =</span> newGeom, <span class="dt">fillcol =</span> weight)
+<span class="co">#&gt; Warning in visualise(geom = newGeom, fillcol = weight): some vertices are</span>
+<span class="co">#&gt; not within the plotting window.</span></code></pre></div>
 <p><img src="introduction_files/figure-html/unnamed-chunk-5-1.png" width="700"></p>
 <p>In an attempt to standardise the handling of various different spatial formats, these functions have been developed as generics and they come with a couple of methods for the most-used spatial classes, such as <code>Raster*</code>, <code>sp</code>, <code>sf</code>. Originally this was developed to accommodate the modular nature of <code>rasterTools</code> but is now offered as a stand-alone. One can for instance use <code><a href="../reference/getVertices.html">getVertices()</a></code> to get a standardised output of the coordinate values across all supported spatial classes.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/getVertices.html">getVertices</a></span>(gtGeoms<span class="op">$</span>point)
@@ -307,7 +317,9 @@ nc &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocument
 <span class="co">#&gt; epsg (SRID):    4267</span>
 <span class="co">#&gt; proj4string:    +proj=longlat +datum=NAD27 +no_defs</span>
 
-<span class="kw"><a href="../reference/visualise.html">visualise</a></span>(<span class="dt">geom =</span> <span class="kw"><a href="../reference/gt_sf.html">gt_sf</a></span>(nc), <span class="dt">fillcol =</span> NWBIR74)</code></pre></div>
+<span class="kw"><a href="../reference/visualise.html">visualise</a></span>(<span class="dt">geom =</span> <span class="kw"><a href="../reference/gt_sf.html">gt_sf</a></span>(nc), <span class="dt">fillcol =</span> NWBIR74)
+<span class="co">#&gt; Warning in visualise(geom = gt_sf(nc), fillcol = NWBIR74): some vertices</span>
+<span class="co">#&gt; are not within the plotting window.</span></code></pre></div>
 <p><img src="introduction_files/figure-html/unnamed-chunk-8-1.png" width="100%"></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">
 coords &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/sf/topics/tibble">tibble</a></span>(<span class="dt">x =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">30</span>, <span class="dv">60</span>, <span class="dv">60</span>, <span class="dv">40</span>, <span class="dv">10</span>, <span class="dv">40</span>, <span class="dv">20</span>),

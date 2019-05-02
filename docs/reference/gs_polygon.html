@@ -132,16 +132,16 @@ specifying its parameters or by sketching it.</p>
   <span class='no'>...</span>)
 
 <span class='fu'>gs_triangle</span>(<span class='kw'>anchor</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>window</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>template</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>features</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='no'>...</span>)
+  <span class='kw'>features</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>fixed</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='no'>...</span>)
 
 <span class='fu'>gs_square</span>(<span class='kw'>anchor</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>window</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>template</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>features</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='no'>...</span>)
+  <span class='kw'>features</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>fixed</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='no'>...</span>)
 
 <span class='fu'>gs_rectangle</span>(<span class='kw'>anchor</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>window</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>template</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>features</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='no'>...</span>)
 
 <span class='fu'>gs_hexagon</span>(<span class='kw'>anchor</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>window</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>template</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>features</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='no'>...</span>)</pre>
+  <span class='kw'>features</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>fixed</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -182,7 +182,7 @@ to <code>anchor</code> or <code>vertices</code> (<code>FALSE</code>, default)?</
     <tr>
       <th>fixed</th>
       <td><p>[<code><a href='https://www.rdocumentation.org/packages/base/topics/logical'>logical(1)</a></code>]<br /> should the polygon be aligned vertically
-(<code>TRUE</code>, default), or sohuld it be aligned according to the second
+(<code>TRUE</code>, default), or should it be aligned according to the second
 click (<code>FALSE</code>); only relevant if <code>regular = TRUE</code>.</p></td>
     </tr>
     <tr>
@@ -245,7 +245,7 @@ the two given opposing corners.</p></li>
 <span class='co'># if no window is set, the bounding box (i.e. min/max values) will be set as window</span>
 (<span class='no'>aGeom</span> <span class='kw'>&lt;-</span> <span class='fu'>gs_polygon</span>(<span class='kw'>anchor</span> <span class='kw'>=</span> <span class='no'>coords</span>))</div><div class='output co'>#&gt; class      : geom
 #&gt; type       : polygon
-#&gt; features   : 1  (4 vertices)
+#&gt; features   : 1  (5 vertices)
 #&gt; window     : 40, 70, 40, 70  (xmin, xmax, ymin, ymax)
 #&gt; extent     : 40, 70, 40, 70  (xmin, xmax, ymin, ymax)
 #&gt; scale      : absolute
@@ -253,7 +253,7 @@ the two given opposing corners.</p></li>
 #&gt; attributes : 2  (fid, gid)</div><div class='input'>
 <span class='co'># the vertices are plottet relative to the window</span>
 <span class='fu'><a href='visualise.html'>visualise</a></span>(<span class='kw'>geom</span> <span class='kw'>=</span> <span class='fu'>gs_polygon</span>(<span class='kw'>anchor</span> <span class='kw'>=</span> <span class='no'>coords</span>,
-                            <span class='kw'>vertices</span> <span class='kw'>=</span> <span class='fl'>6</span>, <span class='kw'>regular</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>))</div><div class='input'><span class='fu'>gs_triangle</span>(<span class='kw'>anchor</span> <span class='kw'>=</span> <span class='no'>coords</span>, <span class='kw'>window</span> <span class='kw'>=</span> <span class='no'>window</span>) <span class='kw'>%&gt;%</span>
+                            <span class='kw'>vertices</span> <span class='kw'>=</span> <span class='fl'>6</span>, <span class='kw'>regular</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>))</div><div class='output co'>#&gt; <span class='warning'>Warning: some vertices are not within the plotting window.</span></div><div class='input'><span class='fu'>gs_triangle</span>(<span class='kw'>anchor</span> <span class='kw'>=</span> <span class='no'>coords</span>, <span class='kw'>window</span> <span class='kw'>=</span> <span class='no'>window</span>) <span class='kw'>%&gt;%</span>
   <span class='fu'><a href='visualise.html'>visualise</a></span>(<span class='kw'>geom</span> <span class='kw'>=</span> <span class='no'>.</span>, <span class='kw'>linecol</span> <span class='kw'>=</span> <span class='st'>"green"</span>, <span class='kw'>new</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</div><div class='img'><img src='gs_polygon-1.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># when a geom is used in 'anchor', its properties (e.g. 'window') are passed on</span>
 <span class='no'>aGeom</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='setWindow.html'>setWindow</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>aGeom</span>, <span class='kw'>to</span> <span class='kw'>=</span> <span class='no'>window</span>)

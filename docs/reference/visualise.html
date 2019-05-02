@@ -126,7 +126,8 @@
     </div>
 
     <pre class="usage"><span class='fu'>visualise</span>(<span class='kw'>raster</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>geom</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>window</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>theme</span> <span class='kw'>=</span> <span class='no'>gtTheme</span>, <span class='kw'>trace</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>image</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>new</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)</pre>
+  <span class='kw'>theme</span> <span class='kw'>=</span> <span class='no'>gtTheme</span>, <span class='kw'>trace</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>image</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>new</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>clip</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -165,6 +166,11 @@ is actually an image; see Details.</p></td>
       <td><p>[<code><a href='https://www.rdocumentation.org/packages/base/topics/logical'>logical(1)</a></code>]<br /> force a new plot (<code>TRUE</code>, default).</p></td>
     </tr>
     <tr>
+      <th>clip</th>
+      <td><p>[<code><a href='https://www.rdocumentation.org/packages/base/topics/logical'>logical(1)</a></code>]<br /> clip the plot by the plot box
+(<code>TRUE</code>, default), or plot all of the objects.</p></td>
+    </tr>
+    <tr>
       <th>...</th>
       <td><p>[various]<br /> graphical parameters to plot a <code>geom</code>.</p></td>
     </tr>
@@ -195,7 +201,7 @@ is actually an image; see Details.</p></td>
                      <span class='kw'>y</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>0</span>, <span class='fl'>80</span>))
 (<span class='no'>aGeom</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='gs_polygon.html'>gs_polygon</a></span>(<span class='kw'>anchor</span> <span class='kw'>=</span> <span class='no'>coords</span>, <span class='kw'>window</span> <span class='kw'>=</span> <span class='no'>window</span>, <span class='kw'>col</span> <span class='kw'>=</span> <span class='st'>"blue"</span>))</div><div class='output co'>#&gt; class      : geom
 #&gt; type       : polygon
-#&gt; features   : 1  (4 vertices)
+#&gt; features   : 1  (5 vertices)
 #&gt; window     : 0, 80, 0, 80  (xmin, xmax, ymin, ymax)
 #&gt; extent     : 30, 60, 40, 70  (xmin, xmax, ymin, ymax)
 #&gt; scale      : absolute

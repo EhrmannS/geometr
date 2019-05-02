@@ -106,6 +106,9 @@
     <loc>http://EhrmannS.github.io/geometr/reference/makeFormat.html</loc>
   </url>
   <url>
+    <loc>http://EhrmannS.github.io/geometr/reference/rad.html</loc>
+  </url>
+  <url>
     <loc>http://EhrmannS.github.io/geometr/reference/setCRS.html</loc>
   </url>
   <url>
@@ -122,6 +125,9 @@
   </url>
   <url>
     <loc>http://EhrmannS.github.io/geometr/reference/show-gtTheme-method.html</loc>
+  </url>
+  <url>
+    <loc>http://EhrmannS.github.io/geometr/reference/updateWindow.html</loc>
   </url>
   <url>
     <loc>http://EhrmannS.github.io/geometr/reference/visualise.html</loc>

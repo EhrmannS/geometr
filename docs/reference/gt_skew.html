@@ -125,7 +125,7 @@
     
     </div>
 
-    <pre class="usage"><span class='fu'>gt_skew</span>(<span class='no'>geom</span>, <span class='kw'>x</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>fid</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+    <pre class="usage"><span class='fu'>gt_skew</span>(<span class='no'>geom</span>, <span class='kw'>x</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>fid</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>update</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -144,8 +144,12 @@
     </tr>
     <tr>
       <th>fid</th>
-      <td><p>[<code>integerish(.)</code>]<br /> vector of features that should be
-skewed.</p></td>
+      <td><p>[<code>integerish(.)</code>]<br /> the features to skew.</p></td>
+    </tr>
+    <tr>
+      <th>update</th>
+      <td><p>[<code><a href='https://www.rdocumentation.org/packages/base/topics/logical'>logical(1)</a></code>]<br /> whether or not to update the window slot
+after skewing.</p></td>
     </tr>
     </table>
     
