@@ -36,7 +36,7 @@ gt_grob <- function(input = NULL, window = NULL, theme = gtTheme, ...){
       type <- "polygon"
     }
 
-    theCoords <- tibble(fid = 1, vid = seq_along(targetGrob$x), x = as.numeric(targetGrob$x), y = as.numeric(targetGrob$y))
+    theCoords <- tibble(fid = 1, vid = seq_along(input$x), x = as.numeric(input$x), y = as.numeric(input$y))
     if(is.null(window)){
       theWindow <- tibble(x = rep(c(min(theCoords$x), max(theCoords$x)), each = 2),
                           y = c(min(theCoords$y), max(theCoords$y), max(theCoords$y), min(theCoords$y)))
