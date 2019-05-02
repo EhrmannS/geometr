@@ -1,4 +1,4 @@
-#' Edit the vertices of geometries
+#' Relocate the vertices of geometries
 #'
 #' \code{gt_edit} allows to edit the vertices of any \code{geom}.
 #' @param panel [\code{character(1)}]\cr the panel in which to edit vertices
@@ -139,14 +139,13 @@ gt_edit <- function(panel = NULL, tolerance = 0.01, fid = NULL, centroid = FALSE
                                      geom = as.matrix(aGrob),
                                      invert = FALSE)
         if(inTargetGrob){
-          targetRect <- i
-        }
-        if(inTargetGrob){
           targetGrobN <- as.character(i)
         }
       }
-      if(is.null(targetRect)){
+      if(is.null(targetGrobN)){
         message("I did not match an object, please click again.")
+      } else {
+        message("  -> object with fid = '", targetGrobN,"' selected.")
       }
     }
   } else {
