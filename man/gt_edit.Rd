@@ -2,7 +2,7 @@
 % Please edit documentation in R/gt_edit.R
 \name{gt_edit}
 \alias{gt_edit}
-\title{Edit the vertices of geometries}
+\title{Relocate the vertices of geometries}
 \usage{
 gt_edit(panel = NULL, tolerance = 0.01, fid = NULL,
   centroid = FALSE, verbose = FALSE)
