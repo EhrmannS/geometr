@@ -21,6 +21,7 @@ makeColours <- function(input = NULL, theme = NULL, ...){
     isFactor <- input@data@isfactor
     vals <- getValues(input)
     uniqueVals <- sortUniqueC(vals[!is.na(vals)])
+    uniqueValsNum <- as.numeric(uniqueVals)
     nrVals <- length(uniqueVals)
     targetColours <- theme@raster$colours
 
@@ -94,21 +95,22 @@ makeColours <- function(input = NULL, theme = NULL, ...){
         }
 
         vals <- eval(parse(text = paste0(toEval)), envir = attr)
+        valsNum <- as.numeric(vals)
         uniqueVals <- unique(vals)
+        uniqueValsNum <- as.numeric(uniqueVals)
 
         # if the argument is a colour argument, construct a color ramp from two or more values
         if(thisArgName %in% c("linecol", "fillcol")){
           params$scale$x <- thisArgName
           params$scale$cls <- thisArg
 
-          # procVals <- seq_along(vals)
-          uniqueColours <- colorRampPalette(colors = toRamp)(length(uniqueVals))
-          breaks <- c(min(uniqueVals)-1, uniqueVals)
-          valCuts <- cut(vals, breaks = breaks, include.lowest = FALSE)
+          uniqueColours <- colorRampPalette(colors = toRamp)(length(uniqueValsNum))
+          breaks <- c(min(uniqueValsNum)-1, uniqueValsNum)
+          valCuts <- cut(valsNum, breaks = breaks, include.lowest = FALSE)
           tempOut <- uniqueColours[valCuts]
 
         } else{
-          tempOut <- rep_along(vals, params[thisArgName][[1]])
+          tempOut <- rep_along(valsNum, params[thisArgName][[1]])
         }
 
         params[[pos]] <- tempOut
@@ -131,24 +133,26 @@ makeColours <- function(input = NULL, theme = NULL, ...){
 
   }
 
-  # determine the tick values ...
-  if(length(uniqueVals) > theme@legend$bins){
-    tickValues <- quantile(uniqueVals, probs = seq(0, 1, length.out = theme@legend$bins+1), type = 1, names = FALSE)
+  # determine the tick values and labels
+  if(length(uniqueValsNum) > theme@legend$bins){
+    tickValues <- quantile(uniqueValsNum, probs = seq(0, 1, length.out = theme@legend$bins+1), type = 1, names = FALSE)
   } else{
-    tickValues <- uniqueVals
+    tickValues <- uniqueValsNum
   }
-
-  # ... and their labels
-  labels <- tickValues
+  if(is.factor(vals) | is.character(vals)){
+    labels <- uniqueVals[tickValues]
+  } else {
+    labels <- tickValues
+  }
 
   if(theme@legend$ascending){
     array <- matrix(data = rev(uniqueColours), ncol = 1, nrow = length(uniqueColours))
     values <- rev(uniqueVals)
-    labelsPos <- unit(which(sort(uniqueVals) %in% tickValues), "native")
+    labelsPos <- unit(tickValues, "native")
   } else{
     array <- matrix(data = uniqueColours, ncol = 1, nrow = length(uniqueColours))
     values <- uniqueVals
-    labelsPos <- rev(unit(which(sort(uniqueVals) %in% tickValues), "native"))
+    labelsPos <- rev(unit(tickValues, "native"))
   }
 
   out <- list(out.cols = out.cols,
