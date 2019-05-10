@@ -7,8 +7,6 @@
 #'   proportion of the overall box width.
 #' @param fid [\code{integerish(1)}]\cr the feature to edit.
 #' @param verbose [\code{logical(1)}]\cr be verbose about intermediate steps?
-#' @param centroid [\code{logical(1)}]\cr instead of moving the vertices of a
-#'   \code{geom}, move the centroid and thus the overall \code{geom}.
 #' @return An invisible \code{geom}.
 #' @family geometry tools
 #' @examples
@@ -26,14 +24,12 @@
 #' @importFrom methods as
 #' @export
 
-gt_edit <- function(panel = NULL, tolerance = 0.01, fid = NULL, centroid = FALSE,
-                    verbose = FALSE){
+gt_edit <- function(panel = NULL, tolerance = 0.01, fid = NULL, verbose = FALSE){
 
   # check arguments
   assertCharacter(x = panel, ignore.case = TRUE, len = 1, null.ok = TRUE)
   assertNumeric(x = tolerance, upper = 1, lower = 0.001, finite = TRUE)
   assertIntegerish(x = fid, any.missing = FALSE, len = 1, null.ok = TRUE)
-  assertLogical(x = centroid, any.missing = FALSE, len = 1)
   assertLogical(x = verbose, any.missing = FALSE, len = 1)
 
   # function to make little squares (locator boxes) around all points that help
