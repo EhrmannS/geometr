@@ -24,7 +24,6 @@ reference:
       - '`gt_sf`'
       - '`gt_sp`'
       - '`gt_grob`'
-      - '`gt_raster`'
   - title: getters and setters
     desc: methods that standardise dealing with spatial objects
     contents:
