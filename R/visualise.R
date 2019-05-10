@@ -527,14 +527,14 @@ visualise <- function(raster = NULL, geom = NULL, window = NULL, theme = gtTheme
                               # xscale = c(panelExt$x[1]-format$xMar, panelExt$x[2]+format$xMar),
                               # yscale = c(panelExt$y[1]-format$yMar, panelExt$y[2]+format$yMar),
                               name = "geom"))
-        if(clip){
-          grid.clip(width = unit(1, "npc") + unit(theme@box$linewidth, "points"),
-                    height = unit(1, "npc") + unit(theme@box$linewidth, "points"))
-        }
       } else{
         downViewport("geom")
       }
 
+      if(clip){
+        grid.clip(width = unit(1, "npc") + unit(theme@box$linewidth, "points"),
+                  height = unit(1, "npc") + unit(theme@box$linewidth, "points"))
+      }
       grid.draw(geomGrob)
       upViewport(4)
     }
