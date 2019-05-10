@@ -184,6 +184,8 @@ gs_tiles <- function(anchor = NULL, window = NULL, width = NULL, pattern = "squa
 
   sbst <- group_by(theTiles@vert, fid)
   sbst <- summarise(sbst, sub = any(include == TRUE))
+  # theTiles <- setTable(x = theTiles, table = sbst, regroup = FALSE)
+
   theTiles <- getSubset(x = theTiles, !!sbst$sub, slot = "table")
 
   # reconstruct IDs
