@@ -83,7 +83,7 @@
       <h1>geometr - Introduction</h1>
                         <h4 class="author">Steffen Ehrmann</h4>
             
-            <h4 class="date">2019-05-02</h4>
+            <h4 class="date">2019-05-10</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/EhrmannS/geometr/blob/master/vignettes/introduction.Rmd"><code>vignettes/introduction.Rmd</code></a></small>
       <div class="hidden name"><code>introduction.Rmd</code></div>
@@ -119,9 +119,7 @@ coords &lt;-<span class="st"> </span><span class="kw"><a href="https://tibble.ti
 <span class="co">#&gt; scale      : absolute</span>
 <span class="co">#&gt; crs        : NA</span>
 <span class="co">#&gt; attributes : 2  (fid, gid)</span>
-<span class="kw"><a href="../reference/visualise.html">visualise</a></span>(<span class="dt">geom =</span> aGeom)
-<span class="co">#&gt; Warning in visualise(geom = aGeom): some vertices are not within the</span>
-<span class="co">#&gt; plotting window.</span></code></pre></div>
+<span class="kw"><a href="../reference/visualise.html">visualise</a></span>(<span class="dt">geom =</span> aGeom)</code></pre></div>
 <p><img src="introduction_files/figure-html/unnamed-chunk-1-1.png" width="100%"></p>
 <p>As an S4 class, <code>geom</code> consists of a set of slots, which we can inspect with <code><a href="https://www.rdocumentation.org/packages/utils/topics/str">str()</a></code>:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/str">str</a></span>(aGeom)
@@ -309,7 +307,7 @@ newGeom &lt;-<span class="st"> </span><span class="kw"><a href="../reference/set
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(sf)
 <span class="co">#&gt; Linking to GEOS 3.5.1, GDAL 2.2.2, PROJ 4.9.2</span>
 nc &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/sf/topics/st_read">st_read</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/system.file">system.file</a></span>(<span class="st">"shape/nc.shp"</span>, <span class="dt">package=</span><span class="st">"sf"</span>))
-<span class="co">#&gt; Reading layer `nc' from data source `/home/steffen/R/x86_64-pc-linux-gnu-library/3.5/sf/shape/nc.shp' using driver `ESRI Shapefile'</span>
+<span class="co">#&gt; Reading layer `nc' from data source `/home/steffen/R/x86_64-pc-linux-gnu-library/3.6/sf/shape/nc.shp' using driver `ESRI Shapefile'</span>
 <span class="co">#&gt; Simple feature collection with 100 features and 14 fields</span>
 <span class="co">#&gt; geometry type:  MULTIPOLYGON</span>
 <span class="co">#&gt; dimension:      XY</span>
