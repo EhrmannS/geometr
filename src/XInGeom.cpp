@@ -144,6 +144,9 @@ IntegerVector pointInGeomC(NumericMatrix &vert, NumericMatrix &geom, bool invert
             if(isLeft < 0){                  // P right of edge
               --wn;                          // have  a valid down intersect
               // Rcout << "wn: " << wn << std::endl;
+            } else if(isLeft == 0){
+              ++wn;
+              // Rcout << "wn: " << wn << std::endl;
             }
           }
 
