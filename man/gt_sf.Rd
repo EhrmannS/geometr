@@ -34,6 +34,6 @@ visualise(geom = gt_sf(input = sfPoly))
 }
 \seealso{
 Other spatial classes: \code{\link{gt_grob}},
-  \code{\link{gt_raster}}, \code{\link{gt_sp}}
+  \code{\link{gt_sp}}
 }
 \concept{spatial classes}

@@ -28,7 +28,7 @@ An object of class \code{\link{grob}} is the grid-package representation of a
 \code{geom} and is used for plotting.
 }
 \seealso{
-Other spatial classes: \code{\link{gt_raster}},
-  \code{\link{gt_sf}}, \code{\link{gt_sp}}
+Other spatial classes: \code{\link{gt_sf}},
+  \code{\link{gt_sp}}
 }
 \concept{spatial classes}

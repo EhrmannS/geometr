@@ -5,7 +5,7 @@
 \title{Relocate the vertices of geometries}
 \usage{
 gt_edit(panel = NULL, tolerance = 0.01, fid = NULL,
-  centroid = FALSE, verbose = FALSE)
+  verbose = FALSE)
 }
 \arguments{
 \item{panel}{[\code{character(1)}]\cr the panel in which to edit vertices
@@ -15,9 +15,6 @@ gt_edit(panel = NULL, tolerance = 0.01, fid = NULL,
 proportion of the overall box width.}
 
 \item{fid}{[\code{integerish(1)}]\cr the feature to edit.}
-
-\item{centroid}{[\code{logical(1)}]\cr instead of moving the vertices of a
-\code{geom}, move the centroid and thus the overall \code{geom}.}
 
 \item{verbose}{[\code{logical(1)}]\cr be verbose about intermediate steps?}
 }

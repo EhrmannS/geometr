@@ -28,6 +28,6 @@ visualise(geom = gt_sp(input = spPoly))
 }
 \seealso{
 Other spatial classes: \code{\link{gt_grob}},
-  \code{\link{gt_raster}}, \code{\link{gt_sf}}
+  \code{\link{gt_sf}}
 }
 \concept{spatial classes}
