@@ -41,8 +41,8 @@
 #' @importFrom dplyr bind_rows group_by summarise left_join select mutate
 #' @export
 
-gs_tiles <- function(anchor = NULL, window = NULL, width = NULL, pattern = "squared",
-                     rotation = 0, centroids = FALSE){
+gs_tiles <- function(anchor = NULL, window = NULL, width = NULL, offset = 0.5,
+                     pattern = "squared", rotation = 0, centroids = FALSE){
 
   # check arguments
   anchorIsDF <- testDataFrame(anchor, types = "numeric", any.missing = FALSE, min.cols = 2)
@@ -87,6 +87,7 @@ gs_tiles <- function(anchor = NULL, window = NULL, width = NULL, pattern = "squa
   }
 
   assertIntegerish(width, len = 1)
+  offset <- width*offset*-1
   assertChoice(x = pattern, choices = c("squared", "hexagonal", "triangular"))
   assertNumeric(x = rotation, lower = 0, upper = 360, len = 1)
   assertLogical(centroids)
@@ -105,8 +106,8 @@ gs_tiles <- function(anchor = NULL, window = NULL, width = NULL, pattern = "squa
     yRange <- max(anchor@vert$y) - min(anchor@vert$y)
 
     # determine centroids
-    xCentroids <- seq(min(anchor@vert$x) - 3*width/2, max(anchor@vert$x) + 3*width/2, width)
-    yCentroids <- seq(min(anchor@vert$y) - 3*width/2, max(anchor@vert$y) + 3*width/2, width)
+    xCentroids <- seq(min(anchor@vert$x) - offset, max(anchor@vert$x) + offset, width)
+    yCentroids <- seq(min(anchor@vert$y) - offset, max(anchor@vert$y) + offset, width)
     cntrds <- tibble(fid = seq(1:(length(xCentroids)*length(yCentroids))),
                      x = rep(xCentroids, times = length(yCentroids)),
                      y = rep(yCentroids, each = length(xCentroids)))
