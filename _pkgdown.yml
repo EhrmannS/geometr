@@ -64,7 +64,7 @@ navbar:
     - text: "Getting Started"
       href: articles/introduction.html
     - icon: fa-file-code-o
-      text: "Glossary"
+      text: "References"
       href: reference/index.html
   right:
     - icon: far fa-list-alt

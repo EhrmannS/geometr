@@ -147,7 +147,8 @@ gs_line <- function(anchor = NULL, window = NULL, template = NULL, features = 1,
 
     } else if(anchorIsGeom){
       if(!windowExists){
-        window <- anchor@window
+        window <- tibble(x = c(min(anchor@window$x), max(anchor@window$x)),
+                         y = c(min(anchor@window$y), max(anchor@window$y)))
       }
       tempAnchor <- anchor@vert[anchor@vert$fid == i,]
     } else if(anchorIsDF){

@@ -136,7 +136,8 @@ gs_point <- function(anchor = NULL, window = NULL, template = NULL,
                      y = coords$y)
   } else if(anchorIsGeom){
     if(!windowExists){
-      window <- anchor@window
+      window <- tibble(x = c(min(anchor@window$x), max(anchor@window$x)),
+                       y = c(min(anchor@window$y), max(anchor@window$y)))
     }
     anchor <- anchor@vert
   } else if(anchorIsDF){

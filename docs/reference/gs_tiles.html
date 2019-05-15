@@ -76,7 +76,7 @@
   <a href="../reference/index.html">
     <span class="fa fa-file-code-o"></span>
      
-    Glossary
+    References
   </a>
 </li>
       </ul>
@@ -125,7 +125,7 @@
     
     </div>
 
-    <pre class="usage"><span class='fu'>gs_tiles</span>(<span class='kw'>anchor</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>window</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>width</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+    <pre class="usage"><span class='fu'>gs_tiles</span>(<span class='kw'>anchor</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>window</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>width</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>offset</span> <span class='kw'>=</span> <span class='fl'>0.5</span>,
   <span class='kw'>pattern</span> <span class='kw'>=</span> <span class='st'>"squared"</span>, <span class='kw'>rotation</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>centroids</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -145,6 +145,11 @@ the maximum value (upper right corner) of the tiling.</p></td>
     <tr>
       <th>width</th>
       <td><p>[<code><a href='https://www.rdocumentation.org/packages/base/topics/numeric'>numeric(1)</a></code>]<br /> the width of a tile.</p></td>
+    </tr>
+    <tr>
+      <th>offset</th>
+      <td><p>[<code><a href='https://www.rdocumentation.org/packages/base/topics/numeric'>numeric(1)</a></code>]<br /> fraction of <code>width</code>, by which the
+tiles will be offset. Can go from <code>-1</code> to <code>+1</code>.</p></td>
     </tr>
     <tr>
       <th>pattern</th>
@@ -195,7 +200,7 @@ default)?</p></td>
 <span class='no'>window</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/data.frame'>data.frame</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>0</span>, <span class='fl'>80</span>),
                      <span class='kw'>y</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>0</span>, <span class='fl'>80</span>))
 <span class='no'>aGeom</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='gs_polygon.html'>gs_polygon</a></span>(<span class='kw'>anchor</span> <span class='kw'>=</span> <span class='no'>coords</span>, <span class='kw'>window</span> <span class='kw'>=</span> <span class='no'>window</span>)
-<span class='no'>comb</span> <span class='kw'>&lt;-</span> <span class='fu'>gs_tiles</span>(<span class='kw'>anchor</span> <span class='kw'>=</span> <span class='no'>aGeom</span>, <span class='kw'>width</span> <span class='kw'>=</span> <span class='fl'>8</span>, <span class='kw'>pattern</span> <span class='kw'>=</span> <span class='st'>"hexagonal"</span>, <span class='kw'>rotation</span> <span class='kw'>=</span> <span class='fl'>30</span>)</div></pre>
+<span class='no'>comb</span> <span class='kw'>&lt;-</span> <span class='fu'>gs_tiles</span>(<span class='kw'>anchor</span> <span class='kw'>=</span> <span class='no'>aGeom</span>, <span class='kw'>width</span> <span class='kw'>=</span> <span class='fl'>8</span>, <span class='kw'>pattern</span> <span class='kw'>=</span> <span class='st'>"hexagonal"</span>, <span class='kw'>rotation</span> <span class='kw'>=</span> <span class='fl'>41</span>)</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
