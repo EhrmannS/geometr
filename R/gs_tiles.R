@@ -34,7 +34,7 @@
 #' window <- data.frame(x = c(0, 80),
 #'                      y = c(0, 80))
 #' aGeom <- gs_polygon(anchor = coords, window = window)
-#' comb <- gs_tiles(anchor = aGeom, width = 8, pattern = "hexagonal", rotation = 30)
+#' comb <- gs_tiles(anchor = aGeom, width = 8, pattern = "hexagonal", rotation = 41)
 #' @importFrom checkmate testDataFrame assertNames testClass testIntegerish
 #'   assertDataFrame assertNames assertCharacter assertSubset assertLogical
 #' @importFrom tibble tibble

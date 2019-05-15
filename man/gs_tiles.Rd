@@ -54,7 +54,7 @@ coords <- data.frame(x = c(40, 70, 70, 50),
 window <- data.frame(x = c(0, 80),
                      y = c(0, 80))
 aGeom <- gs_polygon(anchor = coords, window = window)
-comb <- gs_tiles(anchor = aGeom, width = 8, pattern = "hexagonal", rotation = 30)
+comb <- gs_tiles(anchor = aGeom, width = 8, pattern = "hexagonal", rotation = 41)
 }
 \seealso{
 Other tilings: \code{\link{gs_voronoi}}
