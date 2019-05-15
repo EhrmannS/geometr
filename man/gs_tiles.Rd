@@ -17,6 +17,9 @@ the maximum value (upper right corner) of the tiling.}
 
 \item{width}{[\code{numeric(1)}]\cr the width of a tile.}
 
+\item{offset}{[\code{numeric(1)}]\cr fraction of \code{width}, by which the
+tiles will be offset. Can go from \code{-1} to \code{+1}.}
+
 \item{pattern}{[\code{character(1)}]\cr pattern of the tiling. Possible
 options are \code{"squared"} (default) or \code{"hexagonal"}.}
 

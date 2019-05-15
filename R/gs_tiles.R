@@ -6,6 +6,8 @@
 #' @param window [\code{data.frame(1)}]\cr the origin (lower left corner) and
 #'   the maximum value (upper right corner) of the tiling.
 #' @param width [\code{numeric(1)}]\cr the width of a tile.
+#' @param offset [\code{numeric(1)}]\cr fraction of \code{width}, by which the
+#'   tiles will be offset. Can go from \code{-1} to \code{+1}.
 #' @param pattern [\code{character(1)}]\cr pattern of the tiling. Possible
 #'   options are \code{"squared"} (default) or \code{"hexagonal"}.
 #' @param rotation [\code{integerish(1)}]\cr
