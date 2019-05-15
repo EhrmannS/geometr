@@ -1,7 +1,7 @@
 [![Travis-CI Build Status](https://travis-ci.org/EhrmannS/geometr.svg?branch=master)](https://travis-ci.org/EhrmannS/geometr)
 [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/geometr)](https://cran.r-project.org/package=geometr)
 [![Coverage Status](https://img.shields.io/codecov/c/github/EhrmannS/geometr/master.svg)](https://codecov.io/github/EhrmannS/geometr?branch=master)
-[![](http://cranlogs.r-pkg.org/badges/grand-total/geometr)](http://cran.rstudio.com/web/packages/geometr/index.html)
+<!-- [![](http://cranlogs.r-pkg.org/badges/grand-total/geometr)](https://cran.rstudio.com/web/packages/geometr/index.html)-->
 
 # geometr
 
