@@ -43,7 +43,7 @@
 #' @importFrom dplyr bind_rows group_by summarise left_join select mutate
 #' @export
 
-gs_tiles <- function(anchor = NULL, window = NULL, width = NULL, offset = 0.5,
+gs_tiles <- function(anchor = NULL, window = NULL, width = NULL, offset = NULL,
                      pattern = "squared", rotation = 0, centroids = FALSE){
 
   # check arguments
@@ -89,7 +89,6 @@ gs_tiles <- function(anchor = NULL, window = NULL, width = NULL, offset = 0.5,
   }
 
   assertIntegerish(width, len = 1)
-  offset <- width*offset*-1
   assertChoice(x = pattern, choices = c("squared", "hexagonal", "triangular"))
   assertNumeric(x = rotation, lower = 0, upper = 360, len = 1)
   assertLogical(centroids)
@@ -103,6 +102,11 @@ gs_tiles <- function(anchor = NULL, window = NULL, width = NULL, offset = 0.5,
 
   # set pattern specific properties
   if(pattern == "squared"){
+
+    if(is.null(offset)){
+      offset <- 0.5
+    }
+    offset <- width*offset*-1
 
     xRange <- max(anchor@vert$x) - min(anchor@vert$x)
     yRange <- max(anchor@vert$y) - min(anchor@vert$y)
@@ -124,18 +128,24 @@ gs_tiles <- function(anchor = NULL, window = NULL, width = NULL, offset = 0.5,
   } else if(pattern == "hexagonal"){
     # https://www.redblobgames.com/grids/hexagons/
 
-    xRange <- max(anchor@vert$x) - min(anchor@vert$x)
-    yRange <- max(anchor@vert$y) - min(anchor@vert$y)
-
     inRadius <- width/2
     circumRadius <- 2/sqrt(3) * inRadius
     radius <- circumRadius
 
+    if(is.null(offset)){
+      offset <- 0
+    }
+    xOffset <- inRadius*2*offset*-1
+    yOffset <- 2*circumRadius*offset*-1
+
+    xRange <- max(anchor@vert$x) - min(anchor@vert$x)
+    yRange <- max(anchor@vert$y) - min(anchor@vert$y)
+
     # determine centroids
-    xC1 <- seq(min(anchor@vert$x) - 2*inRadius, max(anchor@vert$x) + 2*inRadius, by = inRadius*2)
-    xC2 <- seq(min(anchor@vert$x) - inRadius, max(anchor@vert$x) + 3*inRadius, by = inRadius*2)
-    yC1 <- seq(min(anchor@vert$y), max(anchor@vert$y) + circumRadius, by = 3*circumRadius)
-    yC2 <- seq(min(anchor@vert$y) + 3/2*circumRadius, max(anchor@vert$y) + 3/2*circumRadius, by = 3*circumRadius)
+    xC1 <- seq(min(anchor@vert$x) - 2*inRadius - xOffset, max(anchor@vert$x) + 2*inRadius + xOffset, by = inRadius*2)
+    xC2 <- seq(min(anchor@vert$x) - inRadius - xOffset, max(anchor@vert$x) + 3*inRadius + xOffset, by = inRadius*2)
+    yC1 <- seq(min(anchor@vert$y) - yOffset, max(anchor@vert$y) + circumRadius + yOffset, by = 3*circumRadius)
+    yC2 <- seq(min(anchor@vert$y) + 3/2*circumRadius - yOffset, max(anchor@vert$y) + 3/2*circumRadius + yOffset, by = 3*circumRadius)
 
     cntrds <- tibble(fid = seq(1:(length(yC1)*length(xC1) + length(yC2)*length(xC2))),
                      x = c(rep(xC1, times = length(yC1)), rep(xC2, times = length(yC2))),

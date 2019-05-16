@@ -4,7 +4,7 @@
 \alias{gs_tiles}
 \title{Create a regular tiling geometry}
 \usage{
-gs_tiles(anchor = NULL, window = NULL, width = NULL, offset = 0.5,
+gs_tiles(anchor = NULL, window = NULL, width = NULL, offset = NULL,
   pattern = "squared", rotation = 0, centroids = FALSE)
 }
 \arguments{
