@@ -30,40 +30,47 @@ if(!isGeneric("setTable")){
 }
 
 #' @rdname setTable
-#' @param regroup [\code{logical(1)}]\cr rearrange groups when new attributes
-#'   are not unique per group but per feature (\code{TRUE}, default) or
-#'   suppress this behaviour (\code{FALSE}).
+#' @param slot [\code{character(1)}]\cr the geom slot to which to set the
+#'   attribute table, either \code{"vert"}, \code{"feat"} or \code{"group"}.
 #' @examples
 #' # set table of a geom
 #' # individual attributes per point/line/polygon feature
 #' getTable(gtGeoms$point)
-#' x1 <- setTable(x = gtGeoms$point,
-#'                table = data.frame(attr = letters[c(1:5, 5:11)]))
-#' getTable(x1)
-#' x2 <- setTable(x = gtGeoms$point,
-#'                table = data.frame(gid = c(1:3), attr = letters[1:3]))
-#' getTable(x2)
+#' newAttr <- setTable(x = gtGeoms$point,
+#'                     slot = "vert",
+#'                     table = data.frame(attr = letters[c(1:5, 5:11)]))
+#' getTable(x = newAttr, slot = "vert")
+#'
+#' newAttr2 <- setTable(x = newAttr,
+#'                      slot = "feat",
+#'                      table = data.frame(gid = c(1:3), attr = letters[1:3]))
+#' getTable(newAttr2)
+#' newAttr2
 #' @importFrom dplyr left_join select everything
 #' @importFrom tibble tibble
 #' @export
 setMethod(f = "setTable",
           signature = "geom",
-          definition = function(x, table, regroup = TRUE){
-            assertDataFrame(table)
-            attr <- table[!names(table) %in% c("gid", "fid")]
-            if(any(colnames(table) %in% colnames(x@feat))){
-              x@feat <- left_join(x@feat, table)
-            } else{
-              x@feat <- bind_cols(x@feat, table)
-            }
-            if(regroup){
-              # regroup if there are individual values per feature
-              if(dim(unique(attr))[1] != length(unique(x@feat$gid))){
-                names <- colnames(attr)
-                newGid <- tibble(seq_along(unique(attr[,1])), unique(attr[,1]))
-                colnames(newGid) <- c("gid", names)
-                x@feat <- left_join(x@feat[!names(x@feat) %in% c("gid")], newGid)
-                x@feat <- select(x@feat, "fid", "gid", everything())
+          definition = function(x, table, slot = "feat"){
+            assertDataFrame(x = table)
+            assertChoice(x = slot, choices = c("vert", "feat", "group"))
+            if(slot == "vert"){
+              if(any(colnames(table) %in% colnames(x@vert))){
+                x@vert <- left_join(x@vert, table)
+              } else{
+                x@vert <- bind_cols(x@vert, table)
+              }
+            } else if(slot == "feat"){
+              if(any(colnames(table) %in% colnames(x@feat))){
+                x@feat <- left_join(x@feat, table)
+              } else{
+                x@feat <- bind_cols(x@feat, table)
+              }
+            } else {
+              if(any(colnames(table) %in% colnames(x@group))){
+                x@group <- left_join(x@group, table)
+              } else{
+                x@group <- bind_cols(x@group, table)
               }
             }
 
