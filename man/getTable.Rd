@@ -19,6 +19,9 @@
 }
 \arguments{
 \item{x}{the object from which to derive the attribute table.}
+
+\item{slot}{[\code{character(1)}]\cr the geom slot from which to retrieve the
+attribute table, either \code{"vert"}, \code{"feat"} or \code{"group"}.}
 }
 \description{
 Get the attribute table of a spatial object.

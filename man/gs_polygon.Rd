@@ -50,8 +50,7 @@ to \code{anchor} or \code{vertices} (\code{FALSE}, default)?}
 (\code{TRUE}, default), or should it be aligned according to the second
 click (\code{FALSE}); only relevant if \code{regular = TRUE}.}
 
-\item{...}{[various]\cr graphical parameters to \code{\link{gt_locate}}, in case
-a polygon is sketched; see \code{\link{gpar}}.}
+\item{...}{[various]\cr additional arguments; see Details.}
 }
 \value{
 An invisible \code{geom}.
@@ -65,10 +64,10 @@ The arguments \code{anchor} and \code{template} indicate how the
   geometry is created: \itemize{ \item \code{anchor}: if set, the geometry is
   created parametrically, the input provided is used to parameterise the
   geometry \itemize{ \item if \code{regular = FALSE} the resulting geometry
-  is the boundary per feature, \item if \code{regular = TRUE}, only the
-  first two vertices are considered, as center and indicating the (outer)
-  radius.} \item \code{template}: if set, the geometry is created
-  interactively, by clicking into the plot.}
+  is the boundary per feature, \item if \code{regular = TRUE}, only the first
+  two vertices are considered, as center and indicating the (outer) radius.}
+  \item \code{template}: if set, the geometry is created interactively, by
+  clicking into the plot.}
 
   Possible additional arguments are: \itemize{ \item verbose = TRUE/FALSE
   \item graphical parameters to \code{\link{gt_locate}}, in case points are

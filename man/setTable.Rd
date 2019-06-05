@@ -10,7 +10,7 @@
 \alias{setTable,RasterLayer-method}
 \title{Set the attribute table of a spatial object.}
 \usage{
-\S4method{setTable}{geom}(x, table, regroup = TRUE)
+\S4method{setTable}{geom}(x, table, slot = "feat")
 
 \S4method{setTable}{Spatial}(x, table)
 
@@ -25,9 +25,8 @@
 
 \item{table}{[\code{data.frame(.)}]\cr the attribute table.}
 
-\item{regroup}{[\code{logical(1)}]\cr rearrange groups when new attributes
-are not unique per group but per feature (\code{TRUE}, default) or
-suppress this behaviour (\code{FALSE}).}
+\item{slot}{[\code{character(1)}]\cr the geom slot to which to set the
+attribute table, either \code{"vert"}, \code{"feat"} or \code{"group"}.}
 }
 \description{
 Set the attribute table of a spatial object.
@@ -50,12 +49,16 @@ If \code{table} does not have columns in common with \code{x}, the
 # set table of a geom
 # individual attributes per point/line/polygon feature
 getTable(gtGeoms$point)
-x1 <- setTable(x = gtGeoms$point,
-               table = data.frame(attr = letters[c(1:5, 5:11)]))
-getTable(x1)
-x2 <- setTable(x = gtGeoms$point,
-               table = data.frame(gid = c(1:3), attr = letters[1:3]))
-getTable(x2)
+newAttr <- setTable(x = gtGeoms$point,
+                    slot = "vert",
+                    table = data.frame(attr = letters[c(1:5, 5:11)]))
+getTable(x = newAttr, slot = "vert")
+
+newAttr2 <- setTable(x = newAttr,
+                     slot = "feat",
+                     table = data.frame(gid = c(1:3), attr = letters[1:3]))
+getTable(newAttr2)
+newAttr2
 
 # set table of an sf
 sfObj <- gtSF$polygon

@@ -7,7 +7,7 @@
 .makeTinyMap(geom = NULL)
 }
 \arguments{
-\item{x}{[\code{geom}]\cr the geom from which to create a tiny map.}
+\item{geom}{[\code{geom}]\cr the geom from which to create a tiny map.}
 }
 \description{
 A tiny map is used via the show method of a geom.

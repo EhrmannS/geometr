@@ -28,6 +28,8 @@ options are \code{"squared"} (default) or \code{"hexagonal"}.}
 \item{centroids}{[\code{logical(1)}]\cr should the centroids of the tiling be
 returned (\code{TRUE}) or should the tiling be returned (\code{FALSE},
 default)?}
+
+\item{...}{[various]\cr additional arguments; see Details.}
 }
 \value{
 An invisible \code{geom}.
@@ -44,6 +46,10 @@ When deriving a regular tiling for a prescribed window, there is
   properly clear how many tiles there should be in one dimension, but not the
   other, this can be specified by setting one of the cell counts to
   \code{NA}, such as \code{cells = c(NA, 18)}.
+
+  Possible additional arguments are: \itemize{ \item verbose = TRUE/FALSE
+  \item graphical parameters to \code{\link{gt_locate}}, in case points are
+  sketched; see \code{\link{gpar}}}.
 }
 \examples{
 # create a squared tiling
