@@ -16,6 +16,8 @@ if(!isGeneric("getTable")){
 }
 
 #' @rdname getTable
+#' @param slot [\code{character(1)}]\cr the geom slot from which to retrieve the
+#'   attribute table, either \code{"vert"}, \code{"feat"} or \code{"group"}.
 #' @examples
 #' getTable(gtGeoms$polygon)
 #' @importFrom tibble as_tibble
@@ -23,8 +25,10 @@ if(!isGeneric("getTable")){
 setMethod(f = "getTable",
           signature = "geom",
           definition = function(x, slot = "feat"){
-            assertChoice(x = slot, choices = c("feat", "group"))
-            if(slot == "feat"){
+            assertChoice(x = slot, choices = c("vert", "feat", "group"))
+            if(slot == "vert"){
+              as_tibble(x@vert)
+            } else if(slot == "feat"){
               as_tibble(x@feat)
             } else {
               as_tibble(x@group)
