@@ -1,4 +1,5 @@
 library(checkmate)
+library(testthat)
 context("gs_random")
 
 
@@ -19,7 +20,7 @@ test_that("output is valid geometry", {
   output <- gs_random(type = "polygon")
   expect_class(output, classes = "geom")
   expect_true(output@type == "polygon")
-  expect_data_frame(output@vert, any.missing = FALSE, nrows = 3, ncols = 3)
+  expect_data_frame(output@vert, any.missing = FALSE, nrows = 4, ncols = 3)
 })
 
 test_that("template instead of anchor", {

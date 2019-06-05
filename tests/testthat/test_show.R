@@ -23,5 +23,5 @@ test_that("show works, more than 9 attributes", {
   output <- capture.output(temp)
 
   expect_character(x = output, len = 10)
-  expect_true(output[4] == "attributes  (features)   af, asd, adf, addsa, aslk, ial, afasdsa")
+  expect_true(output[4] == "attributes  (features) af, asd, adf, addsa, aslk, ial, afasdsa")
 })

@@ -17,7 +17,7 @@ test_that("output is valid geometry", {
   output <- gs_tiles(window = aWindow, width = 10, pattern = "hexagonal")
   expect_class(output, classes = "geom")
   expect_true(output@type == "polygon")
-  expect_data_frame(output@vert, any.missing = FALSE, nrows = 4403, ncols = 3)
+  expect_data_frame(output@vert, any.missing = FALSE, nrows = 4459, ncols = 3)
 
   # only censtroids
   output <- gs_tiles(window = aWindow, width = 10, centroids = TRUE)
