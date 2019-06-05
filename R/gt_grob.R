@@ -74,7 +74,7 @@ gt_grob <- function(input = NULL, window = NULL, theme = gtTheme, ...){
     vert <- getVertices(x = outGeom)
 
     attr <- getTable(x = input)
-    pars <- makeColours(input = input, theme = theme, ...)
+    pars <- .makeColours(input = input, theme = theme, ...)
     pars <- pars$params
 
     ids <- eval(parse(text = pars$scale$to), envir = attr)

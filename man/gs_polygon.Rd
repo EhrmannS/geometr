@@ -69,6 +69,10 @@ The arguments \code{anchor} and \code{template} indicate how the
   first two vertices are considered, as center and indicating the (outer)
   radius.} \item \code{template}: if set, the geometry is created
   interactively, by clicking into the plot.}
+
+  Possible additional arguments are: \itemize{ \item verbose = TRUE/FALSE
+  \item graphical parameters to \code{\link{gt_locate}}, in case points are
+  sketched; see \code{\link{gpar}}}.
 }
 \section{Functions}{
 \itemize{
@@ -125,7 +129,7 @@ circleGeom <- gs_polygon(template = input, vertices = 100, regular = TRUE) \%>\%
 
 # create two arbitrary polygons interactively
 polyGeom <- gs_polygon(template = input, features = 2, vertices = c(4, 6)) \%>\%
-  visualise(geom = ., linecol = "green", lwd = 1, lty = "dashed", new = FALSE)
+  visualise(geom = ., linecol = "green", linewidth = 1, linetype = "dashed", new = FALSE)
 }
 }
 \seealso{

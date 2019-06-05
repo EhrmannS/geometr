@@ -9,7 +9,7 @@
 \alias{getTable,RasterLayer-method}
 \title{Get the attribute table of a spatial object.}
 \usage{
-\S4method{getTable}{geom}(x)
+\S4method{getTable}{geom}(x, slot = "feat")
 
 \S4method{getTable}{Spatial}(x)
 

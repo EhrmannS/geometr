@@ -11,15 +11,18 @@
 #' @param template [\code{RasterLayer(1)} | \code{matrix(1)}]\cr Gridded object
 #'   that serves as template to sketch the geometry.
 #' @param vertices [\code{integer(1)}]\cr number of vertices.
-#' @param ... [various]\cr graphical parameters to \code{\link{gt_locate}}, in case
-#'   points are sketched; see \code{\link{gpar}}.
+#' @param ... [various]\cr additional arguments; see Details.
 #' @return An invisible \code{geom}.
 #' @family geometry shapes
-#' @details The arguments \code{anchor} and \code{template} indicate how the
+#' @details  The arguments \code{anchor} and \code{template} indicate how the
 #'   geometry is created: \itemize{ \item \code{anchor}: if set, the geometry is
 #'   created parametrically, the input provided is used to parameterise the
 #'   geometry. \item \code{template}: if set, the geometry is created
 #'   interactively, by clicking into the plot.}
+#'
+#'   Possible additional arguments are: \itemize{ \item verbose = TRUE/FALSE
+#'   \item graphical parameters to \code{\link{gt_locate}}, in case points are
+#'   sketched; see \code{\link{gpar}}}.
 #' @examples
 #' library(magrittr)
 #'
@@ -40,7 +43,9 @@
 #' # when a geom is used in 'anchor', its properties (e.g. 'window') are passed on
 #' aGeom <- setWindow(x = aGeom, to = window)
 #' gs_point(anchor = aGeom) %>%
-#'   visualise(geom = ., linecol = "deeppink")
+#'   visualise(geom = .)
+#'
+#' geom <- gs_point(anchor = data.frame(x = 40, y = 40), window = data.frame(x = c(40, 70), y = c(40, 70)))
 #'
 #' \dontrun{
 #'
@@ -64,58 +69,28 @@ gs_point <- function(anchor = NULL, window = NULL, template = NULL,
                      vertices = NULL, ...){
 
   # check arguments
-  anchorIsDF <- testDataFrame(anchor, types = "numeric", any.missing = FALSE, min.cols = 2)
-  if(anchorIsDF){
-    colnames(anchor) <- tolower(colnames(anchor))
-    assertNames(names(anchor), must.include = c("x", "y"), subset.of = c( "fid", "vid", "x", "y"))
-    if(!"vid" %in% names(anchor)){
-      anchor <- bind_cols(vid = rep(1, times = length(anchor$x)), anchor)
-    }
-    if(!"fid" %in% names(anchor)){
-      anchor <- bind_cols(fid = seq_along(anchor$x), anchor)
-    }
-    features <- length(unique(anchor$fid))
-  }
-  anchorIsGeom <- testClass(anchor, classes = "geom")
-  if(anchorIsGeom){
-    # fid and vid values need to be transformed
-    if(anchor@type != "point"){
-      anchor@vert$fid <- seq_along(anchor@vert$fid)
-      anchor@vert$vid <- rep(1, times = length(anchor@vert$vid))
-    }
-    features <- length(unique(anchor@vert$fid))
-  }
-  windowExists <- !testNull(window)
-  if(windowExists){
-    assertDataFrame(window, types = "numeric", any.missing = FALSE, ncols = 2, null.ok = TRUE)
-    colnames(window) <- tolower(colnames(window))
-    assertNames(names(window), must.include = c("x", "y"))
-  }
-  templateExists <- !testNull(template)
-  if(templateExists){
-    assert(
-      testClass(template, "RasterLayer"),
-      testClass(template, "matrix")
-    )
-  }
-  if(!anchorIsDF & !anchorIsGeom & !templateExists){
+  anchor <- .testAnchor(x = anchor, ...)
+  window <- .testWindow(x = window, ...)
+  template <- .testTemplate(x = template, ...)
+
+  if(is.null(anchor) & is.null(template)){
     stop("please provide either 'anchor' or 'template'.")
   }
-  if(!anchorIsDF & !anchorIsGeom){
+  if(is.null(anchor)){
     assertIntegerish(vertices, min.len = 1, lower = 1, any.missing = FALSE)
   } else{
     assertIntegerish(vertices, min.len = 1, lower = 2, any.missing = FALSE, null.ok = TRUE)
   }
 
   # get some raster properties
-  if(templateExists){
-    if(testClass(template, "RasterLayer")){
-      tempName <- names(template)
-      dims <- dim(template)
-      projection <- getCRS(x = template)
+  if(!is.null(template)){
+    if(template$type == "RasterLayer"){
+      tempName <- names(template$obj)
+      dims <- dim(template$obj)
+      projection <- getCRS(x = template$obj)
     } else{
       tempName <- "layer"
-      dims <- dim(template)
+      dims <- dim(template$obj)
       projection <- NA
     }
   } else{
@@ -124,37 +99,48 @@ gs_point <- function(anchor = NULL, window = NULL, template = NULL,
   }
 
   # if anchor does not exists, make it
-  if(!anchorIsDF & !anchorIsGeom){
+  if(is.null(anchor)){
     message("please click the ", vertices, " vertices.")
-    visualise(raster = template)
+    if(i == 1){
+      visualise(raster = template$obj)
+    }
     coords <- gt_locate(samples = vertices, panel = tempName, silent = TRUE, ...)
     window <- tibble(x = c(0, dims[2]),
                      y = c(0, dims[1]))
-    anchor <- tibble(fid = 1:vertices,
-                     vid = 1,
-                     x = coords$x,
-                     y = coords$y)
-  } else if(anchorIsGeom){
-    if(!windowExists){
-      window <- tibble(x = c(min(anchor@window$x), max(anchor@window$x)),
-                       y = c(min(anchor@window$y), max(anchor@window$y)))
+    anchor <- tibble(x = coords$x,
+                     y = coords$y,
+                     fid = 1:vertices)
+  } else if(anchor$type == "geom"){
+    if(is.null(window)){
+      window <- tibble(x = c(min(anchor$obj@window$x),
+                             max(anchor$obj@window$x)),
+                       y = c(min(anchor$obj@window$y),
+                             max(anchor$obj@window$y)))
     }
-    anchor <- anchor@vert
-  } else if(anchorIsDF){
-    if(!windowExists){
-      window <- tibble(x = c(min(anchor$x), max(anchor$x)),
-                       y = c(min(anchor$y), max(anchor$y)))
+    anchor <- anchor$obj@vert
+  } else if(anchor$type == "df"){
+    if(is.null(window)){
+      window <- tibble(x = c(min(anchor$obj$x),
+                             max(anchor$obj$x)),
+                       y = c(min(anchor$obj$y),
+                             max(anchor$obj$y)))
+    }
+    anchor <- anchor$obj
+    if(!"fid" %in% names(anchor)){
+      anchor <- bind_cols(anchor, fid = seq_along(anchor$x))
     }
   }
 
   theGeom <- new(Class = "geom",
                  type = "point",
                  vert = anchor,
-                 attr = tibble(fid = unique(anchor$fid), gid = unique(anchor$fid)),
-                 window = tibble(x = rep(window$x, each = 2), y = c(window$y, rev(window$y))),
+                 feat = tibble(fid = unique(anchor$fid), gid = unique(anchor$fid)),
+                 group = tibble(gid = unique(anchor$fid)),
+                 window = tibble(x = c(min(window$x), max(window$x), max(window$x), min(window$x), min(window$x)),
+                                 y = c(min(window$y), min(window$y), max(window$y), max(window$y), min(window$y))),
                  scale = "absolute",
                  crs = as.character(projection),
-                 history = list(paste0("geometry was created as 'point'")))
+                 history = list(paste0("geometry was created as 'point'.")))
 
   invisible(theGeom)
 }

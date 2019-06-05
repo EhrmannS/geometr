@@ -4,7 +4,7 @@
 \alias{gt_rotate}
 \title{Rotate geometries}
 \usage{
-gt_rotate(geom, angle = NULL, about = c(0, 0), fid = NULL,
+gt_rotate(geom = NULL, angle = NULL, about = c(0, 0), fid = NULL,
   update = TRUE)
 }
 \arguments{
@@ -53,7 +53,7 @@ visualise(geom = rotateMore)
 }
 \seealso{
 Other geometry tools: \code{\link{gt_edit}},
-  \code{\link{gt_group}}, \code{\link{gt_scale}},
-  \code{\link{gt_skew}}, \code{\link{gt_stretch}}
+  \code{\link{gt_scale}}, \code{\link{gt_skew}},
+  \code{\link{gt_stretch}}
 }
 \concept{geometry tools}

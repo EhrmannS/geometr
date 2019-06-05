@@ -8,7 +8,7 @@
 \alias{getSubset,sf-method}
 \title{Get the subset of a spatial object.}
 \usage{
-\S4method{getSubset}{geom}(x, ..., slot = "table")
+\S4method{getSubset}{geom}(x, ..., slot = "feat")
 
 \S4method{getSubset}{Spatial}(x, ...)
 

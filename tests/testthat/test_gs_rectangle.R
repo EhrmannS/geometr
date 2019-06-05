@@ -11,7 +11,7 @@ test_that("output is valid geometry", {
   output <- gs_rectangle(anchor = coords)
   expect_class(output, classes = "geom")
   expect_true(output@type == "polygon")
-  expect_data_frame(output@vert, any.missing = FALSE, nrows = 5, ncols = 4)
+  expect_data_frame(output@vert, any.missing = FALSE, nrows = 5, ncols = 3)
 })
 
 test_that("template instead of anchor", {

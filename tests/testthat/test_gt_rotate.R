@@ -1,3 +1,4 @@
+library(checkmate)
 context("gt_rotate")
 
 
@@ -13,7 +14,7 @@ test_that("output is valid geometry", {
 
   expect_class(output, classes = "geom")
   expect_true(output@type == "polygon")
-  expect_data_frame(output@vert, any.missing = FALSE, nrows = 5, ncols = 4)
+  expect_data_frame(output@vert, any.missing = FALSE, nrows = 5, ncols = 3)
 
   # rotate one out of two features
   coords <- data.frame(x = c(30, 60, 60, 40, 10, 40, 20),
@@ -28,7 +29,7 @@ test_that("output is valid geometry", {
                       fid = 2)
   expect_class(output, classes = "geom")
   expect_true(output@type == "polygon")
-  expect_data_frame(output@vert, any.missing = FALSE, nrows = 9, ncols = 4)
+  expect_data_frame(output@vert, any.missing = FALSE, nrows = 9, ncols = 3)
 
   # rotate two out of two features
   coords <- data.frame(x = c(30, 60, 60, 40, 10, 40, 20),
@@ -42,7 +43,7 @@ test_that("output is valid geometry", {
                       about = list(c(40, 40), c(30, 40)))
   expect_class(output, classes = "geom")
   expect_true(output@type == "polygon")
-  expect_data_frame(output@vert, any.missing = FALSE, nrows = 9, ncols = 4)
+  expect_data_frame(output@vert, any.missing = FALSE, nrows = 9, ncols = 3)
 })
 
 test_that("output has different coordinates than input", {
@@ -54,7 +55,7 @@ test_that("output has different coordinates than input", {
   input <- gs_polygon(anchor = coords, window = window)
   rotGeom <- gt_rotate(geom = input, angle = 45, about = c(50, 30))
 
-  expect_false(all(getVertices(input)[c(3, 4)] == getVertices(rotGeom)[c(3, 4)]))
+  expect_false(all(getVertices(input)[c(1, 2)] == getVertices(rotGeom)[c(1, 2)]))
 })
 
 test_that("Error if arguments have wrong value", {

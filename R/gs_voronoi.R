@@ -46,50 +46,33 @@ gs_voronoi <- function(anchor = NULL, window = NULL, template = NULL, features =
                        ...){
 
   # check arguments
-  anchorIsDF <- testDataFrame(anchor, types = "numeric", any.missing = FALSE, min.cols = 2)
-  if(anchorIsDF){
-    colnames(anchor) <- tolower(colnames(anchor))
-    assertNames(names(anchor), must.include = c("x", "y"), subset.of = c( "fid", "vid", "x", "y"))
-    if(!"vid" %in% names(anchor)){
-      anchor <- bind_cols(vid = rep(1, times = length(anchor$x)), anchor)
-    }
-    if(!"fid" %in% names(anchor)){
-      anchor <- bind_cols(fid = seq_along(anchor$x), anchor)
-    }
-    features <- length(unique(anchor$fid))
-  }
-  anchorIsGeom <- testClass(anchor, classes = "geom")
-  if(anchorIsGeom){
-    features <- length(unique(anchor@vert$fid))
-  }
-  windowExists <- !testNull(window)
-  if(windowExists){
-    assertDataFrame(window, types = "numeric", any.missing = FALSE, ncols = 2, null.ok = TRUE)
-    colnames(window) <- tolower(colnames(window))
-    assertNames(names(window), must.include = c("x", "y"))
-    window <- c(min(window$x), max(window$x), min(window$y), max(window$y))
-  }
-  templateExists <- !testNull(template)
-  if(templateExists){
-    assert(
-      testClass(template, "RasterLayer"),
-      testClass(template, "matrix")
-    )
-  }
-  if(!anchorIsDF & !anchorIsGeom & !templateExists){
+  anchor <- .testAnchor(x = anchor, ...)
+  window <- .testWindow(x = window, ...)
+  template <- .testTemplate(x = template, ...)
+
+  if(is.null(anchor) & is.null(template)){
     stop("please provide either 'anchor' or 'template'.")
+  }
+  if(!is.null(anchor)){
+    if(anchor$type == "geom"){
+      features <- length(unique(anchor$obj@feat$fid))
+    } else if(anchor$type == "df"){
+      if("fid" %in% names(anchor$obj)){
+        features <- length(unique(anchor$obj$fid))
+      }
+    }
   }
   assertIntegerish(features, len = 1, lower = 1)
 
   # get some raster properties
-  if(templateExists){
-    if(testClass(template, "RasterLayer")){
-      tempName <- names(template)
-      dims <- dim(template)
-      projection <- getCRS(x = template)
+  if(!is.null(template)){
+    if(template$type == "RasterLayer"){
+      tempName <- names(template$obj)
+      dims <- dim(template$obj)
+      projection <- getCRS(x = template$obj)
     } else{
       tempName <- "layer"
-      dims <- dim(template)
+      dims <- dim(template$obj)
       projection <- NA
     }
   } else{
@@ -98,36 +81,43 @@ gs_voronoi <- function(anchor = NULL, window = NULL, template = NULL, features =
   }
 
   # if anchor does not exists, make it
-  if(!anchorIsDF & !anchorIsGeom){
+  if(is.null(anchor)){
 
     message(paste0("please click the ", features, " vertices."))
-
-    visualise(raster = template)
+    visualise(raster = template$obj)
     theClicks <- gt_locate(samples = features, panel = tempName, silent = TRUE, ...)
-    window <- c(0, dims[2], 0, dims[1])
-    tempAnchor <- tibble(fid = 1:features,
-                         vid = 1,
-                         x = theClicks$x,
-                         y = theClicks$y)
+    window <- tibble(x = c(0, dims[2]),
+                     y = c(0, dims[1]))
+    tempAnchor <- tibble(x = theClicks$x,
+                         y = theClicks$y,
+                         fid = 1:features)
 
-  } else if(anchorIsGeom){
-    if(!windowExists){
-      window <- c(min(anchor@window$x), max(anchor@window$x), min(anchor@window$y), max(anchor@window$y))
+  } else if(anchor$type == "geom"){
+    if(is.null(window)){
+      window <- tibble(x = c(min(anchor$obj@window$x),
+                             max(anchor$obj@window$x)),
+                       y = c(min(anchor$obj@window$y),
+                             max(anchor$obj@window$y)))
     }
-    tempAnchor <- anchor@vert
-  } else if(anchorIsDF){
-    if(!windowExists){
-      window <- c(min(anchor$x), max(anchor$x), min(anchor$y), max(anchor$y))
+    tempAnchor <- anchor$obj@vert
+  } else if(anchor$type == "df"){
+    if(is.null(window)){
+      window <- tibble(x = c(min(anchor$obj$x),
+                             max(anchor$obj$x)),
+                       y = c(min(anchor$obj$y),
+                             max(anchor$obj$y)))
     }
-    tempAnchor <- anchor
+    tempAnchor <- anchor$obj
   }
 
-  temp <- deldir(as.data.frame(tempAnchor), rw = window, suppressMsge = TRUE)
+  temp <- deldir(as.data.frame(tempAnchor), rw = c(window$x[1], window$x[2], window$y[1], window$y[2]), suppressMsge = TRUE)
   tempTiles <- tile.list(temp)
 
   for(i in seq_along(tempTiles)){
 
-    temp <- tibble(fid = i, vid = 1:length(tempTiles[[i]]$x), x = tempTiles[[i]]$x, y = tempTiles[[i]]$y)
+    temp <- tibble(x = tempTiles[[i]]$x,
+                   y = tempTiles[[i]]$y,
+                   fid = i)
     if(i == 1){
       nodes <- temp
     } else{
@@ -138,11 +128,13 @@ gs_voronoi <- function(anchor = NULL, window = NULL, template = NULL, features =
   out <- new(Class = "geom",
              type = "polygon",
              vert = nodes,
-             attr = tibble(fid = unique(nodes$fid), gid = unique(nodes$fid)),
-             window = tibble(x = rep(c(window[1], window[2]), each = 2), y = c(window[3], window[4], window[4], window[3])),
+             feat = tibble(fid = unique(nodes$fid), gid = unique(nodes$fid)),
+             group = tibble(gid = unique(nodes$fid)),
+             window = tibble(x = c(min(window$x), max(window$x), max(window$x), min(window$x), min(window$x)),
+                             y = c(min(window$y), min(window$y), max(window$y), max(window$y), min(window$y))),
              scale = "absolute",
              crs = as.character(projection),
-             history = list(paste0("geometry was created as voronoi 'polygon'")))
+             history = list(paste0("geometry was created as voronoi 'polygon'.")))
 
   invisible(out)
 }

@@ -22,8 +22,13 @@ if(!isGeneric("getTable")){
 #' @export
 setMethod(f = "getTable",
           signature = "geom",
-          definition = function(x){
-            as_tibble(x@attr)
+          definition = function(x, slot = "feat"){
+            assertChoice(x = slot, choices = c("feat", "group"))
+            if(slot == "feat"){
+              as_tibble(x@feat)
+            } else {
+              as_tibble(x@group)
+            }
           }
 )
 

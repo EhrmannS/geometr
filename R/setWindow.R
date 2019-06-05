@@ -51,8 +51,8 @@ setMethod(f = "setWindow",
             } else{
               stop("no suitable window provided.")
             }
-            x@window <- tibble(x = rep(xVals, each = 2),
-                               y = c(yVals, rev(yVals)))
+            x@window <- tibble(x = c(rep(xVals, each = 2), xVals[1]),
+                               y = c(yVals, rev(yVals), yVals[1]))
             return(x)
           }
 )

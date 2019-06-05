@@ -11,7 +11,7 @@ test_that("output is valid geometry", {
   output <- gs_line(anchor = coords, window = window)
   expect_class(output, classes = "geom")
   expect_true(output@type == "line")
-  expect_data_frame(output@vert, any.missing = FALSE, nrows = 2, ncols = 4)
+  expect_data_frame(output@vert, any.missing = FALSE, nrows = 2, ncols = 3)
 })
 
 test_that("casting to 'line' works", {
@@ -23,14 +23,14 @@ test_that("casting to 'line' works", {
   output <- gs_line(anchor = input)
   expect_class(output, classes = "geom")
   expect_true(output@type == "line")
-  expect_data_frame(output@vert, any.missing = FALSE, nrows = 4, ncols = 4)
+  expect_data_frame(output@vert, any.missing = FALSE, nrows = 4, ncols = 3)
 
   # from polygon to line
   input <- gs_polygon(anchor = coords)
   output <- gs_line(anchor = input)
   expect_class(output, classes = "geom")
   expect_true(output@type == "line")
-  expect_data_frame(output@vert, any.missing = FALSE, nrows = 5, ncols = 4)
+  expect_data_frame(output@vert, any.missing = FALSE, nrows = 5, ncols = 3)
 })
 
 test_that("template instead of anchor", {
@@ -48,7 +48,6 @@ test_that("Error if arguments have wrong value", {
 
   expect_error(gs_line(vertices = 4))
   expect_error(gs_line(anchor = "bla"))
-  expect_error(gs_line(anchor = coords, window = "bla"))
   expect_error(gs_line(anchor = coords, vertices = "bla"))
   expect_error(gs_line(template = "bla", vertices = 4))
 })

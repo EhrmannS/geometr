@@ -10,7 +10,7 @@ test_that("output is valid geometry", {
   output <- gs_triangle(anchor = coords)
   expect_class(output, classes = "geom")
   expect_true(output@type == "polygon")
-  expect_data_frame(output@vert, any.missing = FALSE, nrows = 4, ncols = 4)
+  expect_data_frame(output@vert, any.missing = FALSE, nrows = 4, ncols = 3)
 })
 
 test_that("template instead of anchor", {
@@ -27,7 +27,6 @@ test_that("Error if arguments have wrong value", {
                        fid = 1)
 
   expect_error(gs_triangle(anchor = "bla"))
-  expect_error(gs_triangle(anchor = coords, window = "bla"))
   expect_error(gs_triangle(anchor = coords, features = "bla"))
   expect_error(gs_triangle(template = "bla"))
 })

@@ -30,6 +30,10 @@
 #'   first two vertices are considered, as center and indicating the (outer)
 #'   radius.} \item \code{template}: if set, the geometry is created
 #'   interactively, by clicking into the plot.}
+#'
+#'   Possible additional arguments are: \itemize{ \item verbose = TRUE/FALSE
+#'   \item graphical parameters to \code{\link{gt_locate}}, in case points are
+#'   sketched; see \code{\link{gpar}}}.
 #' @return An invisible \code{geom}.
 #' @family geometry shapes
 #' @examples
@@ -71,7 +75,7 @@
 #'
 #' # create two arbitrary polygons interactively
 #' polyGeom <- gs_polygon(template = input, features = 2, vertices = c(4, 6)) %>%
-#'   visualise(geom = ., linecol = "green", lwd = 1, lty = "dashed", new = FALSE)
+#'   visualise(geom = ., linecol = "green", linewidth = 1, linetype = "dashed", new = FALSE)
 #' }
 #' @importFrom stats dist
 #' @importFrom checkmate testDataFrame assertNames testClass assertDataFrame
@@ -85,47 +89,33 @@ gs_polygon <- function(anchor = NULL, window = NULL, template = NULL, features =
                        vertices = NULL, regular = FALSE, fixed = TRUE, ...){
 
   # check arguments
-  anchorIsDF <- testDataFrame(anchor, types = "numeric", any.missing = FALSE, min.cols = 2)
-  if(anchorIsDF){
-    colnames(anchor) <- tolower(colnames(anchor))
-    assertNames(names(anchor), must.include = c("x", "y"), subset.of = c( "fid", "vid", "x", "y"))
-    if(!"vid" %in% names(anchor)){
-      anchor <- bind_cols(vid = seq_along(anchor$x), anchor)
-    }
-    if(!"fid" %in% names(anchor)){
-      anchor <- bind_cols(fid = rep(1, times = length(anchor$x)), anchor)
-    }
-    features <- length(unique(anchor$fid))
-  }
-  anchorIsGeom <- testClass(anchor, classes = "geom")
-  if(anchorIsGeom){
-    # fid and vid values need to be transformed
-    if(anchor@type == "point"){
-      anchor@vert$fid <- rep(1, length(anchor@vert$fid))
-      anchor@vert$vid <- seq_along(anchor@vert$vid)
-    }
-    features <- length(unique(anchor@vert$fid))
-  }
-  windowExists <- !testNull(window)
-  if(windowExists){
-    assertDataFrame(window, types = "numeric", any.missing = FALSE, ncols = 2, null.ok = TRUE)
-    colnames(window) <- tolower(colnames(window))
-    assertNames(names(window), must.include = c("x", "y"))
-  }
-  templateExists <- !testNull(template)
-  if(templateExists){
-    assert(
-      testClass(template, "RasterLayer"),
-      testClass(template, "matrix")
-    )
-  }
-  if(!anchorIsDF & !anchorIsGeom & !templateExists){
+  anchor <- .testAnchor(x = anchor, ...)
+  window <- .testWindow(x = window, ...)
+  template <- .testTemplate(x = template, ...)
+
+  if(is.null(anchor) & is.null(template)){
     stop("please provide either 'anchor' or 'template'.")
   }
-  assertIntegerish(features, len = 1, lower = 1)
-  assertLogical(regular)
-  assertLogical(fixed)
-  if(!anchorIsDF & !anchorIsGeom){
+  if(!is.null(anchor)){
+    if(anchor$type == "geom"){
+      if(anchor$obj@type == "point"){
+        anchor$obj@vert$fid <- rep(1, length(anchor$obj@vert$fid))
+        anchor$obj@feat <- tibble(fid = 1, gid = 1)
+        anchor$obj@group <- tibble(gid = 1)
+        features <- 1
+      } else {
+        features <- length(unique(anchor$obj@feat$fid))
+      }
+    } else if(anchor$type == "df"){
+      if("fid" %in% names(anchor$obj)){
+        features <- length(unique(anchor$obj$fid))
+      }
+    }
+  }
+  assertIntegerish(x = features, len = 1, lower = 1)
+  assertLogical(x = regular)
+  assertLogical(x = fixed)
+  if(is.null(anchor)){
     assertIntegerish(vertices, min.len = 1, lower = 2, any.missing = FALSE)
     if(length(vertices) != features){
       vertices <- rep(vertices, length.out = features)
@@ -135,14 +125,14 @@ gs_polygon <- function(anchor = NULL, window = NULL, template = NULL, features =
   }
 
   # get some raster properties
-  if(templateExists){
-    if(testClass(template, "RasterLayer")){
-      tempName <- names(template)
-      dims <- dim(template)
-      projection <- getCRS(x = template)
+  if(!is.null(template)){
+    if(template$type == "RasterLayer"){
+      tempName <- names(template$obj)
+      dims <- dim(template$obj)
+      projection <- getCRS(x = template$obj)
     } else{
       tempName <- "layer"
-      dims <- dim(template)
+      dims <- dim(template$obj)
       projection <- NA
     }
   } else{
@@ -150,12 +140,11 @@ gs_polygon <- function(anchor = NULL, window = NULL, template = NULL, features =
     projection <- NA
   }
 
-  # build a regular geometry
   nodes <- fids <- NULL
   for(i in 1:features){
 
     # if anchor does not exists, make it
-    if(!anchorIsDF & !anchorIsGeom){
+    if(is.null(anchor)){
 
       if(regular){
         message("please click the polygons' center and the first vertex.")
@@ -164,14 +153,15 @@ gs_polygon <- function(anchor = NULL, window = NULL, template = NULL, features =
         message(paste0("please click the ", vertices[i], " vertices."))
         clicks <- vertices[i]
       }
-      visualise(raster = template)
+      if(i == 1){
+        visualise(raster = template$obj)
+      }
       theClicks <- gt_locate(samples = clicks, panel = tempName, silent = TRUE, ...)
       window <- tibble(x = c(0, dims[2]),
                        y = c(0, dims[1]))
-      tempAnchor <- tibble(fid = i,
-                           vid = 1:clicks,
-                           x = theClicks$x,
-                           y = theClicks$y)
+      tempAnchor <- tibble(x = theClicks$x,
+                           y = theClicks$y,
+                           fid = i)
 
       if(fixed){
         openingAngle <- 0
@@ -180,30 +170,40 @@ gs_polygon <- function(anchor = NULL, window = NULL, template = NULL, features =
         openingAngle <- atan((theClicks$x[1] - theClicks$x[2]) / (theClicks$y[1] - theClicks$y[2])) * 180 / pi
       }
 
-    } else if(anchorIsGeom){
-      if(!windowExists){
-        window <- tibble(x = c(min(anchor@window$x), max(anchor@window$x)),
-                         y = c(min(anchor@window$y), max(anchor@window$y)))
+    } else if(anchor$type == "geom"){
+      if(is.null(window)){
+        window <- tibble(x = c(min(anchor$obj@window$x),
+                               max(anchor$obj@window$x)),
+                         y = c(min(anchor$obj@window$y),
+                               max(anchor$obj@window$y)))
       }
-      tempAnchor <- anchor@vert[anchor@vert$fid == i,]
+      tempAnchor <- anchor$obj@vert[anchor$obj@vert$fid == i,]
       openingAngle <- atan((tempAnchor$x[1] - tempAnchor$x[2]) / (tempAnchor$y[1] - tempAnchor$y[2])) * 180 / pi
-    } else if(anchorIsDF){
-      if(!windowExists){
-        window <- tibble(x = c(min(anchor$x), max(anchor$x)),
-                         y = c(min(anchor$y), max(anchor$y)))
+    } else if(anchor$type == "df"){
+      if(is.null(window)){
+        window <- tibble(x = c(min(anchor$obj$x),
+                               max(anchor$obj$x)),
+                         y = c(min(anchor$obj$y),
+                               max(anchor$obj$y)))
       }
-      tempAnchor <- anchor[anchor$fid == i, ]
+      if("fid" %in% names(anchor$obj)){
+        tempAnchor <- anchor$obj[anchor$obj$fid == i, ]
+      } else {
+        tempAnchor <- anchor$obj
+        tempAnchor <- bind_cols(tempAnchor, fid = rep(1, length.out = length(anchor$obj$x)))
+      }
       openingAngle <- atan((tempAnchor$x[1] - tempAnchor$x[2]) / (tempAnchor$y[1] - tempAnchor$y[2])) * 180 / pi
     }
 
+    # build a regular geometry
     if(regular){
       # trigonometry
       angle <- 360/vertices[i]
       angles <- seq(from = 90, to = 360-angle+90, by = angle) - openingAngle
 
       radius <- dist(tempAnchor[c(1:2),])
-      cx <- tempAnchor$x[1] + radius*cos(rad(angles))
-      cy <- tempAnchor$y[1] + radius*sin(rad(angles))
+      cx <- tempAnchor$x[1] + radius*cos(.rad(angles))
+      cy <- tempAnchor$y[1] + radius*sin(.rad(angles))
       theNodes <- tibble(x = cx, y = cy)
       if(any(theNodes$x < min(window$x)) | any(theNodes$x > max(window$x)) | any(theNodes$y < min(window$y)) | any(theNodes$y > max(window$y))){
         window <- tibble(x = c(min(theNodes$x), max(theNodes$x)), y = c(min(theNodes$y), max(theNodes$y)))
@@ -212,8 +212,9 @@ gs_polygon <- function(anchor = NULL, window = NULL, template = NULL, features =
       theNodes <- tempAnchor[c("x", "y")]
     }
 
-    # create vertices that would close rings and thus make valid polygons
-    # check whether the first vertex has a duplicate...
+    # create vertices that would close rings and thus make valid polygons, check
+    # whether the first vertex has a duplicate...
+
     dupBwd <- duplicated(theNodes, fromLast = TRUE)
     if(!dupBwd[1]){
       # ... if not, test whether there is any duplicate, hence any closed ring, or not
@@ -235,21 +236,23 @@ gs_polygon <- function(anchor = NULL, window = NULL, template = NULL, features =
       }
     }
 
-    theNodes <- tibble(fid = i, vid = seq_along(theNodes$x), x = theNodes$x, y = theNodes$y)
+    theNodes <- tibble(x = theNodes$x, y = theNodes$y, fid = i)
     nodes <- bind_rows(nodes, theNodes)
 
   }
 
-  out <- new(Class = "geom",
-             type = "polygon",
-             vert = nodes,
-             attr = tibble(fid = unique(nodes$fid), gid = unique(nodes$fid)),
-             window = tibble(x = rep(c(min(window$x), max(window$x)), each = 2), y = c(min(window$y), max(window$y), max(window$y), min(window$y))),
-             scale = "absolute",
-             crs = as.character(projection),
-             history = list(paste0("geometry was created as 'polygon'")))
+  theGeom <- new(Class = "geom",
+                 type = "polygon",
+                 vert = nodes,
+                 feat = tibble(fid = unique(nodes$fid), gid = unique(nodes$fid)),
+                 group = tibble(gid = unique(nodes$fid)),
+                 window = tibble(x = c(min(window$x), max(window$x), max(window$x), min(window$x), min(window$x)),
+                                 y = c(min(window$y), min(window$y), max(window$y), max(window$y), min(window$y))),
+                 scale = "absolute",
+                 crs = as.character(projection),
+                 history = list(paste0("geometry was created as 'polygon'.")))
 
-  invisible(out)
+  invisible(theGeom)
 }
 
 #' @describeIn gs_polygon wrapper of gs_polygon where \code{vertices = 3} and
@@ -324,13 +327,12 @@ gs_rectangle <- function(anchor = NULL, window = NULL, template = NULL,
                         ...)
 
   outTable <- NULL
-  for(i in seq_along(theGeom@attr$fid)){
-    geomSubset <- getSubset(theGeom, fid == !!i, slot = "table")
+  for(i in seq_along(theGeom@feat$fid)){
+    geomSubset <- getSubset(theGeom, fid == !!i, slot = "feat")
     temp <- getExtent(geomSubset)
-    temp <- tibble(fid = i,
-                   vid = 1:5,
-                   x = c(rep(temp$x, each = 2), temp$x[1]),
-                   y = c(temp$y, rev(temp$y), temp$y[1]))
+    temp <- tibble(x = c(rep(temp$x, each = 2), temp$x[1]),
+                   y = c(temp$y, rev(temp$y), temp$y[1]),
+                   fid = i)
     outTable <- bind_rows(outTable, temp)
   }
 

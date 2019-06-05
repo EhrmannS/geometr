@@ -51,19 +51,19 @@ setMethod(f = "setTable",
           definition = function(x, table, regroup = TRUE){
             assertDataFrame(table)
             attr <- table[!names(table) %in% c("gid", "fid")]
-            if(any(colnames(table) %in% colnames(x@attr))){
-              x@attr <- left_join(x@attr, table)
+            if(any(colnames(table) %in% colnames(x@feat))){
+              x@feat <- left_join(x@feat, table)
             } else{
-              x@attr <- bind_cols(x@attr, table)
+              x@feat <- bind_cols(x@feat, table)
             }
             if(regroup){
               # regroup if there are individual values per feature
-              if(dim(unique(attr))[1] != length(unique(x@attr$gid))){
+              if(dim(unique(attr))[1] != length(unique(x@feat$gid))){
                 names <- colnames(attr)
                 newGid <- tibble(seq_along(unique(attr[,1])), unique(attr[,1]))
                 colnames(newGid) <- c("gid", names)
-                x@attr <- left_join(x@attr[!names(x@attr) %in% c("gid")], newGid)
-                x@attr <- select(x@attr, "fid", "gid", everything())
+                x@feat <- left_join(x@feat[!names(x@feat) %in% c("gid")], newGid)
+                x@feat <- select(x@feat, "fid", "gid", everything())
               }
             }
 

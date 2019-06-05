@@ -196,7 +196,7 @@ visualise <- function(raster = NULL, geom = NULL, window = NULL, theme = gtTheme
 
     # test whether vertices are outside of 'window'
     inWindow <- pointInGeomC(vert = as.matrix(geom@vert[c("x", "y")]),
-                             geom = as.matrix(bind_rows(geom@window[c("x", "y")], geom@window[c("x", "y")][1,])),
+                             geom = as.matrix(geom@window[c("x", "y")]),
                              invert = FALSE)
     if(any(inWindow != 1)){
       warning("some vertices are not within the plotting window.", immediate. = TRUE)
@@ -233,7 +233,7 @@ visualise <- function(raster = NULL, geom = NULL, window = NULL, theme = gtTheme
     }
   }
 
-  format <- makeFormat(panelExt = panelExt, theme = theme)
+  format <- .makeFormat(panelExt = panelExt, theme = theme)
 
   if(isOpenPlot){
     if(isLegendInPlot){
@@ -295,9 +295,9 @@ visualise <- function(raster = NULL, geom = NULL, window = NULL, theme = gtTheme
       # get colours for this panel
       if(!image){
         if(existsRaster){
-          cls <- makeColours(input = raster[[i]], theme = theme, ...)
+          cls <- .makeColours(input = raster[[i]], theme = theme, ...)
         } else if(existsGeom){
-          cls <- makeColours(input = geom, theme = theme, ...)
+          cls <- .makeColours(input = geom, theme = theme, ...)
           plotName <- as.character(cls$params$scale$cls)
         }
         theColours <- cls$out.cols

@@ -21,8 +21,7 @@ that serves as template to sketch the geometry.}
 
 \item{vertices}{[\code{integer(1)}]\cr number of vertices.}
 
-\item{...}{[various]\cr graphical parameters to \code{\link{gt_locate}}, in case
-points are sketched; see \code{\link{gpar}}.}
+\item{...}{[various]\cr additional arguments; see Details.}
 }
 \value{
 An invisible \code{geom}.
@@ -37,6 +36,10 @@ The arguments \code{anchor} and \code{template} indicate how the
   created parametrically, the input provided is used to parameterise the
   geometry. \item \code{template}: if set, the geometry is created
   interactively, by clicking into the plot.}
+
+  Possible additional arguments are: \itemize{ \item verbose = TRUE/FALSE
+  \item graphical parameters to \code{\link{gt_locate}}, in case points are
+  sketched; see \code{\link{gpar}}}.
 }
 \examples{
 library(magrittr)
@@ -58,7 +61,7 @@ gs_point(anchor = coords, window = window) \%>\%
 # when a geom is used in 'anchor', its properties (e.g. 'window') are passed on
 aGeom <- setWindow(x = aGeom, to = window)
 gs_point(anchor = aGeom) \%>\%
-  visualise(geom = ., linecol = "deeppink")
+  visualise(geom = .)
 
 \dontrun{
 

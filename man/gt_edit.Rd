@@ -35,8 +35,8 @@ modGeom <- gt_edit()
 }
 }
 \seealso{
-Other geometry tools: \code{\link{gt_group}},
-  \code{\link{gt_rotate}}, \code{\link{gt_scale}},
-  \code{\link{gt_skew}}, \code{\link{gt_stretch}}
+Other geometry tools: \code{\link{gt_rotate}},
+  \code{\link{gt_scale}}, \code{\link{gt_skew}},
+  \code{\link{gt_stretch}}
 }
 \concept{geometry tools}

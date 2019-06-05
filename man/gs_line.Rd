@@ -25,8 +25,8 @@ that serves as template to sketch the geometry.}
 will be recycled if it does not have as many elements as specified in
 \code{features}.}
 
-\item{...}{[various]\cr graphical parameters to \code{\link{gt_locate}}, in case
-points are sketched; see \code{\link{gpar}}.}
+\item{...}{[various]\cr graphical parameters to \code{\link{gt_locate}}, in
+case points are sketched; see \code{\link{gpar}}.}
 }
 \value{
 An invisible \code{geom}.
@@ -41,6 +41,10 @@ The arguments \code{anchor} and \code{template} indicate how the
   created parametrically, the input provided is used to parameterise the
   geometry. \item \code{template}: if set, the geometry is created
   interactively, by clicking into the plot.}
+
+  Possible additional arguments are: \itemize{ \item verbose = TRUE/FALSE
+  \item graphical parameters to \code{\link{gt_locate}}, in case points are
+  sketched; see \code{\link{gpar}}}.
 }
 \examples{
 library(magrittr)
