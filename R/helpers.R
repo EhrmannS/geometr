@@ -345,7 +345,7 @@
 #' Make a tiny map
 #'
 #' A tiny map is used via the show method of a geom.
-#' @param x [\code{geom}]\cr the geom from which to create a tiny map.
+#' @param geom [\code{geom}]\cr the geom from which to create a tiny map.
 #' @importFrom cli symbol
 #' @export
 
@@ -381,13 +381,13 @@
       inside <- pointInGeomC(vert = as.matrix(geom@vert[c("x", "y")]),
                              geom = as.matrix(target),
                              invert = FALSE)
-      inside <- sum(inside[-5])
+      pointsInside <- sum(inside[-5] != 0)
 
-      if(inside == 0){
+      if(pointsInside == 0){
         recent <- empty
-      } else if(inside == 1){
+      } else if(pointsInside == 1){
         recent <- quarter
-      } else if(inside == 2 | inside == 3){
+      } else if(pointsInside == 2 | pointsInside == 3){
         recent <- half
       } else {
         recent <- full
