@@ -204,7 +204,7 @@ setMethod(f = "show",
               if(verts){
                 theFeats <- "           (features)   "
               } else {
-                theFeats <- " (features)   "
+                theFeats <- " (features) "
               }
               myAttributes <- c(myAttributes, paste0(theFeats,
                                                      ifelse(featureAttribs <= 9,
