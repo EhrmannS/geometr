@@ -45,8 +45,6 @@
 #' gs_point(anchor = aGeom) %>%
 #'   visualise(geom = .)
 #'
-#' geom <- gs_point(anchor = data.frame(x = 40, y = 40), window = data.frame(x = c(40, 70), y = c(40, 70)))
-#'
 #' \dontrun{
 #'
 #' input <- gtRasters$continuous
@@ -101,9 +99,7 @@ gs_point <- function(anchor = NULL, window = NULL, template = NULL,
   # if anchor does not exists, make it
   if(is.null(anchor)){
     message("please click the ", vertices, " vertices.")
-    if(i == 1){
-      visualise(raster = template$obj)
-    }
+    visualise(raster = template$obj)
     coords <- gt_locate(samples = vertices, panel = tempName, silent = TRUE, ...)
     window <- tibble(x = c(0, dims[2]),
                      y = c(0, dims[1]))
