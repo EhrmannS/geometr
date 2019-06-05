@@ -60,7 +60,8 @@ gt_sf <- function(input = NULL){
     out <- new(Class = "geom",
                type = type,
                vert = theCoords,
-               attr = theData,
+               feat = theData,
+               group = tibble(gid = theData$gid),
                window = theWindow,
                scale = "absolute",
                crs = theCRS,
@@ -77,7 +78,7 @@ gt_sf <- function(input = NULL){
         tempFids <- theData$fid[theData$gid == gids[i]]
         tempVerts <- theCoords[c("x", "y")][theCoords$fid %in% tempFids,]
 
-        if(length(tempFids) > 1){
+        if(length(tempVerts$x) > 1){
           # make MULTIPOINT
           # assert that there are no duplicate coordinates for it to be a simple feature
           theCoords <- theCoords[!duplicated(theCoords[c("x", "y")]),]

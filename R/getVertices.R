@@ -53,10 +53,9 @@ setMethod(f = "getVertices",
 
             if(sourceClass %in% c("SpatialPoints", "SpatialPointsDataFrame")){
 
-              theCoords <- bind_cols(fid = seq_along(x@coords[,1]),
-                                     vid = rep(1, length(x@coords[,1])),
-                                     as_tibble(x@coords))
-              colnames(theCoords) <- c("fid", "vid", "x", "y")
+              theCoords <- bind_cols(as_tibble(x@coords),
+                                     fid = seq_along(x@coords[,1]))
+              colnames(theCoords) <- c("x", "y", "fid")
 
             } else if(sourceClass %in% c("SpatialMultiPoints", "SpatialMultiPointsDataFrame")){
 
@@ -67,10 +66,9 @@ setMethod(f = "getVertices",
                                      y = temp@coords[[i]][,2])
                 theCoords <- bind_rows(theCoords, tempCoords)
               }
-              theCoords <- tibble(fid = seq_along(theCoords$x),
-                                  vid = 1,
-                                  x = theCoords$x,
-                                  y = theCoords$y)
+              theCoords <- tibble(x = theCoords$x,
+                                  y = theCoords$y,
+                                  fid = seq_along(theCoords$x))
 
             } else if(sourceClass %in% c("SpatialLines", "SpatialLinesDataFrame")){
 
@@ -79,10 +77,9 @@ setMethod(f = "getVertices",
                 for(j in seq_along(theLines@Lines)){
                   theLine <- theLines@Lines[[j]]
 
-                  tempCoords <- tibble(fid = prev + j,
-                                       vid = seq_along(theLine@coords[,1]),
-                                       x = theLine@coords[,1],
-                                       y = theLine@coords[,2])
+                  tempCoords <- tibble(x = theLine@coords[,1],
+                                       y = theLine@coords[,2],
+                                       fid = prev + j)
                   theCoords <- bind_rows(theCoords, tempCoords)
                 }
                 prev <- prev + length(theLines@Lines)
@@ -92,17 +89,14 @@ setMethod(f = "getVertices",
 
               for(i in seq_along(x@polygons)){
                 thePolys <- x@polygons[[i]]
-                prev <- 0
                 for(j in seq_along(thePolys@Polygons)){
                   thePoly <- thePolys@Polygons[[j]]
                   polyCoords <- thePoly@coords
 
-                  tempCoords <- tibble(fid = i,
-                                       vid = prev + seq_along(polyCoords[,1]),
-                                       x = polyCoords[,1],
-                                       y = polyCoords[,2])
+                  tempCoords <- tibble(x = polyCoords[,1],
+                                       y = polyCoords[,2],
+                                       fid = i)
                   theCoords <- bind_rows(theCoords, tempCoords)
-                  prev <- prev + dim(polyCoords)[1]
                 }
               }
 
@@ -129,28 +123,21 @@ setMethod(f = "getVertices",
               sourceClass <- unique(sourceClass)
               if(sourceClass %in% c("POINT")){
 
-                theCoords <- tibble(fid = seq_along(theCoords[, 1]),
-                                    vid = 1,
-                                    x = theCoords[,1],
-                                    y = theCoords[,2])
+                theCoords <- tibble(x = theCoords[,1],
+                                    y = theCoords[,2],
+                                    fid = seq_along(theCoords[, 1]))
 
               } else if(sourceClass %in% c("MULTIPOINT")){
 
-                theCoords <- tibble(fid = seq_along(theCoords[, 1]),
-                                    vid = 1,
-                                    x = theCoords[,1],
-                                    y = theCoords[,2])
+                theCoords <- tibble(x = theCoords[,1],
+                                    y = theCoords[,2],
+                                    fid = seq_along(theCoords[, 1]))
 
               } else if(sourceClass %in% c("LINESTRING")){
 
-                vids <- unique(theCoords[,3])
-                vids <- unlist(lapply(seq_along(vids), function(x){
-                  seq_along(which(theCoords[,3] == vids[x]))
-                }))
-                theCoords <- tibble(fid = theCoords[,3],
-                                    vid = vids,
-                                    x = theCoords[,1],
-                                    y = theCoords[,2])
+                theCoords <- tibble(x = theCoords[,1],
+                                    y = theCoords[,2],
+                                    fid = theCoords[,3])
 
               } else if(sourceClass %in% c("MULTILINESTRING")){
 
@@ -161,26 +148,18 @@ setMethod(f = "getVertices",
                     seq_along(which(temp[,3] == j))
                   })
                 })
-                grps <- rep(1:length(vids), lengths(vids))
                 vids <- unlist(vids, recursive = FALSE)
                 fids <- rep(1:length(vids), lengths(vids))
-                grps <- rep(grps, lengths(vids))
 
-                theCoords <- tibble(fid = fids,
-                                    vid = unlist(vids),
-                                    x = theCoords[,1],
-                                    y = theCoords[,2])
+                theCoords <- tibble(x = theCoords[,1],
+                                    y = theCoords[,2],
+                                    fid = fids)
 
               } else if(sourceClass %in% c("POLYGON")){
 
-                vids <- unique(theCoords[,4])
-                vids <- unlist(lapply(seq_along(vids), function(x){
-                  seq_along(which(theCoords[,4] == vids[x]))
-                }))
-                theCoords <- tibble(fid = theCoords[,4],
-                                    vid = vids,
-                                    x = theCoords[,1],
-                                    y = theCoords[,2])
+                theCoords <- tibble(x = theCoords[,1],
+                                    y = theCoords[,2],
+                                    fid = theCoords[,4])
 
               } else if(sourceClass %in% c("MULTIPOLYGON")){
 
@@ -191,15 +170,12 @@ setMethod(f = "getVertices",
                     seq_along(which(temp[,4] == j))
                   })
                 })
-                grps <- rep(1:length(vids), lengths(vids))
                 vids <- unlist(vids, recursive = FALSE)
                 fids <- rep(1:length(vids), lengths(vids))
-                grps <- rep(grps, lengths(vids))
 
-                theCoords <- tibble(fid = fids,
-                                    vid = unlist(vids),
-                                    x = theCoords[,1],
-                                    y = theCoords[,2])
+                theCoords <- tibble(x = theCoords[,1],
+                                    y = theCoords[,2],
+                                    fid = fids)
 
               }
             } else{

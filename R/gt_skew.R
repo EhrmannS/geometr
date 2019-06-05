@@ -92,7 +92,7 @@ gt_skew <- function(geom, x = NULL, y = NULL, fid = NULL, update = TRUE){
   }
 
   if(update){
-    window <- updateWindow(geom = temp, window = geom@window)
+    window <- .updateWindow(geom = temp, window = geom@window)
   } else {
     window <- geom@window
   }
@@ -106,7 +106,8 @@ gt_skew <- function(geom, x = NULL, y = NULL, fid = NULL, update = TRUE){
   out <- new(Class = "geom",
              type = geom@type,
              vert = temp,
-             attr = geom@attr,
+             feat = geom@feat,
+             group = geom@group,
              window = window,
              scale = geom@scale,
              crs = geom@crs,

@@ -81,11 +81,11 @@ NumericMatrix matInGeomC(NumericMatrix &mat, NumericMatrix &geom, bool negative)
 
 // [[Rcpp::export]]
 IntegerVector pointInGeomC(NumericMatrix &vert, NumericMatrix &geom, bool invert){
-  int mRows = vert.nrow();
-  int cRows = geom.nrow();
+  int vRows = vert.nrow();
+  int gRows = geom.nrow();
   double isLeft;
   int inside, outside;
-  IntegerVector out(mRows);
+  IntegerVector out(vRows);
   if(invert){
     inside = 0;
     outside = 1;
@@ -93,62 +93,59 @@ IntegerVector pointInGeomC(NumericMatrix &vert, NumericMatrix &geom, bool invert
     inside = 1;
     outside = 0;
   }
+  // int on = 0;
 
   // get bounding box of geom
   double xMin = min(geom(_, 0)), xMax = max(geom(_, 0));
   double yMin = min(geom(_, 1)), yMax = max(geom(_, 1));
 
   // warning if first and last coordinate are not the same
-  if(any(geom(0, _) != geom(cRows-1, _)).is_true()){
+  if(any(geom(0, _) != geom(gRows-1, _)).is_true()){
     stop("first and last vertex must be the same.");
   }
   // Rcout << geom << std::endl;
+  Rcout << "\n[" << xMin << "," << xMax << " | " << yMin << "," << yMax << "]" << std::endl;
 
-  for(int j = 0; j < mRows; j++){
+  for(int j = 0; j < vRows; j++){
 
     double x = vert(j, 0);
     double y = vert(j, 1);
-    // Rcout << "\n(" << x << "," << y << ")" << std::endl;
+    Rcout << "\n(" << x << "," << y << ")" << std::endl;
 
     // if the coordinate is within the bounding box, proceed, otherwise value is definitely 0
     if((x <= xMax) & (x >= xMin) & (y <= yMax) & (y >= yMin)){
       int wn = 0;                            // the  winding number counter
 
-      // Rcout << "inside extent" << std::endl;
-      // loop through all edges of the polygon and find wn
-      for (int i = 0; i < cRows-1; i++){
+      Rcout << "inside extent\n" << std::endl;
+      // loop through all edges of the window and find wn
+      for (int i = 0; i < gRows-1; i++){
 
-        // Rcout << i+1 << ". ----\ny: " << y << std::endl;
+        Rcout << "\n" << i+1 << ". ----" << std::endl;
         // Rcout << "geom_n: " << geom(i, 1) << ", geom_n+1: " << geom(i+1, 1) << std::endl;
 
         if(geom(i, 1) == y){
-
+          Rcout << "point is on geom; " << geom(i, 1) << " = " << y << std::endl;
+          isLeft = (geom(i+1, 0) - geom(i, 0)) * (y - geom(i, 1)) - (x -  geom(i, 0)) * (geom(i+1, 1) - geom(i, 1));
+          Rcout << "is left: " << isLeft << std::endl;
         } else if (geom(i, 1) < y){
           if (geom(i+1, 1) > y){             // an upward crossing
-            // Rcout << "upwards" << std::endl;
+            Rcout << "upwards" << std::endl;
             isLeft = (geom(i+1, 0) - geom(i, 0)) * (y - geom(i, 1)) - (x -  geom(i, 0)) * (geom(i+1, 1) - geom(i, 1));
-            // Rcout << "is left: " << isLeft << std::endl;
+            Rcout << "is left: " << isLeft << std::endl;
             if(isLeft > 0){                  // P left of or on edge "isLeft > 0"
               ++wn;                          // have  a valid up intersect
-              // Rcout << "wn: " << wn << std::endl;
+              Rcout << "wn: " << wn << std::endl;
             }
-          } else if(geom(i+1, 1) == y){     // on boundary, also counted as "in"
-            // Rcout << "is on" << std::endl;
-            --wn;
-            // Rcout << "wn: " << wn << std::endl;
           }
 
         } else {
           if (geom(i+1, 1) <= y){            // a downward crossing
-            // Rcout << "downwards" << std::endl;
+            Rcout << "downwards" << std::endl;
             isLeft = (geom(i+1, 0) - geom(i, 0)) * (y - geom(i, 1)) - (x -  geom(i, 0)) * (geom(i+1, 1) - geom(i, 1));
-            // Rcout << "is left: " << isLeft << std::endl;
+            Rcout << "is left: " << isLeft << std::endl;
             if(isLeft < 0){                  // P right of edge
               --wn;                          // have  a valid down intersect
-              // Rcout << "wn: " << wn << std::endl;
-            } else if(isLeft == 0){
-              ++wn;
-              // Rcout << "wn: " << wn << std::endl;
+              Rcout << "wn: " << wn << std::endl;
             }
           }
 
@@ -157,12 +154,15 @@ IntegerVector pointInGeomC(NumericMatrix &vert, NumericMatrix &geom, bool invert
       }
 
       if(wn == 0){
+        Rcout << "is.inside: " << outside << std::endl;
         out[j] = outside;
       } else{
+        Rcout << "is.inside: " << inside << std::endl;
         out[j] = inside;
       }
-    } else{
+    } else {
       out[j] = outside;
+
     }
   }
 

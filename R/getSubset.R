@@ -32,18 +32,20 @@ if(!isGeneric("getSubset")){
 #' @export
 setMethod(f = "getSubset",
           signature = signature("geom"),
-          definition = function(x, ..., slot = "table"){
+          definition = function(x, ..., slot = "feat"){
             assertCharacter(x = slot, len = 1, any.missing = FALSE)
-            assertChoice(x = slot, choices = c("table", "vert"))
+            assertChoice(x = slot, choices = c("vert", "feat", "group"))
             subset <- exprs(...)
-            if(slot == "table"){
-              matches <- eval(parse(text = subset), envir = x@attr)
-              x@attr <- x@attr[matches,]
-              x@vert <- x@vert[x@vert$fid %in% x@attr$fid,]
-            } else{
+            if(slot == "vert"){
               matches <- eval(parse(text = subset), envir = x@vert)
               x@vert <- x@vert[matches,]
-              x@attr <- x@attr[x@attr$fid %in% x@vert$fid,]
+              x@feat <- x@feat[x@feat$fid %in% x@vert$fid,]
+            } else if(slot == "feat"){
+              matches <- eval(parse(text = subset), envir = x@feat)
+              x@feat <- x@feat[matches,]
+              x@vert <- x@vert[x@vert$fid %in% x@feat$fid,]
+            } else {
+
             }
 
             return(x)

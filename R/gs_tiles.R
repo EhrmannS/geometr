@@ -44,47 +44,18 @@
 #' @export
 
 gs_tiles <- function(anchor = NULL, window = NULL, width = NULL, offset = NULL,
-                     pattern = "squared", rotation = 0, centroids = FALSE){
+                     pattern = "squared", rotation = 0, centroids = FALSE, ...){
 
   # check arguments
-  anchorIsDF <- testDataFrame(anchor, types = "numeric", any.missing = FALSE, min.cols = 2)
-  anchorIsGeom <- testClass(anchor, classes = "geom")
-  windowExists <- !testNull(window)
-  assert(anchorIsDF, anchorIsGeom, windowExists)
+  anchor <- .testAnchor(x = anchor, ...)
+  window <- .testWindow(x = window, ...)
 
-  if(anchorIsDF){
-    # colnames(anchor) <- tolower(colnames(anchor))
-    # assertNames(names(anchor), must.include = c("x", "y"), subset.of = c( "fid", "vid", "x", "y"))
-    # if(!"vid" %in% names(anchor)){
-    #   anchor <- bind_cols(vid = rep(1, times = length(anchor$x)), anchor)
-    # }
-    # if(!"fid" %in% names(anchor)){
-    #   anchor <- bind_cols(fid = seq_along(anchor$x), anchor)
-    # }
-    # features <- length(unique(anchor$fid))
-  }
-  if(anchorIsGeom){
-    # # fid and vid values need to be transformed
-    # if(anchor@type != "point"){
-    #   anchor@vert$fid <- seq_along(anchor@vert$fid)
-    #   anchor@vert$vid <- rep(1, times = length(anchor@vert$vid))
-    # }
-    # features <- length(unique(anchor@vert$fid))
-  }
-  if(windowExists){
-    assertDataFrame(window, types = "numeric", any.missing = FALSE, ncols = 2, null.ok = TRUE)
-    colnames(window) <- tolower(colnames(window))
-    assertNames(names(window), must.include = c("x", "y"))
-
-    if(dim(window)[1] != 4){
-      window <- tibble(x = rep(c(min(window$x), max(window$x)), each = 2), y = c(min(window$y), max(window$y), max(window$y), min(window$y)))
-    }
-  } else {
-    window <- tibble(x = rep(c(min(anchor@window$x), max(anchor@window$x)), each = 2),
-                     y = c(min(anchor@window$y), max(anchor@window$y), max(anchor@window$y), min(anchor@window$y)))
+  if(is.null(anchor) & is.null(window)){
+    stop("please provide either 'anchor' or 'window'.")
   }
 
-  if(!anchorIsDF & !anchorIsGeom){
+
+  if(is.null(anchor)){
     anchor <- gs_rectangle(anchor = window)
   }
 
@@ -163,8 +134,8 @@ gs_tiles <- function(anchor = NULL, window = NULL, width = NULL, offset = NULL,
   angle <- 360/vertices
   angles <- seq(from = 0, to = 360-angle, by = angle) - rotation
 
-  relX <- radius*cos(rad(angles))
-  relY <- radius*sin(rad(angles))
+  relX <- radius*cos(.rad(angles))
+  relY <- radius*sin(.rad(angles))
 
   if(!centroids){
     nodes <- NULL
@@ -173,20 +144,26 @@ gs_tiles <- function(anchor = NULL, window = NULL, width = NULL, offset = NULL,
       cx <- c(cx, cx[1])
       cy <- targetCentroids@vert$y[i] + relY
       cy <- c(cy, cy[1])
-      theNodes <- tibble(fid = i, vid = seq_along(cx), x = cx, y = cy)
+      theNodes <- tibble(x = cx,
+                         y = cy,
+                         fid = i)
       nodes <- bind_rows(nodes, theNodes)
     }
     theType <- "polygon"
   } else{
-    nodes <- tibble(fid = cntrds$fid, vid = 1, x = cntrds$x, y = cntrds$y)
+    nodes <- tibble(x = cntrds$x,
+                    y = cntrds$y,
+                    fid = cntrds$fid)
     theType <- "point"
   }
 
   theTiles <- new(Class = "geom",
                   type = theType,
                   vert = nodes,
-                  attr = tibble(fid = unique(nodes$fid), gid = unique(nodes$fid)),
-                  window = window,
+                  feat = tibble(fid = unique(nodes$fid), gid = unique(nodes$fid)),
+                  group = tibble(gid = unique(nodes$fid)),
+                  window = tibble(x = c(min(window$x), max(window$x), max(window$x), min(window$x), min(window$x)),
+                                  y = c(min(window$y), min(window$y), max(window$y), max(window$y), min(window$y))),
                   scale = "absolute",
                   crs = NA_character_,
                   history = list(paste0("tiled geometry of type '", theType, "' was created.")))
@@ -199,15 +176,15 @@ gs_tiles <- function(anchor = NULL, window = NULL, width = NULL, offset = NULL,
   sbst <- summarise(sbst, sub = any(include == TRUE))
   # theTiles <- setTable(x = theTiles, table = sbst, regroup = FALSE)
 
-  theTiles <- getSubset(x = theTiles, !!sbst$sub, slot = "table")
+  theTiles <- getSubset(x = theTiles, !!sbst$sub, slot = "feat")
 
   # reconstruct IDs
-  newIDs <- tibble(fid = theTiles@attr$fid, new = seq_along(fid))
+  newIDs <- tibble(fid = theTiles@feat$fid, new = seq_along(fid))
   theTiles@vert <- left_join(theTiles@vert, newIDs, by = "fid")
-  theTiles@vert <- select(theTiles@vert, fid = new, vid, "x", "y")
-  theTiles@attr <- left_join(theTiles@attr, newIDs, by = "fid")
-  theTiles@attr <- mutate(theTiles@attr, fid = new, gid = fid)
-  theTiles@attr <- select(theTiles@attr, fid, gid)
+  theTiles@vert <- select(theTiles@vert, "x", "y", fid = new)
+  theTiles@feat <- left_join(theTiles@feat, newIDs, by = "fid")
+  theTiles@feat <- mutate(theTiles@feat, fid = new, gid = fid)
+  theTiles@feat <- select(theTiles@feat, fid, gid)
 
   if(targetRotation != 0){
     theTiles <- gt_rotate(geom = theTiles, about = originCentroid, angle = targetRotation, update = FALSE)

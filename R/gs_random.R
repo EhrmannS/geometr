@@ -45,12 +45,11 @@ gs_random <- function(type = "point", template = NULL, vertices = NULL){
       vertices <- 1
     }
     outType  <- type
-    anchor <- tibble(fid = 1:vertices,
-                     vid = 1:vertices,
-                     x = runif(vertices),
-                     y = runif(vertices))
+    anchor <- tibble(x = runif(vertices),
+                     y = runif(vertices),
+                     fid = 1:vertices)
   } else if(type == "line"){
-      if(is.null(vertices)){
+    if(is.null(vertices)){
         vertices <- 2
       } else {
         if(vertices < 2){
@@ -58,10 +57,9 @@ gs_random <- function(type = "point", template = NULL, vertices = NULL){
         }
       }
       outType <- type
-      anchor <- tibble(fid = 1,
-                       vid = 1:vertices,
-                       x = runif(vertices),
-                       y = runif(vertices))
+      anchor <- tibble(x = runif(vertices),
+                       y = runif(vertices),
+                       fid = 1)
   } else if(type == "polygon"){
     if(is.null(vertices)){
       vertices <- 3
@@ -71,10 +69,9 @@ gs_random <- function(type = "point", template = NULL, vertices = NULL){
       }
     }
     outType <- type
-    anchor <- tibble(fid = 1,
-                     vid = 1:vertices,
-                     x = runif(vertices),
-                     y = runif(vertices))
+    anchor <- tibble(x = runif(vertices),
+                     y = runif(vertices),
+                     fid = 1)
   }
 
   if(templateExists){
@@ -87,7 +84,8 @@ gs_random <- function(type = "point", template = NULL, vertices = NULL){
   theGeom <- new(Class = "geom",
                  type = outType,
                  vert = anchor,
-                 attr = tibble(fid = unique(anchor$fid), gid = unique(anchor$fid)),
+                 feat = tibble(fid = unique(anchor$fid), gid = unique(anchor$fid)),
+                 group = tibble(gid = unique(anchor$fid)),
                  window = window,
                  scale = "relative",
                  crs = as.character(NA),

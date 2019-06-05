@@ -39,7 +39,8 @@
 #' @importFrom methods new
 #' @export
 
-gt_rotate <- function(geom, angle = NULL, about = c(0, 0), fid = NULL, update = TRUE){
+gt_rotate <- function(geom = NULL, angle = NULL, about = c(0, 0), fid = NULL,
+                      update = TRUE){
 
   assertClass(geom, classes = "geom")
   angleIsList <- testList(angle, types = "numeric", any.missing = FALSE)
@@ -92,8 +93,8 @@ gt_rotate <- function(geom, angle = NULL, about = c(0, 0), fid = NULL, update = 
         yVals <- yVals + offset[2]
       }
 
-      tempCoords$x <- round(xVals * cos(rad(tempAngle)) - yVals * sin(rad(tempAngle)), digits)
-      tempCoords$y <- round(xVals * sin(rad(tempAngle)) + yVals * cos(rad(tempAngle)), digits)
+      tempCoords$x <- round(xVals * cos(.rad(tempAngle)) - yVals * sin(.rad(tempAngle)), digits)
+      tempCoords$y <- round(xVals * sin(.rad(tempAngle)) + yVals * cos(.rad(tempAngle)), digits)
 
       if(!all(tempAbout == c(0, 0))){
         tempCoords$x <- tempCoords$x - offset[1]
@@ -104,7 +105,7 @@ gt_rotate <- function(geom, angle = NULL, about = c(0, 0), fid = NULL, update = 
   }
 
   if(update){
-    window <- updateWindow(geom = temp, window = geom@window)
+    window <- .updateWindow(geom = temp, window = geom@window)
   } else {
     window <- geom@window
   }
@@ -118,7 +119,8 @@ gt_rotate <- function(geom, angle = NULL, about = c(0, 0), fid = NULL, update = 
   out <- new(Class = "geom",
              type = geom@type,
              vert = temp,
-             attr = geom@attr,
+             feat = geom@feat,
+             group = geom@group,
              window = window,
              scale = geom@scale,
              crs = geom@crs,
