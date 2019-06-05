@@ -198,10 +198,12 @@ visualise <- function(raster = NULL, geom = NULL, window = NULL, theme = gtTheme
     inWindow <- pointInGeomC(vert = as.matrix(geom@vert[c("x", "y")]),
                              geom = as.matrix(geom@window[c("x", "y")]),
                              invert = FALSE)
-    if(any(inWindow != 1)){
-      warning("some vertices are not within the plotting window.", immediate. = TRUE)
-    } else if(all(inWindow != 1)){
+    inWindow <- inWindow[-5] != 0
+
+    if(!any(inWindow)){
       warning("no vertices are within the plotting window.", immediate. = TRUE)
+    } else if(!all(inWindow)){
+      warning("some vertices are not within the plotting window.", immediate. = TRUE)
     }
 
     geom <- gt_scale(geom = geom, to = "relative")
