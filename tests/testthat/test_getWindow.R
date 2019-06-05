@@ -13,6 +13,6 @@ test_that("getWindow of a geom", {
   aGeom <- gs_point(anchor = coords, window = window)
   output <- getWindow(aGeom)
 
-  expect_data_frame(output, any.missing = FALSE, nrows = 4, ncols = 2)
+  expect_data_frame(output, any.missing = FALSE, nrows = 5, ncols = 2)
   expect_names(names(output), identical.to = c("x", "y"))
 })

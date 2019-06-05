@@ -1,3 +1,4 @@
+library(checkmate)
 context("gt_skew")
 
 
@@ -12,7 +13,7 @@ test_that("output is valid geometry", {
   output <- gt_skew(geom = input)
   expect_class(output, classes = "geom")
   expect_true(output@type == "polygon")
-  expect_data_frame(output@vert, any.missing = FALSE, nrows = 5, ncols = 4)
+  expect_data_frame(output@vert, any.missing = FALSE, nrows = 5, ncols = 3)
 
   # skew one out of two features
   coords <- data.frame(x = c(30, 60, 60, 40, 10, 40, 20),
@@ -27,7 +28,7 @@ test_that("output is valid geometry", {
                     fid = 2)
   expect_class(output, classes = "geom")
   expect_true(output@type == "polygon")
-  expect_data_frame(output@vert, any.missing = FALSE, nrows = 9, ncols = 4)
+  expect_data_frame(output@vert, any.missing = FALSE, nrows = 9, ncols = 3)
 
   # skew two out of two features
   coords <- data.frame(x = c(30, 60, 60, 40, 10, 40, 20),
@@ -41,7 +42,7 @@ test_that("output is valid geometry", {
                     y = list(1, 0.2))
   expect_class(output, classes = "geom")
   expect_true(output@type == "polygon")
-  expect_data_frame(output@vert, any.missing = FALSE, nrows = 9, ncols = 4)
+  expect_data_frame(output@vert, any.missing = FALSE, nrows = 9, ncols = 3)
 })
 
 test_that("output has different coordinates than input", {
@@ -53,7 +54,7 @@ test_that("output has different coordinates than input", {
   input <- gs_polygon(anchor = coords, window = window)
   output <- gt_skew(geom = input, x = list(0.5), y = list(0, 0.2))
 
-  expect_false(all(getVertices(input)[c(3, 4)] == getVertices(output)[c(3, 4)]))
+  expect_false(all(getVertices(input)[c(1, 2)] == getVertices(output)[c(1, 2)]))
 })
 
 test_that("Error if arguments have wrong value", {

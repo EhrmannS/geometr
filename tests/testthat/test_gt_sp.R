@@ -1,5 +1,6 @@
 library(checkmate)
 library(testthat)
+library(sp)
 context("gt_sp")
 
 

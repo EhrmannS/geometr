@@ -1,3 +1,4 @@
+library(checkmate)
 context("getSubset")
 
 
@@ -17,7 +18,7 @@ test_that("getSubset of a geom", {
 
   # get a subset of the attributes
   input <- setTable(x = input, table = data.frame(fid = c(1, 2), a = c("a", "b")))
-  output <- getSubset(x = input, a == 'b', slot = "table")
+  output <- getSubset(x = input, a == 'b', slot = "feat")
   expect_class(output, "geom")
   expect_true(dim(output@vert)[1] == 3)
   expect_true(dim(output@vert)[1] < dim(input@vert)[1])
@@ -35,7 +36,7 @@ test_that("getSubset of a Spatial* object", {
 test_that("getSubset of an sf object", {
   input <- gtSF$point
 
-  output <- getSubset(x = input, attr = "a == 2")
+  output <- getSubset(x = input, feat = "a == 2")
   expect_class(output, "sf")
   expect_data_frame(output, any.missing = FALSE, nrows = 1, ncols = 2)
 })
