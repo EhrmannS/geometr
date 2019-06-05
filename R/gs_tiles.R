@@ -14,6 +14,7 @@
 #' @param centroids [\code{logical(1)}]\cr should the centroids of the tiling be
 #'   returned (\code{TRUE}) or should the tiling be returned (\code{FALSE},
 #'   default)?
+#' @param ... [various]\cr additional arguments; see Details.
 #' @details When deriving a regular tiling for a prescribed window, there is
 #'   only a limited set of legal combinations of cells in x and y dimension. For
 #'   instance, a window of 100 by 100 can't comprise 10 by 5 squares of
@@ -22,6 +23,10 @@
 #'   properly clear how many tiles there should be in one dimension, but not the
 #'   other, this can be specified by setting one of the cell counts to
 #'   \code{NA}, such as \code{cells = c(NA, 18)}.
+#'
+#'   Possible additional arguments are: \itemize{ \item verbose = TRUE/FALSE
+#'   \item graphical parameters to \code{\link{gt_locate}}, in case points are
+#'   sketched; see \code{\link{gpar}}}.
 #' @return An invisible \code{geom}.
 #' @family tilings
 #' @examples
@@ -57,7 +62,16 @@ gs_tiles <- function(anchor = NULL, window = NULL, width = NULL, offset = NULL,
 
   if(is.null(anchor)){
     anchor <- gs_rectangle(anchor = window)
+  } else {
+    if(anchor$type == "geom"){
+      anchor <- anchor$obj
+    }
   }
+  if(is.null(window)){
+    window <- anchor@window
+  }
+  window = tibble(x = c(min(window$x), max(window$x), max(window$x), min(window$x), min(window$x)),
+                  y = c(min(window$y), min(window$y), max(window$y), max(window$y), min(window$y)))
 
   assertIntegerish(width, len = 1)
   assertChoice(x = pattern, choices = c("squared", "hexagonal", "triangular"))
@@ -68,7 +82,7 @@ gs_tiles <- function(anchor = NULL, window = NULL, width = NULL, offset = NULL,
   if(targetRotation != 0){
     coords <- getSubset(anchor, !!(!duplicated(anchor@vert[c("x", "y")])), slot = "vert")
     originCentroid <- c(mean(x = coords@vert$x), mean(x = coords@vert$y))
-    anchor <- gt_rotate(geom = anchor, about = originCentroid, angle = -targetRotation)
+    anchor <- gt_rotate(geom = anchor, about = originCentroid, angle = -targetRotation, update = FALSE)
   }
 
   # set pattern specific properties
@@ -121,7 +135,7 @@ gs_tiles <- function(anchor = NULL, window = NULL, width = NULL, offset = NULL,
     cntrds <- tibble(fid = seq(1:(length(yC1)*length(xC1) + length(yC2)*length(xC2))),
                      x = c(rep(xC1, times = length(yC1)), rep(xC2, times = length(yC2))),
                      y = c(rep(yC1, each = length(xC1)), rep(yC2, each = length(xC2))))
-    targetCentroids <- gs_point(anchor = cntrds, window = window)
+    targetCentroids <- gs_point(anchor = cntrds, window = anchor@window)
 
     offset <- 30
     vertices <- 6

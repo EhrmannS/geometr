@@ -69,13 +69,15 @@ gs_random <- function(type = "point", template = NULL, vertices = NULL){
       }
     }
     outType <- type
-    anchor <- tibble(x = runif(vertices),
-                     y = runif(vertices),
+    xVerts <- runif(vertices)
+    yVerts <- runif(vertices)
+    anchor <- tibble(x = c(xVerts, xVerts[1]),
+                     y = c(yVerts, yVerts[1]),
                      fid = 1)
   }
 
   if(templateExists){
-    window <- getExtent(template)
+    window <- getExtent(x = template)
   } else{
     window <- tibble(x = c(0, 1),
                      y = c(0, 1))
@@ -86,7 +88,8 @@ gs_random <- function(type = "point", template = NULL, vertices = NULL){
                  vert = anchor,
                  feat = tibble(fid = unique(anchor$fid), gid = unique(anchor$fid)),
                  group = tibble(gid = unique(anchor$fid)),
-                 window = window,
+                 window = tibble(x = c(min(window$x), max(window$x), max(window$x), min(window$x), min(window$x)),
+                                 y = c(min(window$y), min(window$y), max(window$y), max(window$y), min(window$y))),
                  scale = "relative",
                  crs = as.character(NA),
                  history = list(paste0("geometry was created randomly")))

@@ -36,8 +36,8 @@ gt_sf <- function(input = NULL){
   theData <- getTable(x = input)
   theCRS <- getCRS(x = input)
   bbox <- getExtent(x = input)
-  theWindow <- tibble(x = rep(c(bbox$x), each = 2),
-                      y = c(bbox$y, rev(bbox$y)))
+  theWindow = tibble(x = c(min(bbox$x), max(bbox$x), max(bbox$x), min(bbox$x), min(bbox$x)),
+                  y = c(min(bbox$y), min(bbox$y), max(bbox$y), max(bbox$y), min(bbox$y)))
 
   if(isSf){
 
