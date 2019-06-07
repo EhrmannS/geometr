@@ -126,7 +126,7 @@
     </div>
 
     <pre class="usage"><span class='fu'>gs_tiles</span>(<span class='kw'>anchor</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>window</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>width</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>offset</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>pattern</span> <span class='kw'>=</span> <span class='st'>"squared"</span>, <span class='kw'>rotation</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>centroids</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
+  <span class='kw'>pattern</span> <span class='kw'>=</span> <span class='st'>"squared"</span>, <span class='kw'>rotation</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>centroids</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -166,6 +166,10 @@ options are <code>"squared"</code> (default) or <code>"hexagonal"</code>.</p></t
 returned (<code>TRUE</code>) or should the tiling be returned (<code>FALSE</code>,
 default)?</p></td>
     </tr>
+    <tr>
+      <th>...</th>
+      <td><p>[various]<br /> additional arguments; see Details.</p></td>
+    </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
@@ -182,6 +186,11 @@ default)?</p></td>
   properly clear how many tiles there should be in one dimension, but not the
   other, this can be specified by setting one of the cell counts to
   <code>NA</code>, such as <code>cells = c(NA, 18)</code>.</p>
+<p>Possible additional arguments are:</p><ul>
+<li><p>verbose = TRUE/FALSE</p></li>
+<li><p>graphical parameters to <code><a href='gt_locate.html'>gt_locate</a></code>, in case points are
+  sketched; see <code>gpar</code></p></li>
+</ul><p>.</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 

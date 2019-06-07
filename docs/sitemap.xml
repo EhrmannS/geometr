@@ -4,6 +4,30 @@
     <loc>http://EhrmannS.github.io/geometr/index.html</loc>
   </url>
   <url>
+    <loc>http://EhrmannS.github.io/geometr/reference/dot-makeColours.html</loc>
+  </url>
+  <url>
+    <loc>http://EhrmannS.github.io/geometr/reference/dot-makeFormat.html</loc>
+  </url>
+  <url>
+    <loc>http://EhrmannS.github.io/geometr/reference/dot-makeTinyMap.html</loc>
+  </url>
+  <url>
+    <loc>http://EhrmannS.github.io/geometr/reference/dot-rad.html</loc>
+  </url>
+  <url>
+    <loc>http://EhrmannS.github.io/geometr/reference/dot-testAnchor.html</loc>
+  </url>
+  <url>
+    <loc>http://EhrmannS.github.io/geometr/reference/dot-testTemplate.html</loc>
+  </url>
+  <url>
+    <loc>http://EhrmannS.github.io/geometr/reference/dot-testWindow.html</loc>
+  </url>
+  <url>
+    <loc>http://EhrmannS.github.io/geometr/reference/dot-updateWindow.html</loc>
+  </url>
+  <url>
     <loc>http://EhrmannS.github.io/geometr/reference/geom-class.html</loc>
   </url>
   <url>
@@ -73,9 +97,6 @@
     <loc>http://EhrmannS.github.io/geometr/reference/gt_grob.html</loc>
   </url>
   <url>
-    <loc>http://EhrmannS.github.io/geometr/reference/gt_group.html</loc>
-  </url>
-  <url>
     <loc>http://EhrmannS.github.io/geometr/reference/gt_locate.html</loc>
   </url>
   <url>
@@ -97,15 +118,6 @@
     <loc>http://EhrmannS.github.io/geometr/reference/gt_stretch.html</loc>
   </url>
   <url>
-    <loc>http://EhrmannS.github.io/geometr/reference/makeColours.html</loc>
-  </url>
-  <url>
-    <loc>http://EhrmannS.github.io/geometr/reference/makeFormat.html</loc>
-  </url>
-  <url>
-    <loc>http://EhrmannS.github.io/geometr/reference/rad.html</loc>
-  </url>
-  <url>
     <loc>http://EhrmannS.github.io/geometr/reference/setCRS.html</loc>
   </url>
   <url>
@@ -124,10 +136,10 @@
     <loc>http://EhrmannS.github.io/geometr/reference/show-gtTheme-method.html</loc>
   </url>
   <url>
-    <loc>http://EhrmannS.github.io/geometr/reference/updateWindow.html</loc>
+    <loc>http://EhrmannS.github.io/geometr/reference/visualise.html</loc>
   </url>
   <url>
-    <loc>http://EhrmannS.github.io/geometr/reference/visualise.html</loc>
+    <loc>http://EhrmannS.github.io/geometr/articles/getters_setters.html</loc>
   </url>
   <url>
     <loc>http://EhrmannS.github.io/geometr/articles/introduction.html</loc>

@@ -126,7 +126,7 @@
     </div>
 
     <pre class="usage"><span class='co'># S4 method for geom</span>
-<span class='fu'>setTable</span>(<span class='no'>x</span>, <span class='no'>table</span>, <span class='kw'>regroup</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+<span class='fu'>setTable</span>(<span class='no'>x</span>, <span class='no'>table</span>, <span class='kw'>slot</span> <span class='kw'>=</span> <span class='st'>"feat"</span>)
 
 <span class='co'># S4 method for Spatial</span>
 <span class='fu'>setTable</span>(<span class='no'>x</span>, <span class='no'>table</span>)
@@ -152,10 +152,9 @@
       <td><p>[<code><a href='https://www.rdocumentation.org/packages/base/topics/data.frame'>data.frame(.)</a></code>]<br /> the attribute table.</p></td>
     </tr>
     <tr>
-      <th>regroup</th>
-      <td><p>[<code><a href='https://www.rdocumentation.org/packages/base/topics/logical'>logical(1)</a></code>]<br /> rearrange groups when new attributes
-are not unique per group but per feature (<code>TRUE</code>, default) or
-suppress this behaviour (<code>FALSE</code>).</p></td>
+      <th>slot</th>
+      <td><p>[<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code>]<br /> the geom slot to which to set the
+attribute table, either <code>"vert"</code>, <code>"feat"</code> or <code>"group"</code>.</p></td>
     </tr>
     </table>
     
@@ -177,51 +176,47 @@ suppress this behaviour (<code>FALSE</code>).</p></td>
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># set table of a geom</span>
 <span class='co'># individual attributes per point/line/polygon feature</span>
-<span class='fu'><a href='getTable.html'>getTable</a></span>(<span class='no'>gtGeoms</span>$<span class='no'>point</span>)</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 12 x 2</span><span>
-#&gt;      fid   gid
-#&gt;    </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'> 1</span><span>     1     1
-#&gt; </span><span style='color: #BCBCBC;'> 2</span><span>     2     1
-#&gt; </span><span style='color: #BCBCBC;'> 3</span><span>     3     1
-#&gt; </span><span style='color: #BCBCBC;'> 4</span><span>     4     1
-#&gt; </span><span style='color: #BCBCBC;'> 5</span><span>     5     2
-#&gt; </span><span style='color: #BCBCBC;'> 6</span><span>     6     2
-#&gt; </span><span style='color: #BCBCBC;'> 7</span><span>     7     2
-#&gt; </span><span style='color: #BCBCBC;'> 8</span><span>     8     2
-#&gt; </span><span style='color: #BCBCBC;'> 9</span><span>     9     3
-#&gt; </span><span style='color: #BCBCBC;'>10</span><span>    10     3
-#&gt; </span><span style='color: #BCBCBC;'>11</span><span>    11     3
-#&gt; </span><span style='color: #BCBCBC;'>12</span><span>    12     3</div><div class='input'><span class='no'>x1</span> <span class='kw'>&lt;-</span> <span class='fu'>setTable</span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>gtGeoms</span>$<span class='no'>point</span>,
-               <span class='kw'>table</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/data.frame'>data.frame</a></span>(<span class='kw'>attr</span> <span class='kw'>=</span> <span class='no'>letters</span>[<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>1</span>:<span class='fl'>5</span>, <span class='fl'>5</span>:<span class='fl'>11</span>)]))</div><div class='output co'>#&gt; <span class='message'>Joining, by = "attr"</span></div><div class='input'><span class='fu'><a href='getTable.html'>getTable</a></span>(<span class='no'>x1</span>)</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 12 x 3</span><span>
-#&gt;      fid   gid attr 
-#&gt;    </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;fct&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'> 1</span><span>     1     1 a    
-#&gt; </span><span style='color: #BCBCBC;'> 2</span><span>     2     2 b    
-#&gt; </span><span style='color: #BCBCBC;'> 3</span><span>     3     3 c    
-#&gt; </span><span style='color: #BCBCBC;'> 4</span><span>     4     4 d    
-#&gt; </span><span style='color: #BCBCBC;'> 5</span><span>     5     5 e    
-#&gt; </span><span style='color: #BCBCBC;'> 6</span><span>     6     5 e    
-#&gt; </span><span style='color: #BCBCBC;'> 7</span><span>     7     6 f    
-#&gt; </span><span style='color: #BCBCBC;'> 8</span><span>     8     7 g    
-#&gt; </span><span style='color: #BCBCBC;'> 9</span><span>     9     8 h    
-#&gt; </span><span style='color: #BCBCBC;'>10</span><span>    10     9 i    
-#&gt; </span><span style='color: #BCBCBC;'>11</span><span>    11    10 j    
-#&gt; </span><span style='color: #BCBCBC;'>12</span><span>    12    11 k    </div><div class='input'><span class='no'>x2</span> <span class='kw'>&lt;-</span> <span class='fu'>setTable</span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>gtGeoms</span>$<span class='no'>point</span>,
-               <span class='kw'>table</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/data.frame'>data.frame</a></span>(<span class='kw'>gid</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>1</span>:<span class='fl'>3</span>), <span class='kw'>attr</span> <span class='kw'>=</span> <span class='no'>letters</span>[<span class='fl'>1</span>:<span class='fl'>3</span>]))</div><div class='output co'>#&gt; <span class='message'>Joining, by = "gid"</span></div><div class='input'><span class='fu'><a href='getTable.html'>getTable</a></span>(<span class='no'>x2</span>)</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 12 x 3</span><span>
-#&gt;      fid   gid attr 
-#&gt;    </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;fct&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'> 1</span><span>     1     1 a    
-#&gt; </span><span style='color: #BCBCBC;'> 2</span><span>     2     1 a    
-#&gt; </span><span style='color: #BCBCBC;'> 3</span><span>     3     1 a    
-#&gt; </span><span style='color: #BCBCBC;'> 4</span><span>     4     1 a    
-#&gt; </span><span style='color: #BCBCBC;'> 5</span><span>     5     2 b    
-#&gt; </span><span style='color: #BCBCBC;'> 6</span><span>     6     2 b    
-#&gt; </span><span style='color: #BCBCBC;'> 7</span><span>     7     2 b    
-#&gt; </span><span style='color: #BCBCBC;'> 8</span><span>     8     2 b    
-#&gt; </span><span style='color: #BCBCBC;'> 9</span><span>     9     3 c    
-#&gt; </span><span style='color: #BCBCBC;'>10</span><span>    10     3 c    
-#&gt; </span><span style='color: #BCBCBC;'>11</span><span>    11     3 c    
-#&gt; </span><span style='color: #BCBCBC;'>12</span><span>    12     3 c    </div><div class='input'>
+<span class='fu'><a href='getTable.html'>getTable</a></span>(<span class='no'>gtGeoms</span>$<span class='no'>point</span>)</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 3 x 2</span><span>
+#&gt;     fid   gid
+#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #BCBCBC;'>1</span><span>     1     1
+#&gt; </span><span style='color: #BCBCBC;'>2</span><span>     2     2
+#&gt; </span><span style='color: #BCBCBC;'>3</span><span>     3     3</div><div class='input'><span class='no'>newAttr</span> <span class='kw'>&lt;-</span> <span class='fu'>setTable</span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>gtGeoms</span>$<span class='no'>point</span>,
+                    <span class='kw'>slot</span> <span class='kw'>=</span> <span class='st'>"vert"</span>,
+                    <span class='kw'>table</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/data.frame'>data.frame</a></span>(<span class='kw'>attr</span> <span class='kw'>=</span> <span class='no'>letters</span>[<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>1</span>:<span class='fl'>5</span>, <span class='fl'>5</span>:<span class='fl'>11</span>)]))
+<span class='fu'><a href='getTable.html'>getTable</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>newAttr</span>, <span class='kw'>slot</span> <span class='kw'>=</span> <span class='st'>"vert"</span>)</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 12 x 4</span><span>
+#&gt;        x     y   fid attr 
+#&gt;    </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;fct&gt;</span><span>
+#&gt; </span><span style='color: #BCBCBC;'> 1</span><span>     0     0     1 a    
+#&gt; </span><span style='color: #BCBCBC;'> 2</span><span>     0    10     1 b    
+#&gt; </span><span style='color: #BCBCBC;'> 3</span><span>    10    10     1 c    
+#&gt; </span><span style='color: #BCBCBC;'> 4</span><span>    10     0     1 d    
+#&gt; </span><span style='color: #BCBCBC;'> 5</span><span>     1     1     2 e    
+#&gt; </span><span style='color: #BCBCBC;'> 6</span><span>     1     2     2 e    
+#&gt; </span><span style='color: #BCBCBC;'> 7</span><span>     2     2     2 f    
+#&gt; </span><span style='color: #BCBCBC;'> 8</span><span>     2     1     2 g    
+#&gt; </span><span style='color: #BCBCBC;'> 9</span><span>    11    11     3 h    
+#&gt; </span><span style='color: #BCBCBC;'>10</span><span>    11    12     3 i    
+#&gt; </span><span style='color: #BCBCBC;'>11</span><span>    12    12     3 j    
+#&gt; </span><span style='color: #BCBCBC;'>12</span><span>    12    11     3 k    </div><div class='input'>
+<span class='no'>newAttr2</span> <span class='kw'>&lt;-</span> <span class='fu'>setTable</span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>newAttr</span>,
+                     <span class='kw'>slot</span> <span class='kw'>=</span> <span class='st'>"feat"</span>,
+                     <span class='kw'>table</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/data.frame'>data.frame</a></span>(<span class='kw'>gid</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>1</span>:<span class='fl'>3</span>), <span class='kw'>attr</span> <span class='kw'>=</span> <span class='no'>letters</span>[<span class='fl'>1</span>:<span class='fl'>3</span>]))</div><div class='output co'>#&gt; <span class='message'>Joining, by = "gid"</span></div><div class='input'><span class='fu'><a href='getTable.html'>getTable</a></span>(<span class='no'>newAttr2</span>)</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 3 x 3</span><span>
+#&gt;     fid   gid attr 
+#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;fct&gt;</span><span>
+#&gt; </span><span style='color: #BCBCBC;'>1</span><span>     1     1 a    
+#&gt; </span><span style='color: #BCBCBC;'>2</span><span>     2     2 b    
+#&gt; </span><span style='color: #BCBCBC;'>3</span><span>     3     3 c    </div><div class='input'><span class='no'>newAttr2</span></div><div class='output co'>#&gt; </span><span style='color: #BBBB00;'>geom</span><span>        point
+#&gt;             3 features | 12 vertices
+#&gt; </span><span style='color: #BBBB00;'>crs         </span><span>cartesian
+#&gt; </span><span style='color: #BBBB00;'>attributes</span><span>  (vertices) attr
+#&gt;             (features)   attr
+#&gt; </span><span style='color: #BBBB00;'>tiny map  </span><span>    12 
+#&gt;               ◯ ◌ ◌ ◉    
+#&gt;               ◌ ◌ ◌ ◌    
+#&gt;               ◌ ◌ ◌ ◌    
+#&gt;             0 ◉ ◌ ◌ ◯ 12 
+#&gt;               0 </div><div class='input'>
 <span class='co'># set table of an sf</span>
 <span class='no'>sfObj</span> <span class='kw'>&lt;-</span> <span class='no'>gtSF</span>$<span class='no'>polygon</span>
 

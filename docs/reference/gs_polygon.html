@@ -187,8 +187,7 @@ click (<code>FALSE</code>); only relevant if <code>regular = TRUE</code>.</p></t
     </tr>
     <tr>
       <th>...</th>
-      <td><p>[various]<br /> graphical parameters to <code><a href='gt_locate.html'>gt_locate</a></code>, in case
-a polygon is sketched; see <code>gpar</code>.</p></td>
+      <td><p>[various]<br /> additional arguments; see Details.</p></td>
     </tr>
     </table>
     
@@ -205,13 +204,17 @@ a polygon is sketched; see <code>gpar</code>.</p></td>
   geometry</p><ul>
 <li><p>if <code>regular = FALSE</code> the resulting geometry
   is the boundary per feature,</p></li>
-<li><p>if <code>regular = TRUE</code>, only the
-  first two vertices are considered, as center and indicating the (outer)
-  radius.</p></li>
+<li><p>if <code>regular = TRUE</code>, only the first
+  two vertices are considered, as center and indicating the (outer) radius.</p></li>
 </ul></li>
-<li><p><code>template</code>: if set, the geometry is created
-  interactively, by clicking into the plot.</p></li>
+<li><p><code>template</code>: if set, the geometry is created interactively, by
+  clicking into the plot.</p></li>
 </ul>
+    <p>Possible additional arguments are:</p><ul>
+<li><p>verbose = TRUE/FALSE</p></li>
+<li><p>graphical parameters to <code><a href='gt_locate.html'>gt_locate</a></code>, in case points are
+  sketched; see <code>gpar</code></p></li>
+</ul><p>.</p>
     
     <h2 class="hasAnchor" id="functions"><a class="anchor" href="#functions"></a>Functions</h2>
 
@@ -243,14 +246,16 @@ the two given opposing corners.</p></li>
                      <span class='kw'>y</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>0</span>, <span class='fl'>80</span>))
 
 <span class='co'># if no window is set, the bounding box (i.e. min/max values) will be set as window</span>
-(<span class='no'>aGeom</span> <span class='kw'>&lt;-</span> <span class='fu'>gs_polygon</span>(<span class='kw'>anchor</span> <span class='kw'>=</span> <span class='no'>coords</span>))</div><div class='output co'>#&gt; class      : geom
-#&gt; type       : polygon
-#&gt; features   : 1  (5 vertices)
-#&gt; window     : 40, 70, 40, 70  (xmin, xmax, ymin, ymax)
-#&gt; extent     : 40, 70, 40, 70  (xmin, xmax, ymin, ymax)
-#&gt; scale      : absolute
-#&gt; crs        : NA
-#&gt; attributes : 2  (fid, gid)</div><div class='input'>
+(<span class='no'>aGeom</span> <span class='kw'>&lt;-</span> <span class='fu'>gs_polygon</span>(<span class='kw'>anchor</span> <span class='kw'>=</span> <span class='no'>coords</span>))</div><div class='output co'>#&gt; <span style='color: #BBBB00;'>geom</span><span>        polygon
+#&gt;             1 feature | 5 vertices
+#&gt; </span><span style='color: #BBBB00;'>crs         </span><span>cartesian
+#&gt; </span><span style='color: #BBBB00;'>attributes</span><span>  --
+#&gt; </span><span style='color: #BBBB00;'>tiny map  </span><span>     70 
+#&gt;                ◌ ◯ ◌ ◌    
+#&gt;                ◌ ◌ ◌ ◯    
+#&gt;                ◌ ◌ ◌ ◌    
+#&gt;             40 ◯ ◌ ◌ ◯ 70 
+#&gt;                40 </div><div class='input'>
 <span class='co'># the vertices are plottet relative to the window</span>
 <span class='fu'><a href='visualise.html'>visualise</a></span>(<span class='kw'>geom</span> <span class='kw'>=</span> <span class='fu'>gs_polygon</span>(<span class='kw'>anchor</span> <span class='kw'>=</span> <span class='no'>coords</span>,
                             <span class='kw'>vertices</span> <span class='kw'>=</span> <span class='fl'>6</span>, <span class='kw'>regular</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>))</div><div class='input'><span class='fu'>gs_triangle</span>(<span class='kw'>anchor</span> <span class='kw'>=</span> <span class='no'>coords</span>, <span class='kw'>window</span> <span class='kw'>=</span> <span class='no'>window</span>) <span class='kw'>%&gt;%</span>
@@ -260,7 +265,7 @@ the two given opposing corners.</p></li>
 <span class='fu'>gs_polygon</span>(<span class='kw'>anchor</span> <span class='kw'>=</span> <span class='no'>aGeom</span>) <span class='kw'>%&gt;%</span>
   <span class='fu'><a href='visualise.html'>visualise</a></span>(<span class='kw'>geom</span> <span class='kw'>=</span> <span class='no'>.</span>, <span class='kw'>fillcol</span> <span class='kw'>=</span> <span class='st'>"deeppink"</span>)</div><div class='input'><span class='fu'>gs_rectangle</span>(<span class='kw'>anchor</span> <span class='kw'>=</span> <span class='no'>aGeom</span>) <span class='kw'>%&gt;%</span>
   <span class='fu'><a href='visualise.html'>visualise</a></span>(<span class='kw'>geom</span> <span class='kw'>=</span> <span class='no'>.</span>, <span class='kw'>new</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</div><div class='img'><img src='gs_polygon-2.png' alt='' width='700' height='433' /></div><div class='input'>
-</div><span class='co'># NOT RUN {</span>
+</div></span><span class='co'># NOT RUN {</span>
 <span class='no'>input</span> <span class='kw'>&lt;-</span> <span class='no'>gtRasters</span>$<span class='no'>continuous</span>
 
 <span class='co'># create a square interactively</span>
@@ -273,7 +278,7 @@ the two given opposing corners.</p></li>
 
 <span class='co'># create two arbitrary polygons interactively</span>
 <span class='no'>polyGeom</span> <span class='kw'>&lt;-</span> <span class='fu'>gs_polygon</span>(<span class='kw'>template</span> <span class='kw'>=</span> <span class='no'>input</span>, <span class='kw'>features</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>vertices</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>4</span>, <span class='fl'>6</span>)) <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='visualise.html'>visualise</a></span>(<span class='kw'>geom</span> <span class='kw'>=</span> <span class='no'>.</span>, <span class='kw'>linecol</span> <span class='kw'>=</span> <span class='st'>"green"</span>, <span class='kw'>lwd</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>lty</span> <span class='kw'>=</span> <span class='st'>"dashed"</span>, <span class='kw'>new</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
+  <span class='fu'><a href='visualise.html'>visualise</a></span>(<span class='kw'>geom</span> <span class='kw'>=</span> <span class='no'>.</span>, <span class='kw'>linecol</span> <span class='kw'>=</span> <span class='st'>"green"</span>, <span class='kw'>linewidth</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>linetype</span> <span class='kw'>=</span> <span class='st'>"dashed"</span>, <span class='kw'>new</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
 <span class='co'># }</span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

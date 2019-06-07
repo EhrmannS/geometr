@@ -126,7 +126,7 @@
     </div>
 
     <pre class="usage"><span class='co'># S4 method for geom</span>
-<span class='fu'>getTable</span>(<span class='no'>x</span>)
+<span class='fu'>getTable</span>(<span class='no'>x</span>, <span class='kw'>slot</span> <span class='kw'>=</span> <span class='st'>"feat"</span>)
 
 <span class='co'># S4 method for Spatial</span>
 <span class='fu'>getTable</span>(<span class='no'>x</span>)
@@ -144,13 +144,18 @@
       <th>x</th>
       <td><p>the object from which to derive the attribute table.</p></td>
     </tr>
+    <tr>
+      <th>slot</th>
+      <td><p>[<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code>]<br /> the geom slot from which to retrieve the
+attribute table, either <code>"vert"</code>, <code>"feat"</code> or <code>"group"</code>.</p></td>
+    </tr>
     </table>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'>getTable</span>(<span class='no'>gtGeoms</span>$<span class='no'>polygon</span>)</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 2 x 2</span><span>
 #&gt;     fid   gid
-#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span>
 #&gt; </span><span style='color: #BCBCBC;'>1</span><span>     1     1
 #&gt; </span><span style='color: #BCBCBC;'>2</span><span>     2     2</div><div class='input'>
 <span class='fu'>getTable</span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>gtSP</span>$<span class='no'>SpatialPolygons</span>)</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 2 x 2</span><span>

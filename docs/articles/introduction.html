@@ -83,7 +83,7 @@
       <h1>geometr - Introduction</h1>
                         <h4 class="author">Steffen Ehrmann</h4>
             
-            <h4 class="date">2019-05-16</h4>
+            <h4 class="date">2019-06-07</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/EhrmannS/geometr/blob/master/vignettes/introduction.Rmd"><code>vignettes/introduction.Rmd</code></a></small>
       <div class="hidden name"><code>introduction.Rmd</code></div>
@@ -95,185 +95,12 @@
 <div id="introduction" class="section level1">
 <h1 class="hasAnchor">
 <a href="#introduction" class="anchor"></a>Introduction</h1>
-<p><code>geometr</code> was developed due to a perceived lack of functionality that would allow manipulating geometries at vertex level, and all the possible applications that follow thereof.</p>
-<p>The idea of <code>geometr</code> is to enable you to create and process geometries intuitively, thereby turning you into a <a href="https://en.wikipedia.org/wiki/List_of_geometers">geometer</a>. Using <code>geometr</code> you typically provide a set of coordinates that outline geometries either as so-called anchor and control vertices (parametrisation), or by clicking into an open plot (sketching). Depending on the use-case, you’d then either modify individual vertices or the overall geometry.</p>
-<p>Moreover, as there seems to be an ever increasing collection of spatial classes - to which <code>geometr</code> adds yet another - a standardised approach to deal with the properties of objects of those classes is proposed by <code>geometr</code>.</p>
-<div id="a-new-geographicspatial-class-geom" class="section level2">
-<h2 class="hasAnchor">
-<a href="#a-new-geographicspatial-class-geom" class="anchor"></a>A new (geographic/spatial) class: <code>geom</code>
-</h2>
-<p><code>geometr</code> comes with the S4 class <code>geom</code>. A <code>geom</code> stores only those information that can’t be derived on the fly from its generic values. An example of derived information would be the extent/bounding box, which actually is a statistical measure, the range of coordinate values, and thus not a generic value of the geometry. Moreover, this class is deliberately by default not <em>geographic</em> in nature. It can be transformed into a geographic object by assigning a <em>coordinate reference system</em>. One could say the default CRS is the cartesian coordinate system.</p>
-<p>We learn a lot about the class by simply creating and visualising a <code>geom</code>:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(geometr)</a>
-<a class="sourceLine" id="cb1-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(tibble)</a>
-<a class="sourceLine" id="cb1-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb1-4" data-line-number="4">coords &lt;-<span class="st"> </span><span class="kw"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span>(<span class="dt">x =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">40</span>, <span class="dv">70</span>, <span class="dv">70</span>, <span class="dv">50</span>),</a>
-<a class="sourceLine" id="cb1-5" data-line-number="5">                 <span class="dt">y =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">40</span>, <span class="dv">40</span>, <span class="dv">60</span>, <span class="dv">70</span>),</a>
-<a class="sourceLine" id="cb1-6" data-line-number="6">                 <span class="dt">fid =</span> <span class="dv">1</span>)</a>
-<a class="sourceLine" id="cb1-7" data-line-number="7">(aGeom &lt;-<span class="st"> </span><span class="kw"><a href="../reference/gs_polygon.html">gs_polygon</a></span>(<span class="dt">anchor =</span> coords))</a>
-<a class="sourceLine" id="cb1-8" data-line-number="8"><span class="co">#&gt; class      : geom</span></a>
-<a class="sourceLine" id="cb1-9" data-line-number="9"><span class="co">#&gt; type       : polygon</span></a>
-<a class="sourceLine" id="cb1-10" data-line-number="10"><span class="co">#&gt; features   : 1  (5 vertices)</span></a>
-<a class="sourceLine" id="cb1-11" data-line-number="11"><span class="co">#&gt; window     : 40, 70, 40, 70  (xmin, xmax, ymin, ymax)</span></a>
-<a class="sourceLine" id="cb1-12" data-line-number="12"><span class="co">#&gt; extent     : 40, 70, 40, 70  (xmin, xmax, ymin, ymax)</span></a>
-<a class="sourceLine" id="cb1-13" data-line-number="13"><span class="co">#&gt; scale      : absolute</span></a>
-<a class="sourceLine" id="cb1-14" data-line-number="14"><span class="co">#&gt; crs        : NA</span></a>
-<a class="sourceLine" id="cb1-15" data-line-number="15"><span class="co">#&gt; attributes : 2  (fid, gid)</span></a>
-<a class="sourceLine" id="cb1-16" data-line-number="16"><span class="kw"><a href="../reference/visualise.html">visualise</a></span>(<span class="dt">geom =</span> aGeom)</a></code></pre></div>
-<p><img src="introduction_files/figure-html/unnamed-chunk-1-1.png" width="100%"></p>
-<p>As an S4 class, <code>geom</code> consists of a set of slots, which we can inspect with <code><a href="https://www.rdocumentation.org/packages/utils/topics/str">str()</a></code>:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/str">str</a></span>(aGeom)</a>
-<a class="sourceLine" id="cb2-2" data-line-number="2"><span class="co">#&gt; Formal class 'geom' [package "geometr"] with 7 slots</span></a>
-<a class="sourceLine" id="cb2-3" data-line-number="3"><span class="co">#&gt;   ..@ type   : chr "polygon"</span></a>
-<a class="sourceLine" id="cb2-4" data-line-number="4"><span class="co">#&gt;   ..@ vert   :Classes 'tbl_df', 'tbl' and 'data.frame':  5 obs. of  4 variables:</span></a>
-<a class="sourceLine" id="cb2-5" data-line-number="5"><span class="co">#&gt;   .. ..$ fid: int [1:5] 1 1 1 1 1</span></a>
-<a class="sourceLine" id="cb2-6" data-line-number="6"><span class="co">#&gt;   .. ..$ vid: int [1:5] 1 2 3 4 5</span></a>
-<a class="sourceLine" id="cb2-7" data-line-number="7"><span class="co">#&gt;   .. ..$ x  : num [1:5] 40 70 70 50 40</span></a>
-<a class="sourceLine" id="cb2-8" data-line-number="8"><span class="co">#&gt;   .. ..$ y  : num [1:5] 40 40 60 70 40</span></a>
-<a class="sourceLine" id="cb2-9" data-line-number="9"><span class="co">#&gt;   ..@ attr   :Classes 'tbl_df', 'tbl' and 'data.frame':  1 obs. of  2 variables:</span></a>
-<a class="sourceLine" id="cb2-10" data-line-number="10"><span class="co">#&gt;   .. ..$ fid: int 1</span></a>
-<a class="sourceLine" id="cb2-11" data-line-number="11"><span class="co">#&gt;   .. ..$ gid: int 1</span></a>
-<a class="sourceLine" id="cb2-12" data-line-number="12"><span class="co">#&gt;   ..@ window :Classes 'tbl_df', 'tbl' and 'data.frame':  4 obs. of  2 variables:</span></a>
-<a class="sourceLine" id="cb2-13" data-line-number="13"><span class="co">#&gt;   .. ..$ x: num [1:4] 40 40 70 70</span></a>
-<a class="sourceLine" id="cb2-14" data-line-number="14"><span class="co">#&gt;   .. ..$ y: num [1:4] 40 70 70 40</span></a>
-<a class="sourceLine" id="cb2-15" data-line-number="15"><span class="co">#&gt;   ..@ scale  : chr "absolute"</span></a>
-<a class="sourceLine" id="cb2-16" data-line-number="16"><span class="co">#&gt;   ..@ crs    : chr NA</span></a>
-<a class="sourceLine" id="cb2-17" data-line-number="17"><span class="co">#&gt;   ..@ history:List of 1</span></a>
-<a class="sourceLine" id="cb2-18" data-line-number="18"><span class="co">#&gt;   .. ..$ : chr "geometry was created as 'polygon'"</span></a></code></pre></div>
-<p>The core of this class are three tables that characterise the coordinates, the feature attributes and the window. This presentation of coordinates and features in separate tables is an important aspect that distinguishes <code>geometr</code> from other spatial classes in R.</p>
-<ul>
-<li>The slot <code>@vert</code> is a table that contains all information related to the vertices, with one row for each vertex. By default there are at least the columns <code>fid</code> (feature ID), <code>vid</code> (vertex ID), <code>x</code> and <code>y</code>, the two-dimensional coordinate values. The feature ID relates coordinates to features and thus common attributes and the vertex ID enumerates all vertices per feature.</li>
-<li>The slot <code>@attr</code> is a table that contains all feature attributes, with one row for each feature. By default there are at least the columns <code>fid</code> (feature ID) and <code>gid</code> (group ID). The group ID captures groups of features that would be part of the same <em>multi</em>feature in a "simple feature (<code>sf</code>) and is thus by default the same as <code>fid</code> except when the <code>geom</code> has been derived from a simple multi-feature.</li>
-<li>The slot <code>@window</code> is a table that defines the frame within which the geometry would be plotted. This is sort of a second extent that may be bigger (or smaller) than <code>extent/bbox</code> and which determines the relative position of the vertices when plotting.</li>
-</ul>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1">window &lt;-<span class="st"> </span><span class="kw"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span>(<span class="dt">x =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">0</span>, <span class="dv">80</span>),</a>
-<a class="sourceLine" id="cb3-2" data-line-number="2">                 <span class="dt">y =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">0</span>, <span class="dv">80</span>))</a>
-<a class="sourceLine" id="cb3-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb3-4" data-line-number="4">aGeom &lt;-<span class="st"> </span><span class="kw"><a href="../reference/setWindow.html">setWindow</a></span>(<span class="dt">x =</span> aGeom, <span class="dt">to =</span> window)</a>
-<a class="sourceLine" id="cb3-5" data-line-number="5"><span class="kw"><a href="../reference/visualise.html">visualise</a></span>(<span class="dt">geom =</span> aGeom)</a></code></pre></div>
-<p><img src="introduction_files/figure-html/unnamed-chunk-3-1.png" width="100%"></p>
-<p>A <code>geom</code> either has the feature type:</p>
-<ul>
-<li>
-<code>point</code>, when none of the vertices are connected to other vertices,</li>
-<li>
-<code>line</code>, where vertices with the same <code>fid</code> are connected following the sequence of their order, without the path closing in itself and</li>
-<li>
-<code>polygon</code>, where vertices with the same <code>fid</code> are connected following the sequence of their order and the path closes in on itself.</li>
-</ul>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="kw"><a href="../reference/visualise.html">visualise</a></span>(<span class="dt">geom =</span> gtGeoms<span class="op">$</span>polygon, <span class="dt">fillcol =</span> fid)</a>
-<a class="sourceLine" id="cb4-2" data-line-number="2"><span class="kw"><a href="../reference/visualise.html">visualise</a></span>(<span class="dt">geom =</span> gtGeoms<span class="op">$</span>line, <span class="dt">linecol =</span> <span class="st">"green"</span>, <span class="dt">new =</span> <span class="ot">FALSE</span>)</a>
-<a class="sourceLine" id="cb4-3" data-line-number="3"><span class="kw"><a href="../reference/visualise.html">visualise</a></span>(<span class="dt">geom =</span> gtGeoms<span class="op">$</span>point, <span class="dt">linecol =</span> <span class="st">"deeppink"</span>, <span class="dt">new =</span> <span class="ot">FALSE</span>)</a></code></pre></div>
-<p><img src="introduction_files/figure-html/unnamed-chunk-4-1.png" width="100%"></p>
-<p>Points and Lines are implemented quite straightforward in this data model, but polygons, which may contain holes, are a bit trickier. In <code>geometr</code> they are implemented as follows:</p>
-<ul>
-<li>All vertices with the same <code>fid</code> make up one polygon, irrespective of it containing holes or not.</li>
-<li>The outer path/ring of a polygon is composed of all vertices until a duplicate of its first vertex occurs. This signals that all following vertices are part of another path/ring, which is a hole when it is inside the polygon and which consists of all vertices until a duplicate of it’s first vertex occurs.</li>
-<li>This repeats until all vertices of the feature are processed.</li>
-</ul>
-</div>
-<div id="getters-and-setters" class="section level2">
-<h2 class="hasAnchor">
-<a href="#getters-and-setters" class="anchor"></a>Getters and Setters</h2>
-<p>Most properties of a <code>geom</code> are accessible via specific functions. They can thus be extracted, modified and re-assigned, which is the basis for various “meta-operations”, such as reprojecting or appending additional attributes to features.</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="co"># Get properties of a geom</span></a>
-<a class="sourceLine" id="cb5-2" data-line-number="2"><span class="kw"><a href="../reference/getVertices.html">getVertices</a></span>(<span class="dt">x =</span> gtGeoms<span class="op">$</span>polygon)</a>
-<a class="sourceLine" id="cb5-3" data-line-number="3"><span class="co">#&gt; # A tibble: 15 x 4</span></a>
-<a class="sourceLine" id="cb5-4" data-line-number="4"><span class="co">#&gt;      fid   vid     x     y</span></a>
-<a class="sourceLine" id="cb5-5" data-line-number="5"><span class="co">#&gt;    &lt;dbl&gt; &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt;</span></a>
-<a class="sourceLine" id="cb5-6" data-line-number="6"><span class="co">#&gt;  1     1     1     0     0</span></a>
-<a class="sourceLine" id="cb5-7" data-line-number="7"><span class="co">#&gt;  2     1     2    10     0</span></a>
-<a class="sourceLine" id="cb5-8" data-line-number="8"><span class="co">#&gt;  3     1     3    10    10</span></a>
-<a class="sourceLine" id="cb5-9" data-line-number="9"><span class="co">#&gt;  4     1     4     0    10</span></a>
-<a class="sourceLine" id="cb5-10" data-line-number="10"><span class="co">#&gt;  5     1     5     0     0</span></a>
-<a class="sourceLine" id="cb5-11" data-line-number="11"><span class="co">#&gt;  6     1     6     1     1</span></a>
-<a class="sourceLine" id="cb5-12" data-line-number="12"><span class="co">#&gt;  7     1     7     1     2</span></a>
-<a class="sourceLine" id="cb5-13" data-line-number="13"><span class="co">#&gt;  8     1     8     2     2</span></a>
-<a class="sourceLine" id="cb5-14" data-line-number="14"><span class="co">#&gt;  9     1     9     2     1</span></a>
-<a class="sourceLine" id="cb5-15" data-line-number="15"><span class="co">#&gt; 10     1    10     1     1</span></a>
-<a class="sourceLine" id="cb5-16" data-line-number="16"><span class="co">#&gt; 11     2     1    11    11</span></a>
-<a class="sourceLine" id="cb5-17" data-line-number="17"><span class="co">#&gt; 12     2     2    11    12</span></a>
-<a class="sourceLine" id="cb5-18" data-line-number="18"><span class="co">#&gt; 13     2     3    12    12</span></a>
-<a class="sourceLine" id="cb5-19" data-line-number="19"><span class="co">#&gt; 14     2     4    12    11</span></a>
-<a class="sourceLine" id="cb5-20" data-line-number="20"><span class="co">#&gt; 15     2     5    11    11</span></a>
-<a class="sourceLine" id="cb5-21" data-line-number="21"><span class="kw"><a href="../reference/getTable.html">getTable</a></span>(<span class="dt">x =</span> gtGeoms<span class="op">$</span>polygon)</a>
-<a class="sourceLine" id="cb5-22" data-line-number="22"><span class="co">#&gt; # A tibble: 2 x 2</span></a>
-<a class="sourceLine" id="cb5-23" data-line-number="23"><span class="co">#&gt;     fid   gid</span></a>
-<a class="sourceLine" id="cb5-24" data-line-number="24"><span class="co">#&gt;   &lt;dbl&gt; &lt;dbl&gt;</span></a>
-<a class="sourceLine" id="cb5-25" data-line-number="25"><span class="co">#&gt; 1     1     1</span></a>
-<a class="sourceLine" id="cb5-26" data-line-number="26"><span class="co">#&gt; 2     2     2</span></a>
-<a class="sourceLine" id="cb5-27" data-line-number="27"><span class="kw"><a href="../reference/getWindow.html">getWindow</a></span>(<span class="dt">x =</span> gtGeoms<span class="op">$</span>polygon)</a>
-<a class="sourceLine" id="cb5-28" data-line-number="28"><span class="co">#&gt; # A tibble: 4 x 2</span></a>
-<a class="sourceLine" id="cb5-29" data-line-number="29"><span class="co">#&gt;       x     y</span></a>
-<a class="sourceLine" id="cb5-30" data-line-number="30"><span class="co">#&gt;   &lt;dbl&gt; &lt;dbl&gt;</span></a>
-<a class="sourceLine" id="cb5-31" data-line-number="31"><span class="co">#&gt; 1     0     0</span></a>
-<a class="sourceLine" id="cb5-32" data-line-number="32"><span class="co">#&gt; 2     0    12</span></a>
-<a class="sourceLine" id="cb5-33" data-line-number="33"><span class="co">#&gt; 3    12    12</span></a>
-<a class="sourceLine" id="cb5-34" data-line-number="34"><span class="co">#&gt; 4    12     0</span></a>
-<a class="sourceLine" id="cb5-35" data-line-number="35"><span class="kw"><a href="../reference/getCRS.html">getCRS</a></span>(<span class="dt">x =</span> gtGeoms<span class="op">$</span>polygon) <span class="co"># does not contain any value and is thus only valid in the cartesian coordinate system</span></a>
-<a class="sourceLine" id="cb5-36" data-line-number="36"><span class="co">#&gt; [1] NA</span></a>
-<a class="sourceLine" id="cb5-37" data-line-number="37"><span class="kw"><a href="../reference/getHistory.html">getHistory</a></span>(<span class="dt">x =</span> gtGeoms<span class="op">$</span>polygon)</a>
-<a class="sourceLine" id="cb5-38" data-line-number="38"><span class="co">#&gt; [[1]]</span></a>
-<a class="sourceLine" id="cb5-39" data-line-number="39"><span class="co">#&gt; [1] "geometry was created as 'polygon'"</span></a>
-<a class="sourceLine" id="cb5-40" data-line-number="40"></a>
-<a class="sourceLine" id="cb5-41" data-line-number="41"><span class="co"># Set properties of a geom ...</span></a>
-<a class="sourceLine" id="cb5-42" data-line-number="42"><span class="co"># ... such as feature attributes</span></a>
-<a class="sourceLine" id="cb5-43" data-line-number="43">newAttrs &lt;-<span class="st"> </span><span class="kw"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span>(<span class="dt">fid =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">2</span>, <span class="dv">1</span>), <span class="dt">weight =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">10</span>, <span class="dv">5</span>))</a>
-<a class="sourceLine" id="cb5-44" data-line-number="44">newGeom &lt;-<span class="st"> </span><span class="kw"><a href="../reference/setTable.html">setTable</a></span>(<span class="dt">x =</span> gtGeoms<span class="op">$</span>polygon, <span class="dt">table =</span> newAttrs)</a>
-<a class="sourceLine" id="cb5-45" data-line-number="45"><span class="co">#&gt; Joining, by = "fid"</span></a>
-<a class="sourceLine" id="cb5-46" data-line-number="46"><span class="kw"><a href="../reference/getTable.html">getTable</a></span>(<span class="dt">x =</span> newGeom)</a>
-<a class="sourceLine" id="cb5-47" data-line-number="47"><span class="co">#&gt; # A tibble: 2 x 3</span></a>
-<a class="sourceLine" id="cb5-48" data-line-number="48"><span class="co">#&gt;     fid   gid weight</span></a>
-<a class="sourceLine" id="cb5-49" data-line-number="49"><span class="co">#&gt;   &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;</span></a>
-<a class="sourceLine" id="cb5-50" data-line-number="50"><span class="co">#&gt; 1     1     1      5</span></a>
-<a class="sourceLine" id="cb5-51" data-line-number="51"><span class="co">#&gt; 2     2     2     10</span></a>
-<a class="sourceLine" id="cb5-52" data-line-number="52"><span class="kw"><a href="../reference/visualise.html">visualise</a></span>(<span class="dt">geom =</span> newGeom, <span class="dt">fillcol =</span> weight)</a></code></pre></div>
-<p><img src="introduction_files/figure-html/unnamed-chunk-5-1.png" width="700"></p>
-<p>In an attempt to standardise the handling of various different spatial formats, these functions have been developed as generics and they come with a couple of methods for the most-used spatial classes, such as <code>Raster*</code>, <code>sp</code>, <code>sf</code>. Originally this was developed to accommodate the modular nature of <code>rasterTools</code> but is now offered as a stand-alone. One can for instance use <code><a href="../reference/getVertices.html">getVertices()</a></code> to get a standardised output of the coordinate values across all supported spatial classes.</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1"><span class="kw"><a href="../reference/getVertices.html">getVertices</a></span>(gtGeoms<span class="op">$</span>point)</a>
-<a class="sourceLine" id="cb6-2" data-line-number="2"><span class="co">#&gt; # A tibble: 12 x 4</span></a>
-<a class="sourceLine" id="cb6-3" data-line-number="3"><span class="co">#&gt;      fid   vid     x     y</span></a>
-<a class="sourceLine" id="cb6-4" data-line-number="4"><span class="co">#&gt;    &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span></a>
-<a class="sourceLine" id="cb6-5" data-line-number="5"><span class="co">#&gt;  1     1     1     0     0</span></a>
-<a class="sourceLine" id="cb6-6" data-line-number="6"><span class="co">#&gt;  2     2     1     0    10</span></a>
-<a class="sourceLine" id="cb6-7" data-line-number="7"><span class="co">#&gt;  3     3     1    10    10</span></a>
-<a class="sourceLine" id="cb6-8" data-line-number="8"><span class="co">#&gt;  4     4     1    10     0</span></a>
-<a class="sourceLine" id="cb6-9" data-line-number="9"><span class="co">#&gt;  5     5     1     1     1</span></a>
-<a class="sourceLine" id="cb6-10" data-line-number="10"><span class="co">#&gt;  6     6     1     1     2</span></a>
-<a class="sourceLine" id="cb6-11" data-line-number="11"><span class="co">#&gt;  7     7     1     2     2</span></a>
-<a class="sourceLine" id="cb6-12" data-line-number="12"><span class="co">#&gt;  8     8     1     2     1</span></a>
-<a class="sourceLine" id="cb6-13" data-line-number="13"><span class="co">#&gt;  9     9     1    11    11</span></a>
-<a class="sourceLine" id="cb6-14" data-line-number="14"><span class="co">#&gt; 10    10     1    11    12</span></a>
-<a class="sourceLine" id="cb6-15" data-line-number="15"><span class="co">#&gt; 11    11     1    12    12</span></a>
-<a class="sourceLine" id="cb6-16" data-line-number="16"><span class="co">#&gt; 12    12     1    12    11</span></a>
-<a class="sourceLine" id="cb6-17" data-line-number="17"><span class="kw"><a href="../reference/getVertices.html">getVertices</a></span>(gtSP<span class="op">$</span>SpatialMultiPoints)</a>
-<a class="sourceLine" id="cb6-18" data-line-number="18"><span class="co">#&gt; # A tibble: 8 x 4</span></a>
-<a class="sourceLine" id="cb6-19" data-line-number="19"><span class="co">#&gt;     fid   vid     x     y</span></a>
-<a class="sourceLine" id="cb6-20" data-line-number="20"><span class="co">#&gt;   &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span></a>
-<a class="sourceLine" id="cb6-21" data-line-number="21"><span class="co">#&gt; 1     1     1     0     0</span></a>
-<a class="sourceLine" id="cb6-22" data-line-number="22"><span class="co">#&gt; 2     2     1    10     0</span></a>
-<a class="sourceLine" id="cb6-23" data-line-number="23"><span class="co">#&gt; 3     3     1    10    10</span></a>
-<a class="sourceLine" id="cb6-24" data-line-number="24"><span class="co">#&gt; 4     4     1     0    10</span></a>
-<a class="sourceLine" id="cb6-25" data-line-number="25"><span class="co">#&gt; 5     5     1    11    11</span></a>
-<a class="sourceLine" id="cb6-26" data-line-number="26"><span class="co">#&gt; 6     6     1    11    12</span></a>
-<a class="sourceLine" id="cb6-27" data-line-number="27"><span class="co">#&gt; 7     7     1    12    12</span></a>
-<a class="sourceLine" id="cb6-28" data-line-number="28"><span class="co">#&gt; 8     8     1    12    11</span></a>
-<a class="sourceLine" id="cb6-29" data-line-number="29"><span class="kw"><a href="../reference/getVertices.html">getVertices</a></span>(gtSF<span class="op">$</span>multipoint)</a>
-<a class="sourceLine" id="cb6-30" data-line-number="30"><span class="co">#&gt; # A tibble: 8 x 4</span></a>
-<a class="sourceLine" id="cb6-31" data-line-number="31"><span class="co">#&gt;     fid   vid     x     y</span></a>
-<a class="sourceLine" id="cb6-32" data-line-number="32"><span class="co">#&gt;   &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span></a>
-<a class="sourceLine" id="cb6-33" data-line-number="33"><span class="co">#&gt; 1     1     1     0     0</span></a>
-<a class="sourceLine" id="cb6-34" data-line-number="34"><span class="co">#&gt; 2     2     1    10     0</span></a>
-<a class="sourceLine" id="cb6-35" data-line-number="35"><span class="co">#&gt; 3     3     1    10    10</span></a>
-<a class="sourceLine" id="cb6-36" data-line-number="36"><span class="co">#&gt; 4     4     1     0    10</span></a>
-<a class="sourceLine" id="cb6-37" data-line-number="37"><span class="co">#&gt; 5     5     1    11    11</span></a>
-<a class="sourceLine" id="cb6-38" data-line-number="38"><span class="co">#&gt; 6     6     1    11    12</span></a>
-<a class="sourceLine" id="cb6-39" data-line-number="39"><span class="co">#&gt; 7     7     1    12    12</span></a>
-<a class="sourceLine" id="cb6-40" data-line-number="40"><span class="co">#&gt; 8     8     1    12    11</span></a></code></pre></div>
-</div>
+<p>The idea of <code>geometr</code> is to enable you to create and process geometries intuitively, thereby turning the user into a <a href="https://en.wikipedia.org/wiki/List_of_geometers">geometer</a>. It contains a range of functions Using <code>geometr</code> one typically provides a set of coordinates that outline geometries either as so-called anchor and control vertices (parametrisation), or by clicking into an open plot (sketching). Moreover, as there seems to be an ever increasing collection of spatial classes - to which <code>geometr</code> adds yet another - a standardised and intuitive approach to deal with the properties of objects of those classes is proposed by <code>geometr</code>.</p>
+<p>This vignette first gives a brief overview of basic concepts, outlines the issues <code>geometr</code> attempts to address and how this happens. It includes example code in the respective sections.</p>
 <div id="rationale" class="section level2">
 <h2 class="hasAnchor">
 <a href="#rationale" class="anchor"></a>Rationale</h2>
+<p><code>geometr</code> was developed due to a perceived lack of functionality that would allow manipulating geometries at vertex level, and all the possible applications that follow thereof.</p>
 <p>To outline the rationale for starting the development of <code>geometr</code>, I first want to describe the aspects of <code>sp</code> and <code>sf</code> that seemed improvable to me.</p>
 <p>All this makes clear that <code>geom</code> is an improvement of the <code>sp</code> classes with a stance on storing geometric information that differes from the <code>sf</code> classes. The aim is to clearly separate geometric information and feature attributes and thereby make the geometric information more accessible.</p>
 <p>While <code>geometr</code> relates geometry and attributes by assigning the same <code>fid</code> to both, <code>sf</code> achieves this by storing them in the same row. <code>sf</code> confuses this trick with simplicity and relies at the same time on introducing the classes</p>
@@ -288,40 +115,63 @@
 <p>While <code>sf</code> makes geometries accessible to the tidy workflow, it replaces the list-apocalypsis of the <code>sp</code> package with the class-disaster we find now.</p>
 <p><code>geometr</code> is clearly superior to <code>sp</code> classes because both coordinates and attributes, including an ID that clearly relates them, are available as properly accessible <code>data.frames/tibbles</code>. Both, coordinates and attributes can be easily retrieved either by calling the respective getters or by a simple call to the <code>@</code> function.</p>
 <p>Separating coordinates and features allows addressing coordinates just as simply as features and separately from each other</p>
-<p>I am interested in addressing each single feature, also in a multi-feature. this can be achieved by calling the fid or the gid, if interested in the multi*feature</p>
+</div>
+</div>
+<div id="the-data-model-of-geoms" class="section level1">
+<h1 class="hasAnchor">
+<a href="#the-data-model-of-geoms" class="anchor"></a>The data model of <code>geom</code>s</h1>
+<p><code>geometr</code> comes with the S4 class <code>geom</code>. A <code>geom</code> stores only those information that can’t be derived on the fly from its generic values. An example of derived information would be the extent/bounding box, which actually is a statistical measure, the range of coordinate values, and thus not a generic value of the geometry. Moreover, this class is deliberately by default not <em>geographic</em> in nature. It can be transformed into a geographic object by assigning a <em>coordinate reference system</em>. One could say the default CRS is the cartesian coordinate system.</p>
+<p>We learn a lot about the class by simply creating and visualising a <code>geom</code>:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="co"># library(geometr)</span></a>
+<a class="sourceLine" id="cb1-2" data-line-number="2"><span class="co"># library(tibble)</span></a>
+<a class="sourceLine" id="cb1-3" data-line-number="3"><span class="co"># </span></a>
+<a class="sourceLine" id="cb1-4" data-line-number="4"><span class="co"># coords &lt;- tibble(x = c(40, 70, 70, 50),</span></a>
+<a class="sourceLine" id="cb1-5" data-line-number="5"><span class="co">#                  y = c(40, 40, 60, 70),</span></a>
+<a class="sourceLine" id="cb1-6" data-line-number="6"><span class="co">#                  fid = 1)</span></a>
+<a class="sourceLine" id="cb1-7" data-line-number="7"><span class="co"># (aGeom &lt;- gs_polygon(anchor = coords))</span></a>
+<a class="sourceLine" id="cb1-8" data-line-number="8"><span class="co"># visualise(geom = aGeom)</span></a></code></pre></div>
+<p>As an S4 class, <code>geom</code> consists of a set of slots, which we can inspect with <code><a href="https://www.rdocumentation.org/packages/utils/topics/str">str()</a></code>:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="co"># str(aGeom)</span></a></code></pre></div>
+<p>The core of this class are three tables that characterise the coordinates, the feature attributes and the window. This presentation of coordinates and features in separate tables is an important aspect that distinguishes <code>geometr</code> from other spatial classes in R.</p>
+<ul>
+<li>The slot <code>@vert</code> is a table that contains all information related to the vertices, with one row for each vertex. By default there are at least the columns <code>fid</code> (feature ID), <code>vid</code> (vertex ID), <code>x</code> and <code>y</code>, the two-dimensional coordinate values. The feature ID relates coordinates to features and thus common attributes and the vertex ID enumerates all vertices per feature.</li>
+<li>The slot <code>@attr</code> is a table that contains all feature attributes, with one row for each feature. By default there are at least the columns <code>fid</code> (feature ID) and <code>gid</code> (group ID). The group ID captures groups of features that would be part of the same <em>multi</em>feature in a "simple feature (<code>sf</code>) and is thus by default the same as <code>fid</code> except when the <code>geom</code> has been derived from a simple multi-feature.</li>
+<li>The slot <code>@window</code> is a table that defines the frame within which the geometry would be plotted. This is sort of a second extent that may be bigger (or smaller) than <code>extent/bbox</code> and which determines the relative position of the vertices when plotting.</li>
+</ul>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="co"># window &lt;- tibble(x = c(0, 80),</span></a>
+<a class="sourceLine" id="cb3-2" data-line-number="2"><span class="co">#                  y = c(0, 80))</span></a>
+<a class="sourceLine" id="cb3-3" data-line-number="3"><span class="co"># </span></a>
+<a class="sourceLine" id="cb3-4" data-line-number="4"><span class="co"># aGeom &lt;- setWindow(x = aGeom, to = window)</span></a>
+<a class="sourceLine" id="cb3-5" data-line-number="5"><span class="co"># visualise(geom = aGeom)</span></a></code></pre></div>
+<p>A <code>geom</code> either has the feature type:</p>
+<ul>
+<li>
+<code>point</code>, when none of the vertices are connected to other vertices,</li>
+<li>
+<code>line</code>, where vertices with the same <code>fid</code> are connected following the sequence of their order, without the path closing in itself and</li>
+<li>
+<code>polygon</code>, where vertices with the same <code>fid</code> are connected following the sequence of their order and the path closes in on itself.</li>
+</ul>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="co"># visualise(geom = gtGeoms$polygon, fillcol = fid)</span></a>
+<a class="sourceLine" id="cb4-2" data-line-number="2"><span class="co"># visualise(geom = gtGeoms$line, linecol = "green", new = FALSE)</span></a>
+<a class="sourceLine" id="cb4-3" data-line-number="3"><span class="co"># visualise(geom = gtGeoms$point, linecol = "deeppink", new = FALSE)</span></a></code></pre></div>
+<p>Points and Lines are implemented quite straightforward in this data model, but polygons, which may contain holes, are a bit trickier. In <code>geometr</code> they are implemented as follows:</p>
+<ul>
+<li>All vertices with the same <code>fid</code> make up one polygon, irrespective of it containing holes or not.</li>
+<li>The outer path/ring of a polygon is composed of all vertices until a duplicate of its first vertex occurs. This signals that all following vertices are part of another path/ring, which is a hole when it is inside the polygon and which consists of all vertices until a duplicate of it’s first vertex occurs.</li>
+<li>This repeats until all vertices of the feature are processed.</li>
+</ul>
+</div>
+<div id="some-thoughts-on-multipolygons" class="section level1">
+<h1 class="hasAnchor">
+<a href="#some-thoughts-on-multipolygons" class="anchor"></a>Some thoughts on <em>multi</em>polygons</h1>
+<p>it seems that multipolygons are merely a collection of polygons. However, as they are treated as “one single object”, despite being spatially segregated, there seems to be a desire for such an object, because there may be properties that are shared across all members of that object. in <code>geometr</code> each polygon is treated as a separate feature and an object of class <code>geom</code> with type <code>polygon</code> is by default a collection of one or more polygons. No need to distinguish between <em>single</em>polygon and <em>multi</em>polygon.</p>
+<p>It is never really explained why multipolygons and other multi*-features are neccesary in the first place. Trying to judge that based on their recent use may be guessing, but it seems that they are mainly used to store objects that supposedly are composed of several atomic elements. Perhaps the major reason may be “to save space”, when the attributes several atomic objects share are summarised into a single line in the attributes table.</p>
+<p><em>describe somewhere before the data model and then refer to that when explaining why this solution is “better”. Also, what does “better” really mean, with regard to what?</em></p>
+<p><em>multi</em>-feature types are obviously no atomic geometry objects, they are sets of atomic geometry objects. As such, it does, in a xyz-normalised database, not make sense to define them as separate entities.</p>
 <p><a href="http://strimas.com/r/tidy-sf/" class="uri">http://strimas.com/r/tidy-sf/</a></p>
 <p><strong>sf increases complexity, the listed nature of geometries requires additional code-logic to extract geometric information; too many classes with different behaviour, which renders re-use of code/scripts overly complicated</strong></p>
 <p><strong><a href="https://r-spatial.github.io/sf/articles/sf1.html" class="uri">https://r-spatial.github.io/sf/articles/sf1.html</a></strong> <strong>problem with “multi* features”; for me the “multi”-nature is not part of the feature, but is an attribute, hence I have set up everything so that there are no multi-features and that the features that are transformed from other spatial classes contain a column <code>grp</code> that captures this informaiton. with the function <code>gGroup()</code> one can then add groups also to non-multi-features</strong></p>
-</div>
-<div id="example-workflow" class="section level2">
-<h2 class="hasAnchor">
-<a href="#example-workflow" class="anchor"></a>Example workflow</h2>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(sf)</a>
-<a class="sourceLine" id="cb7-2" data-line-number="2"><span class="co">#&gt; Linking to GEOS 3.5.1, GDAL 2.2.2, PROJ 4.9.2</span></a>
-<a class="sourceLine" id="cb7-3" data-line-number="3">nc &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/sf/topics/st_read">st_read</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/system.file">system.file</a></span>(<span class="st">"shape/nc.shp"</span>, <span class="dt">package=</span><span class="st">"sf"</span>))</a>
-<a class="sourceLine" id="cb7-4" data-line-number="4"><span class="co">#&gt; Reading layer `nc' from data source `/home/steffen/R/x86_64-pc-linux-gnu-library/3.6/sf/shape/nc.shp' using driver `ESRI Shapefile'</span></a>
-<a class="sourceLine" id="cb7-5" data-line-number="5"><span class="co">#&gt; Simple feature collection with 100 features and 14 fields</span></a>
-<a class="sourceLine" id="cb7-6" data-line-number="6"><span class="co">#&gt; geometry type:  MULTIPOLYGON</span></a>
-<a class="sourceLine" id="cb7-7" data-line-number="7"><span class="co">#&gt; dimension:      XY</span></a>
-<a class="sourceLine" id="cb7-8" data-line-number="8"><span class="co">#&gt; bbox:           xmin: -84.32385 ymin: 33.88199 xmax: -75.45698 ymax: 36.58965</span></a>
-<a class="sourceLine" id="cb7-9" data-line-number="9"><span class="co">#&gt; epsg (SRID):    4267</span></a>
-<a class="sourceLine" id="cb7-10" data-line-number="10"><span class="co">#&gt; proj4string:    +proj=longlat +datum=NAD27 +no_defs</span></a>
-<a class="sourceLine" id="cb7-11" data-line-number="11"></a>
-<a class="sourceLine" id="cb7-12" data-line-number="12"><span class="kw"><a href="../reference/visualise.html">visualise</a></span>(<span class="dt">geom =</span> <span class="kw"><a href="../reference/gt_sf.html">gt_sf</a></span>(nc), <span class="dt">fillcol =</span> NWBIR74)</a></code></pre></div>
-<p><img src="introduction_files/figure-html/unnamed-chunk-8-1.png" width="100%"></p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1"></a>
-<a class="sourceLine" id="cb8-2" data-line-number="2">coords &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/sf/topics/tibble">tibble</a></span>(<span class="dt">x =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">30</span>, <span class="dv">60</span>, <span class="dv">60</span>, <span class="dv">40</span>, <span class="dv">10</span>, <span class="dv">40</span>, <span class="dv">20</span>),</a>
-<a class="sourceLine" id="cb8-3" data-line-number="3">                 <span class="dt">y =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">40</span>, <span class="dv">40</span>, <span class="dv">60</span>, <span class="dv">70</span>, <span class="dv">10</span>, <span class="dv">20</span>, <span class="dv">40</span>),</a>
-<a class="sourceLine" id="cb8-4" data-line-number="4">                 <span class="dt">fid =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">2</span>))</a>
-<a class="sourceLine" id="cb8-5" data-line-number="5"></a>
-<a class="sourceLine" id="cb8-6" data-line-number="6">twoGeoms &lt;-<span class="st"> </span><span class="kw"><a href="../reference/gs_polygon.html">gs_polygon</a></span>(<span class="dt">anchor =</span> coords, <span class="dt">window =</span> window)</a>
-<a class="sourceLine" id="cb8-7" data-line-number="7"><span class="kw"><a href="../reference/visualise.html">visualise</a></span>(<span class="dt">geom =</span> twoGeoms)</a>
-<a class="sourceLine" id="cb8-8" data-line-number="8"></a>
-<a class="sourceLine" id="cb8-9" data-line-number="9">rotatedGeoms &lt;-<span class="st"> </span><span class="kw"><a href="../reference/gt_rotate.html">gt_rotate</a></span>(<span class="dt">geom =</span> twoGeoms, <span class="dt">angle =</span> <span class="dv">90</span>, <span class="dt">about =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">40</span>, <span class="dv">40</span>))</a>
-<a class="sourceLine" id="cb8-10" data-line-number="10"><span class="kw"><a href="../reference/visualise.html">visualise</a></span>(<span class="dt">geom =</span> rotatedGeoms, <span class="dt">new =</span> <span class="ot">FALSE</span>)</a></code></pre></div>
-<p><img src="introduction_files/figure-html/unnamed-chunk-9-1.png" width="700"></p>
-<p>An object of class <code>geom</code> can be created with various functions, such as the default <code><a href="../reference/gs_point.html">gs_point()</a></code>, <code>gs_curve()</code> and <code><a href="../reference/gs_polygon.html">gs_polygon()</a></code> but also with functions that create specific geometric shapes such as <code><a href="../reference/gs_polygon.html">gs_hexagon()</a></code>, which creates exclusively hexagonal polygons, or <code><a href="../reference/gs_tiles.html">gs_tiles()</a></code>, which creates a regular tiling geometry.</p>
-</div>
 </div>
   </div>
 
@@ -332,12 +182,11 @@
       <ul class="nav nav-pills nav-stacked">
 <li>
 <a href="#introduction">Introduction</a><ul class="nav nav-pills nav-stacked">
-<li><a href="#a-new-geographicspatial-class-geom">A new (geographic/spatial) class: <code>geom</code></a></li>
-      <li><a href="#getters-and-setters">Getters and Setters</a></li>
-      <li><a href="#rationale">Rationale</a></li>
-      <li><a href="#example-workflow">Example workflow</a></li>
+<li><a href="#rationale">Rationale</a></li>
       </ul>
 </li>
+      <li><a href="#the-data-model-of-geoms">The data model of <code>geom</code>s</a></li>
+      <li><a href="#some-thoughts-on-multipolygons">Some thoughts on <em>multi</em>polygons</a></li>
       </ul>
 </div>
       </div>

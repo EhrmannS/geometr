@@ -5,11 +5,11 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Usecases • geometr</title>
+<title>getters_setters • geometr</title>
 <!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script><!-- Bootstrap --><link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/lumen/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous">
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- sticky kit --><script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
-<script src="../pkgdown.js"></script><meta property="og:title" content="Usecases">
+<script src="../pkgdown.js"></script><meta property="og:title" content="getters_setters">
 <meta property="og:description" content="">
 <meta name="twitter:card" content="summary">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
@@ -80,13 +80,11 @@
       </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
-      <h1>Usecases</h1>
-                        <h4 class="author">Steffen Ehrmann</h4>
+      <h1>getters_setters</h1>
             
-            <h4 class="date">2019-06-07</h4>
       
-      <small class="dont-index">Source: <a href="https://github.com/EhrmannS/geometr/blob/master/vignettes/usecases.Rmd"><code>vignettes/usecases.Rmd</code></a></small>
-      <div class="hidden name"><code>usecases.Rmd</code></div>
+      <small class="dont-index">Source: <a href="https://github.com/EhrmannS/geometr/blob/master/vignettes/getters_setters.Rmd"><code>vignettes/getters_setters.Rmd</code></a></small>
+      <div class="hidden name"><code>getters_setters.Rmd</code></div>
 
     </div>
 
@@ -94,25 +92,27 @@
     
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(geometr)</a>
 <a class="sourceLine" id="cb1-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(tibble)</a></code></pre></div>
-<div id="example-workflow" class="section level2">
+<div id="getters-and-setters" class="section level2">
 <h2 class="hasAnchor">
-<a href="#example-workflow" class="anchor"></a>Example workflow</h2>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="co"># library(sf)</span></a>
-<a class="sourceLine" id="cb2-2" data-line-number="2"><span class="co"># nc &lt;- st_read(system.file("shape/nc.shp", package="sf"))</span></a>
-<a class="sourceLine" id="cb2-3" data-line-number="3"><span class="co"># </span></a>
-<a class="sourceLine" id="cb2-4" data-line-number="4"><span class="co"># visualise(geom = gt_sf(nc), fillcol = NWBIR74)</span></a></code></pre></div>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="co"># coords &lt;- tibble(x = c(30, 60, 60, 40, 10, 40, 20),</span></a>
-<a class="sourceLine" id="cb3-2" data-line-number="2"><span class="co">#                  y = c(40, 40, 60, 70, 10, 20, 40),</span></a>
-<a class="sourceLine" id="cb3-3" data-line-number="3"><span class="co">#                  fid = c(1, 1, 1, 1, 2, 2, 2))</span></a>
-<a class="sourceLine" id="cb3-4" data-line-number="4"><span class="co"># window &lt;- tibble(x = c(0, 80),</span></a>
-<a class="sourceLine" id="cb3-5" data-line-number="5"><span class="co">#                  y = c(0, 80))</span></a>
-<a class="sourceLine" id="cb3-6" data-line-number="6"><span class="co"># </span></a>
-<a class="sourceLine" id="cb3-7" data-line-number="7"><span class="co"># twoGeoms &lt;- gs_polygon(anchor = coords, window = window)</span></a>
-<a class="sourceLine" id="cb3-8" data-line-number="8"><span class="co"># visualise(geom = twoGeoms)</span></a>
-<a class="sourceLine" id="cb3-9" data-line-number="9"><span class="co"># </span></a>
-<a class="sourceLine" id="cb3-10" data-line-number="10"><span class="co"># rotatedGeoms &lt;- gt_rotate(geom = twoGeoms, angle = 90, about = c(40, 40))</span></a>
-<a class="sourceLine" id="cb3-11" data-line-number="11"><span class="co"># visualise(geom = rotatedGeoms, new = FALSE)</span></a></code></pre></div>
-<p>An object of class <code>geom</code> can be created with various functions, such as the default <code><a href="../reference/gs_point.html">gs_point()</a></code>, <code>gs_curve()</code> and <code><a href="../reference/gs_polygon.html">gs_polygon()</a></code> but also with functions that create specific geometric shapes such as <code><a href="../reference/gs_polygon.html">gs_hexagon()</a></code>, which creates exclusively hexagonal polygons, or <code><a href="../reference/gs_tiles.html">gs_tiles()</a></code>, which creates a regular tiling geometry.</p>
+<a href="#getters-and-setters" class="anchor"></a>Getters and Setters</h2>
+<p>Most properties of a <code>geom</code> are accessible via specific functions. They can thus be extracted, modified and re-assigned, which is the basis for various “meta-operations”, such as reprojecting or appending additional attributes to features.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="co"># # Get properties of a geom</span></a>
+<a class="sourceLine" id="cb2-2" data-line-number="2"><span class="co"># getVertices(x = gtGeoms$polygon)</span></a>
+<a class="sourceLine" id="cb2-3" data-line-number="3"><span class="co"># getTable(x = gtGeoms$polygon)</span></a>
+<a class="sourceLine" id="cb2-4" data-line-number="4"><span class="co"># getWindow(x = gtGeoms$polygon)</span></a>
+<a class="sourceLine" id="cb2-5" data-line-number="5"><span class="co"># getCRS(x = gtGeoms$polygon) # does not contain any value and is thus only valid in the cartesian coordinate system</span></a>
+<a class="sourceLine" id="cb2-6" data-line-number="6"><span class="co"># getHistory(x = gtGeoms$polygon)</span></a>
+<a class="sourceLine" id="cb2-7" data-line-number="7"><span class="co"># </span></a>
+<a class="sourceLine" id="cb2-8" data-line-number="8"><span class="co"># # Set properties of a geom ...</span></a>
+<a class="sourceLine" id="cb2-9" data-line-number="9"><span class="co"># # ... such as feature attributes</span></a>
+<a class="sourceLine" id="cb2-10" data-line-number="10"><span class="co"># newAttrs &lt;- tibble(fid = c(2, 1), weight = c(10, 5))</span></a>
+<a class="sourceLine" id="cb2-11" data-line-number="11"><span class="co"># newGeom &lt;- setTable(x = gtGeoms$polygon, table = newAttrs)</span></a>
+<a class="sourceLine" id="cb2-12" data-line-number="12"><span class="co"># getTable(x = newGeom)</span></a>
+<a class="sourceLine" id="cb2-13" data-line-number="13"><span class="co"># visualise(geom = newGeom, fillcol = weight)</span></a></code></pre></div>
+<p>In an attempt to standardise the handling of various different spatial formats, these functions have been developed as generics and they come with a couple of methods for the most-used spatial classes, such as <code>Raster*</code>, <code>sp</code>, <code>sf</code>. Originally this was developed to accommodate the modular nature of <code>rasterTools</code> but is now offered as a stand-alone. One can for instance use <code><a href="../reference/getVertices.html">getVertices()</a></code> to get a standardised output of the coordinate values across all supported spatial classes.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="co"># getVertices(gtGeoms$point)</span></a>
+<a class="sourceLine" id="cb3-2" data-line-number="2"><span class="co"># getVertices(gtSP$SpatialMultiPoints)</span></a>
+<a class="sourceLine" id="cb3-3" data-line-number="3"><span class="co"># getVertices(gtSF$multipoint)</span></a></code></pre></div>
 </div>
   </div>
 
@@ -121,7 +121,7 @@
       <h2 class="hasAnchor">
 <a href="#tocnav" class="anchor"></a>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
-<li><a href="#example-workflow">Example workflow</a></li>
+<li><a href="#getters-and-setters">Getters and Setters</a></li>
       </ul>
 </div>
       </div>

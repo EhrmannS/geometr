@@ -126,7 +126,7 @@
     </div>
 
     <pre class="usage"><span class='co'># S4 method for geom</span>
-<span class='fu'>getSubset</span>(<span class='no'>x</span>, <span class='no'>...</span>, <span class='kw'>slot</span> <span class='kw'>=</span> <span class='st'>"table"</span>)
+<span class='fu'>getSubset</span>(<span class='no'>x</span>, <span class='no'>...</span>, <span class='kw'>slot</span> <span class='kw'>=</span> <span class='st'>"feat"</span>)
 
 <span class='co'># S4 method for Spatial</span>
 <span class='fu'>getSubset</span>(<span class='no'>x</span>, <span class='no'>...</span>)
@@ -156,23 +156,27 @@ either <code>"table"</code> or <code>"vert"</code>.</p></td>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'>(<span class='no'>obj</span> <span class='kw'>&lt;-</span> <span class='no'>gtGeoms</span>$<span class='no'>point</span>)</div><div class='output co'>#&gt; class      : geom
-#&gt; type       : point
-#&gt; features   : 12  (12 vertices)
-#&gt; window     : 0, 12, 0, 12  (xmin, xmax, ymin, ymax)
-#&gt; extent     : 0, 12, 0, 12  (xmin, xmax, ymin, ymax)
-#&gt; scale      : absolute
-#&gt; crs        : NA
-#&gt; attributes : 2  (fid, gid)</div><div class='input'>
+    <pre class="examples"><div class='input'>(<span class='no'>obj</span> <span class='kw'>&lt;-</span> <span class='no'>gtGeoms</span>$<span class='no'>point</span>)</div><div class='output co'>#&gt; <span style='color: #BBBB00;'>geom</span><span>        point
+#&gt;             3 features | 12 vertices
+#&gt; </span><span style='color: #BBBB00;'>crs         </span><span>cartesian
+#&gt; </span><span style='color: #BBBB00;'>attributes</span><span>  --
+#&gt; </span><span style='color: #BBBB00;'>tiny map  </span><span>    12 
+#&gt;               ◯ ◌ ◌ ◉    
+#&gt;               ◌ ◌ ◌ ◌    
+#&gt;               ◌ ◌ ◌ ◌    
+#&gt;             0 ◉ ◌ ◌ ◯ 12 
+#&gt;               0 </div><div class='input'>
 <span class='co'># get feature 1</span>
-(<span class='fu'>getSubset</span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>gtGeoms</span>$<span class='no'>line</span>, <span class='no'>fid</span> <span class='kw'>==</span> <span class='fl'>1</span>))</div><div class='output co'>#&gt; class      : geom
-#&gt; type       : line
-#&gt; features   : 1  (4 vertices)
-#&gt; window     : 0, 12, 0, 12  (xmin, xmax, ymin, ymax)
-#&gt; extent     : 0, 10, 0, 10  (xmin, xmax, ymin, ymax)
-#&gt; scale      : absolute
-#&gt; crs        : NA
-#&gt; attributes : 2  (fid, gid)</div><div class='input'>
+(<span class='fu'>getSubset</span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>gtGeoms</span>$<span class='no'>line</span>, <span class='no'>fid</span> <span class='kw'>==</span> <span class='fl'>1</span>))</div><div class='output co'>#&gt; </span><span style='color: #BBBB00;'>geom</span><span>        line
+#&gt;             1 feature | 4 vertices
+#&gt; </span><span style='color: #BBBB00;'>crs         </span><span>cartesian
+#&gt; </span><span style='color: #BBBB00;'>attributes</span><span>  --
+#&gt; </span><span style='color: #BBBB00;'>tiny map  </span><span>    12 
+#&gt;               ◯ ◌ ◌ ◯    
+#&gt;               ◌ ◌ ◌ ◌    
+#&gt;               ◌ ◌ ◌ ◌    
+#&gt;             0 ◯ ◌ ◌ ◯ 12 
+#&gt;               0 </div><div class='input'>
 
 (<span class='no'>obj</span> <span class='kw'>&lt;-</span> <span class='no'>gtSP</span>$<span class='no'>SpatialPolygonsDataFrame</span>)</div><div class='output co'>#&gt; class       : SpatialPolygonsDataFrame 
 #&gt; features    : 2 
@@ -203,7 +207,7 @@ either <code>"table"</code> or <code>"vert"</code>.</p></td>
 #&gt; epsg (SRID):    NA
 #&gt; proj4string:    NA
 #&gt;   a                       geometry
-#&gt; 1 1 POLYGON ((0 0, 10 0, 10 10,...</div></pre>
+#&gt; 1 1 POLYGON ((0 0, 10 0, 10 10,...</div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
