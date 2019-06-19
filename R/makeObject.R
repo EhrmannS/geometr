@@ -1,6 +1,7 @@
-#' Make the colours of a plot
-#' @param x the object from which to make colours.
-#' @param theme [\code{gtTheme(1)}]\cr the theme from which to take parameters.
+#' Make the object to a plot
+#' @param x the object from which to make object to plot.
+#' @param theme [\code{gtTheme(1)}]\cr the theme from which to take graphical
+#'   parameters.
 #' @name makeObject
 #' @rdname makeObject
 NULL
@@ -39,7 +40,7 @@ setMethod(f = "makeObject",
               warning("some vertices are not within the plotting window.", immediate. = TRUE)
             }
 
-            aGrob <- gt_grob(input = x, theme = theme, ...)
+            aGrob <- gc_grob(input = x, theme = theme, ...)
             if(is(aGrob) != "gList"){
               aGrob <- gList(aGrob)
             }
