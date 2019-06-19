@@ -1,7 +1,6 @@
 #' Visualise raster and geom objects
 #'
-#' @param raster [\code{Raster*} | \code{matrix}]\cr raster object to plot.
-#' @param geom [\code{geom}]\cr Object of class \code{\link{geom}}.
+#' @param ... objects to plot and optional graphical parameters.
 #' @param window [\code{data.frame(1)}]\cr two oposing corners of a rectangle to
 #'   which the plot is limited.
 #' @param theme [\code{list(7)}]\cr visualising options; see
@@ -14,7 +13,6 @@
 #' @param new [\code{logical(1)}]\cr force a new plot (\code{TRUE}, default).
 #' @param clip [\code{logical(1)}]\cr clip the plot by the plot box
 #'   (\code{TRUE}, default), or plot all of the objects.
-#' @param ... [various]\cr graphical parameters to plot a \code{geom}.
 #' @details In case you want to plot an image (simiar to
 #'   \code{\link[raster]{plotRGB}}), you either have to: \enumerate{ \item
 #'   provide a \code{RasterStack} with the three layers \code{red}, \code{green}
@@ -54,35 +52,45 @@
 visualise <- function(..., window = NULL, theme = gtTheme, trace = FALSE, image = FALSE,
                       new = TRUE, clip = TRUE){
 
-  # geom = withWindow; window = NULL; theme = gtTheme; trace = FALSE; image = FALSE; new = TRUE; clip = TRUE; facets = FALSE
+  # window = NULL; theme = myTheme; trace = FALSE; image = FALSE; new = TRUE; clip = TRUE; facets = FALSE
 
   # check arguments ----
-  existsRaster <- !is.null(raster)
-  existsGeom <- !is.null(geom)
-  stopifnot(any(existsRaster, existsGeom))
+  window <- .testWindow(x = window, ...)
   assertDataFrame(x = window, nrows = 2, min.cols = 2, null.ok = TRUE)
-  if(!is.null(window)){
-    assertNames(names(window), must.include = c("x", "y"))
-    if(existsGeom){
-      geom <- setWindow(x = geom, to = window)
-    }
-  }
   assertClass(x = theme, classes = "gtTheme", null.ok = TRUE)
   assertLogical(x = trace, len = 1, any.missing = FALSE)
   assertLogical(x = image, len = 1, any.missing = FALSE)
   assertLogical(x = new, len = 1, any.missing = FALSE)
   assertLogical(x = clip, len = 1, any.missing = FALSE)
-  assertLogical(x = facets, len = 1, any.missing = FALSE)
 
   # derive the objects to plot
-  objs <- exprs(..., .named = TRUE)
-  # return(objs)
-  # rasters <- objs[which(classes == "RasterLayer")]
-  # geoms <- objs[which(classes == "geom")][[1]]
-  #
-  # # isolate graphical parameters
-  # params <-  names(theme@geom)
-  # panels <- number of panels
+  objs <- exprs(...)
+
+  names <- lapply(seq_along(objs), function(x){
+    if(is.null(names(objs))){
+      if(class(objs[[x]]) == "RasterLayer"){
+        return(names(objs[[x]]))
+      } else {
+        NULL
+      }
+    } else {
+      if(names(objs)[x] == ""){
+        if(class(objs[[x]]) == "RasterLayer"){
+          return(names(objs[[x]]))
+        } else {
+          NULL
+        }
+      } else {
+        names(objs)[x]
+      }
+    }
+  })
+
+  theObjects <- objs[!names %in% names(theme@geom)]
+  panels <- length(theObjects)
+
+  # isolate graphical parameters
+  params <- objs[names %in% names(theme@geom)]
 
   # plot already open? ----
   if(!is.null(dev.list()) & !new){
@@ -139,16 +147,20 @@ visualise <- function(..., window = NULL, theme = gtTheme, trace = FALSE, image 
 
       # make panel layout ----
       pnl <- makeLayout(x = theObjects[[i]],
-                        window = window[[i]],
+                        window = window[i],
                         theme = theme)
 
       # make colours from theme for the object ----
       obj <- makeObject(x = theObjects[[i]],
-                        # image = image[[i]],
+                        image = image,
                         theme = theme,
-                        ...)
+                        params)
 
-      plotName <- obj$name
+      if(!is.null(names[[i]])){
+        plotName <- names[[i]]
+      } else {
+        plotName <- obj$name
+      }
 
       # create the plot ----
       # open the panel viewport
@@ -351,7 +363,6 @@ visualise <- function(..., window = NULL, theme = gtTheme, trace = FALSE, image 
                     hjust = 0,
                     vjust = 0,
                     image = matrix(data = obj$array, nrow = obj$rows, ncol = obj$cols, byrow = TRUE),
-                    # image = matrix(data = theColours, nrow = obj$rows, ncol = obj$cols, byrow = TRUE),
                     name = "theRaster",
                     interpolate = FALSE)
       } else if(obj$type == "vector") {
@@ -363,30 +374,30 @@ visualise <- function(..., window = NULL, theme = gtTheme, trace = FALSE, image 
       upViewport(3) # exit the object 'viewport' and 'plot' and 'plotName'
     }
 
-    if(isOpenPlot & existsGeom){
-
-      downViewport(plotName)
-      downViewport("plot")
-      downViewport("grid")
-
-      if(!isGeomInPlot){
-        # grid.clip()
-        pushViewport(viewport(width = unit(1, "npc") - unit(2*pnl$xMargin, "native"),
-                              height = unit(1, "npc") - unit(2*pnl$yMargin, "native"),
-                              # xscale = c(pnl$minWinX-pnl$xMargin, pnl$maxWinX+pnl$xMargin),
-                              # yscale = c(pnl$minWinY-pnl$yMargin, pnl$maxWinY+pnl$yMargin),
-                              name = "geom"))
-      } else{
-        downViewport("geom")
-      }
-
-      if(clip){
-        grid.clip(width = unit(1, "npc") + unit(theme@box$linewidth, "points"),
-                  height = unit(1, "npc") + unit(theme@box$linewidth, "points"))
-      }
-      grid.draw(geomGrob)
-      upViewport(4)
-    }
+    # if(isOpenPlot & existsGeom){
+    #
+    #   downViewport(plotName)
+    #   downViewport("plot")
+    #   downViewport("grid")
+    #
+    #   if(!isGeomInPlot){
+    #     # grid.clip()
+    #     pushViewport(viewport(width = unit(1, "npc") - unit(2*pnl$xMargin, "native"),
+    #                           height = unit(1, "npc") - unit(2*pnl$yMargin, "native"),
+    #                           # xscale = c(pnl$minWinX-pnl$xMargin, pnl$maxWinX+pnl$xMargin),
+    #                           # yscale = c(pnl$minWinY-pnl$yMargin, pnl$maxWinY+pnl$yMargin),
+    #                           name = "geom"))
+    #   } else{
+    #     downViewport("geom")
+    #   }
+    #
+    #   if(clip){
+    #     grid.clip(width = unit(1, "npc") + unit(theme@box$linewidth, "points"),
+    #               height = unit(1, "npc") + unit(theme@box$linewidth, "points"))
+    #   }
+    #   grid.draw(geomGrob)
+    #   upViewport(4)
+    # }
 
   }
 
