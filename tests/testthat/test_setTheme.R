@@ -11,7 +11,7 @@ test_that("not plotting objects", {
                       yAxis = list(plot = FALSE),
                       grid = list(plot = FALSE),
                       legend = list(plot = FALSE))
-  output <- visualise(raster = input, theme = myTheme)
+  output <- visualise(input, theme = myTheme)
   expect_class(output, "recordedplot")
 })
 
