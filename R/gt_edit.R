@@ -210,7 +210,7 @@ gt_edit <- function(panel = NULL, tolerance = 0.01, fid = NULL, verbose = FALSE)
   }
 
   newGrob <- grid.get(gPath(targetGrobN))
-  newGeom <- gt_grob(input = newGrob, window = extentGrob)
+  newGeom <- gc_grob(input = newGrob, window = extentGrob)
 
   invisible(newGeom)
 

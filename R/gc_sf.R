@@ -1,0 +1,162 @@
+#' Make a geometry object of class \code{sf}
+#' @param input the object from which to make an object of class \code{sf}.
+#' @return If \code{input} is a \code{geom} and has attributes other than
+#'   \code{fid} and \code{gid}, a "Simple feature collection", otherwise a
+#'   "Geometry set". Several features of the \code{geom} are returned as MULTI*
+#'   feature, when they have \code{gid} and optionally other attributes in
+#'   common, otherwise they are returned as a single simple feature.
+#' @family spatial classes
+#' @examples
+#' (sfPoints <- gc_sf(input = gtGeoms$point))
+#' (sfLines <- gc_sf(input = gtGeoms$line))
+#' (sfPolygon <- gc_sf(input = gtGeoms$polygon))
+#' @importFrom checkmate assertClass
+#' @importFrom raster crs
+#' @importFrom sf st_multipoint st_point st_multilinestring st_linestring st_sfc
+#'   st_sf st_multipolygon st_polygon st_set_crs
+#' @name gc_sf
+#' @rdname gc_sf
+NULL
+
+#' @rdname gc_sf
+#' @name gc_sf
+#' @export
+if(!isGeneric("gc_sf")){
+  setGeneric(name = "gc_sf",
+             def = function(input, ...){
+               standardGeneric("gc_sf")
+             }
+  )
+}
+
+#' @rdname gc_sf
+#' @importFrom tibble as_tibble
+#' @export
+setMethod(f = "gc_sf",
+          signature = "geom",
+          definition = function(input){
+
+            theCoords <- getVertices(x = input)
+            theData <- getTable(x = input)
+            theCRS <- getCRS(x = input)
+            bbox <- getExtent(x = input)
+            theWindow = tibble(x = c(min(bbox$x), max(bbox$x), max(bbox$x), min(bbox$x), min(bbox$x)),
+                               y = c(min(bbox$y), min(bbox$y), max(bbox$y), max(bbox$y), min(bbox$y)))
+
+            featureType <- input@type
+
+            if(featureType %in% c("point")){
+
+              gids <- unique(theData$gid)
+              tempOut <- list()
+              for(i in seq_along(gids)){
+                tempFids <- theData$fid[theData$gid == gids[i]]
+                tempVerts <- theCoords[c("x", "y")][theCoords$fid %in% tempFids,]
+
+                if(length(tempVerts$x) > 1){
+                  # make MULTIPOINT
+                  # assert that there are no duplicate coordinates for it to be a simple feature
+                  theCoords <- theCoords[!duplicated(theCoords[c("x", "y")]),]
+                  tempOut <- c(tempOut, list(st_multipoint(as.matrix(tempVerts))))
+                } else{
+                  # make POINT
+                  tempOut <- c(tempOut, list(st_point(as.matrix(tempVerts))))
+                }
+              }
+              out <- st_sfc(tempOut)
+
+              if(!all(names(theData) %in% c("fid", "gid"))){
+                attr <- unique(theData[,!names(theData) %in% c("fid")])
+                if(length(out) < dim(attr)[1]){
+                  stop("MULTIPOINTS don't support individual attributes per point.")
+                }
+                out <- st_sf(geom = out, attr[,!names(attr) %in% c("gid")])
+              }
+
+            } else if(featureType %in% c("line")){
+
+              gids <- unique(theData$gid)
+              tempOut <- list()
+              for(i in seq_along(gids)){
+                tempFids <- theData$fid[theData$gid == gids[i]]
+
+                if(length(tempFids) > 1){
+                  # make MULTILINESTRING
+                  subStrings <- list()
+                  for(j in seq_along(tempFids)){
+                    tempVerts <- theCoords[c("x", "y")][theCoords$fid %in% tempFids[j],]
+                    subStrings <- c(subStrings, list(as.matrix(tempVerts)))
+                  }
+                  tempOut <- c(tempOut, list(st_multilinestring(subStrings)))
+
+                } else{
+                  tempVerts <- theCoords[c("x", "y")][theCoords$fid %in% tempFids,]
+                  # make LINE
+                  tempOut <- c(tempOut, list(st_linestring(as.matrix(tempVerts))))
+
+                }
+              }
+              out <- st_sfc(tempOut)
+
+              if(!all(names(theData) %in% c("fid", "gid"))){
+                attr <- unique(theData[,!names(theData) %in% c("fid")])
+                if(length(out) < dim(attr)[1]){
+                  stop("MULTILINESTRING doesn't support individual attributes per line.")
+                }
+                out <- st_sf(geom = out, attr[,!names(attr) %in% c("gid")])
+              }
+
+
+            } else if(featureType %in% c("polygon")){
+
+              gids <- unique(theData$gid)
+              tempOut <- list()
+              for(i in seq_along(gids)){
+
+                tempFids <- theData$fid[theData$gid == gids[i]]
+
+                if(length(tempFids) > 1){
+                  # make MULTIPOLYGON
+                  subPolys <- list()
+                  for(j in seq_along(tempFids)){
+                    tempVerts <- theCoords[c("x", "y")][theCoords$fid %in% tempFids[j],]
+                    dups <- as.numeric(duplicated(tempVerts))
+                    dups <- c(0, dups[-length(dups)])
+                    rings <- 1 + cumsum(dups)
+                    tempVerts <- split(x = tempVerts, f = rings)
+                    tempVerts <- lapply(seq_along(tempVerts), function(x){
+                      as.matrix(tempVerts[[x]])
+                    })
+                    subPolys <- c(subPolys, list(tempVerts))
+                  }
+                  tempOut <- c(tempOut, list(st_multipolygon(subPolys)))
+
+                } else{
+                  # make POLYGON
+                  tempVerts <- theCoords[c("x", "y")][theCoords$fid %in% tempFids,]
+                  dups <- as.numeric(duplicated(tempVerts))
+                  dups <- c(0, dups[-length(dups)])
+                  rings <- 1 + cumsum(dups)
+                  tempVerts <- split(x = tempVerts, f = rings)
+                  tempVerts <- lapply(seq_along(tempVerts), function(x){
+                    as.matrix(tempVerts[[x]])
+                  })
+                  tempOut <- c(tempOut, list(st_polygon(tempVerts)))
+                }
+              }
+              out <- st_sfc(tempOut)
+
+              if(!all(names(theData) %in% c("fid", "gid"))){
+                attr <- unique(theData[,!names(theData) %in% c("fid")])
+
+                if(length(out) < dim(attr)[1]){
+                  stop("MULTIPOLYGON doesn't support individual attributes per polygon.")
+                }
+                out <- st_sf(geom = out, attr[,!names(attr) %in% c("gid")])
+              }
+            }
+            out <- st_set_crs(x = out, value = theCRS)
+
+            return(out)
+          }
+)
