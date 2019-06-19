@@ -50,87 +50,87 @@
 
   } else if(isGeom){
 
-    # get some meta of input
-    hasColourTable <- FALSE
-    isFactor <- FALSE
-    out.cols <- NA_character_
-
-    # capture display arguments
-    displayArgs <- exprs(..., .named = TRUE)
+    # # get some meta of input
+    # hasColourTable <- FALSE
+    # isFactor <- FALSE
+    # out.cols <- NA_character_
+#
+#     # capture display arguments
+#     displayArgs <- exprs(..., .named = TRUE)
 
     # when there are display arguments, take them, otherwise take the theme datault
-    if(length(displayArgs) != 0){
-      tempArgs <- displayArgs
-    } else{
-      tempArgs <- setNames(list(params$scale$to), params$scale$x)
-    }
-    if(!any(names(tempArgs) == "fillcol")){
-      tempArgs <- c(tempArgs, setNames(list(NA_character_), "fillcol"))
-    }
+    # if(length(displayArgs) != 0){
+    #   tempArgs <- displayArgs
+    # } else{
+    #   tempArgs <- setNames(list(params$scale$to), params$scale$x)
+    # }
+    # if(!any(names(tempArgs) == "fillcol")){
+    #   tempArgs <- c(tempArgs, setNames(list(NA_character_), "fillcol"))
+    # }
+    #
+    # if(all(c("linecol", "fillcol") %in% names(tempArgs))){
+    #   if(all(is.na(c(tempArgs[[1]], tempArgs[[2]])))){
+    #     stop("Either 'linecol' or 'fillcol' must contain a value other than 'NA'")
+    #   }
+    # }
 
-    if(all(c("linecol", "fillcol") %in% names(tempArgs))){
-      if(all(is.na(c(tempArgs[[1]], tempArgs[[2]])))){
-        stop("Either 'linecol' or 'fillcol' must contain a value other than 'NA'")
-      }
-    }
-
-    defaultArgs <- params[!names(params) %in% names(tempArgs)]
-
-    for(i in seq_along(tempArgs)){
-
-      # determine value and name of the i-th display argument
-      thisArg <- tempArgs[[i]]
-      thisArgName <- names(tempArgs)[i]
-      assertChoice(x = thisArgName, choices = names(params))
-      pos <- which(names(params) %in% thisArgName)
-
-      # check whether the parameter value is a column in 'attr', otherwise take
-      # the default scale$to parameter
-      if(!is.na(as.character(thisArg))){
-        if(as.character(thisArg) %in% colnames(attr)){
-          toEval <- thisArg
-          toRamp <- params[[which(names(params) %in% thisArgName)]]
-        } else{
-          toEval <- as.symbol("fid")
-          toRamp <- thisArg
-        }
-
-        vals <- eval(parse(text = paste0(toEval)), envir = attr)
-        valsNum <- as.numeric(vals)
-        uniqueVals <- unique(vals)
-        uniqueValsNum <- as.numeric(uniqueVals)
-
-        # if the argument is a colour argument, construct a color ramp from two or more values
-        if(thisArgName %in% c("linecol", "fillcol")){
-          params$scale$x <- thisArgName
-          params$scale$cls <- thisArg
-
-          uniqueColours <- colorRampPalette(colors = toRamp)(length(uniqueValsNum))
-          breaks <- c(min(uniqueValsNum)-1, uniqueValsNum)
-          valCuts <- cut(valsNum, breaks = breaks, include.lowest = FALSE)
-          tempOut <- uniqueColours[valCuts]
-
-        } else{
-          tempOut <- rep_along(valsNum, thisArg)
-        }
-
-        params[[pos]] <- tempOut
-
-      } else{
-        params[[pos]] <- thisArg
-      }
-    }
-
-    for(i in seq_along(defaultArgs)){
-      if(i == 1) next
-
-      thisArg <- defaultArgs[[i]][[1]]
-      thisArgName <- names(defaultArgs)[i]
-      pos <- which(names(params) %in% thisArgName)
-
-      params[[pos]] <- rep(thisArg, dim(attr)[1])
-
-    }
+    # defaultArgs <- params[!names(params) %in% names(tempArgs)]
+#
+#     for(i in seq_along(tempArgs)){
+#
+#       # determine value and name of the i-th display argument
+#       thisArg <- tempArgs[[i]]
+#       thisArgName <- names(tempArgs)[i]
+#       assertChoice(x = thisArgName, choices = names(params))
+#       pos <- which(names(params) %in% thisArgName)
+#
+#       # check whether the parameter value is a column in 'attr', otherwise take
+#       # the default scale$to parameter
+#       if(!is.na(as.character(thisArg))){
+#         if(as.character(thisArg) %in% colnames(attr)){
+#           toEval <- thisArg
+#           toRamp <- params[[which(names(params) %in% thisArgName)]]
+#         } else{
+#           toEval <- as.symbol("fid")
+#           toRamp <- thisArg
+#         }
+#
+#         vals <- eval(parse(text = paste0(toEval)), envir = attr)
+#         valsNum <- as.numeric(vals)
+#         uniqueVals <- unique(vals)
+#         uniqueValsNum <- as.numeric(uniqueVals)
+#
+#         # if the argument is a colour argument, construct a color ramp from two or more values
+#         if(thisArgName %in% c("linecol", "fillcol")){
+#           params$scale$x <- thisArgName
+#           params$scale$cls <- thisArg
+#
+#           uniqueColours <- colorRampPalette(colors = toRamp)(length(uniqueValsNum))
+#           breaks <- c(min(uniqueValsNum)-1, uniqueValsNum)
+#           valCuts <- cut(valsNum, breaks = breaks, include.lowest = FALSE)
+#           tempOut <- uniqueColours[valCuts]
+#
+#         } else{
+#           tempOut <- rep_along(valsNum, thisArg)
+#         }
+#
+#         params[[pos]] <- tempOut
+#
+#       } else{
+#         params[[pos]] <- thisArg
+#       }
+#     }
+#
+#     for(i in seq_along(defaultArgs)){
+#       if(i == 1) next
+#
+#       thisArg <- defaultArgs[[i]][[1]]
+#       thisArgName <- names(defaultArgs)[i]
+#       pos <- which(names(params) %in% thisArgName)
+#
+#       params[[pos]] <- rep(thisArg, dim(attr)[1])
+#
+#     }
 
   }
 
@@ -169,41 +169,124 @@
 
 #' Gather the format of the plot
 #'
-#' @param panelExt []
+#' @param x []
+#' @param window []
 #' @param theme []
+#' @param ... []
 #' @export
 
-.makeFormat <- function(panelExt = NULL, theme = NULL){
+makeLayout <- function(x = NULL, window = NULL, theme = NULL, ...){
 
-  ratio <- list(x = (panelExt$x[2] - panelExt$x[1])/(panelExt$y[2] - panelExt$y[1]),
-                y = (panelExt$y[2] - panelExt$y[1])/(panelExt$x[2] - panelExt$x[1]))
+  window <- .testWindow(x = window, ...)
+
+  tempExt <- getExtent(x)
+  # out$window <- tempExt
+
+  maxExtX <- max(tempExt$x)
+  minExtX <- min(tempExt$x)
+  maxExtY <- max(tempExt$y)
+  minExtY <- min(tempExt$y)
+
   xBins <- theme@xAxis$bins
   yBins <- theme@yAxis$bins
-  xBinSize <- (panelExt$x[2] - panelExt$x[1])/xBins
-  yBinSize <- (panelExt$y[2] - panelExt$y[1])/yBins
-  axisSteps <- list(x1 = seq(from = panelExt$x[1],
-                             to = panelExt$x[2],
-                             by = (panelExt$x[2] - panelExt$x[1])/xBins),
-                    x2 = seq(from = panelExt$x[1] + (xBinSize/2),
-                             to = panelExt$x[2],
-                             by = (panelExt$x[2] - panelExt$x[1])/xBins),
-                    y1 = seq(from = panelExt$y[1],
-                             to = panelExt$y[2],
-                             by = (panelExt$y[2] - panelExt$y[1])/yBins),
-                    y2 = seq(from = panelExt$y[1] + (yBinSize/2),
-                             to = panelExt$y[2],
-                             by = (panelExt$y[2] - panelExt$y[1])/yBins))
-  margin <- list(x = (panelExt$x[2]-panelExt$x[1])*theme@yAxis$margin,
-                 y = (panelExt$y[2]-panelExt$y[1])*theme@xAxis$margin)
 
-  out <- list(xMajG = axisSteps$x1,
-              xMinG = axisSteps$x2,
-              yMajG = axisSteps$y1,
-              yMinG = axisSteps$y2,
-              xMar = margin$x,
-              yMar = margin$y,
-              xRat = ratio$x,
-              yRat = ratio$y)
+  ratio <- list(x = (maxExtX - minExtX)/(maxExtY - minExtY),
+                y = (maxExtY - minExtY)/(maxExtX - minExtX))
+  xBinSize <- (maxExtX - minExtX)/xBins
+  yBinSize <- (maxExtY - minExtY)/yBins
+  axisSteps <- list(x1 = seq(from = minExtX,
+                             to = maxExtX,
+                             by = (maxExtX - minExtX)/xBins),
+                    x2 = seq(from = minExtX + (xBinSize/2),
+                             to = maxExtX,
+                             by = (maxExtX - minExtX)/xBins),
+                    y1 = seq(from = minExtY,
+                             to = maxExtY,
+                             by = (maxExtY - minExtY)/yBins),
+                    y2 = seq(from = minExtY + (yBinSize/2),
+                             to = maxExtY,
+                             by = (maxExtY - minExtY)/yBins))
+  margin <- list(x = (maxExtX-minExtX)*theme@yAxis$margin,
+                 y = (maxExtY-minExtY)*theme@xAxis$margin)
+
+  if(!is.null(window)){
+    minWinX <- min(window$x)
+    maxWinX <- max(window$x)
+    minWinY <- min(window$y)
+    maxWinY <- max(window$y)
+
+    xFactor <- (maxExtX - minExtX)/abs(maxWinX - minWinX)
+    yFactor <- (maxExtY - minExtY)/abs(maxWinY - minWinY)
+    xWindowOffset <- minWinX / abs(maxWinX - minWinX)
+    yWindowOffset <- minWinY / abs(maxWinY - minWinY)
+  } else{
+    minWinX <- min(tempExt$x)
+    maxWinX <- max(tempExt$x)
+    minWinY <- min(tempExt$y)
+    maxWinY <- max(tempExt$y)
+
+    xFactor <- yFactor <- 1
+    xWindowOffset <- yWindowOffset <- 0
+  }
+
+  if(theme@title$plot){
+    titleH <- unit(theme@title$fontsize+6, units = "points")
+  } else{
+    titleH <- unit(0, "points")
+  }
+  if(theme@legend$plot){
+    legendW <- ceiling(convertX(unit(1, "strwidth", as.character(100)) + unit(30, "points"), "points"))
+  } else{
+    legendW <- unit(0, "points")
+  }
+  if(theme@yAxis$plot){
+    yAxisTitleW <- unit(theme@yAxis$label$fontsize+6, units = "points")
+    yAxisTicksW <- ceiling(convertX(unit(1, "strwidth", as.character(max(round(axisSteps$y1, theme@yAxis$ticks$digits)))), "points"))
+  } else{
+    yAxisTitleW <- unit(0, "points")
+    yAxisTicksW <- unit(0, "points")
+  }
+  if(theme@xAxis$plot){
+    xAxisTitleH <- unit(theme@xAxis$label$fontsize+6, units = "points")
+    xAxisTicksH <- unit(theme@xAxis$ticks$fontsize, units = "points")
+  } else{
+    xAxisTitleH <- unit(0, "points")
+    xAxisTicksH <- unit(0, "points")
+  }
+  xOffset <- ((as.numeric(yAxisTicksW) + as.numeric(yAxisTitleW)) - as.numeric(legendW))/2
+  yOffset <- ((as.numeric(xAxisTicksH) + as.numeric(xAxisTitleH)) - as.numeric(titleH))/2
+
+  # determine dimensions for this plot
+  gridH <- unit(1, "grobheight", "panelGrob") - xAxisTitleH - xAxisTicksH - titleH
+  gridHr <- unit(1, "grobwidth", "panelGrob")*ratio$y - yAxisTitleW*ratio$y - yAxisTicksW*ratio$y - legendW*ratio$y
+  gridW <- unit(1, "grobwidth", "panelGrob") - yAxisTitleW - yAxisTicksW - legendW
+  gridWr <- unit(1, "grobheight", "panelGrob")*ratio$x - xAxisTitleH*ratio$x- xAxisTicksH*ratio$x - titleH*ratio$x
+
+  out <- list(minWinX = minWinX, #
+              maxWinX = maxWinX, #
+              minWinY = minWinY, #
+              maxWinY = maxWinY, #
+              xMajGrid = axisSteps$x1, #
+              xMinGrid = axisSteps$x2, #
+              yMajGrid = axisSteps$y1, #
+              yMinGrid = axisSteps$y2, #
+              xMargin = margin$x, #
+              yMargin = margin$y, #
+              xOffset = xOffset, #
+              yOffset = yOffset, #
+              xFactor = xFactor,
+              yFactor = yFactor,
+              gridH = gridH, #
+              gridHr = gridHr, #
+              gridW = gridW, #
+              gridWr = gridWr, #
+              titleH = titleH, #
+              yAxisTicksW = yAxisTicksW, #
+              xAxisTitleH = xAxisTitleH, #
+              xWindowOffset = xWindowOffset, #
+              yWindowOffset = yWindowOffset #
+              )
+
   return(out)
 }
 

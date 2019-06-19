@@ -4,14 +4,11 @@
 \alias{visualise}
 \title{Visualise raster and geom objects}
 \usage{
-visualise(raster = NULL, geom = NULL, window = NULL,
-  theme = gtTheme, trace = FALSE, image = FALSE, new = TRUE,
-  clip = TRUE, ...)
+visualise(..., window = NULL, theme = gtTheme, trace = FALSE,
+  image = FALSE, new = TRUE, clip = TRUE)
 }
 \arguments{
-\item{raster}{[\code{Raster*} | \code{matrix}]\cr raster object to plot.}
-
-\item{geom}{[\code{geom}]\cr Object of class \code{\link{geom}}.}
+\item{...}{[various]\cr graphical parameters to plot a \code{geom}.}
 
 \item{window}{[\code{data.frame(1)}]\cr two oposing corners of a rectangle to
 which the plot is limited.}
@@ -31,7 +28,9 @@ is actually an image; see Details.}
 \item{clip}{[\code{logical(1)}]\cr clip the plot by the plot box
 (\code{TRUE}, default), or plot all of the objects.}
 
-\item{...}{[various]\cr graphical parameters to plot a \code{geom}.}
+\item{raster}{[\code{Raster*} | \code{matrix}]\cr raster object to plot.}
+
+\item{geom}{[\code{geom}]\cr Object of class \code{\link{geom}}.}
 }
 \value{
 Returns invisibly an object of class \code{recordedplot}, see
@@ -48,17 +47,19 @@ In case you want to plot an image (simiar to
   (e.g. '#000000')} and set \code{image = TRUE}.
 }
 \examples{
-# define a geometry
 coords <- data.frame(x = c(30, 60, 60, 40),
                      y = c(40, 40, 60, 70),
                      fid = 1)
+(aGeom <- gs_polygon(anchor = coords))
+visualise(aGeom)
+
 window <- data.frame(x = c(0, 80),
                      y = c(0, 80))
-(aGeom <- gs_polygon(anchor = coords, window = window, col = "blue"))
+withWindow <- setWindow(x = aGeom, to = window)
+visualise(expanded = withWindow)
 
-# if plotted on top of an existing plot, the relative coordinate values
-# will be used to construct the grob.
-visualise(raster = gtRasters$continuous, geom = aGeom)
-visualise(geom = aGeom)
+(aRaster <-  gtRasters$categorical)
+visualise(combined = c(aRaster, aGeom))
+visualise(`a raster` = aRaster, `a geom` = aGeom)
 
 }
