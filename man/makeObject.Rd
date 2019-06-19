@@ -8,7 +8,7 @@
 \alias{makeObject,matrix-method}
 \alias{makeObject,Spatial-method}
 \alias{makeObject,sf-method}
-\title{Make the colours of a plot}
+\title{Make the object to a plot}
 \usage{
 \S4method{makeObject}{geom}(x, theme, ...)
 
@@ -21,13 +21,14 @@
 \S4method{makeObject}{sf}(x, theme, ...)
 }
 \arguments{
-\item{x}{the object from which to make colours.}
+\item{x}{the object from which to make object to plot.}
 
-\item{theme}{[\code{gtTheme(1)}]\cr the theme from which to take parameters.}
+\item{theme}{[\code{gtTheme(1)}]\cr the theme from which to take graphical
+parameters.}
 
 \item{image}{[\code{logical(1)}]\cr whether or not the raster (stack)
 contains an image.}
 }
 \description{
-Make the colours of a plot
+Make the object to a plot
 }

@@ -2,7 +2,7 @@
 % Please edit documentation in R/helpers.R
 \name{makeLayout}
 \alias{makeLayout}
-\title{Gather the format of the plot}
+\title{Make the layout of a plot}
 \usage{
 makeLayout(x = NULL, window = NULL, theme = NULL, ...)
 }
@@ -16,5 +16,5 @@ makeLayout(x = NULL, window = NULL, theme = NULL, ...)
 \item{...}{[]}
 }
 \description{
-Gather the format of the plot
+Make the layout of a plot
 }
