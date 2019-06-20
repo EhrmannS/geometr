@@ -39,6 +39,7 @@
 #'
 #' @importFrom checkmate testClass testList assertNames assertList assertLogical
 #'   testCharacter testIntegerish testNames
+#' @importFrom rlang exprs eval_tidy
 #' @importFrom tibble tibble
 #' @importFrom grid grid.newpage pushViewport viewport grid.rect grid.raster
 #'   grid.clip unit grid.draw grid.grill upViewport grid.text gpar convertX
@@ -52,7 +53,7 @@
 visualise <- function(..., window = NULL, theme = gtTheme, trace = FALSE, image = FALSE,
                       new = TRUE, clip = TRUE){
 
-  # window = NULL; theme = myTheme; trace = FALSE; image = FALSE; new = TRUE; clip = TRUE; facets = FALSE
+  # window = NULL; theme = gtTheme; trace = FALSE; image = FALSE; new = TRUE; clip = TRUE; facets = FALSE
 
   # check arguments ----
   window <- .testWindow(x = window, ...)
@@ -66,31 +67,51 @@ visualise <- function(..., window = NULL, theme = gtTheme, trace = FALSE, image 
   # derive the objects to plot
   objs <- exprs(...)
 
-  names <- lapply(seq_along(objs), function(x){
-    if(is.null(names(objs))){
-      if(class(objs[[x]]) == "RasterLayer"){
-        return(names(objs[[x]]))
+  # iterate through all items to find their name and sort them into either
+  # 'object' (to plot) or graphical 'param'eter
+  names <- params <- objects <- NULL
+  objects <- list()
+  for(i in seq_along(objs)){
+
+    if(is.null(names(objs)[i]) || names(objs)[i] == ""){
+
+      theObject <- eval_tidy(expr = objs[[i]])
+
+      if(is.null(names(theObject))){
+        theName <- NA
+      } else if(image){
+        theName <- "an image"
       } else {
-        NULL
+        theName <- names(theObject)
+      }
+
+      if((class(theObject) == "RasterBrick" | class(theObject) == "RasterStack") & !image){
+        temp <- lapply(1:dim(theObject)[3], function(x){
+          theObject[[x]]
+        })
+        theObject <- temp
       }
     } else {
-      if(names(objs)[x] == ""){
-        if(class(objs[[x]]) == "RasterLayer"){
-          return(names(objs[[x]]))
-        } else {
-          NULL
-        }
+      if(names(objs)[i] %in% names(theme@geom)){
+        params <- c(params, objs[i])
       } else {
-        names(objs)[x]
+        theObject <- eval_tidy(expr = objs[[i]])
+        if((class(theObject) == "RasterBrick" | class(theObject) == "RasterStack") & !image){
+          theName <- paste(names(objs)[i], 1:dim(theObject)[3])
+          temp <- lapply(1:dim(theObject)[3], function(x){
+            theObject[[x]]
+          })
+          theObject <- temp
+        } else {
+          theName <- names(objs)[i]
+        }
       }
     }
-  })
+    objects <- c(objects, theObject)
+    names <- c(names, theName)
 
-  theObjects <- objs[!names %in% names(theme@geom)]
-  panels <- length(theObjects)
-
-  # isolate graphical parameters
-  params <- objs[names %in% names(theme@geom)]
+  }
+  panels <- length(objects)
 
   # plot already open? ----
   if(!is.null(dev.list()) & !new){
@@ -146,12 +167,12 @@ visualise <- function(..., window = NULL, theme = gtTheme, trace = FALSE, image 
     if(!isOpenPlot){
 
       # make panel layout ----
-      pnl <- makeLayout(x = theObjects[[i]],
+      pnl <- makeLayout(x = objects[[i]],
                         window = window[i],
                         theme = theme)
 
       # make colours from theme for the object ----
-      obj <- makeObject(x = theObjects[[i]],
+      obj <- makeObject(x = objects[[i]],
                         image = image,
                         theme = theme,
                         params)
@@ -252,7 +273,7 @@ visualise <- function(..., window = NULL, theme = gtTheme, trace = FALSE, image 
       }
 
       # the legend viewport
-      if(theme@legend$plot){
+      if(theme@legend$plot & obj$hasLegend){
 
         pushViewport(viewport(height = unit(1, "npc") * theme@legend$sizeRatio,
                               yscale = c(1, length(obj$legend$pos) + 0.1),
@@ -351,8 +372,8 @@ visualise <- function(..., window = NULL, theme = gtTheme, trace = FALSE, image 
                             name = "raster"))
 
       if(clip){
-        grid.clip(width = unit(1, "npc") - unit(theme@box$linewidth, "points"),
-                  height = unit(1, "npc") - unit(theme@box$linewidth, "points"))
+        grid.clip(width = unit(1, "npc") + unit(theme@box$linewidth, "points"),
+                  height = unit(1, "npc") + unit(theme@box$linewidth, "points"))
       }
 
       if(obj$type == "raster"){
@@ -408,28 +429,36 @@ visualise <- function(..., window = NULL, theme = gtTheme, trace = FALSE, image 
   }
 
   if(trace){
-    if(grepl("RasterBrick", class(raster))){
-      theHistory <- lapply(seq_along(names(raster)), function(x){
-        temp <- unlist(raster[[x]]@history)
-      })
-      if(!is.null(unlist(theHistory))){
-        histMsg <- lapply(seq_along(names(raster)), function(x){
-          paste0("the layer '", names(raster)[x], "' has the following history:\n -> ", paste0(theHistory[[x]], collapse = "\n -> "))
-        })
-        names(histMsg) <- names(raster)
-        plotHistory <- TRUE
-      } else{
-        plotHistory <- FALSE
-      }
-    } else if(isRaster){
-      theHistory <- unlist(raster@history)
-      if(!is.null(theHistory)){
-        histMsg <- paste0("this object has the following history:\n -> ", paste0(theHistory, collapse = "\n -> "))
-        plotHistory <- TRUE
-      } else{
-        plotHistory <- FALSE
+    plotHistory <- FALSE
+
+    for(i in seq_along(objects)){
+
+      hasHistory <- ifelse(!is.null(tryCatch(expr = objects[[i]]@history, error = function(x) NULL)), TRUE, FALSE)
+
+      if(hasHistory){
+
+        if(grepl("RasterBrick", class(objects[[i]]))){
+          theHistory <- lapply(seq_along(names(objects[[i]])), function(x){
+            temp <- unlist(objects[[i]][[x]]@history)
+          })
+          if(!is.null(unlist(theHistory))){
+            histMsg <- lapply(seq_along(names(objects[[i]])), function(x){
+              paste0("the layer '", names(objects[[i]])[x], "' has the following history:\n -> ", paste0(theHistory[[x]], collapse = "\n -> "))
+            })
+            names(histMsg) <- names(objects[[i]])
+            plotHistory <- TRUE
+          }
+        } else {
+          theHistory <- unlist(objects[[i]]@history)
+          if(!is.null(theHistory)){
+            histMsg <- paste0("this object has the following history:\n -> ", paste0(theHistory, collapse = "\n -> "))
+            plotHistory <- TRUE
+          }
+        }
+
       }
     }
+
     if(plotHistory){
       message(paste0(histMsg, collapse = "\n"))
     } else{
