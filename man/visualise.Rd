@@ -8,7 +8,7 @@ visualise(..., window = NULL, theme = gtTheme, trace = FALSE,
   image = FALSE, new = TRUE, clip = TRUE)
 }
 \arguments{
-\item{...}{[various]\cr graphical parameters to plot a \code{geom}.}
+\item{...}{objects to plot and optional graphical parameters.}
 
 \item{window}{[\code{data.frame(1)}]\cr two oposing corners of a rectangle to
 which the plot is limited.}
@@ -27,10 +27,6 @@ is actually an image; see Details.}
 
 \item{clip}{[\code{logical(1)}]\cr clip the plot by the plot box
 (\code{TRUE}, default), or plot all of the objects.}
-
-\item{raster}{[\code{Raster*} | \code{matrix}]\cr raster object to plot.}
-
-\item{geom}{[\code{geom}]\cr Object of class \code{\link{geom}}.}
 }
 \value{
 Returns invisibly an object of class \code{recordedplot}, see
