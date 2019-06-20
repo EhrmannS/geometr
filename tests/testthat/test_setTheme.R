@@ -1,10 +1,11 @@
 library(checkmate)
+library(testthat)
 library(raster)
 context("setTheme")
 
 
 test_that("not plotting objects", {
-  input <- gtRasters$categorical
+  input <<- gtRasters$categorical
   myTheme <- setTheme(title = list(plot = FALSE),
                       box = list(plot = FALSE),
                       xAxis = list(plot = FALSE),
@@ -21,7 +22,7 @@ test_that("showing the theme", {
 })
 
 test_that("modifying title works", {
-  continuous <- gtRasters$continuous
+  continuous <<- gtRasters$continuous
 
   myTheme <- setTheme(title = list(plot = FALSE))
   output <- visualise(raster = continuous, theme = myTheme)
@@ -34,7 +35,7 @@ test_that("modifying title works", {
 })
 
 test_that("modifying box works", {
-  continuous <- gtRasters$continuous
+  continuous <<- gtRasters$continuous
   myTheme <- setTheme(box = list(plot  = TRUE,
                                  linewidth = 5,
                                  linetype = "dashed",
@@ -45,7 +46,7 @@ test_that("modifying box works", {
 })
 
 test_that("modifying xAxis works", {
-  continuous <- gtRasters$continuous
+  continuous <<- gtRasters$continuous
   myTheme <- setTheme(xAxis = list(plot = TRUE,
                                    bins = 8,
                                    margin = 0.01,
@@ -66,7 +67,7 @@ test_that("modifying xAxis works", {
 })
 
 test_that("modifying yAxis works", {
-  continuous <- gtRasters$continuous
+  continuous <<- gtRasters$continuous
   myTheme <- setTheme(yAxis = list(plot = TRUE,
                                    bins = 8,
                                    margin = 0.01,
@@ -87,7 +88,7 @@ test_that("modifying yAxis works", {
 })
 
 test_that("modifying grid works", {
-  continuous <- gtRasters$continuous
+  continuous <<- gtRasters$continuous
 
   myTheme <- setTheme(grid = list(plot = TRUE,
                                   minor = FALSE,
@@ -100,7 +101,7 @@ test_that("modifying grid works", {
 })
 
 test_that("modifying legend works", {
-  continuous <- gtRasters$continuous
+  continuous <<- gtRasters$continuous
 
   myTheme <- setTheme(legend = list(plot = TRUE,
                                     common = TRUE,
@@ -135,7 +136,7 @@ test_that("modifying geom works", {
                                4, 4, 4, 4, 4, 4, 4, 4, 4))
   window <- data.frame(x = c(0, 80),
                        y = c(0, 80))
-  aGeom <- gs_polygon(anchor = coords, window = window)
+  aGeom <<- gs_polygon(anchor = coords, window = window)
   myTheme <- setTheme(geom = list(scale = list(x = "fillcol", to = "fid"),
                                   linecol = "grey",
                                   fillcol = c("#00204DFF", "#FFEA46FF"),
@@ -148,7 +149,7 @@ test_that("modifying geom works", {
 })
 
 test_that("modifying raster works", {
-  continuous <- gtRasters$continuous
+  continuous <<- gtRasters$continuous
 
   myTheme <- setTheme(raster = list(colours = terrain.colors(10)))
   output <- visualise(raster = continuous, theme = myTheme)

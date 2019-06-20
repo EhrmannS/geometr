@@ -1,48 +1,39 @@
 library(checkmate)
+library(testthat)
 library(raster)
 context("visualise")
 
 
 test_that("visualise a Raster* object", {
-  continuous <- gtRasters$continuous
+  continuous <<- gtRasters$continuous
 
   output <- visualise(raster = continuous)
   expect_class(output, "recordedplot")
 })
 
 test_that("visualise a matrix", {
-  # continuous <- raster::as.matrix(gtRasters$continuous)
-  #
-  # output <- visualise(raster = continuous)
-  # expect_class(output, "recordedplot")
+  aMatrix <<- raster::as.matrix(gtRasters$continuous)
+
+  output <- visualise(`my matrix` = aMatrix)
+  expect_class(output, "recordedplot")
 })
 
 test_that("visualise an image", {
-  # continuous <- gtRasters$continuous
-  # input <- RGB(continuous)
-  #
-  # output <- visualise(raster = input, image = TRUE)
-  # expect_class(output, "recordedplot")
+  continuous <<- gtRasters$categorical
+  input <<- RGB(continuous)
+
+  output <- visualise(raster = input, image = TRUE)
+  expect_class(output, "recordedplot")
 })
 
 test_that("visualise a geom", {
   coords <- data.frame(x = c(40, 70, 70, 50),
                        y = c(40, 40, 60, 70),
                        fid = 1)
-  input <- gs_polygon(anchor = coords)
+  input <<- gs_polygon(anchor = coords)
 
-  output <- visualise(geom = input)
+  output <- visualise(geom = input, clip = FALSE)
   expect_class(output, "recordedplot")
-})
-
-test_that("visualise an object with NA values", {
-  # continuous <- gtRasters$continuous
-  # get_patches <- list(list(operator = "rBinarise", thresh = 30),
-  #                     list(operator = "rPatches"))
-  # myPatches <- modify(input = continuous, by = get_patches, sequential = TRUE)
-  #
-  # output <- visualise(raster = myPatches)
-  # expect_class(output, "recordedplot")
 })
 
 test_that("visualise a geom on top of an already plotted raster", {
@@ -51,38 +42,36 @@ test_that("visualise a geom on top of an already plotted raster", {
                        y = c(40, 40, 60, 70),
                        fid = 1)
   input <- gs_polygon(anchor = coords)
-  visualise(raster = continuous)
 
+  visualise(raster = continuous)
   output <- visualise(geom = input, new = FALSE)
   expect_class(output, "recordedplot")
 })
 
 test_that("output the history of a plotted object", {
-  # continuous <- gtRasters$continuous
-  # getBGPatches <- list(background = list(operator = "rBinarise", thresh = 30),
-  #                      background = list(operator = "rPatches"),
-  #                      background = list(operator = "rSegregate", background = 0),
-  #                      background = list(operator = "rBinarise", thresh = 1),
-  #                      background = list(operator = "rPermute"),
-  #                      background = list(operator = "rPatches"),
-  #                      background = list(operator = "rReduce", fun = max),
-  #                      background = list(operator = "rFillNA"))
-  # backgroundPatches <- modify(input = continuous, by = getBGPatches)
-  #
-  # output <- capture_message(visualise(raster = backgroundPatches, trace = TRUE))
-  # expect_class(output, "simpleMessage")
-  #
-  # anAlgo <- list(background = list(operator = "rBinarise", thresh = 30),
-  #                background = list(operator = "rPatches"),
-  #                background = list(operator = "rSegregate", background = 0),
-  #                background = list(operator = "rBinarise", thresh = 1))
-  # segregated <- modify(input = continuous, by = anAlgo)
-  # output <- capture_message(visualise(raster = segregated, trace = TRUE))
-  # expect_class(output, "simpleMessage")
+  # from a RasterLayer
+  continuous <<- gtRasters$continuous
+
+  output <- capture_message(visualise(continuous, trace = TRUE))
+  expect_class(output, "simpleMessage")
+
+  # from a RasterBrick
+  output <- capture_message(visualise(gtRasters, trace = TRUE))
+  expect_class(output, "simpleMessage")
+
+  # from a geom
+  coords <- data.frame(x = c(40, 70, 70, 50),
+                       y = c(40, 40, 60, 70))
+  aGeom <<- gs_polygon(anchor = coords)
+
+  output <- capture_message(visualise(bla = aGeom, trace = TRUE))
+  expect_class(output, "simpleMessage")
 })
 
 test_that("Error if arguments have wrong value", {
-  continuous <- gtRasters$continuous
+  continuous <<- gtRasters$continuous
+
+  output <-
   coords <- data.frame(x = c(40, 70, 70, 50),
                        y = c(40, 40, 60, 70),
                        fid = 1)
