@@ -78,6 +78,7 @@ setMethod(f = "makeObject",
             }
 
             out$out <- aGrob
+            out$hasLegend <- TRUE
             out$uniqueValues <- colours
             out$legend <- legendPos
 
@@ -88,6 +89,7 @@ setMethod(f = "makeObject",
 #' @rdname makeObject
 #' @param image [\code{logical(1)}]\cr whether or not the raster (stack)
 #'   contains an image.
+#' @importFrom checkmate assertNa
 #' @importFrom tibble as_tibble
 #' @export
 setMethod(f = "makeObject",
@@ -104,13 +106,13 @@ setMethod(f = "makeObject",
 
               if(testNames(names(x), permutation.of = c("red", "green", "blue"))){
                 alpha <- rep(255, length(x[[1]]))
-                red <- getValues(x[[which(griddedNames == "red")]])
+                red <- getValues(x[[which(names(x) == "red")]])
                 alpha[is.na(red)] <- 0L
                 red[is.na(red)] <- 255L
-                green <- getValues(x[[which(griddedNames == "green")]])
+                green <- getValues(x[[which(names(x) == "green")]])
                 alpha[is.na(green)] <- 0L
                 green[is.na(green)] <- 255L
-                blue <- getValues(x[[which(griddedNames == "blue")]])
+                blue <- getValues(x[[which(names(x) == "blue")]])
                 alpha[is.na(blue)] <- 0L
                 blue[is.na(blue)] <- 255L
                 theColours <- rgb(red = red, green = green, blue = blue, alpha = alpha, maxColorValue = 255)
@@ -119,14 +121,16 @@ setMethod(f = "makeObject",
               } else{
                 stop("please either provide rgb (in 3 layers) or hex values.")
               }
+              out$hasLegend <- FALSE
 
             } else {
               assertClass(x = x, classes = "RasterLayer")
+              out$hasLegend <- TRUE
 
               attr <- getTable(x)
               vals <- getValues(x)
               uniqueVals <- sortUniqueC(vals[!is.na(vals)])
-              uniqueValsNum <- as.numeric(uniqueVals)
+              tickValues <- as.numeric(uniqueVals)
               nrVals <- length(uniqueVals)
               targetColours <- theme@raster$colours
 
@@ -154,34 +158,34 @@ setMethod(f = "makeObject",
               theColours <- uniqueColours[valCuts]
             }
 
+            if(out$hasLegend){
 
-            # determine the tick values and labels
-            if(length(uniqueValsNum) > theme@legend$bins){
-              tickValues <- quantile(uniqueValsNum, probs = seq(0, 1, length.out = theme@legend$bins+1), type = 1, names = FALSE)
-            } else{
-              tickValues <- uniqueValsNum
-            }
-            if(is.factor(vals) | is.character(vals)){
-              labels <- uniqueVals[tickValues]
-            } else {
-              labels <- tickValues
-            }
+              # determine the tick values and labels
+              if(length(tickValues) > theme@legend$bins){
+                tickValues <- quantile(tickValues, probs = seq(0, 1, length.out = theme@legend$bins+1), type = 1, names = FALSE)
+              }
 
-            if(theme@legend$ascending){
-              colours <- tibble(colours = rev(uniqueColours),
-                                values = rev(uniqueVals))
-              legendPos <- tibble(labels = tickValues,
-                                  pos = unit(tickValues, "native"))
-            } else{
-              colours <- tibble(colours = uniqueColours,
-                                values = uniqueVals)
-              legendPos <- tibble(labels = rev(tickValues),
-                                  pos = rev(unit(tickValues, "native")))
-            }
+              if(is.factor(vals) | is.character(vals)){
+                tickLabels <- uniqueVals[tickValues]
+              } else {
+                tickLabels <- tickValues
+              }
 
+              if(theme@legend$ascending){
+                colours <- tibble(colours = rev(uniqueColours),
+                                  values = rev(uniqueVals))
+                legendPos <- tibble(labels = tickLabels,
+                                    pos = unit(tickValues, "native"))
+              } else{
+                colours <- tibble(colours = uniqueColours,
+                                  values = uniqueVals)
+                legendPos <- tibble(labels = rev(tickLabels),
+                                    pos = rev(unit(tickValues, "native")))
+              }
+              out$uniqueValues <- colours
+              out$legend <- legendPos
+            }
             out$array <- theColours
-            out$uniqueValues <- colours
-            out$legend <- legendPos
 
             return(out)
           }
