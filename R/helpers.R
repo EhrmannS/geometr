@@ -10,7 +10,7 @@ makeLayout <- function(x = NULL, window = NULL, theme = NULL, ...){
 
   window <- .testWindow(x = window, ...)
 
-  tempExt <- getExtent(x)
+  tempExt <- getExtent(x = x)
   # out$window <- tempExt
 
   maxExtX <- max(tempExt$x)
