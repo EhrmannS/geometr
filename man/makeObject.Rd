@@ -12,7 +12,7 @@
 \usage{
 \S4method{makeObject}{geom}(x, theme, ...)
 
-\S4method{makeObject}{Raster}(x, theme, image = FALSE, ...)
+\S4method{makeObject}{Raster}(x, theme, image = FALSE)
 
 \S4method{makeObject}{matrix}(x, theme, image = FALSE, ...)
 
@@ -25,6 +25,10 @@
 
 \item{theme}{[\code{gtTheme(1)}]\cr the theme from which to take graphical
 parameters.}
+
+\item{...}{instead of providing a \code{gtTheme}, you can also determine
+specific graphic parameters (see \code{\link{gpar}}) separately; see
+\code{\link{setTheme}} for details.}
 
 \item{image}{[\code{logical(1)}]\cr whether or not the raster (stack)
 contains an image.}

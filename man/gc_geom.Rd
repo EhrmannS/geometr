@@ -8,11 +8,11 @@
 \alias{gc_geom,grob-method}
 \title{Make a geometry object of class \code{geom}}
 \usage{
-\S4method{gc_geom}{sf}(input, ...)
+\S4method{gc_geom}{sf}(input)
 
-\S4method{gc_geom}{Spatial}(input, ...)
+\S4method{gc_geom}{Spatial}(input)
 
-\S4method{gc_geom}{grob}(input, ...)
+\S4method{gc_geom}{grob}(input)
 }
 \arguments{
 \item{input}{the object from which to make an object of class \code{geom}.}
