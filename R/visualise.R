@@ -53,7 +53,7 @@
 visualise <- function(..., window = NULL, theme = gtTheme, trace = FALSE, image = FALSE,
                       new = TRUE, clip = TRUE){
 
-  # window = NULL; theme = gtTheme; trace = FALSE; image = FALSE; new = TRUE; clip = TRUE; facets = FALSE
+  # window = NULL; theme = gtTheme; trace = FALSE; image = FALSE; new = FALSE; clip = TRUE
 
   # check arguments ----
   window <- .testWindow(x = window, ...)
@@ -123,12 +123,12 @@ visualise <- function(..., window = NULL, theme = gtTheme, trace = FALSE, image 
   # plot already open? ----
   if(!is.null(dev.list()) & !new){
     objViewports <- grid.ls(viewports = TRUE, grobs = FALSE, print = FALSE)
-    isOpenPlot <- ifelse(any(objViewports$name == "vpLomm"), TRUE, FALSE)
+    newPlot <- ifelse(any(objViewports$name == "vpLomm"), FALSE, TRUE)
 
     panelNames <- objViewports$name[objViewports$vpDepth == 2 & objViewports$name != "1"]
     panelNames <- panelNames[!duplicated(panelNames)]
   } else{
-    isOpenPlot <- FALSE
+    newPlot <- TRUE
   }
 
   # checkup concerning plot size ----
@@ -151,7 +151,7 @@ visualise <- function(..., window = NULL, theme = gtTheme, trace = FALSE, image 
   panelPosX <- rep(seq(from = 1, to = ncol), times = nrow)
 
 
-  if(isOpenPlot){
+  if(!newPlot){
     isLegendInPlot <- !identical(grid.grep("legend", grobs = FALSE, viewports = TRUE, grep = TRUE), character(0))
     isRasterInPlot <- !identical(grid.grep("raster", grobs = FALSE, viewports = TRUE, grep = TRUE), character(0))
     isGeomInPlot <-!identical(grid.grep("geom", grobs = FALSE, viewports = TRUE, grep = TRUE), character(0))
@@ -171,24 +171,24 @@ visualise <- function(..., window = NULL, theme = gtTheme, trace = FALSE, image 
   # plot the panels ----
   for(i in 1:panels){
 
-    if(!isOpenPlot){
+    # make panel layout ----
+    pnl <- makeLayout(x = objects[[i]],
+                      window = window[i],
+                      theme = theme)
 
-      # make panel layout ----
-      pnl <- makeLayout(x = objects[[i]],
-                        window = window[i],
-                        theme = theme)
+    # make colours from theme for the object ----
+    obj <- makeObject(x = objects[[i]],
+                      image = image,
+                      theme = theme,
+                      params)
 
-      # make colours from theme for the object ----
-      obj <- makeObject(x = objects[[i]],
-                        image = image,
-                        theme = theme,
-                        params)
+    if(!is.na(names[[i]]) & !is.null(names[[i]])){
+      plotName <- names[[i]]
+    } else {
+      plotName <- obj$name
+    }
 
-      if(!is.null(names[[i]])){
-        plotName <- names[[i]]
-      } else {
-        plotName <- obj$name
-      }
+    if(newPlot | (!newPlot & obj$type == "raster")){
 
       # create the plot ----
       # open the panel viewport
@@ -398,40 +398,42 @@ visualise <- function(..., window = NULL, theme = gtTheme, trace = FALSE, image 
       }
 
       upViewport() # exit grid
-
       upViewport(3) # exit the object 'viewport' and 'plot' and 'plotName'
+
+    } else {
+
+      downViewport(panelNames)
+      downViewport("plot")
+      pushViewport(viewport(xscale = c(pnl$minWinX - pnl$xMargin, pnl$maxWinX + pnl$xMargin),
+                            yscale = c(pnl$minWinY - pnl$yMargin, pnl$maxWinY + pnl$yMargin),
+                            name = "grid"))
+
+      if(!isGeomInPlot){
+        pushViewport(viewport(width = unit(1, "npc") - unit(2 * pnl$xMargin, "native"),
+                              height = unit(1, "npc") - unit(2 * pnl$yMargin, "native"),
+                              xscale = c(pnl$minWinX - pnl$xMargin, pnl$maxWinX + pnl$xMargin),
+                              yscale = c(pnl$minWinY - pnl$yMargin, pnl$maxWinY + pnl$yMargin),
+                              name = "geom"))
+      } else{
+        downViewport("geom")
+      }
+
+      if(clip){
+        grid.clip(width = unit(1, "npc") + unit(theme@box$linewidth, "points"),
+                  height = unit(1, "npc") + unit(theme@box$linewidth, "points"))
+      }
+      grid.draw(obj$out)
+
+
+
+      upViewport(4)
+
     }
-
-    # if(isOpenPlot & existsGeom){
-    #
-    #   downViewport(plotName)
-    #   downViewport("plot")
-    #   downViewport("grid")
-    #
-    #   if(!isGeomInPlot){
-    #     # grid.clip()
-    #     pushViewport(viewport(width = unit(1, "npc") - unit(2*pnl$xMargin, "native"),
-    #                           height = unit(1, "npc") - unit(2*pnl$yMargin, "native"),
-    #                           # xscale = c(pnl$minWinX-pnl$xMargin, pnl$maxWinX+pnl$xMargin),
-    #                           # yscale = c(pnl$minWinY-pnl$yMargin, pnl$maxWinY+pnl$yMargin),
-    #                           name = "geom"))
-    #   } else{
-    #     downViewport("geom")
-    #   }
-    #
-    #   if(clip){
-    #     grid.clip(width = unit(1, "npc") + unit(theme@box$linewidth, "points"),
-    #               height = unit(1, "npc") + unit(theme@box$linewidth, "points"))
-    #   }
-    #   grid.draw(geomGrob)
-    #   upViewport(4)
-    # }
-
   }
 
-  if(!isOpenPlot){
+  if(newPlot){
     upViewport()
-  } else if(isOpenPlot & existsGeom){
+  } else if(!newPlot & isGeomInPlot){
     upViewport()
   }
 
