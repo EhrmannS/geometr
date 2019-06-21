@@ -65,13 +65,14 @@ visualise <- function(..., window = NULL, theme = gtTheme, trace = FALSE, image 
   assertLogical(x = clip, len = 1, any.missing = FALSE)
 
   # derive the objects to plot
-  objs <- exprs(...)
+  objs <- enquos(...)
 
   # iterate through all items to find their name and sort them into either
   # 'object' (to plot) or graphical 'param'eter
   names <- params <- NULL
   objects <- list()
   for(i in seq_along(objs)){
+    theObject <- theName <- theParam <- NULL
 
     if(is.null(names(objs)[i]) || names(objs)[i] == ""){
 
@@ -95,7 +96,7 @@ visualise <- function(..., window = NULL, theme = gtTheme, trace = FALSE, image 
       }
     } else {
       if(names(objs)[i] %in% names(theme@geom)){
-        params <- c(params, objs[i])
+        theParam <- setNames(object = list(eval_tidy(expr = objs[[i]])), nm = names(objs)[i])
       } else {
         theObject <- eval_tidy(expr = objs[[i]])
 
@@ -115,6 +116,7 @@ visualise <- function(..., window = NULL, theme = gtTheme, trace = FALSE, image 
     }
     objects <- c(objects, theObject)
     names <- c(names, theName)
+    params <- c(params, theParam)
 
   }
 
@@ -376,7 +378,7 @@ visualise <- function(..., window = NULL, theme = gtTheme, trace = FALSE, image 
                             height = unit(1, "npc") - unit(2 * pnl$yMargin, "native") + unit(theme@box$linewidth, "points"),
                             xscale = c(pnl$minWinX - pnl$xMargin, pnl$maxWinX + pnl$xMargin),
                             yscale = c(pnl$minWinY - pnl$yMargin, pnl$maxWinY + pnl$yMargin),
-                            name = "raster"))
+                            name = "object"))
 
       if(clip){
         grid.clip(width = unit(1, "npc") + unit(theme@box$linewidth, "points"),
@@ -408,23 +410,17 @@ visualise <- function(..., window = NULL, theme = gtTheme, trace = FALSE, image 
                             yscale = c(pnl$minWinY - pnl$yMargin, pnl$maxWinY + pnl$yMargin),
                             name = "grid"))
 
-      if(!isGeomInPlot){
-        pushViewport(viewport(width = unit(1, "npc") - unit(2 * pnl$xMargin, "native"),
-                              height = unit(1, "npc") - unit(2 * pnl$yMargin, "native"),
-                              xscale = c(pnl$minWinX - pnl$xMargin, pnl$maxWinX + pnl$xMargin),
-                              yscale = c(pnl$minWinY - pnl$yMargin, pnl$maxWinY + pnl$yMargin),
-                              name = "geom"))
-      } else{
-        downViewport("geom")
-      }
+      pushViewport(viewport(width = unit(1, "npc") - unit(2 * pnl$xMargin, "native"),
+                            height = unit(1, "npc") - unit(2 * pnl$yMargin, "native"),
+                            xscale = c(pnl$minWinX - pnl$xMargin, pnl$maxWinX + pnl$xMargin),
+                            yscale = c(pnl$minWinY - pnl$yMargin, pnl$maxWinY + pnl$yMargin),
+                            name = "geom"))
 
       if(clip){
         grid.clip(width = unit(1, "npc") + unit(theme@box$linewidth, "points"),
                   height = unit(1, "npc") + unit(theme@box$linewidth, "points"))
       }
       grid.draw(obj$out)
-
-
 
       upViewport(4)
 

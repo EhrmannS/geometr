@@ -18,6 +18,9 @@ if(!isGeneric("makeObject")){
 }
 
 #' @rdname makeObject
+#' @param ... instead of providing a \code{gtTheme}, you can also determine
+#'   specific graphic parameters (see \code{\link{gpar}}) separately; see
+#'   \code{\link{setTheme}} for details.
 #' @importFrom tibble as_tibble
 #' @export
 setMethod(f = "makeObject",
