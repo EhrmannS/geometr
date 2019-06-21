@@ -14,7 +14,7 @@
 
 \S4method{makeObject}{Raster}(x, theme, image = FALSE, ...)
 
-\S4method{makeObject}{matrix}(x, theme, ...)
+\S4method{makeObject}{matrix}(x, theme, image = FALSE, ...)
 
 \S4method{makeObject}{Spatial}(x, theme, ...)
 

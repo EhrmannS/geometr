@@ -89,7 +89,7 @@ setMethod(f = "makeObject",
 #' @rdname makeObject
 #' @param image [\code{logical(1)}]\cr whether or not the raster (stack)
 #'   contains an image.
-#' @importFrom checkmate assertNa
+#' @importFrom checkmate testNames testCharacter assertClass
 #' @importFrom tibble as_tibble
 #' @export
 setMethod(f = "makeObject",
@@ -196,19 +196,74 @@ setMethod(f = "makeObject",
 #' @export
 setMethod(f = "makeObject",
           signature = "matrix",
-          definition = function(x, theme, ...){
+          definition = function(x, theme, image = FALSE, ...){
 
             out <- list()
             out$type <- "raster"
+            out$name <- names(x)
+            out$rows <- nrow(x)
+            out$cols <- ncol(x)
 
-            isMatrix <- is.matrix(raster)
-            if(isMatrix){
-              if(!grepl("matrix", class(raster)[1]) & !image){
-                warning("please provide a raw matrix in 'raster' or set 'image = TRUE'.", immediate. = T)
+            if(image){
+              if(testCharacter(x = x[1], pattern = "\\#(.{6,8})")){
+                theColours <- as.vector(x)
+              } else {
+                stop("to visualise an image, please provide a matrix with hexadecimal colour values (e.g. '#000000')")
               }
+              out$hasLegend <- FALSE
+
+            } else {
+              out$hasLegend <- TRUE
+
+              vals <- as.vector(t(x))
+              uniqueVals <- sortUniqueC(vals[!is.na(vals)])
+              tickValues <- as.numeric(uniqueVals)
+              nrVals <- length(uniqueVals)
+              targetColours <- theme@raster$colours
+
+              # limit values to 256, this is the number of distinct colours that
+              # can be represented
+              if(nrVals < 256){
+                nrVals <- nrVals
+              } else{
+                nrVals <- 256
+              }
+              uniqueColours <- colorRampPalette(colors = targetColours)(nrVals)
+              breaksTemp <- c(uniqueVals[1]-1, seq(uniqueVals[1], uniqueVals[[length(uniqueVals)]], length.out = nrVals))
+
+              valCuts <- cut(vals, breaks = breaksTemp, include.lowest = TRUE)
+              theColours <- uniqueColours[valCuts]
+
             }
 
-            stop("plotting a 'matrix' is not yet supported.")
+            if(out$hasLegend){
+
+              # determine the tick values and labels
+              if(length(tickValues) > theme@legend$bins){
+                tickValues <- quantile(tickValues, probs = seq(0, 1, length.out = theme@legend$bins+1), type = 1, names = FALSE)
+              }
+
+              if(is.factor(vals) | is.character(vals)){
+                tickLabels <- uniqueVals[tickValues]
+              } else {
+                tickLabels <- tickValues
+              }
+
+              if(theme@legend$ascending){
+                colours <- tibble(colours = rev(uniqueColours),
+                                  values = rev(uniqueVals))
+                legendPos <- tibble(labels = tickLabels,
+                                    pos = unit(tickValues, "native"))
+              } else{
+                colours <- tibble(colours = uniqueColours,
+                                  values = uniqueVals)
+                legendPos <- tibble(labels = rev(tickLabels),
+                                    pos = rev(unit(tickValues, "native")))
+              }
+              out$uniqueValues <- colours
+              out$legend <- legendPos
+            }
+            out$array <- theColours
 
             return(out)
           }

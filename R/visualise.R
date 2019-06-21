@@ -69,7 +69,7 @@ visualise <- function(..., window = NULL, theme = gtTheme, trace = FALSE, image 
 
   # iterate through all items to find their name and sort them into either
   # 'object' (to plot) or graphical 'param'eter
-  names <- params <- objects <- NULL
+  names <- params <- NULL
   objects <- list()
   for(i in seq_along(objs)){
 
@@ -90,18 +90,24 @@ visualise <- function(..., window = NULL, theme = gtTheme, trace = FALSE, image 
           theObject[[x]]
         })
         theObject <- temp
+      } else if(class(theObject) == "matrix"){
+        theObject <- list(theObject)
       }
     } else {
       if(names(objs)[i] %in% names(theme@geom)){
         params <- c(params, objs[i])
       } else {
         theObject <- eval_tidy(expr = objs[[i]])
+
         if((class(theObject) == "RasterBrick" | class(theObject) == "RasterStack") & !image){
           theName <- paste(names(objs)[i], 1:dim(theObject)[3])
           temp <- lapply(1:dim(theObject)[3], function(x){
             theObject[[x]]
           })
           theObject <- temp
+        } else if(class(theObject) == "matrix"){
+          theObject <- list(theObject)
+          theName <- "a matrix"
         } else {
           theName <- names(objs)[i]
         }
@@ -111,6 +117,7 @@ visualise <- function(..., window = NULL, theme = gtTheme, trace = FALSE, image 
     names <- c(names, theName)
 
   }
+
   panels <- length(objects)
 
   # plot already open? ----
