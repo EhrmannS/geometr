@@ -25,7 +25,7 @@ if(!isGeneric("gc_geom")){
 #' @export
 setMethod(f = "gc_geom",
           signature = "sf",
-          definition = function(input, ...){
+          definition = function(input){
 
             theCoords <- getVertices(x = input)
             theData <- getTable(x = input)
@@ -69,7 +69,7 @@ setMethod(f = "gc_geom",
 #' @export
 setMethod(f = "gc_geom",
           signature = "Spatial",
-          definition = function(input, ...){
+          definition = function(input){
 
             theCoords <- getVertices(x = input)
             theData <- getTable(x = input)
@@ -110,7 +110,7 @@ setMethod(f = "gc_geom",
 #' @export
 setMethod(f = "gc_geom",
           signature = "grob",
-          definition = function(input, ...){
+          definition = function(input){
 
             sourceClass <- class(input)[1]
             if(sourceClass == "pointsGrob"){

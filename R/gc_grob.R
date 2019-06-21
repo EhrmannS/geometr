@@ -23,6 +23,8 @@ if(!isGeneric("gc_grob")){
 }
 
 #' @rdname gc_grob
+#' @importFrom rlang exprs
+#' @importFrom stats setNames
 #' @importFrom tibble as_tibble
 #' @importFrom checkmate assertNames assertSubset assertList
 #' @importFrom grid gpar unit pointsGrob gList pathGrob polylineGrob clipGrob
@@ -32,7 +34,7 @@ setMethod(f = "gc_grob",
           definition = function(input, theme = gtTheme, ...){
 
             # capture display arguments
-            displayArgs <- exprs(..., .named = TRUE)
+            displayArgs <- enquos(...)
 
             # scale input to relative, if it's not
             if(input@scale == "absolute"){
@@ -48,6 +50,10 @@ setMethod(f = "gc_grob",
 
             # select only displayArgs that are part of the valid parameters.
             displayArgs <- displayArgs[names(displayArgs) %in% names(params)]
+            temp <- lapply(seq_along(displayArgs), function(x){
+              eval_tidy(displayArgs[[x]])
+            })
+            displayArgs <- setNames(object = temp, nm = names(displayArgs))
 
             if(length(displayArgs) != 0){
               tempArgs <- displayArgs
