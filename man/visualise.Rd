@@ -55,7 +55,17 @@ withWindow <- setWindow(x = aGeom, to = window)
 visualise(expanded = withWindow)
 
 (aRaster <-  gtRasters$categorical)
-visualise(combined = c(aRaster, aGeom))
+
+# plot several objects together
+visualise(aRaster, aGeom)
+
+# give names
 visualise(`a raster` = aRaster, `a geom` = aGeom)
+
+# use graphical parameters ...
+visualise(aGeom, linecol = "green")
+
+# ... or a theme
+visualise(aRaster, theme = setTheme(title = list(plot = FALSE)))
 
 }

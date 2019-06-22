@@ -61,7 +61,7 @@ window <- data.frame(x = c(0, 80),
 # the vertices are plottet relative to the window
 visualise(geom = gs_line(anchor = coords))
 gs_line(anchor = coords, window = window) \%>\%
-  visualise(linecol = "green", new = FALSE)
+  visualise(geom = ., linecol = "green", new = FALSE)
 
 # when a geom is used in 'anchor', its properties (e.g. 'window') are passed on
 aGeom <- setWindow(x = aGeom, to = window)
