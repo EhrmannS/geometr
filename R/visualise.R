@@ -34,12 +34,22 @@
 #' visualise(expanded = withWindow)
 #'
 #' (aRaster <-  gtRasters$categorical)
-#' visualise(combined = c(aRaster, aGeom))
+#'
+#' # plot several objects together
+#' visualise(aRaster, aGeom)
+#'
+#' # give names
 #' visualise(`a raster` = aRaster, `a geom` = aGeom)
+#'
+#' # use graphical parameters ...
+#' visualise(aGeom, linecol = "green")
+#'
+#' # ... or a theme
+#' visualise(aRaster, theme = setTheme(title = list(plot = FALSE)))
 #'
 #' @importFrom checkmate testClass testList assertNames assertList assertLogical
 #'   testCharacter testIntegerish testNames
-#' @importFrom rlang exprs eval_tidy
+#' @importFrom rlang enquos eval_tidy
 #' @importFrom tibble tibble
 #' @importFrom grid grid.newpage pushViewport viewport grid.rect grid.raster
 #'   grid.clip unit grid.draw grid.grill upViewport grid.text gpar convertX
@@ -69,10 +79,10 @@ visualise <- function(..., window = NULL, theme = gtTheme, trace = FALSE, image 
 
   # iterate through all items to find their name and sort them into either
   # 'object' (to plot) or graphical 'param'eter
-  names <- params <- NULL
+  names <- NULL
   objects <- list()
   for(i in seq_along(objs)){
-    theObject <- theName <- theParam <- NULL
+    theObject <- theName <- NULL
 
     if(is.null(names(objs)[i]) || names(objs)[i] == ""){
 
@@ -95,9 +105,7 @@ visualise <- function(..., window = NULL, theme = gtTheme, trace = FALSE, image 
         theObject <- list(theObject)
       }
     } else {
-      if(names(objs)[i] %in% names(theme@geom)){
-        theParam <- setNames(object = list(eval_tidy(expr = objs[[i]])), nm = names(objs)[i])
-      } else {
+      if(!names(objs)[i] %in% names(theme@geom)){
         theObject <- eval_tidy(expr = objs[[i]])
 
         if((class(theObject) == "RasterBrick" | class(theObject) == "RasterStack") & !image){
@@ -116,22 +124,21 @@ visualise <- function(..., window = NULL, theme = gtTheme, trace = FALSE, image 
     }
     objects <- c(objects, theObject)
     names <- c(names, theName)
-    params <- c(params, theParam)
-
   }
-
-  panels <- length(objects)
 
   # plot already open? ----
   if(!is.null(dev.list()) & !new){
     objViewports <- grid.ls(viewports = TRUE, grobs = FALSE, print = FALSE)
     newPlot <- ifelse(any(objViewports$name == "vpLomm"), FALSE, TRUE)
-
     panelNames <- objViewports$name[objViewports$vpDepth == 2 & objViewports$name != "1"]
     panelNames <- panelNames[!duplicated(panelNames)]
+    panels <- length(panelNames)
   } else{
     newPlot <- TRUE
+    panels <- length(objects)
   }
+  objects <- rep(x = objects, length.out = panels)
+  names <- rep(x = names, length.out = panels)
 
   # checkup concerning plot size ----
   if(panels > 30){
@@ -153,19 +160,7 @@ visualise <- function(..., window = NULL, theme = gtTheme, trace = FALSE, image 
   panelPosX <- rep(seq(from = 1, to = ncol), times = nrow)
 
 
-  if(!newPlot){
-    isLegendInPlot <- !identical(grid.grep("legend", grobs = FALSE, viewports = TRUE, grep = TRUE), character(0))
-    isRasterInPlot <- !identical(grid.grep("raster", grobs = FALSE, viewports = TRUE, grep = TRUE), character(0))
-    isGeomInPlot <-!identical(grid.grep("geom", grobs = FALSE, viewports = TRUE, grep = TRUE), character(0))
-    if(isLegendInPlot){
-      legendMeta <- grid.get(gPath("legendValues"))
-      tickLabels <- as.numeric(legendMeta$label)
-    }
-  } else{
-    isLegendInPlot <- FALSE
-    isRasterInPlot <- FALSE
-    isGeomInPlot <-FALSE
-    # create new plot and an overarching viewport
+  if(newPlot){
     grid.newpage()
     pushViewport(viewport(name = "vpLomm"))
   }
@@ -182,7 +177,7 @@ visualise <- function(..., window = NULL, theme = gtTheme, trace = FALSE, image 
     obj <- makeObject(x = objects[[i]],
                       image = image,
                       theme = theme,
-                      params)
+                      ...)
 
     if(!is.na(names[[i]]) & !is.null(names[[i]])){
       plotName <- names[[i]]
@@ -372,20 +367,25 @@ visualise <- function(..., window = NULL, theme = gtTheme, trace = FALSE, image 
                   name = "theBox")
         upViewport() # exit box
       }
+      upViewport() # exit grid
 
       # the object viewport
-      pushViewport(viewport(width = unit(1, "npc") - unit(2 * pnl$xMargin, "native") + unit(theme@box$linewidth, "points"),
-                            height = unit(1, "npc") - unit(2 * pnl$yMargin, "native") + unit(theme@box$linewidth, "points"),
-                            xscale = c(pnl$minWinX - pnl$xMargin, pnl$maxWinX + pnl$xMargin),
+      pushViewport(viewport(xscale = c(pnl$minWinX - pnl$xMargin, pnl$maxWinX + pnl$xMargin),
                             yscale = c(pnl$minWinY - pnl$yMargin, pnl$maxWinY + pnl$yMargin),
                             name = "object"))
+      grid.rect(gp = gpar(col = NA, fill = NA), name = "objectGrob")
 
-      if(clip){
-        grid.clip(width = unit(1, "npc") + unit(theme@box$linewidth, "points"),
-                  height = unit(1, "npc") + unit(theme@box$linewidth, "points"))
-      }
 
       if(obj$type == "raster"){
+        pushViewport(viewport(width = unit(1, "npc") - unit(2 * pnl$xMargin, "native") + unit(theme@box$linewidth, "points"),
+                              height = unit(1, "npc") - unit(2 * pnl$yMargin, "native") + unit(theme@box$linewidth, "points"),
+                              # xscale = c(pnl$minWinX - pnl$xMargin, pnl$maxWinX + pnl$xMargin),
+                              # yscale = c(pnl$minWinY - pnl$yMargin, pnl$maxWinY + pnl$yMargin),
+                              name = "raster"))
+        if(clip){
+          grid.clip(width = unit(1, "npc") + unit(theme@box$linewidth, "points"),
+                    height = unit(1, "npc") + unit(theme@box$linewidth, "points"))
+        }
         grid.raster(x = unit(0, "npc") - unit(pnl$xWindowOffset, "npc"),
                     y = unit(0, "npc") - unit(pnl$yWindowOffset, "npc"),
                     width = unit(1, "npc") * pnl$xFactor,
@@ -396,15 +396,24 @@ visualise <- function(..., window = NULL, theme = gtTheme, trace = FALSE, image 
                     name = "theRaster",
                     interpolate = FALSE)
       } else if(obj$type == "vector") {
+        pushViewport(viewport(width = unit(1, "npc") - unit(2 * pnl$xMargin, "native") + unit(theme@box$linewidth, "points"),
+                              height = unit(1, "npc") - unit(2 * pnl$yMargin, "native") + unit(theme@box$linewidth, "points"),
+                              # xscale = c(pnl$minWinX - pnl$xMargin, pnl$maxWinX + pnl$xMargin),
+                              # yscale = c(pnl$minWinY - pnl$yMargin, pnl$maxWinY + pnl$yMargin),
+                              name = "vector"))
+        if(clip){
+          grid.clip(width = unit(1, "npc") + unit(theme@box$linewidth, "points"),
+                    height = unit(1, "npc") + unit(theme@box$linewidth, "points"))
+        }
         grid.draw(obj$out)
       }
+      upViewport() # exit 'object'
 
-      upViewport() # exit grid
       upViewport(3) # exit the object 'viewport' and 'plot' and 'plotName'
 
     } else {
 
-      downViewport(panelNames)
+      downViewport(panelNames[i])
       downViewport("plot")
       pushViewport(viewport(xscale = c(pnl$minWinX - pnl$xMargin, pnl$maxWinX + pnl$xMargin),
                             yscale = c(pnl$minWinY - pnl$yMargin, pnl$maxWinY + pnl$yMargin),
@@ -426,12 +435,7 @@ visualise <- function(..., window = NULL, theme = gtTheme, trace = FALSE, image 
 
     }
   }
-
-  if(newPlot){
-    upViewport()
-  } else if(!newPlot & isGeomInPlot){
-    upViewport()
-  }
+  upViewport() # exit 'vpLomm'
 
   if(trace){
     plotHistory <- FALSE

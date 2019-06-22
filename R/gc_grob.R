@@ -34,7 +34,7 @@ setMethod(f = "gc_grob",
           definition = function(input, theme = gtTheme, ...){
 
             # capture display arguments
-            displayArgs <- enquos(...)
+            displayArgs <- exprs(...)
 
             # scale input to relative, if it's not
             if(input@scale == "absolute"){

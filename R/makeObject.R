@@ -43,6 +43,9 @@ setMethod(f = "makeObject",
               warning("some vertices are not within the plotting window.", immediate. = TRUE)
             }
 
+            # params <- exprs(...)
+            # params <- params[names(params) %in% names(theme@geom)]
+
             aGrob <- gc_grob(input = x, theme = theme, ...)
             if(is(aGrob) != "gList"){
               aGrob <- gList(aGrob)
