@@ -23,7 +23,7 @@ if(!isGeneric("gc_grob")){
 }
 
 #' @rdname gc_grob
-#' @importFrom rlang exprs
+#' @importFrom rlang enquos
 #' @importFrom stats setNames
 #' @importFrom tibble as_tibble
 #' @importFrom checkmate assertNames assertSubset assertList
@@ -34,7 +34,7 @@ setMethod(f = "gc_grob",
           definition = function(input, theme = gtTheme, ...){
 
             # capture display arguments
-            displayArgs <- enquos(...)
+            displayArgs <- rlang::enquos(...)
 
             # scale input to relative, if it's not
             if(input@scale == "absolute"){

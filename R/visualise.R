@@ -39,12 +39,12 @@
 #'
 #' @importFrom checkmate testClass testList assertNames assertList assertLogical
 #'   testCharacter testIntegerish testNames
-#' @importFrom rlang exprs eval_tidy
+#' @importFrom rlang enquos eval_tidy
 #' @importFrom tibble tibble
 #' @importFrom grid grid.newpage pushViewport viewport grid.rect grid.raster
 #'   grid.clip unit grid.draw grid.grill upViewport grid.text gpar convertX
 #'   downViewport
-#' @importFrom grDevices colorRampPalette as.raster recordPlot rgb
+#' @importFrom grDevices recordPlot
 #' @importFrom raster nlayers getValues as.matrix ncol nrow stack
 #' @importFrom stats quantile
 #' @importFrom dplyr bind_rows
@@ -65,7 +65,7 @@ visualise <- function(..., window = NULL, theme = gtTheme, trace = FALSE, image 
   assertLogical(x = clip, len = 1, any.missing = FALSE)
 
   # derive the objects to plot
-  objs <- enquos(...)
+  objs <- rlang::enquos(...)
 
   # iterate through all items to find their name and sort them into either
   # 'object' (to plot) or graphical 'param'eter
