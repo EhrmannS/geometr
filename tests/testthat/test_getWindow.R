@@ -16,3 +16,36 @@ test_that("getWindow of a geom", {
   expect_data_frame(output, any.missing = FALSE, nrows = 5, ncols = 2)
   expect_names(names(output), identical.to = c("x", "y"))
 })
+
+test_that("getWindow of a Spatial* object", {
+  input <- gtSP$SpatialPoints
+
+  output <- getWindow(input)
+  expect_data_frame(output, any.missing = FALSE, nrows = 2, ncols = 2)
+  expect_names(names(output), identical.to = c("x", "y"))
+})
+
+test_that("getWindow of a Raster", {
+  aRaster <- raster(nrows=108, ncols=21, xmn=0, xmx=10)
+
+  output <- getWindow(aRaster)
+  expect_tibble(output, any.missing = FALSE, nrows = 2, ncols = 2)
+  expect_data_frame(output, any.missing = FALSE, nrows = 2, ncols = 2)
+  expect_names(names(output), identical.to = c("x", "y"))
+})
+
+test_that("getWindow of a matrix", {
+  aMatrix <- matrix(ncol = 100, nrow = 100, data = 5)
+
+  output <- getWindow(aMatrix)
+  expect_data_frame(output, any.missing = FALSE, nrows = 2, ncols = 2)
+  expect_names(names(output), identical.to = c("x", "y"))
+})
+
+test_that("getWindow of an sf object", {
+  input <- gtSF$point
+
+  output <- getWindow(input)
+  expect_data_frame(output, any.missing = FALSE, nrows = 2, ncols = 2)
+  expect_names(names(output), identical.to = c("x", "y"))
+})
