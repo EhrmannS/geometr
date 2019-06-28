@@ -16,11 +16,34 @@ test_that("transform from geom to sp", {
 })
 
 test_that("make a Spatial*DataFrame object", {
+  # test type == 'point'
+  input <- setTable(x = gtGeoms$point,
+                    slot = "vert",
+                    table = data.frame(attr = letters[1:12]))
+  spPoints <- gc_sp(input)
+  expect_class(spPoints, "SpatialPointsDataFrame")
+  expect_names(x = names(spPoints), identical.to = c("attr"))
+
   input <- setTable(x = gtGeoms$point,
                     slot = "feat",
                     table = data.frame(gid = c(1:3), attr = letters[1:3]))
   spPoints <- gc_sp(input)
   expect_class(spPoints, "SpatialPointsDataFrame")
+  expect_names(x = names(spPoints), identical.to = c("attr"))
+
+  input <- setTable(x = gtGeoms$point,
+                    slot = "group",
+                    table = data.frame(gid = c(1:3), attr = letters[1:3]))
+  spPoints <- gc_sp(input)
+  expect_class(spPoints, "SpatialPointsDataFrame")
+  expect_names(x = names(spPoints), identical.to = c("attr"))
+
+  # test type == 'line'
+  input <- setTable(x = gtGeoms$line,
+                    slot = "feat",
+                    table = data.frame(gid = c(1:3), attr = letters[1:3]))
+  spPoints <- gc_sp(input)
+  expect_class(spPoints, "SpatialLinesDataFrame")
   expect_names(x = names(spPoints), identical.to = c("attr"))
 
   input <- setTable(gtGeoms$line,
@@ -30,12 +53,20 @@ test_that("make a Spatial*DataFrame object", {
   expect_class(spLines, "SpatialLinesDataFrame")
   expect_names(x = names(spLines), identical.to = c("attr"))
 
+  # test type == 'polygon'
   input <- setTable(gtGeoms$polygon,
                     slot = "feat",
                     table = data.frame(fid = c(1:2), attr = letters[1:2]))
   spPolygon <- gc_sp(input)
   expect_class(spPolygon, "SpatialPolygonsDataFrame")
   expect_names(x = names(spPolygon), identical.to = c("attr"))
+
+  input <- setTable(gtGeoms$polygon,
+                    slot = "group",
+                    table = data.frame(gid = c(1:2), attr = letters[1:2]))
+  spLines <- gc_sp(input)
+  expect_class(spLines, "SpatialPolygonsDataFrame")
+  expect_names(x = names(spLines), identical.to = c("attr"))
 })
 
 test_that("output has correct length", {
