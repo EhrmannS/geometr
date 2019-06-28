@@ -22,6 +22,7 @@ if(!isGeneric("makeObject")){
 #'   specific graphic parameters (see \code{\link{gpar}}) separately; see
 #'   \code{\link{setTheme}} for details.
 #' @importFrom tibble as_tibble
+#' @importFrom methods is
 #' @export
 setMethod(f = "makeObject",
           signature = "geom",
@@ -42,6 +43,9 @@ setMethod(f = "makeObject",
             } else if(!all(inWindow)){
               warning("some vertices are not within the plotting window.", immediate. = TRUE)
             }
+
+            # params <- exprs(...)
+            # params <- params[names(params) %in% names(theme@geom)]
 
             aGrob <- gc_grob(input = x, theme = theme, ...)
             if(is(aGrob) != "gList"){

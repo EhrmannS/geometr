@@ -4,9 +4,21 @@
 \name{getWindow}
 \alias{getWindow}
 \alias{getWindow,geom-method}
+\alias{getWindow,Spatial-method}
+\alias{getWindow,sf-method}
+\alias{getWindow,Raster-method}
+\alias{getWindow,matrix-method}
 \title{Get the reference window of a spatial object.}
 \usage{
 \S4method{getWindow}{geom}(x)
+
+\S4method{getWindow}{Spatial}(x)
+
+\S4method{getWindow}{sf}(x)
+
+\S4method{getWindow}{Raster}(x)
+
+\S4method{getWindow}{matrix}(x)
 }
 \arguments{
 \item{x}{the object from which to derive the reference window.}
@@ -17,4 +29,12 @@ Get the reference window of a spatial object.
 \examples{
 
 getWindow(gtGeoms$line)
+
+getWindow(gtSP$SpatialPolygons)
+
+getWindow(gtSF$multilinestring)
+
+getWindow(gtRasters$categorical)
+
+getWindow(matrix(0, 3, 5))
 }

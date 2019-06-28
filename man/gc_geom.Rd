@@ -8,14 +8,18 @@
 \alias{gc_geom,grob-method}
 \title{Make a geometry object of class \code{geom}}
 \usage{
-\S4method{gc_geom}{sf}(input)
+\S4method{gc_geom}{sf}(input, window = NULL, ...)
 
-\S4method{gc_geom}{Spatial}(input)
+\S4method{gc_geom}{Spatial}(input, window = NULL, ...)
 
-\S4method{gc_geom}{grob}(input)
+\S4method{gc_geom}{grob}(input, window = NULL, ...)
 }
 \arguments{
 \item{input}{the object from which to make an object of class \code{geom}.}
+
+\item{window}{[\code{data.frame(1)}]\cr the reference window of the new geom.}
+
+\item{...}{additional arguments, such as \code{verbose = TRUE/FALSE}.}
 }
 \value{
 an object of class \code{geom}
