@@ -208,7 +208,7 @@ setMethod(f = "gc_grob",
           signature = "sf",
           definition = function(input, theme = gtTheme, ...){
 
-            stop("objects of class 'sf' can't be visualised recently.")
+            stop("objects of class 'sf' can't be transformed to 'grob' recently.")
             return(input)
           }
 )
@@ -220,7 +220,7 @@ setMethod(f = "gc_grob",
           signature = "Spatial",
           definition = function(input, theme = gtTheme, ...){
 
-            stop("objects of class 'Spatial' can't be visualised recently.")
+            stop("objects of class 'Spatial' can't be transformed to 'grob' recently.")
             return(input)
           }
 )
