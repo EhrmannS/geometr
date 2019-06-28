@@ -18,30 +18,6 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// matInGeomC
-NumericMatrix matInGeomC(NumericMatrix& mat, NumericMatrix& geom, bool negative);
-RcppExport SEXP _geometr_matInGeomC(SEXP matSEXP, SEXP geomSEXP, SEXP negativeSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< NumericMatrix& >::type mat(matSEXP);
-    Rcpp::traits::input_parameter< NumericMatrix& >::type geom(geomSEXP);
-    Rcpp::traits::input_parameter< bool >::type negative(negativeSEXP);
-    rcpp_result_gen = Rcpp::wrap(matInGeomC(mat, geom, negative));
-    return rcpp_result_gen;
-END_RCPP
-}
-// getValuesMatC
-NumericVector getValuesMatC(NumericMatrix& mat);
-RcppExport SEXP _geometr_getValuesMatC(SEXP matSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< NumericMatrix& >::type mat(matSEXP);
-    rcpp_result_gen = Rcpp::wrap(getValuesMatC(mat));
-    return rcpp_result_gen;
-END_RCPP
-}
 // subChrIntC
 IntegerMatrix subChrIntC(CharacterMatrix& mat, CharacterVector& replace, IntegerVector& with);
 RcppExport SEXP _geometr_subChrIntC(SEXP matSEXP, SEXP replaceSEXP, SEXP withSEXP) {
@@ -69,8 +45,6 @@ END_RCPP
 
 static const R_CallMethodDef CallEntries[] = {
     {"_geometr_pointInGeomC", (DL_FUNC) &_geometr_pointInGeomC, 3},
-    {"_geometr_matInGeomC", (DL_FUNC) &_geometr_matInGeomC, 3},
-    {"_geometr_getValuesMatC", (DL_FUNC) &_geometr_getValuesMatC, 1},
     {"_geometr_subChrIntC", (DL_FUNC) &_geometr_subChrIntC, 3},
     {"_geometr_sortUniqueC", (DL_FUNC) &_geometr_sortUniqueC, 1},
     {NULL, NULL, 0}

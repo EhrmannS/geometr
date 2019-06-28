@@ -19,6 +19,7 @@
 #' modGeom <- gt_edit()
 #' }
 #' @importFrom grid grid.grep gPath grid.edit grid.remove
+#' @importFrom grDevices colorRampPalette
 #' @importFrom dplyr bind_rows
 #' @importFrom tibble tibble
 #' @importFrom methods as
