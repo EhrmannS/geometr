@@ -5,14 +5,6 @@ pointInGeomC <- function(vert, geom, invert) {
     .Call('_geometr_pointInGeomC', PACKAGE = 'geometr', vert, geom, invert)
 }
 
-matInGeomC <- function(mat, geom, negative) {
-    .Call('_geometr_matInGeomC', PACKAGE = 'geometr', mat, geom, negative)
-}
-
-getValuesMatC <- function(mat) {
-    .Call('_geometr_getValuesMatC', PACKAGE = 'geometr', mat)
-}
-
 subChrIntC <- function(mat, replace, with) {
     .Call('_geometr_subChrIntC', PACKAGE = 'geometr', mat, replace, with)
 }

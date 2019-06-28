@@ -75,8 +75,6 @@ visualise <- function(..., window = NULL, theme = gtTheme, trace = FALSE, image 
   # derive the objects to plot
   objs <- rlang::enquos(...)
 
-  # iterate through all items to find their name and sort them into either
-  # 'object' (to plot) or graphical 'param'eter
   names <- NULL
   objects <- list()
   for(i in seq_along(objs)){
