@@ -22,6 +22,7 @@ if(!isGeneric("makeObject")){
 #'   specific graphic parameters (see \code{\link{gpar}}) separately; see
 #'   \code{\link{setTheme}} for details.
 #' @importFrom tibble as_tibble
+#' @importFrom methods is
 #' @export
 setMethod(f = "makeObject",
           signature = "geom",

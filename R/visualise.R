@@ -63,8 +63,6 @@
 visualise <- function(..., window = NULL, theme = gtTheme, trace = FALSE, image = FALSE,
                       new = TRUE, clip = TRUE){
 
-  # window = NULL; theme = gtTheme; trace = FALSE; image = FALSE; new = FALSE; clip = TRUE
-
   # check arguments ----
   window <- .testWindow(x = window, ...)
   assertDataFrame(x = window, nrows = 2, min.cols = 2, null.ok = TRUE)

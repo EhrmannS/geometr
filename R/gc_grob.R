@@ -23,7 +23,7 @@ if(!isGeneric("gc_grob")){
 }
 
 #' @rdname gc_grob
-#' @importFrom rlang exprs
+#' @importFrom rlang exprs rep_along
 #' @importFrom stats setNames
 #' @importFrom tibble as_tibble
 #' @importFrom checkmate assertNames assertSubset assertList

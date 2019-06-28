@@ -10,8 +10,16 @@ makeLayout <- function(x = NULL, window = NULL, theme = NULL, ...){
 
   window <- .testWindow(x = window, ...)
 
-  tempExt <- getExtent(x = x)
-  # out$window <- tempExt
+  tempExt <- getWindow(x = x)
+
+  if(tempExt$x[1] == tempExt$x[2]){
+    tempExt$x[1] <- tempExt$x[1] - 1
+    tempExt$x[2] <- tempExt$x[2] + 1
+  }
+  if(tempExt$y[1] == tempExt$y[2]){
+    tempExt$y[1] <- tempExt$y[1] - 1
+    tempExt$y[2] <- tempExt$y[2] + 1
+  }
 
   maxExtX <- max(tempExt$x)
   minExtX <- min(tempExt$x)
@@ -127,8 +135,28 @@ makeLayout <- function(x = NULL, window = NULL, theme = NULL, ...){
 #' @export
 
 .rad <- function(degree){
-  assertNumeric(degree)
+
+  assertNumeric(x = degree)
+
   (degree * pi)/180
+}
+
+#' Get the number of decimal places
+#' @param x [\code{numeric(1)}]\ the number for which to derive decimal places.
+#' @importFrom checkmate assertNumeric
+#' @export
+
+.getDecimals <- function(x) {
+  # https://stackoverflow.com/a/5173906/4506642
+
+  assertNumeric(x = x)
+
+  if ((x %% 1) != 0) {
+    nchar(strsplit(sub('0+$', '', as.character(x)), ".", fixed=TRUE)[[1]][[2]])
+  } else {
+    return(0)
+  }
+
 }
 
 #' Update the window slot
