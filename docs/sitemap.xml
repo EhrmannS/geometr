@@ -4,10 +4,7 @@
     <loc>http://EhrmannS.github.io/geometr/index.html</loc>
   </url>
   <url>
-    <loc>http://EhrmannS.github.io/geometr/reference/dot-makeColours.html</loc>
-  </url>
-  <url>
-    <loc>http://EhrmannS.github.io/geometr/reference/dot-makeFormat.html</loc>
+    <loc>http://EhrmannS.github.io/geometr/reference/dot-getDecimals.html</loc>
   </url>
   <url>
     <loc>http://EhrmannS.github.io/geometr/reference/dot-makeTinyMap.html</loc>
@@ -26,6 +23,18 @@
   </url>
   <url>
     <loc>http://EhrmannS.github.io/geometr/reference/dot-updateWindow.html</loc>
+  </url>
+  <url>
+    <loc>http://EhrmannS.github.io/geometr/reference/gc_geom.html</loc>
+  </url>
+  <url>
+    <loc>http://EhrmannS.github.io/geometr/reference/gc_grob.html</loc>
+  </url>
+  <url>
+    <loc>http://EhrmannS.github.io/geometr/reference/gc_sf.html</loc>
+  </url>
+  <url>
+    <loc>http://EhrmannS.github.io/geometr/reference/gc_sp.html</loc>
   </url>
   <url>
     <loc>http://EhrmannS.github.io/geometr/reference/geom-class.html</loc>
@@ -94,9 +103,6 @@
     <loc>http://EhrmannS.github.io/geometr/reference/gt_edit.html</loc>
   </url>
   <url>
-    <loc>http://EhrmannS.github.io/geometr/reference/gt_grob.html</loc>
-  </url>
-  <url>
     <loc>http://EhrmannS.github.io/geometr/reference/gt_locate.html</loc>
   </url>
   <url>
@@ -106,16 +112,16 @@
     <loc>http://EhrmannS.github.io/geometr/reference/gt_scale.html</loc>
   </url>
   <url>
-    <loc>http://EhrmannS.github.io/geometr/reference/gt_sf.html</loc>
-  </url>
-  <url>
     <loc>http://EhrmannS.github.io/geometr/reference/gt_skew.html</loc>
   </url>
   <url>
-    <loc>http://EhrmannS.github.io/geometr/reference/gt_sp.html</loc>
+    <loc>http://EhrmannS.github.io/geometr/reference/gt_stretch.html</loc>
   </url>
   <url>
-    <loc>http://EhrmannS.github.io/geometr/reference/gt_stretch.html</loc>
+    <loc>http://EhrmannS.github.io/geometr/reference/makeLayout.html</loc>
+  </url>
+  <url>
+    <loc>http://EhrmannS.github.io/geometr/reference/makeObject.html</loc>
   </url>
   <url>
     <loc>http://EhrmannS.github.io/geometr/reference/setCRS.html</loc>
