@@ -97,6 +97,7 @@ setMethod(f = "makeObject",
 #' @param image [\code{logical(1)}]\cr whether or not the raster (stack)
 #'   contains an image.
 #' @importFrom checkmate testNames testCharacter assertClass
+#' @importFrom grDevices colorRampPalette rgb
 #' @importFrom tibble as_tibble
 #' @export
 setMethod(f = "makeObject",
@@ -200,6 +201,7 @@ setMethod(f = "makeObject",
 
 #' @rdname makeObject
 #' @importFrom tibble as_tibble
+#' @importFrom grDevices colorRampPalette
 #' @export
 setMethod(f = "makeObject",
           signature = "matrix",
