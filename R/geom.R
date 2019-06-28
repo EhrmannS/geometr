@@ -202,7 +202,7 @@ setMethod(f = "show",
             }
             if(!all(names(object@feat) %in% c("fid", "gid"))){
               if(verts){
-                theFeats <- "           (features)   "
+                theFeats <- "           (features) "
               } else {
                 theFeats <- " (features) "
               }
@@ -215,9 +215,9 @@ setMethod(f = "show",
             }
             if(!all(names(object@group) %in% c("gid"))){
               if(feats){
-                theGroups <- "           (groups)   "
+                theGroups <- "           (groups) "
               } else {
-                theGroups <- " (groups)   "
+                theGroups <- " (groups) "
               }
               myAttributes <- c(myAttributes, paste0(theGroups,
                                                      ifelse(groupAttribs <= 9,
