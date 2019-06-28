@@ -1,5 +1,6 @@
 library(checkmate)
 library(testthat)
+library(sp)
 context("gc_sp")
 
 
@@ -12,6 +13,29 @@ test_that("transform from geom to sp", {
 
   spPolygon <- gc_sp(input = gtGeoms$polygon)
   expect_class(spPolygon, "SpatialPolygons")
+})
+
+test_that("make a Spatial*DataFrame object", {
+  input <- setTable(x = gtGeoms$point,
+                    slot = "feat",
+                    table = data.frame(gid = c(1:3), attr = letters[1:3]))
+  spPoints <- gc_sp(input)
+  expect_class(spPoints, "SpatialPointsDataFrame")
+  expect_names(x = names(spPoints), identical.to = c("attr"))
+
+  input <- setTable(gtGeoms$line,
+                    slot = "group",
+                    table = data.frame(gid = c(1:3), attr = letters[1:3]))
+  spLines <- gc_sp(input)
+  expect_class(spLines, "SpatialLinesDataFrame")
+  expect_names(x = names(spLines), identical.to = c("attr"))
+
+  input <- setTable(gtGeoms$polygon,
+                    slot = "feat",
+                    table = data.frame(fid = c(1:2), attr = letters[1:2]))
+  spPolygon <- gc_sp(input)
+  expect_class(spPolygon, "SpatialPolygonsDataFrame")
+  expect_names(x = names(spPolygon), identical.to = c("attr"))
 })
 
 test_that("output has correct length", {

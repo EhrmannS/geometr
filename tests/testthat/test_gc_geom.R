@@ -55,7 +55,6 @@ test_that("transform from sf to geom", {
 })
 
 test_that("transform from sp to geom", {
-
   # test 'SpatialPoints'
   input <- gtSP$SpatialPoints
 
@@ -147,4 +146,26 @@ test_that("transform from sp to geom", {
   output <- gc_geom(input)
   expect_class(output, "geom")
   expect_true(output@type == "point")
+})
+
+test_that("transform from grob to geom", {
+  # # test 'pointsGrob'
+  # pointGrob <- gc_grob(input = gtGeoms$point, theme = gtTheme)
+  #
+  # pointGeom <- gc_geom(input = pointGrob)
+  #
+  # # test 'polylineGrob'
+  # linesGrob <- gc_grob(input = gtGeoms$line, theme = gtTheme)
+  #
+  # linesGeom <- gc_geom(input = linesGrob)
+  #
+  # # test 'pathgrob'
+  # polyGrob <- gc_grob(input = gtGeoms$polygon, theme = gtTheme)
+  #
+  # polyGeom <- gc_geom(input = polyGrob)
+
+})
+
+test_that("Error if arguments have wrong value", {
+
 })
