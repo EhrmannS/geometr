@@ -285,11 +285,7 @@ setMethod(f = "makeObject",
           signature = "Spatial",
           definition = function(x, theme, ...){
 
-            out <- list()
-            out$type <- "vector"
-
-            stop("plotting 'Spatial' objects is not yet supported.")
-            return(out)
+            stop("visualising 'Spatial' objects is not yet supported.")
           }
 )
 
@@ -300,11 +296,6 @@ setMethod(f = "makeObject",
           signature = "sf",
           definition = function(x, theme, ...){
 
-            out <- list()
-            out$type <- "vector"
-
-            stop("plotting 'sf' objects is not yet supported.")
-
-            return(out)
+            stop("visualising 'sf' objects is not yet supported.")
           }
 )
