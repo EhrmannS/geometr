@@ -5,14 +5,11 @@
 \alias{gc_geom}
 \alias{gc_geom,sf-method}
 \alias{gc_geom,Spatial-method}
-\alias{gc_geom,grob-method}
 \title{Make a geometry object of class \code{geom}}
 \usage{
 \S4method{gc_geom}{sf}(input, window = NULL, ...)
 
 \S4method{gc_geom}{Spatial}(input, window = NULL, ...)
-
-\S4method{gc_geom}{grob}(input, window = NULL, ...)
 }
 \arguments{
 \item{input}{the object from which to make an object of class \code{geom}.}
