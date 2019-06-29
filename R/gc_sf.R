@@ -114,30 +114,27 @@ setMethod(f = "gc_sf",
 
                 } else{
                   tempVerts <- theCoords[c("x", "y")][theCoords$fid %in% tempFids,]
-                  # make LINE
+                  # make LINESTRING
                   tempOut <- c(tempOut, list(st_linestring(as.matrix(tempVerts))))
 
                 }
               }
               out <- st_sfc(tempOut)
 
-              attr <- NULL
+              attr <- tibble(gid = unique(theData$gid))
               if(!all(names(theData) %in% c("fid", "gid"))){
-                makeDF <- TRUE
                 if(length(out) < dim(theData)[1]){
                   warning("MULTILINESTRING doesn't support individual attributes per line, ignoring '", names(theData)[!names(theData) %in% c("fid", "gid")] , "'.")
                 } else {
+                  makeDF <- TRUE
                   attr <- theData[,!names(theData) %in% c("fid")]
                 }
               }
+
               if(!all(names(theGroups) %in% c("gid"))){
                 makeDF <- TRUE
-                if(is.null(attr)){
-                  attr <- left_join(x = theData[c("fid", "gid")], y = theGroups, by = "gid")
-                } else {
-                  attr <- left_join(x = attr, y = theGroups, by = "gid", suffix = c(".feat", ".group"))
-                }
               }
+              attr <- left_join(x = attr, y = theGroups, by = "gid", suffix = c(".feat", ".group"))
 
               if(makeDF){
                 attr <- attr[,!names(attr) %in% c("fid", "gid")]
@@ -185,23 +182,20 @@ setMethod(f = "gc_sf",
               }
               out <- st_sfc(tempOut)
 
-              attr <- NULL
+              attr <- tibble(gid = unique(theData$gid))
               if(!all(names(theData) %in% c("fid", "gid"))){
-                makeDF <- TRUE
                 if(length(out) < dim(theData)[1]){
-                  warning("MULTIPOLYGON doesn't support individual attributes per line, polygon '", names(theData)[!names(theData) %in% c("fid", "gid")] , "'.")
+                      warning("MULTIPOLYGON doesn't support individual attributes per polygon, ignoring '", names(theData)[!names(theData) %in% c("fid", "gid")] , "'.")
                 } else {
+                  makeDF <- TRUE
                   attr <- theData[,!names(theData) %in% c("fid")]
                 }
               }
+
               if(!all(names(theGroups) %in% c("gid"))){
                 makeDF <- TRUE
-                if(is.null(attr)){
-                  attr <- left_join(x = theData[c("fid", "gid")], y = theGroups, by = "gid")
-                } else {
-                  attr <- left_join(x = attr, y = theGroups, by = "gid", suffix = c(".feat", ".group"))
-                }
               }
+              attr <- left_join(x = attr, y = theGroups, by = "gid", suffix = c(".feat", ".group"))
 
               if(makeDF){
                 attr <- attr[,!names(attr) %in% c("fid", "gid")]
