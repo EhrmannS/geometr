@@ -10,15 +10,15 @@
 \alias{makeObject,sf-method}
 \title{Make the object to a plot}
 \usage{
-\S4method{makeObject}{geom}(x, theme, ...)
+\S4method{makeObject}{geom}(x, theme = gtTheme, ...)
 
-\S4method{makeObject}{Raster}(x, theme, image = FALSE, ...)
+\S4method{makeObject}{Raster}(x, theme = gtTheme, image = FALSE, ...)
 
-\S4method{makeObject}{matrix}(x, theme, image = FALSE, ...)
+\S4method{makeObject}{matrix}(x, theme = gtTheme, image = FALSE, ...)
 
-\S4method{makeObject}{Spatial}(x, theme, ...)
+\S4method{makeObject}{Spatial}(x, theme = gtTheme, ...)
 
-\S4method{makeObject}{sf}(x, theme, ...)
+\S4method{makeObject}{sf}(x, theme = gtTheme, ...)
 }
 \arguments{
 \item{x}{the object from which to make object to plot.}

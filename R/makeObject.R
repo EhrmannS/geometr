@@ -26,7 +26,7 @@ if(!isGeneric("makeObject")){
 #' @export
 setMethod(f = "makeObject",
           signature = "geom",
-          definition = function(x, theme, ...){
+          definition = function(x, theme = gtTheme, ...){
 
             out <- list()
             out$type <- "vector"
@@ -102,7 +102,7 @@ setMethod(f = "makeObject",
 #' @export
 setMethod(f = "makeObject",
           signature = "Raster",
-          definition = function(x, theme, image = FALSE, ...){
+          definition = function(x, theme = gtTheme, image = FALSE, ...){
 
             out <- list()
             out$type <- "raster"
@@ -124,10 +124,8 @@ setMethod(f = "makeObject",
                 alpha[is.na(blue)] <- 0L
                 blue[is.na(blue)] <- 255L
                 theColours <- rgb(red = red, green = green, blue = blue, alpha = alpha, maxColorValue = 255)
-              } else if(testCharacter(x = x[1], pattern = "\\#(.{6,8})")){
-                theColours <- as.vector(x)
               } else{
-                stop("please either provide rgb (in 3 layers) or hex values.")
+                stop("please provide a RasterBrick with the 3 layers red, green, blue.")
               }
               out$hasLegend <- FALSE
 
@@ -205,7 +203,7 @@ setMethod(f = "makeObject",
 #' @export
 setMethod(f = "makeObject",
           signature = "matrix",
-          definition = function(x, theme, image = FALSE, ...){
+          definition = function(x, theme = gtTheme, image = FALSE, ...){
 
             out <- list()
             out$type <- "raster"
@@ -225,6 +223,7 @@ setMethod(f = "makeObject",
               out$hasLegend <- TRUE
 
               vals <- as.vector(t(x))
+              assertNumeric(x = vals)
               uniqueVals <- sortUniqueC(vals[!is.na(vals)])
               tickValues <- as.numeric(uniqueVals)
               nrVals <- length(uniqueVals)
@@ -283,7 +282,7 @@ setMethod(f = "makeObject",
 #' @export
 setMethod(f = "makeObject",
           signature = "Spatial",
-          definition = function(x, theme, ...){
+          definition = function(x, theme = gtTheme, ...){
 
             stop("visualising 'Spatial' objects is not yet supported.")
           }
@@ -294,7 +293,7 @@ setMethod(f = "makeObject",
 #' @export
 setMethod(f = "makeObject",
           signature = "sf",
-          definition = function(x, theme, ...){
+          definition = function(x, theme = gtTheme, ...){
 
             stop("visualising 'sf' objects is not yet supported.")
           }
