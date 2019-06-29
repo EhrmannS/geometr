@@ -214,7 +214,7 @@ setMethod(f = "show",
               feats <- TRUE
             }
             if(!all(names(object@group) %in% c("gid"))){
-              if(feats){
+              if(feats | verts){
                 theGroups <- "           (groups) "
               } else {
                 theGroups <- " (groups) "
