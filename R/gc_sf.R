@@ -30,20 +30,24 @@ if(!isGeneric("gc_sf")){
 }
 
 #' @rdname gc_sf
-#' @importFrom tibble as_tibble
+#' @importFrom tibble tibble as_tibble
+#' @importFrom dplyr left_join
 #' @export
 setMethod(f = "gc_sf",
           signature = "geom",
           definition = function(input){
 
             theCoords <- getVertices(x = input)
-            theData <- getTable(x = input)
+            theData <- getTable(x = input, slot = "feat")
+            theGroups <- getTable(x = input, slot = "group")
+            theVertices <- getTable(x = input, slot = "vert")
             theCRS <- getCRS(x = input)
             bbox <- getExtent(x = input)
             theWindow = tibble(x = c(min(bbox$x), max(bbox$x), max(bbox$x), min(bbox$x), min(bbox$x)),
                                y = c(min(bbox$y), min(bbox$y), max(bbox$y), max(bbox$y), min(bbox$y)))
 
             featureType <- input@type
+            makeDF <- FALSE
 
             if(featureType %in% c("point")){
 
@@ -55,8 +59,8 @@ setMethod(f = "gc_sf",
 
                 if(length(tempVerts$x) > 1){
                   # make MULTIPOINT
-                  # assert that there are no duplicate coordinates for it to be a simple feature
-                  theCoords <- theCoords[!duplicated(theCoords[c("x", "y")]),]
+                  # ensure that there are no duplicate coordinates for it to be a simple feature
+                  tempVerts <- tempVerts[!duplicated(tempVerts[c("x", "y")]),]
                   tempOut <- c(tempOut, list(st_multipoint(as.matrix(tempVerts))))
                 } else{
                   # make POINT
@@ -65,12 +69,31 @@ setMethod(f = "gc_sf",
               }
               out <- st_sfc(tempOut)
 
-              if(!all(names(theData) %in% c("fid", "gid"))){
-                attr <- unique(theData[,!names(theData) %in% c("fid")])
-                if(length(out) < dim(attr)[1]){
-                  stop("MULTIPOINTS don't support individual attributes per point.")
+              attr <- tibble(fid = unique(theVertices$fid))
+              if(!all(names(theVertices) %in% c("x", "y", "fid"))){
+                if(length(out) < dim(theVertices)[1]){
+                  warning("MULTIPOINTS don't support individual attributes per point, ignoring '", names(theVertices)[!names(theVertices) %in% c("x", "y", "fid")] , "'.")
+                } else {
+                  makeDF <- TRUE
+                  attr <- theVertices[,!names(theVertices) %in% c("x", "y")]
                 }
-                out <- st_sf(geom = out, attr[,!names(attr) %in% c("gid")])
+              }
+
+              if(!all(names(theData) %in% c("fid", "gid"))){
+                makeDF <- TRUE
+              }
+              attr <- left_join(x = attr, y = theData, by = "fid", suffix = c(".vert", ".feat"))
+
+              if(!all(names(theGroups) %in% c("gid"))){
+                makeDF <- TRUE
+              }
+              attr <- left_join(x = attr, y = theGroups, by = "gid", suffix = c(".feat", ".group"))
+
+              if(makeDF){
+                attr <- attr[,!names(attr) %in% c("fid", "gid")]
+                out <- st_sf(geom = out, attr)
+              } else {
+                out <- st_sf(geom = out)
               }
 
             } else if(featureType %in% c("line")){
@@ -98,14 +121,30 @@ setMethod(f = "gc_sf",
               }
               out <- st_sfc(tempOut)
 
+              attr <- NULL
               if(!all(names(theData) %in% c("fid", "gid"))){
-                attr <- unique(theData[,!names(theData) %in% c("fid")])
-                if(length(out) < dim(attr)[1]){
-                  stop("MULTILINESTRING doesn't support individual attributes per line.")
+                makeDF <- TRUE
+                if(length(out) < dim(theData)[1]){
+                  warning("MULTILINESTRING doesn't support individual attributes per line, ignoring '", names(theData)[!names(theData) %in% c("fid", "gid")] , "'.")
+                } else {
+                  attr <- theData[,!names(theData) %in% c("fid")]
                 }
-                out <- st_sf(geom = out, attr[,!names(attr) %in% c("gid")])
+              }
+              if(!all(names(theGroups) %in% c("gid"))){
+                makeDF <- TRUE
+                if(is.null(attr)){
+                  attr <- left_join(x = theData[c("fid", "gid")], y = theGroups, by = "gid")
+                } else {
+                  attr <- left_join(x = attr, y = theGroups, by = "gid", suffix = c(".feat", ".group"))
+                }
               }
 
+              if(makeDF){
+                attr <- attr[,!names(attr) %in% c("fid", "gid")]
+                out <- st_sf(geom = out, attr)
+              } else {
+                out <- st_sf(geom = out)
+              }
 
             } else if(featureType %in% c("polygon")){
 
@@ -146,13 +185,29 @@ setMethod(f = "gc_sf",
               }
               out <- st_sfc(tempOut)
 
+              attr <- NULL
               if(!all(names(theData) %in% c("fid", "gid"))){
-                attr <- unique(theData[,!names(theData) %in% c("fid")])
-
-                if(length(out) < dim(attr)[1]){
-                  stop("MULTIPOLYGON doesn't support individual attributes per polygon.")
+                makeDF <- TRUE
+                if(length(out) < dim(theData)[1]){
+                  warning("MULTIPOLYGON doesn't support individual attributes per line, polygon '", names(theData)[!names(theData) %in% c("fid", "gid")] , "'.")
+                } else {
+                  attr <- theData[,!names(theData) %in% c("fid")]
                 }
-                out <- st_sf(geom = out, attr[,!names(attr) %in% c("gid")])
+              }
+              if(!all(names(theGroups) %in% c("gid"))){
+                makeDF <- TRUE
+                if(is.null(attr)){
+                  attr <- left_join(x = theData[c("fid", "gid")], y = theGroups, by = "gid")
+                } else {
+                  attr <- left_join(x = attr, y = theGroups, by = "gid", suffix = c(".feat", ".group"))
+                }
+              }
+
+              if(makeDF){
+                attr <- attr[,!names(attr) %in% c("fid", "gid")]
+                out <- st_sf(geom = out, attr)
+              } else {
+                out <- st_sf(geom = out)
               }
             }
             out <- st_set_crs(x = out, value = theCRS)
