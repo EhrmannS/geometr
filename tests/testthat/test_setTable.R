@@ -141,6 +141,15 @@ test_that("setTable of an sf object", {
   expect_data_frame(x = output, nrows = 2, ncols = 3)
 })
 
+test_that("setTable of an sfc object", {
+  newData <- data.frame(x = c("a", "b"))
+
+  input <- st_geometry(gtSF$point)
+  output <- setTable(x = input, newData)
+  expect_class(output, classes = c("sf", "data.frame"))
+  expect_data_frame(x = output, nrows = 2, ncols = 2)
+})
+
 test_that("setTable of a 'RasterLayer'", {
   input <- raster(system.file("external/rlogo.grd", package="raster"))
   attributes <- data.frame(id = 1:256, variable = sample(x = LETTERS, size = 256, replace = TRUE))
