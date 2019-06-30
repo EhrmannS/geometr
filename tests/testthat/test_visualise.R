@@ -72,6 +72,7 @@ test_that("output the history of a plotted object", {
   expect_class(output, "simpleMessage")
 
   input <- brick(system.file("external/rlogo.grd", package="raster"))
+  input@history <- list("bla")
   output <- capture_message(visualise(raster = input, trace = TRUE))
   expect_class(output, "simpleMessage")
 })
