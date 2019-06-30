@@ -53,12 +53,12 @@ setMethod(f = "makeObject",
             }
 
             uniqueVals <- sapply(aGrob, function(x){
-              x$name
+              unique(x$name)
             })
             uniqueColours <- sapply(aGrob, function(x){
-              x$gp$col
+              unique(x$gp$col)
             })
-            uniqueValsNum <- seq_along(aGrob)
+            uniqueValsNum <- seq_along(uniqueColours)
 
             # determine the tick values and labels
             if(length(uniqueValsNum) > theme@legend$bins){
@@ -76,12 +76,12 @@ setMethod(f = "makeObject",
               colours <- tibble(colours = rev(uniqueColours),
                                 values = rev(uniqueVals))
               legendPos <- tibble(labels = tickValues,
-                                  pos = unit(tickValues, "native"))
+                                  pos = as.numeric(unit(tickValues, "native")))
             } else{
               colours <- tibble(colours = uniqueColours,
                                 values = uniqueVals)
               legendPos <- tibble(labels = rev(tickValues),
-                                  pos = rev(unit(tickValues, "native")))
+                                  pos = rev(as.numeric(unit(tickValues, "native"))))
             }
 
             out$out <- aGrob
