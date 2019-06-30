@@ -1,5 +1,7 @@
 #' Make the object to a plot
 #' @param x the object from which to make object to plot.
+#' @param window [\code{data.frame(1)}] two oposing corners of a rectangle to
+#'   which the plot is limited.
 #' @param theme [\code{gtTheme(1)}]\cr the theme from which to take graphical
 #'   parameters.
 #' @name makeObject
@@ -11,7 +13,7 @@ NULL
 #' @export
 if(!isGeneric("makeObject")){
   setGeneric(name = "makeObject",
-             def = function(x, theme, ...){
+             def = function(x, window, theme, ...){
                standardGeneric("makeObject")
              }
   )
@@ -26,8 +28,12 @@ if(!isGeneric("makeObject")){
 #' @export
 setMethod(f = "makeObject",
           signature = "geom",
-          definition = function(x, theme = gtTheme, ...){
+          definition = function(x, window = NULL, theme = gtTheme, ...){
 
+            window <- .testWindow(x = window, ...)
+            if(!is.null(window)){
+              x <- setWindow(x = x, to = window)
+            }
             out <- list()
             out$type <- "vector"
             out$name <- "geom"
@@ -102,7 +108,7 @@ setMethod(f = "makeObject",
 #' @export
 setMethod(f = "makeObject",
           signature = "Raster",
-          definition = function(x, theme = gtTheme, image = FALSE, ...){
+          definition = function(x, window = NULL, theme = gtTheme, image = FALSE, ...){
 
             out <- list()
             out$type <- "raster"
@@ -203,7 +209,7 @@ setMethod(f = "makeObject",
 #' @export
 setMethod(f = "makeObject",
           signature = "matrix",
-          definition = function(x, theme = gtTheme, image = FALSE, ...){
+          definition = function(x, window = NULL, theme = gtTheme, image = FALSE, ...){
 
             out <- list()
             out$type <- "raster"
@@ -282,7 +288,7 @@ setMethod(f = "makeObject",
 #' @export
 setMethod(f = "makeObject",
           signature = "Spatial",
-          definition = function(x, theme = gtTheme, ...){
+          definition = function(x, window = NULL, theme = gtTheme, ...){
 
             stop("visualising 'Spatial' objects is not yet supported.")
           }
@@ -293,7 +299,7 @@ setMethod(f = "makeObject",
 #' @export
 setMethod(f = "makeObject",
           signature = "sf",
-          definition = function(x, theme = gtTheme, ...){
+          definition = function(x, window = NULL, theme = gtTheme, ...){
 
             stop("visualising 'sf' objects is not yet supported.")
           }

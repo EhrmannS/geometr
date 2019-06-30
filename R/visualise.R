@@ -169,11 +169,12 @@ visualise <- function(..., window = NULL, theme = gtTheme, trace = FALSE, image 
 
     # make panel layout ----
     pnl <- makeLayout(x = objects[[i]],
-                      window = window[i],
+                      window = window,
                       theme = theme)
 
     # make colours from theme for the object ----
     obj <- makeObject(x = objects[[i]],
+                      window = window,
                       image = image,
                       theme = theme,
                       ...)
@@ -379,12 +380,11 @@ visualise <- function(..., window = NULL, theme = gtTheme, trace = FALSE, image 
                             name = "object"))
       grid.rect(gp = gpar(col = NA, fill = NA), name = "objectGrob")
 
-
       if(obj$type == "raster"){
         pushViewport(viewport(width = unit(1, "npc") - unit(2 * pnl$xMargin, "native") + unit(theme@box$linewidth, "points"),
                               height = unit(1, "npc") - unit(2 * pnl$yMargin, "native") + unit(theme@box$linewidth, "points"),
-                              # xscale = c(pnl$minWinX - pnl$xMargin, pnl$maxWinX + pnl$xMargin),
-                              # yscale = c(pnl$minWinY - pnl$yMargin, pnl$maxWinY + pnl$yMargin),
+                              xscale = c(pnl$minWinX - pnl$xMargin, pnl$maxWinX + pnl$xMargin),
+                              yscale = c(pnl$minWinY - pnl$yMargin, pnl$maxWinY + pnl$yMargin),
                               name = "raster"))
         if(clip){
           grid.clip(width = unit(1, "npc") + unit(theme@box$linewidth, "points"),
@@ -402,8 +402,8 @@ visualise <- function(..., window = NULL, theme = gtTheme, trace = FALSE, image 
       } else if(obj$type == "vector") {
         pushViewport(viewport(width = unit(1, "npc") - unit(2 * pnl$xMargin, "native") + unit(theme@box$linewidth, "points"),
                               height = unit(1, "npc") - unit(2 * pnl$yMargin, "native") + unit(theme@box$linewidth, "points"),
-                              # xscale = c(pnl$minWinX - pnl$xMargin, pnl$maxWinX + pnl$xMargin),
-                              # yscale = c(pnl$minWinY - pnl$yMargin, pnl$maxWinY + pnl$yMargin),
+                              xscale = c(pnl$minWinX - pnl$xMargin, pnl$maxWinX + pnl$xMargin),
+                              yscale = c(pnl$minWinY - pnl$yMargin, pnl$maxWinY + pnl$yMargin),
                               name = "vector"))
         if(clip){
           grid.clip(width = unit(1, "npc") + unit(theme@box$linewidth, "points"),

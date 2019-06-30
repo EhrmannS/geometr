@@ -10,21 +10,24 @@ makeLayout <- function(x = NULL, window = NULL, theme = NULL, ...){
 
   window <- .testWindow(x = window, ...)
 
-  tempExt <- getWindow(x = x)
-
-  if(min(tempExt$x) == max(tempExt$x)){
-    tempExt$x[1] <- tempExt$x[1] - 1
-    tempExt$x[2] <- tempExt$x[2] + 1
+  if(!is.null(window)){
+    x <- setWindow(x = x, to = window)
   }
-  if(min(tempExt$y) == max(tempExt$y)){
-    tempExt$y[1] <- tempExt$y[1] - 1
-    tempExt$y[2] <- tempExt$y[2] + 1
+  tempWin <- getWindow(x = x)
+
+  if(min(tempWin$x) == max(tempWin$x)){
+    tempWin$x[1] <- tempWin$x[1] - 1
+    tempWin$x[2] <- tempWin$x[2] + 1
+  }
+  if(min(tempWin$y) == max(tempWin$y)){
+    tempWin$y[1] <- tempWin$y[1] - 1
+    tempWin$y[2] <- tempWin$y[2] + 1
   }
 
-  maxExtX <- max(tempExt$x)
-  minExtX <- min(tempExt$x)
-  maxExtY <- max(tempExt$y)
-  minExtY <- min(tempExt$y)
+  maxExtX <- max(tempWin$x)
+  minExtX <- min(tempWin$x)
+  maxExtY <- max(tempWin$y)
+  minExtY <- min(tempWin$y)
 
   xBins <- theme@xAxis$bins
   yBins <- theme@yAxis$bins
@@ -56,14 +59,9 @@ makeLayout <- function(x = NULL, window = NULL, theme = NULL, ...){
 
     xFactor <- (maxExtX - minExtX)/abs(maxWinX - minWinX)
     yFactor <- (maxExtY - minExtY)/abs(maxWinY - minWinY)
-    xWindowOffset <- minWinX / abs(maxWinX - minWinX)
-    yWindowOffset <- minWinY / abs(maxWinY - minWinY)
+    xWindowOffset <- minExtX / abs(maxExtX - minExtX)
+    yWindowOffset <- minExtY / abs(maxExtY - minExtY)
   } else{
-    minWinX <- min(tempExt$x)
-    maxWinX <- max(tempExt$x)
-    minWinY <- min(tempExt$y)
-    maxWinY <- max(tempExt$y)
-
     xFactor <- yFactor <- 1
     xWindowOffset <- yWindowOffset <- 0
   }
@@ -101,10 +99,10 @@ makeLayout <- function(x = NULL, window = NULL, theme = NULL, ...){
   gridW <- unit(1, "grobwidth", "panelGrob") - yAxisTitleW - yAxisTicksW - legendW
   gridWr <- unit(1, "grobheight", "panelGrob")*ratio$x - xAxisTitleH*ratio$x- xAxisTicksH*ratio$x - titleH*ratio$x
 
-  out <- list(minWinX = minWinX, #
-              maxWinX = maxWinX, #
-              minWinY = minWinY, #
-              maxWinY = maxWinY, #
+  out <- list(minWinX = minExtX, #
+              maxWinX = maxExtX, #
+              minWinY = minExtY, #
+              maxWinY = maxExtY, #
               xMajGrid = axisSteps$x1, #
               xMinGrid = axisSteps$x2, #
               yMajGrid = axisSteps$y1, #
@@ -326,13 +324,13 @@ makeLayout <- function(x = NULL, window = NULL, theme = NULL, ...){
                              invert = FALSE)
       pointsInside <- sum(inside != 0)
       ratio <- pointsInside/nrPoints
-      if(ratio < 1/8){
+      if(ratio < 1/16){
         recent <- empty
-      } else if(ratio > 1/8 & ratio <= 1/4){
+      } else if(ratio > 1/16 & ratio <= 1/8){
         recent <- quarter
-      } else if(ratio > 1/4 & ratio <= 1/2){
+      } else if(ratio > 1/8 & ratio <= 1/4){
         recent <- half
-      } else if(ratio > 1/2){
+      } else if(ratio > 1/4){
         recent <- full
       }
 
