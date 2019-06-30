@@ -10,18 +10,23 @@
 \alias{makeObject,sf-method}
 \title{Make the object to a plot}
 \usage{
-\S4method{makeObject}{geom}(x, theme = gtTheme, ...)
+\S4method{makeObject}{geom}(x, window = NULL, theme = gtTheme, ...)
 
-\S4method{makeObject}{Raster}(x, theme = gtTheme, image = FALSE, ...)
+\S4method{makeObject}{Raster}(x, window = NULL, theme = gtTheme,
+  image = FALSE, ...)
 
-\S4method{makeObject}{matrix}(x, theme = gtTheme, image = FALSE, ...)
+\S4method{makeObject}{matrix}(x, window = NULL, theme = gtTheme,
+  image = FALSE, ...)
 
-\S4method{makeObject}{Spatial}(x, theme = gtTheme, ...)
+\S4method{makeObject}{Spatial}(x, window = NULL, theme = gtTheme, ...)
 
-\S4method{makeObject}{sf}(x, theme = gtTheme, ...)
+\S4method{makeObject}{sf}(x, window = NULL, theme = gtTheme, ...)
 }
 \arguments{
 \item{x}{the object from which to make object to plot.}
+
+\item{window}{[\code{data.frame(1)}] two oposing corners of a rectangle to
+which the plot is limited.}
 
 \item{theme}{[\code{gtTheme(1)}]\cr the theme from which to take graphical
 parameters.}

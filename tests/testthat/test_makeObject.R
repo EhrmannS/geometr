@@ -6,31 +6,31 @@ context("makeObject")
 
 
 test_that("make object from a geom", {
-  output <- makeObject(x = gtGeoms$polygon, theme = gtTheme)
+  output <- makeObject(x = gtGeoms$polygon, window = NULL, theme = gtTheme)
   expect_list(x = output, len = 6)
   expect_names(x = names(output), identical.to = c("type", "name", "out", "hasLegend", "uniqueValues", "legend"))
 
   # with a modified theme
   myTheme <- gtTheme
   myTheme@legend$ascending <- FALSE
-  output <- makeObject(x = gtGeoms$polygon, theme = myTheme)
+  output <- makeObject(x = gtGeoms$polygon, window = NULL, theme = myTheme)
   expect_list(x = output, len = 6)
   expect_names(x = names(output), identical.to = c("type", "name", "out", "hasLegend", "uniqueValues", "legend"))
 
   # a more complex geom
   nc <- st_read(system.file("shape/nc.shp", package="sf"))
-  output <- makeObject(x = gc_geom(input = nc), theme = gtTheme)
+  output <- makeObject(x = gc_geom(input = nc), window = NULL, theme = gtTheme)
   expect_list(x = output, len = 6)
   expect_names(x = names(output), identical.to = c("type", "name", "out", "hasLegend", "uniqueValues", "legend"))
 
   # when a deviating window is used
   input <- setWindow(x = gtGeoms$polygon, to = data.frame(x = c(0, 11), y = c(0, 11)))
-  expect_warning(object = output <- makeObject(x = input, theme = gtTheme), regexp = "some vertices are not within the plotting window.")
+  expect_warning(object = output <- makeObject(x = input, window = NULL, theme = gtTheme), regexp = "some vertices are not within the plotting window.")
   expect_list(x = output, len = 6)
   expect_names(x = names(output), identical.to = c("type", "name", "out", "hasLegend", "uniqueValues", "legend"))
 
   input <- setWindow(x = gtGeoms$polygon, to = data.frame(x = c(3, 5), y = c(3, 5)))
-  expect_warning(object = output <- makeObject(x = input, theme = gtTheme), regexp = "no vertices are within the plotting window.")
+  expect_warning(object = output <- makeObject(x = input, window = NULL, theme = gtTheme), regexp = "no vertices are within the plotting window.")
   expect_list(x = output, len = 6)
   expect_names(x = names(output), identical.to = c("type", "name", "out", "hasLegend", "uniqueValues", "legend"))
 })

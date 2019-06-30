@@ -29,8 +29,8 @@ An invisible \code{geom}.
 library(sf)
 
 nc = st_read(system.file("shape/nc.shp", package="sf"))
-nc_geom <- gt_sf(input = nc)
-visualise(geom = nc_geom, window = data.frame(x = c(-82.1, -81), y = c(36.6, 35.9)))
+nc_geom <- gc_geom(input = nc)
+visualise(`North Carolina` = nc_geom, window = data.frame(x = c(-82.1, -81), y = c(36.6, 35.9)))
 modGeom <- gt_edit()
 }
 }
