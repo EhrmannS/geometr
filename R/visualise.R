@@ -278,8 +278,13 @@ visualise <- function(..., window = NULL, theme = gtTheme, trace = FALSE, image 
       # the legend viewport
       if(theme@legend$plot & obj$hasLegend){
 
+        if(as.numeric(obj$legend$pos[length(obj$legend$pos)]) == 1){
+          maxYScale <- obj$legend$pos[length(obj$legend$pos)] + 0.00001
+        } else {
+          maxYScale <- obj$legend$pos[length(obj$legend$pos)]
+        }
         pushViewport(viewport(height = unit(1, "npc") * theme@legend$sizeRatio,
-                              yscale = c(1, obj$legend$pos[length(obj$legend$pos)]),
+                              yscale = c(1, maxYScale),
                               name = "legend"))
 
         grid.raster(x = unit(1, "npc") + unit(10, "points"),
