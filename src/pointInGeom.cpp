@@ -35,9 +35,9 @@ IntegerVector pointInGeomC(NumericMatrix &vert, NumericMatrix &geom, bool invert
   double yMin = min(geom(_, 1)), yMax = max(geom(_, 1));
 
   // warning if first and last coordinate are not the same
-  if(any(geom(0, _) != geom(gRows-1, _)).is_true()){
-    stop("first and last vertex must be the same.");
-  }
+  // if(any(geom(0, _) != geom(gRows-1, _)).is_true()){
+  //   stop("first and last vertex must be the same.");
+  // }
   // Rcout << "\n[x- " << xMin << "," << xMax << " | y- " << yMin << "," << yMax << "]" << std::endl;
 
   for(int j = 0; j < vRows; j++){
