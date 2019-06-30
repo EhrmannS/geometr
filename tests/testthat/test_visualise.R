@@ -9,6 +9,10 @@ test_that("visualise a Raster* object", {
 
   output <- visualise(raster = continuous)
   expect_class(output, "recordedplot")
+
+  input <- brick(system.file("external/rlogo.grd", package="raster"))
+  output <- visualise(raster = input)
+  expect_class(output, "recordedplot")
 })
 
 test_that("visualise a matrix", {
@@ -65,6 +69,10 @@ test_that("output the history of a plotted object", {
   aGeom <<- gs_polygon(anchor = coords)
 
   output <- capture_message(visualise(bla = aGeom, trace = TRUE))
+  expect_class(output, "simpleMessage")
+
+  input <- brick(system.file("external/rlogo.grd", package="raster"))
+  output <- capture_message(visualise(raster = input, trace = TRUE))
   expect_class(output, "simpleMessage")
 })
 
