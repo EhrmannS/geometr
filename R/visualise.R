@@ -107,7 +107,11 @@ visualise <- function(..., window = NULL, theme = gtTheme, trace = FALSE, image 
         if((class(theObject) == "RasterBrick" | class(theObject) == "RasterStack") & !image){
           theName <- paste(names(objs)[i], 1:dim(theObject)[3])
           temp <- lapply(1:dim(theObject)[3], function(x){
-            theObject[[x]]
+            t <- theObject[[x]]
+            if(length(theObject@history) != 0){
+              t@history <- theObject@history
+            }
+            return(t)
           })
           theObject <- temp
         } else if(class(theObject) == "matrix"){
@@ -275,7 +279,7 @@ visualise <- function(..., window = NULL, theme = gtTheme, trace = FALSE, image 
       if(theme@legend$plot & obj$hasLegend){
 
         pushViewport(viewport(height = unit(1, "npc") * theme@legend$sizeRatio,
-                              yscale = c(1, length(obj$legend$pos) + 0.1),
+                              yscale = c(1, obj$legend$pos[length(obj$legend$pos)]),
                               name = "legend"))
 
         grid.raster(x = unit(1, "npc") + unit(10, "points"),
@@ -299,7 +303,7 @@ visualise <- function(..., window = NULL, theme = gtTheme, trace = FALSE, image 
         if(theme@legend$label$plot){
           grid.text(label = obj$legend$labels,
                     x = unit(1, "npc") + unit(1, "grobwidth", "theLegend") + unit(20, "points"),
-                    y = obj$legend$pos,
+                    y = unit(obj$legend$pos, "native"),
                     just = c("left"),
                     gp = gpar(fontsize = theme@legend$label$fontsize,
                               col = theme@legend$label$colour))
@@ -441,24 +445,11 @@ visualise <- function(..., window = NULL, theme = gtTheme, trace = FALSE, image 
 
       if(hasHistory){
 
-        if(grepl("RasterBrick", class(objects[[i]]))){
-          theHistory <- lapply(seq_along(names(objects[[i]])), function(x){
-            temp <- unlist(objects[[i]][[x]]@history)
-          })
-          if(!is.null(unlist(theHistory))){
-            histMsg <- lapply(seq_along(names(objects[[i]])), function(x){
-              paste0("the layer '", names(objects[[i]])[x], "' has the following history:\n -> ", paste0(theHistory[[x]], collapse = "\n -> "))
-            })
-            names(histMsg) <- names(objects[[i]])
-            plotHistory <- TRUE
-          }
-        } else {
           theHistory <- unlist(objects[[i]]@history)
           if(!is.null(theHistory)){
             histMsg <- paste0("this object has the following history:\n -> ", paste0(theHistory, collapse = "\n -> "))
             plotHistory <- TRUE
           }
-        }
 
       }
     }
