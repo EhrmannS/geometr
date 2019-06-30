@@ -36,6 +36,7 @@ setMethod(f = "gc_grob",
 
             # capture display arguments
             displayArgs <- exprs(...)
+            featureType <- input@type
 
             # scale input to relative, if it's not
             if(input@scale == "absolute"){
@@ -45,8 +46,11 @@ setMethod(f = "gc_grob",
             }
 
             vert <- getVertices(x = outGeom)
-            attr <- getTable(x = input)
-
+            if(featureType == "point"){
+              attr <- left_join(x = input@vert, y = input@feat, by = "fid")
+            } else {
+              attr <- input@feat
+            }
             params <- theme@geom
 
             # select only displayArgs that are part of the valid parameters.
@@ -141,6 +145,7 @@ setMethod(f = "gc_grob",
               out <- pointsGrob(x = unit(vert$x, "npc"),
                                 y = unit(vert$y, "npc"),
                                 pch = params$pointsymbol,
+                                name = ids,
                                 size = unit(params$pointsize, "char"),
                                 gp = gpar(
                                   col = params$linecol,
@@ -207,7 +212,6 @@ setMethod(f = "gc_grob",
 setMethod(f = "gc_grob",
           signature = "sf",
           definition = function(input, theme = gtTheme, ...){
-
             stop("objects of class 'sf' can't be transformed to 'grob' recently.")
           }
 )
@@ -218,7 +222,6 @@ setMethod(f = "gc_grob",
 setMethod(f = "gc_grob",
           signature = "Spatial",
           definition = function(input, theme = gtTheme, ...){
-
             stop("objects of class 'Spatial' can't be transformed to 'grob' recently.")
           }
 )
