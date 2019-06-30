@@ -124,7 +124,7 @@ makeLayout <- function(x = NULL, window = NULL, theme = NULL, ...){
               xAxisTitleH = xAxisTitleH, #
               xWindowOffset = xWindowOffset, #
               yWindowOffset = yWindowOffset #
-              )
+  )
 
   return(out)
 }
@@ -321,46 +321,21 @@ makeLayout <- function(x = NULL, window = NULL, theme = NULL, ...){
       target <- data.frame(x = c(x[1], x[2], x[2], x[1], x[1]),
                            y = c(y[1], y[1], y[2], y[2], y[1]))
 
-      if(featureType == "point" | featureType == "line"){
-        inside <- pointInGeomC(vert = as.matrix(geom@vert[c("x", "y")]),
-                               geom = as.matrix(target),
-                               invert = FALSE)
-        pointsInside <- sum(inside != 0)
-        ratio <- pointsInside/nrPoints
-        if(pointsInside == 0){
-          recent <- empty
-        } else if(ratio < 1/4){
-          recent <- quarter
-        } else if(ratio > 1/4 & ratio < 1/2){
-          recent <- half
-        } else if(ratio > 1/2){
-          recent <- full
-        }
-
-      # } else if (featureType == "line"){
-
-      } else if(featureType == "polygon"){
-        inside <- NULL
-        for(k in seq_along(unique(geom@vert$fid))){
-          tempGeom <- geom@vert[geom@vert$fid == k,]
-          temp <- pointInGeomC(vert = as.matrix(target),
-                               geom = as.matrix(tempGeom[c("x", "y")]),
-                               invert = FALSE)
-          inside <- c(inside, temp[-5])
-        }
-
-        pointsInside <- sum(inside != 0)
-
-        if(pointsInside == 0){
-          recent <- empty
-        } else if(pointsInside == 1){
-          recent <- quarter
-        } else if(pointsInside == 2 | pointsInside == 3){
-          recent <- half
-        } else {
-          recent <- full
-        }
+      inside <- pointInGeomC(vert = as.matrix(geom@vert[c("x", "y")]),
+                             geom = as.matrix(target),
+                             invert = FALSE)
+      pointsInside <- sum(inside != 0)
+      ratio <- pointsInside/nrPoints
+      if(pointsInside == 0){
+        recent <- empty
+      } else if(ratio < 1/4){
+        recent <- quarter
+      } else if(ratio > 1/4 & ratio < 1/2){
+        recent <- half
+      } else if(ratio > 1/2){
+        recent <- full
       }
+
       filled <- c(filled, recent)
 
     }
