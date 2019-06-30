@@ -326,11 +326,11 @@ makeLayout <- function(x = NULL, window = NULL, theme = NULL, ...){
                              invert = FALSE)
       pointsInside <- sum(inside != 0)
       ratio <- pointsInside/nrPoints
-      if(pointsInside == 0){
+      if(ratio < 1/8){
         recent <- empty
-      } else if(ratio < 1/4){
+      } else if(ratio > 1/8 & ratio <= 1/4){
         recent <- quarter
-      } else if(ratio > 1/4 & ratio < 1/2){
+      } else if(ratio > 1/4 & ratio <= 1/2){
         recent <- half
       } else if(ratio > 1/2){
         recent <- full
