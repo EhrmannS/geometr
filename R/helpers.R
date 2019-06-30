@@ -295,6 +295,7 @@ makeLayout <- function(x = NULL, window = NULL, theme = NULL, ...){
 
   assertClass(x = geom, classes = "geom")
   theWindow <- getWindow(x = geom)
+  featureType <- geom@type
 
   # get the window labels
   xmin <- round(min(geom@window$x), 2)
@@ -312,6 +313,7 @@ makeLayout <- function(x = NULL, window = NULL, theme = NULL, ...){
 
   # create vector of symbols
   filled <- NULL
+  nrPoints <- dim(geom@vert)[1]
   for(i in 1:4){
     for(j in 1:4){
       x <- xmin + c(((xmax-xmin)/4 * j) - (xmax-xmin)/4, (xmax-xmin)/4 * j)
@@ -319,20 +321,45 @@ makeLayout <- function(x = NULL, window = NULL, theme = NULL, ...){
       target <- data.frame(x = c(x[1], x[2], x[2], x[1], x[1]),
                            y = c(y[1], y[1], y[2], y[2], y[1]))
 
-      # like so it makes sure that only the points are tested. not sure whether that is what I want. It's still problematic, becasue not all points are recognised as "inside" when they should be
-      inside <- pointInGeomC(vert = as.matrix(geom@vert[c("x", "y")]),
-                             geom = as.matrix(target),
-                             invert = FALSE)
-      pointsInside <- sum(inside[-5] != 0)
+      if(featureType == "point" | featureType == "line"){
+        inside <- pointInGeomC(vert = as.matrix(geom@vert[c("x", "y")]),
+                               geom = as.matrix(target),
+                               invert = FALSE)
+        pointsInside <- sum(inside != 0)
+        ratio <- pointsInside/nrPoints
+        if(pointsInside == 0){
+          recent <- empty
+        } else if(ratio < 1/4){
+          recent <- quarter
+        } else if(ratio > 1/4 & ratio < 1/2){
+          recent <- half
+        } else if(ratio > 1/2){
+          recent <- full
+        }
 
-      if(pointsInside == 0){
-        recent <- empty
-      } else if(pointsInside == 1){
-        recent <- quarter
-      } else if(pointsInside == 2 | pointsInside == 3){
-        recent <- half
-      } else {
-        recent <- full
+      # } else if (featureType == "line"){
+
+      } else if(featureType == "polygon"){
+        inside <- NULL
+        for(k in seq_along(unique(geom@vert$fid))){
+          tempGeom <- geom@vert[geom@vert$fid == k,]
+          temp <- pointInGeomC(vert = as.matrix(target),
+                               geom = as.matrix(tempGeom[c("x", "y")]),
+                               invert = FALSE)
+          inside <- c(inside, temp[-5])
+        }
+
+        pointsInside <- sum(inside != 0)
+
+        if(pointsInside == 0){
+          recent <- empty
+        } else if(pointsInside == 1){
+          recent <- quarter
+        } else if(pointsInside == 2 | pointsInside == 3){
+          recent <- half
+        } else {
+          recent <- full
+        }
       }
       filled <- c(filled, recent)
 
