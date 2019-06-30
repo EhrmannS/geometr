@@ -155,7 +155,6 @@ visualise <- function(..., window = NULL, theme = gtTheme, trace = FALSE, image 
   panelPosY <- rep(rev(seq(from = 1, to = nrow)), each = ncol)
   panelPosX <- rep(seq(from = 1, to = ncol), times = nrow)
 
-
   if(newPlot){
     grid.newpage()
     pushViewport(viewport(name = "vpLomm"))

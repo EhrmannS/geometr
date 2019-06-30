@@ -125,7 +125,7 @@ setMethod(f = "makeObject",
                 blue[is.na(blue)] <- 255L
                 theColours <- rgb(red = red, green = green, blue = blue, alpha = alpha, maxColorValue = 255)
               } else{
-                stop("please provide a RasterBrick with the 3 layers red, green, blue.")
+                stop("to visualise an image, please provide a RasterBrick with the 3 layers red, green, blue.")
               }
               out$hasLegend <- FALSE
 
@@ -172,7 +172,7 @@ setMethod(f = "makeObject",
               }
 
               if(is.factor(vals) | is.character(vals)){
-                tickLabels <- uniqueVals[tickValues]
+                # tickLabels <- uniqueVals[tickValues]
               } else {
                 tickLabels <- tickValues
               }

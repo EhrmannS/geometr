@@ -12,11 +12,11 @@ makeLayout <- function(x = NULL, window = NULL, theme = NULL, ...){
 
   tempExt <- getWindow(x = x)
 
-  if(tempExt$x[1] == tempExt$x[2]){
+  if(min(tempExt$x) == max(tempExt$x)){
     tempExt$x[1] <- tempExt$x[1] - 1
     tempExt$x[2] <- tempExt$x[2] + 1
   }
-  if(tempExt$y[1] == tempExt$y[2]){
+  if(min(tempExt$y) == max(tempExt$y)){
     tempExt$y[1] <- tempExt$y[1] - 1
     tempExt$y[2] <- tempExt$y[2] + 1
   }

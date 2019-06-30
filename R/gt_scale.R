@@ -60,6 +60,15 @@ gt_scale <- function(geom, range = NULL, to = "relative"){
     maxX <- max(window$x)
     minY <- min(window$y)
     maxY <- max(window$y)
+
+    if(minX == maxX){
+      minX <- minX - 1
+      maxX <- maxX + 1
+    }
+    if(minY == maxY){
+      minY <- minY - 1
+      maxY <- maxY + 1
+    }
   } else{
     newScale <- "an 'absolute'"
     rangeX <- c(min(window$x), max(window$x))
