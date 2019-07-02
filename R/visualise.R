@@ -63,6 +63,8 @@
 visualise <- function(..., window = NULL, theme = gtTheme, trace = FALSE, image = FALSE,
                       new = TRUE, clip = TRUE){
 
+  # window = window; theme = gtTheme; trace = FALSE; image = FALSE; new = TRUE; clip = TRUE
+
   # check arguments ----
   window <- .testWindow(x = window, ...)
   assertDataFrame(x = window, nrows = 2, min.cols = 2, null.ok = TRUE)
@@ -198,9 +200,9 @@ visualise <- function(..., window = NULL, theme = gtTheme, trace = FALSE, image 
                 gp = gpar(col = NA, fill = NA), name = "panelGrob")
       grid.rect(height = pnl$yMargin, width = pnl$xMargin,
                 gp = gpar(fill = NA, col = NA), name = "marginGrob")
-      grid.rect(x = unit(pnl$minWinX, "points"), y = unit(pnl$minWinY, "points"),
-                height = unit(pnl$maxWinY - pnl$minWinY, "points"),
-                width = unit(pnl$maxWinX - pnl$minWinX, "points"),
+      grid.rect(x = unit(pnl$minPlotX, "points"), y = unit(pnl$minPlotY, "points"),
+                height = unit(pnl$maxPlotY - pnl$minPlotY, "points"),
+                width = unit(pnl$maxPlotX - pnl$minPlotX, "points"),
                 gp = gpar(fill = NA, col = NA), name = "extentGrob")
 
       pushViewport(viewport(x = unit(0.5, "npc") + unit(pnl$xOffset, "points"),
@@ -222,8 +224,8 @@ visualise <- function(..., window = NULL, theme = gtTheme, trace = FALSE, image 
 
       # the yAxis viewport
       if(theme@yAxis$plot){
-        pushViewport(viewport(xscale = c(pnl$minWinX - pnl$xMargin, pnl$maxWinX + pnl$xMargin),
-                              yscale = c(pnl$minWinY - pnl$yMargin, pnl$maxWinY + pnl$yMargin),
+        pushViewport(viewport(xscale = c(pnl$minPlotX - pnl$xMargin, pnl$maxPlotX + pnl$xMargin),
+                              yscale = c(pnl$minPlotY - pnl$yMargin, pnl$maxPlotY + pnl$yMargin),
                               name = "yAxis"))
 
         if(theme@yAxis$label$plot){
@@ -250,8 +252,8 @@ visualise <- function(..., window = NULL, theme = gtTheme, trace = FALSE, image 
 
       # the xAxis viewport
       if(theme@xAxis$plot){
-        pushViewport(viewport(xscale = c(pnl$minWinX - pnl$xMargin, pnl$maxWinX + pnl$xMargin),
-                              yscale = c(pnl$minWinY - pnl$yMargin, pnl$maxWinY + pnl$yMargin),
+        pushViewport(viewport(xscale = c(pnl$minPlotX - pnl$xMargin, pnl$maxPlotX + pnl$xMargin),
+                              yscale = c(pnl$minPlotY - pnl$yMargin, pnl$maxPlotY + pnl$yMargin),
                               name = "xAxis"))
 
         if(theme@yAxis$label$plot){
@@ -325,8 +327,8 @@ visualise <- function(..., window = NULL, theme = gtTheme, trace = FALSE, image 
       }
 
       # the grid viewport
-      pushViewport(viewport(xscale = c(pnl$minWinX - pnl$xMargin, pnl$maxWinX + pnl$xMargin),
-                            yscale = c(pnl$minWinY - pnl$yMargin, pnl$maxWinY + pnl$yMargin),
+      pushViewport(viewport(xscale = c(pnl$minPlotX - pnl$xMargin, pnl$maxPlotX + pnl$xMargin),
+                            yscale = c(pnl$minPlotY - pnl$yMargin, pnl$maxPlotY + pnl$yMargin),
                             name = "grid"))
       grid.rect(gp = gpar(col = NA, fill = NA), name = "gridGrob")
 
@@ -334,8 +336,8 @@ visualise <- function(..., window = NULL, theme = gtTheme, trace = FALSE, image 
       if(theme@grid$plot){
 
         # plot the major grid viewport
-        pushViewport(viewport(xscale = c(pnl$minWinX - pnl$xMargin, pnl$maxWinX + pnl$xMargin),
-                              yscale = c(pnl$minWinY - pnl$yMargin, pnl$maxWinY + pnl$yMargin),
+        pushViewport(viewport(xscale = c(pnl$minPlotX - pnl$xMargin, pnl$maxPlotX + pnl$xMargin),
+                              yscale = c(pnl$minPlotY - pnl$yMargin, pnl$maxPlotY + pnl$yMargin),
                               name = "majorGrid"))
 
         grid.grill(h = unit(pnl$yMajGrid, "native"),
@@ -347,8 +349,8 @@ visualise <- function(..., window = NULL, theme = gtTheme, trace = FALSE, image 
 
         # plot the minor grid
         if(theme@grid$minor){
-          pushViewport(viewport(xscale = c(pnl$minWinX - pnl$xMargin, pnl$maxWinX + pnl$xMargin),
-                                yscale = c(pnl$minWinY - pnl$yMargin, pnl$maxWinY + pnl$yMargin),
+          pushViewport(viewport(xscale = c(pnl$minPlotX - pnl$xMargin, pnl$maxPlotX + pnl$xMargin),
+                                yscale = c(pnl$minPlotY - pnl$yMargin, pnl$maxPlotY + pnl$yMargin),
                                 name = "minorGrid"))
 
           grid.grill(h = unit(pnl$yMinGrid, "native"),
@@ -375,21 +377,19 @@ visualise <- function(..., window = NULL, theme = gtTheme, trace = FALSE, image 
       upViewport() # exit grid
 
       # the object viewport
-      pushViewport(viewport(xscale = c(pnl$minWinX - pnl$xMargin, pnl$maxWinX + pnl$xMargin),
-                            yscale = c(pnl$minWinY - pnl$yMargin, pnl$maxWinY + pnl$yMargin),
+      pushViewport(viewport(xscale = c(pnl$minPlotX - pnl$xMargin, pnl$maxPlotX + pnl$xMargin),
+                            yscale = c(pnl$minPlotY - pnl$yMargin, pnl$maxPlotY + pnl$yMargin),
                             name = "object"))
       grid.rect(gp = gpar(col = NA, fill = NA), name = "objectGrob")
 
       if(obj$type == "raster"){
         pushViewport(viewport(width = unit(1, "npc") - unit(2 * pnl$xMargin, "native") + unit(theme@box$linewidth, "points"),
                               height = unit(1, "npc") - unit(2 * pnl$yMargin, "native") + unit(theme@box$linewidth, "points"),
-                              xscale = c(pnl$minWinX - pnl$xMargin, pnl$maxWinX + pnl$xMargin),
-                              yscale = c(pnl$minWinY - pnl$yMargin, pnl$maxWinY + pnl$yMargin),
+                              xscale = c(pnl$minPlotX - pnl$xMargin, pnl$maxPlotX + pnl$xMargin),
+                              yscale = c(pnl$minPlotY - pnl$yMargin, pnl$maxPlotY + pnl$yMargin),
                               name = "raster"))
-        if(clip){
-          grid.clip(width = unit(1, "npc") + unit(theme@box$linewidth, "points"),
-                    height = unit(1, "npc") + unit(theme@box$linewidth, "points"))
-        }
+        grid.clip(width = unit(1, "npc") + unit(theme@box$linewidth, "points"),
+                  height = unit(1, "npc") + unit(theme@box$linewidth, "points"))
         grid.raster(x = unit(0, "npc") - unit(pnl$xWindowOffset, "npc"),
                     y = unit(0, "npc") - unit(pnl$yWindowOffset, "npc"),
                     width = unit(1, "npc") * pnl$xFactor,
@@ -402,8 +402,8 @@ visualise <- function(..., window = NULL, theme = gtTheme, trace = FALSE, image 
       } else if(obj$type == "vector") {
         pushViewport(viewport(width = unit(1, "npc") - unit(2 * pnl$xMargin, "native") + unit(theme@box$linewidth, "points"),
                               height = unit(1, "npc") - unit(2 * pnl$yMargin, "native") + unit(theme@box$linewidth, "points"),
-                              xscale = c(pnl$minWinX - pnl$xMargin, pnl$maxWinX + pnl$xMargin),
-                              yscale = c(pnl$minWinY - pnl$yMargin, pnl$maxWinY + pnl$yMargin),
+                              xscale = c(pnl$minPlotX - pnl$xMargin, pnl$maxPlotX + pnl$xMargin),
+                              yscale = c(pnl$minPlotY - pnl$yMargin, pnl$maxPlotY + pnl$yMargin),
                               name = "vector"))
         if(clip){
           grid.clip(width = unit(1, "npc") + unit(theme@box$linewidth, "points"),
@@ -419,14 +419,14 @@ visualise <- function(..., window = NULL, theme = gtTheme, trace = FALSE, image 
 
       downViewport(panelNames[i])
       downViewport("plot")
-      pushViewport(viewport(xscale = c(pnl$minWinX - pnl$xMargin, pnl$maxWinX + pnl$xMargin),
-                            yscale = c(pnl$minWinY - pnl$yMargin, pnl$maxWinY + pnl$yMargin),
+      pushViewport(viewport(xscale = c(pnl$minPlotX - pnl$xMargin, pnl$maxPlotX + pnl$xMargin),
+                            yscale = c(pnl$minPlotY - pnl$yMargin, pnl$maxPlotY + pnl$yMargin),
                             name = "grid"))
 
       pushViewport(viewport(width = unit(1, "npc") - unit(2 * pnl$xMargin, "native"),
                             height = unit(1, "npc") - unit(2 * pnl$yMargin, "native"),
-                            xscale = c(pnl$minWinX - pnl$xMargin, pnl$maxWinX + pnl$xMargin),
-                            yscale = c(pnl$minWinY - pnl$yMargin, pnl$maxWinY + pnl$yMargin),
+                            xscale = c(pnl$minPlotX - pnl$xMargin, pnl$maxPlotX + pnl$xMargin),
+                            yscale = c(pnl$minPlotY - pnl$yMargin, pnl$maxPlotY + pnl$yMargin),
                             name = "geom"))
 
       if(clip){

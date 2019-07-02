@@ -11,56 +11,58 @@ makeLayout <- function(x = NULL, window = NULL, theme = NULL, ...){
   window <- .testWindow(x = window, ...)
 
   if(!is.null(window)){
-    x <- setWindow(x = x, to = window)
-  }
-  tempWin <- getWindow(x = x)
-
-  if(min(tempWin$x) == max(tempWin$x)){
-    tempWin$x[1] <- tempWin$x[1] - 1
-    tempWin$x[2] <- tempWin$x[2] + 1
-  }
-  if(min(tempWin$y) == max(tempWin$y)){
-    tempWin$y[1] <- tempWin$y[1] - 1
-    tempWin$y[2] <- tempWin$y[2] + 1
+    plotWin <- window
+  } else {
+    plotWin <- getWindow(x = x)
   }
 
-  maxExtX <- max(tempWin$x)
-  minExtX <- min(tempWin$x)
-  maxExtY <- max(tempWin$y)
-  minExtY <- min(tempWin$y)
+  if(min(plotWin$x) == max(plotWin$x)){
+    plotWin$x[1] <- plotWin$x[1] - 1
+    plotWin$x[2] <- plotWin$x[2] + 1
+  }
+  if(min(plotWin$y) == max(plotWin$y)){
+    plotWin$y[1] <- plotWin$y[1] - 1
+    plotWin$y[2] <- plotWin$y[2] + 1
+  }
+
+  maxPlotX <- max(plotWin$x)
+  minPlotX <- min(plotWin$x)
+  maxPlotY <- max(plotWin$y)
+  minPlotY <- min(plotWin$y)
 
   xBins <- theme@xAxis$bins
   yBins <- theme@yAxis$bins
 
-  ratio <- list(x = (maxExtX - minExtX)/(maxExtY - minExtY),
-                y = (maxExtY - minExtY)/(maxExtX - minExtX))
-  xBinSize <- (maxExtX - minExtX)/xBins
-  yBinSize <- (maxExtY - minExtY)/yBins
-  axisSteps <- list(x1 = seq(from = minExtX,
-                             to = maxExtX,
-                             by = (maxExtX - minExtX)/xBins),
-                    x2 = seq(from = minExtX + (xBinSize/2),
-                             to = maxExtX,
-                             by = (maxExtX - minExtX)/xBins),
-                    y1 = seq(from = minExtY,
-                             to = maxExtY,
-                             by = (maxExtY - minExtY)/yBins),
-                    y2 = seq(from = minExtY + (yBinSize/2),
-                             to = maxExtY,
-                             by = (maxExtY - minExtY)/yBins))
-  margin <- list(x = (maxExtX-minExtX)*theme@yAxis$margin,
-                 y = (maxExtY-minExtY)*theme@xAxis$margin)
+  ratio <- list(x = (maxPlotX - minPlotX)/(maxPlotY - minPlotY),
+                y = (maxPlotY - minPlotY)/(maxPlotX - minPlotX))
+  xBinSize <- (maxPlotX - minPlotX)/xBins
+  yBinSize <- (maxPlotY - minPlotY)/yBins
+  axisSteps <- list(x1 = seq(from = minPlotX,
+                             to = maxPlotX,
+                             by = (maxPlotX - minPlotX)/xBins),
+                    x2 = seq(from = minPlotX + (xBinSize/2),
+                             to = maxPlotX,
+                             by = (maxPlotX - minPlotX)/xBins),
+                    y1 = seq(from = minPlotY,
+                             to = maxPlotY,
+                             by = (maxPlotY - minPlotY)/yBins),
+                    y2 = seq(from = minPlotY + (yBinSize/2),
+                             to = maxPlotY,
+                             by = (maxPlotY - minPlotY)/yBins))
+  margin <- list(x = (maxPlotX-minPlotX)*theme@yAxis$margin,
+                 y = (maxPlotY-minPlotY)*theme@xAxis$margin)
 
   if(!is.null(window)){
-    minWinX <- min(window$x)
-    maxWinX <- max(window$x)
-    minWinY <- min(window$y)
-    maxWinY <- max(window$y)
+    tempExt <- getExtent(x = x)
+    minExtX <- min(tempExt$x)
+    maxExtX <- max(tempExt$x)
+    minExtY <- min(tempExt$y)
+    maxExtY <- max(tempExt$y)
 
-    xFactor <- (maxExtX - minExtX)/abs(maxWinX - minWinX)
-    yFactor <- (maxExtY - minExtY)/abs(maxWinY - minWinY)
-    xWindowOffset <- minExtX / abs(maxExtX - minExtX)
-    yWindowOffset <- minExtY / abs(maxExtY - minExtY)
+    xFactor <- abs(maxExtX - minExtX)/abs(maxPlotX - minPlotX)
+    yFactor <- abs(maxExtY - minExtY)/abs(maxPlotY - minPlotY)
+    xWindowOffset <- minPlotX / abs(maxExtX - minExtX)
+    yWindowOffset <- minPlotY / abs(maxExtY - minExtY)
   } else{
     xFactor <- yFactor <- 1
     xWindowOffset <- yWindowOffset <- 0
@@ -99,10 +101,10 @@ makeLayout <- function(x = NULL, window = NULL, theme = NULL, ...){
   gridW <- unit(1, "grobwidth", "panelGrob") - yAxisTitleW - yAxisTicksW - legendW
   gridWr <- unit(1, "grobheight", "panelGrob")*ratio$x - xAxisTitleH*ratio$x- xAxisTicksH*ratio$x - titleH*ratio$x
 
-  out <- list(minWinX = minExtX, #
-              maxWinX = maxExtX, #
-              minWinY = minExtY, #
-              maxWinY = maxExtY, #
+  out <- list(minPlotX = minPlotX, #
+              maxPlotX = maxPlotX, #
+              minPlotY = minPlotY, #
+              maxPlotY = maxPlotY, #
               xMajGrid = axisSteps$x1, #
               xMinGrid = axisSteps$x2, #
               yMajGrid = axisSteps$y1, #
