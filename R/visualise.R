@@ -63,8 +63,6 @@
 visualise <- function(..., window = NULL, theme = gtTheme, trace = FALSE, image = FALSE,
                       new = TRUE, clip = TRUE){
 
-  # window = window; theme = gtTheme; trace = FALSE; image = FALSE; new = TRUE; clip = TRUE
-
   # check arguments ----
   window <- .testWindow(x = window, ...)
   assertDataFrame(x = window, nrows = 2, min.cols = 2, null.ok = TRUE)
@@ -388,12 +386,12 @@ visualise <- function(..., window = NULL, theme = gtTheme, trace = FALSE, image 
                               xscale = c(pnl$minPlotX - pnl$xMargin, pnl$maxPlotX + pnl$xMargin),
                               yscale = c(pnl$minPlotY - pnl$yMargin, pnl$maxPlotY + pnl$yMargin),
                               name = "raster"))
-        grid.clip(width = unit(1, "npc") + unit(theme@box$linewidth, "points"),
-                  height = unit(1, "npc") + unit(theme@box$linewidth, "points"))
-        grid.raster(x = unit(0, "npc") - unit(pnl$xWindowOffset, "npc"),
-                    y = unit(0, "npc") - unit(pnl$yWindowOffset, "npc"),
-                    width = unit(1, "npc") * pnl$xFactor,
-                    height = unit(1, "npc") * pnl$yFactor,
+        grid.clip(width = unit(1, "npc"),
+                  height = unit(1, "npc"))
+        grid.raster(x = unit(0, "npc") - unit(pnl$xWindowOffset, "npc") * pnl$xFactor,
+                    y = unit(0, "npc") - unit(pnl$yWindowOffset, "npc") * pnl$yFactor,
+                    width = unit(pnl$xFactor, "npc"),
+                    height = unit(pnl$yFactor, "npc"),
                     hjust = 0,
                     vjust = 0,
                     image = matrix(data = obj$array, nrow = obj$rows, ncol = obj$cols, byrow = TRUE),
