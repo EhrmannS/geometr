@@ -1,0 +1,63 @@
+---
+title: "geometr - An overview"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{overview}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(geometr)
+library(sf)
+library(sp)
+library(raster)
+```
+
+## Interoperability
+
+As R is an open source environment, no single package or class will ever be the sole source of a particular data structure, and this is also the case for geometric or spatial classes.
+Interoperable software is software that can easily exchange information with other software, leading to the same result with different interpretations of an operation.
+`Geometr` improves interoperability by providing getters and setters that retrieve particular information from a potentially wide range of classes that share those information, and which provide these information in an identical format across all classes.
+
+Think, for example about the extent of any spatial object. The extent is characterised by a minimum and maximum value in all dimensions into which the object spans.
+There are, however, many different forms in which this extent can be reported, such as a vector of four numbers, a 2x2 table or any other conceivable form.
+But which value is reported in which position, does the reported object have names and if so, what do they mean and how do they relate to the names of objects reported by other software?
+Consider the following examples, which are all kind of considered standard in R to date.
+
+```{r}
+nc <- st_read(system.file("shape/nc.shp", package="sf"))
+st_bbox(nc)
+
+nc_sp <- as_Spatial(nc)
+bbox(nc_sp)
+
+ras <- raster(system.file("external/test.grd", package="raster"))
+extent(ras)
+```
+
+For a human user the arrangement of those information might only matter when it lacks information that clearly identify any of the information that shall be shared (with the human).
+This capacity of humans, to recognise information in their context, is not given by most software to date, or more specifically, it needs to be programmed into the software that is supposed to gather those information.
+A function that is meant to build on spatial information that are provided by a user should ideally be accessible to the different flavours that are common in an open source software, so that everybody can use the classes they prefer, perhaps out of good reasons.
+So far, those functions don't yet exist and `geometr` provides them, as the following example shows
+
+```{r}
+getExtent(x = nc)
+
+getExtent(x = nc_sp)
+
+getExtent(x = ras)
+```
+
+This ensures that a custom function in a package that is meant to work with several spatial classes, and which must thus be agnostic to the spatial class provided, needs merely one very simple row of code and not a lengthy if-condition that tests classes and implements different extraction procedures.
+Moreover, the output of the tools provided by `geometr` is tidy, i.e. it provides variables in columns and observations in rows.
+
+
+## The class `geom`
