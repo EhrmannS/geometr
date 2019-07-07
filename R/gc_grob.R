@@ -55,10 +55,10 @@ setMethod(f = "gc_grob",
 
             # select only displayArgs that are part of the valid parameters.
             displayArgs <- displayArgs[names(displayArgs) %in% names(params)]
-            temp <- lapply(seq_along(displayArgs), function(x){
-              eval_tidy(displayArgs[[x]])
-            })
-            displayArgs <- setNames(object = temp, nm = names(displayArgs))
+            # temp <- lapply(seq_along(displayArgs), function(x){
+            #   eval_tidy(displayArgs[[x]])
+            # })
+            # displayArgs <- setNames(object = temp, nm = names(displayArgs))
 
             if(length(displayArgs) != 0){
               tempArgs <- displayArgs
