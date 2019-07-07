@@ -5,73 +5,72 @@ title: geometr
 url: http://EhrmannS.github.io/geometr
 development:
   mode: unreleased
-template:
-  params:
-    bootswatch: lumen
+
 reference:
   - title: geometries
-    desc: paramatrise or sketch geometries
+    desc: functions to paramatrise or sketch geometries
     contents:
-      - '`gs_point`'
-      - '`gs_line`'
-      - '`gs_polygon`'
-      - '`gs_random`'
-      - '`gs_tiles`'
-      - '`gs_voronoi`'
-  - title: other classes
-    desc: functions that transform geometries
+      - gs_point
+      - gs_line
+      - gs_polygon
+      - gs_random
+      - gs_tiles
+      - gs_voronoi
+  - title: spatial classes
+    desc: functions that transform between spatial classes
     contents:
-      - '`gt_sf`'
-      - '`gt_sp`'
-      - '`gt_grob`'
+      - gc_sf
+      - gc_sp
+      - gc_geom
+      - gc_grob
   - title: getters and setters
     desc: methods that standardise dealing with spatial objects
     contents:
-      - '`getCRS`'
-      - '`setCRS`'
-      - '`getExtent`'
-      - '`getHistory`'
-      - '`getSubset`'
-      - '`getTable`'
-      - '`setTable`'
-      - '`getVertices`'
-      - '`getWindow`'
-      - '`setWindow`'
+      - getCRS
+      - setCRS
+      - getExtent
+      - getHistory
+      - getSubset
+      - getTable
+      - setTable
+      - getVertices
+      - getWindow
+      - setWindow
   - title: utility functions
     desc: functions that modify geometries
     contents:
-      - '`gt_edit`'
-      - '`gt_locate`'
-      - '`gt_group`'
-      - '`gt_rotate`'
-      - '`gt_skew`'
-      - '`gt_stretch`'
-      - '`gt_scale`'
+      - gt_locate
+      - gt_rotate
+      - gt_skew
+      - gt_stretch
+      - gt_scale
   - title: visualise
     desc: plot spatial objects and locate coordinates
     contents:
-      - '`visualise`'
-      - '`setTheme`'
+      - visualise
+      - setTheme
   - title: example data
     desc: data that are used throughout the documentation
     contents:
-      - '`gtGeoms`'
-      - '`gtSF`'
-      - '`gtSP`'
-      - '`gtRasters`'
+      - gtGeoms
+      - gtSF
+      - gtSP
+      - gtRasters
+
 navbar:
   left:
-    - text: "Getting Started"
-      href: articles/introduction.html
-    - icon: fa-file-code-o
-      text: "References"
+    - text: "Get Started"
+      href: articles/geometr.html
+    - text: "Reference"
       href: reference/index.html
-  right:
-    - icon: far fa-list-alt
-      text: "Use cases"
-      href: articles/usecases.html
-    - icon: fa-newspaper-o
-      text: "News"
+    - text: "Articles"
+      menu:
+      - text: Example Usecases
+        href: articles/usecases.html
+    - text: "Changelog"
       href: news/index.html
+  right:
+    - icon: fa-twitter fa-lg
+      href: http://www.twitter.com/DerEhrmann
     - icon: fa-github
       href: https://github.com/EhrmannS/geometr
