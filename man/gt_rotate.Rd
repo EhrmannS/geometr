@@ -52,8 +52,7 @@ rotateMore <- gt_rotate(geom = aGeom,
 visualise(geom = rotateMore)
 }
 \seealso{
-Other geometry tools: \code{\link{gt_edit}},
-  \code{\link{gt_scale}}, \code{\link{gt_skew}},
-  \code{\link{gt_stretch}}
+Other geometry tools: \code{\link{gt_scale}},
+  \code{\link{gt_skew}}, \code{\link{gt_stretch}}
 }
 \concept{geometry tools}

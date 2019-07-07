@@ -51,10 +51,10 @@
 #'   testCharacter testIntegerish testNames
 #' @importFrom rlang enquos eval_tidy
 #' @importFrom tibble tibble
-#' @importFrom grid grid.newpage pushViewport viewport grid.rect grid.raster
-#'   grid.clip unit grid.draw grid.grill upViewport grid.text gpar convertX
-#'   downViewport
-#' @importFrom grDevices recordPlot
+#' @importFrom grid grid.ls grid.newpage pushViewport viewport grid.rect
+#'   grid.raster grid.clip unit grid.draw grid.grill upViewport grid.text gpar
+#'   convertX downViewport
+#' @importFrom grDevices recordPlot dev.list
 #' @importFrom raster nlayers getValues as.matrix ncol nrow stack
 #' @importFrom stats quantile
 #' @importFrom dplyr bind_rows

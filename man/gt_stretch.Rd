@@ -40,8 +40,7 @@ visualise(geom = gt_stretch(geom = aGeom, x = list(0.5), y = list(1, 0.2)))
 visualise(geom = gt_stretch(geom = aGeom, x = 0.5, fid = 1))
 }
 \seealso{
-Other geometry tools: \code{\link{gt_edit}},
-  \code{\link{gt_rotate}}, \code{\link{gt_scale}},
-  \code{\link{gt_skew}}
+Other geometry tools: \code{\link{gt_rotate}},
+  \code{\link{gt_scale}}, \code{\link{gt_skew}}
 }
 \concept{geometry tools}

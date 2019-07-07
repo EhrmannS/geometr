@@ -39,8 +39,7 @@ gt_scale(geom = aGeom, range = list(x = c(0, 100), y = c(10, 90)))
 
 }
 \seealso{
-Other geometry tools: \code{\link{gt_edit}},
-  \code{\link{gt_rotate}}, \code{\link{gt_skew}},
-  \code{\link{gt_stretch}}
+Other geometry tools: \code{\link{gt_rotate}},
+  \code{\link{gt_skew}}, \code{\link{gt_stretch}}
 }
 \concept{geometry tools}
