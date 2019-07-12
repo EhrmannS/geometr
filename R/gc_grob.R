@@ -55,10 +55,6 @@ setMethod(f = "gc_grob",
 
             # select only displayArgs that are part of the valid parameters.
             displayArgs <- displayArgs[names(displayArgs) %in% names(params)]
-            # temp <- lapply(seq_along(displayArgs), function(x){
-            #   eval_tidy(displayArgs[[x]])
-            # })
-            # displayArgs <- setNames(object = temp, nm = names(displayArgs))
 
             if(length(displayArgs) != 0){
               tempArgs <- displayArgs
@@ -105,7 +101,7 @@ setMethod(f = "gc_grob",
                 # if the argument is a colour argument, construct a color ramp from two or more values
                 if(thisArgName %in% c("linecol", "fillcol")){
                   params$scale$x <- thisArgName
-                  params$scale$cls <- thisArg
+                  params$scale$to <- toEval
 
                   uniqueColours <- colorRampPalette(colors = toRamp)(length(uniqueValsNum))
                   breaks <- c(min(uniqueValsNum)-1, uniqueValsNum)
