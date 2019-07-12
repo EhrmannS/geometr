@@ -25,18 +25,18 @@ library(sf)
 nc_sf <- st_read(system.file("shape/nc.shp", package="sf"))
 nc_geom <- gc_geom(input = nc_sf)
 
-# ... or by hand
+# ... or by hand.
 coords <- data.frame(x = c(40, 70, 70, 50),
                      y = c(40, 40, 60, 70))
 window <- data.frame(x = c(0, 80),
                      y = c(0, 80))
 (aGeom <- gs_polygon(anchor = coords, window = window))
 
-# the "tiny map" shows where the vertices are concentrated
+# The "tiny map" shows where the vertices are concentrated.
 nc_geom
 
 # Information, such as the attribute table, can be extracted from the object
-# in interoperable quality
+# in interoperable quality (i.e. same arrangement of the same information).
 attr_sf <- getTable(x = nc_sf)
 attr_geom <- getTable(x = nc_geom, slot = "feat")
 
@@ -47,20 +47,20 @@ getTable(x = nc_geom, slot = "vert")
 getTable(x = nc_geom, slot = "group")
 
 # Groups of features are called *multi\\** features in other packages. By
-# lumping several isolated geometric shapes into one multi\\* feature, the
-# separate geometries can't be attributed with ancilliary information
+# lumping several closed geometric shapes into one multi\\* feature, the
+# separate geometric shapes can't be attributed with ancilliary information
 # anymore. In a `geom`, multi\\* features are separated into distinct
-# (simpler) features (that may contain holes), while the multi\\* information
-#  is preserved in the variable `gid`.
+# (simpler) features, while the attributes of multi\\* features are captured
+# by the 'groups attribute table'
 currituck <- getSubset(x = nc_geom, gid == 4)
 getTable(x = currituck, slot = "feat")
 getTable(x = currituck, slot = "group")
 
 # A geom can be visualised ...
 visualise(`North Carolina` = nc_geom)
-visualise(`NC - NWBIR74` = nc_geom, linecol = NWBIR74)
+visualise(`NC - NWBIR74` = nc_geom, fillcol = NWBIR74)
 
-# And it can be cast into another type simply by providing it in 'anchor'
+# ... and it can be cast into another type simply by providing it in 'anchor'.
 manyPoints <- gs_point(anchor = nc_geom)
 
 }
