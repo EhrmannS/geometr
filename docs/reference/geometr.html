@@ -161,7 +161,7 @@ indentical input to write to various classes that require different input
 #&gt; epsg (SRID):    4267
 #&gt; proj4string:    +proj=longlat +datum=NAD27 +no_defs</div><div class='input'><span class='no'>nc_geom</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='gc_geom.html'>gc_geom</a></span>(<span class='kw'>input</span> <span class='kw'>=</span> <span class='no'>nc_sf</span>)
 
-<span class='co'># ... or by hand</span>
+<span class='co'># ... or by hand.</span>
 <span class='no'>coords</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/data.frame'>data.frame</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>40</span>, <span class='fl'>70</span>, <span class='fl'>70</span>, <span class='fl'>50</span>),
                      <span class='kw'>y</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>40</span>, <span class='fl'>40</span>, <span class='fl'>60</span>, <span class='fl'>70</span>))
 <span class='no'>window</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/data.frame'>data.frame</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>0</span>, <span class='fl'>80</span>),
@@ -176,7 +176,7 @@ indentical input to write to various classes that require different input
 #&gt;               ◌ ◉ ◉ ◎    
 #&gt;             0 ◌ ◌ ◌ ◌ 80 
 #&gt;               0 </div><div class='input'>
-<span class='co'># the "tiny map" shows where the vertices are concentrated</span>
+<span class='co'># The "tiny map" shows where the vertices are concentrated.</span>
 <span class='no'>nc_geom</span></div><div class='output co'>#&gt; </span><span style='color: #BBBB00;'>geom</span><span>        polygon
 #&gt;             108 features | 2529 vertices
 #&gt; </span><span style='color: #BBBB00;'>crs         </span><span>+proj=longlat +datum=NAD27 +no_defs
@@ -188,7 +188,7 @@ indentical input to write to various classes that require different input
 #&gt;             -84.32 ◌ ◌ ◌ ◌ -75.46 
 #&gt;                    33.88 </div><div class='input'>
 <span class='co'># Information, such as the attribute table, can be extracted from the object</span>
-<span class='co'># in interoperable quality</span>
+<span class='co'># in interoperable quality (i.e. same arrangement of the same information).</span>
 <span class='no'>attr_sf</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='getTable.html'>getTable</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>nc_sf</span>)
 <span class='no'>attr_geom</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='getTable.html'>getTable</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>nc_geom</span>, <span class='kw'>slot</span> <span class='kw'>=</span> <span class='st'>"feat"</span>)
 
@@ -223,11 +223,11 @@ indentical input to write to various classes that require different input
 #&gt; </span><span style='color: #BCBCBC;'>10</span><span>     8
 #&gt; </span><span style='color: #949494;'># … with 98 more rows</span><span></div><div class='input'>
 <span class='co'># Groups of features are called *multi\** features in other packages. By</span>
-<span class='co'># lumping several isolated geometric shapes into one multi\* feature, the</span>
-<span class='co'># separate geometries can't be attributed with ancilliary information</span>
+<span class='co'># lumping several closed geometric shapes into one multi\* feature, the</span>
+<span class='co'># separate geometric shapes can't be attributed with ancilliary information</span>
 <span class='co'># anymore. In a `geom`, multi\* features are separated into distinct</span>
-<span class='co'># (simpler) features (that may contain holes), while the multi\* information</span>
-<span class='co'>#  is preserved in the variable `gid`.</span>
+<span class='co'># (simpler) features, while the attributes of multi\* features are captured</span>
+<span class='co'># by the 'groups attribute table'</span>
 <span class='no'>currituck</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='getSubset.html'>getSubset</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>nc_geom</span>, <span class='no'>gid</span> <span class='kw'>==</span> <span class='fl'>4</span>)
 <span class='fu'><a href='getTable.html'>getTable</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>currituck</span>, <span class='kw'>slot</span> <span class='kw'>=</span> <span class='st'>"feat"</span>)</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 3 x 16</span><span>
 #&gt;     fid   gid  AREA PERIMETER CNTY_ CNTY_ID NAME  FIPS  FIPSNO CRESS_ID BIR74
@@ -251,8 +251,8 @@ indentical input to write to various classes that require different input
 #&gt; </span><span style='color: #BCBCBC;'>10</span><span>     8
 #&gt; </span><span style='color: #949494;'># … with 98 more rows</span><span></div><div class='input'>
 <span class='co'># A geom can be visualised ...</span>
-<span class='fu'><a href='visualise.html'>visualise</a></span>(<span class='kw'>`North Carolina`</span> <span class='kw'>=</span> <span class='no'>nc_geom</span>)</div><div class='img'><img src='geometr-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='visualise.html'>visualise</a></span>(<span class='kw'>`NC - NWBIR74`</span> <span class='kw'>=</span> <span class='no'>nc_geom</span>, <span class='kw'>linecol</span> <span class='kw'>=</span> <span class='no'>NWBIR74</span>)</div><div class='img'><img src='geometr-2.png' alt='' width='700' height='433' /></div><div class='input'>
-<span class='co'># And it can be cast into another type simply by providing it in 'anchor'</span>
+<span class='fu'><a href='visualise.html'>visualise</a></span>(<span class='kw'>`North Carolina`</span> <span class='kw'>=</span> <span class='no'>nc_geom</span>)</div><div class='img'><img src='geometr-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='visualise.html'>visualise</a></span>(<span class='kw'>`NC - NWBIR74`</span> <span class='kw'>=</span> <span class='no'>nc_geom</span>, <span class='kw'>fillcol</span> <span class='kw'>=</span> <span class='no'>NWBIR74</span>)</div><div class='img'><img src='geometr-2.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='co'># ... and it can be cast into another type simply by providing it in 'anchor'.</span>
 <span class='no'>manyPoints</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='gs_point.html'>gs_point</a></span>(<span class='kw'>anchor</span> <span class='kw'>=</span> <span class='no'>nc_geom</span>)</div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

@@ -8,7 +8,8 @@
 
 ***Generate and Process Geometric Shapes***
 
-The `geometr` package provides tools that generate and process fully accessible and tidy geometric shapes (of class `geom`). Moreover, it aims to improve interoperability of spatial and other geometric classes. Those classes are typically a collection of geometric shapes, or vertices that outline those shapes, which are accompanied by various meta data. The classes are conceptually quite similar, yet they lack a common standard in providing access to the objects, their vetrices or the meta data. `Geometr` fills this gap by providing tools that have a unified interface and that produce an identical output, irrespective of the handled class (socalled getters) or that use an indentical input to write to various classes that originally require different input (socalled setters).
+The `geometr` package provides tools that generate and process fully accessible and tidy geometric shapes (of class `geom`).
+`geometr` aims to improve interoperability of spatial classes. Spatial classes are typically a collection of geometric shapes (or their vertices) that are accompanied by various meta data. The classes are conceptually quite similar, yet they lack a common standard in providing access to features, vetrices or the meta data. `Geometr` fills this gap by providing tools that have a unified interface and that produce an identical output, irrespective of the handled class (socalled getters) or that use an indentical input to write to various classes that originally require different input (socalled setters).
 
 
 ## Installation
@@ -31,7 +32,7 @@ An object of class `geom` can be created from other classes ...
     nc_sf <- st_read(system.file("shape/nc.shp", package="sf"))
     nc_geom <- gc_geom(input = nc_sf)
 
-... or by hand
+... or by hand.
 
     coords <- data.frame(x = c(40, 70, 70, 50),
                          y = c(40, 40, 60, 70))
@@ -39,11 +40,11 @@ An object of class `geom` can be created from other classes ...
                          y = c(0, 80))
     aGeom <- gs_polygon(anchor = coords, window = window)
 
-The "tiny map" shows where the vertices are concentrated
+The "tiny map" shows where the vertices are concentrated.
     
     nc_geom
 
-Information, such as the attribute table, can be extracted from the object in interoperable quality (i.e. same arrangement of the same information)
+Information, such as the attribute table, can be extracted from the object in interoperable quality (i.e. same arrangement of the same information).
 
     attr_sf <- getTable(x = nc_sf)
     attr_geom <- getTable(x = nc_geom, slot = "feat")
@@ -53,7 +54,7 @@ However, a `geom` has three attribute tables, one for vertices, one for features
     getTable(x = nc_geom, slot = "vert")
     getTable(x = nc_geom, slot = "group")
     
-Groups of features are called *multi\** features in other packages. By lumping several isolated geometric shapes into one multi\* feature, the separate geometries can't be attributed with ancilliary information anymore. In a `geom`, multi\* features are separated into distinct (simpler) features (that may contain holes), while the multi\* information is preserved in the variable `gid`.
+Groups of features are called *multi\** features in other packages. By lumping several closed geometric shapes into one multi\* feature, the separate geometric shapes can't be attributed with ancilliary information anymore. In a `geom`, multi\* features are separated into distinct (simpler) features, while the attributes of multi\* features are captured by the *groups attribute table*.
 
     currituck <- getSubset(x = nc_geom, gid == 4)
     getTable(x = currituck, slot = "feat")
@@ -65,7 +66,7 @@ A geom can be visualised ...
 
     visualise(`NC - NWBIR74` = nc_geom, fillcol = NWBIR74)
 
-And it can be cast into another type simply by providing it in 'anchor'
+And it can be cast into another type simply by providing it in 'anchor' of the respective type
 
     manyPoints <- gs_point(anchor = nc_geom)
 
