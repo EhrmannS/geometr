@@ -59,11 +59,23 @@ setMethod(f = "makeObject",
             }
 
             uniqueVals <- sapply(aGrob, function(x){
-              unique(x$name)
+              if(is.na(as.numeric(x$name))){
+                x$name
+              } else {
+                as.numeric(x$name)
+              }
             })
             uniqueColours <- sapply(aGrob, function(x){
-              unique(x$gp$col)
+              x$gp$col
             })
+            uniqueFill <- sapply(aGrob, function(x){
+              x$gp$fil
+            })
+            if(length(unique(uniqueFill)) > 1){
+              uniqueColours <- uniqueFill
+            }
+            uniqueColours <- uniqueColours[order(uniqueVals)]
+            uniqueVals <- uniqueVals[order(uniqueVals)]
             uniqueValsNum <- seq_along(uniqueColours)
 
             # determine the tick values and labels
@@ -72,21 +84,17 @@ setMethod(f = "makeObject",
             } else{
               tickValues <- uniqueValsNum
             }
-            if(is.factor(uniqueVals) | is.character(uniqueVals)){
-              labels <- uniqueVals[tickValues]
-            } else {
-              labels <- tickValues
-            }
+            labels <- uniqueVals[tickValues]
 
             if(theme@legend$ascending){
               colours <- tibble(colours = rev(uniqueColours),
                                 values = rev(uniqueVals))
-              legendPos <- tibble(labels = tickValues,
+              legendPos <- tibble(labels = labels,
                                   pos = as.numeric(unit(tickValues, "native")))
             } else{
               colours <- tibble(colours = uniqueColours,
                                 values = uniqueVals)
-              legendPos <- tibble(labels = rev(tickValues),
+              legendPos <- tibble(labels = rev(labels),
                                   pos = rev(as.numeric(unit(tickValues, "native"))))
             }
 
