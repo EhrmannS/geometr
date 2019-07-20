@@ -7,6 +7,8 @@
 \alias{getTable,Spatial-method}
 \alias{getTable,sf-method}
 \alias{getTable,RasterLayer-method}
+\alias{getTable,RasterBrick-method}
+\alias{getTable,matrix-method}
 \title{Get the attribute table of a spatial object.}
 \usage{
 \S4method{getTable}{geom}(x, slot = "feat")
@@ -16,6 +18,10 @@
 \S4method{getTable}{sf}(x)
 
 \S4method{getTable}{RasterLayer}(x)
+
+\S4method{getTable}{RasterBrick}(x)
+
+\S4method{getTable}{matrix}(x)
 }
 \arguments{
 \item{x}{the object from which to derive the attribute table.}

@@ -4,7 +4,8 @@
 \alias{makeLayout}
 \title{Make the layout of a plot}
 \usage{
-makeLayout(x = NULL, window = NULL, theme = NULL, ...)
+makeLayout(x = NULL, window = NULL, theme = NULL, image = FALSE,
+  ...)
 }
 \arguments{
 \item{x}{[]}
