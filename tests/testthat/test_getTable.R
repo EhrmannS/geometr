@@ -38,7 +38,7 @@ test_that("getTable returns an empty tibble when no attributes are given", {
 
   # test RasterLayer without attribute table
   output <- getTable(input)
-  expect_tibble(output, any.missing = FALSE, nrows = 0, ncols = 0)
+  expect_tibble(output, any.missing = FALSE, nrows = 91, ncols = 2)
 })
 
 test_that("getTable returns a given attribute table", {
