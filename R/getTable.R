@@ -153,7 +153,7 @@ setMethod(f = "getTable",
 #'
 #' getTable(gtSF$multiline)
 #' @importFrom tibble tibble as_tibble
-#' @importFrom sf st_geometry<-
+#' @importFrom sf st_geometry_type st_coordinates st_geometry<-
 #' @export
 setMethod(f = "getTable",
           signature = "sf",
@@ -249,9 +249,33 @@ setMethod(f = "getTable",
           signature = "RasterLayer",
           definition = function(x){
             if(length(x@data@attributes) == 0){
-              tibble()
+              vals <- sort(unique(getValues(x = x)))
+              tibble(fid = seq_along(vals), values = vals)
             } else{
-              as_tibble(x@data@attributes[[1]])
+              names <- names(x@data@attributes[[1]])
+              names[which(names == "id")] <- "fid"
+              out <- as_tibble(x@data@attributes[[1]])
+              names(out) <- names
+              return(out)
             }
+          }
+)
+
+#' @rdname getTable
+#' @export
+setMethod(f = "getTable",
+          signature = "RasterBrick",
+          definition = function(x){
+
+          }
+)
+
+#' @rdname getTable
+#' @export
+setMethod(f = "getTable",
+          signature = "matrix",
+          definition = function(x){
+            vals <- unique(x = as.vector(x))
+            tibble(fid = seq_along(vals), values = vals)
           }
 )
