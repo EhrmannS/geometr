@@ -1,5 +1,5 @@
 #' Make the object to a plot
-#' @param x the object from which to make object to plot.
+#' @param x the object from which to make the plot.
 #' @param window [\code{data.frame(1)}] two oposing corners of a rectangle to
 #'   which the plot is limited.
 #' @param theme [\code{gtTheme(1)}]\cr the theme from which to take graphical
@@ -108,7 +108,7 @@ setMethod(f = "makeObject",
 )
 
 #' @rdname makeObject
-#' @param image [\code{logical(1)}]\cr whether or not the raster (stack)
+#' @param image [\code{logical(1)}]\cr whether or not the raster (brick)
 #'   contains an image.
 #' @importFrom checkmate testNames testCharacter assertClass
 #' @importFrom grDevices colorRampPalette rgb

@@ -47,7 +47,6 @@ setMethod(f = "getSubset",
             } else {
 
             }
-
             return(x)
           }
 )

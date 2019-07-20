@@ -1,14 +1,18 @@
 #' Make the layout of a plot
 #'
-#' @param x []
-#' @param window []
-#' @param theme []
+#' @param x the object from which to make the plot.
+#' @param window [\code{data.frame(1)}] two oposing corners of a rectangle to
+#'   which the plot is limited.
+#' @param theme [\code{gtTheme(1)}]\cr the theme from which to take graphical
+#'   parameters.
+#' @param image [\code{logical(1)}]\cr whether or not the raster (brick)
+#'   contains an image.
 #' @param ... []
 #' @importFrom dplyr left_join
 #' @importFrom raster getValues
 #' @export
 
-makeLayout <- function(x = NULL, window = NULL, theme = NULL, image = FALSE, ...){
+makeLayout <- function(x = NULL, window = NULL, theme = gtTheme, image = FALSE, ...){
 
   window <- .testWindow(x = window, ...)
 
