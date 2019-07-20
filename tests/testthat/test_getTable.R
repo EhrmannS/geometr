@@ -46,6 +46,6 @@ test_that("getTable returns a given attribute table", {
 
   output <- getTable(input)
   expect_data_frame(output, any.missing = FALSE, nrows = 9, ncols = 2)
-  expect_names(names(output), identical.to = c("id", "cover"))
+  expect_names(names(output), identical.to = c("fid", "cover"))
 })
 
