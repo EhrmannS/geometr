@@ -23,7 +23,7 @@
 \S4method{makeObject}{sf}(x, window = NULL, theme = gtTheme, ...)
 }
 \arguments{
-\item{x}{the object from which to make object to plot.}
+\item{x}{the object from which to make the plot.}
 
 \item{window}{[\code{data.frame(1)}] two oposing corners of a rectangle to
 which the plot is limited.}
@@ -35,7 +35,7 @@ parameters.}
 specific graphic parameters (see \code{\link{gpar}}) separately; see
 \code{\link{setTheme}} for details.}
 
-\item{image}{[\code{logical(1)}]\cr whether or not the raster (stack)
+\item{image}{[\code{logical(1)}]\cr whether or not the raster (brick)
 contains an image.}
 }
 \description{
