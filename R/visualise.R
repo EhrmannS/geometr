@@ -167,13 +167,15 @@ visualise <- function(..., window = NULL, theme = gtTheme, trace = FALSE, image 
   # plot the panels ----
   for(i in 1:panels){
 
-    # make panel layout ----
-    pnl <- makeLayout(x = objects[[i]],
-                      window = window,
-                      theme = theme)
-
     # make colours from theme for the object ----
     obj <- makeObject(x = objects[[i]],
+                      window = window,
+                      image = image,
+                      theme = theme,
+                      ...)
+
+    # make panel layout ----
+    pnl <- makeLayout(x = objects[[i]],
                       window = window,
                       image = image,
                       theme = theme,
