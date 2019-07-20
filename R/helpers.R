@@ -4,11 +4,43 @@
 #' @param window []
 #' @param theme []
 #' @param ... []
+#' @importFrom dplyr left_join
+#' @importFrom raster getValues
 #' @export
 
-makeLayout <- function(x = NULL, window = NULL, theme = NULL, ...){
+makeLayout <- function(x = NULL, window = NULL, theme = NULL, image = FALSE, ...){
 
   window <- .testWindow(x = window, ...)
+
+  # capture display arguments
+  displayArgs <- exprs(...)
+
+  attr <- getTable(x = x)
+  params <- theme@geom
+
+  # select only displayArgs that are part of the valid parameters.
+  displayArgs <- displayArgs[names(displayArgs) %in% names(params)]
+  if("fillcol" %in% names(displayArgs)){
+    toEval <- displayArgs[which(names(displayArgs) == "fillcol")]
+  } else if("linecol" %in% names(displayArgs)){
+    toEval <- displayArgs[which(names(displayArgs) == "linecol")][[1]]
+  } else {
+    toEval <- NULL
+  }
+  if(!image){
+    if(!is.null(toEval)){
+      if(toEval %in% names(attr)){
+        toEval <- names(attr)[which(names(attr) %in% toEval)]
+      } else {
+        toEval <- "fid"
+      }
+      arg <- eval(parse(text = paste0(toEval)), envir = attr)
+    } else {
+      arg <- eval(parse(text = "fid"), envir = attr)
+    }
+  } else {
+    arg <- 0
+  }
 
   if(!is.null(window)){
     plotWin <- window
@@ -74,7 +106,7 @@ makeLayout <- function(x = NULL, window = NULL, theme = NULL, ...){
     titleH <- unit(0, "points")
   }
   if(theme@legend$plot){
-    legendW <- ceiling(convertX(unit(1, "strwidth", as.character(100)) + unit(30, "points"), "points"))
+    legendW <- ceiling(convertX(unit(1, "strwidth", as.character(arg[which.max(nchar(arg))])) + unit(30, "points"), "points"))
   } else{
     legendW <- unit(0, "points")
   }
