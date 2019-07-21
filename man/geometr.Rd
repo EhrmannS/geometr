@@ -23,7 +23,7 @@ library(sf)
 
 # A geom can be created from other classes ...
 nc_sf <- st_read(system.file("shape/nc.shp", package="sf"))
-nc_geom <- gc_geom(input = nc_sf, group = FALSE)
+nc_geom <- gc_geom(input = nc_sf)
 
 # ... or by hand.
 coords <- data.frame(x = c(40, 70, 70, 50),
