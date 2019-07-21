@@ -49,7 +49,7 @@ setMethod(f = "gc_grob",
             if(featureType == "point"){
               attr <- left_join(x = input@vert, y = input@feat, by = "fid")
             } else {
-              attr <- input@feat
+              attr <- getTable(x = input)
             }
             params <- theme@geom
 
