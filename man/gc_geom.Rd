@@ -7,7 +7,7 @@
 \alias{gc_geom,Spatial-method}
 \title{Make a geometry object of class \code{geom}}
 \usage{
-\S4method{gc_geom}{sf}(input, window = NULL, ...)
+\S4method{gc_geom}{sf}(input, window = NULL, group = FALSE, ...)
 
 \S4method{gc_geom}{Spatial}(input, window = NULL, ...)
 }
@@ -15,6 +15,11 @@
 \item{input}{the object from which to make an object of class \code{geom}.}
 
 \item{window}{[\code{data.frame(1)}]\cr the reference window of the new geom.}
+
+\item{group}{[\code{logical(1)}]\cr should the attributes of multi* features
+be grouped, i.e. should the unique values per multi* feature be assigned
+into the groups table (\code{TRUE}), or should they be kept as
+duplicated per-feature attributes (\code{FALSE}, default)?}
 
 \item{...}{additional arguments, such as \code{verbose = TRUE/FALSE}.}
 }

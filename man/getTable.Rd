@@ -11,7 +11,7 @@
 \alias{getTable,matrix-method}
 \title{Get the attribute table of a spatial object.}
 \usage{
-\S4method{getTable}{geom}(x, slot = "feat")
+\S4method{getTable}{geom}(x, slot = NULL)
 
 \S4method{getTable}{Spatial}(x)
 
@@ -26,8 +26,9 @@
 \arguments{
 \item{x}{the object from which to derive the attribute table.}
 
-\item{slot}{[\code{character(1)}]\cr the geom slot from which to retrieve the
-attribute table, either \code{"vert"}, \code{"feat"} or \code{"group"}.}
+\item{slot}{[\code{character(1)}]\cr One of \code{"vert"}, \code{"feat"} or
+\code{"group"} from which to retrieve the attribute table. If left at
+\code{NULL}, 'feat' and 'group' will be joined.}
 }
 \description{
 Get the attribute table of a spatial object.
