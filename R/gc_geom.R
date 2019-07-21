@@ -22,12 +22,18 @@ if(!isGeneric("gc_geom")){
   )
 }
 
+#' @param group [\code{logical(1)}]\cr should the attributes of multi* features
+#'   be grouped, i.e. should the unique values per multi* feature be assigned
+#'   into the groups table (\code{TRUE}), or should they be kept as
+#'   duplicated per-feature attributes (\code{FALSE}, default)?
 #' @rdname gc_geom
-#' @importFrom tibble as_tibble
+#' @importFrom tibble tibble as_tibble
+#' @importFrom sf st_geometry_type
+#' @importFrom dplyr bind_cols
 #' @export
 setMethod(f = "gc_geom",
           signature = "sf",
-          definition = function(input, window = NULL, ...){
+          definition = function(input, window = NULL, group = FALSE, ...){
 
             window <- .testWindow(x = window, ...)
 
@@ -51,6 +57,14 @@ setMethod(f = "gc_geom",
             } else if(sourceClass %in% c("POLYGON", "MULTIPOLYGON")){
               type <- "polygon"
             }
+            if(sourceClass %in% c("MULTIPOINT", "MULTILINESTRING", "MULTIPOLYGON") & group){
+              temp <- theData[-which(colnames(theData) %in% c("fid", "gid"))]
+              temp <- temp[!duplicated(temp),]
+              theGroups <- bind_cols(gid = 1:dim(temp)[1], temp)
+              theData <- theData[c("fid", "gid")]
+            } else {
+              theGroups <- tibble(gid = unique(theData$gid))
+            }
             history <- paste0("geometry was transformed from an sf-object of geometry type '", sourceClass, "'.")
             theCRS <- getCRS(x = input)
 
@@ -58,7 +72,7 @@ setMethod(f = "gc_geom",
                        type = type,
                        vert = theCoords,
                        feat = theData,
-                       group = tibble(gid = theData$gid),
+                       group = theGroups,
                        window = theWindow,
                        scale = "absolute",
                        crs = theCRS,
