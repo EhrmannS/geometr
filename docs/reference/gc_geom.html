@@ -129,7 +129,7 @@
     </div>
 
     <pre class="usage"><span class='co'># S4 method for sf</span>
-<span class='fu'>gc_geom</span>(<span class='no'>input</span>, <span class='kw'>window</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>)
+<span class='fu'>gc_geom</span>(<span class='no'>input</span>, <span class='kw'>window</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>group</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='no'>...</span>)
 
 <span class='co'># S4 method for Spatial</span>
 <span class='fu'>gc_geom</span>(<span class='no'>input</span>, <span class='kw'>window</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>)</pre>
@@ -144,6 +144,13 @@
     <tr>
       <th>window</th>
       <td><p>[<code><a href='https://www.rdocumentation.org/packages/base/topics/data.frame'>data.frame(1)</a></code>]<br /> the reference window of the new geom.</p></td>
+    </tr>
+    <tr>
+      <th>group</th>
+      <td><p>[<code><a href='https://www.rdocumentation.org/packages/base/topics/logical'>logical(1)</a></code>]<br /> should the attributes of multi* features
+be grouped, i.e. should the unique values per multi* feature be assigned
+into the groups table (<code>TRUE</code>), or should they be kept as
+duplicated per-feature attributes (<code>FALSE</code>, default)?</p></td>
     </tr>
     <tr>
       <th>...</th>

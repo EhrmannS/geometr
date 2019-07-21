@@ -129,7 +129,7 @@
     </div>
 
     <pre class="usage"><span class='co'># S4 method for geom</span>
-<span class='fu'>getTable</span>(<span class='no'>x</span>, <span class='kw'>slot</span> <span class='kw'>=</span> <span class='st'>"feat"</span>)
+<span class='fu'>getTable</span>(<span class='no'>x</span>, <span class='kw'>slot</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
 
 <span class='co'># S4 method for Spatial</span>
 <span class='fu'>getTable</span>(<span class='no'>x</span>)
@@ -155,8 +155,9 @@
     </tr>
     <tr>
       <th>slot</th>
-      <td><p>[<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code>]<br /> the geom slot from which to retrieve the
-attribute table, either <code>"vert"</code>, <code>"feat"</code> or <code>"group"</code>.</p></td>
+      <td><p>[<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code>]<br /> One of <code>"vert"</code>, <code>"feat"</code> or
+<code>"group"</code> from which to retrieve the attribute table. If left at
+<code>NULL</code>, 'feat' and 'group' will be joined.</p></td>
     </tr>
     </table>
     

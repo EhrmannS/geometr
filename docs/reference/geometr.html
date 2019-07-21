@@ -208,20 +208,20 @@ indentical input to write to various classes that require different input
 #&gt; </span><span style='color: #BCBCBC;'> 8</span><span> -</span><span style='color: #BB0000;'>81.7</span><span>  36.6     1
 #&gt; </span><span style='color: #BCBCBC;'> 9</span><span> -</span><span style='color: #BB0000;'>81.3</span><span>  36.6     1
 #&gt; </span><span style='color: #BCBCBC;'>10</span><span> -</span><span style='color: #BB0000;'>81.3</span><span>  36.5     1
-#&gt; </span><span style='color: #949494;'># … with 2,519 more rows</span><span></div><div class='input'><span class='fu'><a href='getTable.html'>getTable</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>nc_geom</span>, <span class='kw'>slot</span> <span class='kw'>=</span> <span class='st'>"group"</span>)</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 108 x 1</span><span>
+#&gt; </span><span style='color: #949494;'># … with 2,519 more rows</span><span></div><div class='input'><span class='fu'><a href='getTable.html'>getTable</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>nc_geom</span>, <span class='kw'>slot</span> <span class='kw'>=</span> <span class='st'>"group"</span>)</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 100 x 1</span><span>
 #&gt;      gid
 #&gt;    </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span>
 #&gt; </span><span style='color: #BCBCBC;'> 1</span><span>     1
 #&gt; </span><span style='color: #BCBCBC;'> 2</span><span>     2
 #&gt; </span><span style='color: #BCBCBC;'> 3</span><span>     3
 #&gt; </span><span style='color: #BCBCBC;'> 4</span><span>     4
-#&gt; </span><span style='color: #BCBCBC;'> 5</span><span>     4
-#&gt; </span><span style='color: #BCBCBC;'> 6</span><span>     4
-#&gt; </span><span style='color: #BCBCBC;'> 7</span><span>     5
-#&gt; </span><span style='color: #BCBCBC;'> 8</span><span>     6
-#&gt; </span><span style='color: #BCBCBC;'> 9</span><span>     7
-#&gt; </span><span style='color: #BCBCBC;'>10</span><span>     8
-#&gt; </span><span style='color: #949494;'># … with 98 more rows</span><span></div><div class='input'>
+#&gt; </span><span style='color: #BCBCBC;'> 5</span><span>     5
+#&gt; </span><span style='color: #BCBCBC;'> 6</span><span>     6
+#&gt; </span><span style='color: #BCBCBC;'> 7</span><span>     7
+#&gt; </span><span style='color: #BCBCBC;'> 8</span><span>     8
+#&gt; </span><span style='color: #BCBCBC;'> 9</span><span>     9
+#&gt; </span><span style='color: #BCBCBC;'>10</span><span>    10
+#&gt; </span><span style='color: #949494;'># … with 90 more rows</span><span></div><div class='input'>
 <span class='co'># Groups of features are called *multi\** features in other packages. By</span>
 <span class='co'># lumping several closed geometric shapes into one multi\* feature, the</span>
 <span class='co'># separate geometric shapes can't be attributed with ancilliary information</span>
@@ -236,20 +236,10 @@ indentical input to write to various classes that require different input
 #&gt; </span><span style='color: #BCBCBC;'>2</span><span>     5     4  0.07      2.97  </span><span style='text-decoration: underline;'>1</span><span>831    </span><span style='text-decoration: underline;'>1</span><span>831 Curr… 37053  </span><span style='text-decoration: underline;'>37</span><span>053       27   508
 #&gt; </span><span style='color: #BCBCBC;'>3</span><span>     6     4  0.07      2.97  </span><span style='text-decoration: underline;'>1</span><span>831    </span><span style='text-decoration: underline;'>1</span><span>831 Curr… 37053  </span><span style='text-decoration: underline;'>37</span><span>053       27   508
 #&gt; </span><span style='color: #949494;'># … with 5 more variables: SID74 </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #949494;'>, NWBIR74 </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #949494;'>, BIR79 </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #949494;'>,
-#&gt; #   SID79 </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #949494;'>, NWBIR79 </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span></div><div class='input'><span class='fu'><a href='getTable.html'>getTable</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>currituck</span>, <span class='kw'>slot</span> <span class='kw'>=</span> <span class='st'>"group"</span>)</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 108 x 1</span><span>
-#&gt;      gid
-#&gt;    </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'> 1</span><span>     1
-#&gt; </span><span style='color: #BCBCBC;'> 2</span><span>     2
-#&gt; </span><span style='color: #BCBCBC;'> 3</span><span>     3
-#&gt; </span><span style='color: #BCBCBC;'> 4</span><span>     4
-#&gt; </span><span style='color: #BCBCBC;'> 5</span><span>     4
-#&gt; </span><span style='color: #BCBCBC;'> 6</span><span>     4
-#&gt; </span><span style='color: #BCBCBC;'> 7</span><span>     5
-#&gt; </span><span style='color: #BCBCBC;'> 8</span><span>     6
-#&gt; </span><span style='color: #BCBCBC;'> 9</span><span>     7
-#&gt; </span><span style='color: #BCBCBC;'>10</span><span>     8
-#&gt; </span><span style='color: #949494;'># … with 98 more rows</span><span></div><div class='input'>
+#&gt; #   SID79 </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #949494;'>, NWBIR79 </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span></div><div class='input'><span class='fu'><a href='getTable.html'>getTable</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>currituck</span>, <span class='kw'>slot</span> <span class='kw'>=</span> <span class='st'>"group"</span>)</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 1 x 1</span><span>
+#&gt;     gid
+#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span>
+#&gt; </span><span style='color: #BCBCBC;'>1</span><span>     4</div><div class='input'>
 <span class='co'># A geom can be visualised ...</span>
 <span class='fu'><a href='visualise.html'>visualise</a></span>(<span class='kw'>`North Carolina`</span> <span class='kw'>=</span> <span class='no'>nc_geom</span>)</div><div class='img'><img src='geometr-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='visualise.html'>visualise</a></span>(<span class='kw'>`NC - NWBIR74`</span> <span class='kw'>=</span> <span class='no'>nc_geom</span>, <span class='kw'>fillcol</span> <span class='kw'>=</span> <span class='no'>NWBIR74</span>)</div><div class='img'><img src='geometr-2.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># ... and it can be cast into another type simply by providing it in 'anchor'.</span>
