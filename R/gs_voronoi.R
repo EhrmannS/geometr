@@ -110,7 +110,7 @@ gs_voronoi <- function(anchor = NULL, window = NULL, template = NULL, features =
     tempAnchor <- anchor$obj
   }
 
-  temp <- deldir(as.data.frame(tempAnchor), rw = c(window$x[1], window$x[2], window$y[1], window$y[2]), suppressMsge = TRUE)
+  temp <- deldir(as.data.frame(tempAnchor), rw = c(min(window$x), max(window$x), min(window$y), max(window$y)), suppressMsge = TRUE)
   tempTiles <- tile.list(temp)
 
   for(i in seq_along(tempTiles)){
