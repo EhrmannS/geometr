@@ -59,7 +59,6 @@ gs_tiles <- function(anchor = NULL, window = NULL, width = NULL, offset = NULL,
     stop("please provide either 'anchor' or 'window'.")
   }
 
-
   if(is.null(anchor)){
     anchor <- gs_rectangle(anchor = window)
   } else {

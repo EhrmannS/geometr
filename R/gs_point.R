@@ -68,7 +68,7 @@ gs_point <- function(anchor = NULL, window = NULL, template = NULL,
 
   # check arguments
   anchor <- .testAnchor(x = anchor, ...)
-  window <- .testWindow(x = window, ...)
+  theWindow <- .testWindow(x = window, ...)
   template <- .testTemplate(x = template, ...)
 
   if(is.null(anchor) & is.null(template)){
@@ -101,39 +101,40 @@ gs_point <- function(anchor = NULL, window = NULL, template = NULL,
     message("please click the ", vertices, " vertices.")
     visualise(raster = template$obj)
     coords <- gt_locate(samples = vertices, panel = tempName, silent = TRUE, ...)
-    window <- tibble(x = c(0, dims[2]),
-                     y = c(0, dims[1]))
-    anchor <- tibble(x = coords$x,
-                     y = coords$y,
-                     fid = 1:vertices)
+    theWindow <- tibble(x = c(0, dims[2], dims[2], 0, 0),
+                        y = c(0, 0, dims[1], dims[1], 0))
+    theVertices <- tibble(x = coords$x,
+                          y = coords$y,
+                          fid = 1:vertices)
+    theFeatures = tibble(fid = 1:vertices, gid = 1:vertices)
+    theGroups = tibble(gid = 1:vertices)
   } else if(anchor$type == "geom"){
-    if(is.null(window)){
-      window <- tibble(x = c(min(anchor$obj@window$x),
-                             max(anchor$obj@window$x)),
-                       y = c(min(anchor$obj@window$y),
-                             max(anchor$obj@window$y)))
+    if(is.null(theWindow)){
+      theWindow <- anchor$obj@window
     }
-    anchor <- anchor$obj@vert
+    theVertices <- anchor$obj@vert
+    theFeatures <- anchor$obj@feat
+    theGroups <- anchor$obj@group
   } else if(anchor$type == "df"){
-    if(is.null(window)){
-      window <- tibble(x = c(min(anchor$obj$x),
-                             max(anchor$obj$x)),
-                       y = c(min(anchor$obj$y),
-                             max(anchor$obj$y)))
+    if(is.null(theWindow)){
+      theWindow = tibble(x = c(min(anchor$obj$x), max(anchor$obj$x), max(anchor$obj$x), min(anchor$obj$x), min(anchor$obj$x)),
+                         y = c(min(anchor$obj$y), min(anchor$obj$y), max(anchor$obj$y), max(anchor$obj$y), min(anchor$obj$y)))
     }
-    anchor <- anchor$obj
-    if(!"fid" %in% names(anchor)){
-      anchor <- bind_cols(anchor, fid = seq_along(anchor$x))
+    theVertices <- bind_cols(anchor$obj)
+    if(!"fid" %in% names(theVertices)){
+      theVertices <- bind_cols(theVertices, fid = seq_along(theVertices$x))
     }
+    vertices <- dim(theVertices)[1]
+    theFeatures = tibble(fid = 1:vertices, gid = 1:vertices)
+    theGroups = tibble(gid = 1:vertices)
   }
 
   theGeom <- new(Class = "geom",
                  type = "point",
-                 vert = anchor,
-                 feat = tibble(fid = unique(anchor$fid), gid = unique(anchor$fid)),
-                 group = tibble(gid = unique(anchor$fid)),
-                 window = tibble(x = c(min(window$x), max(window$x), max(window$x), min(window$x), min(window$x)),
-                                 y = c(min(window$y), min(window$y), max(window$y), max(window$y), min(window$y))),
+                 vert = theVertices,
+                 feat = theFeatures,
+                 group = theGroups,
+                 window = theWindow,
                  scale = "absolute",
                  crs = as.character(projection),
                  history = list(paste0("geometry was created as 'point'.")))
