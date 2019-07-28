@@ -265,6 +265,7 @@ makeLayout <- function(x = NULL, window = NULL, theme = gtTheme, image = FALSE, 
 #' @param ... [\code{.}]\cr additional arguments.
 #' @importFrom checkmate testDataFrame assertNames
 #' @importFrom rlang exprs
+#' @importFrom tibble as_tibble
 #' @export
 
 .testWindow <- function(x, ...){
@@ -274,7 +275,13 @@ makeLayout <- function(x = NULL, window = NULL, theme = gtTheme, image = FALSE, 
   if(testDataFrame(x = x, types = "numeric", any.missing = FALSE, ncols = 2)){
     colnames(x) <- tolower(colnames(x))
     assertNames(names(x), must.include = c("x", "y"))
-    return(x)
+    if(dim(x)[1] >= 2){
+      x = as_tibble(data.frame(x = c(min(x$x), max(x$x), max(x$x), min(x$x), min(x$x)),
+                               y = c(min(x$y), min(x$y), max(x$y), max(x$y), min(x$y))))
+      return(x)
+    } else {
+      return(NULL)
+    }
   } else {
     if("verbose" %in% names(args)){
       assertLogical(x = args$verbose)
