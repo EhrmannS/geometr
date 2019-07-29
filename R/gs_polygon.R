@@ -59,6 +59,12 @@
 #'   visualise(geom = ., fillcol = "deeppink")
 #' gs_rectangle(anchor = aGeom) %>%
 #'   visualise(geom = ., new = FALSE)
+#'
+#' \dontrun{
+#'
+#' gs_square(sketch = gtRasters$continuous) %>%
+#'   visualise(geom = ., linecol = "orange", new = FALSE)
+#' }
 #' @importFrom stats dist
 #' @importFrom checkmate testDataFrame assertNames testClass assertDataFrame
 #'   testTRUE testNull testClass assertIntegerish assertLogical assert
@@ -102,7 +108,13 @@ gs_polygon <- function(anchor = NULL, window = NULL, features = 1, vertices = NU
   if(!is.null(sketch)){
 
     template <- .testTemplate(x = sketch, ...)
-    theGeom <- gt_sketch(template = template$obj, shape = "polygon", features = features, vertices = vertices, regular = regular, fixed = fixed)
+    theGeom <- gt_sketch(template = template$obj,
+                         shape = "polygon",
+                         features = features,
+                         vertices = vertices,
+                         regular = regular,
+                         fixed = fixed,
+                         show = FALSE)
 
   } else{
 

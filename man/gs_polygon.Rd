@@ -113,6 +113,12 @@ gs_polygon(anchor = aGeom) \%>\%
   visualise(geom = ., fillcol = "deeppink")
 gs_rectangle(anchor = aGeom) \%>\%
   visualise(geom = ., new = FALSE)
+
+\dontrun{
+
+gs_square(sketch = gtRasters$continuous) \%>\%
+  visualise(geom = ., linecol = "orange", new = FALSE)
+}
 }
 \seealso{
 Other geometry shapes: \code{\link{gs_line}},

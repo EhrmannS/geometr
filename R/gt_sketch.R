@@ -31,7 +31,7 @@
 #' input <- gtRasters$continuous
 #'
 #' # create a square interactively
-#' squareGeom <- gs_square(template = input)
+#' squareGeom <- gs_square(sketch = input) %>%
 #' visualise(geom = squareGeom, linecol = "orange", new = FALSE)
 #'
 #' # ... or an approximate circle (actually a hectogon)
