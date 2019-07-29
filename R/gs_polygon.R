@@ -62,8 +62,8 @@
 #'
 #' \dontrun{
 #'
-#' gs_square(sketch = gtRasters$continuous, fixed = TRUE) %>%
-#'   visualise(geom = ., linecol = "orange", new = FALSE)
+#' gs_hexagon(sketch = gtRasters$continuous, fixed = TRUE) %>%
+#'   visualise(geom = ., linecol = "deeppink", linetype = 2, new = FALSE)
 #' }
 #' @importFrom stats dist
 #' @importFrom checkmate testDataFrame assertNames testClass assertDataFrame
@@ -104,7 +104,7 @@ gs_polygon <- function(anchor = NULL, window = NULL, features = 1, vertices = NU
     }
   }
 
-  # if anchor does not exists, make it
+  # sketch the geometry
   if(!is.null(sketch)){
 
     template <- .testTemplate(x = sketch, ...)
@@ -122,9 +122,6 @@ gs_polygon <- function(anchor = NULL, window = NULL, features = 1, vertices = NU
     for(i in 1:features){
 
       if(anchor$type == "geom"){
-        # }
-
-        # } else if(anchor$type == "geom"){
 
         if(is.null(theWindow)){
           theWindow <- anchor$obj@window
