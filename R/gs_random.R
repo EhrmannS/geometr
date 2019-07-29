@@ -4,13 +4,15 @@
 #' @param type [\code{character(1)}]\cr Either one of the three main feature
 #'   types \code{"point"}, \code{"line"} or \code{"polygon"}, or more
 #'   specifically one of their subtypes, e.g. \code{"hexagon"}.
-#' @param template [\code{RasterLayer(1)} | \code{matrix(1)}]\cr Gridded object
-#'   that serves as template to sketch the geometry.
+#' @param window [\code{data.frame(1)}]\cr in case the reference window deviates
+#'   from the bounding box (0, 1) (minimum and maximum values), specify this
+#'   here.
 #' @param vertices [\code{integerish(1)}]\cr the number of vertices the geometry
 #'   should have; only meaningful if \code{type} does not indicate the number of
 #'   vertices already. If left at \code{NULL} the minimum number of vertices for
 #'   the \code{geom} type, i.e. 1 for \code{point}, 2 for \code{line} and 3 for
 #'   \code{polygon}.
+#' @param ... [various]\cr additional arguments.
 #' @family shapes
 #' @examples
 #' library(magrittr)
@@ -27,17 +29,11 @@
 #' @importFrom stats runif
 #' @export
 
-gs_random <- function(type = "point", template = NULL, vertices = NULL){
+gs_random <- function(type = "point", window = NULL, vertices = NULL, ...){
 
-  assertSubset(type, choices = c("point", "line", "rectangle", "square", "polygon", "spline", "ellipse", "circle", "triangle", "hexagon"))
-  templateExists <- !testNull(template)
-  if(templateExists){
-    isRaster <- testClass(template, "RasterLayer")
-    isMatrix <- testClass(template, "matrix")
-    if(!isRaster & !isMatrix){
-      stop("please provide either a RasterLayer or a matrix as 'template'.")
-    }
-  }
+  theCoices <- c("point", "line", "polygon", "triangle", "rectangle", "square", "hexagon", "random")
+  assertSubset(x = type, choices = theCoices)
+  theWindow <- .testWindow(x = window, ...)
   assertIntegerish(vertices, any.missing = FALSE, len = 1, null.ok = TRUE)
 
   if(type == "point"){
@@ -76,11 +72,9 @@ gs_random <- function(type = "point", template = NULL, vertices = NULL){
                      fid = 1)
   }
 
-  if(templateExists){
-    window <- getExtent(x = template)
-  } else{
-    window <- tibble(x = c(0, 1),
-                     y = c(0, 1))
+  if(is.null(theWindow)){
+    theWindow = tibble(x = c(0, 1, 1, 0, 0),
+                       y = c(0, 0, 1, 1, 0))
   }
 
   theGeom <- new(Class = "geom",
@@ -88,15 +82,10 @@ gs_random <- function(type = "point", template = NULL, vertices = NULL){
                  vert = anchor,
                  feat = tibble(fid = unique(anchor$fid), gid = unique(anchor$fid)),
                  group = tibble(gid = unique(anchor$fid)),
-                 window = tibble(x = c(min(window$x), max(window$x), max(window$x), min(window$x), min(window$x)),
-                                 y = c(min(window$y), min(window$y), max(window$y), max(window$y), min(window$y))),
+                 window = theWindow,
                  scale = "relative",
                  crs = as.character(NA),
                  history = list(paste0("geometry was created randomly")))
-
-  if(templateExists){
-    theGeom <- gt_scale(theGeom, to = "absolute")
-  }
 
   invisible(theGeom)
 }
