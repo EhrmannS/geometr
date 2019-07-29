@@ -5,7 +5,7 @@
 \title{Locate (and identify) clicks}
 \usage{
 gt_locate(samples = 1, panel = NULL, identify = FALSE,
-  snap = FALSE, raw = FALSE, silent = FALSE, show = FALSE, ...)
+  snap = FALSE, raw = FALSE, show = FALSE, ...)
 }
 \arguments{
 \item{samples}{[\code{integerish(1)}]\cr the number of clicks.}
@@ -24,10 +24,6 @@ selected, "real" value (\code{FALSE}, default)?}
 \item{raw}{[\code{logical(1)}]\cr should the complete statistics about the
 clicks be returned (\code{TRUE}), or should only the basic output be
 returned (\code{FALSE}, default)?}
-
-\item{silent}{[\code{logical(1)}]\cr should all messages except errors be
-suppressed (\code{TRUE}), or should all messages be printed (\code{FALSE},
-default)?}
 
 \item{show}{[\code{logical(1)}]\cr should information about the selected
 cells be included in the plot (\code{TRUE}), or should they merely be

@@ -13,9 +13,6 @@
 #' @param raw [\code{logical(1)}]\cr should the complete statistics about the
 #'   clicks be returned (\code{TRUE}), or should only the basic output be
 #'   returned (\code{FALSE}, default)?
-#' @param silent [\code{logical(1)}]\cr should all messages except errors be
-#'   suppressed (\code{TRUE}), or should all messages be printed (\code{FALSE},
-#'   default)?
 #' @param show [\code{logical(1)}]\cr should information about the selected
 #'   cells be included in the plot (\code{TRUE}), or should they merely be
 #'   returned in the console (\code{FALSE, default})?
@@ -54,14 +51,13 @@
 #' @export
 
 gt_locate <- function(samples = 1, panel = NULL, identify = FALSE, snap = FALSE,
-                      raw = FALSE, silent = FALSE, show = FALSE, ...){
+                      raw = FALSE, show = FALSE, ...){
 
   # check arguments
   assertIntegerish(x = samples, lower = 1, max.len = 1)
   assertCharacter(x = panel, ignore.case = TRUE, len = 1, null.ok = TRUE)
   assertLogical(x = identify, len = 1)
   assertLogical(x = snap, len = 1)
-  assertLogical(x = silent, len = 1)
   assertLogical(x = show, len = 1)
 
   # test whether a geometr plot is already open
@@ -106,7 +102,7 @@ gt_locate <- function(samples = 1, panel = NULL, identify = FALSE, snap = FALSE,
 
   # find the correct viewport to limit actions to this area of the plot
   if(isRasterInPlot){
-    rasterVpPath <- grid.grep(paste0(panel, "::plot::grid::raster"), grobs = FALSE, viewports = TRUE, grep = TRUE)
+    rasterVpPath <- grid.grep(paste0(panel, "::plot::object::raster"), grobs = FALSE, viewports = TRUE, grep = TRUE)
     seekViewport(rasterVpPath)
 
     metaRaster <- grid.get(gPath("theRaster"), global = TRUE)
@@ -154,10 +150,6 @@ gt_locate <- function(samples = 1, panel = NULL, identify = FALSE, snap = FALSE,
                           y = rep(seq(panelExt$y[2]-0.5, panelExt$y[1]), each = panelExt$x[2]),
                           ymin = rep(seq(panelExt$y[2]-1, panelExt$y[1]), each = panelExt$x[2]),
                           ymax = rep(seq(panelExt$y[2], panelExt$y[1]+1), each = panelExt$x[2]))
-  }
-
-  if(!silent){
-    message(paste0("please click ", samples, " location(s) in the panel '", panel, "'.\n\n"))
   }
 
   out <- NULL
@@ -240,50 +232,3 @@ gt_locate <- function(samples = 1, panel = NULL, identify = FALSE, snap = FALSE,
 
   return(out)
 }
-
-
-# from lattice::panel.identify (might be useful for identifying vertices to modify)
-# function (x, y = NULL, subscripts = seq_along(x), labels = subscripts,
-#           n = length(x), offset = 0.5, threshold = 18, panel.args = trellis.panelArgs(),
-#           ...)
-# {
-#   if (missing(x)) {
-#     x <- panel.args$x
-#     y <- panel.args$y
-#     if (missing(subscripts) && !is.null(panel.args$subscripts))
-#       subscripts <- panel.args$subscripts
-#   }
-#   xy <- xy.coords(x, y, recycle = TRUE)
-#   x <- xy$x
-#   y <- xy$y
-#   px <- convertX(unit(x, "native"), "points", TRUE)
-#   py <- convertY(unit(y, "native"), "points", TRUE)
-#   labels <- as.character(labels)
-#   if (length(labels) > length(subscripts))
-#     labels <- labels[subscripts]
-#   unmarked <- rep(TRUE, length(x))
-#   count <- 0
-#   while (count < n) {
-#     ll <- grid.locator(unit = "points")
-#     if (is.null(ll))
-#       break
-#     lx <- convertX(ll$x, "points", TRUE)
-#     ly <- convertY(ll$y, "points", TRUE)
-#     pdists <- sqrt((px - lx)^2 + (py - ly)^2)
-#     if (min(pdists, na.rm = TRUE) > threshold)
-#       warning("no observations within ", threshold, " points")
-#     else {
-#       w <- which.min(pdists)
-#       if (unmarked[w]) {
-#         pos <- getTextPosition(x = lx - px[w], y = ly -
-#                                  py[w])
-#         ltext(x[w], y[w], labels[w], pos = pos, offset = offset,
-#               ..., identifier = "identify")
-#         unmarked[w] <- FALSE
-#         count <- count + 1
-#       }
-#       else warning("nearest observation already identified")
-#     }
-#   }
-#   subscripts[!unmarked]
-# }
