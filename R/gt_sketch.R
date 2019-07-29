@@ -75,14 +75,12 @@
 gt_sketch <- function(template = NULL, shape = NULL, features = 1, vertices = NULL,
                       regular = FALSE, fixed = TRUE, show = FALSE, ...){
 
-  # template <- gtRasters$categorical; shape <- "polygon"; features <- 1; vertices <- NULL; regular <- FALSE; fixed <- TRUE
-
   theCoices <- c("point", "line", "polygon", "triangle", "rectangle", "square", "hexagon", "random")
   # check arguments
   template <- .testTemplate(x = template, ...)
   assertSubset(x = shape, choices = theCoices)
   assertIntegerish(x = features, len = 1, lower = 1)
-  assertIntegerish(vertices, min.len = 1, lower = 2, null.ok = TRUE)
+  assertIntegerish(x = vertices, min.len = 1, null.ok = TRUE)
   assertLogical(x = regular)
   assertLogical(x = fixed)
 
@@ -92,9 +90,8 @@ gt_sketch <- function(template = NULL, shape = NULL, features = 1, vertices = NU
   }
   if(shape %in% "point"){
     type <- "point"
-    if(is.null(vertices)){
-      vertices <- 1
-    }
+    vertices <- features
+    features <- 1
   } else if(shape %in% c("line")){
     type <- "line"
     if(is.null(vertices)){
