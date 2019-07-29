@@ -89,7 +89,7 @@ gs_polygon <- function(anchor = NULL, window = NULL, template = NULL, features =
 
   # check arguments
   anchor <- .testAnchor(x = anchor, ...)
-  window <- .testWindow(x = window, ...)
+  theWindow <- .testWindow(x = window, ...)
   template <- .testTemplate(x = template, ...)
 
   if(is.null(anchor) & is.null(template)){
@@ -139,7 +139,7 @@ gs_polygon <- function(anchor = NULL, window = NULL, template = NULL, features =
     projection <- NA
   }
 
-  nodes <- fids <- NULL
+  theVertices <- theFeatures <- theGroups <- fids <- NULL
   for(i in 1:features){
 
     # if anchor does not exists, make it
@@ -156,8 +156,8 @@ gs_polygon <- function(anchor = NULL, window = NULL, template = NULL, features =
         visualise(raster = template$obj)
       }
       theClicks <- gt_locate(samples = clicks, panel = tempName, silent = TRUE, ...)
-      window <- tibble(x = c(0, dims[2]),
-                       y = c(0, dims[1]))
+      theWindow <- tibble(x = c(0, dims[2], dims[2], 0, 0),
+                          y = c(0, 0, dims[1], dims[1], 0))
       tempAnchor <- tibble(x = theClicks$x,
                            y = theClicks$y,
                            fid = i)
@@ -168,30 +168,31 @@ gs_polygon <- function(anchor = NULL, window = NULL, template = NULL, features =
         # get the angle between the first and second click
         openingAngle <- atan((theClicks$x[1] - theClicks$x[2]) / (theClicks$y[1] - theClicks$y[2])) * 180 / pi
       }
+      tempFeatures <- tibble(fid = i, gid = i)
+      tempGroups <- tibble(gid = i)
 
     } else if(anchor$type == "geom"){
-      if(is.null(window)){
-        window <- tibble(x = c(min(anchor$obj@window$x),
-                               max(anchor$obj@window$x)),
-                         y = c(min(anchor$obj@window$y),
-                               max(anchor$obj@window$y)))
+      if(is.null(theWindow)){
+        theWindow <- anchor$obj@window
       }
       tempAnchor <- anchor$obj@vert[anchor$obj@vert$fid == i,]
       openingAngle <- atan((tempAnchor$x[1] - tempAnchor$x[2]) / (tempAnchor$y[1] - tempAnchor$y[2])) * 180 / pi
+      tempFeatures <- anchor$obj@feat[anchor$obj@feat$fid == i,]
+      tempGroups <- anchor$obj@group[anchor$obj@group$gid == i,]
     } else if(anchor$type == "df"){
-      if(is.null(window)){
-        window <- tibble(x = c(min(anchor$obj$x),
-                               max(anchor$obj$x)),
-                         y = c(min(anchor$obj$y),
-                               max(anchor$obj$y)))
+      if(is.null(theWindow)){
+        theWindow = tibble(x = c(min(anchor$obj$x), max(anchor$obj$x), max(anchor$obj$x), min(anchor$obj$x), min(anchor$obj$x)),
+                           y = c(min(anchor$obj$y), min(anchor$obj$y), max(anchor$obj$y), max(anchor$obj$y), min(anchor$obj$y)))
       }
       if("fid" %in% names(anchor$obj)){
         tempAnchor <- anchor$obj[anchor$obj$fid == i, ]
       } else {
         tempAnchor <- anchor$obj
-        tempAnchor <- bind_cols(tempAnchor, fid = rep(1, length.out = length(anchor$obj$x)))
+        tempAnchor <- bind_cols(tempAnchor, fid = rep(i, length.out = length(anchor$obj$x)))
       }
       openingAngle <- atan((tempAnchor$x[1] - tempAnchor$x[2]) / (tempAnchor$y[1] - tempAnchor$y[2])) * 180 / pi
+      tempFeatures <- tibble(fid = i, gid = i)
+      tempGroups <- tibble(gid = i)
     }
 
     # build a regular geometry
@@ -203,50 +204,52 @@ gs_polygon <- function(anchor = NULL, window = NULL, template = NULL, features =
       radius <- dist(tempAnchor[c(1:2),])
       cx <- tempAnchor$x[1] + radius*cos(.rad(angles))
       cy <- tempAnchor$y[1] + radius*sin(.rad(angles))
-      theNodes <- tibble(x = cx, y = cy)
-      if(any(theNodes$x < min(window$x)) | any(theNodes$x > max(window$x)) | any(theNodes$y < min(window$y)) | any(theNodes$y > max(window$y))){
-        window <- tibble(x = c(min(theNodes$x), max(theNodes$x)), y = c(min(theNodes$y), max(theNodes$y)))
-      }
+      theNodes <- tibble(x = cx, y = cy, fid = i)
+      theWindow <- .updateWindow(geom = theNodes, window = theWindow)
     } else{
-      theNodes <- tempAnchor[c("x", "y")]
+      theNodes <- tempAnchor[c("x", "y", "fid")]
     }
 
     # create vertices that would close rings and thus make valid polygons, check
     # whether the first vertex has a duplicate...
-
     dupBwd <- duplicated(theNodes, fromLast = TRUE)
     if(!dupBwd[1]){
-      # ... if not, test whether there is any duplicate, hence any closed ring, or not
+      # ... if not, test whether there is any duplicate, hence any closed ring
       if(any(dupBwd)){
-        theNodes <- add_row(theNodes, x = theNodes$x[1], y = theNodes$y[1], .before = which(dupBwd))
+        theNodes <- add_row(theNodes, x = theNodes$x[1], y = theNodes$y[1], fid = theNodes$fid[1], .before = which(dupBwd))
       } else {
-        theNodes <- add_row(theNodes, x = theNodes$x[1], y = theNodes$y[1])
+        theNodes <- add_row(theNodes, x = theNodes$x[1], y = theNodes$y[1], fid = theNodes$fid[1])
       }
     }
 
     # check whether the last vertex has a duplicate...
     dupFwd <- duplicated(theNodes)
     if(!dupFwd[dim(theNodes)[1]]){
-      # ... if not, test whether there is any duplicate, hence any closed ring, or not
+      # ... if not, test whether there is any duplicate, hence any closed ring
       if(any(dupFwd)){
-        theNodes <- add_row(theNodes, x = theNodes$x[dim(theNodes)[1]], y = theNodes$y[dim(theNodes)[1]], .after = which(dupFwd)+1)
+        theNodes <- add_row(theNodes, x = theNodes$x[dim(theNodes)[1]], y = theNodes$y[dim(theNodes)[1]], fid = theNodes$fid[dim(theNodes)[1]], .after = which(dupFwd)+1)
       } else {
-        theNodes <- add_row(theNodes, x = theNodes$x[1], y = theNodes$y[1])
+        theNodes <- add_row(theNodes, x = theNodes$x[1], y = theNodes$y[1], fid = theNodes$fid[1])
       }
     }
 
-    theNodes <- tibble(x = theNodes$x, y = theNodes$y, fid = i)
-    nodes <- bind_rows(nodes, theNodes)
-
+    theVertices <- bind_rows(theVertices, theNodes)
+    theFeatures <- bind_rows(theFeatures, tempFeatures)
+    theGroups <- bind_rows(theGroups, tempGroups)
+    # theFeatures <- tibble(fid = unique(theVertices$fid), gid = unique(theVertices$fid))
+    # theGroups <- tibble(gid = unique(theVertices$fid))
   }
 
   theGeom <- new(Class = "geom",
                  type = "polygon",
-                 vert = nodes,
-                 feat = tibble(fid = unique(nodes$fid), gid = unique(nodes$fid)),
-                 group = tibble(gid = unique(nodes$fid)),
-                 window = tibble(x = c(min(window$x), max(window$x), max(window$x), min(window$x), min(window$x)),
-                                 y = c(min(window$y), min(window$y), max(window$y), max(window$y), min(window$y))),
+                 vert = theVertices,
+                 feat = theFeatures,
+                 # feat = tibble(fid = unique(theVertices$fid), gid = unique(theVertices$fid)),
+                 group = theGroups,
+                 # group = tibble(gid = unique(theVertices$fid)),
+                 window = theWindow,
+                 # window = tibble(x = c(min(window$x), max(window$x), max(window$x), min(window$x), min(window$x)),
+                                 # y = c(min(window$y), min(window$y), max(window$y), max(window$y), min(window$y))),
                  scale = "absolute",
                  crs = as.character(projection),
                  history = list(paste0("geometry was created as 'polygon'.")))
