@@ -8,20 +8,20 @@
 \alias{gs_hexagon}
 \title{Create a polygon geometry}
 \usage{
-gs_polygon(anchor = NULL, window = NULL, template = NULL,
-  features = 1, vertices = NULL, regular = FALSE, fixed = TRUE,
+gs_polygon(anchor = NULL, window = NULL, features = 1,
+  vertices = NULL, sketch = NULL, regular = FALSE, fixed = TRUE,
   ...)
 
-gs_triangle(anchor = NULL, window = NULL, template = NULL,
+gs_triangle(anchor = NULL, window = NULL, sketch = NULL,
   features = 1, fixed = FALSE, ...)
 
-gs_square(anchor = NULL, window = NULL, template = NULL,
+gs_square(anchor = NULL, window = NULL, sketch = NULL,
   features = 1, fixed = FALSE, ...)
 
-gs_rectangle(anchor = NULL, window = NULL, template = NULL,
+gs_rectangle(anchor = NULL, window = NULL, sketch = NULL,
   features = 1, ...)
 
-gs_hexagon(anchor = NULL, window = NULL, template = NULL,
+gs_hexagon(anchor = NULL, window = NULL, sketch = NULL,
   features = 1, fixed = FALSE, ...)
 }
 \arguments{
@@ -33,14 +33,14 @@ such as \code{fid}; see Examples.}
 from the bounding box of \code{anchor} (minimum and maximum values),
 specify this here.}
 
-\item{template}{[\code{RasterLayer(1)} | \code{matrix(1)}]\cr Gridded object
-that serves as template to sketch the geometry.}
-
 \item{features}{[\code{integerish(1)}]\cr number of geometries to create.}
 
 \item{vertices}{[\code{integerish(.)}]\cr number of vertices per geometry;
 will be recycled if it does not have as many elements as specified in
 \code{features}.}
+
+\item{sketch}{[\code{RasterLayer(1)}|\code{matrix(1)}]\cr Gridded object that
+serves as template to sketch the geometry.}
 
 \item{regular}{[\code{logical(1)}]\cr should the polygon be regular, i.e.
 point symmetric (\code{TRUE}) or should the vertices be selected according
@@ -57,16 +57,16 @@ An invisible \code{geom}.
 }
 \description{
 Create any (regular) polygon geometry (of class \code{\link{geom}}) either by
-specifying its parameters or by sketching it.
+specifying anchor values or by sketching it.
 }
 \details{
-The arguments \code{anchor} and \code{template} indicate how the
+The arguments \code{anchor} and \code{sketch} indicate how the
   geometry is created: \itemize{ \item \code{anchor}: if set, the geometry is
   created parametrically, the input provided is used to parameterise the
   geometry \itemize{ \item if \code{regular = FALSE} the resulting geometry
   is the boundary per feature, \item if \code{regular = TRUE}, only the first
   two vertices are considered, as center and indicating the (outer) radius.}
-  \item \code{template}: if set, the geometry is created interactively, by
+  \item \code{sketch}: if set, the geometry is created interactively, by
   clicking into the plot.}
 
   Possible additional arguments are: \itemize{ \item verbose = TRUE/FALSE

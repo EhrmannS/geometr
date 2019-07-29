@@ -4,7 +4,7 @@
 \alias{gs_point}
 \title{Create a point geometry}
 \usage{
-gs_point(anchor = NULL, window = NULL, template = NULL,
+gs_point(anchor = NULL, window = NULL, sketch = NULL,
   vertices = NULL, ...)
 }
 \arguments{
@@ -16,7 +16,7 @@ such as \code{fid}; see Examples.}
 from the bounding box of \code{anchor} (minimum and maximum values),
 specify this here.}
 
-\item{template}{[\code{RasterLayer(1)} | \code{matrix(1)}]\cr Gridded object
+\item{sketch}{[\code{RasterLayer(1)} | \code{matrix(1)}]\cr Gridded object
 that serves as template to sketch the geometry.}
 
 \item{vertices}{[\code{integer(1)}]\cr number of vertices.}
@@ -28,7 +28,7 @@ An invisible \code{geom}.
 }
 \description{
 Create a point geometry (of class \code{\link{geom}}) either by specifying
-its parameters or by sketching it.
+anchor values or by sketching it.
 }
 \details{
 The arguments \code{anchor} and \code{template} indicate how the

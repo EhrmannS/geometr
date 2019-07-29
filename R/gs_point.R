@@ -1,16 +1,16 @@
 #' Create a point geometry
 #'
 #' Create a point geometry (of class \code{\link{geom}}) either by specifying
-#' its parameters or by sketching it.
+#' anchor values or by sketching it.
 #' @param anchor [\code{data.frame(1)}]\cr Object to derive the \code{geom}
 #'   from. It must include column names \code{x}, \code{y} and optinal variables
 #'   such as \code{fid}; see Examples.
 #' @param window [\code{data.frame(1)}]\cr in case the reference window deviates
 #'   from the bounding box of \code{anchor} (minimum and maximum values),
 #'   specify this here.
-#' @param template [\code{RasterLayer(1)} | \code{matrix(1)}]\cr Gridded object
-#'   that serves as template to sketch the geometry.
 #' @param vertices [\code{integer(1)}]\cr number of vertices.
+#' @param sketch [\code{RasterLayer(1)} | \code{matrix(1)}]\cr Gridded object
+#'   that serves as template to sketch the geometry.
 #' @param ... [various]\cr additional arguments; see Details.
 #' @return An invisible \code{geom}.
 #' @family geometry shapes
@@ -51,13 +51,13 @@
 #' @importFrom methods new
 #' @export
 
-gs_point <- function(anchor = NULL, window = NULL, template = NULL,
+gs_point <- function(anchor = NULL, window = NULL, sketch = NULL,
                      vertices = NULL, ...){
 
   # check arguments
   anchor <- .testAnchor(x = anchor, ...)
   theWindow <- .testWindow(x = window, ...)
-  template <- .testTemplate(x = template, ...)
+  template <- .testTemplate(x = sketch, ...)
 
   if(is.null(anchor) & is.null(template)){
     stop("please provide either 'anchor' or 'template'.")

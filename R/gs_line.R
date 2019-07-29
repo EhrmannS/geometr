@@ -1,7 +1,7 @@
 #' Create a line geometry
 #'
-#' Create a line geometry (of class \code{\link{geom}}) either by specifying its
-#' parameters or by sketching it.
+#' Create a line geometry (of class \code{\link{geom}}) either by specifying
+#' anchor values or by sketching it.
 #' @param anchor [\code{data.frame(1)}]\cr Object to derive the \code{geom}
 #'   from. It must include column names \code{x}, \code{y} and optinal variables
 #'   such as \code{fid}; see Examples.
@@ -10,9 +10,9 @@
 #'   specify this here.
 #' @param template [\code{RasterLayer(1)} | \code{matrix(1)}]\cr Gridded object
 #'   that serves as template to sketch the geometry.
-#' @param features [\code{integerish(1)}]\cr number of geometries to create.
-#' @param vertices [\code{integerish(.)}]\cr number of vertices per geometry;
-#'   will be recycled if it does not have as many elements as specified in
+#' @param features [\code{integerish(1)}]\cr number of lines to create.
+#' @param vertices [\code{integerish(.)}]\cr number of vertices per line; will
+#'   be recycled if it does not have as many elements as specified in
 #'   \code{features}.
 #' @param ... [various]\cr graphical parameters to \code{\link{gt_locate}}, in
 #'   case points are sketched; see \code{\link{gpar}}.
