@@ -106,8 +106,8 @@ gs_point <- function(anchor = NULL, window = NULL, template = NULL,
     theVertices <- tibble(x = coords$x,
                           y = coords$y,
                           fid = 1:vertices)
-    theFeatures = tibble(fid = 1:vertices, gid = 1:vertices)
-    theGroups = tibble(gid = 1:vertices)
+    theFeatures <- tibble(fid = 1:vertices, gid = 1:vertices)
+    theGroups <- tibble(gid = 1:vertices)
   } else if(anchor$type == "geom"){
     if(is.null(theWindow)){
       theWindow <- anchor$obj@window
