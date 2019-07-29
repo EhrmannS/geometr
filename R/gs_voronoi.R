@@ -14,18 +14,16 @@
 #' @return An invisible \code{geom}.
 #' @family tilings
 #' @examples
-#' library(magrittr)
-#'
 #' # create voronoi polygons programmatically
 #' coords <- data.frame(x = c(40, 70, 70, 50),
 #'                      y = c(40, 40, 60, 70))
 #' window <- data.frame(x = c(0, 80),
 #'                      y = c(0, 80))
 #' aGeom <- gs_point(anchor = coords, window = window)
-#' visualise(geom = aGeom)
+#' visualise(voronoi = aGeom)
 #'
-#' tiles <- gs_voronoi(anchor = aGeom) %>%
-#'   visualise(geom = ., new = FALSE)
+#' tiles <- gs_voronoi(anchor = aGeom)
+#' visualise(tiles, new = FALSE)
 #'
 #' \dontrun{
 #'
@@ -47,7 +45,7 @@ gs_voronoi <- function(anchor = NULL, window = NULL, template = NULL, features =
 
   # check arguments
   anchor <- .testAnchor(x = anchor, ...)
-  window <- .testWindow(x = window, ...)
+  theWindow <- .testWindow(x = window, ...)
   template <- .testTemplate(x = template, ...)
 
   if(is.null(anchor) & is.null(template)){
@@ -86,31 +84,32 @@ gs_voronoi <- function(anchor = NULL, window = NULL, template = NULL, features =
     message(paste0("please click the ", features, " vertices."))
     visualise(raster = template$obj)
     theClicks <- gt_locate(samples = features, panel = tempName, silent = TRUE, ...)
-    window <- tibble(x = c(0, dims[2]),
-                     y = c(0, dims[1]))
+    theWindow <- tibble(x = c(0, dims[2], dims[2], 0, 0),
+                        y = c(0, 0, dims[1], dims[1], 0))
     tempAnchor <- tibble(x = theClicks$x,
                          y = theClicks$y,
                          fid = 1:features)
+    theFeatures <- tibble(fid = unique(tempAnchor$fid), gid = unique(tempAnchor$fid))
+    theGroups <- tibble(gid = unique(tempAnchor$fid))
 
   } else if(anchor$type == "geom"){
-    if(is.null(window)){
-      window <- tibble(x = c(min(anchor$obj@window$x),
-                             max(anchor$obj@window$x)),
-                       y = c(min(anchor$obj@window$y),
-                             max(anchor$obj@window$y)))
+    if(is.null(theWindow)){
+      theWindow <- anchor$obj@window
     }
     tempAnchor <- anchor$obj@vert
+    theFeatures <- anchor$obj@feat
+    theGroups <- anchor$obj@group
   } else if(anchor$type == "df"){
-    if(is.null(window)){
-      window <- tibble(x = c(min(anchor$obj$x),
-                             max(anchor$obj$x)),
-                       y = c(min(anchor$obj$y),
-                             max(anchor$obj$y)))
+    if(is.null(theWindow)){
+      theWindow = tibble(x = c(min(anchor$obj$x), max(anchor$obj$x), max(anchor$obj$x), min(anchor$obj$x), min(anchor$obj$x)),
+                         y = c(min(anchor$obj$y), min(anchor$obj$y), max(anchor$obj$y), max(anchor$obj$y), min(anchor$obj$y)))
     }
     tempAnchor <- anchor$obj
+    theFeatures = tibble(fid = seq_along(tempAnchor$x), gid = seq_along(tempAnchor$x))
+    theGroups = tibble(gid = seq_along(tempAnchor$x))
   }
 
-  temp <- deldir(as.data.frame(tempAnchor), rw = c(min(window$x), max(window$x), min(window$y), max(window$y)), suppressMsge = TRUE)
+  temp <- deldir(as.data.frame(tempAnchor), rw = c(min(theWindow$x), max(theWindow$x), min(theWindow$y), max(theWindow$y)), suppressMsge = TRUE)
   tempTiles <- tile.list(temp)
 
   for(i in seq_along(tempTiles)){
@@ -119,19 +118,20 @@ gs_voronoi <- function(anchor = NULL, window = NULL, template = NULL, features =
                    y = tempTiles[[i]]$y,
                    fid = i)
     if(i == 1){
-      nodes <- temp
+      theVertices <- temp
     } else{
-      nodes <- bind_rows(nodes, temp)
+      theVertices <- bind_rows(theVertices, temp)
     }
   }
 
   out <- new(Class = "geom",
              type = "polygon",
-             vert = nodes,
-             feat = tibble(fid = unique(nodes$fid), gid = unique(nodes$fid)),
-             group = tibble(gid = unique(nodes$fid)),
-             window = tibble(x = c(min(window$x), max(window$x), max(window$x), min(window$x), min(window$x)),
-                             y = c(min(window$y), min(window$y), max(window$y), max(window$y), min(window$y))),
+             vert = theVertices,
+             # feat = tibble(fid = unique(theVertices$fid), gid = unique(theVertices$fid)),
+             # group = tibble(gid = unique(theVertices$fid)),
+             feat = theFeatures,
+             group = theGroups,
+             window = theWindow,
              scale = "absolute",
              crs = as.character(projection),
              history = list(paste0("geometry was created as voronoi 'polygon'.")))
