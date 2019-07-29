@@ -62,7 +62,7 @@
 #'
 #' \dontrun{
 #'
-#' gs_square(sketch = gtRasters$continuous) %>%
+#' gs_square(sketch = gtRasters$continuous, fixed = TRUE) %>%
 #'   visualise(geom = ., linecol = "orange", new = FALSE)
 #' }
 #' @importFrom stats dist
@@ -114,7 +114,7 @@ gs_polygon <- function(anchor = NULL, window = NULL, features = 1, vertices = NU
                          vertices = vertices,
                          regular = regular,
                          fixed = fixed,
-                         show = FALSE)
+                         ...)
 
   } else{
 

@@ -51,7 +51,7 @@
 #' @export
 
 gt_locate <- function(samples = 1, panel = NULL, identify = FALSE, snap = FALSE,
-                      raw = FALSE, show = FALSE, ...){
+                      raw = FALSE, show = TRUE, ...){
 
   # check arguments
   assertIntegerish(x = samples, lower = 1, max.len = 1)
