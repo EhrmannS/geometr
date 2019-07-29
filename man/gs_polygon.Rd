@@ -113,23 +113,6 @@ gs_polygon(anchor = aGeom) \%>\%
   visualise(geom = ., fillcol = "deeppink")
 gs_rectangle(anchor = aGeom) \%>\%
   visualise(geom = ., new = FALSE)
-
-\dontrun{
-
-input <- gtRasters$continuous
-
-# create a square interactively
-squareGeom <- gs_square(template = input)
-visualise(geom = squareGeom, linecol = "orange", new = FALSE)
-
-# ... or an approximate circle (actually a hectogon)
-circleGeom <- gs_polygon(template = input, vertices = 100, regular = TRUE) \%>\%
-  visualise(geom = ., linecol = "deeppink", new = FALSE)
-
-# create two arbitrary polygons interactively
-polyGeom <- gs_polygon(template = input, features = 2, vertices = c(4, 6)) \%>\%
-  visualise(geom = ., linecol = "green", linewidth = 1, linetype = "dashed", new = FALSE)
-}
 }
 \seealso{
 Other geometry shapes: \code{\link{gs_line}},

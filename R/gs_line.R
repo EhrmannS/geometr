@@ -48,18 +48,6 @@
 #' aGeom <- setWindow(x = aGeom, to = window)
 #' gs_line(anchor = aGeom) %>%
 #'   visualise(geom = ., linecol = "deeppink")
-#'
-#' \dontrun{
-#'
-#' input <- gtRasters$continuous
-#'
-#' # create points interactively
-#' myLine <- gs_line(template = input, vertices = 5)
-#' visualise(geom = myLine, linecol = "deeppink", new = FALSE)
-#'
-#' anExtent <- gs_rectangle(myLine)
-#' visualise(geom = anExtent, linecol = "green", new = FALSE)
-#' }
 #' @importFrom checkmate testDataFrame assertNames testClass testNull
 #'   assertDataFrame assert assertIntegerish
 #' @importFrom dplyr bind_cols bind_rows

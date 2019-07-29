@@ -67,18 +67,6 @@ gs_line(anchor = coords, window = window) \%>\%
 aGeom <- setWindow(x = aGeom, to = window)
 gs_line(anchor = aGeom) \%>\%
   visualise(geom = ., linecol = "deeppink")
-
-\dontrun{
-
-input <- gtRasters$continuous
-
-# create points interactively
-myLine <- gs_line(template = input, vertices = 5)
-visualise(geom = myLine, linecol = "deeppink", new = FALSE)
-
-anExtent <- gs_rectangle(myLine)
-visualise(geom = anExtent, linecol = "green", new = FALSE)
-}
 }
 \seealso{
 Other geometry shapes: \code{\link{gs_point}},
