@@ -41,6 +41,7 @@ visualise(geom = gt_stretch(geom = aGeom, x = 0.5, fid = 1))
 }
 \seealso{
 Other geometry tools: \code{\link{gt_rotate}},
-  \code{\link{gt_scale}}, \code{\link{gt_skew}}
+  \code{\link{gt_scale}}, \code{\link{gt_sketch}},
+  \code{\link{gt_skew}}
 }
 \concept{geometry tools}

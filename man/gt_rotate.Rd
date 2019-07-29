@@ -53,6 +53,7 @@ visualise(geom = rotateMore)
 }
 \seealso{
 Other geometry tools: \code{\link{gt_scale}},
-  \code{\link{gt_skew}}, \code{\link{gt_stretch}}
+  \code{\link{gt_sketch}}, \code{\link{gt_skew}},
+  \code{\link{gt_stretch}}
 }
 \concept{geometry tools}
