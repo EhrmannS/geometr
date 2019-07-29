@@ -28,5 +28,5 @@ test_that("Error if arguments have wrong value", {
 
   expect_error(gs_triangle(anchor = "bla"))
   expect_error(gs_triangle(anchor = coords, features = "bla"))
-  expect_error(gs_triangle(template = "bla"))
+  expect_error(gs_triangle(sketch = "bla"))
 })

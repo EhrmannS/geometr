@@ -50,7 +50,7 @@ test_that("Error if arguments have wrong value", {
   expect_error(gs_polygon(anchor = coords, regular = "bla"))
   expect_error(gs_polygon(anchor = coords, vertices = 4, regular = "bla"))
   expect_error(gs_polygon(vertices = 4, regular = TRUE))
-  expect_error(gs_polygon(template = "bla", vertices = 4))
+  expect_error(gs_polygon(sketch = "bla", vertices = 4))
 
   # function stops when trying to cast from line/point with less than 3 vertices
 

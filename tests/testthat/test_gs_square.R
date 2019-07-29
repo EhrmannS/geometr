@@ -30,5 +30,5 @@ test_that("Error if arguments have wrong value", {
   expect_error(gs_square(anchor = "bla"))
   expect_error(gs_square(anchor = coords, window = "bla"))
   expect_error(gs_square(anchor = coords, features = "bla"))
-  expect_error(gs_square(template = "bla"))
+  expect_error(gs_square(sketch = "bla"))
 })

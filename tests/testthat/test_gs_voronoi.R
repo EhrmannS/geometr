@@ -32,6 +32,6 @@ test_that("Error if arguments have wrong value", {
 
   expect_error(gs_voronoi(anchor = "bla"))
   expect_error(gs_voronoi(window = "bla"))
-  expect_error(gs_voronoi(template = "bla"))
+  expect_error(gs_voronoi(sketch = "bla"))
 })
 
