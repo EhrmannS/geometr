@@ -44,6 +44,12 @@
 #' aGeom <- setWindow(x = aGeom, to = window)
 #' gs_point(anchor = aGeom) %>%
 #'   visualise(geom = .)
+#'
+#' \dontrun{
+#'
+#' gs_point(sketch = gtRasters$continuous) %>%
+#'   visualise(geom = ., linecol = "orange", pointsymbol = 5, new = FALSE)
+#' }
 #' @importFrom checkmate testDataFrame assertNames testNull assert testClass
 #'   assertLogical assertIntegerish
 #' @importFrom tibble tibble
@@ -51,81 +57,62 @@
 #' @importFrom methods new
 #' @export
 
-gs_point <- function(anchor = NULL, window = NULL, sketch = NULL,
-                     vertices = NULL, ...){
+gs_point <- function(anchor = NULL, window = NULL, vertices = 1,
+                     sketch = NULL, ...){
 
   # check arguments
   anchor <- .testAnchor(x = anchor, ...)
   theWindow <- .testWindow(x = window, ...)
-  template <- .testTemplate(x = sketch, ...)
+  assertIntegerish(vertices, min.len = 1, lower = 1, any.missing = FALSE)
 
-  if(is.null(anchor) & is.null(template)){
-    stop("please provide either 'anchor' or 'template'.")
-  }
-  if(is.null(anchor)){
-    assertIntegerish(vertices, min.len = 1, lower = 1, any.missing = FALSE)
-  } else{
-    assertIntegerish(vertices, min.len = 1, lower = 2, any.missing = FALSE, null.ok = TRUE)
-  }
+  # sketch the geometry
+  if(!is.null(sketch)){
 
-  # get some raster properties
-  if(!is.null(template)){
-    if(template$type == "RasterLayer"){
-      tempName <- names(template$obj)
-      dims <- dim(template$obj)
-      projection <- getCRS(x = template$obj)
-    } else{
-      tempName <- "layer"
-      dims <- dim(template$obj)
+    template <- .testTemplate(x = sketch, ...)
+    theGeom <- gt_sketch(template = template$obj,
+                         shape = "point",
+                         features = vertices,
+                         ...)
+
+  } else {
+
+    if(anchor$type == "geom"){
+
+      if(is.null(theWindow)){
+        theWindow <- anchor$obj@window
+      }
+      theVertices <- anchor$obj@vert
+      theFeatures <- anchor$obj@feat
+      theGroups <- anchor$obj@group
+      projection <- getCRS(x = anchor$obj)
+
+    } else if(anchor$type == "df"){
+
+      if(is.null(theWindow)){
+        theWindow = tibble(x = c(min(anchor$obj$x), max(anchor$obj$x), max(anchor$obj$x), min(anchor$obj$x), min(anchor$obj$x)),
+                           y = c(min(anchor$obj$y), min(anchor$obj$y), max(anchor$obj$y), max(anchor$obj$y), min(anchor$obj$y)))
+      }
+      theVertices <- bind_cols(anchor$obj)
+      if(!"fid" %in% names(theVertices)){
+        theVertices <- bind_cols(theVertices, fid = seq_along(theVertices$x))
+      }
+      vertices <- dim(theVertices)[1]
+      theFeatures = tibble(fid = 1:vertices, gid = 1:vertices)
+      theGroups = tibble(gid = 1:vertices)
       projection <- NA
-    }
-  } else{
-    tempName <- "layer"
-    projection <- NA
-  }
 
-  # if anchor does not exists, make it
-  if(is.null(anchor)){
-    message("please click the ", vertices, " vertices.")
-    visualise(raster = template$obj)
-    coords <- gt_locate(samples = vertices, panel = tempName, silent = TRUE, ...)
-    theWindow <- tibble(x = c(0, dims[2], dims[2], 0, 0),
-                        y = c(0, 0, dims[1], dims[1], 0))
-    theVertices <- tibble(x = coords$x,
-                          y = coords$y,
-                          fid = 1:vertices)
-    theFeatures <- tibble(fid = 1:vertices, gid = 1:vertices)
-    theGroups <- tibble(gid = 1:vertices)
-  } else if(anchor$type == "geom"){
-    if(is.null(theWindow)){
-      theWindow <- anchor$obj@window
     }
-    theVertices <- anchor$obj@vert
-    theFeatures <- anchor$obj@feat
-    theGroups <- anchor$obj@group
-  } else if(anchor$type == "df"){
-    if(is.null(theWindow)){
-      theWindow = tibble(x = c(min(anchor$obj$x), max(anchor$obj$x), max(anchor$obj$x), min(anchor$obj$x), min(anchor$obj$x)),
-                         y = c(min(anchor$obj$y), min(anchor$obj$y), max(anchor$obj$y), max(anchor$obj$y), min(anchor$obj$y)))
-    }
-    theVertices <- bind_cols(anchor$obj)
-    if(!"fid" %in% names(theVertices)){
-      theVertices <- bind_cols(theVertices, fid = seq_along(theVertices$x))
-    }
-    vertices <- dim(theVertices)[1]
-    theFeatures = tibble(fid = 1:vertices, gid = 1:vertices)
-    theGroups = tibble(gid = 1:vertices)
-  }
 
-  theGeom <- new(Class = "geom",
-                 type = "point",
-                 vert = theVertices,
-                 feat = theFeatures,
-                 group = theGroups,
-                 window = theWindow,
-                 scale = "absolute",
-                 crs = as.character(projection),
-                 history = list(paste0("geometry was created as 'point'.")))
+    theGeom <- new(Class = "geom",
+                   type = "point",
+                   vert = theVertices,
+                   feat = theFeatures,
+                   group = theGroups,
+                   window = theWindow,
+                   scale = "absolute",
+                   crs = as.character(projection),
+                   history = list(paste0("geometry was created as 'point'.")))
+  }
 
   invisible(theGeom)
 }
