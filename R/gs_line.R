@@ -71,7 +71,7 @@ gs_line <- function(anchor = NULL, window = NULL, template = NULL, features = 1,
 
   # check arguments
   anchor <- .testAnchor(x = anchor, ...)
-  window <- .testWindow(x = window, ...)
+  theWindow <- .testWindow(x = window, ...)
   template <- .testTemplate(x = template, ...)
 
   if(is.null(anchor) & is.null(template)){
@@ -119,7 +119,7 @@ gs_line <- function(anchor = NULL, window = NULL, template = NULL, features = 1,
     projection <- NA
   }
 
-  nodes <- fids <- NULL
+  theVertices <- theFeatures <- theGroups <- NULL
   for(i in 1:features){
 
     # if anchor does not exists, make it
@@ -130,32 +130,31 @@ gs_line <- function(anchor = NULL, window = NULL, template = NULL, features = 1,
         visualise(raster = template$obj)
       }
       theClicks <- gt_locate(samples = vertices[i], panel = tempName, silent = TRUE, ...)
-      window <- tibble(x = c(0, dims[2]),
-                       y = c(0, dims[1]))
+      theWindow <- tibble(x = c(0, dims[2], dims[2], 0, 0),
+                          y = c(0, 0, dims[1], dims[1], 0))
       tempAnchor <- tibble(fid = i,
-                           vid = 1:vertices[i],
+                           # vid = 1:vertices[i],
                            x = theClicks$x,
                            y = theClicks$y)
+      tempFeatures <- tibble(fid = i, gid = i)
+      tempGroups <- tibble(gid = i)
 
     } else if(anchor$type == "geom"){
-      if(anchor$obj@type == "point"){
-        anchor$obj@vert$fid <- rep(1, length(anchor$obj@vert$fid))
-        anchor$obj@feat <- tibble(fid = 1, gid = 1)
-        anchor$obj@group <- tibble(gid = 1)
-      }
-      if(is.null(window)){
-        window <- tibble(x = c(min(anchor$obj@window$x),
-                               max(anchor$obj@window$x)),
-                         y = c(min(anchor$obj@window$y),
-                               max(anchor$obj@window$y)))
+      # if(anchor$obj@type == "point"){
+      #   anchor$obj@vert$fid <- rep(1, length(anchor$obj@vert$fid))
+      #   anchor$obj@feat <- tibble(fid = 1, gid = 1)
+      #   anchor$obj@group <- tibble(gid = 1)
+      # }
+      if(is.null(theWindow)){
+        theWindow <- anchor$obj@window
       }
       tempAnchor <- anchor$obj@vert[anchor$obj@vert$fid == i,]
+      tempFeatures <- anchor$obj@feat[anchor$obj@feat$fid == i,]
+      tempGroups <- anchor$obj@group[anchor$obj@group$gid == i,]
     } else if(anchor$type == "df"){
-      if(is.null(window)){
-        window <- tibble(x = c(min(anchor$obj$x),
-                               max(anchor$obj$x)),
-                         y = c(min(anchor$obj$y),
-                               max(anchor$obj$y)))
+      if(is.null(theWindow)){
+        theWindow = tibble(x = c(min(anchor$obj$x), max(anchor$obj$x), max(anchor$obj$x), min(anchor$obj$x), min(anchor$obj$x)),
+                           y = c(min(anchor$obj$y), min(anchor$obj$y), max(anchor$obj$y), max(anchor$obj$y), min(anchor$obj$y)))
       }
       if("fid" %in% names(anchor$obj)){
         tempAnchor <- anchor$obj[anchor$obj$fid == i, ]
@@ -163,21 +162,23 @@ gs_line <- function(anchor = NULL, window = NULL, template = NULL, features = 1,
         tempAnchor <- anchor$obj
         tempAnchor <- bind_cols(tempAnchor, fid = rep(1, length.out = length(anchor$obj$x)))
       }
+      tempFeatures <- tibble(fid = i, gid = i)
+      tempGroups <- tibble(gid = i)
     }
 
     theNodes <- tempAnchor[c("x", "y", "fid")]
 
-    nodes <- bind_rows(nodes, theNodes)
-    fids <- c(fids, length(unique(theNodes$fid)))
+    theVertices <- bind_rows(theVertices, theNodes)
+    theFeatures <- bind_rows(theFeatures, tempFeatures)
+    theGroups <- bind_rows(theGroups, tempGroups)
   }
 
   theGeom <- new(Class = "geom",
                  type = "line",
-                 vert = nodes,
-                 feat = tibble(fid = unique(nodes$fid), gid = unique(nodes$fid)),
-                 group = tibble(gid = unique(nodes$fid)),
-                 window = tibble(x = c(min(window$x), max(window$x), max(window$x), min(window$x), min(window$x)),
-                                 y = c(min(window$y), min(window$y), max(window$y), max(window$y), min(window$y))),
+                 vert = theVertices,
+                 feat = theFeatures,
+                 group = theGroups,
+                 window = theWindow,
                  scale = "absolute",
                  crs = as.character(projection),
                  history = list(paste0("geometry was created as 'line'.")))
