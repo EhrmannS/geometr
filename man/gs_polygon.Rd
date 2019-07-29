@@ -116,8 +116,8 @@ gs_rectangle(anchor = aGeom) \%>\%
 
 \dontrun{
 
-gs_square(sketch = gtRasters$continuous, fixed = TRUE) \%>\%
-  visualise(geom = ., linecol = "orange", new = FALSE)
+gs_hexagon(sketch = gtRasters$continuous, fixed = TRUE) \%>\%
+  visualise(geom = ., linecol = "deeppink", linetype = 2, new = FALSE)
 }
 }
 \seealso{

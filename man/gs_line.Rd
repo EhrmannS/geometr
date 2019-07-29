@@ -4,8 +4,8 @@
 \alias{gs_line}
 \title{Create a line geometry}
 \usage{
-gs_line(anchor = NULL, window = NULL, template = NULL,
-  features = 1, vertices = NULL, ...)
+gs_line(anchor = NULL, window = NULL, features = 1,
+  vertices = NULL, sketch = NULL, ...)
 }
 \arguments{
 \item{anchor}{[\code{data.frame(1)}]\cr Object to derive the \code{geom}
@@ -16,14 +16,14 @@ such as \code{fid}; see Examples.}
 from the bounding box of \code{anchor} (minimum and maximum values),
 specify this here.}
 
-\item{template}{[\code{RasterLayer(1)} | \code{matrix(1)}]\cr Gridded object
-that serves as template to sketch the geometry.}
-
 \item{features}{[\code{integerish(1)}]\cr number of lines to create.}
 
 \item{vertices}{[\code{integerish(.)}]\cr number of vertices per line; will
 be recycled if it does not have as many elements as specified in
 \code{features}.}
+
+\item{sketch}{[\code{RasterLayer(1)} | \code{matrix(1)}]\cr Gridded object
+that serves as template to sketch the geometry.}
 
 \item{...}{[various]\cr graphical parameters to \code{\link{gt_locate}}, in
 case points are sketched; see \code{\link{gpar}}.}
@@ -67,6 +67,12 @@ gs_line(anchor = coords, window = window) \%>\%
 aGeom <- setWindow(x = aGeom, to = window)
 gs_line(anchor = aGeom) \%>\%
   visualise(geom = ., linecol = "deeppink")
+
+\dontrun{
+
+gs_line(sketch = gtRasters$continuous, vertices = 4) \%>\%
+  visualise(geom = ., linecol = "orange", linewidth = 5, new = FALSE)
+}
 }
 \seealso{
 Other geometry shapes: \code{\link{gs_point}},

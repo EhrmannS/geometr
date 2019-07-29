@@ -4,8 +4,8 @@
 \alias{gs_point}
 \title{Create a point geometry}
 \usage{
-gs_point(anchor = NULL, window = NULL, sketch = NULL,
-  vertices = NULL, ...)
+gs_point(anchor = NULL, window = NULL, vertices = 1, sketch = NULL,
+  ...)
 }
 \arguments{
 \item{anchor}{[\code{data.frame(1)}]\cr Object to derive the \code{geom}
@@ -16,10 +16,10 @@ such as \code{fid}; see Examples.}
 from the bounding box of \code{anchor} (minimum and maximum values),
 specify this here.}
 
+\item{vertices}{[\code{integer(1)}]\cr number of vertices.}
+
 \item{sketch}{[\code{RasterLayer(1)} | \code{matrix(1)}]\cr Gridded object
 that serves as template to sketch the geometry.}
-
-\item{vertices}{[\code{integer(1)}]\cr number of vertices.}
 
 \item{...}{[various]\cr additional arguments; see Details.}
 }
@@ -62,6 +62,12 @@ gs_point(anchor = coords, window = window) \%>\%
 aGeom <- setWindow(x = aGeom, to = window)
 gs_point(anchor = aGeom) \%>\%
   visualise(geom = .)
+
+\dontrun{
+
+gs_point(sketch = gtRasters$continuous) \%>\%
+  visualise(geom = ., linecol = "orange", pointsymbol = 5, new = FALSE)
+}
 }
 \seealso{
 Other geometry shapes: \code{\link{gs_line}},

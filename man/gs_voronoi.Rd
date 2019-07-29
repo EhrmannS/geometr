@@ -4,8 +4,8 @@
 \alias{gs_voronoi}
 \title{Create a voronoi tiling}
 \usage{
-gs_voronoi(anchor = NULL, window = NULL, template = NULL,
-  features = 3, ...)
+gs_voronoi(anchor = NULL, window = NULL, features = 3,
+  sketch = NULL, ...)
 }
 \arguments{
 \item{anchor}{[\code{geom} | \code{data.frame(1)}]\cr Object to derive the
@@ -16,10 +16,10 @@ names \code{x}, \code{y}, \code{fid} and optinal attributes; see Examples.}
 from the bounding box of \code{anchor} (minimum and maximum values),
 specify this here.}
 
-\item{template}{[\code{RasterLayer(1)} | \code{matrix(1)}]\cr Gridded object
-that serves as template to sketch the tiling.}
-
 \item{features}{[\code{integerish(1)}]\cr number of tiles to create.}
+
+\item{sketch}{[\code{RasterLayer(1)} | \code{matrix(1)}]\cr Gridded object
+that serves as template to sketch the tiling.}
 
 \item{...}{[various]\cr graphical parameters to \code{\link{gt_locate}}, in case
 the tiling is sketched; see \code{\link{gpar}}.}
@@ -44,11 +44,8 @@ visualise(tiles, new = FALSE)
 
 \dontrun{
 
-input <- gtRasters$continuous
-
-# create voronoi polygons interactively
-tiles <- gs_voronoi(template = input)
-visualise(geom = tiles, linecol = "orange", new = FALSE)
+tiles <- gs_voronoi(sketch = gtRasters$continuous)
+visualise(geom = tiles, new = FALSE)
 }
 }
 \seealso{

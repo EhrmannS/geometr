@@ -4,21 +4,24 @@
 \alias{gs_random}
 \title{Create a geometry randomly}
 \usage{
-gs_random(type = "point", template = NULL, vertices = NULL)
+gs_random(type = "point", window = NULL, vertices = NULL, ...)
 }
 \arguments{
 \item{type}{[\code{character(1)}]\cr Either one of the three main feature
 types \code{"point"}, \code{"line"} or \code{"polygon"}, or more
 specifically one of their subtypes, e.g. \code{"hexagon"}.}
 
-\item{template}{[\code{RasterLayer(1)} | \code{matrix(1)}]\cr Gridded object
-that serves as template to sketch the geometry.}
+\item{window}{[\code{data.frame(1)}]\cr in case the reference window deviates
+from the bounding box (0, 1) (minimum and maximum values), specify this
+here.}
 
 \item{vertices}{[\code{integerish(1)}]\cr the number of vertices the geometry
 should have; only meaningful if \code{type} does not indicate the number of
 vertices already. If left at \code{NULL} the minimum number of vertices for
 the \code{geom} type, i.e. 1 for \code{point}, 2 for \code{line} and 3 for
 \code{polygon}.}
+
+\item{...}{[various]\cr additional arguments.}
 }
 \description{
 This function creates a random geometry
