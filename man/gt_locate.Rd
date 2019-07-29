@@ -5,7 +5,7 @@
 \title{Locate (and identify) clicks}
 \usage{
 gt_locate(samples = 1, panel = NULL, identify = FALSE,
-  snap = FALSE, raw = FALSE, show = FALSE, ...)
+  snap = FALSE, raw = FALSE, show = TRUE, ...)
 }
 \arguments{
 \item{samples}{[\code{integerish(1)}]\cr the number of clicks.}

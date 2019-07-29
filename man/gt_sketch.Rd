@@ -5,7 +5,8 @@
 \title{Sketch geometries}
 \usage{
 gt_sketch(template = NULL, shape = NULL, features = 1,
-  vertices = NULL, regular = FALSE, fixed = TRUE, ...)
+  vertices = NULL, regular = FALSE, fixed = TRUE, show = FALSE,
+  ...)
 }
 \arguments{
 \item{template}{[\code{RasterLayer(1)} | \code{matrix(1)}]\cr Gridded object
@@ -33,6 +34,10 @@ default)?}
 it be aligned vertically (\code{TRUE}, default), or should it be aligned
 according to the second click (\code{FALSE}); only relevant if
 \code{regular = TRUE}.}
+
+\item{show}{[\code{logical(1)}]\cr should plot information be shown in the
+plot (\code{TRUE}), or should the geom merely be returned in the console
+(\code{FALSE, default})}
 
 \item{...}{[various]\cr additional arguments to \code{\link{gt_locate}}.}
 }

@@ -116,7 +116,7 @@ gs_rectangle(anchor = aGeom) \%>\%
 
 \dontrun{
 
-gs_square(sketch = gtRasters$continuous) \%>\%
+gs_square(sketch = gtRasters$continuous, fixed = TRUE) \%>\%
   visualise(geom = ., linecol = "orange", new = FALSE)
 }
 }
