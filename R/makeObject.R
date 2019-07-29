@@ -59,7 +59,7 @@ setMethod(f = "makeObject",
             }
 
             uniqueVals <- sapply(aGrob, function(x){
-              if(is.na(as.numeric(x$name))){
+              if(any(is.na(as.numeric(x$name)))){
                 x$name
               } else {
                 as.numeric(x$name)
