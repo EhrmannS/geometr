@@ -139,7 +139,7 @@ gs_polygon <- function(anchor = NULL, window = NULL, template = NULL, features =
     projection <- NA
   }
 
-  theVertices <- theFeatures <- theGroups <- fids <- NULL
+  theVertices <- theFeatures <- theGroups <- NULL
   for(i in 1:features){
 
     # if anchor does not exists, make it
@@ -236,20 +236,14 @@ gs_polygon <- function(anchor = NULL, window = NULL, template = NULL, features =
     theVertices <- bind_rows(theVertices, theNodes)
     theFeatures <- bind_rows(theFeatures, tempFeatures)
     theGroups <- bind_rows(theGroups, tempGroups)
-    # theFeatures <- tibble(fid = unique(theVertices$fid), gid = unique(theVertices$fid))
-    # theGroups <- tibble(gid = unique(theVertices$fid))
   }
 
   theGeom <- new(Class = "geom",
                  type = "polygon",
                  vert = theVertices,
                  feat = theFeatures,
-                 # feat = tibble(fid = unique(theVertices$fid), gid = unique(theVertices$fid)),
                  group = theGroups,
-                 # group = tibble(gid = unique(theVertices$fid)),
                  window = theWindow,
-                 # window = tibble(x = c(min(window$x), max(window$x), max(window$x), min(window$x), min(window$x)),
-                                 # y = c(min(window$y), min(window$y), max(window$y), max(window$y), min(window$y))),
                  scale = "absolute",
                  crs = as.character(projection),
                  history = list(paste0("geometry was created as 'polygon'.")))
