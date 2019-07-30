@@ -43,8 +43,10 @@
 #' visualise(raster = raster::stack(gtRasters$continuous, gtRasters$categorical))
 #' gt_locate(samples = 4, panel = "categorical", snap = TRUE, identify = TRUE, show = TRUE)
 #' }
+#' @importFrom checkmate assertIntegerish assertCharacter assertLogical
 #' @importFrom grDevices dev.list
 #' @importFrom tibble tibble
+#' @importFrom dplyr bind_cols bind_rows
 #' @importFrom grid grid.ls grid.grep grid.force seekViewport grid.locator gList
 #'   pointsGrob textGrob grid.draw upViewport unit grid.get gPath grid.points
 #' @importFrom raster as.matrix
@@ -63,8 +65,8 @@ gt_locate <- function(samples = 1, panel = NULL, identify = FALSE, snap = FALSE,
   # test whether a geometr plot is already open
   if(!is.null(dev.list())){
     objViewports <- grid.ls(viewports = TRUE, grobs = FALSE, print = FALSE)
-    mainVP <- grid.grep("vpLomm", grobs = FALSE, viewports = TRUE, grep = TRUE)
-    if(!ifelse(any(mainVP == "vpLomm"), TRUE, FALSE)){
+    mainVP <- grid.grep("geometr", grobs = FALSE, viewports = TRUE, grep = TRUE)
+    if(!ifelse(any(mainVP == "geometr"), TRUE, FALSE)){
       stop("please create a plot with geometr::visualise()")
     }
 
@@ -75,16 +77,8 @@ gt_locate <- function(samples = 1, panel = NULL, identify = FALSE, snap = FALSE,
   }
 
   isLegendInPlot <- !identical(grid.grep("legend", grobs = FALSE, viewports = TRUE, grep = TRUE), character(0))
-  isRasterInPlot <- !identical(grid.grep("raster", grobs = FALSE, viewports = TRUE, grep = TRUE), character(0))
-  # if(isRasterInPlot & isLegendInPlot){
-  #   canIdentify <- TRUE
-  # } else{
-  #   canIdentify <- FALSE
-  # }
-  isGeomInPlot <- !identical(grid.grep("geom", grobs = FALSE, viewports = TRUE, grep = TRUE), character(0))
-  # if(identify & !canIdentify){
-  #   stop("to identify raster values the plot needs to contain a legend.")
-  # }
+  isRasterInPlot <- !identical(grid.grep("::plot::object::raster", grobs = FALSE, viewports = TRUE, grep = TRUE), character(0))
+  isVectorInPlot <- !identical(grid.grep("::plot::object::vector", grobs = FALSE, viewports = TRUE, grep = TRUE), character(0))
 
   # get the panel in which locations should be determined
   if(is.null(panel)){
@@ -115,46 +109,34 @@ gt_locate <- function(samples = 1, panel = NULL, identify = FALSE, snap = FALSE,
     raw <- FALSE
     snap <- FALSE
   }
-  if(isGeomInPlot){
-    geomVpPath <- grid.grep(paste0(panel, "::plot::grid::geom"), grobs = FALSE, viewports = TRUE, grep = TRUE)
-    seekViewport(geomVpPath)
+  if(isVectorInPlot){
+    vectorVpPath <- grid.grep(paste0(panel, "::plot::object::vector"), grobs = FALSE, viewports = TRUE, grep = TRUE)
+    seekViewport(vectorVpPath)
   }
 
   extentGrobMeta <- grid.get(gPath("extentGrob"))
   panelExt <- tibble(x = c(0, as.numeric(extentGrobMeta$width)) + as.numeric(extentGrobMeta$x),
                      y = c(0, as.numeric(extentGrobMeta$height)) + as.numeric(extentGrobMeta$y))
 
-  if(identify){
-    if(isLegendInPlot){
-      metaLegend <- grid.get(gPath("theLegend"), global = TRUE)
-      metaValues <- grid.get(gPath("legendValues"), global = TRUE)
-      if(length(panelNames) > 1){
-        legend <- metaLegend[which(panel == panelNames)][[1]]$raster
-        values <- as.numeric(metaValues[which(panel == panelNames)][[1]]$label)
-      } else{
-        legend <- metaLegend$raster
-        values <- as.numeric(metaValues$label)
-      }
-      matVal <- subChrIntC(matCol,
-                           replace = legend,
-                           with = values)
-    } else{
-      matVal <- matCol
-    }
-  }
-
   if(snap){
-    theGrid <- data.frame(x = rep(seq(panelExt$x[1] + 0.5, panelExt$x[2], 1), times = panelExt$y[2]),
-                          xmin = rep(seq(panelExt$x[1], panelExt$x[2]-1), times = panelExt$y[2]),
-                          xmax = rep(seq(panelExt$x[1]+1, panelExt$x[2]), times = panelExt$y[2]),
-                          y = rep(seq(panelExt$y[2]-0.5, panelExt$y[1]), each = panelExt$x[2]),
-                          ymin = rep(seq(panelExt$y[2]-1, panelExt$y[1]), each = panelExt$x[2]),
-                          ymax = rep(seq(panelExt$y[2], panelExt$y[1]+1), each = panelExt$x[2]))
+    theGrid <- tibble(x = rep(seq(panelExt$x[1] + 0.5, panelExt$x[2], 1), times = panelExt$y[2]),
+                      xmin = rep(seq(panelExt$x[1], panelExt$x[2]-1), times = panelExt$y[2]),
+                      xmax = rep(seq(panelExt$x[1]+1, panelExt$x[2]), times = panelExt$y[2]),
+                      y = rep(seq(panelExt$y[2]-0.5, panelExt$y[1]), each = panelExt$x[2]),
+                      ymin = rep(seq(panelExt$y[2]-1, panelExt$y[1]), each = panelExt$x[2]),
+                      ymax = rep(seq(panelExt$y[2], panelExt$y[1]+1), each = panelExt$x[2]))
   }
 
   out <- NULL
   for(i in 1:samples){
     click <- grid.locator(unit = "npc")
+    if(length(click) != 2){
+      # this little if statement seems to be required to appease 'testthat',
+      # because any test involving gt_locate fails otherwise, perhaps the output
+      # of grid.locator is not properly evaluated/registerd, the typical errors
+      # indicate that click doesn't contain values
+      return(c("Moep!"))
+    }
 
     values <- round(as.numeric(click), 3)
     if(any(values < 0)) values <- c(NA, NA)
@@ -169,32 +151,64 @@ gt_locate <- function(samples = 1, panel = NULL, identify = FALSE, snap = FALSE,
                                 values[2] > theGrid$ymin & values[2] <= theGrid$ymax),c(1, 4)]
       values[1] <- matPos$x
       values[2] <- matPos$y
-      matPos <- data.frame(col = ceiling(matPos$x),
-                           row = ceiling(matPos$y))
+      matPos <- tibble(col = ceiling(matPos$x),
+                       row = ceiling(matPos$y))
     } else{
-      matPos <- data.frame(col = ceiling(values[1]),
-                           row = ceiling(values[2]))
+      matPos <- tibble(col = ceiling(values[1]),
+                       row = ceiling(values[2]))
     }
 
-    temp <- data.frame(id = i, x = values[[1]], y = values[[2]])
+    temp <- tibble(id = i, x = values[[1]], y = values[[2]])
 
     if(raw){
-      temp <- cbind(temp, matPos)
+      temp <- bind_cols(temp, matPos)
     }
 
-    if(identify){
-      theCol <- matCol[dim(matCol)[1]+1 - matPos$row, matPos$col]
-      if(!is.null(matVal)){
-        theVal <- matVal[dim(matCol)[1]+1 - matPos$row, matPos$col]
-        plotVal <- theVal
+    if(identify & isLegendInPlot){
+      metaLegend <- grid.get(gPath("theLegend"), global = TRUE)
+      metaValues <- grid.get(gPath("legendValues"), global = TRUE)
+      if(length(panelNames) > 1){
+        legend <- metaLegend[which(panel == panelNames)][[1]]$raster
+        values <- as.numeric(metaValues[which(panel == panelNames)][[1]]$label)
       } else{
-        theVal <- as.character(NA)
-        plotVal <- theCol
+        theLegend <- metaLegend$raster
+        theValues <- as.numeric(metaValues$label)
       }
-      vals <- data.frame(value = theVal,
-                         colour = theCol)
-      temp <- cbind(temp, vals)
+      if(isRasterInPlot){
+
+        matVal <- subChrIntC(matCol,
+                             replace = legend,
+                             with = values)
+        theCol <- matCol[dim(matCol)[1]+1 - matPos$row, matPos$col]
+        if(!is.null(matVal)){
+          theVal <- matVal[dim(matCol)[1]+1 - matPos$row, matPos$col]
+          plotVal <- theVal
+        } else{
+          theVal <- as.character(NA)
+          plotVal <- theCol
+        }
+        vals <- tibble(value = theVal, colour = theCol)
+
+      } else if(isVectorInPlot){
+
+        theVal <- plotVal <- NA
+        for(i in seq_along(theValues)){
+          geom <- grid.get(gPath(as.character(i)), global = TRUE)
+          inside <- pointInGeomC(vert = matrix(data = c(click$x, click$y), ncol = 2),
+                                 geom = matrix(data = c(geom$x, geom$y), ncol = 2),
+                                 invert = FALSE)
+          if(inside >= 1){
+            theVal <- i
+            plotVal <- i
+            break
+          }
+        }
+        vals <- tibble(geom = theVal)
+
+      }
+      temp <- bind_cols(temp, vals)
     }
+    # return(click)
 
     if(show){
       if(identify){
@@ -215,17 +229,19 @@ gt_locate <- function(samples = 1, panel = NULL, identify = FALSE, snap = FALSE,
                                    y = click$y,
                                    pch = 16,
                                    size = unit(1, "mm"),
-                                   gp = gpar(...)),
-                        textGrob(paste0("(", values[1], ", ", values[2], ")"),
-                                 click$x + unit(2, "mm"),
-                                 click$y,
+                                   gp = gpar(...)
+                                   ),
+                        textGrob(label = paste0("(", values[1], ", ", values[2], ")"),
+                                 x = click$x + unit(2, "mm"),
+                                 y = click$y,
                                  just = "left",
                                  check.overlap = TRUE,
-                                 gp = gpar(...)))
+                                 gp = gpar(...))
+                        )
       }
       grid.draw(toDraw)
     }
-    out <- rbind(out, temp)
+    out <- bind_rows(out, temp)
 
   }
   upViewport(5)
