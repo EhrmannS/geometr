@@ -78,6 +78,7 @@ gt_sketch <- function(template = NULL, shape = NULL, features = 1, vertices = NU
   theCoices <- c("point", "line", "polygon", "triangle", "rectangle", "square", "hexagon", "random")
   # check arguments
   template <- .testTemplate(x = template, ...)
+  assert_character(x = shape, len = 1)
   assertSubset(x = shape, choices = theCoices)
   assertIntegerish(x = features, len = 1, lower = 1)
   assertIntegerish(x = vertices, min.len = 1, null.ok = TRUE)
@@ -159,7 +160,7 @@ gt_sketch <- function(template = NULL, shape = NULL, features = 1, vertices = NU
       cx <- tempAnchor$x[1] + radius*cos(.rad(angles))
       cy <- tempAnchor$y[1] + radius*sin(.rad(angles))
       theNodes <- tibble(x = cx, y = cy, fid = i)
-      theWindow <- .updateWindow(geom = theNodes, window = theWindow)
+      # theWindow <- .updateWindow(geom = theNodes, window = theWindow)
     } else {
       theNodes <- tempAnchor
     }
