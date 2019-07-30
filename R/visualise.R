@@ -65,7 +65,7 @@ visualise <- function(..., window = NULL, theme = gtTheme, trace = FALSE, image 
 
   # check arguments ----
   window <- .testWindow(x = window, ...)
-  assertDataFrame(x = window, nrows = 2, min.cols = 2, null.ok = TRUE)
+  assertDataFrame(x = window, nrows = 5, min.cols = 2, null.ok = TRUE)
   assertClass(x = theme, classes = "gtTheme", null.ok = TRUE)
   assertLogical(x = trace, len = 1, any.missing = FALSE)
   assertLogical(x = image, len = 1, any.missing = FALSE)
