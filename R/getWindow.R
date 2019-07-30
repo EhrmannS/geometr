@@ -39,8 +39,8 @@ setMethod(f = "getWindow",
           signature = signature("Spatial"),
           definition = function(x){
             ext <- extent(x)
-            tibble(x = c(ext@xmin, ext@xmax),
-                   y = c(ext@ymin, ext@ymax))
+            tibble(x = c(ext@xmin, ext@xmax, ext@xmax, ext@xmin, ext@xmin),
+                   y = c(ext@ymin, ext@ymin, ext@ymax, ext@ymax, ext@ymin))
           }
 )
 
@@ -55,8 +55,8 @@ setMethod(f = "getWindow",
           signature = "sf",
           definition = function(x){
             ext <- st_bbox(x)
-            tibble(x = c(ext[[1]], ext[[3]]),
-                   y = c(ext[[2]], ext[[4]]))
+            tibble(x = c(ext[[1]], ext[[3]], ext[[3]], ext[[1]], ext[[1]]),
+                   y = c(ext[[2]], ext[[2]], ext[[4]], ext[[4]], ext[[2]]))
           }
 )
 
@@ -71,8 +71,8 @@ setMethod(f = "getWindow",
           signature = "Raster",
           definition = function(x){
             ext <- extent(x)
-            bind_cols(x = c(ext@xmin, ext@xmax),
-                      y = c(ext@ymin, ext@ymax))
+            bind_cols(x = c(ext@xmin, ext@xmax, ext@xmax, ext@xmin, ext@xmin),
+                      y = c(ext@ymin, ext@ymin, ext@ymax, ext@ymax, ext@ymin))
           }
 )
 
@@ -85,7 +85,7 @@ setMethod(f = "getWindow",
 setMethod(f = "getWindow",
           signature = "matrix",
           definition = function(x){
-            bind_cols(x = c(0, ncol(x)),
-                      y = c(0, nrow(x)))
+            bind_cols(x = c(0, ncol(x), ncol(x), 0, 0),
+                      y = c(0, 0, nrow(x), nrow(x), 0))
           }
 )
