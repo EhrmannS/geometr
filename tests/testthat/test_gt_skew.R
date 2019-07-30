@@ -1,3 +1,4 @@
+library(testthat)
 library(checkmate)
 context("gt_skew")
 
