@@ -83,14 +83,14 @@ gt_locate <- function(samples = 1, panel = NULL, identify = FALSE, snap = FALSE,
   # get the panel in which locations should be determined
   if(is.null(panel)){
     if(length(panelNames) > 1){
-      warning("no panel has been specified, so I chose the first panel. Please select locations there.", immediate. = TRUE, call. = FALSE)
+      warning("please select locations in the first panel.", immediate. = TRUE, call. = FALSE)
     }
     panel <- panelNames[1]
   } else{
     panel <- panelNames[grepl(panel, panelNames)]
     if(length(panel) == 0){
       panel <- panelNames[1]
-      warning("the specified panel did not match any of the existing panels, so I chose the first panel. Please select locations there.", immediate. = TRUE, call. = FALSE)
+      warning("the specified panel did not match any of the existing panels, please select locations in the first panel.", immediate. = TRUE, call. = FALSE)
     }
   }
 
@@ -151,7 +151,7 @@ gt_locate <- function(samples = 1, panel = NULL, identify = FALSE, snap = FALSE,
                        row = ceiling(values[2]))
     }
 
-    temp <- tibble(id = i, x = values[[1]], y = values[[2]])
+    temp <- tibble(id = i, x = values[1], y = values[2])
 
     if(raw){
       temp <- bind_cols(temp, matPos)
@@ -173,13 +173,8 @@ gt_locate <- function(samples = 1, panel = NULL, identify = FALSE, snap = FALSE,
                              replace = theLegend,
                              with = theValues)
         theCol <- matCol[dim(matCol)[1]+1 - matPos$row, matPos$col]
-        if(!is.null(matVal)){
-          theVal <- matVal[dim(matCol)[1]+1 - matPos$row, matPos$col]
-          plotVal <- theVal
-        } else{
-          theVal <- as.character(NA)
-          plotVal <- theCol
-        }
+        theVal <- matVal[dim(matCol)[1]+1 - matPos$row, matPos$col]
+        plotVal <- theVal
         vals <- tibble(value = theVal, colour = theCol)
 
       } else if(isVectorInPlot){
