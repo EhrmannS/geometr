@@ -16,8 +16,10 @@ The `geometr` package provides tools that generate and process fully accessible 
 
 1) Install the development version from github and load it:
 
-    devtools::install_github("EhrmannS/geometr")
-    library(geometr)
+``` r
+devtools::install_github("EhrmannS/geometr")
+library(geometr)
+```
 
 2) The [vignette](articles/geometr.html) gives a more in depth introduction, explains `geometr`s take on interoperability and discusses the spatial class `geom` that comes with `geometr`.
 

@@ -32,8 +32,8 @@
 
 <meta property="og:title" content="Create a line geometry — gs_line" />
 
-<meta property="og:description" content="Create a line geometry (of class geom) either by specifying its
-parameters or by sketching it." />
+<meta property="og:description" content="Create a line geometry (of class geom) either by specifying
+anchor values or by sketching it." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -125,13 +125,13 @@ parameters or by sketching it." />
 
     <div class="ref-description">
     
-    <p>Create a line geometry (of class <code><a href='geom-class.html'>geom</a></code>) either by specifying its
-parameters or by sketching it.</p>
+    <p>Create a line geometry (of class <code><a href='geom-class.html'>geom</a></code>) either by specifying
+anchor values or by sketching it.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>gs_line</span>(<span class='kw'>anchor</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>window</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>template</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>features</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>vertices</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>gs_line</span>(<span class='kw'>anchor</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>window</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>features</span> <span class='kw'>=</span> <span class='fl'>1</span>,
+  <span class='kw'>vertices</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>sketch</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -149,19 +149,19 @@ from the bounding box of <code>anchor</code> (minimum and maximum values),
 specify this here.</p></td>
     </tr>
     <tr>
-      <th>template</th>
-      <td><p>[<code>RasterLayer(1)</code> | <code><a href='https://www.rdocumentation.org/packages/base/topics/matrix'>matrix(1)</a></code>]<br /> Gridded object
-that serves as template to sketch the geometry.</p></td>
-    </tr>
-    <tr>
       <th>features</th>
-      <td><p>[<code>integerish(1)</code>]<br /> number of geometries to create.</p></td>
+      <td><p>[<code>integerish(1)</code>]<br /> number of lines to create.</p></td>
     </tr>
     <tr>
       <th>vertices</th>
-      <td><p>[<code>integerish(.)</code>]<br /> number of vertices per geometry;
-will be recycled if it does not have as many elements as specified in
+      <td><p>[<code>integerish(.)</code>]<br /> number of vertices per line; will
+be recycled if it does not have as many elements as specified in
 <code>features</code>.</p></td>
+    </tr>
+    <tr>
+      <th>sketch</th>
+      <td><p>[<code>RasterLayer(1)</code> | <code><a href='https://www.rdocumentation.org/packages/base/topics/matrix'>matrix(1)</a></code>]<br /> Gridded object
+that serves as template to sketch the geometry.</p></td>
     </tr>
     <tr>
       <th>...</th>
@@ -226,14 +226,8 @@ case points are sketched; see <code>gpar</code>.</p></td>
 <span class='fu'>gs_line</span>(<span class='kw'>anchor</span> <span class='kw'>=</span> <span class='no'>aGeom</span>) <span class='kw'>%&gt;%</span>
   <span class='fu'><a href='visualise.html'>visualise</a></span>(<span class='kw'>geom</span> <span class='kw'>=</span> <span class='no'>.</span>, <span class='kw'>linecol</span> <span class='kw'>=</span> <span class='st'>"deeppink"</span>)</div><div class='img'><img src='gs_line-2.png' alt='' width='700' height='433' /></div><div class='input'>
 </div></span><span class='co'># NOT RUN {</span>
-<span class='no'>input</span> <span class='kw'>&lt;-</span> <span class='no'>gtRasters</span>$<span class='no'>continuous</span>
-
-<span class='co'># create points interactively</span>
-<span class='no'>myLine</span> <span class='kw'>&lt;-</span> <span class='fu'>gs_line</span>(<span class='kw'>template</span> <span class='kw'>=</span> <span class='no'>input</span>, <span class='kw'>vertices</span> <span class='kw'>=</span> <span class='fl'>5</span>)
-<span class='fu'><a href='visualise.html'>visualise</a></span>(<span class='kw'>geom</span> <span class='kw'>=</span> <span class='no'>myLine</span>, <span class='kw'>linecol</span> <span class='kw'>=</span> <span class='st'>"deeppink"</span>, <span class='kw'>new</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
-
-<span class='no'>anExtent</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='gs_polygon.html'>gs_rectangle</a></span>(<span class='no'>myLine</span>)
-<span class='fu'><a href='visualise.html'>visualise</a></span>(<span class='kw'>geom</span> <span class='kw'>=</span> <span class='no'>anExtent</span>, <span class='kw'>linecol</span> <span class='kw'>=</span> <span class='st'>"green"</span>, <span class='kw'>new</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
+<span class='fu'>gs_line</span>(<span class='kw'>sketch</span> <span class='kw'>=</span> <span class='no'>gtRasters</span>$<span class='no'>continuous</span>, <span class='kw'>vertices</span> <span class='kw'>=</span> <span class='fl'>4</span>) <span class='kw'>%&gt;%</span>
+  <span class='fu'><a href='visualise.html'>visualise</a></span>(<span class='kw'>geom</span> <span class='kw'>=</span> <span class='no'>.</span>, <span class='kw'>linecol</span> <span class='kw'>=</span> <span class='st'>"orange"</span>, <span class='kw'>linewidth</span> <span class='kw'>=</span> <span class='fl'>5</span>, <span class='kw'>new</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
 <span class='co'># }</span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

@@ -128,7 +128,7 @@
     
     </div>
 
-    <pre class="usage"><span class='fu'>gs_random</span>(<span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"point"</span>, <span class='kw'>template</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>vertices</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+    <pre class="usage"><span class='fu'>gs_random</span>(<span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"point"</span>, <span class='kw'>window</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>vertices</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -140,9 +140,10 @@ types <code>"point"</code>, <code>"line"</code> or <code>"polygon"</code>, or mo
 specifically one of their subtypes, e.g. <code>"hexagon"</code>.</p></td>
     </tr>
     <tr>
-      <th>template</th>
-      <td><p>[<code>RasterLayer(1)</code> | <code><a href='https://www.rdocumentation.org/packages/base/topics/matrix'>matrix(1)</a></code>]<br /> Gridded object
-that serves as template to sketch the geometry.</p></td>
+      <th>window</th>
+      <td><p>[<code><a href='https://www.rdocumentation.org/packages/base/topics/data.frame'>data.frame(1)</a></code>]<br /> in case the reference window deviates
+from the bounding box (0, 1) (minimum and maximum values), specify this
+here.</p></td>
     </tr>
     <tr>
       <th>vertices</th>
@@ -151,6 +152,10 @@ should have; only meaningful if <code>type</code> does not indicate the number o
 vertices already. If left at <code>NULL</code> the minimum number of vertices for
 the <code>geom</code> type, i.e. 1 for <code>point</code>, 2 for <code>line</code> and 3 for
 <code>polygon</code>.</p></td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td><p>[various]<br /> additional arguments.</p></td>
     </tr>
     </table>
     
