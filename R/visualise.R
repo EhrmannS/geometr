@@ -129,7 +129,7 @@ visualise <- function(..., window = NULL, theme = gtTheme, trace = FALSE, image 
   # plot already open? ----
   if(!is.null(dev.list()) & !new){
     objViewports <- grid.ls(viewports = TRUE, grobs = FALSE, print = FALSE)
-    newPlot <- ifelse(any(objViewports$name == "vpLomm"), FALSE, TRUE)
+    newPlot <- ifelse(any(objViewports$name == "geometr"), FALSE, TRUE)
     panelNames <- objViewports$name[objViewports$vpDepth == 2 & objViewports$name != "1"]
     panelNames <- panelNames[!duplicated(panelNames)]
     panels <- length(panelNames)
@@ -161,7 +161,7 @@ visualise <- function(..., window = NULL, theme = gtTheme, trace = FALSE, image 
 
   if(newPlot){
     grid.newpage()
-    pushViewport(viewport(name = "vpLomm"))
+    pushViewport(viewport(name = "geometr"))
   }
 
   # plot the panels ----
@@ -319,7 +319,7 @@ visualise <- function(..., window = NULL, theme = gtTheme, trace = FALSE, image 
 
         # this is a little hack to get all the values that are contained in the
         # raster "into" the plotted object for later use (e.g. by locate())
-        grid.text(label = obj$legend$labels,
+        grid.text(label = obj$uniqueValues$values,
                   name = "legendValues",
                   gp = gpar(col = NA))
 
@@ -439,7 +439,7 @@ visualise <- function(..., window = NULL, theme = gtTheme, trace = FALSE, image 
 
     }
   }
-  upViewport() # exit 'vpLomm'
+  upViewport() # exit 'geometr'
 
   if(trace){
     plotHistory <- FALSE
