@@ -7,27 +7,31 @@ context("gt_locate")
 test_that("locating in a geom works", {
   visualise(gtGeoms$polygon)
 
-  bla <- capture_output(gt_locate())
-  expect_character(x = bla)
+  output <- gt_locate()
+  expect_data_frame(x = output)
+  expect_names(names(output), identical.to = c("id", "x", "y"))
 })
 
 test_that("identifying in a geom works", {
   visualise(gtGeoms$polygon)
 
-  bla <- gt_locate(identify = TRUE)
-  expect_character(x = bla)
+  output <- gt_locate(identify = TRUE)
+  expect_data_frame(x = output)
+  expect_names(names(output), identical.to = c("id", "x", "y", "geom"))
 })
 
 test_that("locating in a raster works", {
   visualise(gtRasters$continuous)
 
-  bla <- capture_output(gt_locate())
-  expect_character(x = bla)
+  output <- gt_locate()
+  expect_data_frame(x = output)
+  expect_names(names(output), identical.to = c("id", "x", "y"))
 })
 
 test_that("identifying in a raster works", {
   visualise(gtRasters$continuous)
 
-  bla <- gt_locate(identify = TRUE)
-  expect_character(x = bla)
+  output <- gt_locate(identify = TRUE)
+  expect_data_frame(x = output)
+  expect_names(names(output), identical.to = c("id", "x", "y", "value", "colour"))
 })
