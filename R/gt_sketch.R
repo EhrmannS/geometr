@@ -69,7 +69,11 @@
 #' anExtent <- gs_rectangle(myPoints)
 #' visualise(geom = anExtent, linecol = "green", new = FALSE)
 #' }
-#' @importFrom checkmate assertSubset assertIntegerish assertLogical
+#' @importFrom checkmate assertCharacter assertSubset assertIntegerish
+#'   assertLogical
+#' @importFrom tibble tibble
+#' @importFrom stats dist
+#' @importFrom dplyr bind_rows
 #' @export
 
 gt_sketch <- function(template = NULL, shape = NULL, features = 1, vertices = NULL,
@@ -78,7 +82,7 @@ gt_sketch <- function(template = NULL, shape = NULL, features = 1, vertices = NU
   theCoices <- c("point", "line", "polygon", "triangle", "rectangle", "square", "hexagon", "random")
   # check arguments
   template <- .testTemplate(x = template, ...)
-  assert_character(x = shape, len = 1)
+  assertCharacter(x = shape, len = 1)
   assertSubset(x = shape, choices = theCoices)
   assertIntegerish(x = features, len = 1, lower = 1)
   assertIntegerish(x = vertices, min.len = 1, null.ok = TRUE)
