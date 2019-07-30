@@ -16,7 +16,7 @@ knitr::opts_chunk$set(
 
 ## Interoperability
 
-R is an open source environment which means that no single package or class will ever be the sole source of a particular data structure and this is also the case for datastructures that capture spatial or geometric data.
+R is an open source environment which means that no single package or class will ever be the sole source of a particular datastructure and this is also the case for spatial or geometric data.
 
 Interoperable software is software that can easily exchange information with other software, which is typically achieved by providing the output of functionally similar operations in a common arrangement or format.
 `Geometr` improves interoperability in R for spatial classes, by providing functions that extract and provide metadata in an identical format from a potentially wide range of classes.

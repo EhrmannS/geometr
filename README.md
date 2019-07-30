@@ -9,7 +9,10 @@
 ## Overview
 
 The `geometr` package provides tools that generate and process fully accessible and tidy geometric shapes (of class `geom`).
-`geometr` aims to improve interoperability of spatial classes. Spatial classes are typically a collection of geometric shapes (or their vertices) that are accompanied by various metadata (such as attributes and a coordinate reference system). Most spatial classes are conceptually quite similar, yet a common standard lacks for accessing features, vertices or the metadata. `Geometr` fills this gap by providing tools that produce an identical output for the same metadata of different classes (socalled getters) and that use an indentical input to write to various classes that originally require different input (socalled setters).
+`geometr` aims to improve interoperability of spatial classes. Spatial classes are typically a collection of geometric shapes (or their vertices) that are accompanied by various metadata (such as attributes and a coordinate reference system). Most spatial classes are conceptually quite similar, yet a common standard lacks for accessing features, vertices or the metadata. `Geometr` fills this gap by providing tools
+
+  1) that produce an identical output for the same metadata of different classes (via socalled getters) and 
+  2) that use an indentical input to write to various classes that originally require different input (via socalled setters).
 
 
 ## Installation
@@ -37,10 +40,11 @@ nc_sf <- st_read(system.file("shape/nc.shp", package="sf"))
 nc_geom <- gc_geom(input = nc_sf)
 
 # ... or by hand.
-coords <- data.frame(x = c(40, 70, 70, 50),
-               y = c(40, 40, 60, 70))
-window <- data.frame(x = c(0, 80),
-               y = c(0, 80))
+library(tibble)
+coords <- tibble(x = c(40, 70, 70, 50),
+                 y = c(40, 40, 60, 70))
+window <- tibble(x = c(0, 80),
+                 y = c(0, 80))
 aGeom <- gs_polygon(anchor = coords, window = window)
 
 # The "tiny map" shows where the vertices are concentrated.
@@ -54,17 +58,18 @@ getTable(x = nc_sf)
 getTable(x = nc_geom, slot = "feat")
 ```
 
-A `geom` has three attribute tables, one for vertices, one for features and one for groups of features, all of which can be provided with ancilliary information.
+A `geom` has three attribute tables, one for vertices, one for features and one for groups of features, all of which can be provided with ancilliary information ([description of a geoms data structure](articles/geometr.html#the-class-geom)).
 
 ``` r
 getTable(x = nc_geom, slot = "vert")
 getTable(x = nc_geom, slot = "group")
 ```
 
-Groups of features are called *multi\** features in other packages. By lumping several closed geometric shapes into one multi\* feature, the separate geometric shapes can't be attributed with ancilliary information anymore. In a `geom`, multi\* features are separated into distinct (simpler) features, while the attributes of multi\* features are captured by the *group attribute table*.
+Groups of features are called *multi\** features in other packages. By lumping several closed geometric shapes into one multi\* feature, the separate geometric shapes can't be attributed with ancilliary information anymore. In a `geom`, multi\* features are separated into distinct (simpler) features, while the attributes of multi\* features can be captured by the *group attribute table*.
 
 ``` r
-currituck <- getSubset(x = nc_geom, gid == 4)
+nc_geom2 <- gc_geom(input = nc_sf, group = TRUE)
+currituck <- getSubset(x = nc_geom2, gid == 4)
 getTable(x = currituck, slot = "feat")
 getTable(x = currituck, slot = "group")
 ```
@@ -76,10 +81,20 @@ visualise(`North Carolina` = nc_geom)
 visualise(`NC - NWBIR74` = nc_geom, fillcol = NWBIR74)
 ```
 
-Cast a `geom` to another type simply by providing it in 'anchor' of the respective type
+A `geom` has the slot `@window`, which contains a reference window, so to speak. This reference window can be specified in many functions of `geometr`
 
 ``` r
-manyPoints <- gs_point(anchor = nc_geom)
+visualise(`Currituck` = currituck)
+visualise(`Currituck` = currituck, window = tibble(x = c(-75.7, -76.4), y = c(36.6, 36)))
+```
+
+Finally, cast a `geom` to another type simply by providing it in 'anchor' of the respective type
+
+``` r
+library(magrittr)
+manyPoints <- gs_point(anchor = currituck) %>% 
+   setWindow(to = tibble(x = c(-75.7, -76.4), y = c(36.6, 36)))
+visualise(`Currituck - boundary vertices`= manyPoints)
 ```
 
 
