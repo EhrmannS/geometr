@@ -130,13 +130,6 @@ gt_locate <- function(samples = 1, panel = NULL, identify = FALSE, snap = FALSE,
   out <- NULL
   for(i in 1:samples){
     click <- grid.locator(unit = "npc")
-    if(length(click) != 2){
-      # this little if statement seems to be required to appease 'testthat',
-      # because any test involving gt_locate fails otherwise, perhaps the output
-      # of grid.locator is not properly evaluated/registerd, the typical errors
-      # indicate that click doesn't contain values
-      return(c("Moep!"))
-    }
 
     values <- round(as.numeric(click), 3)
     if(any(values < 0)) values <- c(NA, NA)
@@ -168,8 +161,8 @@ gt_locate <- function(samples = 1, panel = NULL, identify = FALSE, snap = FALSE,
       metaLegend <- grid.get(gPath("theLegend"), global = TRUE)
       metaValues <- grid.get(gPath("legendValues"), global = TRUE)
       if(length(panelNames) > 1){
-        legend <- metaLegend[which(panel == panelNames)][[1]]$raster
-        values <- as.numeric(metaValues[which(panel == panelNames)][[1]]$label)
+        theLegend <- metaLegend[which(panel == panelNames)][[1]]$raster
+        theValues <- as.numeric(metaValues[which(panel == panelNames)][[1]]$label)
       } else{
         theLegend <- metaLegend$raster
         theValues <- as.numeric(metaValues$label)
@@ -177,8 +170,8 @@ gt_locate <- function(samples = 1, panel = NULL, identify = FALSE, snap = FALSE,
       if(isRasterInPlot){
 
         matVal <- subChrIntC(matCol,
-                             replace = legend,
-                             with = values)
+                             replace = theLegend,
+                             with = theValues)
         theCol <- matCol[dim(matCol)[1]+1 - matPos$row, matPos$col]
         if(!is.null(matVal)){
           theVal <- matVal[dim(matCol)[1]+1 - matPos$row, matPos$col]
@@ -194,7 +187,7 @@ gt_locate <- function(samples = 1, panel = NULL, identify = FALSE, snap = FALSE,
         theVal <- plotVal <- NA
         for(i in seq_along(theValues)){
           geom <- grid.get(gPath(as.character(i)), global = TRUE)
-          inside <- pointInGeomC(vert = matrix(data = c(click$x, click$y), ncol = 2),
+          inside <- pointInGeomC(vert = matrix(data = c(values[1], values[2]), ncol = 2),
                                  geom = matrix(data = c(geom$x, geom$y), ncol = 2),
                                  invert = FALSE)
           if(inside >= 1){
@@ -212,28 +205,28 @@ gt_locate <- function(samples = 1, panel = NULL, identify = FALSE, snap = FALSE,
 
     if(show){
       if(identify){
-        toDraw <- gList(pointsGrob(x = click$x,
-                                   y = click$y,
+        toDraw <- gList(pointsGrob(x = unit(values[1], "npc"),
+                                   y = unit(values[2], "npc"),
                                    pch = 16,
                                    size = unit(1, "mm"),
                                    gp = gpar(...)),
-                        textGrob(paste0("[", plotVal, "]"),
-                                 click$x + unit(2, "mm"),
-                                 click$y,
+                        textGrob(label = paste0("[", plotVal, "]"),
+                                 x = unit(values[1], "npc") + unit(2, "mm"),
+                                 y = unit(values[2], "npc"),
                                  just = "left",
                                  check.overlap = TRUE,
                                  gp = gpar(...))
         )
       } else{
-        toDraw <- gList(pointsGrob(x = click$x,
-                                   y = click$y,
+        toDraw <- gList(pointsGrob(x = unit(values[1], "npc"),
+                                   y = unit(values[2], "npc"),
                                    pch = 16,
                                    size = unit(1, "mm"),
                                    gp = gpar(...)
                                    ),
                         textGrob(label = paste0("(", values[1], ", ", values[2], ")"),
-                                 x = click$x + unit(2, "mm"),
-                                 y = click$y,
+                                 x = unit(values[1], "npc") + unit(2, "mm"),
+                                 y = unit(values[2], "npc"),
                                  just = "left",
                                  check.overlap = TRUE,
                                  gp = gpar(...))
