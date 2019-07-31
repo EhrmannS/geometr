@@ -1,12 +1,14 @@
 #' Set (or transform) the coordinate reference system of a spatial object.
-#' @details In case an object has not yet assigned a coordinate reference
-#'   system, this function simply assigns it. In case the object has already a
+#' @details In case an object does not yet have a coordinate reference system
+#'   assigned, this function simply assigns it. In case the object has already a
 #'   valid crs, a transformation to the new crs will be carried out. The
-#'   transformation is computed with the standard defined in the \code{rgdal}
-#'   package.
+#'   transformation is computed for all classes with the standard defined in the
+#'   \code{rgdal} package.
 #' @param x the object for which to set the coordinate reference system.
 #' @param crs [\code{character(1)}]\cr the coordinate reference system to set
 #'   for this object.
+#' @return The object \code{x} with an assigned or transformed coordinate
+#'   reference system.
 #' @name setCRS
 #' @rdname setCRS
 NULL
@@ -28,7 +30,7 @@ if(!isGeneric("setCRS")){
 #' @export
 setMethod(f = "setCRS",
           signature = "geom",
-          definition = function(x, crs){
+          definition = function(x, crs = NULL){
             if(is.na(x@crs)){
               x@crs <- crs
             } else{
@@ -57,7 +59,7 @@ setMethod(f = "setCRS",
 #' @export
 setMethod(f = "setCRS",
           signature = signature("Spatial"),
-          definition = function(x, crs){
+          definition = function(x, crs = NULL){
             if(is.na(x@proj4string)){
               x@proj4string <- crs(crs)
             } else{
@@ -72,7 +74,7 @@ setMethod(f = "setCRS",
 #' @export
 setMethod(f = "setCRS",
           signature = "sf",
-          definition = function(x, crs){
+          definition = function(x, crs = NULL){
             if(is.na(st_crs(x = x)$proj4string)){
               x <- st_set_crs(x = x, value = crs)
             } else{
@@ -87,7 +89,7 @@ setMethod(f = "setCRS",
 #' @export
 setMethod(f = "setCRS",
           signature = "Raster",
-          definition = function(x, crs){
+          definition = function(x, crs = NULL){
             if(is.na(x@crs)){
               x@crs <- crs(crs)
             } else{

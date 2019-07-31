@@ -1,6 +1,14 @@
 #' Set the reference window of a spatial object.
-#' @param x the object in which to set the reference window.
-#' @param to [\code{data.frame(1)}]\cr two oposing corners.
+#'
+#' @param x the object for which to set a new reference window.
+#' @param to [\code{data.frame(1)}]\cr a datastructure that contains the minimum
+#'   and maximum values in x and y-dimension to which the reference window shall
+#'   be set.
+#' @details Possible datastructures are \itemize{ \item an object of class
+#'   \code{Extent}, \item an object of class \code{bbox}, \item a table with two
+#'   columns (named x and y) containing the minimum and maximum values for each
+#'   dimension.}
+#' @return The object \code{x} with an update reference window.
 #' @name setWindow
 #' @rdname setWindow
 NULL
@@ -22,18 +30,19 @@ if(!isGeneric("setWindow")){
 #' coords <- data.frame(x = c(40, 70, 70, 50),
 #'                      y = c(40, 40, 60, 70))
 #' (aGeom <- gs_polygon(anchor = coords))
+#' visualise(geom = aGeom)
 #'
 #' window <- data.frame(x = c(0, 80),
 #'                      y = c(0, 80))
 #' (aGeom <- setWindow(x = aGeom, to = window))
 #'
-#' visualise(geom = aGeom, new = FALSE)
+#' visualise(geom = aGeom)
 #' @importFrom checkmate testSubset assert
 #' @importFrom tibble tibble
 #' @export
 setMethod(f = "setWindow",
           signature = "geom",
-          definition = function(x, to){
+          definition = function(x, to = NULL){
             assertClass(x = x, classes = "geom")
             if("Extent" %in% class(to)){
               xVals <- c(to@xmin, to@xmax)

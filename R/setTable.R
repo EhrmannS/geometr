@@ -1,19 +1,11 @@
-#' Set the attribute table of a spatial object.
-#' @param x the object to which to assign \code{table}.
+#' Set the attribute table(s) of a spatial object.
+#'
+#' @param x the object to which to assign an attribute table.
 #' @param table [\code{data.frame(.)}]\cr the attribute table.
 #' @details If \code{table} does not have columns in common with \code{x}, the
-#'   new columns are simply bound to the original attribute table. If there are
-#'   common coloums, they are joined.
-#'
-#'   If a \code{geom} gets assigned a table with individual values per feature
-#'   (\code{fid}), and not per group (\code{gid}), groups are by default
-#'   reassigned per individual value. This is neccessary as \code{geom}s can
-#'   have individual values per feature. An \code{sf} can consist of MULTI*
-#'   features, where it is not possible to store feature-specific information,
-#'   hence \code{regroup = TRUE} asserts that features with individual values
-#'   are not cast to a MULTI* feature - and thereby lose the information they
-#'   carry - by modifying \code{gid} accordingly.
-#'
+#'   new columns are simply bound to the original attribute table (if possible).
+#'   If there are common columns, they are joined.
+#' @return The object \code{x} with an updated attribute table.
 #' @name setTable
 #' @rdname setTable
 NULL
@@ -30,28 +22,29 @@ if(!isGeneric("setTable")){
 }
 
 #' @rdname setTable
-#' @param slot [\code{character(1)}]\cr the geom slot to which to set the
-#'   attribute table, either \code{"vert"}, \code{"feat"} or \code{"group"}.
+#' @param slot [\code{character(1)}]\cr the slot (of \code{geom}) for which to
+#'   set the attribute table, either \code{"vert"}, \code{"feat"} or
+#'   \code{"group"}.
 #' @examples
 #' # set table of a geom
 #' # individual attributes per point/line/polygon feature
 #' getTable(gtGeoms$point)
 #' newAttr <- setTable(x = gtGeoms$point,
 #'                     slot = "vert",
-#'                     table = data.frame(attr = letters[c(1:5, 5:11)]))
+#'                     table = data.frame(attr = letters[c(1:12)]))
 #' getTable(x = newAttr, slot = "vert")
 #'
 #' newAttr2 <- setTable(x = newAttr,
 #'                      slot = "feat",
 #'                      table = data.frame(gid = c(1:3), attr = letters[1:3]))
-#' getTable(newAttr2)
+#' getTable(x = newAttr2, slot = "feat")
 #' newAttr2
 #' @importFrom dplyr left_join select everything
 #' @importFrom tibble tibble
 #' @export
 setMethod(f = "setTable",
           signature = "geom",
-          definition = function(x, table, slot = "feat"){
+          definition = function(x, table = NULL, slot = "feat"){
             assertDataFrame(x = table)
             assertChoice(x = slot, choices = c("vert", "feat", "group"))
             if(slot == "vert"){
@@ -86,7 +79,7 @@ setMethod(f = "setTable",
 #' @export
 setMethod(f = "setTable",
           signature = "Spatial",
-          definition = function(x, table){
+          definition = function(x, table = NULL){
             assertDataFrame(table)
             assertTRUE(length(x) == dim(table)[1])
 
@@ -132,7 +125,7 @@ setMethod(f = "setTable",
 #' @export
 setMethod(f = "setTable",
           signature = signature("sf"),
-          definition = function(x, table){
+          definition = function(x, table = NULL){
             assertDataFrame(table)
             assertTRUE(nrow(x) == nrow(table))
             if(any(colnames(table) %in% colnames(x))){
@@ -147,7 +140,7 @@ setMethod(f = "setTable",
 #' @rdname setTable
 #' @examples
 #'
-#' # set table to an sfc (no join possible)
+#' # set table to an sfc (no join possible) and transform it to sf thereby
 #' sfcObj = gtSF$polygon$geometry
 #' setTable(x = sfcObj, table = myAttributes)
 #' @importFrom checkmate assertDataFrame assertTRUE
@@ -156,7 +149,7 @@ setMethod(f = "setTable",
 #' @export
 setMethod(f = "setTable",
           signature = signature("sfc"),
-          definition = function(x, table){
+          definition = function(x, table = NULL){
             assertDataFrame(table)
             temp <- st_sf(geom = x)
             assertTRUE(nrow(temp) == nrow(table))
@@ -175,7 +168,7 @@ setMethod(f = "setTable",
 #' @export
 setMethod(f = "setTable",
           signature = "RasterLayer",
-          definition = function(x, table){
+          definition = function(x, table = NULL){
             assertDataFrame(table)
             temp <- ratify(x)
             nIDs <- length(temp@data@attributes[[1]][,1])
