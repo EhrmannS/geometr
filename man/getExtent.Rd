@@ -23,6 +23,9 @@
 \arguments{
 \item{x}{the object from which to derive the extent.}
 }
+\value{
+A table of the lower left and upper right corner of the extent of \code{x}.
+}
 \description{
 Get the extent (bounding box) of a spatial object.
 }

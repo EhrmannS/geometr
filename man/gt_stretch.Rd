@@ -7,13 +7,14 @@
 gt_stretch(geom, x = NULL, y = NULL, fid = NULL, update = TRUE)
 }
 \arguments{
-\item{geom}{[\code{geom}]\cr object of class \code{\link{geom}}.}
+\item{geom}{[\code{geom}]\cr the object to stretch.}
 
 \item{x}{[\code{numeric(1)}]\cr the scale factor in x-dimension.}
 
 \item{y}{[\code{numeric(1)}]\cr the scale factor in y-dimension.}
 
-\item{fid}{[\code{integerish(.)}]\cr the features to stretch.}
+\item{fid}{[\code{integerish(.)}]\cr if only a subset of features shall be
+stretched, specify that here.}
 
 \item{update}{[\code{logical(1)}]\cr whether or not to update the window slot
 after stretching.}

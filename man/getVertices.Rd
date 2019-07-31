@@ -17,6 +17,9 @@
 \arguments{
 \item{x}{the object from which to extract the coordinates}
 }
+\value{
+A table of the coordinates \code{x} is made up of.
+}
 \description{
 Get the table of coordinates of a spatial object.
 }

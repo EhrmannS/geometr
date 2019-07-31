@@ -7,7 +7,7 @@
 \alias{getType,Spatial-method}
 \alias{getType,sf-method}
 \alias{getType,RasterLayer-method}
-\title{Get the type of an object.}
+\title{Get the type of a spatial object.}
 \usage{
 \S4method{getType}{geom}(x)
 
@@ -20,8 +20,11 @@
 \arguments{
 \item{x}{the object for which to determine the type.}
 }
+\value{
+A vector of two values giving the general type (vector/raster) and the specific type/class of \code{x}.
+}
 \description{
-Get the type of an object.
+Get the type of a spatial object.
 }
 \examples{
 getType(gtGeoms$polygon)

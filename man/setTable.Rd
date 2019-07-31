@@ -8,42 +8,37 @@
 \alias{setTable,sf-method}
 \alias{setTable,sfc-method}
 \alias{setTable,RasterLayer-method}
-\title{Set the attribute table of a spatial object.}
+\title{Set the attribute table(s) of a spatial object.}
 \usage{
-\S4method{setTable}{geom}(x, table, slot = "feat")
+\S4method{setTable}{geom}(x, table = NULL, slot = "feat")
 
-\S4method{setTable}{Spatial}(x, table)
+\S4method{setTable}{Spatial}(x, table = NULL)
 
-\S4method{setTable}{sf}(x, table)
+\S4method{setTable}{sf}(x, table = NULL)
 
-\S4method{setTable}{sfc}(x, table)
+\S4method{setTable}{sfc}(x, table = NULL)
 
-\S4method{setTable}{RasterLayer}(x, table)
+\S4method{setTable}{RasterLayer}(x, table = NULL)
 }
 \arguments{
-\item{x}{the object to which to assign \code{table}.}
+\item{x}{the object to which to assign an attribute table.}
 
 \item{table}{[\code{data.frame(.)}]\cr the attribute table.}
 
-\item{slot}{[\code{character(1)}]\cr the geom slot to which to set the
-attribute table, either \code{"vert"}, \code{"feat"} or \code{"group"}.}
+\item{slot}{[\code{character(1)}]\cr the slot (of \code{geom}) for which to
+set the attribute table, either \code{"vert"}, \code{"feat"} or
+\code{"group"}.}
+}
+\value{
+The object \code{x} with an updated attribute table.
 }
 \description{
-Set the attribute table of a spatial object.
+Set the attribute table(s) of a spatial object.
 }
 \details{
 If \code{table} does not have columns in common with \code{x}, the
-  new columns are simply bound to the original attribute table. If there are
-  common coloums, they are joined.
-
-  If a \code{geom} gets assigned a table with individual values per feature
-  (\code{fid}), and not per group (\code{gid}), groups are by default
-  reassigned per individual value. This is neccessary as \code{geom}s can
-  have individual values per feature. An \code{sf} can consist of MULTI*
-  features, where it is not possible to store feature-specific information,
-  hence \code{regroup = TRUE} asserts that features with individual values
-  are not cast to a MULTI* feature - and thereby lose the information they
-  carry - by modifying \code{gid} accordingly.
+  new columns are simply bound to the original attribute table (if possible).
+  If there are common columns, they are joined.
 }
 \examples{
 # set table of a geom
@@ -51,13 +46,13 @@ If \code{table} does not have columns in common with \code{x}, the
 getTable(gtGeoms$point)
 newAttr <- setTable(x = gtGeoms$point,
                     slot = "vert",
-                    table = data.frame(attr = letters[c(1:5, 5:11)]))
+                    table = data.frame(attr = letters[c(1:12)]))
 getTable(x = newAttr, slot = "vert")
 
 newAttr2 <- setTable(x = newAttr,
                      slot = "feat",
                      table = data.frame(gid = c(1:3), attr = letters[1:3]))
-getTable(newAttr2)
+getTable(x = newAttr2, slot = "feat")
 newAttr2
 
 # set table of an sf
@@ -70,7 +65,7 @@ setTable(x = sfObj, table = myAttributes)
 # ... without common columns
 setTable(x = sfObj, table = myAttributes[2])
 
-# set table to an sfc (no join possible)
+# set table to an sfc (no join possible) and transform it to sf thereby
 sfcObj = gtSF$polygon$geometry
 setTable(x = sfcObj, table = myAttributes)
 }

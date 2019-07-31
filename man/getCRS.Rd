@@ -20,6 +20,9 @@
 \arguments{
 \item{x}{the object from which to extract the coordinate reference system.}
 }
+\value{
+The coordinate reference system of \code{x} given as proj4string.
+}
 \description{
 Get the coordinate reference system of a spatial object.
 }

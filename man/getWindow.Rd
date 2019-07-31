@@ -23,6 +23,9 @@
 \arguments{
 \item{x}{the object from which to derive the reference window.}
 }
+\value{
+A table of the corners of the reference window of \code{x}.
+}
 \description{
 Get the reference window of a spatial object.
 }

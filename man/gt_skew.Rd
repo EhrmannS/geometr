@@ -7,13 +7,14 @@
 gt_skew(geom, x = NULL, y = NULL, fid = NULL, update = TRUE)
 }
 \arguments{
-\item{geom}{[\code{geom}]\cr object of class \code{\link{geom}}.}
+\item{geom}{[\code{geom}]\cr the object to skew.}
 
 \item{x}{[\code{numeric(1)}]\cr the shear factor in x-dimension.}
 
 \item{y}{[\code{numeric(1)}]\cr the shear factor in y-dimension.}
 
-\item{fid}{[\code{integerish(.)}]\cr the features to skew.}
+\item{fid}{[\code{integerish(.)}]\cr if only a subset of features shall be
+skewed, specify that here.}
 
 \item{update}{[\code{logical(1)}]\cr whether or not to update the window slot
 after skewing.}

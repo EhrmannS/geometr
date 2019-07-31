@@ -2,7 +2,7 @@
 % Please edit documentation in R/gs_random.R
 \name{gs_random}
 \alias{gs_random}
-\title{Create a geometry randomly}
+\title{Create a \code{geom} randomly}
 \usage{
 gs_random(type = "point", window = NULL, vertices = NULL, ...)
 }
@@ -12,7 +12,7 @@ types \code{"point"}, \code{"line"} or \code{"polygon"}, or more
 specifically one of their subtypes, e.g. \code{"hexagon"}.}
 
 \item{window}{[\code{data.frame(1)}]\cr in case the reference window deviates
-from the bounding box (0, 1) (minimum and maximum values), specify this
+from the bounding box [0, 1] (minimum and maximum values), specify this
 here.}
 
 \item{vertices}{[\code{integerish(1)}]\cr the number of vertices the geometry
@@ -27,16 +27,20 @@ the \code{geom} type, i.e. 1 for \code{point}, 2 for \code{line} and 3 for
 This function creates a random geometry
 }
 \examples{
-library(magrittr)
 input <- matrix(nrow = 100, ncol = 100, data = 0)
 
-# create a random geometry with five vertices
+# create a random polygon with five vertices
 set.seed(1)
 someGeom <- gs_random(type = "polygon", vertices = 5)
 visualise(geom = someGeom)
 
 # in case template is given, this serves as source for the window extent
-someGeom <- gs_random(template = input) \%>\%
+library(magrittr)
+gs_random(template = input) \%>\%
   visualise(geom = ., new = FALSE, linecol = "red")
 }
-\concept{shapes}
+\seealso{
+Other geometry shapes: \code{\link{gs_line}},
+  \code{\link{gs_point}}, \code{\link{gs_polygon}}
+}
+\concept{geometry shapes}

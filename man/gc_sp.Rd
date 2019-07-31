@@ -4,18 +4,18 @@
 \name{gc_sp}
 \alias{gc_sp}
 \alias{gc_sp,geom-method}
-\title{Make a geometry object of class \code{sp}}
+\title{Transform a spatial object to class \code{sp}}
 \usage{
-\S4method{gc_sp}{geom}(input)
+\S4method{gc_sp}{geom}(input = NULL)
 }
 \arguments{
-\item{input}{the object from which to make an object of class \code{sp}.}
+\item{input}{the object to transform to class \code{sp}.}
 }
 \value{
 an object of class \code{sp}
 }
 \description{
-Make a geometry object of class \code{sp}
+Transform a spatial object to class \code{sp}
 }
 \examples{
 (spPoints <- gc_sp(input = gtGeoms$point))

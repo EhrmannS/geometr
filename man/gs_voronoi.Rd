@@ -2,21 +2,21 @@
 % Please edit documentation in R/gs_voronoi.R
 \name{gs_voronoi}
 \alias{gs_voronoi}
-\title{Create a voronoi tiling}
+\title{Create a voronoi tiling \code{geom}}
 \usage{
 gs_voronoi(anchor = NULL, window = NULL, features = 3,
   sketch = NULL, ...)
 }
 \arguments{
-\item{anchor}{[\code{geom} | \code{data.frame(1)}]\cr Object to derive the
-\code{geom} from. In case of \code{data.frame}, it must include column
-names \code{x}, \code{y}, \code{fid} and optinal attributes; see Examples.}
+\item{anchor}{[\code{data.frame(1)}]\cr Object to derive the \code{geom}
+from. It must include column names \code{x}, \code{y} and optinally a
+custom \code{fid}. To set further attributes, use \code{\link{setTable}}.}
 
 \item{window}{[\code{data.frame(1)}]\cr in case the reference window deviates
 from the bounding box of \code{anchor} (minimum and maximum values),
 specify this here.}
 
-\item{features}{[\code{integerish(1)}]\cr number of tiles to create.}
+\item{features}{[\code{integerish(1)}]\cr number of tiles to sketch.}
 
 \item{sketch}{[\code{RasterLayer(1)} | \code{matrix(1)}]\cr Gridded object
 that serves as template to sketch the tiling.}
@@ -28,7 +28,7 @@ the tiling is sketched; see \code{\link{gpar}}.}
 An invisible \code{geom}.
 }
 \description{
-Create a voronoi tiling
+Create a voronoi tiling \code{geom}
 }
 \examples{
 # create voronoi polygons programmatically
@@ -44,8 +44,8 @@ visualise(tiles, new = FALSE)
 
 \dontrun{
 
-tiles <- gs_voronoi(sketch = gtRasters$continuous)
-visualise(geom = tiles, new = FALSE)
+gs_voronoi(sketch = gtRasters$continuous) \%>\%
+  visualise(tiles = ., new = FALSE)
 }
 }
 \seealso{

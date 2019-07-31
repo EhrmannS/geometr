@@ -22,21 +22,33 @@ Multiple conditions are combined with &. Only rows where the condition
 evaluates to TRUE are kept.}
 
 \item{slot}{[\code{character(1)}]\cr the slot in which to determine a subset,
-either \code{"table"} or \code{"vert"}.}
+either \code{"vert"} for vertices, \code{"feat"} for features or
+\code{"group"} for group tables.}
+}
+\value{
+A subset of \code{x} in its original class.
 }
 \description{
 Get the subset of a spatial object.
 }
 \examples{
+# get the subset of a geom
 (obj <- gtGeoms$point)
 
-# get feature 1
+# the first feature
 (getSubset(x = gtGeoms$line, fid == 1))
 
 
+# get the subset of a Spatial object
 (obj <- gtSP$SpatialPolygonsDataFrame)
+
+# the subset where the attribute a equals 2
 (getSubset(x = obj, a == 2))
 
+
+# get the subset of an sf object
 (obj <- gtSF$polygon)
+
+# the subset where the attribute a equals 1
 (getSubset(x = obj, a == 1))
 }

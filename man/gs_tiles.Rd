@@ -2,15 +2,15 @@
 % Please edit documentation in R/gs_tiles.R
 \name{gs_tiles}
 \alias{gs_tiles}
-\title{Create a regular tiling geometry}
+\title{Create a regular tiling \code{geom}}
 \usage{
 gs_tiles(anchor = NULL, window = NULL, width = NULL, offset = NULL,
   pattern = "squared", rotation = 0, centroids = FALSE, ...)
 }
 \arguments{
 \item{anchor}{[\code{data.frame(1)}]\cr Object to derive the \code{geom}
-from. It must include column names \code{x}, \code{y} and optinal variables
-such as \code{fid}; see Examples.}
+from. It must include column names \code{x}, \code{y} and optinally a
+custom \code{fid}. To set further attributes, use \code{\link{setTable}}.}
 
 \item{window}{[\code{data.frame(1)}]\cr the origin (lower left corner) and
 the maximum value (upper right corner) of the tiling.}
@@ -23,7 +23,7 @@ tiles will be offset. Can go from \code{-1} to \code{+1}.}
 \item{pattern}{[\code{character(1)}]\cr pattern of the tiling. Possible
 options are \code{"squared"} (default) or \code{"hexagonal"}.}
 
-\item{rotation}{[\code{integerish(1)}]\cr}
+\item{rotation}{[\code{integerish(1)}]\cr the rotation of the tiling.}
 
 \item{centroids}{[\code{logical(1)}]\cr should the centroids of the tiling be
 returned (\code{TRUE}) or should the tiling be returned (\code{FALSE},
@@ -35,35 +35,37 @@ default)?}
 An invisible \code{geom}.
 }
 \description{
-Create a regular tiling geometry
+Create a regular tiling \code{geom}
 }
 \details{
 When deriving a regular tiling for a prescribed window, there is
   only a limited set of legal combinations of cells in x and y dimension. For
   instance, a window of 100 by 100 can't comprise 10 by 5 squares of
   side-length 10, because then the y-dimension wouldn't be fully covered. The
-  same is true for hexagonal and triangular tilings. In case it is only
-  properly clear how many tiles there should be in one dimension, but not the
-  other, this can be specified by setting one of the cell counts to
-  \code{NA}, such as \code{cells = c(NA, 18)}.
+  same is true for hexagonal and triangular tilings. As all tilings are
+  regular, the measurement of one dimension is sufficient to specify the
+  dimensions of tiles, which is \code{width}.
 
   Possible additional arguments are: \itemize{ \item verbose = TRUE/FALSE
   \item graphical parameters to \code{\link{gt_locate}}, in case points are
-  sketched; see \code{\link{gpar}}}.
+  sketched; see \code{\link{gpar}}}
 }
 \examples{
 # create a squared tiling
 aWindow <- data.frame(x = c(-180, 180),
                       y = c(-60, 80))
-tiles <- gs_tiles(window = aWindow, width = 10)
+gs_tiles(window = aWindow, width = 10) \%>\%
+  visualise(`10° world tiles` = .)
 
-# create a hexagonal tiling for a geom
+# create a hexagonal tiling on top of a geom
 coords <- data.frame(x = c(40, 70, 70, 50),
                      y = c(40, 40, 60, 70))
 window <- data.frame(x = c(0, 80),
                      y = c(0, 80))
 aGeom <- gs_polygon(anchor = coords, window = window)
-comb <- gs_tiles(anchor = aGeom, width = 8, pattern = "hexagonal", rotation = 41)
+visualise(`honeycomb background` = aGeom)
+gs_tiles(anchor = aGeom, width = 8, pattern = "hexagonal", rotation = 41) \%>\%
+  visualise(., linecol = "deeppink", new = FALSE)
 }
 \seealso{
 Other tilings: \code{\link{gs_voronoi}}

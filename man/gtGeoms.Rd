@@ -4,13 +4,13 @@
 \name{gtGeoms}
 \alias{gtGeoms}
 \title{Example \code{geom} objects}
-\format{The list contains two objects of class geom, a polygon and a couple
-  of points. Both are mostly used in the example and test-sections of this
-  package.}
+\format{The list contains three objects of class geom, a \code{point},
+  \code{line} and \code{polygon} object. They are mostly used in the
+  example and test-sections of this package.}
 \usage{
 gtGeoms
 }
 \description{
-A set of two geometries.
+A set of three geometries.
 }
 \keyword{datasets}

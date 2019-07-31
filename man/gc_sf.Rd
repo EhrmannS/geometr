@@ -4,12 +4,12 @@
 \name{gc_sf}
 \alias{gc_sf}
 \alias{gc_sf,geom-method}
-\title{Make a geometry object of class \code{sf}}
+\title{Transform a spatial object to class \code{sf}}
 \usage{
-\S4method{gc_sf}{geom}(input)
+\S4method{gc_sf}{geom}(input = NULL)
 }
 \arguments{
-\item{input}{the object from which to make an object of class \code{sf}.}
+\item{input}{the object to transform to class \code{sf}.}
 }
 \value{
 If \code{input} is a \code{geom} and has attributes other than
@@ -19,7 +19,7 @@ If \code{input} is a \code{geom} and has attributes other than
   common, otherwise they are returned as a single simple feature.
 }
 \description{
-Make a geometry object of class \code{sf}
+Transform a spatial object to class \code{sf}
 }
 \examples{
 (sfPoints <- gc_sf(input = gtGeoms$point))

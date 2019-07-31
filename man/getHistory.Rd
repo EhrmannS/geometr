@@ -20,6 +20,9 @@
 \arguments{
 \item{x}{the object from which to derive the history.}
 }
+\value{
+A list of the events that lead to \code{x}.
+}
 \description{
 Get the history of a spatial object.
 }

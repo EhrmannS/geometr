@@ -7,10 +7,10 @@
 gt_scale(geom, range = NULL, to = "relative")
 }
 \arguments{
-\item{geom}{[\code{geom}]\cr Object of class \code{\link{geom}}.}
+\item{geom}{[\code{geom}]\cr the object to be scaled.}
 
-\item{range}{[\code{list(2)}]\cr integerish vector of length two for \code{x}
-and \code{y}.}
+\item{range}{[\code{list(2)}]\cr vector of length two for both of the
+\code{x} and \code{y} dimension to which the values should be scaled.}
 
 \item{to}{[\code{character(1)}]\cr the scale to which the coordinates should
 be transformed; possible are \code{"relative"} and \code{"absolute"};
@@ -20,8 +20,8 @@ ignored in case \code{range != NULL}.}
 Scaled \code{geom}.
 }
 \description{
-Scale the vertex values of \code{geom}s so that they are either relative to
-the \code{@window} slot, or absolute values.
+Scale the vertex values of \code{geom}s to a values range or so that they are
+either relative to the \code{@window} slot, or absolute values.
 }
 \examples{
 coords <- data.frame(x = c(40, 70, 70, 50, 40),

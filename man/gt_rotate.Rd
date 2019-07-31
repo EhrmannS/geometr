@@ -8,15 +8,16 @@ gt_rotate(geom = NULL, angle = NULL, about = c(0, 0), fid = NULL,
   update = TRUE)
 }
 \arguments{
-\item{geom}{[\code{geom}]\cr object of class \code{\link{geom}}.}
+\item{geom}{[\code{geom}]\cr the object to rotate.}
 
 \item{angle}{[\code{numeric(1)}]\cr the counter-clockwise angle by which
-\code{geom} shall be rotated.}
+\code{geom} shall be rotated (can be negative to rotate clockwise).}
 
 \item{about}{[\code{numeric(2)}]\cr the point about which \code{geom} shall
 be rotated.}
 
-\item{fid}{[\code{integerish(.)}]\cr the features to rotate.}
+\item{fid}{[\code{integerish(.)}]\cr if only a subset of features shall be
+rotated, specify that here.}
 
 \item{update}{[\code{logical(1)}]\cr whether or not to update the window slot
 after rotation.}

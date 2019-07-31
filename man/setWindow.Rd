@@ -6,25 +6,37 @@
 \alias{setWindow,geom-method}
 \title{Set the reference window of a spatial object.}
 \usage{
-\S4method{setWindow}{geom}(x, to)
+\S4method{setWindow}{geom}(x, to = NULL)
 }
 \arguments{
-\item{x}{the object in which to set the reference window.}
+\item{x}{the object for which to set a new reference window.}
 
-\item{to}{[\code{data.frame(1)}]\cr two oposing corners.}
+\item{to}{[\code{data.frame(1)}]\cr a datastructure that contains the minimum
+and maximum values in x and y-dimension to which the reference window shall
+be set.}
+}
+\value{
+The object \code{x} with an update reference window.
 }
 \description{
 Set the reference window of a spatial object.
+}
+\details{
+Possible datastructures are \itemize{ \item an object of class
+  \code{Extent}, \item an object of class \code{bbox}, \item a table with two
+  columns (named x and y) containing the minimum and maximum values for each
+  dimension.}
 }
 \examples{
 # create a polygon programmatically
 coords <- data.frame(x = c(40, 70, 70, 50),
                      y = c(40, 40, 60, 70))
 (aGeom <- gs_polygon(anchor = coords))
+visualise(geom = aGeom)
 
 window <- data.frame(x = c(0, 80),
                      y = c(0, 80))
 (aGeom <- setWindow(x = aGeom, to = window))
 
-visualise(geom = aGeom, new = FALSE)
+visualise(geom = aGeom)
 }

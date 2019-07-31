@@ -26,9 +26,12 @@
 \arguments{
 \item{x}{the object from which to derive the attribute table.}
 
-\item{slot}{[\code{character(1)}]\cr One of \code{"vert"}, \code{"feat"} or
-\code{"group"} from which to retrieve the attribute table. If left at
-\code{NULL}, 'feat' and 'group' will be joined.}
+\item{slot}{[\code{character(1)}]\cr the geom slot from which to get the
+attribute table, either \code{"vert"}, \code{"feat"} or \code{"group"}. If
+left at \code{NULL}, 'feat' and 'group' will be joined.}
+}
+\value{
+A table of the attributes of \code{x}.
 }
 \description{
 Get the attribute table of a spatial object.
