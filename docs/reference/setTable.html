@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Set the attribute table of a spatial object. — setTable • geometr</title>
+<title>Set the attribute table(s) of a spatial object. — setTable • geometr</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,9 +30,9 @@
 
 
 
-<meta property="og:title" content="Set the attribute table of a spatial object. — setTable" />
+<meta property="og:title" content="Set the attribute table(s) of a spatial object. — setTable" />
 
-<meta property="og:description" content="Set the attribute table of a spatial object." />
+<meta property="og:description" content="Set the attribute table(s) of a spatial object." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -117,38 +117,38 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Set the attribute table of a spatial object.</h1>
+    <h1>Set the attribute table(s) of a spatial object.</h1>
     <small class="dont-index">Source: <a href='https://github.com/EhrmannS/geometr/blob/master/R/setTable.R'><code>R/setTable.R</code></a></small>
     <div class="hidden name"><code>setTable.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Set the attribute table of a spatial object.</p>
+    <p>Set the attribute table(s) of a spatial object.</p>
     
     </div>
 
     <pre class="usage"><span class='co'># S4 method for geom</span>
-<span class='fu'>setTable</span>(<span class='no'>x</span>, <span class='no'>table</span>, <span class='kw'>slot</span> <span class='kw'>=</span> <span class='st'>"feat"</span>)
+<span class='fu'>setTable</span>(<span class='no'>x</span>, <span class='kw'>table</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>slot</span> <span class='kw'>=</span> <span class='st'>"feat"</span>)
 
 <span class='co'># S4 method for Spatial</span>
-<span class='fu'>setTable</span>(<span class='no'>x</span>, <span class='no'>table</span>)
+<span class='fu'>setTable</span>(<span class='no'>x</span>, <span class='kw'>table</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
 
 <span class='co'># S4 method for sf</span>
-<span class='fu'>setTable</span>(<span class='no'>x</span>, <span class='no'>table</span>)
+<span class='fu'>setTable</span>(<span class='no'>x</span>, <span class='kw'>table</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
 
 <span class='co'># S4 method for sfc</span>
-<span class='fu'>setTable</span>(<span class='no'>x</span>, <span class='no'>table</span>)
+<span class='fu'>setTable</span>(<span class='no'>x</span>, <span class='kw'>table</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
 
 <span class='co'># S4 method for RasterLayer</span>
-<span class='fu'>setTable</span>(<span class='no'>x</span>, <span class='no'>table</span>)</pre>
+<span class='fu'>setTable</span>(<span class='no'>x</span>, <span class='kw'>table</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>x</th>
-      <td><p>the object to which to assign <code>table</code>.</p></td>
+      <td><p>the object to which to assign an attribute table.</p></td>
     </tr>
     <tr>
       <th>table</th>
@@ -156,24 +156,21 @@
     </tr>
     <tr>
       <th>slot</th>
-      <td><p>[<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code>]<br /> the geom slot to which to set the
-attribute table, either <code>"vert"</code>, <code>"feat"</code> or <code>"group"</code>.</p></td>
+      <td><p>[<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code>]<br /> the slot (of <code>geom</code>) for which to
+set the attribute table, either <code>"vert"</code>, <code>"feat"</code> or
+<code>"group"</code>.</p></td>
     </tr>
     </table>
+    
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>The object <code>x</code> with an updated attribute table.</p>
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>If <code>table</code> does not have columns in common with <code>x</code>, the
-  new columns are simply bound to the original attribute table. If there are
-  common coloums, they are joined.</p>
-<p>If a <code>geom</code> gets assigned a table with individual values per feature
-  (<code>fid</code>), and not per group (<code>gid</code>), groups are by default
-  reassigned per individual value. This is neccessary as <code>geom</code>s can
-  have individual values per feature. An <code>sf</code> can consist of MULTI*
-  features, where it is not possible to store feature-specific information,
-  hence <code>regroup = TRUE</code> asserts that features with individual values
-  are not cast to a MULTI* feature - and thereby lose the information they
-  carry - by modifying <code>gid</code> accordingly.</p>
+  new columns are simply bound to the original attribute table (if possible).
+  If there are common columns, they are joined.</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
@@ -186,7 +183,7 @@ attribute table, either <code>"vert"</code>, <code>"feat"</code> or <code>"group
 #&gt; </span><span style='color: #BCBCBC;'>2</span><span>     2     2
 #&gt; </span><span style='color: #BCBCBC;'>3</span><span>     3     3</div><div class='input'><span class='no'>newAttr</span> <span class='kw'>&lt;-</span> <span class='fu'>setTable</span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>gtGeoms</span>$<span class='no'>point</span>,
                     <span class='kw'>slot</span> <span class='kw'>=</span> <span class='st'>"vert"</span>,
-                    <span class='kw'>table</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/data.frame'>data.frame</a></span>(<span class='kw'>attr</span> <span class='kw'>=</span> <span class='no'>letters</span>[<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>1</span>:<span class='fl'>5</span>, <span class='fl'>5</span>:<span class='fl'>11</span>)]))
+                    <span class='kw'>table</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/data.frame'>data.frame</a></span>(<span class='kw'>attr</span> <span class='kw'>=</span> <span class='no'>letters</span>[<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>1</span>:<span class='fl'>12</span>)]))
 <span class='fu'><a href='getTable.html'>getTable</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>newAttr</span>, <span class='kw'>slot</span> <span class='kw'>=</span> <span class='st'>"vert"</span>)</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 12 x 4</span><span>
 #&gt;        x     y   fid attr 
 #&gt;    </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;fct&gt;</span><span>
@@ -195,16 +192,16 @@ attribute table, either <code>"vert"</code>, <code>"feat"</code> or <code>"group
 #&gt; </span><span style='color: #BCBCBC;'> 3</span><span>    10    10     1 c    
 #&gt; </span><span style='color: #BCBCBC;'> 4</span><span>    10     0     1 d    
 #&gt; </span><span style='color: #BCBCBC;'> 5</span><span>     1     1     2 e    
-#&gt; </span><span style='color: #BCBCBC;'> 6</span><span>     1     2     2 e    
-#&gt; </span><span style='color: #BCBCBC;'> 7</span><span>     2     2     2 f    
-#&gt; </span><span style='color: #BCBCBC;'> 8</span><span>     2     1     2 g    
-#&gt; </span><span style='color: #BCBCBC;'> 9</span><span>    11    11     3 h    
-#&gt; </span><span style='color: #BCBCBC;'>10</span><span>    11    12     3 i    
-#&gt; </span><span style='color: #BCBCBC;'>11</span><span>    12    12     3 j    
-#&gt; </span><span style='color: #BCBCBC;'>12</span><span>    12    11     3 k    </div><div class='input'>
+#&gt; </span><span style='color: #BCBCBC;'> 6</span><span>     1     2     2 f    
+#&gt; </span><span style='color: #BCBCBC;'> 7</span><span>     2     2     2 g    
+#&gt; </span><span style='color: #BCBCBC;'> 8</span><span>     2     1     2 h    
+#&gt; </span><span style='color: #BCBCBC;'> 9</span><span>    11    11     3 i    
+#&gt; </span><span style='color: #BCBCBC;'>10</span><span>    11    12     3 j    
+#&gt; </span><span style='color: #BCBCBC;'>11</span><span>    12    12     3 k    
+#&gt; </span><span style='color: #BCBCBC;'>12</span><span>    12    11     3 l    </div><div class='input'>
 <span class='no'>newAttr2</span> <span class='kw'>&lt;-</span> <span class='fu'>setTable</span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>newAttr</span>,
                      <span class='kw'>slot</span> <span class='kw'>=</span> <span class='st'>"feat"</span>,
-                     <span class='kw'>table</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/data.frame'>data.frame</a></span>(<span class='kw'>gid</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>1</span>:<span class='fl'>3</span>), <span class='kw'>attr</span> <span class='kw'>=</span> <span class='no'>letters</span>[<span class='fl'>1</span>:<span class='fl'>3</span>]))</div><div class='output co'>#&gt; <span class='message'>Joining, by = "gid"</span></div><div class='input'><span class='fu'><a href='getTable.html'>getTable</a></span>(<span class='no'>newAttr2</span>)</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 3 x 3</span><span>
+                     <span class='kw'>table</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/data.frame'>data.frame</a></span>(<span class='kw'>gid</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>1</span>:<span class='fl'>3</span>), <span class='kw'>attr</span> <span class='kw'>=</span> <span class='no'>letters</span>[<span class='fl'>1</span>:<span class='fl'>3</span>]))</div><div class='output co'>#&gt; <span class='message'>Joining, by = "gid"</span></div><div class='input'><span class='fu'><a href='getTable.html'>getTable</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>newAttr2</span>, <span class='kw'>slot</span> <span class='kw'>=</span> <span class='st'>"feat"</span>)</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 3 x 3</span><span>
 #&gt;     fid   gid attr 
 #&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;fct&gt;</span><span>
 #&gt; </span><span style='color: #BCBCBC;'>1</span><span>     1     1 a    
@@ -244,7 +241,7 @@ attribute table, either <code>"vert"</code>, <code>"feat"</code> or <code>"group
 #&gt;   attr a                       geometry
 #&gt; 1    a 1 POLYGON ((0 0, 10 0, 10 10,...
 #&gt; 2    b 2 POLYGON ((11 11, 11 12, 12 ...</div><div class='input'>
-<span class='co'># set table to an sfc (no join possible)</span>
+<span class='co'># set table to an sfc (no join possible) and transform it to sf thereby</span>
 <span class='no'>sfcObj</span> <span class='kw'>=</span> <span class='no'>gtSF</span>$<span class='no'>polygon</span>$<span class='no'>geometry</span>
 <span class='fu'>setTable</span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>sfcObj</span>, <span class='kw'>table</span> <span class='kw'>=</span> <span class='no'>myAttributes</span>)</div><div class='output co'>#&gt; Simple feature collection with 2 features and 2 fields
 #&gt; geometry type:  POLYGON
@@ -261,6 +258,8 @@ attribute table, either <code>"vert"</code>, <code>"feat"</code> or <code>"group
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
       
+      <li><a href="#value">Value</a></li>
+
       <li><a href="#details">Details</a></li>
       
       <li><a href="#examples">Examples</a></li>

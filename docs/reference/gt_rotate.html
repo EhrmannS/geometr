@@ -136,12 +136,12 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>geom</th>
-      <td><p>[<code>geom</code>]<br /> object of class <code><a href='geom-class.html'>geom</a></code>.</p></td>
+      <td><p>[<code>geom</code>]<br /> the object to rotate.</p></td>
     </tr>
     <tr>
       <th>angle</th>
       <td><p>[<code><a href='https://www.rdocumentation.org/packages/base/topics/numeric'>numeric(1)</a></code>]<br /> the counter-clockwise angle by which
-<code>geom</code> shall be rotated.</p></td>
+<code>geom</code> shall be rotated (can be negative to rotate clockwise).</p></td>
     </tr>
     <tr>
       <th>about</th>
@@ -150,7 +150,8 @@ be rotated.</p></td>
     </tr>
     <tr>
       <th>fid</th>
-      <td><p>[<code>integerish(.)</code>]<br /> the features to rotate.</p></td>
+      <td><p>[<code>integerish(.)</code>]<br /> if only a subset of features shall be
+rotated, specify that here.</p></td>
     </tr>
     <tr>
       <th>update</th>

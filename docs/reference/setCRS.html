@@ -129,16 +129,16 @@
     </div>
 
     <pre class="usage"><span class='co'># S4 method for geom</span>
-<span class='fu'>setCRS</span>(<span class='no'>x</span>, <span class='no'>crs</span>)
+<span class='fu'>setCRS</span>(<span class='no'>x</span>, <span class='kw'>crs</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
 
 <span class='co'># S4 method for Spatial</span>
-<span class='fu'>setCRS</span>(<span class='no'>x</span>, <span class='no'>crs</span>)
+<span class='fu'>setCRS</span>(<span class='no'>x</span>, <span class='kw'>crs</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
 
 <span class='co'># S4 method for sf</span>
-<span class='fu'>setCRS</span>(<span class='no'>x</span>, <span class='no'>crs</span>)
+<span class='fu'>setCRS</span>(<span class='no'>x</span>, <span class='kw'>crs</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
 
 <span class='co'># S4 method for Raster</span>
-<span class='fu'>setCRS</span>(<span class='no'>x</span>, <span class='no'>crs</span>)</pre>
+<span class='fu'>setCRS</span>(<span class='no'>x</span>, <span class='kw'>crs</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -154,13 +154,18 @@ for this object.</p></td>
     </tr>
     </table>
     
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>The object <code>x</code> with an assigned or transformed coordinate
+  reference system.</p>
+    
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>In case an object has not yet assigned a coordinate reference
-  system, this function simply assigns it. In case the object has already a
+    <p>In case an object does not yet have a coordinate reference system
+  assigned, this function simply assigns it. In case the object has already a
   valid crs, a transformation to the new crs will be carried out. The
-  transformation is computed with the standard defined in the <code>rgdal</code>
-  package.</p>
+  transformation is computed for all classes with the standard defined in the
+  <code>rgdal</code> package.</p>
     
 
   </div>
@@ -169,6 +174,8 @@ for this object.</p></td>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
       
+      <li><a href="#value">Value</a></li>
+
       <li><a href="#details">Details</a></li>
           </ul>
 

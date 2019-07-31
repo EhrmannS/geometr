@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Create a polygon geometry — gs_polygon • geometr</title>
+<title>Create a polygon <code>geom</code> — gs_polygon • geometr</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,7 +30,7 @@
 
 
 
-<meta property="og:title" content="Create a polygon geometry — gs_polygon" />
+<meta property="og:title" content="Create a polygon <code>geom</code> — gs_polygon" />
 
 <meta property="og:description" content="Create any (regular) polygon geometry (of class geom) either by
 specifying anchor values or by sketching it." />
@@ -118,7 +118,7 @@ specifying anchor values or by sketching it." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Create a polygon geometry</h1>
+    <h1>Create a polygon <code>geom</code></h1>
     <small class="dont-index">Source: <a href='https://github.com/EhrmannS/geometr/blob/master/R/gs_polygon.R'><code>R/gs_polygon.R</code></a></small>
     <div class="hidden name"><code>gs_polygon.Rd</code></div>
     </div>
@@ -152,8 +152,8 @@ specifying anchor values or by sketching it.</p>
     <tr>
       <th>anchor</th>
       <td><p>[<code><a href='https://www.rdocumentation.org/packages/base/topics/data.frame'>data.frame(1)</a></code>]<br /> Object to derive the <code>geom</code>
-from. It must include column names <code>x</code>, <code>y</code> and optinal variables
-such as <code>fid</code>; see Examples.</p></td>
+from. It must include column names <code>x</code>, <code>y</code> and optinally a
+custom <code>fid</code>. To set further attributes, use <code><a href='setTable.html'>setTable</a></code>.</p></td>
     </tr>
     <tr>
       <th>window</th>
@@ -163,30 +163,30 @@ specify this here.</p></td>
     </tr>
     <tr>
       <th>features</th>
-      <td><p>[<code>integerish(1)</code>]<br /> number of geometries to create.</p></td>
+      <td><p>[<code>integerish(1)</code>]<br /> number of polygons to create.</p></td>
     </tr>
     <tr>
       <th>vertices</th>
-      <td><p>[<code>integerish(.)</code>]<br /> number of vertices per geometry;
+      <td><p>[<code>integerish(.)</code>]<br /> number of vertices per polygon;
 will be recycled if it does not have as many elements as specified in
 <code>features</code>.</p></td>
     </tr>
     <tr>
       <th>sketch</th>
       <td><p>[<code>RasterLayer(1)</code>|<code><a href='https://www.rdocumentation.org/packages/base/topics/matrix'>matrix(1)</a></code>]<br /> Gridded object that
-serves as template to sketch the geometry.</p></td>
+serves as template to sketch polygons.</p></td>
     </tr>
     <tr>
       <th>regular</th>
       <td><p>[<code><a href='https://www.rdocumentation.org/packages/base/topics/logical'>logical(1)</a></code>]<br /> should the polygon be regular, i.e.
-point symmetric (<code>TRUE</code>) or should the vertices be selected according
-to <code>anchor</code> or <code>vertices</code> (<code>FALSE</code>, default)?</p></td>
+point symmetric (<code>TRUE</code>) or should the vertices be selected as
+provided by <code>anchor</code> (<code>FALSE</code>, default)?</p></td>
     </tr>
     <tr>
       <th>fixed</th>
       <td><p>[<code><a href='https://www.rdocumentation.org/packages/base/topics/logical'>logical(1)</a></code>]<br /> should the polygon be aligned vertically
 (<code>TRUE</code>, default), or should it be aligned according to the second
-click (<code>FALSE</code>); only relevant if <code>regular = TRUE</code>.</p></td>
+vertex (<code>FALSE</code>)? See Details.</p></td>
     </tr>
     <tr>
       <th>...</th>
@@ -202,22 +202,29 @@ click (<code>FALSE</code>); only relevant if <code>regular = TRUE</code>.</p></t
 
     <p>The arguments <code>anchor</code> and <code>sketch</code> indicate how the
   geometry is created:</p><ul>
-<li><p><code>anchor</code>: if set, the geometry is
+<li><p>if <code>anchor</code> is set, the geometry is
   created parametrically, the input provided is used to parameterise the
-  geometry</p><ul>
-<li><p>if <code>regular = FALSE</code> the resulting geometry
-  is the boundary per feature,</p></li>
-<li><p>if <code>regular = TRUE</code>, only the first
-  two vertices are considered, as center and indicating the (outer) radius.</p></li>
+  geometry</p></li>
+<li><p>, if <code>sketch</code> is set, the geometry is created
+  interactively, by clicking into the plot.</p></li>
+</ul>
+    <p>The argument <code>regular</code> and <code>fixed</code> determine how the vertices
+  provided in <code>anchor</code> or via <code>sketch</code> are transformed into a
+  polygon:</p><ul>
+<li><p>if <code>regular = FALSE</code> the resulting polygon is
+  created from all vertices in <code>anchor</code>,</p></li>
+<li><p>if <code>regular = TRUE</code>,
+  only the first two vertices are considered, as center and indicating the
+  distance to the (outer) radius.</p><ul>
+<li><p>if also <code>fixed =
+  TRUE</code>, the regular polygon is aligned vertically.</p></li>
 </ul></li>
-<li><p><code>sketch</code>: if set, the geometry is created interactively, by
-  clicking into the plot.</p></li>
 </ul>
     <p>Possible additional arguments are:</p><ul>
 <li><p>verbose = TRUE/FALSE</p></li>
 <li><p>graphical parameters to <code><a href='gt_locate.html'>gt_locate</a></code>, in case points are
   sketched; see <code>gpar</code></p></li>
-</ul><p>.</p>
+</ul>
     
     <h2 class="hasAnchor" id="functions"><a class="anchor" href="#functions"></a>Functions</h2>
 
@@ -236,17 +243,14 @@ the two given opposing corners.</p></li>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>Other geometry shapes: <code><a href='gs_line.html'>gs_line</a></code>,
-  <code><a href='gs_point.html'>gs_point</a></code></p></div>
+  <code><a href='gs_point.html'>gs_point</a></code>, <code><a href='gs_random.html'>gs_random</a></code></p></div>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>library</a></span>(<span class='no'>magrittr</span>)
-
+    <pre class="examples"><div class='input'>
 <span class='co'># create a polygon programmatically</span>
 <span class='no'>coords</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/data.frame'>data.frame</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>40</span>, <span class='fl'>70</span>, <span class='fl'>70</span>, <span class='fl'>50</span>),
                      <span class='kw'>y</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>40</span>, <span class='fl'>40</span>, <span class='fl'>60</span>, <span class='fl'>70</span>))
-<span class='no'>window</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/data.frame'>data.frame</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>0</span>, <span class='fl'>80</span>),
-                     <span class='kw'>y</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>0</span>, <span class='fl'>80</span>))
 
 <span class='co'># if no window is set, the bounding box (i.e. min/max values) will be set as window</span>
 (<span class='no'>aGeom</span> <span class='kw'>&lt;-</span> <span class='fu'>gs_polygon</span>(<span class='kw'>anchor</span> <span class='kw'>=</span> <span class='no'>coords</span>))</div><div class='output co'>#&gt; <span style='color: #BBBB00;'>geom</span><span>        polygon
@@ -260,8 +264,11 @@ the two given opposing corners.</p></li>
 #&gt;             40 ◉ ◌ ◌ ◎ 70 
 #&gt;                40 </div><div class='input'>
 <span class='co'># the vertices are plottet relative to the window</span>
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>library</a></span>(<span class='no'>magrittr</span>)
 <span class='fu'><a href='visualise.html'>visualise</a></span>(<span class='kw'>geom</span> <span class='kw'>=</span> <span class='fu'>gs_polygon</span>(<span class='kw'>anchor</span> <span class='kw'>=</span> <span class='no'>coords</span>,
-                            <span class='kw'>vertices</span> <span class='kw'>=</span> <span class='fl'>6</span>, <span class='kw'>regular</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>))</div><div class='output co'>#&gt; <span class='warning'>Warning: no vertices are within the plotting window.</span></div><div class='input'><span class='fu'>gs_triangle</span>(<span class='kw'>anchor</span> <span class='kw'>=</span> <span class='no'>coords</span>, <span class='kw'>window</span> <span class='kw'>=</span> <span class='no'>window</span>) <span class='kw'>%&gt;%</span>
+                            <span class='kw'>vertices</span> <span class='kw'>=</span> <span class='fl'>6</span>, <span class='kw'>regular</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>))</div><div class='output co'>#&gt; <span class='warning'>Warning: no vertices are within the plotting window.</span></div><div class='input'><span class='no'>window</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/data.frame'>data.frame</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>0</span>, <span class='fl'>80</span>),
+                     <span class='kw'>y</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>0</span>, <span class='fl'>80</span>))
+<span class='fu'>gs_triangle</span>(<span class='kw'>anchor</span> <span class='kw'>=</span> <span class='no'>coords</span>, <span class='kw'>window</span> <span class='kw'>=</span> <span class='no'>window</span>) <span class='kw'>%&gt;%</span>
   <span class='fu'><a href='visualise.html'>visualise</a></span>(<span class='kw'>geom</span> <span class='kw'>=</span> <span class='no'>.</span>, <span class='kw'>linecol</span> <span class='kw'>=</span> <span class='st'>"green"</span>, <span class='kw'>new</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</div><div class='img'><img src='gs_polygon-1.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># when a geom is used in 'anchor', its properties (e.g. 'window') are passed on</span>
 <span class='no'>aGeom</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='setWindow.html'>setWindow</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>aGeom</span>, <span class='kw'>to</span> <span class='kw'>=</span> <span class='no'>window</span>)
@@ -269,6 +276,7 @@ the two given opposing corners.</p></li>
   <span class='fu'><a href='visualise.html'>visualise</a></span>(<span class='kw'>geom</span> <span class='kw'>=</span> <span class='no'>.</span>, <span class='kw'>fillcol</span> <span class='kw'>=</span> <span class='st'>"deeppink"</span>)</div><div class='input'><span class='fu'>gs_rectangle</span>(<span class='kw'>anchor</span> <span class='kw'>=</span> <span class='no'>aGeom</span>) <span class='kw'>%&gt;%</span>
   <span class='fu'><a href='visualise.html'>visualise</a></span>(<span class='kw'>geom</span> <span class='kw'>=</span> <span class='no'>.</span>, <span class='kw'>new</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</div><div class='img'><img src='gs_polygon-2.png' alt='' width='700' height='433' /></div><div class='input'>
 </div></span><span class='co'># NOT RUN {</span>
+<span class='co'># sketch a hexagon by clicking into a template</span>
 <span class='fu'>gs_hexagon</span>(<span class='kw'>sketch</span> <span class='kw'>=</span> <span class='no'>gtRasters</span>$<span class='no'>continuous</span>, <span class='kw'>fixed</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>) <span class='kw'>%&gt;%</span>
   <span class='fu'><a href='visualise.html'>visualise</a></span>(<span class='kw'>geom</span> <span class='kw'>=</span> <span class='no'>.</span>, <span class='kw'>linecol</span> <span class='kw'>=</span> <span class='st'>"deeppink"</span>, <span class='kw'>linetype</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>new</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
 <span class='co'># }</span></pre>

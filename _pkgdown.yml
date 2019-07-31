@@ -16,7 +16,7 @@ reference:
       - gs_random
       - gs_tiles
       - gs_voronoi
-  - title: spatial classes
+  - title: transform spatial classes
     desc: functions that transform between spatial classes
     contents:
       - gc_sf
@@ -27,23 +27,25 @@ reference:
     desc: methods that standardise dealing with spatial objects
     contents:
       - getCRS
-      - setCRS
       - getExtent
       - getHistory
       - getSubset
       - getTable
-      - setTable
+      - getType
       - getVertices
       - getWindow
+      - setCRS
+      - setTable
       - setWindow
   - title: utility functions
     desc: functions that modify geometries
     contents:
       - gt_locate
       - gt_rotate
+      - gt_scale
+      - gt_sketch
       - gt_skew
       - gt_stretch
-      - gt_scale
   - title: visualise
     desc: plot spatial objects and locate coordinates
     contents:

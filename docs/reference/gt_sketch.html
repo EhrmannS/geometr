@@ -32,7 +32,7 @@
 
 <meta property="og:title" content="Sketch geometries — gt_sketch" />
 
-<meta property="og:description" content="Sketch geometries" />
+<meta property="og:description" content="Sketch geoms by clicking into a plot." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -124,12 +124,12 @@
 
     <div class="ref-description">
     
-    <p>Sketch geometries</p>
+    <p>Sketch <code>geom</code>s by clicking into a plot.</p>
     
     </div>
 
     <pre class="usage"><span class='fu'>gt_sketch</span>(<span class='kw'>template</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>shape</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>features</span> <span class='kw'>=</span> <span class='fl'>1</span>,
-  <span class='kw'>vertices</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>regular</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>fixed</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>show</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>vertices</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>regular</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>fixed</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>show</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
   <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -145,8 +145,7 @@ that serves as template to sketch the geometry.</p></td>
       <td><p>[<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code>]<br /> a geometry shape that should be
 sketched, possible are the geom types <code>"point"</code>, <code>"line"</code> and
 <code>"polygon"</code> and special cases thereof (recently implemented are
-<code>"triangle"</code>, <code>"rectangle"</code>, <code>"square"</code>, <code>"hexagon"</code>)
-and <code>"random"</code>.</p></td>
+<code>"triangle"</code>, <code>"square"</code>, <code>"hexagon"</code>) and <code>"random"</code>.</p></td>
     </tr>
     <tr>
       <th>features</th>
@@ -189,10 +188,6 @@ plot (<code>TRUE</code>), or should the geom merely be returned in the console
 
     <p>An invisible <code>geom</code>.</p>
     
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
-
-    <p>bla</p>
-    
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>Other geometry tools: <code><a href='gt_rotate.html'>gt_rotate</a></code>,
@@ -203,39 +198,17 @@ plot (<code>TRUE</code>), or should the geom merely be returned in the console
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
 </div><span class='co'># NOT RUN {</span>
-<span class='no'>input</span> <span class='kw'>&lt;-</span> <span class='no'>gtRasters</span>$<span class='no'>continuous</span>
+<span class='co'># sketch a point geometry</span>
+<span class='fu'>gt_sketch</span>(<span class='kw'>template</span> <span class='kw'>=</span> <span class='no'>gtRasters</span>$<span class='no'>categorical</span>, <span class='kw'>shape</span> <span class='kw'>=</span> <span class='st'>"point"</span>) <span class='kw'>%&gt;%</span>
+  <span class='fu'><a href='visualise.html'>visualise</a></span>(<span class='kw'>points</span> <span class='kw'>=</span> <span class='no'>.</span>, <span class='kw'>linecol</span> <span class='kw'>=</span> <span class='st'>"green"</span>, <span class='kw'>pointsymbol</span> <span class='kw'>=</span> <span class='fl'>5</span>, <span class='kw'>new</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
 
-<span class='co'># create a square interactively</span>
-<span class='no'>squareGeom</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='gs_polygon.html'>gs_square</a></span>(<span class='kw'>sketch</span> <span class='kw'>=</span> <span class='no'>input</span>) <span class='kw'>%&gt;%</span>
-<span class='fu'><a href='visualise.html'>visualise</a></span>(<span class='kw'>geom</span> <span class='kw'>=</span> <span class='no'>squareGeom</span>, <span class='kw'>linecol</span> <span class='kw'>=</span> <span class='st'>"orange"</span>, <span class='kw'>new</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
+<span class='co'># sketch a line geometry</span>
+<span class='fu'>gt_sketch</span>(<span class='kw'>template</span> <span class='kw'>=</span> <span class='no'>gtRasters</span>$<span class='no'>categorical</span>, <span class='kw'>vertices</span> <span class='kw'>=</span> <span class='fl'>4</span>, <span class='kw'>shape</span> <span class='kw'>=</span> <span class='st'>"line"</span>) <span class='kw'>%&gt;%</span>
+  <span class='fu'><a href='visualise.html'>visualise</a></span>(<span class='kw'>points</span> <span class='kw'>=</span> <span class='no'>.</span>, <span class='kw'>linecol</span> <span class='kw'>=</span> <span class='st'>"orange"</span>, <span class='kw'>linewidth</span> <span class='kw'>=</span> <span class='fl'>5</span>, <span class='kw'>new</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
 
-<span class='co'># ... or an approximate circle (actually a hectogon)</span>
-<span class='no'>circleGeom</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='gs_polygon.html'>gs_polygon</a></span>(<span class='kw'>template</span> <span class='kw'>=</span> <span class='no'>input</span>, <span class='kw'>vertices</span> <span class='kw'>=</span> <span class='fl'>100</span>, <span class='kw'>regular</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='visualise.html'>visualise</a></span>(<span class='kw'>geom</span> <span class='kw'>=</span> <span class='no'>.</span>, <span class='kw'>linecol</span> <span class='kw'>=</span> <span class='st'>"deeppink"</span>, <span class='kw'>new</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
-
-<span class='co'># create two arbitrary polygons interactively</span>
-<span class='no'>polyGeom</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='gs_polygon.html'>gs_polygon</a></span>(<span class='kw'>template</span> <span class='kw'>=</span> <span class='no'>input</span>, <span class='kw'>features</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>vertices</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>4</span>, <span class='fl'>6</span>)) <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='visualise.html'>visualise</a></span>(<span class='kw'>geom</span> <span class='kw'>=</span> <span class='no'>.</span>, <span class='kw'>linecol</span> <span class='kw'>=</span> <span class='st'>"green"</span>, <span class='kw'>linewidth</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>linetype</span> <span class='kw'>=</span> <span class='st'>"dashed"</span>, <span class='kw'>new</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
-<span class='co'># }</span><div class='input'>
-</div><span class='co'># NOT RUN {</span>
-<span class='no'>input</span> <span class='kw'>&lt;-</span> <span class='no'>gtRasters</span>$<span class='no'>continuous</span>
-
-<span class='co'># create points interactively</span>
-<span class='no'>myLine</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='gs_line.html'>gs_line</a></span>(<span class='kw'>template</span> <span class='kw'>=</span> <span class='no'>input</span>, <span class='kw'>vertices</span> <span class='kw'>=</span> <span class='fl'>5</span>)
-<span class='fu'><a href='visualise.html'>visualise</a></span>(<span class='kw'>geom</span> <span class='kw'>=</span> <span class='no'>myLine</span>, <span class='kw'>linecol</span> <span class='kw'>=</span> <span class='st'>"deeppink"</span>, <span class='kw'>new</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
-
-<span class='no'>anExtent</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='gs_polygon.html'>gs_rectangle</a></span>(<span class='no'>myLine</span>)
-<span class='fu'><a href='visualise.html'>visualise</a></span>(<span class='kw'>geom</span> <span class='kw'>=</span> <span class='no'>anExtent</span>, <span class='kw'>linecol</span> <span class='kw'>=</span> <span class='st'>"green"</span>, <span class='kw'>new</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
-<span class='co'># }</span><div class='input'>
-</div><span class='co'># NOT RUN {</span>
-<span class='no'>input</span> <span class='kw'>&lt;-</span> <span class='no'>gtRasters</span>$<span class='no'>continuous</span>
-
-<span class='co'># create points interactively</span>
-<span class='no'>myPoints</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='gs_point.html'>gs_point</a></span>(<span class='kw'>template</span> <span class='kw'>=</span> <span class='no'>input</span>, <span class='kw'>vertices</span> <span class='kw'>=</span> <span class='fl'>5</span>)
-<span class='fu'><a href='visualise.html'>visualise</a></span>(<span class='kw'>geom</span> <span class='kw'>=</span> <span class='no'>myPoints</span>, <span class='kw'>linecol</span> <span class='kw'>=</span> <span class='st'>"deeppink"</span>, <span class='kw'>new</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
-
-<span class='no'>anExtent</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='gs_polygon.html'>gs_rectangle</a></span>(<span class='no'>myPoints</span>)
-<span class='fu'><a href='visualise.html'>visualise</a></span>(<span class='kw'>geom</span> <span class='kw'>=</span> <span class='no'>anExtent</span>, <span class='kw'>linecol</span> <span class='kw'>=</span> <span class='st'>"green"</span>, <span class='kw'>new</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
+<span class='co'># sketch a polygon geometry</span>
+<span class='fu'>gt_sketch</span>(<span class='kw'>template</span> <span class='kw'>=</span> <span class='no'>gtRasters</span>$<span class='no'>continuous</span>, <span class='kw'>shape</span> <span class='kw'>=</span> <span class='st'>"hexagon"</span>) <span class='kw'>%&gt;%</span>
+  <span class='fu'><a href='visualise.html'>visualise</a></span>(<span class='kw'>geom</span> <span class='kw'>=</span> <span class='no'>.</span>, <span class='kw'>linecol</span> <span class='kw'>=</span> <span class='st'>"deeppink"</span>, <span class='kw'>linetype</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>new</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
 <span class='co'># }</span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
@@ -244,8 +217,6 @@ plot (<code>TRUE</code>), or should the geom merely be returned in the console
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
-
-      <li><a href="#details">Details</a></li>
 
       <li><a href="#see-also">See also</a></li>
       

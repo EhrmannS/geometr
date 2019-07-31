@@ -137,42 +137,42 @@
         <td>
           <p><code><a href="gs_point.html">gs_point()</a></code> </p>
         </td>
-        <td><p>Create a point geometry</p></td>
+        <td><p>Create a point <code>geom</code></p></td>
       </tr><tr>
         
         <td>
           <p><code><a href="gs_line.html">gs_line()</a></code> </p>
         </td>
-        <td><p>Create a line geometry</p></td>
+        <td><p>Create a line <code>geom</code></p></td>
       </tr><tr>
         
         <td>
           <p><code><a href="gs_polygon.html">gs_polygon()</a></code> <code><a href="gs_polygon.html">gs_triangle()</a></code> <code><a href="gs_polygon.html">gs_square()</a></code> <code><a href="gs_polygon.html">gs_rectangle()</a></code> <code><a href="gs_polygon.html">gs_hexagon()</a></code> </p>
         </td>
-        <td><p>Create a polygon geometry</p></td>
+        <td><p>Create a polygon <code>geom</code></p></td>
       </tr><tr>
         
         <td>
           <p><code><a href="gs_random.html">gs_random()</a></code> </p>
         </td>
-        <td><p>Create a geometry randomly</p></td>
+        <td><p>Create a <code>geom</code> randomly</p></td>
       </tr><tr>
         
         <td>
           <p><code><a href="gs_tiles.html">gs_tiles()</a></code> </p>
         </td>
-        <td><p>Create a regular tiling geometry</p></td>
+        <td><p>Create a regular tiling <code>geom</code></p></td>
       </tr><tr>
         
         <td>
           <p><code><a href="gs_voronoi.html">gs_voronoi()</a></code> </p>
         </td>
-        <td><p>Create a voronoi tiling</p></td>
+        <td><p>Create a voronoi tiling <code>geom</code></p></td>
       </tr>
     </tbody><tbody>
       <tr>
         <th colspan="2">
-          <h2 id="section-spatial-classes" class="hasAnchor"><a href="#section-spatial-classes" class="anchor"></a>spatial classes</h2>
+          <h2 id="section-transform-spatial-classes" class="hasAnchor"><a href="#section-transform-spatial-classes" class="anchor"></a>transform spatial classes</h2>
           <p class="section-desc"><p>functions that transform between spatial classes</p></p>
         </th>
       </tr>
@@ -181,25 +181,25 @@
         <td>
           <p><code><a href="gc_sf.html">gc_sf(<i>&lt;geom&gt;</i>)</a></code> </p>
         </td>
-        <td><p>Make a geometry object of class <code>sf</code></p></td>
+        <td><p>Transform a spatial object to class <code>sf</code></p></td>
       </tr><tr>
         
         <td>
           <p><code><a href="gc_sp.html">gc_sp(<i>&lt;geom&gt;</i>)</a></code> </p>
         </td>
-        <td><p>Make a geometry object of class <code>sp</code></p></td>
+        <td><p>Transform a spatial object to class <code>sp</code></p></td>
       </tr><tr>
         
         <td>
           <p><code><a href="gc_geom.html">gc_geom(<i>&lt;sf&gt;</i>)</a></code> <code><a href="gc_geom.html">gc_geom(<i>&lt;Spatial&gt;</i>)</a></code> </p>
         </td>
-        <td><p>Make a geometry object of class <code>geom</code></p></td>
+        <td><p>Transform a spatial object to class <code>geom</code></p></td>
       </tr><tr>
         
         <td>
           <p><code><a href="gc_grob.html">gc_grob(<i>&lt;geom&gt;</i>)</a></code> <code><a href="gc_grob.html">gc_grob(<i>&lt;sf&gt;</i>)</a></code> <code><a href="gc_grob.html">gc_grob(<i>&lt;Spatial&gt;</i>)</a></code> </p>
         </td>
-        <td><p>Make a geometry object of class grob</p></td>
+        <td><p>Transform a spatial object to a grob</p></td>
       </tr>
     </tbody><tbody>
       <tr>
@@ -214,12 +214,6 @@
           <p><code><a href="getCRS.html">getCRS(<i>&lt;geom&gt;</i>)</a></code> <code><a href="getCRS.html">getCRS(<i>&lt;Spatial&gt;</i>)</a></code> <code><a href="getCRS.html">getCRS(<i>&lt;sf&gt;</i>)</a></code> <code><a href="getCRS.html">getCRS(<i>&lt;Raster&gt;</i>)</a></code> </p>
         </td>
         <td><p>Get the coordinate reference system of a spatial object.</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="setCRS.html">setCRS(<i>&lt;geom&gt;</i>)</a></code> <code><a href="setCRS.html">setCRS(<i>&lt;Spatial&gt;</i>)</a></code> <code><a href="setCRS.html">setCRS(<i>&lt;sf&gt;</i>)</a></code> <code><a href="setCRS.html">setCRS(<i>&lt;Raster&gt;</i>)</a></code> </p>
-        </td>
-        <td><p>Set (or transform) the coordinate reference system of a spatial object.</p></td>
       </tr><tr>
         
         <td>
@@ -247,9 +241,9 @@
       </tr><tr>
         
         <td>
-          <p><code><a href="setTable.html">setTable(<i>&lt;geom&gt;</i>)</a></code> <code><a href="setTable.html">setTable(<i>&lt;Spatial&gt;</i>)</a></code> <code><a href="setTable.html">setTable(<i>&lt;sf&gt;</i>)</a></code> <code><a href="setTable.html">setTable(<i>&lt;sfc&gt;</i>)</a></code> <code><a href="setTable.html">setTable(<i>&lt;RasterLayer&gt;</i>)</a></code> </p>
+          <p><code><a href="getType.html">getType(<i>&lt;geom&gt;</i>)</a></code> <code><a href="getType.html">getType(<i>&lt;Spatial&gt;</i>)</a></code> <code><a href="getType.html">getType(<i>&lt;sf&gt;</i>)</a></code> <code><a href="getType.html">getType(<i>&lt;RasterLayer&gt;</i>)</a></code> </p>
         </td>
-        <td><p>Set the attribute table of a spatial object.</p></td>
+        <td><p>Get the type of a spatial object.</p></td>
       </tr><tr>
         
         <td>
@@ -262,6 +256,18 @@
           <p><code><a href="getWindow.html">getWindow(<i>&lt;geom&gt;</i>)</a></code> <code><a href="getWindow.html">getWindow(<i>&lt;Spatial&gt;</i>)</a></code> <code><a href="getWindow.html">getWindow(<i>&lt;sf&gt;</i>)</a></code> <code><a href="getWindow.html">getWindow(<i>&lt;Raster&gt;</i>)</a></code> <code><a href="getWindow.html">getWindow(<i>&lt;matrix&gt;</i>)</a></code> </p>
         </td>
         <td><p>Get the reference window of a spatial object.</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="setCRS.html">setCRS(<i>&lt;geom&gt;</i>)</a></code> <code><a href="setCRS.html">setCRS(<i>&lt;Spatial&gt;</i>)</a></code> <code><a href="setCRS.html">setCRS(<i>&lt;sf&gt;</i>)</a></code> <code><a href="setCRS.html">setCRS(<i>&lt;Raster&gt;</i>)</a></code> </p>
+        </td>
+        <td><p>Set (or transform) the coordinate reference system of a spatial object.</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="setTable.html">setTable(<i>&lt;geom&gt;</i>)</a></code> <code><a href="setTable.html">setTable(<i>&lt;Spatial&gt;</i>)</a></code> <code><a href="setTable.html">setTable(<i>&lt;sf&gt;</i>)</a></code> <code><a href="setTable.html">setTable(<i>&lt;sfc&gt;</i>)</a></code> <code><a href="setTable.html">setTable(<i>&lt;RasterLayer&gt;</i>)</a></code> </p>
+        </td>
+        <td><p>Set the attribute table(s) of a spatial object.</p></td>
       </tr><tr>
         
         <td>
@@ -291,6 +297,18 @@
       </tr><tr>
         
         <td>
+          <p><code><a href="gt_scale.html">gt_scale()</a></code> </p>
+        </td>
+        <td><p>Scale geometries</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="gt_sketch.html">gt_sketch()</a></code> </p>
+        </td>
+        <td><p>Sketch geometries</p></td>
+      </tr><tr>
+        
+        <td>
           <p><code><a href="gt_skew.html">gt_skew()</a></code> </p>
         </td>
         <td><p>Skew geometries</p></td>
@@ -300,12 +318,6 @@
           <p><code><a href="gt_stretch.html">gt_stretch()</a></code> </p>
         </td>
         <td><p>Stretch geometries</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="gt_scale.html">gt_scale()</a></code> </p>
-        </td>
-        <td><p>Scale geometries</p></td>
       </tr>
     </tbody><tbody>
       <tr>
@@ -367,7 +379,7 @@
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#section-geometries">geometries</a></li>
-      <li><a href="#section-spatial-classes">spatial classes</a></li>
+      <li><a href="#section-transform-spatial-classes">transform spatial classes</a></li>
       <li><a href="#section-getters-and-setters">getters and setters</a></li>
       <li><a href="#section-utility-functions">utility functions</a></li>
       <li><a href="#section-visualise">visualise</a></li>

@@ -141,18 +141,18 @@
     <tr>
       <th>panel</th>
       <td><p>[<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code>]<br /> the panel in which to locate (i.e. the
-title shown over the plot). Does not have to be accurate, as it matches
-with <code><a href='https://www.rdocumentation.org/packages/base/topics/grep'>grep</a></code>.</p></td>
+title shown over the plot).</p></td>
     </tr>
     <tr>
       <th>identify</th>
-      <td><p>[<code><a href='https://www.rdocumentation.org/packages/base/topics/logical'>logical(1)</a></code>]<br /> get the raster value at the sampled
-location (<code>TRUE</code>) or merely the location (<code>FALSE</code>, default).</p></td>
+      <td><p>[<code><a href='https://www.rdocumentation.org/packages/base/topics/logical'>logical(1)</a></code>]<br /> get the raster value or <code>geom</code> ID
+at the sampled location (<code>TRUE</code>) or merely the location (<code>FALSE</code>,
+default).</p></td>
     </tr>
     <tr>
       <th>snap</th>
       <td><p>[<code><a href='https://www.rdocumentation.org/packages/base/topics/logical'>logical(1)</a></code>]<br /> should the returned value(s) be set to the
-nearest grid cell's center (<code>TRUE</code>) or should they remain the
+nearest raster cell's center (<code>TRUE</code>) or should they remain the
 selected, "real" value (<code>FALSE</code>, default)?</p></td>
     </tr>
     <tr>
@@ -163,9 +163,9 @@ returned (<code>FALSE</code>, default)?</p></td>
     </tr>
     <tr>
       <th>show</th>
-      <td><p>[<code><a href='https://www.rdocumentation.org/packages/base/topics/logical'>logical(1)</a></code>]<br /> should information about the selected
-cells be included in the plot (<code>TRUE</code>), or should they merely be
-returned in the console (<code>FALSE, default</code>)?</p></td>
+      <td><p>[<code><a href='https://www.rdocumentation.org/packages/base/topics/logical'>logical(1)</a></code>]<br /> should information be plotted
+(<code>TRUE</code>), or should they merely be returned to the console
+(<code>FALSE</code>, default)?</p></td>
     </tr>
     <tr>
       <th>...</th>
@@ -176,23 +176,15 @@ created when <code>show = TRUE</code>.</p></td>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>a <code>data.frame</code> of the selected locations and, if <code>identify
+    <p>A <code>data.frame</code> of the selected locations and, if <code>identify
   = TRUE</code>, the respective values. If <code>show = TRUE</code> the values are also
   shown in the plot.</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><span class='co'># NOT RUN {</span>
-<span class='co'># define a geometry</span>
-<span class='no'>coords</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/data.frame'>data.frame</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>30</span>, <span class='fl'>60</span>, <span class='fl'>60</span>, <span class='fl'>40</span>),
-                     <span class='kw'>y</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>40</span>, <span class='fl'>40</span>, <span class='fl'>60</span>, <span class='fl'>70</span>),
-                     <span class='kw'>fid</span> <span class='kw'>=</span> <span class='fl'>1</span>)
-<span class='no'>window</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/data.frame'>data.frame</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>0</span>, <span class='fl'>80</span>),
-                     <span class='kw'>y</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>0</span>, <span class='fl'>80</span>))
-(<span class='no'>aGeom</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='gs_polygon.html'>gs_polygon</a></span>(<span class='kw'>anchor</span> <span class='kw'>=</span> <span class='no'>coords</span>, <span class='kw'>window</span> <span class='kw'>=</span> <span class='no'>window</span>, <span class='kw'>col</span> <span class='kw'>=</span> <span class='st'>"blue"</span>))
-
 <span class='co'># locate coordinates with geoms</span>
-<span class='fu'><a href='visualise.html'>visualise</a></span>(<span class='kw'>geom</span> <span class='kw'>=</span> <span class='no'>aGeom</span>)
+<span class='fu'><a href='visualise.html'>visualise</a></span>(<span class='kw'>geom</span> <span class='kw'>=</span> <span class='no'>gtGeoms</span>$<span class='no'>polygon</span>)
 <span class='fu'>gt_locate</span>(<span class='kw'>samples</span> <span class='kw'>=</span> <span class='fl'>2</span>)
 
 <span class='co'># locate or identify values with rasters</span>
@@ -200,8 +192,8 @@ created when <code>show = TRUE</code>.</p></td>
 <span class='fu'>gt_locate</span>(<span class='kw'>identify</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>snap</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
 
 <span class='co'># with several panels, specify a target</span>
-<span class='fu'><a href='visualise.html'>visualise</a></span>(<span class='kw'>raster</span> <span class='kw'>=</span> <span class='kw pkg'>raster</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/raster/topics/stack'>stack</a></span>(<span class='no'>gtRasters</span>$<span class='no'>continuous</span>, <span class='no'>gtRasters</span>$<span class='no'>categorical</span>))
-<span class='fu'>gt_locate</span>(<span class='kw'>samples</span> <span class='kw'>=</span> <span class='fl'>4</span>, <span class='kw'>panel</span> <span class='kw'>=</span> <span class='st'>"categorical"</span>, <span class='kw'>snap</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>identify</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>show</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+<span class='fu'><a href='visualise.html'>visualise</a></span>(<span class='no'>gtRasters</span>)
+<span class='fu'>gt_locate</span>(<span class='kw'>samples</span> <span class='kw'>=</span> <span class='fl'>4</span>, <span class='kw'>panel</span> <span class='kw'>=</span> <span class='st'>"categorical"</span>, <span class='kw'>snap</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>identify</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
 <span class='co'># }</span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

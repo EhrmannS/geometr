@@ -32,8 +32,8 @@
 
 <meta property="og:title" content="Scale geometries — gt_scale" />
 
-<meta property="og:description" content="Scale the vertex values of geoms so that they are either relative to
-the @window slot, or absolute values." />
+<meta property="og:description" content="Scale the vertex values of geoms to a values range or so that they are
+either relative to the @window slot, or absolute values." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -125,8 +125,8 @@ the @window slot, or absolute values." />
 
     <div class="ref-description">
     
-    <p>Scale the vertex values of <code>geom</code>s so that they are either relative to
-the <code>@window</code> slot, or absolute values.</p>
+    <p>Scale the vertex values of <code>geom</code>s to a values range or so that they are
+either relative to the <code>@window</code> slot, or absolute values.</p>
     
     </div>
 
@@ -137,12 +137,12 @@ the <code>@window</code> slot, or absolute values.</p>
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>geom</th>
-      <td><p>[<code>geom</code>]<br /> Object of class <code><a href='geom-class.html'>geom</a></code>.</p></td>
+      <td><p>[<code>geom</code>]<br /> the object to be scaled.</p></td>
     </tr>
     <tr>
       <th>range</th>
-      <td><p>[<code><a href='https://www.rdocumentation.org/packages/base/topics/list'>list(2)</a></code>]<br /> integerish vector of length two for <code>x</code>
-and <code>y</code>.</p></td>
+      <td><p>[<code><a href='https://www.rdocumentation.org/packages/base/topics/list'>list(2)</a></code>]<br /> vector of length two for both of the
+<code>x</code> and <code>y</code> dimension to which the values should be scaled.</p></td>
     </tr>
     <tr>
       <th>to</th>

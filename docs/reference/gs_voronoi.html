@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Create a voronoi tiling — gs_voronoi • geometr</title>
+<title>Create a voronoi tiling <code>geom</code> — gs_voronoi • geometr</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,9 +30,9 @@
 
 
 
-<meta property="og:title" content="Create a voronoi tiling — gs_voronoi" />
+<meta property="og:title" content="Create a voronoi tiling <code>geom</code> — gs_voronoi" />
 
-<meta property="og:description" content="Create a voronoi tiling" />
+<meta property="og:description" content="Create a voronoi tiling geom" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -117,14 +117,14 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Create a voronoi tiling</h1>
+    <h1>Create a voronoi tiling <code>geom</code></h1>
     <small class="dont-index">Source: <a href='https://github.com/EhrmannS/geometr/blob/master/R/gs_voronoi.R'><code>R/gs_voronoi.R</code></a></small>
     <div class="hidden name"><code>gs_voronoi.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Create a voronoi tiling</p>
+    <p>Create a voronoi tiling <code>geom</code></p>
     
     </div>
 
@@ -136,9 +136,9 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>anchor</th>
-      <td><p>[<code>geom</code> | <code><a href='https://www.rdocumentation.org/packages/base/topics/data.frame'>data.frame(1)</a></code>]<br /> Object to derive the
-<code>geom</code> from. In case of <code>data.frame</code>, it must include column
-names <code>x</code>, <code>y</code>, <code>fid</code> and optinal attributes; see Examples.</p></td>
+      <td><p>[<code><a href='https://www.rdocumentation.org/packages/base/topics/data.frame'>data.frame(1)</a></code>]<br /> Object to derive the <code>geom</code>
+from. It must include column names <code>x</code>, <code>y</code> and optinally a
+custom <code>fid</code>. To set further attributes, use <code><a href='setTable.html'>setTable</a></code>.</p></td>
     </tr>
     <tr>
       <th>window</th>
@@ -148,7 +148,7 @@ specify this here.</p></td>
     </tr>
     <tr>
       <th>features</th>
-      <td><p>[<code>integerish(1)</code>]<br /> number of tiles to create.</p></td>
+      <td><p>[<code>integerish(1)</code>]<br /> number of tiles to sketch.</p></td>
     </tr>
     <tr>
       <th>sketch</th>
@@ -182,8 +182,8 @@ the tiling is sketched; see <code>gpar</code>.</p></td>
 <span class='no'>tiles</span> <span class='kw'>&lt;-</span> <span class='fu'>gs_voronoi</span>(<span class='kw'>anchor</span> <span class='kw'>=</span> <span class='no'>aGeom</span>)
 <span class='fu'><a href='visualise.html'>visualise</a></span>(<span class='no'>tiles</span>, <span class='kw'>new</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</div><div class='img'><img src='gs_voronoi-1.png' alt='' width='700' height='433' /></div><div class='input'>
 </div><span class='co'># NOT RUN {</span>
-<span class='no'>tiles</span> <span class='kw'>&lt;-</span> <span class='fu'>gs_voronoi</span>(<span class='kw'>sketch</span> <span class='kw'>=</span> <span class='no'>gtRasters</span>$<span class='no'>continuous</span>)
-<span class='fu'><a href='visualise.html'>visualise</a></span>(<span class='kw'>geom</span> <span class='kw'>=</span> <span class='no'>tiles</span>, <span class='kw'>new</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
+<span class='fu'>gs_voronoi</span>(<span class='kw'>sketch</span> <span class='kw'>=</span> <span class='no'>gtRasters</span>$<span class='no'>continuous</span>) <span class='kw'>%&gt;%</span>
+  <span class='fu'><a href='visualise.html'>visualise</a></span>(<span class='kw'>tiles</span> <span class='kw'>=</span> <span class='no'>.</span>, <span class='kw'>new</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
 <span class='co'># }</span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
