@@ -1,12 +1,12 @@
 #' Sketch geometries
 #'
+#' Sketch \code{geom}s by clicking into a plot.
 #' @param template [\code{RasterLayer(1)} | \code{matrix(1)}]\cr Gridded object
 #'   that serves as template to sketch the geometry.
 #' @param shape [\code{character(1)}]\cr a geometry shape that should be
 #'   sketched, possible are the geom types \code{"point"}, \code{"line"} and
 #'   \code{"polygon"} and special cases thereof (recently implemented are
-#'   \code{"triangle"}, \code{"rectangle"}, \code{"square"}, \code{"hexagon"})
-#'   and \code{"random"}.
+#'   \code{"triangle"}, \code{"square"}, \code{"hexagon"}) and \code{"random"}.
 #' @param features [\code{integerish(1)}]\cr number of geometries to create.
 #' @param vertices [\code{integerish(.)}]\cr number of vertices per geometry;
 #'   will be recycled if it does not have as many elements as specified in
@@ -24,50 +24,23 @@
 #'   plot (\code{TRUE}), or should the geom merely be returned in the console
 #'   (\code{FALSE, default})
 #' @param ... [various]\cr additional arguments to \code{\link{gt_locate}}.
-#' @details bla
 #' @return An invisible \code{geom}.
 #' @family geometry tools
 #' @examples
 #'
 #' \dontrun{
 #'
-#' input <- gtRasters$continuous
+#' # sketch a point geometry
+#' gt_sketch(template = gtRasters$categorical, shape = "point") %>%
+#'   visualise(points = ., linecol = "green", pointsymbol = 5, new = FALSE)
 #'
-#' # create a square interactively
-#' squareGeom <- gs_square(sketch = input) %>%
-#' visualise(geom = squareGeom, linecol = "orange", new = FALSE)
+#' # sketch a line geometry
+#' gt_sketch(template = gtRasters$categorical, vertices = 4, shape = "line") %>%
+#'   visualise(points = ., linecol = "orange", linewidth = 5, new = FALSE)
 #'
-#' # ... or an approximate circle (actually a hectogon)
-#' circleGeom <- gs_polygon(template = input, vertices = 100, regular = TRUE) %>%
-#'   visualise(geom = ., linecol = "deeppink", new = FALSE)
-#'
-#' # create two arbitrary polygons interactively
-#' polyGeom <- gs_polygon(template = input, features = 2, vertices = c(4, 6)) %>%
-#'   visualise(geom = ., linecol = "green", linewidth = 1, linetype = "dashed", new = FALSE)
-#' }
-#'
-#' \dontrun{
-#'
-#' input <- gtRasters$continuous
-#'
-#' # create points interactively
-#' myLine <- gs_line(template = input, vertices = 5)
-#' visualise(geom = myLine, linecol = "deeppink", new = FALSE)
-#'
-#' anExtent <- gs_rectangle(myLine)
-#' visualise(geom = anExtent, linecol = "green", new = FALSE)
-#' }
-#'
-#' \dontrun{
-#'
-#' input <- gtRasters$continuous
-#'
-#' # create points interactively
-#' myPoints <- gs_point(template = input, vertices = 5)
-#' visualise(geom = myPoints, linecol = "deeppink", new = FALSE)
-#'
-#' anExtent <- gs_rectangle(myPoints)
-#' visualise(geom = anExtent, linecol = "green", new = FALSE)
+#' # sketch a polygon geometry
+#' gt_sketch(template = gtRasters$continuous, shape = "hexagon") %>%
+#'   visualise(geom = ., linecol = "deeppink", linetype = 2, new = FALSE)
 #' }
 #' @importFrom checkmate assertCharacter assertSubset assertIntegerish
 #'   assertLogical
@@ -77,9 +50,9 @@
 #' @export
 
 gt_sketch <- function(template = NULL, shape = NULL, features = 1, vertices = NULL,
-                      regular = FALSE, fixed = TRUE, show = FALSE, ...){
+                      regular = FALSE, fixed = FALSE, show = FALSE, ...){
 
-  theCoices <- c("point", "line", "polygon", "triangle", "rectangle", "square", "hexagon", "random")
+  theCoices <- c("point", "line", "polygon", "triangle", "square", "hexagon", "random")
   # check arguments
   template <- .testTemplate(x = template, ...)
   assertCharacter(x = shape, len = 1)
@@ -93,20 +66,34 @@ gt_sketch <- function(template = NULL, shape = NULL, features = 1, vertices = NU
   if(shape == "random"){
     shape <- sample(x = theCoices, size = 1)
   }
-  if(shape %in% "point"){
+  if(shape == "point"){
     type <- "point"
     vertices <- features
     features <- 1
-  } else if(shape %in% c("line")){
+  } else if(shape == "line"){
     type <- "line"
     if(is.null(vertices)){
       vertices <- 2
     }
-  } else if(shape %in% c("polygon", "triangle", "rectangle", "square", "hexagon")){
+  } else if(shape == "polygon"){
     type <- "polygon"
     if(is.null(vertices)){
       vertices <- 3
     }
+  } else if(shape == "triangle"){
+    type <- "polygon"
+    vertices <- 3
+    regular <- TRUE
+  } else if(shape == "square"){
+    type <- "polygon"
+    vertices <- 4
+    regular <- TRUE
+  # } else if(shape == "rectangle"){
+    # type <- "polygon"
+  } else if (shape == "hexagon"){
+    type <- "polygon"
+    vertices <- 6
+    regular <- TRUE
   }
 
   # recycle vertices to match the number of features
