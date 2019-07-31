@@ -1,3 +1,4 @@
+library(testthat)
 library(checkmate)
 context("getSubset")
 
@@ -10,18 +11,29 @@ test_that("getSubset of a geom", {
                        y = c(0, 80))
   input <- gs_polygon(anchor = coords, window = window)
 
-  # get a subset of the coords
+  # get a subset of the vertices
   output <- getSubset(x = input, fid == 2, slot = "vert")
   expect_class(output, "geom")
   expect_true(dim(output@vert)[1] == 3)
   expect_true(dim(output@vert)[1] < dim(input@vert)[1])
 
-  # get a subset of the attributes
-  input <- setTable(x = input, table = data.frame(fid = c(1, 2), a = c("a", "b")))
-  output <- getSubset(x = input, a == 'b', slot = "feat")
+  # get a subset of the features
+  input <- setTable(x = input,
+                    table = data.frame(fid = c(1, 2), attr = c("a", "b")),
+                    slot = "feat")
+  output <- getSubset(x = input, attr == 'b', slot = "feat")
   expect_class(output, "geom")
-  expect_true(dim(output@vert)[1] == 3)
-  expect_true(dim(output@vert)[1] < dim(input@vert)[1])
+  expect_true(dim(output@feat)[1] == 1)
+  expect_true(dim(output@feat)[1] < dim(input@group)[1])
+
+  # get a subset of the groups
+  input <- setTable(x = input,
+                    table = data.frame(gid = c(1, 2), attr = c("A", "B")),
+                    slot = "group")
+  output <- getSubset(x = input, attr == 'B', slot = "group")
+  expect_class(output, "geom")
+  expect_true(dim(output@group)[1] == 1)
+  expect_true(dim(output@group)[1] < dim(input@group)[1])
 })
 
 test_that("getSubset of a Spatial* object", {
