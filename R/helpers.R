@@ -234,8 +234,11 @@ makeLayout <- function(x = NULL, window = NULL, theme = gtTheme, image = FALSE, 
   out <- list()
   args <- exprs(..., .named = TRUE)
 
-  if(testDataFrame(x = x, types = "numeric", any.missing = FALSE, min.cols = 2)){
+  if(testDataFrame(x = x, min.cols = 2)){
     out$type <- "df"
+    colnames(x) <- tolower(colnames(x))
+    assertNames(names(x), must.include = c("x", "y"), subset.of = c("x", "y", "fid"), .var.name = "anchor->names(x)")
+
   } else if(testClass(x = x, classes = "geom")){
     out$type <- "geom"
   } else {
@@ -246,11 +249,6 @@ makeLayout <- function(x = NULL, window = NULL, theme = gtTheme, image = FALSE, 
       }
     }
     return(NULL)
-  }
-
-  if(out$type == "df"){
-    colnames(x) <- tolower(colnames(x))
-    assertNames(names(x), must.include = c("x", "y"), subset.of = c("x", "y", "fid"))
   }
 
   out$obj <- x
@@ -274,7 +272,7 @@ makeLayout <- function(x = NULL, window = NULL, theme = gtTheme, image = FALSE, 
 
   if(testDataFrame(x = x, types = "numeric", any.missing = FALSE, ncols = 2)){
     colnames(x) <- tolower(colnames(x))
-    assertNames(names(x), must.include = c("x", "y"))
+    assertNames(names(x), permutation.of = c("x", "y"), .var.name = "window->names(x)")
     if(dim(x)[1] >= 2){
       x = as_tibble(data.frame(x = c(min(x$x), max(x$x), max(x$x), min(x$x), min(x$x)),
                                y = c(min(x$y), min(x$y), max(x$y), max(x$y), min(x$y))))
