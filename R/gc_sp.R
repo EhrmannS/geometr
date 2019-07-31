@@ -1,5 +1,6 @@
-#' Make a geometry object of class \code{sp}
-#' @param input the object from which to make an object of class \code{sp}.
+#' Transform a spatial object to class \code{sp}
+#'
+#' @param input the object to transform to class \code{sp}.
 #' @return an object of class \code{sp}
 #' @family spatial classes
 #' @examples
@@ -30,7 +31,7 @@ if(!isGeneric("gc_sp")){
 #' @export
 setMethod(f = "gc_sp",
           signature = "geom",
-          definition = function(input){
+          definition = function(input = NULL){
 
             theCoords <- getVertices(x = input)
             theData <- getTable(x = input, slot = "feat")

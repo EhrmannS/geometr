@@ -1,5 +1,6 @@
-#' Make a geometry object of class \code{sf}
-#' @param input the object from which to make an object of class \code{sf}.
+#' Transform a spatial object to class \code{sf}
+#'
+#' @param input the object to transform to class \code{sf}.
 #' @return If \code{input} is a \code{geom} and has attributes other than
 #'   \code{fid} and \code{gid}, a "Simple feature collection", otherwise a
 #'   "Geometry set". Several features of the \code{geom} are returned as MULTI*
@@ -35,7 +36,7 @@ if(!isGeneric("gc_sf")){
 #' @export
 setMethod(f = "gc_sf",
           signature = "geom",
-          definition = function(input){
+          definition = function(input = NULL){
 
             theCoords <- getVertices(x = input)
             theData <- getTable(x = input, slot = "feat")

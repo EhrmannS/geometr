@@ -1,12 +1,13 @@
-#' Make a geometry object of class \code{geom}
-#' @param input the object from which to make an object of class \code{geom}.
-#' @param window [\code{data.frame(1)}]\cr the reference window of the new geom.
-#' @param ... additional arguments, such as \code{verbose = TRUE/FALSE}.
+#' Transform a spatial object to class \code{geom}
+#'
+#' @param input the object to transform to class \code{geom}.
+#' @param window [\code{data.frame(1)}]\cr the reference window of the new \code{geom}.
+#' @param ... additional arguments.
 #' @return an object of class \code{geom}
 #' @family spatial classes
 #' @examples
-#' geomPoly <- gc_geom(input = gtSF$polygon)
-#' geomLine <- gc_geom(input = gtSP$SpatialLinesDataFrame)
+#' (geomPoly <- gc_geom(input = gtSF$polygon))
+#' (geomLine <- gc_geom(input = gtSP$SpatialLinesDataFrame))
 #' @name gc_geom
 #' @rdname gc_geom
 NULL
@@ -33,7 +34,7 @@ if(!isGeneric("gc_geom")){
 #' @export
 setMethod(f = "gc_geom",
           signature = "sf",
-          definition = function(input, window = NULL, group = FALSE, ...){
+          definition = function(input = NULL, window = NULL, group = FALSE, ...){
 
             window <- .testWindow(x = window, ...)
 
@@ -87,7 +88,7 @@ setMethod(f = "gc_geom",
 #' @export
 setMethod(f = "gc_geom",
           signature = "Spatial",
-          definition = function(input, window = NULL, ...){
+          definition = function(input = NULL, window = NULL, ...){
 
             window <- .testWindow(x = window, ...)
 

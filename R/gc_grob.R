@@ -1,9 +1,13 @@
-#' Make a geometry object of class grob
-#' @param input the object from which to make an object of class \code{grob}.
-#' @param theme [\code{gtTheme(1)}]\cr the theme from which to make parameters.
-#' @param ... instead of providing a \code{gtTheme}, you can also determine
-#'   specific graphic parameters (see \code{\link{gpar}}) separately; see
-#'   \code{\link{setTheme}} for details.
+#' Transform a spatial object to a grob
+#'
+#' @param input the object to transform to class \code{grob}.
+#' @param theme [\code{gtTheme(1)}]\cr the theme from which to take parameters.
+#' @param ... instead of providing a modified \code{theme}, you can also
+#'   determine specific graphic parameters (see \code{\link{gpar}}) separately;
+#'   see \code{\link{setTheme}} for details.
+#' @details Methods for \code{Spatial} and \code{sf} objects are not yet
+#'   supported. They will come together with transformations for various other
+#'   spatial classes with a future update.
 #' @return Depending on the provided geometry either a \code{\link{pointsGrob}},
 #'   \code{\link{polylineGrob}} or a \code{\link{pathGrob}}.
 #' @family spatial classes
@@ -32,7 +36,7 @@ if(!isGeneric("gc_grob")){
 #' @export
 setMethod(f = "gc_grob",
           signature = "geom",
-          definition = function(input, theme = gtTheme, ...){
+          definition = function(input = NULL, theme = gtTheme, ...){
 
             # capture display arguments
             displayArgs <- exprs(...)
@@ -207,7 +211,7 @@ setMethod(f = "gc_grob",
 #' @export
 setMethod(f = "gc_grob",
           signature = "sf",
-          definition = function(input, theme = gtTheme, ...){
+          definition = function(input = NULL, theme = gtTheme, ...){
             stop("objects of class 'sf' can't be transformed to 'grob' recently.")
           }
 )
@@ -217,7 +221,7 @@ setMethod(f = "gc_grob",
 #' @export
 setMethod(f = "gc_grob",
           signature = "Spatial",
-          definition = function(input, theme = gtTheme, ...){
+          definition = function(input = NULL, theme = gtTheme, ...){
             stop("objects of class 'Spatial' can't be transformed to 'grob' recently.")
           }
 )
