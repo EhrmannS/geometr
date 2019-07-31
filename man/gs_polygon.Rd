@@ -95,7 +95,6 @@ the two given opposing corners.
 }}
 
 \examples{
-
 # create a polygon programmatically
 coords <- data.frame(x = c(40, 70, 70, 50),
                      y = c(40, 40, 60, 70))

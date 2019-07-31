@@ -45,7 +45,7 @@ The arguments \code{anchor} and \code{sketch} indicate how the line
   sketched; see \code{\link{gpar}}}
 }
 \examples{
-# create a points programmatically
+# create a line programmatically
 coords <- data.frame(x = c(40, 70, 70, 50),
                      y = c(40, 40, 60, 70))
 

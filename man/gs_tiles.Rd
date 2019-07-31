@@ -58,6 +58,7 @@ gs_tiles(window = aWindow, width = 10) \%>\%
   visualise(`10° world tiles` = .)
 
 # create a hexagonal tiling on top of a geom
+library(magrittr)
 coords <- data.frame(x = c(40, 70, 70, 50),
                      y = c(40, 40, 60, 70))
 window <- data.frame(x = c(0, 80),
