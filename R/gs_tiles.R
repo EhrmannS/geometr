@@ -30,13 +30,13 @@
 #' @family tilings
 #' @examples
 #' # create a squared tiling
+#' library(magrittr)
 #' aWindow <- data.frame(x = c(-180, 180),
 #'                       y = c(-60, 80))
 #' gs_tiles(window = aWindow, width = 10) %>%
 #'   visualise(`10° world tiles` = .)
 #'
 #' # create a hexagonal tiling on top of a geom
-#' library(magrittr)
 #' coords <- data.frame(x = c(40, 70, 70, 50),
 #'                      y = c(40, 40, 60, 70))
 #' window <- data.frame(x = c(0, 80),
