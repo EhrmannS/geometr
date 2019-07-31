@@ -1,10 +1,11 @@
 #' Stretch geometries
 #'
 #' Stretch \code{geom}s by a scale factor in x and y-dimension.
-#' @param geom [\code{geom}]\cr object of class \code{\link{geom}}.
+#' @param geom [\code{geom}]\cr the object to stretch.
 #' @param x [\code{numeric(1)}]\cr the scale factor in x-dimension.
 #' @param y [\code{numeric(1)}]\cr the scale factor in y-dimension.
-#' @param fid [\code{integerish(.)}]\cr the features to stretch.
+#' @param fid [\code{integerish(.)}]\cr if only a subset of features shall be
+#'   stretched, specify that here.
 #' @param update [\code{logical(1)}]\cr whether or not to update the window slot
 #'   after stretching.
 #' @return Stretched \code{geom}.

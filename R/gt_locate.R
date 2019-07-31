@@ -3,36 +3,29 @@
 #' Click into a plot to get the location or identify values
 #' @param samples [\code{integerish(1)}]\cr the number of clicks.
 #' @param panel [\code{character(1)}]\cr the panel in which to locate (i.e. the
-#'   title shown over the plot). Does not have to be accurate, as it matches
-#'   with \code{\link{grep}}.
-#' @param identify [\code{logical(1)}]\cr get the raster value at the sampled
-#'   location (\code{TRUE}) or merely the location (\code{FALSE}, default).
+#'   title shown over the plot).
+#' @param identify [\code{logical(1)}]\cr get the raster value or \code{geom} ID
+#'   at the sampled location (\code{TRUE}) or merely the location (\code{FALSE},
+#'   default).
 #' @param snap [\code{logical(1)}]\cr should the returned value(s) be set to the
-#'   nearest grid cell's center (\code{TRUE}) or should they remain the
+#'   nearest raster cell's center (\code{TRUE}) or should they remain the
 #'   selected, "real" value (\code{FALSE}, default)?
 #' @param raw [\code{logical(1)}]\cr should the complete statistics about the
 #'   clicks be returned (\code{TRUE}), or should only the basic output be
 #'   returned (\code{FALSE}, default)?
-#' @param show [\code{logical(1)}]\cr should information about the selected
-#'   cells be included in the plot (\code{TRUE}), or should they merely be
-#'   returned in the console (\code{FALSE, default})?
+#' @param show [\code{logical(1)}]\cr should information be plotted
+#'   (\code{TRUE}), or should they merely be returned to the console
+#'   (\code{FALSE}, default)?
 #' @param ... [\code{various}]\cr graphical parameters of the objects that are
 #'   created when \code{show = TRUE}.
-#' @return a \code{data.frame} of the selected locations and, if \code{identify
+#' @return A \code{data.frame} of the selected locations and, if \code{identify
 #'   = TRUE}, the respective values. If \code{show = TRUE} the values are also
 #'   shown in the plot.
 #' @examples
 #' \dontrun{
-#' # define a geometry
-#' coords <- data.frame(x = c(30, 60, 60, 40),
-#'                      y = c(40, 40, 60, 70),
-#'                      fid = 1)
-#' window <- data.frame(x = c(0, 80),
-#'                      y = c(0, 80))
-#' (aGeom <- gs_polygon(anchor = coords, window = window, col = "blue"))
 #'
 #' # locate coordinates with geoms
-#' visualise(geom = aGeom)
+#' visualise(geom = gtGeoms$polygon)
 #' gt_locate(samples = 2)
 #'
 #' # locate or identify values with rasters
@@ -40,8 +33,8 @@
 #' gt_locate(identify = TRUE, snap = TRUE)
 #'
 #' # with several panels, specify a target
-#' visualise(raster = raster::stack(gtRasters$continuous, gtRasters$categorical))
-#' gt_locate(samples = 4, panel = "categorical", snap = TRUE, identify = TRUE, show = TRUE)
+#' visualise(gtRasters)
+#' gt_locate(samples = 4, panel = "categorical", snap = TRUE, identify = TRUE)
 #' }
 #' @importFrom checkmate assertIntegerish assertCharacter assertLogical
 #' @importFrom grDevices dev.list

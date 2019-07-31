@@ -1,10 +1,13 @@
 #' Get the subset of a spatial object.
+#'
 #' @param x object to \code{subset}.
 #' @param slot [\code{character(1)}]\cr the slot in which to determine a subset,
-#'   either \code{"table"} or \code{"vert"}.
+#'   either \code{"vert"} for vertices, \code{"feat"} for features or
+#'   \code{"group"} for group tables.
 #' @param ... Logical predicates defined in terms of the variables in \code{x}.
 #'   Multiple conditions are combined with &. Only rows where the condition
 #'   evaluates to TRUE are kept.
+#' @return A subset of \code{x} in its original class.
 #' @name getSubset
 #' @rdname getSubset
 NULL
@@ -22,9 +25,10 @@ if(!isGeneric("getSubset")){
 
 #' @rdname getSubset
 #' @examples
+#' # get the subset of a geom
 #' (obj <- gtGeoms$point)
 #'
-#' # get feature 1
+#' # the first feature
 #' (getSubset(x = gtGeoms$line, fid == 1))
 #'
 #' @importFrom checkmate assertCharacter assertChoice
@@ -61,8 +65,12 @@ setMethod(f = "getSubset",
 #' @rdname getSubset
 #' @examples
 #'
+#' # get the subset of a Spatial object
 #' (obj <- gtSP$SpatialPolygonsDataFrame)
+#'
+#' # the subset where the attribute a equals 2
 #' (getSubset(x = obj, a == 2))
+#'
 #' @export
 setMethod(f = "getSubset",
           signature = signature("Spatial"),
@@ -77,7 +85,10 @@ setMethod(f = "getSubset",
 #' @rdname getSubset
 #' @examples
 #'
+#' # get the subset of an sf object
 #' (obj <- gtSF$polygon)
+#'
+#' # the subset where the attribute a equals 1
 #' (getSubset(x = obj, a == 1))
 #' @export
 setMethod(f = "getSubset",

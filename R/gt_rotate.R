@@ -1,12 +1,13 @@
 #' Rotate geometries
 #'
 #' Rotate \code{geom}s by a certain angle about a center
-#' @param geom [\code{geom}]\cr object of class \code{\link{geom}}.
+#' @param geom [\code{geom}]\cr the object to rotate.
 #' @param angle [\code{numeric(1)}]\cr the counter-clockwise angle by which
-#'   \code{geom} shall be rotated.
+#'   \code{geom} shall be rotated (can be negative to rotate clockwise).
 #' @param about [\code{numeric(2)}]\cr the point about which \code{geom} shall
 #'   be rotated.
-#' @param fid [\code{integerish(.)}]\cr the features to rotate.
+#' @param fid [\code{integerish(.)}]\cr if only a subset of features shall be
+#'   rotated, specify that here.
 #' @param update [\code{logical(1)}]\cr whether or not to update the window slot
 #'   after rotation.
 #' @return Rotated \code{geom}.

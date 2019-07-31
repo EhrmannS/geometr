@@ -1,10 +1,11 @@
 #' Skew geometries
 #'
 #' Skew \code{geom}s by a shear factor in x and y-dimension.
-#' @param geom [\code{geom}]\cr object of class \code{\link{geom}}.
+#' @param geom [\code{geom}]\cr the object to skew.
 #' @param x [\code{numeric(1)}]\cr the shear factor in x-dimension.
 #' @param y [\code{numeric(1)}]\cr the shear factor in y-dimension.
-#' @param fid [\code{integerish(.)}]\cr the features to skew.
+#' @param fid [\code{integerish(.)}]\cr if only a subset of features shall be
+#'   skewed, specify that here.
 #' @param update [\code{logical(1)}]\cr whether or not to update the window slot
 #'   after skewing.
 #' @return Skewed \code{geom}.

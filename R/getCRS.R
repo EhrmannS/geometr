@@ -1,5 +1,7 @@
 #' Get the coordinate reference system of a spatial object.
+#'
 #' @param x the object from which to extract the coordinate reference system.
+#' @return The coordinate reference system of \code{x} given as proj4string.
 #' @name getCRS
 #' @rdname getCRS
 NULL

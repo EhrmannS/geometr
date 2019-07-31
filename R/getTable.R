@@ -1,5 +1,7 @@
 #' Get the attribute table of a spatial object.
+#'
 #' @param x the object from which to derive the attribute table.
+#' @return A table of the attributes of \code{x}.
 #' @name getTable
 #' @rdname getTable
 NULL
@@ -16,9 +18,9 @@ if(!isGeneric("getTable")){
 }
 
 #' @rdname getTable
-#' @param slot [\code{character(1)}]\cr One of \code{"vert"}, \code{"feat"} or
-#'   \code{"group"} from which to retrieve the attribute table. If left at
-#'   \code{NULL}, 'feat' and 'group' will be joined.
+#' @param slot [\code{character(1)}]\cr the geom slot from which to get the
+#'   attribute table, either \code{"vert"}, \code{"feat"} or \code{"group"}. If
+#'   left at \code{NULL}, 'feat' and 'group' will be joined.
 #' @examples
 #' getTable(gtGeoms$polygon)
 #' @importFrom tibble as_tibble

@@ -1,5 +1,7 @@
 #' Get the reference window of a spatial object.
+#'
 #' @param x the object from which to derive the reference window.
+#' @return A table of the corners of the reference window of \code{x}.
 #' @name getWindow
 #' @rdname getWindow
 NULL

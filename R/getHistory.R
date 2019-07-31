@@ -1,5 +1,7 @@
 #' Get the history of a spatial object.
+#'
 #' @param x the object from which to derive the history.
+#' @return A list of the events that lead to \code{x}.
 #' @name getHistory
 #' @rdname getHistory
 NULL

@@ -1,5 +1,7 @@
 #' Get the table of coordinates of a spatial object.
+#'
 #' @param x the object from which to extract the coordinates
+#' @return A table of the coordinates \code{x} is made up of.
 #' @examples
 #' getVertices(gtGeoms$polygon)
 #' @name getVertices

@@ -1,11 +1,11 @@
-#' Create a geometry randomly
+#' Create a \code{geom} randomly
 #'
 #' This function creates a random geometry
 #' @param type [\code{character(1)}]\cr Either one of the three main feature
 #'   types \code{"point"}, \code{"line"} or \code{"polygon"}, or more
 #'   specifically one of their subtypes, e.g. \code{"hexagon"}.
 #' @param window [\code{data.frame(1)}]\cr in case the reference window deviates
-#'   from the bounding box (0, 1) (minimum and maximum values), specify this
+#'   from the bounding box [0, 1] (minimum and maximum values), specify this
 #'   here.
 #' @param vertices [\code{integerish(1)}]\cr the number of vertices the geometry
 #'   should have; only meaningful if \code{type} does not indicate the number of
@@ -13,18 +13,18 @@
 #'   the \code{geom} type, i.e. 1 for \code{point}, 2 for \code{line} and 3 for
 #'   \code{polygon}.
 #' @param ... [various]\cr additional arguments.
-#' @family shapes
+#' @family geometry shapes
 #' @examples
-#' library(magrittr)
 #' input <- matrix(nrow = 100, ncol = 100, data = 0)
 #'
-#' # create a random geometry with five vertices
+#' # create a random polygon with five vertices
 #' set.seed(1)
 #' someGeom <- gs_random(type = "polygon", vertices = 5)
 #' visualise(geom = someGeom)
 #'
 #' # in case template is given, this serves as source for the window extent
-#' someGeom <- gs_random(template = input) %>%
+#' library(magrittr)
+#' gs_random(template = input) %>%
 #'   visualise(geom = ., new = FALSE, linecol = "red")
 #' @importFrom stats runif
 #' @export
