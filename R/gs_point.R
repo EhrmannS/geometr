@@ -23,7 +23,7 @@
 #'   \item graphical parameters to \code{\link{gt_locate}}, in case points are
 #'   sketched; see \code{\link{gpar}}}
 #' @examples
-#' # create a points programmatically
+#' # create points programmatically
 #' coords <- data.frame(x = c(40, 70, 70, 50),
 #'                      y = c(40, 40, 60, 70))
 #'
