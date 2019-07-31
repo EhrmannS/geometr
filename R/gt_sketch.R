@@ -120,7 +120,7 @@ gt_sketch <- function(template = NULL, shape = NULL, features = 1, vertices = NU
     dims <- dim(template$obj)
     projection <- getCRS(x = template$obj)
   } else{
-    tempName <- "layer"
+    tempName <- NULL
     dims <- dim(template$obj)
     projection <- NA
   }
