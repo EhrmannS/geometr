@@ -1,14 +1,14 @@
-#' Create a voronoi tiling
+#' Create a voronoi tiling \code{geom}
 #'
-#' @param anchor [\code{geom} | \code{data.frame(1)}]\cr Object to derive the
-#'   \code{geom} from. In case of \code{data.frame}, it must include column
-#'   names \code{x}, \code{y}, \code{fid} and optinal attributes; see Examples.
+#' @param anchor [\code{data.frame(1)}]\cr Object to derive the \code{geom}
+#'   from. It must include column names \code{x}, \code{y} and optinally a
+#'   custom \code{fid}. To set further attributes, use \code{\link{setTable}}.
 #' @param window [\code{data.frame(1)}]\cr in case the reference window deviates
 #'   from the bounding box of \code{anchor} (minimum and maximum values),
 #'   specify this here.
-#' @param features [\code{integerish(1)}]\cr number of tiles to create.
 #' @param sketch [\code{RasterLayer(1)} | \code{matrix(1)}]\cr Gridded object
 #'   that serves as template to sketch the tiling.
+#' @param features [\code{integerish(1)}]\cr number of tiles to sketch.
 #' @param ... [various]\cr graphical parameters to \code{\link{gt_locate}}, in case
 #'   the tiling is sketched; see \code{\link{gpar}}.
 #' @return An invisible \code{geom}.
@@ -27,8 +27,8 @@
 #'
 #' \dontrun{
 #'
-#' tiles <- gs_voronoi(sketch = gtRasters$continuous)
-#' visualise(geom = tiles, new = FALSE)
+#' gs_voronoi(sketch = gtRasters$continuous) %>%
+#'   visualise(tiles = ., new = FALSE)
 #' }
 #' @importFrom checkmate testDataFrame assertNames testClass testNull
 #'   assertDataFrame assert assertIntegerish
@@ -68,6 +68,9 @@ gs_voronoi <- function(anchor = NULL, window = NULL, features = 3, sketch = NULL
                          ...)
     tempAnchor <- theGeom@vert
     theWindow <- theGeom@window
+    theFeatures = tibble(fid = seq_along(tempAnchor$x), gid = seq_along(tempAnchor$x))
+    theGroups = tibble(gid = seq_along(tempAnchor$x))
+    projection <- NA
 
   } else{
     if(anchor$type == "geom"){
