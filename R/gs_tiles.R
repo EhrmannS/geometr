@@ -1,8 +1,8 @@
-#' Create a regular tiling geometry
+#' Create a regular tiling \code{geom}
 #'
 #' @param anchor [\code{data.frame(1)}]\cr Object to derive the \code{geom}
-#'   from. It must include column names \code{x}, \code{y} and optinal variables
-#'   such as \code{fid}; see Examples.
+#'   from. It must include column names \code{x}, \code{y} and optinally a
+#'   custom \code{fid}. To set further attributes, use \code{\link{setTable}}.
 #' @param window [\code{data.frame(1)}]\cr the origin (lower left corner) and
 #'   the maximum value (upper right corner) of the tiling.
 #' @param width [\code{numeric(1)}]\cr the width of a tile.
@@ -10,7 +10,7 @@
 #'   tiles will be offset. Can go from \code{-1} to \code{+1}.
 #' @param pattern [\code{character(1)}]\cr pattern of the tiling. Possible
 #'   options are \code{"squared"} (default) or \code{"hexagonal"}.
-#' @param rotation [\code{integerish(1)}]\cr
+#' @param rotation [\code{integerish(1)}]\cr the rotation of the tiling.
 #' @param centroids [\code{logical(1)}]\cr should the centroids of the tiling be
 #'   returned (\code{TRUE}) or should the tiling be returned (\code{FALSE},
 #'   default)?
@@ -19,29 +19,31 @@
 #'   only a limited set of legal combinations of cells in x and y dimension. For
 #'   instance, a window of 100 by 100 can't comprise 10 by 5 squares of
 #'   side-length 10, because then the y-dimension wouldn't be fully covered. The
-#'   same is true for hexagonal and triangular tilings. In case it is only
-#'   properly clear how many tiles there should be in one dimension, but not the
-#'   other, this can be specified by setting one of the cell counts to
-#'   \code{NA}, such as \code{cells = c(NA, 18)}.
+#'   same is true for hexagonal and triangular tilings. As all tilings are
+#'   regular, the measurement of one dimension is sufficient to specify the
+#'   dimensions of tiles, which is \code{width}.
 #'
 #'   Possible additional arguments are: \itemize{ \item verbose = TRUE/FALSE
 #'   \item graphical parameters to \code{\link{gt_locate}}, in case points are
-#'   sketched; see \code{\link{gpar}}}.
+#'   sketched; see \code{\link{gpar}}}
 #' @return An invisible \code{geom}.
 #' @family tilings
 #' @examples
 #' # create a squared tiling
 #' aWindow <- data.frame(x = c(-180, 180),
 #'                       y = c(-60, 80))
-#' tiles <- gs_tiles(window = aWindow, width = 10)
+#' gs_tiles(window = aWindow, width = 10) %>%
+#'   visualise(`10° world tiles` = .)
 #'
-#' # create a hexagonal tiling for a geom
+#' # create a hexagonal tiling on top of a geom
 #' coords <- data.frame(x = c(40, 70, 70, 50),
 #'                      y = c(40, 40, 60, 70))
 #' window <- data.frame(x = c(0, 80),
 #'                      y = c(0, 80))
 #' aGeom <- gs_polygon(anchor = coords, window = window)
-#' comb <- gs_tiles(anchor = aGeom, width = 8, pattern = "hexagonal", rotation = 41)
+#' visualise(`honeycomb background` = aGeom)
+#' gs_tiles(anchor = aGeom, width = 8, pattern = "hexagonal", rotation = 41) %>%
+#'   visualise(., linecol = "deeppink", new = FALSE)
 #' @importFrom checkmate testDataFrame assertNames testClass testIntegerish
 #'   assertDataFrame assertNames assertCharacter assertSubset assertLogical
 #' @importFrom tibble tibble
@@ -112,13 +114,15 @@ gs_tiles <- function(anchor = NULL, window = NULL, width = NULL, offset = NULL,
   } else if(pattern == "hexagonal"){
     # https://www.redblobgames.com/grids/hexagons/
 
+    if(!is.null(offset)){
+      stop("offset for hexagonal tilings is not yet supported.")
+    } else {
+      offset <- 0
+    }
     inRadius <- width/2
     circumRadius <- 2/sqrt(3) * inRadius
     radius <- circumRadius
 
-    if(is.null(offset)){
-      offset <- 0
-    }
     xOffset <- inRadius*2*offset*-1
     yOffset <- 2*circumRadius*offset*-1
 
