@@ -24,7 +24,7 @@ devtools::install_github("EhrmannS/geometr")
 library(geometr)
 ```
 
-2) The [vignette](articles/geometr.html) gives a more in depth introduction, explains `geometr`s take on interoperability and discusses the spatial class `geom` that comes with `geometr`.
+2) The [vignette](https://ehrmanns.github.io/geometr/articles/geometr.html) gives a more in depth introduction, explains `geometr`s take on interoperability and discusses the spatial class `geom` that comes with `geometr`.
 
 3) Have fun being a [geometer](https://en.wikipedia.org/wiki/List_of_geometers)!
 
@@ -58,7 +58,7 @@ getTable(x = nc_sf)
 getTable(x = nc_geom, slot = "feat")
 ```
 
-A `geom` has three attribute tables, one for vertices, one for features and one for groups of features, all of which can be provided with ancilliary information ([details on data structure of a `geom`](articles/geometr.html#the-class-geom)).
+A `geom` has three attribute tables, one for vertices, one for features and one for groups of features, all of which can be provided with ancilliary information ([details on data structure of a `geom`](https://ehrmanns.github.io/geometr/articles/geometr.html#the-class-geom)).
 
 ``` r
 getTable(x = nc_geom, slot = "vert")
