@@ -17,11 +17,10 @@ test_that("output is valid geometry", {
 test_that("Error if arguments have wrong value", {
   coords <- data.frame(x = c(40, 70, 70, 50),
                        y = c(40, 40, 60, 70),
-                       id = 1)
+                       fid = 1)
 
   expect_error(gs_rectangle(window = coords), regexp = "please provide anchor values.")
   expect_error(gs_rectangle(anchor = "bla"))
-  expect_error(gs_rectangle(anchor = coords, window = "bla"))
   expect_error(gs_rectangle(anchor = coords, features = "bla"))
   expect_error(gs_rectangle(sketch = "bla"))
 })

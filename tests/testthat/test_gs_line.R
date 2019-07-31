@@ -33,14 +33,6 @@ test_that("casting to 'line' works", {
   expect_data_frame(output@vert, any.missing = FALSE, nrows = 5, ncols = 3)
 })
 
-test_that("template instead of anchor", {
-  # input <- gtRasters$continuous
-  #
-  # output <- gs_point(template = input, vertices = 5, show = TRUE, col = "deeppink")
-  # expect_class(output, classes = "geom")
-  # expect_true(output@type == "point")
-})
-
 test_that("Error if arguments have wrong value", {
   coords <- data.frame(x = c(40, 70, 70, 50),
                        y = c(40, 40, 60, 70),

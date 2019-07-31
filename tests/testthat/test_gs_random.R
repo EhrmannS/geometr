@@ -23,14 +23,6 @@ test_that("output is valid geometry", {
   expect_data_frame(output@vert, any.missing = FALSE, nrows = 4, ncols = 3)
 })
 
-test_that("template instead of anchor", {
-  # input <- matrix(nrow = 100, ncol = 100, data = 0)
-  #
-  # output <- gs_random(template = input, vertices = 5)
-  # expect_class(output, classes = "geom")
-  # expect_true(output@type == "point")
-})
-
 test_that("Error if arguments have wrong value", {
   input <- matrix(nrow = 100, ncol = 100, data = 0)
 
