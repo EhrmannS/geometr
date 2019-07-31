@@ -12,7 +12,7 @@ The `geometr` package provides tools that generate and process fully accessible 
 `geometr` aims to improve interoperability of spatial classes. Spatial classes are typically a collection of geometric shapes (or their vertices) that are accompanied by various metadata (such as attributes and a coordinate reference system). Most spatial classes are conceptually quite similar, yet a common standard lacks for accessing features, vertices or the metadata. `Geometr` fills this gap by providing tools
 
   1) that produce an identical output for the same metadata of different classes (via socalled getters) and 
-  2) that use an indentical input to write to various classes that originally require different input (via socalled setters).
+  2) that use an identical input to write to various classes that originally require different input (via socalled setters).
 
 
 ## Installation
@@ -58,7 +58,7 @@ getTable(x = nc_sf)
 getTable(x = nc_geom, slot = "feat")
 ```
 
-A `geom` has three attribute tables, one for vertices, one for features and one for groups of features, all of which can be provided with ancilliary information ([description of a geoms data structure](articles/geometr.html#the-class-geom)).
+A `geom` has three attribute tables, one for vertices, one for features and one for groups of features, all of which can be provided with ancilliary information ([details on data structure of a `geom`](articles/geometr.html#the-class-geom)).
 
 ``` r
 getTable(x = nc_geom, slot = "vert")
@@ -81,7 +81,7 @@ visualise(`North Carolina` = nc_geom)
 visualise(`NC - NWBIR74` = nc_geom, fillcol = NWBIR74)
 ```
 
-A `geom` has the slot `@window`, which contains a reference window, so to speak. This reference window can be specified in many functions of `geometr`
+A `geom` has the slot `@window`, which contains a reference window, so to speak. This reference window can be used or modified in many functions of `geometr`
 
 ``` r
 visualise(`Currituck` = currituck)
