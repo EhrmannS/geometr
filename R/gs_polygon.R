@@ -1,55 +1,60 @@
-#' Create a polygon geometry
+#' Create a polygon \code{geom}
 #'
 #' Create any (regular) polygon geometry (of class \code{\link{geom}}) either by
 #' specifying anchor values or by sketching it.
 #' @param anchor [\code{data.frame(1)}]\cr Object to derive the \code{geom}
-#'   from. It must include column names \code{x}, \code{y} and optinal variables
-#'   such as \code{fid}; see Examples.
+#'   from. It must include column names \code{x}, \code{y} and optinally a
+#'   custom \code{fid}. To set further attributes, use \code{\link{setTable}}.
 #' @param window [\code{data.frame(1)}]\cr in case the reference window deviates
 #'   from the bounding box of \code{anchor} (minimum and maximum values),
 #'   specify this here.
-#' @param features [\code{integerish(1)}]\cr number of geometries to create.
-#' @param vertices [\code{integerish(.)}]\cr number of vertices per geometry;
+#' @param features [\code{integerish(1)}]\cr number of polygons to create.
+#' @param vertices [\code{integerish(.)}]\cr number of vertices per polygon;
 #'   will be recycled if it does not have as many elements as specified in
 #'   \code{features}.
 #' @param sketch [\code{RasterLayer(1)}|\code{matrix(1)}]\cr Gridded object that
-#'   serves as template to sketch the geometry.
+#'   serves as template to sketch polygons.
 #' @param regular [\code{logical(1)}]\cr should the polygon be regular, i.e.
-#'   point symmetric (\code{TRUE}) or should the vertices be selected according
-#'   to \code{anchor} or \code{vertices} (\code{FALSE}, default)?
+#'   point symmetric (\code{TRUE}) or should the vertices be selected as
+#'   provided by \code{anchor} (\code{FALSE}, default)?
 #' @param fixed [\code{logical(1)}]\cr should the polygon be aligned vertically
 #'   (\code{TRUE}, default), or should it be aligned according to the second
-#'   click (\code{FALSE}); only relevant if \code{regular = TRUE}.
+#'   vertex (\code{FALSE})? See Details.
 #' @param ... [various]\cr additional arguments; see Details.
 #' @details The arguments \code{anchor} and \code{sketch} indicate how the
-#'   geometry is created: \itemize{ \item \code{anchor}: if set, the geometry is
+#'   geometry is created: \itemize{ \item if \code{anchor} is set, the geometry is
 #'   created parametrically, the input provided is used to parameterise the
-#'   geometry \itemize{ \item if \code{regular = FALSE} the resulting geometry
-#'   is the boundary per feature, \item if \code{regular = TRUE}, only the first
-#'   two vertices are considered, as center and indicating the (outer) radius.}
-#'   \item \code{sketch}: if set, the geometry is created interactively, by
-#'   clicking into the plot.}
+#'   geometry \item, if \code{sketch} is set, the geometry is created
+#'   interactively, by clicking into the plot.}
+#'
+#'   The argument \code{regular} and \code{fixed} determine how the vertices
+#'   provided in \code{anchor} or via \code{sketch} are transformed into a
+#'   polygon: \itemize{ \item if \code{regular = FALSE} the resulting polygon is
+#'   created from all vertices in \code{anchor}, \item if \code{regular = TRUE},
+#'   only the first two vertices are considered, as center and indicating the
+#'   distance to the (outer) radius. \itemize{ \item if also \code{fixed =
+#'   TRUE}, the regular polygon is aligned vertically.}}
 #'
 #'   Possible additional arguments are: \itemize{ \item verbose = TRUE/FALSE
 #'   \item graphical parameters to \code{\link{gt_locate}}, in case points are
-#'   sketched; see \code{\link{gpar}}}.
+#'   sketched; see \code{\link{gpar}}}
 #' @return An invisible \code{geom}.
 #' @family geometry shapes
 #' @examples
-#' library(magrittr)
 #'
 #' # create a polygon programmatically
 #' coords <- data.frame(x = c(40, 70, 70, 50),
 #'                      y = c(40, 40, 60, 70))
-#' window <- data.frame(x = c(0, 80),
-#'                      y = c(0, 80))
 #'
 #' # if no window is set, the bounding box (i.e. min/max values) will be set as window
 #' (aGeom <- gs_polygon(anchor = coords))
 #'
 #' # the vertices are plottet relative to the window
+#' library(magrittr)
 #' visualise(geom = gs_polygon(anchor = coords,
 #'                             vertices = 6, regular = TRUE))
+#' window <- data.frame(x = c(0, 80),
+#'                      y = c(0, 80))
 #' gs_triangle(anchor = coords, window = window) %>%
 #'   visualise(geom = ., linecol = "green", new = FALSE)
 #'
@@ -62,6 +67,7 @@
 #'
 #' \dontrun{
 #'
+#' # sketch a hexagon by clicking into a template
 #' gs_hexagon(sketch = gtRasters$continuous, fixed = TRUE) %>%
 #'   visualise(geom = ., linecol = "deeppink", linetype = 2, new = FALSE)
 #' }
@@ -215,12 +221,6 @@ gs_polygon <- function(anchor = NULL, window = NULL, features = 1, vertices = NU
 gs_triangle <- function(anchor = NULL, window = NULL, sketch = NULL,
                         features = 1, fixed = FALSE, ...){
 
-  if(is.null(anchor) & is.null(sketch)){
-    stop("please provide anchor values.")
-  }
-  assertDataFrame(window, types = "numeric", any.missing = FALSE, ncols = 2, null.ok = TRUE)
-  assertIntegerish(features, len = 1, lower = 1)
-
   theGeom <- gs_polygon(anchor = anchor,
                         window = window,
                         sketch = sketch,
@@ -239,12 +239,6 @@ gs_triangle <- function(anchor = NULL, window = NULL, sketch = NULL,
 
 gs_square <- function(anchor = NULL, window = NULL, sketch = NULL,
                       features = 1, fixed = FALSE, ...){
-
-  if(is.null(anchor) & is.null(sketch)){
-    stop("please provide anchor values.")
-  }
-  assertDataFrame(window, types = "numeric", any.missing = FALSE, ncols = 2, null.ok = TRUE)
-  assertIntegerish(features, len = 1, lower = 1)
 
   theGeom <- gs_polygon(anchor = anchor,
                         window = window,
@@ -265,12 +259,6 @@ gs_square <- function(anchor = NULL, window = NULL, sketch = NULL,
 
 gs_rectangle <- function(anchor = NULL, window = NULL, sketch = NULL,
                          features = 1, ...){
-
-  if(is.null(anchor) & is.null(sketch)){
-    stop("please provide anchor values.")
-  }
-  assertDataFrame(window, types = "numeric", any.missing = FALSE, ncols = 2, null.ok = TRUE)
-  assertIntegerish(features, len = 1, lower = 1)
 
   theGeom <- gs_polygon(anchor = anchor,
                         window = window,
@@ -300,12 +288,6 @@ gs_rectangle <- function(anchor = NULL, window = NULL, sketch = NULL,
 
 gs_hexagon <- function(anchor = NULL, window = NULL, sketch = NULL,
                        features = 1, fixed = FALSE, ...){
-
-  if(is.null(anchor) & is.null(sketch)){
-    stop("please provide anchor values.")
-  }
-  assertDataFrame(window, types = "numeric", any.missing = FALSE, ncols = 2, null.ok = TRUE)
-  assertIntegerish(features, len = 1, lower = 1)
 
   theGeom <- gs_polygon(anchor = anchor,
                         window = window,
