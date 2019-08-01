@@ -140,6 +140,9 @@
 <span class='co'># S4 method for sfc</span>
 <span class='fu'>setTable</span>(<span class='no'>x</span>, <span class='kw'>table</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
 
+<span class='co'># S4 method for ppp</span>
+<span class='fu'>setTable</span>(<span class='no'>x</span>, <span class='kw'>table</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
+
 <span class='co'># S4 method for RasterLayer</span>
 <span class='fu'>setTable</span>(<span class='no'>x</span>, <span class='kw'>table</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
     
@@ -251,7 +254,10 @@ set the attribute table, either <code>"vert"</code>, <code>"feat"</code> or
 #&gt; proj4string:    NA
 #&gt;   a attr                           geom
 #&gt; 1 2    a POLYGON ((0 0, 10 0, 10 10,...
-#&gt; 2 1    b POLYGON ((11 11, 11 12, 12 ...</div></span></pre>
+#&gt; 2 1    b POLYGON ((11 11, 11 12, 12 ...</div><div class='input'>
+<span class='no'>table</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/data.frame'>data.frame</a></span>(<span class='kw'>attr</span> <span class='kw'>=</span> <span class='no'>LETTERS</span>[<span class='fl'>1</span>:<span class='fl'>20</span>],
+                    <span class='kw'>colour</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/grDevices/topics/palettes'>topo.colors</a></span>(<span class='fl'>20</span>))
+<span class='co'># setTable(gtPPP$...)</span></div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
