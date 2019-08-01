@@ -6,6 +6,7 @@
 \alias{getType,geom-method}
 \alias{getType,Spatial-method}
 \alias{getType,sf-method}
+\alias{getType,ppp-method}
 \alias{getType,RasterLayer-method}
 \title{Get the type of a spatial object.}
 \usage{
@@ -14,6 +15,8 @@
 \S4method{getType}{Spatial}(x)
 
 \S4method{getType}{sf}(x)
+
+\S4method{getType}{ppp}(x)
 
 \S4method{getType}{RasterLayer}(x)
 }
@@ -32,6 +35,8 @@ getType(gtGeoms$polygon)
 getType(x = gtSP$SpatialPolygons)
 
 getType(gtSF$multiline)
+
+# getType(gtPPP$...)
 
 getType(gtRasters$categorical)
 }

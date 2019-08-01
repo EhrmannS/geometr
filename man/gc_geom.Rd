@@ -3,26 +3,29 @@
 \docType{methods}
 \name{gc_geom}
 \alias{gc_geom}
-\alias{gc_geom,sf-method}
 \alias{gc_geom,Spatial-method}
+\alias{gc_geom,sf-method}
+\alias{gc_geom,ppp-method}
 \title{Transform a spatial object to class \code{geom}}
 \usage{
+\S4method{gc_geom}{Spatial}(input = NULL, window = NULL, ...)
+
 \S4method{gc_geom}{sf}(input = NULL, window = NULL, group = FALSE,
   ...)
 
-\S4method{gc_geom}{Spatial}(input = NULL, window = NULL, ...)
+\S4method{gc_geom}{ppp}(input = NULL, window = NULL, ...)
 }
 \arguments{
 \item{input}{the object to transform to class \code{geom}.}
 
 \item{window}{[\code{data.frame(1)}]\cr the reference window of the new \code{geom}.}
 
+\item{...}{additional arguments.}
+
 \item{group}{[\code{logical(1)}]\cr should the attributes of multi* features
 be grouped, i.e. should the unique values per multi* feature be assigned
 into the groups table (\code{TRUE}), or should they be kept as
 duplicated per-feature attributes (\code{FALSE}, default)?}
-
-\item{...}{additional arguments.}
 }
 \value{
 an object of class \code{geom}
@@ -36,6 +39,7 @@ Transform a spatial object to class \code{geom}
 }
 \seealso{
 Other spatial classes: \code{\link{gc_grob}},
-  \code{\link{gc_sf}}, \code{\link{gc_sp}}
+  \code{\link{gc_ppp}}, \code{\link{gc_sf}},
+  \code{\link{gc_sp}}
 }
 \concept{spatial classes}

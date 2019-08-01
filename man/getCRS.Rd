@@ -6,6 +6,7 @@
 \alias{getCRS,geom-method}
 \alias{getCRS,Spatial-method}
 \alias{getCRS,sf-method}
+\alias{getCRS,ppp-method}
 \alias{getCRS,Raster-method}
 \title{Get the coordinate reference system of a spatial object.}
 \usage{
@@ -14,6 +15,8 @@
 \S4method{getCRS}{Spatial}(x)
 
 \S4method{getCRS}{sf}(x)
+
+\S4method{getCRS}{ppp}(x)
 
 \S4method{getCRS}{Raster}(x)
 }

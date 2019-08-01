@@ -37,6 +37,7 @@ Methods for \code{Spatial} and \code{sf} objects are not yet
 }
 \seealso{
 Other spatial classes: \code{\link{gc_geom}},
-  \code{\link{gc_sf}}, \code{\link{gc_sp}}
+  \code{\link{gc_ppp}}, \code{\link{gc_sf}},
+  \code{\link{gc_sp}}
 }
 \concept{spatial classes}

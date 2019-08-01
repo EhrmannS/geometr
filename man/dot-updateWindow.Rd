@@ -2,14 +2,17 @@
 % Please edit documentation in R/helpers.R
 \name{.updateWindow}
 \alias{.updateWindow}
-\title{Update the window slot}
+\title{Update the window}
 \usage{
-.updateWindow(geom = NULL, window = NULL)
+.updateWindow(input = NULL, window = NULL)
 }
 \arguments{
-\item{geom}{[\code{geom}]\cr a geom for which a new window should be derived.}
+\item{input}{[\code{data.frame(1)}]\cr a table of vertices for which a new window should be derived.}
 
-\item{window}{[\code{tibble(1)}]\cr the old window.}
+\item{window}{[\code{data.frame(1)}]\cr the old window.}
+}
+\value{
+A new window that has the extent of \code{input}.
 }
 \description{
 Set the extent of a window to smaller/larger values, if the vertices would be

@@ -6,6 +6,7 @@
 \alias{getWindow,geom-method}
 \alias{getWindow,Spatial-method}
 \alias{getWindow,sf-method}
+\alias{getWindow,ppp-method}
 \alias{getWindow,Raster-method}
 \alias{getWindow,matrix-method}
 \title{Get the reference window of a spatial object.}
@@ -15,6 +16,8 @@
 \S4method{getWindow}{Spatial}(x)
 
 \S4method{getWindow}{sf}(x)
+
+\S4method{getWindow}{ppp}(x)
 
 \S4method{getWindow}{Raster}(x)
 
@@ -36,6 +39,8 @@ getWindow(gtGeoms$line)
 getWindow(gtSP$SpatialPolygons)
 
 getWindow(gtSF$multilinestring)
+
+# getWindow(gtPPP$...)
 
 getWindow(gtRasters$categorical)
 
