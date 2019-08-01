@@ -3,8 +3,6 @@
 #' @param input the object to transform to class \code{ppp}.
 #' @return an object of class \code{ppp}
 #' @family spatial classes
-#' @examples
-#' (pppPoints <- gc_ppp(input = gtGeoms$point))
 #' @name gc_ppp
 #' @rdname gc_ppp
 NULL
@@ -23,11 +21,9 @@ if(!isGeneric("gc_ppp")){
 
 # geom ----
 #' @rdname gc_ppp
-#' @importFrom tibble as_tibble
-#' @importFrom checkmate assertClass
-#' @importFrom sp SpatialPoints SpatialPointsDataFrame Line Lines SpatialLines
-#'   SpatialLinesDataFrame Polygon Polygons SpatialPolygons
-#'   SpatialPolygonsDataFrame spTransform CRS
+#' @examples
+#' (pppPoints <- gc_ppp(input = gtGeoms$point))
+#' @importFrom tibble tibble
 #' @export
 setMethod(f = "gc_ppp",
           signature = "geom",
