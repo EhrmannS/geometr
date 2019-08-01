@@ -23,20 +23,25 @@ if(!isGeneric("gc_ppp")){
 #' @rdname gc_ppp
 #' @examples
 #' (pppPoints <- gc_ppp(input = gtGeoms$point))
-#' @importFrom tibble tibble
+#' @importFrom spatstat ppp
 #' @export
 setMethod(f = "gc_ppp",
           signature = "geom",
           definition = function(input = NULL){
 
             theCoords <- getVertices(x = input)
-            theData <- getTable(x = input, slot = "feat")
-            theGroups <- getTable(x = input, slot = "group")
-            theVertices <- getTable(x = input, slot = "vert")
-            theCRS <- getCRS(x = input)
-            bbox <- getExtent(x = input)
-            theWindow = tibble(x = c(min(bbox$x), max(bbox$x), max(bbox$x), min(bbox$x), min(bbox$x)),
-                               y = c(min(bbox$y), min(bbox$y), max(bbox$y), max(bbox$y), min(bbox$y)))
+            theData <- getTable(x = input)
+            theData$fid <- NULL
+            theData$gid <- NULL
+            theWindow <- getWindow(x = input)
+            theWindow <- owin(xrange = c(min(theWindow$x), max(theWindow$x)),
+                              yrange = c(min(theWindow$y), max(theWindow$y)))
 
+            out <- ppp(x = theCoords$x,
+                       y = theCoords$y,
+                       window = theWindow,
+                       marks = theData)
+
+            return(out)
          }
 )
