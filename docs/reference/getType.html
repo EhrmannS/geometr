@@ -137,6 +137,9 @@
 <span class='co'># S4 method for sf</span>
 <span class='fu'>getType</span>(<span class='no'>x</span>)
 
+<span class='co'># S4 method for ppp</span>
+<span class='fu'>getType</span>(<span class='no'>x</span>)
+
 <span class='co'># S4 method for RasterLayer</span>
 <span class='fu'>getType</span>(<span class='no'>x</span>)</pre>
     
@@ -158,6 +161,8 @@
     <pre class="examples"><div class='input'><span class='fu'>getType</span>(<span class='no'>gtGeoms</span>$<span class='no'>polygon</span>)</div><div class='output co'>#&gt; [1] "vector"  "polygon"</div><div class='input'>
 <span class='fu'>getType</span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>gtSP</span>$<span class='no'>SpatialPolygons</span>)</div><div class='output co'>#&gt; [1] "vector"          "SpatialPolygons"</div><div class='input'>
 <span class='fu'>getType</span>(<span class='no'>gtSF</span>$<span class='no'>multiline</span>)</div><div class='output co'>#&gt; [1] "vector"          "MULTILINESTRING"</div><div class='input'>
+<span class='co'># getType(gtPPP$...)</span>
+
 <span class='fu'>getType</span>(<span class='no'>gtRasters</span>$<span class='no'>categorical</span>)</div><div class='output co'>#&gt; [1] "raster"      "RasterLayer"</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

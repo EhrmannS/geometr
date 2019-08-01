@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Get the coordinate reference system of a spatial object. — getCRS • geometr</title>
+<title>Transform a spatial object to class <code>ppp</code> — gc_ppp • geometr</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,9 +30,9 @@
 
 
 
-<meta property="og:title" content="Get the coordinate reference system of a spatial object. — getCRS" />
+<meta property="og:title" content="Transform a spatial object to class <code>ppp</code> — gc_ppp" />
 
-<meta property="og:description" content="Get the coordinate reference system of a spatial object." />
+<meta property="og:description" content="Transform a spatial object to class ppp" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -117,46 +117,49 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Get the coordinate reference system of a spatial object.</h1>
-    <small class="dont-index">Source: <a href='https://github.com/EhrmannS/geometr/blob/master/R/getCRS.R'><code>R/getCRS.R</code></a></small>
-    <div class="hidden name"><code>getCRS.Rd</code></div>
+    <h1>Transform a spatial object to class <code>ppp</code></h1>
+    <small class="dont-index">Source: <a href='https://github.com/EhrmannS/geometr/blob/master/R/gc_ppp.R'><code>R/gc_ppp.R</code></a></small>
+    <div class="hidden name"><code>gc_ppp.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Get the coordinate reference system of a spatial object.</p>
+    <p>Transform a spatial object to class <code>ppp</code></p>
     
     </div>
 
     <pre class="usage"><span class='co'># S4 method for geom</span>
-<span class='fu'>getCRS</span>(<span class='no'>x</span>)
-
-<span class='co'># S4 method for Spatial</span>
-<span class='fu'>getCRS</span>(<span class='no'>x</span>)
-
-<span class='co'># S4 method for sf</span>
-<span class='fu'>getCRS</span>(<span class='no'>x</span>)
-
-<span class='co'># S4 method for ppp</span>
-<span class='fu'>getCRS</span>(<span class='no'>x</span>)
-
-<span class='co'># S4 method for Raster</span>
-<span class='fu'>getCRS</span>(<span class='no'>x</span>)</pre>
+<span class='fu'>gc_ppp</span>(<span class='kw'>input</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>x</th>
-      <td><p>the object from which to extract the coordinate reference system.</p></td>
+      <th>input</th>
+      <td><p>the object to transform to class <code>ppp</code>.</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>The coordinate reference system of <code>x</code> given as proj4string.</p>
+    <p>an object of class <code>ppp</code></p>
+    
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <div class='dont-index'><p>Other spatial classes: <code><a href='gc_geom.html'>gc_geom</a></code>,
+  <code><a href='gc_grob.html'>gc_grob</a></code>, <code><a href='gc_sf.html'>gc_sf</a></code>,
+  <code><a href='gc_sp.html'>gc_sp</a></code></p></div>
     
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'>(<span class='no'>pppPoints</span> <span class='kw'>&lt;-</span> <span class='fu'>gc_ppp</span>(<span class='kw'>input</span> <span class='kw'>=</span> <span class='no'>gtGeoms</span>$<span class='no'>point</span>))</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 5 x 2</span><span>
+#&gt;       x     y
+#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #BCBCBC;'>1</span><span>     0     0
+#&gt; </span><span style='color: #BCBCBC;'>2</span><span>    12     0
+#&gt; </span><span style='color: #BCBCBC;'>3</span><span>    12    12
+#&gt; </span><span style='color: #BCBCBC;'>4</span><span>     0    12
+#&gt; </span><span style='color: #BCBCBC;'>5</span><span>     0     0</div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -164,7 +167,11 @@
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
-          </ul>
+
+      <li><a href="#see-also">See also</a></li>
+      
+      <li><a href="#examples">Examples</a></li>
+    </ul>
 
   </div>
 </div>

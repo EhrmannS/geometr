@@ -22,6 +22,9 @@
     <loc>http://EhrmannS.github.io/geometr/reference/dot-testWindow.html</loc>
   </url>
   <url>
+    <loc>http://EhrmannS.github.io/geometr/reference/dot-updateVertices.html</loc>
+  </url>
+  <url>
     <loc>http://EhrmannS.github.io/geometr/reference/dot-updateWindow.html</loc>
   </url>
   <url>
@@ -29,6 +32,9 @@
   </url>
   <url>
     <loc>http://EhrmannS.github.io/geometr/reference/gc_grob.html</loc>
+  </url>
+  <url>
+    <loc>http://EhrmannS.github.io/geometr/reference/gc_ppp.html</loc>
   </url>
   <url>
     <loc>http://EhrmannS.github.io/geometr/reference/gc_sf.html</loc>

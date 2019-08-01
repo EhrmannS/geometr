@@ -93,6 +93,12 @@
 
     
     
+<div id="introduction" class="section level2">
+<h2 class="hasAnchor">
+<a href="#introduction" class="anchor"></a>Introduction</h2>
+<p>The <code>geometr</code> package provides tools that generate and process fully accessible and tidy geometric shapes. Moreover, <code>geometr</code> aims to improve interoperability of spatial classes. Spatial classes are typically a collection of geometric shapes (or their vertices) that are accompanied by various metadata (such as attributes and a coordinate reference system). Most spatial classes are conceptually quite similar, yet a common standard lacks for accessing features, vertices or the metadata.</p>
+<p>This vignette outlines in more detail first how <code>geometr</code> improves interoperability, then it scrutinises the datastructure of a <code>geom</code> (the spatial class that comes with <code>geometr</code>) and how different types are cast into one another, shows how to visualise spatial objects and eventually gives a short introduction of some of the tools that come with <code>geometr</code>.</p>
+</div>
 <div id="interoperability" class="section level2">
 <h2 class="hasAnchor">
 <a href="#interoperability" class="anchor"></a>Interoperability</h2>
@@ -134,7 +140,7 @@
 <a class="sourceLine" id="cb1-27" data-line-number="27"><span class="co">#&gt; xmax       : 181600 </span></a>
 <a class="sourceLine" id="cb1-28" data-line-number="28"><span class="co">#&gt; ymin       : 329400 </span></a>
 <a class="sourceLine" id="cb1-29" data-line-number="29"><span class="co">#&gt; ymax       : 334000</span></a></code></pre></div>
-<p>For a human user the structure of those information might not matter. The capacity of humans to recognise information relative to their context needs to be programmed into the software that is supposed to gather those information. Think of a third function that is supposed to take some spatial input from the user and derive information from it, without knowing in advance what spatial class that will be, and hence does not know how the output of the respective class should be interpreted. The need for such a function is derived from the different flavours/functions/pipelines that are common in an open source software, so that all classes, which may be preferable in particular usecases, can be used equally. So far, this interoperability is not given in R and <code>geometr</code> provides it, as the following example shows</p>
+<p>For a human user the structure of those information might not matter. However, the capacity of humans to recognise information relative to their context needs to be programmed into the software that is supposed to gather information with respect to context. Think of a custom function that is supposed to take some spatial input from the user and derive information from it, without knowing in advance what spatial class that will be, and hence does not know how the output of the respective class should be interpreted. The need for such a function is derived from the different flavours/functions/pipelines that are common in an open source software, so that all classes, which may be preferable in particular usecases, can be used equally. So far, this interoperability is not given in R and <code>geometr</code> provides it, as the following example shows</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(geometr)</a>
 <a class="sourceLine" id="cb2-2" data-line-number="2">myInput &lt;-<span class="st"> </span>nc</a>
 <a class="sourceLine" id="cb2-3" data-line-number="3"><span class="kw"><a href="../reference/getExtent.html">getExtent</a></span>(<span class="dt">x =</span> myInput)</a>
@@ -159,11 +165,39 @@
 <a class="sourceLine" id="cb2-22" data-line-number="22"><span class="co">#&gt;    &lt;dbl&gt;  &lt;dbl&gt;</span></a>
 <a class="sourceLine" id="cb2-23" data-line-number="23"><span class="co">#&gt; 1 178400 329400</span></a>
 <a class="sourceLine" id="cb2-24" data-line-number="24"><span class="co">#&gt; 2 181600 334000</span></a></code></pre></div>
-<p>This ensures that a custom function that is meant to process several spatial classes, and which must thus be agnostic to the class specific peculiarities, requires merely one very simple row of code and not a lengthy if-condition that tests classes and implements different extraction procedures. Moreover, the output of the tools provided by <code>geometr</code> is tidy, i.e. it provides variables in columns and observations in rows.</p>
+<p>The output of the tools provided by <code>geometr</code> is tidy, i.e. it provides variables in columns and observations in rows, and it is interoperable, i.e. it provides the same information in the same spot of the output object. This ensures that a custom function requires merely one very simple row of code to extract those information from a potentially wide range of distinct classes, and not a lengthy if-condition that tests classes and implements different extraction procedures.</p>
 </div>
-<div id="the-class-geom" class="section level2">
+<div id="datastructure-of-the-class-geom" class="section level2">
 <h2 class="hasAnchor">
-<a href="#the-class-geom" class="anchor"></a>The class <code>geom</code>
+<a href="#datastructure-of-the-class-geom" class="anchor"></a>Datastructure of the class <code>geom</code>
+</h2>
+<ul>
+<li>three feature types</li>
+<li>all types have the same datastructure (i.e. it’s interoperable, no slots are removed or added when modifying things)</li>
+<li>three tables, vertices, features and groups all can be joined with ancilliary data</li>
+<li>has a scale, which is either absolute or relative, the latter case then contains vertices relative to the reference window</li>
+<li>has a history slot that contains the provenance of a geom</li>
+<li>features are single closed paths</li>
+<li>multi* features are transformed to several (simpler) features and assigned the same group (some reasoning on that)</li>
+<li>geom contains only direct information, i.e. such information that can’t be derived for example the extent</li>
+<li>has a reference window instead of an extent (like in spatstat)</li>
+<li>talk about tiny map</li>
+<li>talk about which advantages that brings, vertices are easily accessible and can be provided with attributes, which allows also point patterns to be treated together with other geometries</li>
+<li>somehow a hybrid of ppp and sf (units as in spatstat are indirectly covered by the projection)</li>
+<li>also describe that how a single features looks like (being close by a duplicate vertex and with holes that are inside)</li>
+</ul>
+</div>
+<div id="casting" class="section level2">
+<h2 class="hasAnchor">
+<a href="#casting" class="anchor"></a>Casting</h2>
+</div>
+<div id="visualising" class="section level2">
+<h2 class="hasAnchor">
+<a href="#visualising" class="anchor"></a>Visualising</h2>
+</div>
+<div id="other-tools-in-geometr" class="section level2">
+<h2 class="hasAnchor">
+<a href="#other-tools-in-geometr" class="anchor"></a>Other tools in <code>geometr</code>
 </h2>
 </div>
   </div>
@@ -173,8 +207,12 @@
       <h2 class="hasAnchor">
 <a href="#tocnav" class="anchor"></a>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
-<li><a href="#interoperability">Interoperability</a></li>
-      <li><a href="#the-class-geom">The class <code>geom</code></a></li>
+<li><a href="#introduction">Introduction</a></li>
+      <li><a href="#interoperability">Interoperability</a></li>
+      <li><a href="#datastructure-of-the-class-geom">Datastructure of the class <code>geom</code></a></li>
+      <li><a href="#casting">Casting</a></li>
+      <li><a href="#visualising">Visualising</a></li>
+      <li><a href="#other-tools-in-geometr">Other tools in <code>geometr</code></a></li>
       </ul>
 </div>
       </div>

@@ -14,6 +14,13 @@ knitr::opts_chunk$set(
 )
 ```
 
+## Introduction
+
+The `geometr` package provides tools that generate and process fully accessible and tidy geometric shapes. Moreover, `geometr` aims to improve interoperability of spatial classes. Spatial classes are typically a collection of geometric shapes (or their vertices) that are accompanied by various metadata (such as attributes and a coordinate reference system). Most spatial classes are conceptually quite similar, yet a common standard lacks for accessing features, vertices or the metadata.
+
+This vignette outlines in more detail first how `geometr` improves interoperability, then it scrutinises the datastructure of a `geom` (the spatial class that comes with `geometr`) and how different types are cast into one another, shows how to visualise spatial objects and eventually gives a short introduction of some of the tools that come with `geometr`.
+
+
 ## Interoperability
 
 R is an open source environment which means that no single package or class will ever be the sole source of a particular datastructure and this is also the case for spatial or geometric data.
@@ -47,8 +54,8 @@ extent(ras)
 ```
 
 For a human user the structure of those information might not matter.
-The capacity of humans to recognise information relative to their context needs to be programmed into the software that is supposed to gather those information.
-Think of a third function that is supposed to take some spatial input from the user and derive information from it, without knowing in advance what spatial class that will be, and hence does not know how the output of the respective class should be interpreted.
+However, the capacity of humans to recognise information relative to their context needs to be programmed into the software that is supposed to gather information with respect to context.
+Think of a custom function that is supposed to take some spatial input from the user and derive information from it, without knowing in advance what spatial class that will be, and hence does not know how the output of the respective class should be interpreted.
 The need for such a function is derived from the different flavours/functions/pipelines that are common in an open source software, so that all classes, which may be preferable in particular usecases, can be used equally.
 So far, this interoperability is not given in R and `geometr` provides it, as the following example shows
 
@@ -64,8 +71,29 @@ myInput <- ras
 getExtent(x = myInput)
 ```
 
-This ensures that a custom function that is meant to process several spatial classes, and which must thus be agnostic to the class specific peculiarities, requires merely one very simple row of code and not a lengthy if-condition that tests classes and implements different extraction procedures.
-Moreover, the output of the tools provided by `geometr` is tidy, i.e. it provides variables in columns and observations in rows.
+The output of the tools provided by `geometr` is tidy, i.e. it provides variables in columns and observations in rows, and it is interoperable, i.e. it provides the same information in the same spot of the output object.
+This ensures that a custom function requires merely one very simple row of code to extract those information from a potentially wide range of distinct classes, and not a lengthy if-condition that tests classes and implements different extraction procedures.
 
 
-## The class `geom`
+## Datastructure of the class `geom`
+
+- three feature types
+- all types have the same datastructure (i.e. it's interoperable, no slots are removed or added when modifying things)
+- three tables, vertices, features and groups all can be joined with ancilliary data
+- has a scale, which is either absolute or relative, the latter case then contains vertices relative to the reference window
+- has a history slot that contains the provenance of a geom
+- features are single closed paths
+- multi* features are transformed to several (simpler) features and assigned the same group (some reasoning on that)
+- geom contains only direct information, i.e. such information that can't be derived for example the extent
+- has a reference window instead of an extent (like in spatstat)
+- talk about tiny map
+- talk about which advantages that brings, vertices are easily accessible and can be provided with attributes, which allows also point patterns to be treated together with other geometries
+- somehow a hybrid of ppp and sf (units as in spatstat are indirectly covered by the projection)
+- also describe that how a single features looks like (being close by a duplicate vertex and with holes that are inside)
+
+
+## Casting
+
+## Visualising
+
+## Other tools in `geometr`
