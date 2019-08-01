@@ -23,8 +23,6 @@
 be grouped, i.e. should the unique values per multi* feature be assigned
 into the groups table (\code{TRUE}), or should they be kept as
 duplicated per-feature attributes (\code{FALSE}, default)?}
-
-\item{window}{[\code{data.frame(1)}]\cr the reference window of the new \code{geom}.}
 }
 \value{
 an object of class \code{geom}
