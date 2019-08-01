@@ -166,34 +166,12 @@ gs_polygon <- function(anchor = NULL, window = NULL, features = 1, vertices = NU
         cx <- tempAnchor$x[1] + radius*cos(.rad(angles))
         cy <- tempAnchor$y[1] + radius*sin(.rad(angles))
         theNodes <- tibble(x = cx, y = cy, fid = i)
-        theWindow <- .updateWindow(geom = theNodes, window = theWindow)
+        theWindow <- .updateWindow(input = theNodes, window = theWindow)
       } else{
         theNodes <- tempAnchor[c("x", "y", "fid")]
       }
 
-      # create vertices that would close rings and thus make valid polygons, check
-      # whether the first vertex has a duplicate...
-      dupBwd <- duplicated(theNodes, fromLast = TRUE)
-      if(!dupBwd[1]){
-        # ... if not, test whether there is any duplicate, hence any closed ring
-        if(any(dupBwd)){
-          theNodes <- add_row(theNodes, x = theNodes$x[1], y = theNodes$y[1], fid = theNodes$fid[1], .before = which(dupBwd))
-        } else {
-          theNodes <- add_row(theNodes, x = theNodes$x[1], y = theNodes$y[1], fid = theNodes$fid[1])
-        }
-      }
-
-      # check whether the last vertex has a duplicate...
-      dupFwd <- duplicated(theNodes)
-      if(!dupFwd[dim(theNodes)[1]]){
-        # ... if not, test whether there is any duplicate, hence any closed ring
-        if(any(dupFwd)){
-          theNodes <- add_row(theNodes, x = theNodes$x[dim(theNodes)[1]], y = theNodes$y[dim(theNodes)[1]], fid = theNodes$fid[dim(theNodes)[1]], .after = which(dupFwd)+1)
-        } else {
-          theNodes <- add_row(theNodes, x = theNodes$x[1], y = theNodes$y[1], fid = theNodes$fid[1])
-        }
-      }
-
+      theNodes <- .updateVertices(input = theNodes)
       theVertices <- bind_rows(theVertices, theNodes)
       theFeatures <- bind_rows(theFeatures, tempFeatures)
       theGroups <- bind_rows(theGroups, tempGroups)
