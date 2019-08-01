@@ -12,6 +12,7 @@
 #' @rdname gc_geom
 NULL
 
+# generic ----
 #' @rdname gc_geom
 #' @name gc_geom
 #' @export
@@ -23,12 +24,56 @@ if(!isGeneric("gc_geom")){
   )
 }
 
+# Spatial ----
+#' @rdname gc_geom
+#' @importFrom tibble tibble
+#' @export
+setMethod(f = "gc_geom",
+          signature = "Spatial",
+          definition = function(input = NULL, window = NULL, ...){
+
+            window <- .testWindow(x = window, ...)
+            theCoords <- getVertices(x = input)
+            theData <- getTable(x = input)
+            theCRS <- getCRS(x = input)
+            bbox <- getExtent(x = input)
+            theWindow = tibble(x = c(min(bbox$x), max(bbox$x), max(bbox$x), min(bbox$x), min(bbox$x)),
+                               y = c(min(bbox$y), min(bbox$y), max(bbox$y), max(bbox$y), min(bbox$y)))
+            theCRS <- getCRS(x = input)
+
+            sourceClass <- class(input)[1]
+            if(sourceClass %in% c("SpatialPoints", "SpatialPointsDataFrame", "SpatialPixels", "SpatialPixelsDataFrame")){
+              type <- "point"
+            } else if(sourceClass %in% c("SpatialMultiPoints", "SpatialMultiPointsDataFrame")){
+              type <- "point"
+            } else if(sourceClass %in% c("SpatialLines", "SpatialLinesDataFrame")){
+              type <- "line"
+            } else if(sourceClass %in% c("SpatialPolygons", "SpatialPolygonsDataFrame", "SpatialGrid", "SpatialGridDataFrame")){
+              type <- "polygon"
+            }
+            history <- paste0("geometry was transformed from an object of class '", sourceClass, "'.")
+
+            out <- new(Class = "geom",
+                       type = type,
+                       vert = theCoords,
+                       feat = theData,
+                       group = tibble(gid = unique(theData$gid)),
+                       window = theWindow,
+                       scale = "absolute",
+                       crs = theCRS,
+                       history = list(history))
+
+            return(out)
+          }
+)
+
+# sf ----
 #' @param group [\code{logical(1)}]\cr should the attributes of multi* features
 #'   be grouped, i.e. should the unique values per multi* feature be assigned
 #'   into the groups table (\code{TRUE}), or should they be kept as
 #'   duplicated per-feature attributes (\code{FALSE}, default)?
 #' @rdname gc_geom
-#' @importFrom tibble tibble as_tibble
+#' @importFrom tibble tibble
 #' @importFrom sf st_geometry_type
 #' @importFrom dplyr bind_cols
 #' @export
@@ -37,7 +82,6 @@ setMethod(f = "gc_geom",
           definition = function(input = NULL, window = NULL, group = FALSE, ...){
 
             window <- .testWindow(x = window, ...)
-
             theCoords <- getVertices(x = input)
             theData <- getTable(x = input)
             theCRS <- getCRS(x = input)
@@ -83,45 +127,22 @@ setMethod(f = "gc_geom",
           }
 )
 
+# ppp ----
 #' @rdname gc_geom
-#' @importFrom tibble as_tibble
+#' @importFrom tibble tibble
 #' @export
 setMethod(f = "gc_geom",
-          signature = "Spatial",
+          signature = "ppp",
           definition = function(input = NULL, window = NULL, ...){
 
             window <- .testWindow(x = window, ...)
-
             theCoords <- getVertices(x = input)
             theData <- getTable(x = input)
             theCRS <- getCRS(x = input)
             bbox <- getExtent(x = input)
             theWindow = tibble(x = c(min(bbox$x), max(bbox$x), max(bbox$x), min(bbox$x), min(bbox$x)),
                                y = c(min(bbox$y), min(bbox$y), max(bbox$y), max(bbox$y), min(bbox$y)))
-            theCRS <- getCRS(x = input)
 
-            sourceClass <- class(input)[1]
-            if(sourceClass %in% c("SpatialPoints", "SpatialPointsDataFrame", "SpatialPixels", "SpatialPixelsDataFrame")){
-              type <- "point"
-            } else if(sourceClass %in% c("SpatialMultiPoints", "SpatialMultiPointsDataFrame")){
-              type <- "point"
-            } else if(sourceClass %in% c("SpatialLines", "SpatialLinesDataFrame")){
-              type <- "line"
-            } else if(sourceClass %in% c("SpatialPolygons", "SpatialPolygonsDataFrame", "SpatialGrid", "SpatialGridDataFrame")){
-              type <- "polygon"
-            }
-            history <- paste0("geometry was transformed from an object of class '", sourceClass, "'.")
-
-            out <- new(Class = "geom",
-                       type = type,
-                       vert = theCoords,
-                       feat = theData,
-                       group = tibble(gid = unique(theData$gid)),
-                       window = theWindow,
-                       scale = "absolute",
-                       crs = theCRS,
-                       history = list(history))
-
-            return(out)
           }
 )
+
