@@ -251,6 +251,27 @@ setMethod(f = "getTable",
           }
 )
 
+# ppp ----
+#' @rdname getTable
+#' @examples
+#'
+#' # getTable(gtPPP$...)
+#' @export
+setMethod(f = "getTable",
+          signature = "ppp",
+          definition = function(x){
+            temp <- x
+            out <- tibble(fid = seq_along(temp$x), gid = seq_along(temp$x))
+            if(is.null(names(temp$marks))){
+              attr <- tibble(attr = temp$marks)
+            } else {
+              attr <- as_tibble(temp$marks)
+            }
+            out <- bind_cols(out, attr)
+            return(out)
+          }
+)
+
 # RasterLayer ----
 #' @rdname getTable
 #' @examples

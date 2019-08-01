@@ -192,3 +192,19 @@ setMethod(f = "getVertices",
             return(theCoords)
           }
 )
+
+# ppp ----
+#' @rdname getVertices
+#' @examples
+#'
+#' # getVertices(gtPPP$...)
+#' @export
+setMethod(f = "getVertices",
+          signature = "ppp",
+          definition = function(x){
+            bla <- x
+            tibble(x = bla$x,
+                   y = bla$y,
+                   fid = seq_along(bla$x))
+          }
+)

@@ -104,3 +104,16 @@ setMethod(f = "getSubset",
             return(x)
           }
 )
+
+# ppp ----
+#' @rdname getSubset
+#' @examples
+#'
+#' # getSubset(gtPPP$...)
+#' @export
+setMethod(f = "getSubset",
+          signature = "ppp",
+          definition = function(x){
+
+          }
+)
