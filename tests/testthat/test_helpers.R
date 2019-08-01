@@ -47,7 +47,7 @@ test_that(".rad works", {
 
 test_that(".updateWindow works", {
   aWindow <- data.frame(x = c(3, 5), y = c(3, 5))
-  output <- .updateWindow(geom = gtGeoms$polygon@vert,
+  output <- .updateWindow(input = gtGeoms$polygon@vert,
                           window = aWindow)
   expect_data_frame(x = output, nrows = 2, ncols = 2)
   expect_true(all(aWindow != output))
