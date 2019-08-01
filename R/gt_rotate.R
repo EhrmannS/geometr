@@ -106,7 +106,7 @@ gt_rotate <- function(geom = NULL, angle = NULL, about = c(0, 0), fid = NULL,
   }
 
   if(update){
-    window <- .updateWindow(geom = temp, window = geom@window)
+    window <- .updateWindow(input = temp, window = geom@window)
   } else {
     window <- geom@window
   }

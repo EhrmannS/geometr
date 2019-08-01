@@ -151,7 +151,7 @@ gt_sketch <- function(template = NULL, shape = NULL, features = 1, vertices = NU
       cx <- tempAnchor$x[1] + radius*cos(.rad(angles))
       cy <- tempAnchor$y[1] + radius*sin(.rad(angles))
       theNodes <- tibble(x = cx, y = cy, fid = i)
-      # theWindow <- .updateWindow(geom = theNodes, window = theWindow)
+      # theWindow <- .updateWindow(input = theNodes, window = theWindow)
     } else {
       theNodes <- tempAnchor
     }
