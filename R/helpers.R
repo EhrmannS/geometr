@@ -251,9 +251,10 @@ makeLayout <- function(x = NULL, window = NULL, theme = gtTheme, image = FALSE, 
 
   # if no fid is specified, treat it as if all vertices are part of the same feature
   if(!"fid" %in% names(input)){
-    input <- bind_cols(input, fid = 1)
+    input <- bind_cols(input, fid = rep(1, dim(input)[1]))
   }
 
+  newRings <- NULL
   for(i in unique(input$fid)){
     temp <- input[input$fid == i,]
     verts <- temp
@@ -302,7 +303,7 @@ makeLayout <- function(x = NULL, window = NULL, theme = gtTheme, image = FALSE, 
     missingRings <- split(missingRing, splitBy)
 
     # go through all rings and check them ...
-    newRings <- NULL
+    newRing <- NULL
     for(j in seq_along(missingRings)){
       aRing <- temp[missingRings[[j]], ]
       aRing$ring <- lastRing + 1
@@ -312,8 +313,9 @@ makeLayout <- function(x = NULL, window = NULL, theme = gtTheme, image = FALSE, 
         aRing <- add_row(aRing, x = aRing$x[1], y = aRing$y[1], fid = aRing$fid[1], ring = lastRing + 1)
       }
 
-      newRings <- bind_rows(newRings, aRing)
+      newRing <- bind_rows(newRing, aRing)
     }
+    newRings <- bind_rows(newRings, newRing)
   }
 
   out <- bind_rows(temp[!is.na(temp$ring), ], newRings)
