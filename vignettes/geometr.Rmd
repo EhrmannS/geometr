@@ -16,7 +16,7 @@ knitr::opts_chunk$set(
 
 ## Introduction
 
-The `geometr` package provides tools that generate and process fully accessible and tidy geometric shapes. Moreover, `geometr` aims to improve interoperability of spatial classes. Spatial classes are typically a collection of geometric shapes (or their vertices) that are accompanied by various metadata (such as attributes and a coordinate reference system). Most spatial classes are conceptually quite similar, yet a common standard lacks for accessing features, vertices or the metadata.
+The `geometr` package provides tools that generate and process fully accessible and tidy geometric shapes. Moreover, `geometr` aims to improve interoperability of spatial classes. Spatial classes are typically a collection of geometric shapes (or their vertices) that are accompanied by various metadata (such as attributes and a coordinate reference system). Most spatial classes are thus conceptually quite similar, yet a common standard lacks for accessing features, vertices or the metadata.
 
 This vignette outlines in more detail first how `geometr` improves interoperability, then it scrutinises the datastructure of a `geom` (the spatial class that comes with `geometr`) and how different types are cast into one another, shows how to visualise spatial objects and eventually gives a short introduction of some of the tools that come with `geometr`.
 

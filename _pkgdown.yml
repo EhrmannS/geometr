@@ -19,10 +19,11 @@ reference:
   - title: transform spatial classes
     desc: functions that transform between spatial classes
     contents:
-      - gc_sf
-      - gc_sp
       - gc_geom
       - gc_grob
+      - gc_ppp
+      - gc_sf
+      - gc_sp
   - title: getters and setters
     desc: methods that standardise dealing with spatial objects
     contents:
