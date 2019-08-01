@@ -6,6 +6,7 @@
 #' @rdname getWindow
 NULL
 
+# generic ----
 #' @rdname getWindow
 #' @name getWindow
 #' @export
@@ -17,6 +18,7 @@ if(!isGeneric("getWindow")){
   )
 }
 
+# geom ----
 #' @rdname getWindow
 #' @examples
 #'
@@ -30,6 +32,7 @@ setMethod(f = "getWindow",
           }
 )
 
+# Spatial ----
 #' @rdname getWindow
 #' @examples
 #'
@@ -46,6 +49,7 @@ setMethod(f = "getWindow",
           }
 )
 
+# sf ----
 #' @rdname getWindow
 #' @examples
 #'
@@ -62,6 +66,23 @@ setMethod(f = "getWindow",
           }
 )
 
+# geom ----
+#' @rdname getWindow
+#' @examples
+#'
+#' # getWindow(gtPPP$...)
+#' @importFrom tibble as_tibble
+#' @export
+setMethod(f = "getWindow",
+          signature = "ppp",
+          definition = function(x){
+
+            # theNodes <- .updateVertices(input = )
+
+          }
+)
+
+# Raster ----
 #' @rdname getWindow
 #' @examples
 #'
@@ -78,6 +99,7 @@ setMethod(f = "getWindow",
           }
 )
 
+# matrix ----
 #' @rdname getWindow
 #' @examples
 #'

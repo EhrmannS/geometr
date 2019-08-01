@@ -6,6 +6,7 @@
 #' @rdname getType
 NULL
 
+# generic ----
 #' @rdname getType
 #' @name getType
 #' @export
@@ -17,10 +18,10 @@ if(!isGeneric("getType")){
   )
 }
 
+# geom ----
 #' @rdname getType
 #' @examples
 #' getType(gtGeoms$polygon)
-#' @importFrom tibble as_tibble
 #' @export
 setMethod(f = "getType",
           signature = "geom",
@@ -29,13 +30,11 @@ setMethod(f = "getType",
           }
 )
 
+# Spatial ----
 #' @rdname getType
 #' @examples
 #'
 #' getType(x = gtSP$SpatialPolygons)
-#' @importFrom methods as
-#' @importFrom tibble tibble as_tibble
-#' @importFrom dplyr bind_cols
 #' @export
 setMethod(f = "getType",
           signature = signature("Spatial"),
@@ -45,11 +44,11 @@ setMethod(f = "getType",
           }
 )
 
+# sf ----
 #' @rdname getType
 #' @examples
 #'
 #' getType(gtSF$multiline)
-#' @importFrom tibble tibble as_tibble
 #' @importFrom sf st_geometry_type
 #' @export
 setMethod(f = "getType",
@@ -59,11 +58,24 @@ setMethod(f = "getType",
           }
 )
 
+# ppp ----
+#' @rdname getType
+#' @examples
+#'
+#' # getType(gtPPP$...)
+#' @export
+setMethod(f = "getType",
+          signature = "ppp",
+          definition = function(x){
+            c("vector", class(x)[1])
+          }
+)
+
+# RasterLayer ----
 #' @rdname getType
 #' @examples
 #'
 #' getType(gtRasters$categorical)
-#' @importFrom tibble tibble as_tibble
 #' @export
 setMethod(f = "getType",
           signature = "RasterLayer",

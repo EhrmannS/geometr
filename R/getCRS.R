@@ -6,6 +6,7 @@
 #' @rdname getCRS
 NULL
 
+# generic ----
 #' @rdname getCRS
 #' @name getCRS
 #' @export
@@ -17,6 +18,7 @@ if(!isGeneric("getCRS")){
   )
 }
 
+# geom ----
 #' @rdname getCRS
 #' @export
 setMethod(f = "getCRS",
@@ -26,6 +28,7 @@ setMethod(f = "getCRS",
           }
 )
 
+# Spatial ----
 #' @rdname getCRS
 #' @export
 setMethod(f = "getCRS",
@@ -35,6 +38,7 @@ setMethod(f = "getCRS",
           }
 )
 
+# sf ----
 #' @rdname getCRS
 #' @importFrom sf st_crs
 #' @export
@@ -45,6 +49,18 @@ setMethod(f = "getCRS",
           }
 )
 
+# ppp ----
+#' @rdname getCRS
+#' @importFrom sf st_crs
+#' @export
+setMethod(f = "getCRS",
+          signature = "ppp",
+          definition = function(x){
+            as.character(NA)
+          }
+)
+
+# Raster ----
 #' @rdname getCRS
 #' @export
 setMethod(f = "getCRS",
