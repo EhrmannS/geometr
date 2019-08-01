@@ -15,6 +15,7 @@
 #' @rdname gc_grob
 NULL
 
+# generic ----
 #' @rdname gc_grob
 #' @name gc_grob
 #' @export
@@ -26,6 +27,7 @@ if(!isGeneric("gc_grob")){
   )
 }
 
+# geom ----
 #' @rdname gc_grob
 #' @importFrom rlang exprs rep_along
 #' @importFrom grDevices colorRampPalette
@@ -77,7 +79,7 @@ setMethod(f = "gc_grob",
 
             defaultArgs <- params[!names(params) %in% names(tempArgs)]
 
-            # process parameters that shall be changed ----
+            # process parameters that shall be changed
             for(i in seq_along(tempArgs)){
 
               # determine value and name of the i-th display argument
@@ -123,7 +125,7 @@ setMethod(f = "gc_grob",
               }
             }
 
-            # process parameters that are default ----
+            # process parameters that are default
             for(i in seq_along(defaultArgs)){
               if(i == 1) next
 
@@ -206,6 +208,7 @@ setMethod(f = "gc_grob",
           }
 )
 
+# sf ----
 #' @rdname gc_grob
 #' @importFrom tibble as_tibble
 #' @export
@@ -216,6 +219,7 @@ setMethod(f = "gc_grob",
           }
 )
 
+# Spatial ----
 #' @rdname gc_grob
 #' @importFrom tibble as_tibble
 #' @export
