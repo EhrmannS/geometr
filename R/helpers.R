@@ -202,6 +202,7 @@ makeLayout <- function(x = NULL, window = NULL, theme = gtTheme, image = FALSE, 
 #' @param input [\code{data.frame(1)}]\cr a table of vertices for which a new window should be derived.
 #' @param window [\code{data.frame(1)}]\cr the old window.
 #' @return A new window that has the extent of \code{input}.
+#' @importFrom checkmate assertNames assertDataFrame
 #' @export
 
 .updateWindow <- function(input = NULL, window = NULL){
@@ -236,7 +237,9 @@ makeLayout <- function(x = NULL, window = NULL, theme = gtTheme, image = FALSE, 
 #'   brought into the correct form.
 #' @param limit [\code{data.frame(1)}]\cr a table of vertices that outline a
 #'   hull beyond which vertices are not valid.
-#' @importFrom dplyr group_by mutate distinct ungroup
+#' @importFrom checkmate assertNames assertDataFrame
+#' @importFrom dplyr bind_cols group_by mutate distinct ungroup add_row bind_rows
+#' @importFrom utils tail
 #' @export
 
 .updateVertices <- function(input = NULL, limit = NULL){

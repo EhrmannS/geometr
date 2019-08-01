@@ -1,2 +1,2 @@
 #' @useDynLib geometr
-globalVariables(c("gtTheme", "fid", "gid", "vid", "targetGrob", "include"))
+globalVariables(c("x", "y", "gtTheme", "fid", "gid", "vid", "targetGrob", "include"))
