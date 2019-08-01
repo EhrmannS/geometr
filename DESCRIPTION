@@ -28,6 +28,7 @@ Imports: checkmate,
     rlang,
     sf,
     sp,
+    spatstat,
     tibble
 Suggests: testthat,
     rmarkdown,
