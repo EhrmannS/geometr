@@ -45,7 +45,6 @@ if(!isGeneric("setWindow")){
 setMethod(f = "setWindow",
           signature = "geom",
           definition = function(x, to = NULL){
-            assertClass(x = x, classes = "geom")
             if("Extent" %in% class(to)){
               xVals <- c(to@xmin, to@xmax)
               yVals <- c(to@ymin, to@ymax)
@@ -66,5 +65,25 @@ setMethod(f = "setWindow",
             x@window <- tibble(x = c(rep(xVals, each = 2), xVals[1]),
                                y = c(yVals, rev(yVals), yVals[1]))
             return(x)
+          }
+)
+
+# ppp ----
+#' @rdname setWindow
+#' @examples
+#'
+#' window <- data.frame(x = c(0, 2),
+#'                      y = c(0, 2))
+#' # setWindow(x = gtPPP$..., to = window)
+#' @importFrom spatstat owin
+#' @export
+setMethod(f = "setWindow",
+          signature = "ppp",
+          definition = function(x, to = NULL){
+            assertNames(names(to), must.include = c("x", "y"))
+            temp <- x
+            aWindow <- owin(xrange = to$x, yrange = to$y)
+            temp$window <- aWindow
+            return(temp)
           }
 )

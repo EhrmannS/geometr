@@ -167,6 +167,27 @@ setMethod(f = "setTable",
           }
 )
 
+# ppp ----
+#' @rdname setTable
+#' @examples
+#'
+#' table <- data.frame(attr = LETTERS[1:20],
+#'                     colour = topo.colors(20))
+#' # setTable(gtPPP$...)
+#' @export
+setMethod(f = "setTable",
+          signature = "ppp",
+          definition = function(x, table = NULL){
+            assertDataFrame(x = table, nrows = length(x$x))
+            temp <- x
+
+            out <- ppp(x = temp$x, y = temp$y,
+                       window = temp$window,
+                       marks = table)
+            return(out)
+          }
+)
+
 # RasterLayer ----
 #' @rdname setTable
 #' @importFrom raster ratify
@@ -175,7 +196,7 @@ setMethod(f = "setTable",
 setMethod(f = "setTable",
           signature = "RasterLayer",
           definition = function(x, table = NULL){
-            assertDataFrame(table)
+            assertDataFrame(x = table)
             temp <- ratify(x)
             nIDs <- length(temp@data@attributes[[1]][,1])
             stopifnot(dim(table)[1] == nIDs)
