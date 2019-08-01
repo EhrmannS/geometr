@@ -12,6 +12,7 @@
 #' @rdname getSubset
 NULL
 
+# generic ----
 #' @rdname getSubset
 #' @name getSubset
 #' @export
@@ -23,6 +24,7 @@ if(!isGeneric("getSubset")){
   )
 }
 
+# geom ----
 #' @rdname getSubset
 #' @examples
 #' # get the subset of a geom
@@ -62,6 +64,7 @@ setMethod(f = "getSubset",
           }
 )
 
+# Spatial ----
 #' @rdname getSubset
 #' @examples
 #'
@@ -82,6 +85,7 @@ setMethod(f = "getSubset",
           }
 )
 
+# sf ----
 #' @rdname getSubset
 #' @examples
 #'

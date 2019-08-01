@@ -13,6 +13,7 @@
 #' @rdname setWindow
 NULL
 
+# generic ----
 #' @rdname setWindow
 #' @name setWindow
 #' @export
@@ -24,6 +25,7 @@ if(!isGeneric("setWindow")){
   )
 }
 
+# geom ----
 #' @rdname setWindow
 #' @examples
 #' # create a polygon programmatically

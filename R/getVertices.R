@@ -8,6 +8,7 @@
 #' @rdname getVertices
 NULL
 
+# generic ----
 #' @rdname getVertices
 #' @name getVertices
 #' @export
@@ -19,6 +20,7 @@ if(!isGeneric("getVertices")){
   )
 }
 
+# geom ----
 #' @rdname getVertices
 #' @importFrom tibble as_tibble
 #' @export
@@ -29,6 +31,7 @@ setMethod(f = "getVertices",
           }
 )
 
+# Spatial ----
 #' @rdname getVertices
 #' @examples
 #'
@@ -108,6 +111,7 @@ setMethod(f = "getVertices",
           }
 )
 
+# sf ----
 #' @rdname getVertices
 #' @examples
 #'

@@ -6,6 +6,7 @@
 #' @rdname getHistory
 NULL
 
+# generic ----
 #' @rdname getHistory
 #' @name getHistory
 #' @export
@@ -17,6 +18,7 @@ if(!isGeneric("getHistory")){
   )
 }
 
+# geom ----
 #' @rdname getHistory
 #' @export
 setMethod(f = "getHistory",
@@ -26,6 +28,7 @@ setMethod(f = "getHistory",
           }
 )
 
+# RasterLayer ----
 #' @rdname getHistory
 #' @export
 setMethod(f = "getHistory",
@@ -35,6 +38,7 @@ setMethod(f = "getHistory",
           }
 )
 
+# RasterBrick ----
 #' @rdname getHistory
 #' @export
 setMethod(f = "getHistory",
@@ -44,6 +48,7 @@ setMethod(f = "getHistory",
           }
 )
 
+# RasterStack ----
 #' @rdname getHistory
 #' @export
 setMethod(f = "getHistory",

@@ -13,6 +13,7 @@
 #' @rdname setCRS
 NULL
 
+# generic ----
 #' @rdname setCRS
 #' @name setCRS
 #' @docType methods
@@ -25,6 +26,7 @@ if(!isGeneric("setCRS")){
   )
 }
 
+# geom ----
 #' @rdname setCRS
 #' @importFrom rgdal project
 #' @export
@@ -53,6 +55,7 @@ setMethod(f = "setCRS",
           }
 )
 
+# Spatial ----
 #' @rdname setCRS
 #' @importFrom raster crs
 #' @importFrom sp spTransform
@@ -69,6 +72,7 @@ setMethod(f = "setCRS",
           }
 )
 
+# sf ----
 #' @rdname setCRS
 #' @importFrom sf st_set_crs st_transform
 #' @export
@@ -84,6 +88,7 @@ setMethod(f = "setCRS",
           }
 )
 
+# Raster ----
 #' @rdname setCRS
 #' @importFrom raster crs projectRaster
 #' @export

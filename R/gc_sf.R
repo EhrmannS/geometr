@@ -19,6 +19,7 @@
 #' @rdname gc_sf
 NULL
 
+# generic ----
 #' @rdname gc_sf
 #' @name gc_sf
 #' @export
@@ -30,6 +31,7 @@ if(!isGeneric("gc_sf")){
   )
 }
 
+# geom ----
 #' @rdname gc_sf
 #' @importFrom tibble tibble as_tibble
 #' @importFrom dplyr left_join

@@ -6,6 +6,7 @@
 #' @rdname getExtent
 NULL
 
+# generic ----
 #' @rdname getExtent
 #' @name getExtent
 #' @export
@@ -17,6 +18,7 @@ if(!isGeneric("getExtent")){
   )
 }
 
+# geom ----
 #' @rdname getExtent
 #' @examples
 #' getTable(gtGeoms$polygon)
@@ -30,6 +32,7 @@ setMethod(f = "getExtent",
           }
 )
 
+# Spatial ----
 #' @rdname getExtent
 #' @examples
 #'
@@ -46,6 +49,7 @@ setMethod(f = "getExtent",
           }
 )
 
+# sf ----
 #' @rdname getExtent
 #' @examples
 #'
@@ -62,6 +66,7 @@ setMethod(f = "getExtent",
           }
 )
 
+# Raster ----
 #' @rdname getExtent
 #' @examples
 #'
@@ -78,6 +83,7 @@ setMethod(f = "getExtent",
           }
 )
 
+# matrix ----
 #' @rdname getExtent
 #' @examples
 #'

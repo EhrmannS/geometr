@@ -11,6 +11,7 @@
 #' @rdname gc_sp
 NULL
 
+# generic ----
 #' @rdname gc_sp
 #' @name gc_sp
 #' @export
@@ -22,6 +23,7 @@ if(!isGeneric("gc_sp")){
   )
 }
 
+# geom ----
 #' @rdname gc_sp
 #' @importFrom tibble as_tibble
 #' @importFrom checkmate assertClass

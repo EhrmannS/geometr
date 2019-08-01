@@ -6,6 +6,7 @@
 #' @rdname getTable
 NULL
 
+# generic ----
 #' @rdname getTable
 #' @name getTable
 #' @export
@@ -17,6 +18,7 @@ if(!isGeneric("getTable")){
   )
 }
 
+# geom ----
 #' @rdname getTable
 #' @param slot [\code{character(1)}]\cr the geom slot from which to get the
 #'   attribute table, either \code{"vert"}, \code{"feat"} or \code{"group"}. If
@@ -44,6 +46,7 @@ setMethod(f = "getTable",
           }
 )
 
+# Spatial ----
 #' @rdname getTable
 #' @examples
 #'
@@ -156,6 +159,7 @@ setMethod(f = "getTable",
             return(theData)
           })
 
+# sf ----
 #' @rdname getTable
 #' @examples
 #'
@@ -247,6 +251,7 @@ setMethod(f = "getTable",
           }
 )
 
+# RasterLayer ----
 #' @rdname getTable
 #' @examples
 #'
@@ -269,6 +274,7 @@ setMethod(f = "getTable",
           }
 )
 
+# RasterBrick ----
 #' @rdname getTable
 #' @export
 setMethod(f = "getTable",
@@ -278,6 +284,7 @@ setMethod(f = "getTable",
           }
 )
 
+# matrix ----
 #' @rdname getTable
 #' @export
 setMethod(f = "getTable",

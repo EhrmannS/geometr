@@ -10,6 +10,7 @@
 #' @rdname setTable
 NULL
 
+# generic ----
 #' @rdname setTable
 #' @name setTable
 #' @export
@@ -21,6 +22,7 @@ if(!isGeneric("setTable")){
   )
 }
 
+# geom ----
 #' @rdname setTable
 #' @param slot [\code{character(1)}]\cr the slot (of \code{geom}) for which to
 #'   set the attribute table, either \code{"vert"}, \code{"feat"} or
@@ -71,6 +73,7 @@ setMethod(f = "setTable",
           }
 )
 
+# Spatial ----
 #' @rdname setTable
 #' @importFrom dplyr left_join bind_cols
 #' @importFrom checkmate assertDataFrame assertTRUE
@@ -107,6 +110,7 @@ setMethod(f = "setTable",
           }
 )
 
+# sf ----
 #' @rdname setTable
 #' @examples
 #'
@@ -137,6 +141,7 @@ setMethod(f = "setTable",
           }
 )
 
+# sfc ----
 #' @rdname setTable
 #' @examples
 #'
@@ -162,6 +167,7 @@ setMethod(f = "setTable",
           }
 )
 
+# RasterLayer ----
 #' @rdname setTable
 #' @importFrom raster ratify
 #' @importFrom checkmate assertDataFrame
