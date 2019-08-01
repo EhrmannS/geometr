@@ -6,6 +6,7 @@
 \alias{getVertices,geom-method}
 \alias{getVertices,Spatial-method}
 \alias{getVertices,sf-method}
+\alias{getVertices,ppp-method}
 \title{Get the table of coordinates of a spatial object.}
 \usage{
 \S4method{getVertices}{geom}(x)
@@ -13,6 +14,8 @@
 \S4method{getVertices}{Spatial}(x)
 
 \S4method{getVertices}{sf}(x)
+
+\S4method{getVertices}{ppp}(x)
 }
 \arguments{
 \item{x}{the object from which to extract the coordinates}
@@ -29,4 +32,6 @@ getVertices(gtGeoms$polygon)
 getVertices(gtSP$SpatialPoints)
 
 getVertices(gtSF$multilinestring)
+
+# getVertices(gtPPP$...)
 }

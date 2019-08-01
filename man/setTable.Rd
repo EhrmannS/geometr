@@ -7,6 +7,7 @@
 \alias{setTable,Spatial-method}
 \alias{setTable,sf-method}
 \alias{setTable,sfc-method}
+\alias{setTable,ppp-method}
 \alias{setTable,RasterLayer-method}
 \title{Set the attribute table(s) of a spatial object.}
 \usage{
@@ -17,6 +18,8 @@
 \S4method{setTable}{sf}(x, table = NULL)
 
 \S4method{setTable}{sfc}(x, table = NULL)
+
+\S4method{setTable}{ppp}(x, table = NULL)
 
 \S4method{setTable}{RasterLayer}(x, table = NULL)
 }
@@ -68,4 +71,8 @@ setTable(x = sfObj, table = myAttributes[2])
 # set table to an sfc (no join possible) and transform it to sf thereby
 sfcObj = gtSF$polygon$geometry
 setTable(x = sfcObj, table = myAttributes)
+
+table <- data.frame(attr = LETTERS[1:20],
+                    colour = topo.colors(20))
+# setTable(gtPPP$...)
 }

@@ -6,6 +6,7 @@
 \alias{getSubset,geom-method}
 \alias{getSubset,Spatial-method}
 \alias{getSubset,sf-method}
+\alias{getSubset,ppp-method}
 \title{Get the subset of a spatial object.}
 \usage{
 \S4method{getSubset}{geom}(x, ..., slot = "feat")
@@ -13,6 +14,8 @@
 \S4method{getSubset}{Spatial}(x, ...)
 
 \S4method{getSubset}{sf}(x, ...)
+
+\S4method{getSubset}{ppp}(x)
 }
 \arguments{
 \item{x}{object to \code{subset}.}
@@ -51,4 +54,6 @@ Get the subset of a spatial object.
 
 # the subset where the attribute a equals 1
 (getSubset(x = obj, a == 1))
+
+# getSubset(gtPPP$...)
 }

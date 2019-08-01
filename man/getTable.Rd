@@ -6,6 +6,7 @@
 \alias{getTable,geom-method}
 \alias{getTable,Spatial-method}
 \alias{getTable,sf-method}
+\alias{getTable,ppp-method}
 \alias{getTable,RasterLayer-method}
 \alias{getTable,RasterBrick-method}
 \alias{getTable,matrix-method}
@@ -16,6 +17,8 @@
 \S4method{getTable}{Spatial}(x)
 
 \S4method{getTable}{sf}(x)
+
+\S4method{getTable}{ppp}(x)
 
 \S4method{getTable}{RasterLayer}(x)
 
@@ -42,6 +45,8 @@ getTable(gtGeoms$polygon)
 getTable(x = gtSP$SpatialPolygons)
 
 getTable(gtSF$multiline)
+
+# getTable(gtPPP$...)
 
 getTable(gtRasters$categorical)
 }

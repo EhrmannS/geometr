@@ -8,17 +8,14 @@
 \alias{gc_geom,ppp-method}
 \title{Transform a spatial object to class \code{geom}}
 \usage{
-\S4method{gc_geom}{Spatial}(input = NULL, window = NULL, ...)
+\S4method{gc_geom}{Spatial}(input = NULL, ...)
 
-\S4method{gc_geom}{sf}(input = NULL, window = NULL, group = FALSE,
-  ...)
+\S4method{gc_geom}{sf}(input = NULL, group = FALSE, ...)
 
-\S4method{gc_geom}{ppp}(input = NULL, window = NULL, ...)
+\S4method{gc_geom}{ppp}(input = NULL, ...)
 }
 \arguments{
 \item{input}{the object to transform to class \code{geom}.}
-
-\item{window}{[\code{data.frame(1)}]\cr the reference window of the new \code{geom}.}
 
 \item{...}{additional arguments.}
 
@@ -26,6 +23,8 @@
 be grouped, i.e. should the unique values per multi* feature be assigned
 into the groups table (\code{TRUE}), or should they be kept as
 duplicated per-feature attributes (\code{FALSE}, default)?}
+
+\item{window}{[\code{data.frame(1)}]\cr the reference window of the new \code{geom}.}
 }
 \value{
 an object of class \code{geom}
