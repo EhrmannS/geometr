@@ -174,6 +174,7 @@ setMethod(f = "setTable",
 #' table <- data.frame(attr = LETTERS[1:20],
 #'                     colour = topo.colors(20))
 #' # setTable(gtPPP$...)
+#' @importFrom spatstat ppp
 #' @export
 setMethod(f = "setTable",
           signature = "ppp",

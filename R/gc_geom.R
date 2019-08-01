@@ -1,7 +1,6 @@
 #' Transform a spatial object to class \code{geom}
 #'
 #' @param input the object to transform to class \code{geom}.
-#' @param window [\code{data.frame(1)}]\cr the reference window of the new \code{geom}.
 #' @param ... additional arguments.
 #' @return an object of class \code{geom}
 #' @family spatial classes
