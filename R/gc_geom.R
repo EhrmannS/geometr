@@ -18,7 +18,7 @@ NULL
 #' @export
 if(!isGeneric("gc_geom")){
   setGeneric(name = "gc_geom",
-             def = function(input, window = NULL, ...){
+             def = function(input, ...){
                standardGeneric("gc_geom")
              }
   )
@@ -30,9 +30,8 @@ if(!isGeneric("gc_geom")){
 #' @export
 setMethod(f = "gc_geom",
           signature = "Spatial",
-          definition = function(input = NULL, window = NULL, ...){
+          definition = function(input = NULL, ...){
 
-            window <- .testWindow(x = window, ...)
             theCoords <- getVertices(x = input)
             theData <- getTable(x = input)
             theCRS <- getCRS(x = input)
@@ -79,9 +78,8 @@ setMethod(f = "gc_geom",
 #' @export
 setMethod(f = "gc_geom",
           signature = "sf",
-          definition = function(input = NULL, window = NULL, group = FALSE, ...){
+          definition = function(input = NULL, group = FALSE, ...){
 
-            window <- .testWindow(x = window, ...)
             theCoords <- getVertices(x = input)
             theData <- getTable(x = input)
             theCRS <- getCRS(x = input)
@@ -133,16 +131,27 @@ setMethod(f = "gc_geom",
 #' @export
 setMethod(f = "gc_geom",
           signature = "ppp",
-          definition = function(input = NULL, window = NULL, ...){
+          definition = function(input = NULL, ...){
 
-            window <- .testWindow(x = window, ...)
             theCoords <- getVertices(x = input)
             theData <- getTable(x = input)
-            theCRS <- getCRS(x = input)
-            bbox <- getExtent(x = input)
-            theWindow = tibble(x = c(min(bbox$x), max(bbox$x), max(bbox$x), min(bbox$x), min(bbox$x)),
-                               y = c(min(bbox$y), min(bbox$y), max(bbox$y), max(bbox$y), min(bbox$y)))
+            theGroups <- tibble(gid = theData$gid)
+            theExtent <- getExtent(x = input)
+            theWindow <- getWindow(x = input)
+            history <- paste0("geometry was transformed from an object of class ppp.")
+            theCRS <- NA_character_
 
+            out <- new(Class = "geom",
+                       type = "point",
+                       vert = theCoords,
+                       feat = theData,
+                       group = theGroups,
+                       window = theWindow,
+                       scale = "absolute",
+                       crs = theCRS,
+                       history = list(history))
+
+            return(out)
           }
 )
 
