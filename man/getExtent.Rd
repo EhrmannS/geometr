@@ -39,7 +39,7 @@ getExtent(gtSP$SpatialPolygons)
 
 getExtent(gtSF$multilinestring)
 
-# getExtent(gtPPP$...)
+getExtent(gtPPP)
 
 getExtent(gtRasters$categorical)
 

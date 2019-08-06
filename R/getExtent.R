@@ -70,7 +70,7 @@ setMethod(f = "getExtent",
 #' @rdname getExtent
 #' @examples
 #'
-#' # getExtent(gtPPP$...)
+#' getExtent(gtPPP)
 #' @export
 setMethod(f = "getExtent",
           signature = "ppp",

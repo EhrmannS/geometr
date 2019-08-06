@@ -197,7 +197,7 @@ setMethod(f = "getVertices",
 #' @rdname getVertices
 #' @examples
 #'
-#' # getVertices(gtPPP$...)
+#' getVertices(gtPPP)
 #' @export
 setMethod(f = "getVertices",
           signature = "ppp",

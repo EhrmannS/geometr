@@ -150,6 +150,15 @@ test_that("setTable of an sfc object", {
   expect_data_frame(x = output, nrows = 2, ncols = 2)
 })
 
+test_that("setTable of a ppp object", {
+  newData <- data.frame(attr = LETTERS[1:15],
+                        colour = topo.colors(15))
+
+  input <- gtPPP
+  output <- setTable(x = input, newData)
+  expect_class(output, classes = c("ppp"))
+})
+
 test_that("setTable of a 'RasterLayer'", {
   input <- raster(system.file("external/rlogo.grd", package="raster"))
   attributes <- data.frame(id = 1:256, variable = sample(x = LETTERS, size = 256, replace = TRUE))

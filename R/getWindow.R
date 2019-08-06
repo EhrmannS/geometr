@@ -36,7 +36,7 @@ setMethod(f = "getWindow",
 #' @rdname getWindow
 #' @examples
 #'
-#' getWindow(gtSP$SpatialPolygons)
+#' getWindow(gtSP$SpatialLines)
 #' @importFrom raster extent
 #' @importFrom tibble tibble
 #' @export
@@ -70,7 +70,7 @@ setMethod(f = "getWindow",
 #' @rdname getWindow
 #' @examples
 #'
-#' # getWindow(gtPPP$...)
+#' getWindow(gtPPP)
 #' @export
 setMethod(f = "getWindow",
           signature = "ppp",

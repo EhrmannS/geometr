@@ -29,6 +29,13 @@ test_that("getExtent of an sf object", {
   expect_names(names(output), identical.to = c("x", "y"))
 })
 
+test_that("getExtent of a ppp object", {
+
+  output <- getExtent(gtPPP)
+  expect_data_frame(output, any.missing = FALSE, nrows = 2, ncols = 2)
+  expect_names(names(output), identical.to = c("x", "y"))
+})
+
 test_that("getExtent of a Raster", {
   aRaster <- raster(nrows=108, ncols=21, xmn=0, xmx=10)
 

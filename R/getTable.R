@@ -255,19 +255,19 @@ setMethod(f = "getTable",
 #' @rdname getTable
 #' @examples
 #'
-#' # getTable(gtPPP$...)
+#' getTable(gtPPP$...)
+#' @importFrom tibble as_tibble
+#' @importFrom dplyr bind_cols
 #' @export
 setMethod(f = "getTable",
           signature = "ppp",
           definition = function(x){
             temp <- x
             out <- tibble(fid = seq_along(temp$x), gid = seq_along(temp$x))
-            if(is.null(names(temp$marks))){
-              attr <- tibble(attr = temp$marks)
-            } else {
-              attr <- as_tibble(temp$marks)
+            if("marks" %in% names(temp)){
+              attr <- as_tibble(x = temp$marks)
+              out <- bind_cols(out, attr)
             }
-            out <- bind_cols(out, attr)
             return(out)
           }
 )

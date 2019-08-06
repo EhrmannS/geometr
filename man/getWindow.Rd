@@ -36,11 +36,11 @@ Get the reference window of a spatial object.
 
 getWindow(gtGeoms$line)
 
-getWindow(gtSP$SpatialPolygons)
+getWindow(gtSP$SpatialLines)
 
 getWindow(gtSF$multilinestring)
 
-# getWindow(gtPPP$...)
+getWindow(gtPPP)
 
 getWindow(gtRasters$categorical)
 

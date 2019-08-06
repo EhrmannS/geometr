@@ -74,7 +74,7 @@ setMethod(f = "setWindow",
 #'
 #' window <- data.frame(x = c(0, 2),
 #'                      y = c(0, 2))
-#' # setWindow(x = gtPPP$..., to = window)
+#' setWindow(x = gtPPP, to = window)
 #' @importFrom spatstat owin
 #' @export
 setMethod(f = "setWindow",

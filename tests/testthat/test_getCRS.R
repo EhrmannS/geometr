@@ -29,6 +29,11 @@ test_that("getExtent of an sf object", {
   expect_character(output, any.missing = FALSE, pattern = "+proj=laea", len = 1)
 })
 
+test_that("getExtent of a ppp object", {
+  output <- getCRS(gtPPP)
+  expect_character(output, pattern = "NA", len = 1)
+})
+
 test_that("getCRS of a Raster", {
   aRaster <- raster(nrows=108, ncols=21, xmn=0, xmx=10)
 

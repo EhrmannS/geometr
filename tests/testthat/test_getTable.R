@@ -1,6 +1,7 @@
 library(checkmate)
 library(testthat)
 library(raster)
+library(spatstat)
 context("getTable")
 
 
@@ -31,6 +32,18 @@ test_that("getTable of an sf object", {
   output <- getTable(input)
   expect_data_frame(output, any.missing = FALSE, nrows = 2, ncols = 3)
   expect_names(names(output), identical.to = c("fid", "gid", "a"))
+})
+
+test_that("getTable of a ppp object", {
+  x <- runif(20)
+  y <- runif(20)
+  m <- sample(1:2, 20, replace=TRUE)
+  m <- factor(m, levels=1:2)
+  input <- ppp(x, y, c(0,1), c(0,1), marks=m)
+
+  output <- getTable(input)
+  expect_data_frame(output, any.missing = FALSE, nrows = 20, ncols = 3)
+  expect_names(names(output), identical.to = c("fid", "gid", "value"))
 })
 
 test_that("getTable returns an empty tibble when no attributes are given", {

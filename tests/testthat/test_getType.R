@@ -24,6 +24,13 @@ test_that("getType of an sf object", {
   expect_true(all(output %in% c("vector", "POLYGON")))
 })
 
+test_that("getType of a ppp object", {
+  output <- getType(x = gtPPP)
+
+  expect_character(x = output, len = 2)
+  expect_true(all(output %in% c("vector", "ppp")))
+})
+
 test_that("getType of a RasterLayer", {
   output <- getType(x = gtRasters$continuous)
 

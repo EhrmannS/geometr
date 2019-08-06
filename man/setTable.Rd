@@ -72,7 +72,7 @@ setTable(x = sfObj, table = myAttributes[2])
 sfcObj = gtSF$polygon$geometry
 setTable(x = sfcObj, table = myAttributes)
 
-table <- data.frame(attr = LETTERS[1:20],
-                    colour = topo.colors(20))
-# setTable(gtPPP$...)
+table <- data.frame(attr = LETTERS[1:15],
+                    colour = topo.colors(15))
+setTable(gtPPP, table = table)
 }
