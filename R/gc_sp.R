@@ -29,7 +29,7 @@ if(!isGeneric("gc_sp")){
 #' @importFrom checkmate assertClass
 #' @importFrom sp SpatialPoints SpatialPointsDataFrame Line Lines SpatialLines
 #'   SpatialLinesDataFrame Polygon Polygons SpatialPolygons
-#'   SpatialPolygonsDataFrame spTransform CRS
+#'   SpatialPolygonsDataFrame proj4string<- CRS
 #' @export
 setMethod(f = "gc_sp",
           signature = "geom",
@@ -151,7 +151,7 @@ setMethod(f = "gc_sp",
               }
             }
             if(!is.na(theCRS)){
-              out <- spTransform(x = out, CRSobj = CRS(theCRS))
+              proj4string(out) <- CRS(theCRS)
             }
 
             return(out)
