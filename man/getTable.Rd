@@ -46,7 +46,7 @@ getTable(x = gtSP$SpatialPolygons)
 
 getTable(gtSF$multiline)
 
-# getTable(gtPPP$...)
+getTable(gtPPP)
 
 getTable(gtRasters$categorical)
 }

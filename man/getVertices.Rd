@@ -33,5 +33,5 @@ getVertices(gtSP$SpatialPoints)
 
 getVertices(gtSF$multilinestring)
 
-# getVertices(gtPPP)
+getVertices(gtPPP)
 }

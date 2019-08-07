@@ -255,7 +255,7 @@ setMethod(f = "getTable",
 #' @rdname getTable
 #' @examples
 #'
-#' getTable(gtPPP$...)
+#' getTable(gtPPP)
 #' @importFrom tibble as_tibble
 #' @importFrom dplyr bind_cols
 #' @export

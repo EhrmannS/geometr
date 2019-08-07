@@ -147,3 +147,12 @@ test_that("transform from sp to geom", {
   expect_class(output, "geom")
   expect_true(output@type == "point")
 })
+
+test_that("transform from ppp to geom", {
+  # test 'SpatialPoints'
+  input <- gtPPP
+
+  output <- gc_geom(input)
+  expect_class(output, "geom")
+  expect_true(output@type == "point")
+})

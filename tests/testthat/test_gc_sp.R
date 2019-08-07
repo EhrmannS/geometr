@@ -74,6 +74,13 @@ test_that("output has correct length", {
   expect_equal(length(spPolygon), 12)
 })
 
+test_that("also objects with CRS are properly handled", {
+  input <- setCRS(x = gtGeoms$point, crs = "+proj=longlat +ellps=sphere +no_defs")
+
+  output <- gc_sp(input = input)
+  expect_equal(length(output), 12)
+})
+
 test_that("Error if arguments have wrong value", {
   notAGeom <- data.frame(x = c(25, 40, 70, 60, 30),
                          y = c(15, 25, 20, 40, 45))
@@ -81,3 +88,6 @@ test_that("Error if arguments have wrong value", {
   expect_error(gc_sp(input = "bla"))
   expect_error(gc_sp(input = notAGeom))
 })
+
+
+"+proj=longlat +ellps=sphere +no_defs"
