@@ -254,13 +254,14 @@ makeLayout <- function(x = NULL, window = NULL, theme = gtTheme, image = FALSE, 
     input <- bind_cols(input, fid = rep(1, dim(input)[1]))
   }
 
-  newRings <- NULL
+  newRings <- oldRings <- NULL
   for(i in unique(input$fid)){
     temp <- input[input$fid == i,]
+    temp$ring <- NA
     verts <- temp
     verts$seq <- seq_along(temp$fid)
 
-    # determine the duplicated vertices that enclose other vertices
+    # determine the duplicated vertices that enclose other vertices per ring
     dups <- duplicated(temp, fromLast = TRUE) + duplicated(temp)
     if(any(dups > 0)){
       bounds <- verts[which(as.logical(dups)),]
@@ -277,7 +278,7 @@ makeLayout <- function(x = NULL, window = NULL, theme = gtTheme, image = FALSE, 
         el <- c(el, rep(j, bounds[j, ]$max - bounds[j, ]$min + 1))
       }
       seq[lab] <- el
-      temp$ring <- seq
+      temp$ring[lab] <- seq
       lastRing <- max(temp$ring, na.rm = TRUE)
 
     } else {
@@ -287,6 +288,11 @@ makeLayout <- function(x = NULL, window = NULL, theme = gtTheme, image = FALSE, 
 
     # get values that are not yet part of a closed ring
     missingRing <- which(is.na(temp$ring))
+    if(length(missingRing) > 0){
+      oldRings <- bind_rows(oldRings, temp[-missingRing,])
+    } else {
+      oldRings <- bind_rows(oldRings, temp)
+    }
     ind <- c(missingRing[-1], tail(missingRing, 1)+1) - missingRing
 
     # split up into list of separate rings
@@ -318,7 +324,23 @@ makeLayout <- function(x = NULL, window = NULL, theme = gtTheme, image = FALSE, 
     newRings <- bind_rows(newRings, newRing)
   }
 
-  out <- bind_rows(temp[!is.na(temp$ring), ], newRings)
+  out <- bind_rows(oldRings, newRings)
+
+  # go through each ring other than ring 1 and check whether they are inside
+  # ring one
+  parent <- out[out$ring == 1,]
+  for(i in unique(out$ring)){
+    if(i == 1){
+      next
+    }
+    inside <- pointInGeomC(vert = as.matrix(out[out$ring == i,][c("x", "y")]),
+                           geom = as.matrix(parent[c("x", "y")]),
+                           invert = FALSE)
+
+    if(any(inside != 1)){
+      stop("some of the vertices are not within the outer ring.")
+    }
+  }
   out$ring <- NULL
 
   return(out)
