@@ -1,5 +1,6 @@
 ---
 title: "geometr - An overview"
+author: "Steffen Ehrmann"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{overview}
@@ -95,5 +96,9 @@ This ensures that a custom function requires merely one very simple row of code 
 ## Casting
 
 ## Visualising
+
+### Quick options
+
+### The `gtTheme`
 
 ## Other tools in `geometr`

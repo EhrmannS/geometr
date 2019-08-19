@@ -55,7 +55,7 @@ of a geom, \cr\cr scale [\code{named list(.)}]\cr \code{x =
 at least two \code{colours} to which to scale 'someAttribute' to.}
 }
 \description{
-Assign parameters in an gtTheme to create a new theme.
+Assign parameters in a gtTheme to create a new theme.
 }
 \examples{
 input <- gtRasters$continuous
