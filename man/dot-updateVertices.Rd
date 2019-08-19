@@ -4,14 +4,11 @@
 \alias{.updateVertices}
 \title{Update the vertices}
 \usage{
-.updateVertices(input = NULL, limit = NULL)
+.updateVertices(input = NULL)
 }
 \arguments{
 \item{input}{[\code{data.frame(1)}]\cr a table of vertices which should be
 brought into the correct form.}
-
-\item{limit}{[\code{data.frame(1)}]\cr a table of vertices that outline a
-hull beyond which vertices are not valid.}
 }
 \description{
 Set the verties in a table so that they are valid for a geom.

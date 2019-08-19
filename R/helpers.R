@@ -213,7 +213,11 @@ makeLayout <- function(x = NULL, window = NULL, theme = gtTheme, image = FALSE, 
   assertDataFrame(x = input, min.rows = 2)
   names(window) <- tolower(names(window))
   assertNames(x = names(window), must.include = c("x", "y"))
-  assertDataFrame(x = window, min.rows = 2)
+  if(dim(window)[1] >= 2){
+    window = as_tibble(data.frame(x = c(min(window$x), max(window$x), max(window$x), min(window$x), min(window$x)),
+                                  y = c(min(window$y), min(window$y), max(window$y), max(window$y), min(window$y))))
+  }
+  assertDataFrame(x = window, nrows = 5)
 
   if(min(input$x) < min(window$x)){
     window$x[which.min(window$x)] <- min(input$x)
@@ -235,14 +239,12 @@ makeLayout <- function(x = NULL, window = NULL, theme = gtTheme, image = FALSE, 
 #' Set the verties in a table so that they are valid for a geom.
 #' @param input [\code{data.frame(1)}]\cr a table of vertices which should be
 #'   brought into the correct form.
-#' @param limit [\code{data.frame(1)}]\cr a table of vertices that outline a
-#'   hull beyond which vertices are not valid.
 #' @importFrom checkmate assertNames assertDataFrame
 #' @importFrom dplyr bind_cols group_by mutate distinct ungroup add_row bind_rows
 #' @importFrom utils tail
 #' @export
 
-.updateVertices <- function(input = NULL, limit = NULL){
+.updateVertices <- function(input = NULL){
 
   # check arguments
   names(input) <- tolower(names(input))
