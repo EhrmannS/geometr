@@ -46,11 +46,14 @@ test_that(".rad works", {
 })
 
 test_that(".updateWindow works", {
-  aWindow <- data.frame(x = c(3, 5), y = c(3, 5))
+  aWindow <- data.frame(x = c(-1, 15), y = c(-1, 15))
   output <- .updateWindow(input = gtGeoms$polygon@vert,
                           window = aWindow)
-  expect_data_frame(x = output, nrows = 2, ncols = 2)
-  expect_true(all(aWindow != output))
+  expect_data_frame(x = output, nrows = 5, ncols = 2)
+  expect_true(max(aWindow$x) == max(output$x))
+  expect_true(min(aWindow$x) == min(output$x))
+  expect_true(max(aWindow$y) == max(output$y))
+  expect_true(min(aWindow$y) == min(output$y))
 })
 
 test_that(".testAnchor works", {
