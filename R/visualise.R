@@ -471,7 +471,7 @@ visualise <- function(..., window = NULL, theme = gtTheme, trace = FALSE, image 
 
 #' Create a new theme
 #'
-#' Assign parameters in an gtTheme to create a new theme.
+#' Assign parameters in a gtTheme to create a new theme.
 #' @param from [\code{gtTheme}]\cr an gtTheme object.
 #' @param title [\code{named list(.)}]\cr \code{plot = TRUE/FALSE},
 #'   \code{fontsize} and \code{colour} of the title.

@@ -45,9 +45,6 @@ setMethod(f = "gc_sf",
             theGroups <- getTable(x = input, slot = "group")
             theVertices <- getTable(x = input, slot = "vert")
             theCRS <- getCRS(x = input)
-            bbox <- getExtent(x = input)
-            theWindow = tibble(x = c(min(bbox$x), max(bbox$x), max(bbox$x), min(bbox$x), min(bbox$x)),
-                               y = c(min(bbox$y), min(bbox$y), max(bbox$y), max(bbox$y), min(bbox$y)))
 
             featureType <- input@type
             makeDF <- FALSE

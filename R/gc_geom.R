@@ -82,9 +82,7 @@ setMethod(f = "gc_geom",
             theCoords <- getVertices(x = input)
             theData <- getTable(x = input)
             theCRS <- getCRS(x = input)
-            bbox <- getExtent(x = input)
-            theWindow = tibble(x = c(min(bbox$x), max(bbox$x), max(bbox$x), min(bbox$x), min(bbox$x)),
-                               y = c(min(bbox$y), min(bbox$y), max(bbox$y), max(bbox$y), min(bbox$y)))
+            theWindow <- getWindow(x = input)
 
             sourceClass <- st_geometry_type(input)
             if(length(unique(sourceClass)) == 1){
@@ -135,7 +133,6 @@ setMethod(f = "gc_geom",
             theCoords <- getVertices(x = input)
             theData <- getTable(x = input)
             theGroups <- tibble(gid = theData$gid)
-            theExtent <- getExtent(x = input)
             theWindow <- getWindow(x = input)
             history <- paste0("geometry was transformed from an object of class ppp.")
             theCRS <- NA_character_
