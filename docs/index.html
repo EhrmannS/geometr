@@ -87,7 +87,7 @@
   <div class="contents col-md-9">
 <div id="geometr" class="section level1">
 <div class="page-header"><h1 class="hasAnchor">
-<a href="#geometr" class="anchor"></a>geometr <a href="https://ehrmanns.github.io/geometr/"><img src="https://github.com/EhrmannS/geometr/blob/master/man/img/geometr.svg" align="right" height="139"></a>
+<a href="#geometr" class="anchor"></a>geometr <a href="https://ehrmanns.github.io/geometr/"><img src="articles/logo.svg" align="right" height="139"></a>
 </h1></div>
 
 <div id="overview" class="section level2">
@@ -95,15 +95,14 @@
 <a href="#overview" class="anchor"></a>Overview</h2>
 <p>The <code>geometr</code> package provides tools that generate and process fully accessible and tidy geometric shapes (of class <code>geom</code>). Moreover, it aims to improve interoperability of spatial and other geometric classes. Spatial classes are typically a collection of geometric shapes (or their vertices) that are accompanied by various metadata (such as attributes and a coordinate reference system). Most spatial classes are thus conceptually quite similar, yet a common standard lacks for accessing features, vertices or the metadata. <code>Geometr</code> fills this gap by providing tools</p>
 <ul>
-<li>that produce an identical output for the same metadata of different classes (via socalled getters) and</li>
-<li>that use an identical input to write to various classes that originally require different input (via socalled setters).</li>
+<li>that produce an identical output for the same metadata of different classes (via so-called getters) and</li>
+<li>that use an identical input to write to various classes that originally require different input (via so-called setters).</li>
 </ul>
 </div>
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
 <p>1) Install the development version from github and load it:</p>
-<!-- end list -->
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1">devtools<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/devtools/topics/reexports">install_github</a></span>(<span class="st">"EhrmannS/geometr"</span>)</a>
 <a class="sourceLine" id="cb1-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(geometr)</a></code></pre></div>
 <p>2) The <a href="https://ehrmanns.github.io/geometr/articles/geometr.html">vignette</a> gives a more in depth introduction, explains <code>geometr</code>s take on interoperability and discusses the spatial class <code>geom</code> that comes with <code>geometr</code>.</p>
@@ -131,10 +130,10 @@
 <p>Metadata of different classes can be extracted in interoperable quality (i.e. the same metadata in the same arrangement).</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw"><a href="reference/getTable.html">getTable</a></span>(<span class="dt">x =</span> nc_sf)</a>
 <a class="sourceLine" id="cb3-2" data-line-number="2"><span class="kw"><a href="reference/getTable.html">getTable</a></span>(<span class="dt">x =</span> nc_geom, <span class="dt">slot =</span> <span class="st">"feat"</span>)</a></code></pre></div>
-<p>A <code>geom</code> has three attribute tables, one for vertices, one for features and one for groups of features, all of which can be provided with ancilliary information (<a href="https://ehrmanns.github.io/geometr/articles/geometr.html#the-class-geom">details on data structure of a <code>geom</code></a>).</p>
+<p>A <code>geom</code> has three attribute tables, one for vertices, one for features and one for groups of features, all of which can be provided with ancillary information (<a href="https://ehrmanns.github.io/geometr/articles/geometr.html#the-class-geom">details on data structure of a <code>geom</code></a>).</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="kw"><a href="reference/getTable.html">getTable</a></span>(<span class="dt">x =</span> nc_geom, <span class="dt">slot =</span> <span class="st">"vert"</span>)</a>
 <a class="sourceLine" id="cb4-2" data-line-number="2"><span class="kw"><a href="reference/getTable.html">getTable</a></span>(<span class="dt">x =</span> nc_geom, <span class="dt">slot =</span> <span class="st">"group"</span>)</a></code></pre></div>
-<p>Groups of features are called <em>multi*</em> features in other packages. By lumping several closed geometric shapes into one multi* feature, the separate geometric shapes can’t be attributed with ancilliary information anymore. In a <code>geom</code>, multi* features are separated into distinct (simpler) features, while the attributes of multi* features can be captured by the <em>group attribute table</em>.</p>
+<p>Groups of features are called <em>multi*</em> features in other packages. By lumping several closed geometric shapes into one multi* feature, the separate geometric shapes can’t be attributed with ancillary information anymore. In a <code>geom</code>, multi* features are separated into distinct (simpler) features, while the attributes of multi* features can be captured by the <em>group attribute table</em>.</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1">nc_geom2 &lt;-<span class="st"> </span><span class="kw"><a href="reference/gc_geom.html">gc_geom</a></span>(<span class="dt">input =</span> nc_sf, <span class="dt">group =</span> <span class="ot">TRUE</span>)</a>
 <a class="sourceLine" id="cb5-2" data-line-number="2">currituck &lt;-<span class="st"> </span><span class="kw"><a href="reference/getSubset.html">getSubset</a></span>(<span class="dt">x =</span> nc_geom2, gid <span class="op">==</span><span class="st"> </span><span class="dv">4</span>)</a>
 <a class="sourceLine" id="cb5-3" data-line-number="3"><span class="kw"><a href="reference/getTable.html">getTable</a></span>(<span class="dt">x =</span> currituck, <span class="dt">slot =</span> <span class="st">"feat"</span>)</a>
