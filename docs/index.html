@@ -85,20 +85,15 @@
       
       </header><div class="row">
   <div class="contents col-md-9">
-
 <div id="geometr" class="section level1">
 <div class="page-header"><h1 class="hasAnchor">
-<a href="#geometr" class="anchor"></a>geometr <a href="https://ehrmanns.github.io/geometr/"><img src="man/img/geometr.svg" align="right" height="139"></a>
+<a href="#geometr" class="anchor"></a>geometR <a href="https://ehrmanns.github.io/geometr/"><img src="man/img/geometr.svg" align="right" height="139"></a>
 </h1></div>
 
-</div>
-<div id="geometr-1" class="section level1">
-<h1 class="hasAnchor">
-<a href="#geometr-1" class="anchor"></a>geometr</h1>
 <div id="overview" class="section level2">
 <h2 class="hasAnchor">
 <a href="#overview" class="anchor"></a>Overview</h2>
-<p>The <code>geometr</code> package provides tools that generate and process fully accessible and tidy geometric shapes (of class <code>geom</code>). Moreover, <code>geometr</code> aims to improve interoperability of spatial classes. Spatial classes are typically a collection of geometric shapes (or their vertices) that are accompanied by various metadata (such as attributes and a coordinate reference system). Most spatial classes are thus conceptually quite similar, yet a common standard lacks for accessing features, vertices or the metadata. <code>Geometr</code> fills this gap by providing tools</p>
+<p>The <code>geometr</code> package provides tools that generate and process fully accessible and tidy geometric shapes (of class <code>geom</code>). Moreover, it aims to improve interoperability of spatial and other geometric classes. Spatial classes are typically a collection of geometric shapes (or their vertices) that are accompanied by various metadata (such as attributes and a coordinate reference system). Most spatial classes are thus conceptually quite similar, yet a common standard lacks for accessing features, vertices or the metadata. <code>Geometr</code> fills this gap by providing tools</p>
 <ul>
 <li>that produce an identical output for the same metadata of different classes (via socalled getters) and</li>
 <li>that use an identical input to write to various classes that originally require different input (via socalled setters).</li>
@@ -108,6 +103,7 @@
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
 <p>1) Install the development version from github and load it:</p>
+<!-- end list -->
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1">devtools<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/devtools/topics/reexports">install_github</a></span>(<span class="st">"EhrmannS/geometr"</span>)</a>
 <a class="sourceLine" id="cb1-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(geometr)</a></code></pre></div>
 <p>2) The <a href="https://ehrmanns.github.io/geometr/articles/geometr.html">vignette</a> gives a more in depth introduction, explains <code>geometr</code>s take on interoperability and discusses the spatial class <code>geom</code> that comes with <code>geometr</code>.</p>
@@ -156,7 +152,6 @@
 <a class="sourceLine" id="cb8-4" data-line-number="4"><span class="kw"><a href="reference/visualise.html">visualise</a></span>(<span class="st">`</span><span class="dt">Currituck - boundary vertices</span><span class="st">`</span>=<span class="st"> </span>manyPoints)</a></code></pre></div>
 </div>
 </div>
-
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

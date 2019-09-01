@@ -6,17 +6,17 @@
 \alias{geometr-package}
 \title{geometr: Generate and Process Geometric Shapes}
 \description{
-The geometr package provides tools that generate and process highly
-accessible, tidy geometric shapes. Moreover, it aims to improve
-interoperability of spatial and other geometric classes. Those classes are
-typically a collection of geometric shapes, or vertices that outline those
-shapes, which are accompanied by various meta data. The classes are
-conceptually very similar, yet they lack a common standard in providing
-access to vetrices, features or meta data. Geometr fills this gap by
-providing tools that have a unified interface and that produce an identical
-output (socalled getters), irrespective of the treated class or that use an
-indentical input to write to various classes that require different input
-(socalled setters).
+The geometr package provides tools that generate and process fully
+accessible and tidy geometric shapes (of class \code{geom}). Moreover, it aims
+to improve interoperability of spatial and other geometric classes. Spatial
+classes are typically a collection of geometric shapes (or their vertices)
+that are accompanied by various metadata (such as attributes and a coordinate
+reference system). Most spatial classes are thus conceptually quite similar,
+yet a common standard lacks for accessing features, vertices or the metadata.
+Geometr fills this gap by providing tools that have a unified interface and
+that produce an identical output (socalled getters), irrespective of the
+treated class or that use an indentical input to write to various classes
+that require different input (socalled setters).
 }
 \examples{
 library(sf)
@@ -42,16 +42,16 @@ attr_geom <- getTable(x = nc_geom, slot = "feat")
 
 # However, a `geom` has three attribute tables, one for vertices, one for
 # features and one for groups of features. All of them (and not only
-# features) can be filled with respective ancilliary information.
+# features) can be filled with ancilliary information.
 getTable(x = nc_geom, slot = "vert")
 getTable(x = nc_geom, slot = "group")
 
-# Groups of features are called *multi\\** features in other packages. By
-# lumping several closed geometric shapes into one multi\\* feature, the
-# separate geometric shapes can't be attributed with ancilliary information
-# anymore. In a `geom`, multi\\* features are separated into distinct
-# (simpler) features, while the attributes of multi\\* features are captured
-# by the 'groups attribute table'
+# Groups of features are called *multi* features in the simple features
+# standard. By lumping several closed geometric shapes into one multi\\*
+# feature, the separate geometric shapes can't be attributed with ancilliary
+# information anymore. In a `geom`, multi\\* features are separated into
+# distinc (simpler) features. The equivalent attributes of a multi\\* feature
+# are captured in the 'groups attribute table'
 currituck <- getSubset(x = nc_geom, gid == 4)
 getTable(x = currituck, slot = "feat")
 getTable(x = currituck, slot = "group")
@@ -60,7 +60,20 @@ getTable(x = currituck, slot = "group")
 visualise(`North Carolina` = nc_geom)
 visualise(`NC - NWBIR74` = nc_geom, fillcol = NWBIR74)
 
-# ... and it can be cast into another type simply by providing it in 'anchor'.
-manyPoints <- gs_point(anchor = nc_geom)
+# ... and it can be cast into another type simply by providing it in
+# 'anchor' of the respective type.
+bndPoints <- gs_point(anchor = nc_geom)
+visualise(`NC - boundary vertices` = bndPoints)
 
+}
+\seealso{
+\itemize{ \item Github project:
+\href{https://github.com/EhrmannS/geometr}{https://github.com/EhrmannS/geometr}
+\item Report bugs:
+\href{https://github.com/EhrmannS/geometr/issues}{https://github.com/EhrmannS/geometr/issues}
+}
+}
+\author{
+\strong{Maintainer, Author}: Steffen Ehrmann
+  \email{steffen.ehrmann@idiv.de}
 }

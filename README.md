@@ -10,14 +10,8 @@ Status](https://img.shields.io/codecov/c/github/EhrmannS/geometr/master.svg)](ht
 
 ## Overview
 
-The `geometr` package provides tools that generate and process fully
-accessible and tidy geometric shapes (of class `geom`). Moreover,
-`geometr` aims to improve interoperability of spatial classes. Spatial
-classes are typically a collection of geometric shapes (or their
-vertices) that are accompanied by various metadata (such as attributes
-and a coordinate reference system). Most spatial classes are thus
-conceptually quite similar, yet a common standard lacks for accessing
-features, vertices or the metadata. `Geometr` fills this gap by
+The `geometr` package provides tools that generate and process fully accessible and tidy geometric shapes (of class `geom`). Moreover, it aims to improve interoperability of spatial and other geometric classes. Spatial
+classes are typically a collection of geometric shapes (or their vertices) that are accompanied by various metadata (such as attributes and a coordinate reference system). Most spatial classes are thus conceptually quite similar, yet a common standard lacks for accessing features, vertices or the metadata. `Geometr` fills this gap by
 providing tools
 
   - that produce an identical output for the same metadata of different
