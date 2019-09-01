@@ -33,16 +33,16 @@
 <meta property="og:title" content="geometr: Generate and Process Geometric Shapes — geometr" />
 
 <meta property="og:description" content="The geometr package provides tools that generate and process highly
-accessible, tidy geometric shapes. Moreover, it aims to improve
-interoperability of spatial and other geometric classes. Those classes are
-typically a collection of geometric shapes, or vertices that outline those
-shapes, which are accompanied by various meta data. The classes are
-conceptually very similar, yet they lack a common standard in providing
-access to vetrices, features or meta data. Geometr fills this gap by
-providing tools that have a unified interface and that produce an identical
-output (socalled getters), irrespective of the treated class or that use an
-indentical input to write to various classes that require different input
-(socalled setters)." />
+accessible, tidy geometric shapes (of class geom). Moreover, it aims
+to improve interoperability of spatial and other geometric classes. Spatial
+classes are typically a collection of geometric shapes (or their vertices)
+that are accompanied by various metadata (such as attributes and a coordinate
+reference system). Most spatial classes are thus conceptually quite similar,
+yet a common standard lacks for accessing features, vertices or the metadata.
+Geometr fills this gap by providing tools that have a unified interface and
+that produce an identical output (socalled getters), irrespective of the
+treated class or that use an indentical input to write to various classes
+that require different input (socalled setters)." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -135,20 +135,29 @@ indentical input to write to various classes that require different input
     <div class="ref-description">
     
     <p>The geometr package provides tools that generate and process highly
-accessible, tidy geometric shapes. Moreover, it aims to improve
-interoperability of spatial and other geometric classes. Those classes are
-typically a collection of geometric shapes, or vertices that outline those
-shapes, which are accompanied by various meta data. The classes are
-conceptually very similar, yet they lack a common standard in providing
-access to vetrices, features or meta data. Geometr fills this gap by
-providing tools that have a unified interface and that produce an identical
-output (socalled getters), irrespective of the treated class or that use an
-indentical input to write to various classes that require different input
-(socalled setters).</p>
+accessible, tidy geometric shapes (of class <code>geom</code>). Moreover, it aims
+to improve interoperability of spatial and other geometric classes. Spatial
+classes are typically a collection of geometric shapes (or their vertices)
+that are accompanied by various metadata (such as attributes and a coordinate
+reference system). Most spatial classes are thus conceptually quite similar,
+yet a common standard lacks for accessing features, vertices or the metadata.
+Geometr fills this gap by providing tools that have a unified interface and
+that produce an identical output (socalled getters), irrespective of the
+treated class or that use an indentical input to write to various classes
+that require different input (socalled setters).</p>
     
     </div>
 
         
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <div class='dont-index'><ul>
+<li><p>Github project:
+<a href='https://github.com/EhrmannS/geometr'>https://github.com/EhrmannS/geometr</a></p></li>
+<li><p>Report bugs:
+<a href='https://github.com/EhrmannS/geometr/issues'>https://github.com/EhrmannS/geometr/issues</a></p></li>
+</ul></div>
+    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>library</a></span>(<span class='no'>sf</span>)</div><div class='output co'>#&gt; <span class='message'>Linking to GEOS 3.5.1, GDAL 2.2.2, PROJ 4.9.2</span></div><div class='input'>
@@ -194,7 +203,7 @@ indentical input to write to various classes that require different input
 
 <span class='co'># However, a `geom` has three attribute tables, one for vertices, one for</span>
 <span class='co'># features and one for groups of features. All of them (and not only</span>
-<span class='co'># features) can be filled with respective ancilliary information.</span>
+<span class='co'># features) can be filled with ancilliary information.</span>
 <span class='fu'><a href='getTable.html'>getTable</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>nc_geom</span>, <span class='kw'>slot</span> <span class='kw'>=</span> <span class='st'>"vert"</span>)</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 2,529 x 3</span><span>
 #&gt;        x     y   fid
 #&gt;    </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span>
@@ -222,12 +231,12 @@ indentical input to write to various classes that require different input
 #&gt; </span><span style='color: #BCBCBC;'> 9</span><span>     9
 #&gt; </span><span style='color: #BCBCBC;'>10</span><span>    10
 #&gt; </span><span style='color: #949494;'># … with 90 more rows</span><span></div><div class='input'>
-<span class='co'># Groups of features are called *multi\** features in other packages. By</span>
-<span class='co'># lumping several closed geometric shapes into one multi\* feature, the</span>
-<span class='co'># separate geometric shapes can't be attributed with ancilliary information</span>
-<span class='co'># anymore. In a `geom`, multi\* features are separated into distinct</span>
-<span class='co'># (simpler) features, while the attributes of multi\* features are captured</span>
-<span class='co'># by the 'groups attribute table'</span>
+<span class='co'># Groups of features are called *multi* features in the simple features</span>
+<span class='co'># standard. By lumping several closed geometric shapes into one multi\*</span>
+<span class='co'># feature, the separate geometric shapes can't be attributed with ancilliary</span>
+<span class='co'># information anymore. In a `geom`, multi\* features are separated into</span>
+<span class='co'># distinc (simpler) features. The equivalent attributes of a multi\* feature</span>
+<span class='co'># are captured in the 'groups attribute table'</span>
 <span class='no'>currituck</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='getSubset.html'>getSubset</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>nc_geom</span>, <span class='no'>gid</span> <span class='kw'>==</span> <span class='fl'>4</span>)
 <span class='fu'><a href='getTable.html'>getTable</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>currituck</span>, <span class='kw'>slot</span> <span class='kw'>=</span> <span class='st'>"feat"</span>)</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 3 x 16</span><span>
 #&gt;     fid   gid  AREA PERIMETER CNTY_ CNTY_ID NAME  FIPS  FIPSNO CRESS_ID BIR74
@@ -242,16 +251,24 @@ indentical input to write to various classes that require different input
 #&gt; </span><span style='color: #BCBCBC;'>1</span><span>     4</div><div class='input'>
 <span class='co'># A geom can be visualised ...</span>
 <span class='fu'><a href='visualise.html'>visualise</a></span>(<span class='kw'>`North Carolina`</span> <span class='kw'>=</span> <span class='no'>nc_geom</span>)</div><div class='img'><img src='geometr-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='visualise.html'>visualise</a></span>(<span class='kw'>`NC - NWBIR74`</span> <span class='kw'>=</span> <span class='no'>nc_geom</span>, <span class='kw'>fillcol</span> <span class='kw'>=</span> <span class='no'>NWBIR74</span>)</div><div class='img'><img src='geometr-2.png' alt='' width='700' height='433' /></div><div class='input'>
-<span class='co'># ... and it can be cast into another type simply by providing it in 'anchor'.</span>
-<span class='no'>manyPoints</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='gs_point.html'>gs_point</a></span>(<span class='kw'>anchor</span> <span class='kw'>=</span> <span class='no'>nc_geom</span>)</div></span></pre>
+<span class='co'># ... and it can be cast into another type simply by providing it in</span>
+<span class='co'># 'anchor' of the respective type.</span>
+<span class='no'>bndPoints</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='gs_point.html'>gs_point</a></span>(<span class='kw'>anchor</span> <span class='kw'>=</span> <span class='no'>nc_geom</span>)
+<span class='fu'><a href='visualise.html'>visualise</a></span>(<span class='kw'>`NC - boundary vertices`</span> <span class='kw'>=</span> <span class='no'>bndPoints</span>)</div><div class='img'><img src='geometr-3.png' alt='' width='700' height='433' /></div><div class='input'>
+</div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
-            
+      
+      <li><a href="#see-also">See also</a></li>
+      
       <li><a href="#examples">Examples</a></li>
     </ul>
 
+    <h2>Author</h2>
+    <p><strong>Maintainer, Author</strong>: Steffen Ehrmann
+  <a href='mailto:steffen.ehrmann@idiv.de'>steffen.ehrmann@idiv.de</a></p>
   </div>
 </div>
 
