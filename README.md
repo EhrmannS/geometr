@@ -1,4 +1,4 @@
-# geometr <a href='https://ehrmanns.github.io/geometr/'><img src='articles/logo.svg' align="right" height="139" /></a>
+# geometr <a href='https://ehrmanns.github.io/geometr/'><img src='man/img/geometr.svg' align="right" height="139" /></a>
 
 [![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/geometr)](https://cran.r-project.org/package=geometr)
 [![Travis-CI Build
