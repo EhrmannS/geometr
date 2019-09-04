@@ -43,19 +43,31 @@ setMethod(f = "getSubset",
             assertChoice(x = slot, choices = c("vert", "feat", "group"))
             subset <- exprs(...)
             if(slot == "vert"){
-              matches <- eval(parse(text = subset), envir = x@vert)
+              is.logical(subset){
+                matches <- subset
+              } else {
+                matches <- eval(parse(text = subset), envir = x@vert)
+              }
               x@vert <- x@vert[matches,]
               x@feat <- x@feat[x@feat$fid %in% x@vert$fid,]
               gids <- x@feat$gid
               x@group <- x@group[x@group$gid %in% gids,]
             } else if(slot == "feat"){
-              matches <- eval(parse(text = subset), envir = x@feat)
+              is.logical(subset){
+                matches <- subset
+              } else {
+                matches <- eval(parse(text = subset), envir = x@feat)
+              }
               x@feat <- x@feat[matches,]
               x@vert <- x@vert[x@vert$fid %in% x@feat$fid,]
               gids <- x@feat$gid
               x@group <- x@group[x@group$gid %in% gids,]
             } else {
-              matches <- eval(parse(text = subset), envir = x@group)
+              is.logical(subset){
+                matches <- subset
+              } else {
+                matches <- eval(parse(text = subset), envir = x@group)
+              }
               x@group <- x@group[matches,]
               x@feat <- x@feat[x@feat$gid %in% x@group$gid,]
               x@vert <- x@vert[x@vert$fid %in% x@feat$fid,]
