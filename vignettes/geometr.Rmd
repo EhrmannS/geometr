@@ -24,29 +24,25 @@ This vignette outlines in more detail first how `geometr` improves interoperabil
 
 ## Interoperability
 
+Interoperable software is software that can easily exchange information with other software, which is typically achieved by providing the output of functionally similar operations in a common arrangement or format.
+This principle is not only true for software written in different language, but can also apply, for instance, to several packages within the R ecosystem.
 R is an open source environment which means that no single package or class will ever be the sole source of a particular datastructure and this is also the case for spatial or geometric data.
 
-Interoperable software is software that can easily exchange information with other software, which is typically achieved by providing the output of functionally similar operations in a common arrangement or format.
-`Geometr` improves interoperability in R for spatial classes, by providing functions that extract and provide metadata in an identical format from a potentially wide range of classes.
+Interoperable data is data that has a common arrangement and that uses terms from the same vocabulary.
+We can think, for example, of the extent of a spatial or geographic object.
+An extent is characterised by a minimum and maximum value in all valid dimensions.
+There are, however, several data structures in which the information can be reported, such as a vector of several numbers or a table.
+Moreover, the data carried by disparate data structures may not be provided so that the same information is at the same position in all structures.
 
-Think, for example about the extent of a spatial object.
-The extent is characterised by a minimum and maximum value in all dimensions into which the object spans.
-There are, however, several forms in which this extent can be reported, such as a vector of four numbers or a 2x2 table.
-When it comes to the structure of the reported information, several questions arise:
-
-* Which value is reported in which position?
-* Does the reported object have names and if so, what do they mean?
-* How do names/positions relate to names/positions of objects reported by other software?
-
-Take the following examples, which are all considered standard in R to date:
+The following code section shows various functions, which are all considered standard in R to date, that derive an extent from specific spatial objects:
 
 ```{r}
 library(sf)
-nc <- st_read(system.file("shape/nc.shp", package="sf"))
-st_bbox(nc)
+nc_sf <- st_read(system.file("shape/nc.shp", package="sf"))
+st_bbox(nc_sf)
 
 library(sp)
-nc_sp <- as_Spatial(nc)
+nc_sp <- as_Spatial(nc_sf)
 bbox(nc_sp)
 
 library(raster)
@@ -54,15 +50,21 @@ ras <- raster(system.file("external/test.grd", package="raster"))
 extent(ras)
 ```
 
+`st_bbox()` provides the information as a named vector, and presents first minimum and then maximum values of both dimensions, `bbox()` provides a table with minimum and maximum values in columns and `extent()` provides the information in an S4 object that presents first the x and then the y values.
+Neither data structures, nor names or positions of the information are comparable, which requires distinct procedures to extract one and the same information from those outputs.
+
 For a human user the structure of those information might not matter.
 However, the capacity of humans to recognise information relative to their context needs to be programmed into the software that is supposed to gather information with respect to context.
-Think of a custom function that is supposed to take some spatial input from the user and derive information from it, without knowing in advance what spatial class that will be, and hence does not know how the output of the respective class should be interpreted.
-The need for such a function is derived from the different flavours/functions/pipelines that are common in an open source software, so that all classes, which may be preferable in particular usecases, can be used equally.
-So far, this interoperability is not given in R and `geometr` provides it, as the following example shows
+Think, for example, of a custom function that is designed to derive and process information from some arbitraty spatial input a user provides, without knowing in advance what spatial class the user will provide.
+This would require an extensive code-logic to handle all possible input formats, complicated further by classes that may become available only in the future.
+
+`geometr` improves interoperability in R for spatial classes by following the [Bioconductor standard for S4 classes](https://www.bioconductor.org/help/course-materials/2017/Zurich/S4-classes-and-methods.html#api-vs-internals).
+Here, *getters* and *setters* are used as accessor functions, and as the sole pathway to extract or modify information in a given data structure.
+`geometr` thus provides getters that provide information in identical format from a wide range of classes, and likewise setters that modify many different classes in the same way, despite those classes typically need differently formatted input, arguments and functions.
 
 ```{r}
 library(geometr)
-myInput <- nc
+myInput <- nc_sf
 getExtent(x = myInput)
 
 myInput <- nc_sp
@@ -72,9 +74,8 @@ myInput <- ras
 getExtent(x = myInput)
 ```
 
-The output of the tools provided by `geometr` is tidy, i.e. it provides variables in columns and observations in rows, and it is interoperable, i.e. it provides the same information in the same spot of the output object.
-This ensures that a custom function requires merely one very simple row of code to extract those information from a potentially wide range of distinct classes, and not a lengthy if-condition that tests classes and implements different extraction procedures.
-
+The output of the tools provided by `geometr` is tidy, i.e. it provides variables in columns and observations in rows, and it is interoperable, i.e. it provides the same information in the same spot of the output object, with the same names.
+This ensures, amongst other advantages, that a custom function that processes spatial information, requires merely one very simple row of code to extract those information from a potentially wide range of distinct classes.
 
 ## Datastructure of the class `geom`
 
@@ -91,14 +92,34 @@ This ensures that a custom function requires merely one very simple row of code 
 - talk about which advantages that brings, vertices are easily accessible and can be provided with attributes, which allows also point patterns to be treated together with other geometries
 - somehow a hybrid of ppp and sf (units as in spatstat are indirectly covered by the projection)
 - also describe that how a single features looks like (being close by a duplicate vertex and with holes that are inside)
+- when making a geom from an sf, group = TRUE can be used to assign values that are unique at the level of multi_ features, into the groups attribute table, and not into the features attribute table, where they would be duplicated in a geom.
+- the vert slot is comparable to the "geom" column in an sf, however, the values are easily and explicitly accessible and can be modified also with other functions or routines than the highly specific st_* functions.
 
 
 ## Casting
 
+- cast by providing a geom in anchor of the respecive type
+- it does not change anything about the data (check if that claim is really true), but merely changes the type.
+- the type then determines how the object is plotted.
+- when casting to polygon, the polygon checks are carried out.
+
 ## Visualising
+
+- plot objects by providing a "the name = theObject".
+- plot both, vector and raster objects
+- methods extract the required information based on the above discussed getters, for any class that has getters defined (this still requires some work to be true for all classes)
 
 ### Quick options
 
+- attributes can be used in quick options
+
 ### The `gtTheme`
 
+- explain how to set up a gtTheme
+- there is a default gtTheme, which is modified with setTheme, which is kind of a setter, just not for geoms, but for gtTheme.
+- explain how colour palettes work.
+
 ## Other tools in `geometr`
+
+- tools are used feature-wise, if more than one set of modification values is provided. for example, if there are two features and two distinct angles of ration are provided, each feature will be rotated by the respective angle. When there are more features than angles, angles will be recycled.
+- mention that those functions access the vertices
