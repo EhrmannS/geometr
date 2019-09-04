@@ -43,7 +43,7 @@ setMethod(f = "getSubset",
             assertChoice(x = slot, choices = c("vert", "feat", "group"))
             subset <- exprs(...)
             if(slot == "vert"){
-              is.logical(subset){
+              if(is.logical(subset)){
                 matches <- subset
               } else {
                 matches <- eval(parse(text = subset), envir = x@vert)
@@ -53,7 +53,7 @@ setMethod(f = "getSubset",
               gids <- x@feat$gid
               x@group <- x@group[x@group$gid %in% gids,]
             } else if(slot == "feat"){
-              is.logical(subset){
+              if(is.logical(subset)){
                 matches <- subset
               } else {
                 matches <- eval(parse(text = subset), envir = x@feat)
@@ -63,7 +63,7 @@ setMethod(f = "getSubset",
               gids <- x@feat$gid
               x@group <- x@group[x@group$gid %in% gids,]
             } else {
-              is.logical(subset){
+              if(is.logical(subset)){
                 matches <- subset
               } else {
                 matches <- eval(parse(text = subset), envir = x@group)
@@ -91,7 +91,11 @@ setMethod(f = "getSubset",
           signature = signature("Spatial"),
           definition = function(x, ...){
             subset <- exprs(...)
-            matches <- eval(parse(text = subset), envir = x@data)
+            if(is.logical(subset)){
+              matches <- subset
+            } else {
+              matches <- eval(parse(text = subset), envir = x@data)
+            }
             x <- x[matches,]
             return(x)
           }
@@ -111,7 +115,11 @@ setMethod(f = "getSubset",
           signature = signature("sf"),
           definition = function(x, ...){
             subset <- exprs(...)
-            matches <- eval(parse(text = subset), envir = x)
+            if(is.logical(subset)){
+              matches <- subset
+            } else {
+              matches <- eval(parse(text = subset), envir = x)
+            }
             x <- x[matches,]
             return(x)
           }

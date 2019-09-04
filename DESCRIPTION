@@ -16,6 +16,10 @@ License: GPL-3
 Encoding: UTF-8
 LazyData: true
 Imports: checkmate,
+    sf,
+    sp,
+    spatstat,
+    raster,
     cli,
     crayon,
     deldir,
@@ -23,12 +27,8 @@ Imports: checkmate,
     grDevices,
     grid,
     methods,
-    raster,
     rgdal,
     rlang,
-    sf,
-    sp,
-    spatstat,
     tibble
 Suggests: testthat,
     rmarkdown,
