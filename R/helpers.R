@@ -477,10 +477,11 @@ makeLayout <- function(x = NULL, window = NULL, theme = gtTheme, image = FALSE, 
 #' @param colours [\code{.}]\cr the items to test for whether they are a colour
 #'   value that is valid in R.
 #' @details inspired by \href{https://stackoverflow.com/a/13290832}{https://stackoverflow.com/a/13290832}
+#' @importFrom grDevices col2rgb
 #' @export
 
-.testColours <- function(x = NULL) {
-  sapply(x, function(X) {
+.testColours <- function(colours = NULL) {
+  sapply(colours, function(X) {
     tryCatch(is.matrix(col2rgb(X)), error = function(e) FALSE)
   })
 }

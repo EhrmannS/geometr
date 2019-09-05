@@ -4,7 +4,7 @@
 \alias{.testColours}
 \title{Test colours}
 \usage{
-.testColours(x)
+.testColours(colours = NULL)
 }
 \arguments{
 \item{colours}{[\code{.}]\cr the items to test for whether they are a colour

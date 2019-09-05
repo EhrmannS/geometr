@@ -97,7 +97,7 @@ setMethod(f = "gc_grob",
                 } else{
                   toEval <- as.symbol("fid")
                   toRamp <- thisArg
-                  if(!any(.testColours(x = toRamp))){
+                  if(!any(.testColours(colours = toRamp))){
                     stop(paste0(toRamp, " was neither found as column in the object to plot, nor is it a valid colour."))
                   }
                 }
