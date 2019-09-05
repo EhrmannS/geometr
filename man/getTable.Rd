@@ -40,7 +40,7 @@ A table of the attributes of \code{x}.
 Get the attribute table of a spatial object.
 }
 \examples{
-getTable(gtGeoms$polygon)
+getTable(x = gtGeoms$polygon)
 
 getTable(x = gtSP$SpatialPolygons)
 

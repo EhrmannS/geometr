@@ -58,6 +58,16 @@ newAttr2 <- setTable(x = newAttr,
 getTable(x = newAttr2, slot = "feat")
 newAttr2
 
+# set table of an Spatial object
+spObj <- gtSP$SpatialPolygonsDataFrame
+
+# ... with common columns
+myAttributes <- data.frame(a = c(2, 1), attr = letters[1:2])
+setTable(x = spObj, table = myAttributes)
+
+# ... without common columns
+setTable(x = spObj, table = myAttributes[2])
+
 # set table of an sf
 sfObj <- gtSF$polygon
 
