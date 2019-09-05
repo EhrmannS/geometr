@@ -141,7 +141,7 @@ visualise <- function(..., window = NULL, theme = gtTheme, trace = FALSE, image 
   names <- rep(x = names, length.out = panels)
 
   # checkup concerning plot size ----
-  if(panels > 30){
+  if(panels > 15){
     question <- readline(paste0("  -> this will produce ", panels, " plots, do you wish to continue? [yes/no]: "))
     question <- match.arg(question, c("yes", "no"))
     if(question == "no"){
