@@ -41,8 +41,7 @@ if(!isGeneric("setTable")){
 #'                      table = data.frame(gid = c(1:3), attr = letters[1:3]))
 #' getTable(x = newAttr2, slot = "feat")
 #' newAttr2
-#' @importFrom dplyr left_join select everything
-#' @importFrom tibble tibble
+#' @importFrom tibble as_tibble
 #' @export
 setMethod(f = "setTable",
           signature = "geom",
@@ -51,22 +50,28 @@ setMethod(f = "setTable",
             assertChoice(x = slot, choices = c("vert", "feat", "group"))
             if(slot == "vert"){
               if(any(colnames(table) %in% colnames(x@vert))){
-                x@vert <- left_join(x@vert, table)
+                temp <- merge(x@vert, table, all.x = TRUE)
+                temp <- .updateOrder(input = temp)
               } else{
-                x@vert <- bind_cols(x@vert, table)
+                temp <- cbind(x@vert, table)
               }
+              x@vert <- as_tibble(temp)
             } else if(slot == "feat"){
               if(any(colnames(table) %in% colnames(x@feat))){
-                x@feat <- left_join(x@feat, table)
+                temp <- merge(x@feat, table, all.x = TRUE)
+                temp <- .updateOrder(input = temp)
               } else{
-                x@feat <- bind_cols(x@feat, table)
+                temp <- cbind(x@feat, table)
               }
+              x@feat <- as_tibble(temp)
             } else {
               if(any(colnames(table) %in% colnames(x@group))){
-                x@group <- left_join(x@group, table)
+                temp <- merge(x@group, table, all.x = TRUE)
+                temp <- .updateOrder(input = temp)
               } else{
-                x@group <- bind_cols(x@group, table)
+                temp <- cbind(x@group, table)
               }
+              x@group <- as_tibble(temp)
             }
 
             return(x)
@@ -75,7 +80,17 @@ setMethod(f = "setTable",
 
 # Spatial ----
 #' @rdname setTable
-#' @importFrom dplyr left_join bind_cols
+#' @examples
+#'
+#' # set table of an Spatial object
+#' spObj <- gtSP$SpatialPolygonsDataFrame
+#'
+#' # ... with common columns
+#' myAttributes <- data.frame(a = c(2, 1), attr = letters[1:2])
+#' setTable(x = spObj, table = myAttributes)
+#'
+#' # ... without common columns
+#' setTable(x = spObj, table = myAttributes[2])
 #' @importFrom checkmate assertDataFrame assertTRUE
 #' @importFrom sp SpatialPointsDataFrame SpatialPixelsDataFrame
 #'   SpatialMultiPointsDataFrame SpatialLinesDataFrame SpatialPolygonsDataFrame
@@ -88,9 +103,9 @@ setMethod(f = "setTable",
 
             if(grepl("DataFrame", class(x))){
               if(any(colnames(table) %in% colnames(x@data))){
-                x@data <- left_join(x@data, table)
+                x@data <- merge(x@data, table, all.x = TRUE)
               } else{
-                x@data <- bind_cols(x@data, table)
+                x@data <- cbind(x@data, table)
               }
               out <- x
             } else{
@@ -125,7 +140,6 @@ setMethod(f = "setTable",
 #' setTable(x = sfObj, table = myAttributes[2])
 #' @importFrom checkmate assertDataFrame assertTRUE
 #' @importFrom sf st_sf st_geometry
-#' @importFrom dplyr left_join bind_cols
 #' @export
 setMethod(f = "setTable",
           signature = signature("sf"),
@@ -133,9 +147,12 @@ setMethod(f = "setTable",
             assertDataFrame(table)
             assertTRUE(nrow(x) == nrow(table))
             if(any(colnames(table) %in% colnames(x))){
-              out <- left_join(x, table)
+              out <- merge(x = x, y = table, all.x = TRUE)
             } else{
-              out <- st_sf(bind_cols(table, x))
+              temp <- x
+              st_geometry(temp) <- NULL
+              temp <- cbind(temp, table)
+              out <- merge(x = x, y = temp, all.x = TRUE)
             }
             return(out)
           }
@@ -150,19 +167,13 @@ setMethod(f = "setTable",
 #' setTable(x = sfcObj, table = myAttributes)
 #' @importFrom checkmate assertDataFrame assertTRUE
 #' @importFrom sf st_sf
-#' @importFrom dplyr left_join bind_cols
 #' @export
 setMethod(f = "setTable",
           signature = signature("sfc"),
           definition = function(x, table = NULL){
             assertDataFrame(table)
-            temp <- st_sf(geom = x)
-            assertTRUE(nrow(temp) == nrow(table))
-            if(any(colnames(table) %in% colnames(temp))){
-              out <- left_join(temp, table)
-            } else{
-              out <- st_sf(bind_cols(table, temp))
-            }
+
+            out <- st_sf(geom = x, table)
             return(out)
           }
 )

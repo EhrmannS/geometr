@@ -1,13 +1,13 @@
 Package: geometr
-Title: Generate and process geometric shapes
+Title: Generate interoperable geometric shapes
 Version: 0.1.0
 Authors@R: person("Steffen", "Ehrmann", email = "steffen@funroll-loops.de",
     role = c("aut", "cre"), 
     comment = c(ORCID = "0000-0002-2958-0796"))
 Description: The geometr package provides tools that generate and process 
-    fully accessible, tidy geometric shapes. The package improves interoperability 
-    of spatial and other geometric classes by providing getters and setters that 
-    produce identical output from various classes.
+    fully accessible and tidy geometric shapes. The package improves 
+    interoperability of spatial and other geometric classes by providing getters 
+    and setters that produce identical output from various classes.
 URL: https://github.com/EhrmannS/geometr
 BugReports: https://github.com/EhrmannS/geometr/issues
 Depends:
@@ -20,7 +20,6 @@ Imports: checkmate,
     sp,
     spatstat,
     raster,
-    cli,
     crayon,
     deldir,
     dplyr,

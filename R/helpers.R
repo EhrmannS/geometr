@@ -8,7 +8,6 @@
 #' @param image [\code{logical(1)}]\cr whether or not the raster (brick)
 #'   contains an image.
 #' @param ... []
-#' @importFrom dplyr left_join
 #' @importFrom raster getValues
 #' @export
 
@@ -348,13 +347,33 @@ makeLayout <- function(x = NULL, window = NULL, theme = gtTheme, image = FALSE, 
   return(out)
 }
 
+#' Update column order
+#'
+#' Set the order of the table columns to \code{c("fid", "gid", rest)}
+#' @param input [\code{data.frame(1)}]\cr a table othat contains at least the
+#'   columns \code{fid} and \code{gid}.
+#' @return A new table where the columns have the correct order.
+#' @importFrom checkmate assertNames
+#' @export
+
+.updateOrder <- function(input = NULL){
+
+  # check arguments
+  targetCols <- c("fid", "gid")
+  targetCols <- targetCols[targetCols %in% names(input)]
+  names(input) <- tolower(names(input))
+
+  out <- input[c(targetCols, names(input)[!names(input) %in% targetCols])]
+
+  return(out)
+}
+
 #' Test anchor for consistency
 #'
 #' @param x [\code{data.frame | geom}]\cr the object to be tested for
 #'   consistency.
 #' @param ... [\code{.}]\cr additional arguments.
 #' @importFrom checkmate testDataFrame testClass assertNames
-#' @importFrom dplyr bind_cols
 #' @importFrom rlang exprs
 #' @export
 
@@ -458,7 +477,6 @@ makeLayout <- function(x = NULL, window = NULL, theme = gtTheme, image = FALSE, 
 #'
 #' A tiny map is used via the show method of a geom.
 #' @param geom [\code{geom}]\cr the geom from which to create a tiny map.
-#' @importFrom cli symbol
 #' @export
 
 .makeTinyMap <- function(geom = NULL){
@@ -476,10 +494,10 @@ makeLayout <- function(x = NULL, window = NULL, theme = gtTheme, image = FALSE, 
   ymax <- round(max(geom@window$y), 2)
 
   # define symbols
-  full <- symbol$circle_filled
-  half <- symbol$circle_double
-  quarter <- symbol$circle
-  empty <- symbol$circle_dotted
+  full <- '\u25C9'
+  half <- '\u25CE'
+  quarter <- '\u25EF'
+  empty <- '\u25CC'
 
   # create vector of symbols
   filled <- NULL

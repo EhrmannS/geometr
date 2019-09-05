@@ -24,25 +24,26 @@ if(!isGeneric("getTable")){
 #'   attribute table, either \code{"vert"}, \code{"feat"} or \code{"group"}. If
 #'   left at \code{NULL}, 'feat' and 'group' will be joined.
 #' @examples
-#' getTable(gtGeoms$polygon)
+#' getTable(x = gtGeoms$polygon)
 #' @importFrom tibble as_tibble
-#' @importFrom dplyr left_join
 #' @export
 setMethod(f = "getTable",
           signature = "geom",
           definition = function(x, slot = NULL){
             assertChoice(x = slot, choices = c("vert", "feat", "group"), null.ok = TRUE)
             if(is.null(slot)){
-              left_join(x = x@feat, y = x@group, by = "gid")
+              out <- merge(x = x@feat, y = x@group, by = "gid", all.x = TRUE)
+              out <- .updateOrder(input = out)
             } else {
               if(slot == "vert"){
-                as_tibble(x@vert)
+                out <- x@vert
               } else if(slot == "feat"){
-                as_tibble(x@feat)
+                out <- x@feat
               } else {
-                as_tibble(x@group)
+                out <- x@group
               }
             }
+            return(as_tibble(out))
           }
 )
 

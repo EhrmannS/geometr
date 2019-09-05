@@ -172,7 +172,7 @@ setValidity("geom", function(object){
 #'
 #' @param object [\code{geom}]\cr object to \code{show}.
 #' @importFrom utils head
-#' @importFrom crayon green yellow red cyan
+#' @importFrom crayon yellow red cyan
 
 setMethod(f = "show",
           signature = "geom",

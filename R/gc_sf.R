@@ -34,7 +34,6 @@ if(!isGeneric("gc_sf")){
 # geom ----
 #' @rdname gc_sf
 #' @importFrom tibble tibble as_tibble
-#' @importFrom dplyr left_join
 #' @export
 setMethod(f = "gc_sf",
           signature = "geom",
@@ -82,12 +81,12 @@ setMethod(f = "gc_sf",
               if(!all(names(theData) %in% c("fid", "gid"))){
                 makeDF <- TRUE
               }
-              attr <- left_join(x = attr, y = theData, by = "fid", suffix = c(".vert", ".feat"))
+              attr <- merge(x = attr, y = theData, by = "fid", all.x = TRUE, suffixes = c(".vert", ".feat"))
 
               if(!all(names(theGroups) %in% c("gid"))){
                 makeDF <- TRUE
               }
-              attr <- left_join(x = attr, y = theGroups, by = "gid", suffix = c(".feat", ".group"))
+              attr <- as_tibble(merge(x = attr, y = theGroups, by = "gid", all.x = TRUE, suffixes = c(".feat", ".group")))
 
               if(makeDF){
                 attr <- attr[,!names(attr) %in% c("fid", "gid")]
@@ -134,7 +133,7 @@ setMethod(f = "gc_sf",
               if(!all(names(theGroups) %in% c("gid"))){
                 makeDF <- TRUE
               }
-              attr <- left_join(x = attr, y = theGroups, by = "gid", suffix = c(".feat", ".group"))
+              attr <- as_tibble(merge(x = attr, y = theGroups, by = "gid", all.x = TRUE, suffixes = c(".feat", ".group")))
 
               if(makeDF){
                 attr <- attr[,!names(attr) %in% c("fid", "gid")]
@@ -195,7 +194,7 @@ setMethod(f = "gc_sf",
               if(!all(names(theGroups) %in% c("gid"))){
                 makeDF <- TRUE
               }
-              attr <- left_join(x = attr, y = theGroups, by = "gid", suffix = c(".feat", ".group"))
+              attr <- as_tibble(merge(x = attr, y = theGroups, by = "gid", all.x = TRUE, suffixes = c(".feat", ".group")))
 
               if(makeDF){
                 attr <- attr[,!names(attr) %in% c("fid", "gid")]
