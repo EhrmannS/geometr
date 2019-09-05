@@ -57,7 +57,6 @@
 #' @importFrom grDevices recordPlot dev.list
 #' @importFrom raster nlayers getValues as.matrix ncol nrow stack
 #' @importFrom stats quantile
-#' @importFrom dplyr bind_rows
 #' @export
 
 visualise <- function(..., window = NULL, theme = gtTheme, trace = FALSE, image = FALSE,
