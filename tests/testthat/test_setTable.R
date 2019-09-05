@@ -13,7 +13,7 @@ test_that("setTable of a 'geom'", {
   input <- gs_polygon(anchor = coords, window = window)
   attributes <- data.frame(fid = 1, data = "A")
 
-  # set table with a knwn variable
+  # set table with a known variable
   output <- setTable(x = input, table = attributes)
   expect_class(output, "geom")
   expect_data_frame(output@feat, ncols = 3)
