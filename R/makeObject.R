@@ -50,19 +50,16 @@ setMethod(f = "makeObject",
               warning("some vertices are not within the plotting window.", immediate. = TRUE)
             }
 
-            # params <- exprs(...)
-            # params <- params[names(params) %in% names(theme@geom)]
-
             aGrob <- gc_grob(input = x, theme = theme, ...)
             if(is(aGrob) != "gList"){
               aGrob <- gList(aGrob)
             }
 
             uniqueVals <- sapply(aGrob, function(x){
-              if(any(is.na(as.numeric(x$name)))){
-                x$name
+              if(suppressWarnings(all(!is.na(as.numeric(as.character(x$name)))))){
+                as.numeric(as.character(x$name))
               } else {
-                as.numeric(x$name)
+                x$name
               }
             })
             uniqueColours <- sapply(aGrob, function(x){

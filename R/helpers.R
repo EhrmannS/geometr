@@ -24,9 +24,9 @@ makeLayout <- function(x = NULL, window = NULL, theme = gtTheme, image = FALSE, 
   # select only displayArgs that are part of the valid parameters.
   displayArgs <- displayArgs[names(displayArgs) %in% names(params)]
   if("fillcol" %in% names(displayArgs)){
-    toEval <- displayArgs[which(names(displayArgs) == "fillcol")]
+    toEval <- as.character(displayArgs[which(names(displayArgs) == "fillcol")])
   } else if("linecol" %in% names(displayArgs)){
-    toEval <- displayArgs[which(names(displayArgs) == "linecol")][[1]]
+    toEval <- as.character(displayArgs[which(names(displayArgs) == "linecol")][[1]])
   } else {
     toEval <- NULL
   }

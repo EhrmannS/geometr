@@ -103,9 +103,9 @@ setMethod(f = "gc_grob",
                 }
 
                 vals <- eval(parse(text = paste0(toEval)), envir = attr)
-                valsNum <- as.numeric(vals)
+                valsNum <- as.numeric(as.factor(vals))
                 uniqueVals <- unique(vals)
-                uniqueValsNum <- as.numeric(uniqueVals)
+                uniqueValsNum <- as.numeric(as.factor(uniqueVals))
 
                 # if the argument is a colour argument, construct a color ramp from two or more values
                 if(thisArgName %in% c("linecol", "fillcol")){
