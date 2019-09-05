@@ -361,7 +361,6 @@ makeLayout <- function(x = NULL, window = NULL, theme = gtTheme, image = FALSE, 
   # check arguments
   targetCols <- c("fid", "gid")
   targetCols <- targetCols[targetCols %in% names(input)]
-  names(input) <- tolower(names(input))
 
   out <- input[c(targetCols, names(input)[!names(input) %in% targetCols])]
 
@@ -471,6 +470,19 @@ makeLayout <- function(x = NULL, window = NULL, theme = gtTheme, image = FALSE, 
   out$obj <- x
 
   return(out)
+}
+
+#' Test colours
+#'
+#' @param colours [\code{.}]\cr the items to test for whether they are a colour
+#'   value that is valid in R.
+#' @details inspired by \href{https://stackoverflow.com/a/13290832}{https://stackoverflow.com/a/13290832}
+#' @export
+
+.testColours <- function(x = NULL) {
+  sapply(x, function(X) {
+    tryCatch(is.matrix(col2rgb(X)), error = function(e) FALSE)
+  })
 }
 
 #' Make a tiny map
