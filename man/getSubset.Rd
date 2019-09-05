@@ -20,9 +20,9 @@
 \arguments{
 \item{x}{object to \code{subset}.}
 
-\item{...}{Logical predicates defined in terms of the variables in \code{x}.
-Multiple conditions are combined with &. Only rows where the condition
-evaluates to TRUE are kept.}
+\item{...}{Logical predicates defined in terms of the variables in \code{x}
+or a vector of booleans. Multiple conditions are combined with &. Only rows
+where the condition evaluates to TRUE are kept.}
 
 \item{slot}{[\code{character(1)}]\cr the slot in which to determine a subset,
 either \code{"vert"} for vertices, \code{"feat"} for features or
