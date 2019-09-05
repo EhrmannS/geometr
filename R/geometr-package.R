@@ -33,7 +33,7 @@
 #'                      y = c(40, 40, 60, 70))
 #' window <- data.frame(x = c(0, 80),
 #'                      y = c(0, 80))
-#' (aGeom <- gs_polygon(anchor = coords, window = window))
+#' aGeom <- gs_polygon(anchor = coords, window = window)
 #'
 #' # The "tiny map" shows where the vertices are concentrated.
 #' nc_geom
