@@ -108,6 +108,7 @@ This ensures, amongst other advantages, that a custom function that processes sp
 - plot objects by providing a "the name = theObject".
 - plot both, vector and raster objects
 - methods extract the required information based on the above discussed getters, for any class that has getters defined (this still requires some work to be true for all classes)
+- also explain how to use "window" for zooming and quick access to particular areas of a plot.
 
 ### Quick options
 
