@@ -24,7 +24,7 @@ test_that("visualise a matrix", {
 
 test_that("visualise an image", {
   continuous <<- gtRasters$categorical
-  input <<- RGB(continuous)
+  input <<- brick(system.file("external/rlogo.grd", package="raster"))
 
   output <- visualise(raster = input, image = TRUE)
   expect_class(output, "recordedplot")
