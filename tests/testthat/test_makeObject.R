@@ -8,50 +8,50 @@ context("makeObject")
 test_that("make object from a geom", {
   output <- makeObject(x = gtGeoms$polygon, window = NULL, theme = gtTheme)
   expect_list(x = output, len = 6)
-  expect_names(x = names(output), identical.to = c("type", "name", "out", "hasLegend", "uniqueValues", "legend"))
+  expect_names(x = names(output), identical.to = c("type", "name", "out", "hasLegend", "allValues", "legend"))
 
   # with a modified theme
   myTheme <- gtTheme
   myTheme@legend$ascending <- FALSE
   output <- makeObject(x = gtGeoms$polygon, window = NULL, theme = myTheme)
   expect_list(x = output, len = 6)
-  expect_names(x = names(output), identical.to = c("type", "name", "out", "hasLegend", "uniqueValues", "legend"))
+  expect_names(x = names(output), identical.to = c("type", "name", "out", "hasLegend", "allValues", "legend"))
 
   # a more complex geom
   nc <- st_read(system.file("shape/nc.shp", package="sf"))
   output <- makeObject(x = gc_geom(input = nc), window = NULL, theme = gtTheme)
   expect_list(x = output, len = 6)
-  expect_names(x = names(output), identical.to = c("type", "name", "out", "hasLegend", "uniqueValues", "legend"))
+  expect_names(x = names(output), identical.to = c("type", "name", "out", "hasLegend", "allValues", "legend"))
 
   # when a deviating window is used
   input <- setWindow(x = gtGeoms$polygon, to = data.frame(x = c(0, 11), y = c(0, 11)))
   expect_warning(object = output <- makeObject(x = input, window = NULL, theme = gtTheme), regexp = "some vertices are not within the plotting window.")
   expect_list(x = output, len = 6)
-  expect_names(x = names(output), identical.to = c("type", "name", "out", "hasLegend", "uniqueValues", "legend"))
+  expect_names(x = names(output), identical.to = c("type", "name", "out", "hasLegend", "allValues", "legend"))
 
   input <- setWindow(x = gtGeoms$polygon, to = data.frame(x = c(3, 5), y = c(3, 5)))
   expect_warning(object = output <- makeObject(x = input, window = NULL, theme = gtTheme), regexp = "no vertices are within the plotting window.")
   expect_list(x = output, len = 6)
-  expect_names(x = names(output), identical.to = c("type", "name", "out", "hasLegend", "uniqueValues", "legend"))
+  expect_names(x = names(output), identical.to = c("type", "name", "out", "hasLegend", "allValues", "legend"))
 })
 
 test_that("make object from a Raster", {
   # a categorical raster with colourtable
   output <- makeObject(x = gtRasters$categorical, theme = gtTheme)
   expect_list(x = output, len = 8)
-  expect_names(x = names(output), identical.to = c("type", "name", "rows", "cols", "hasLegend", "uniqueValues", "legend", "array"))
+  expect_names(x = names(output), identical.to = c("type", "name", "rows", "cols", "hasLegend", "allValues", "legend", "array"))
 
   # a categorical raster without colourtable
   input <- gtRasters$categorical
   input@legend@colortable <- list()
   output <- makeObject(x = input, theme = gtTheme)
   expect_list(x = output, len = 8)
-  expect_names(x = names(output), identical.to = c("type", "name", "rows", "cols", "hasLegend", "uniqueValues", "legend", "array"))
+  expect_names(x = names(output), identical.to = c("type", "name", "rows", "cols", "hasLegend", "allValues", "legend", "array"))
 
   # a continuous raster
   output <- makeObject(x = gtRasters$continuous, theme = gtTheme)
   expect_list(x = output, len = 8)
-  expect_names(x = names(output), identical.to = c("type", "name", "rows", "cols", "hasLegend", "uniqueValues", "legend", "array"))
+  expect_names(x = names(output), identical.to = c("type", "name", "rows", "cols", "hasLegend", "allValues", "legend", "array"))
 
   # an image
   input <- RGB(gtRasters$continuous)
@@ -74,14 +74,14 @@ test_that("make object from a matrix", {
   input2 <- matrix(c(rep(1, 4)), nrow = 2)
   output <- makeObject(x = input2, theme = gtTheme)
   expect_list(x = output, len = 7)
-  expect_names(x = names(output), identical.to = c("type", "rows", "cols", "hasLegend", "uniqueValues", "legend", "array"))
+  expect_names(x = names(output), identical.to = c("type", "rows", "cols", "hasLegend", "allValues", "legend", "array"))
 
   # with a modified theme
   myTheme <- gtTheme
   myTheme@legend$ascending <- FALSE
   output <- makeObject(x = input2, theme = myTheme)
   expect_list(x = output, len = 7)
-  expect_names(x = names(output), identical.to = c("type", "rows", "cols", "hasLegend", "uniqueValues", "legend", "array"))
+  expect_names(x = names(output), identical.to = c("type", "rows", "cols", "hasLegend", "allValues", "legend", "array"))
 
   # errors
   expect_error(object = makeObject(x = input1, theme = gtTheme))

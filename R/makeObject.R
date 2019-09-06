@@ -55,49 +55,55 @@ setMethod(f = "makeObject",
               aGrob <- gList(aGrob)
             }
 
-            uniqueVals <- sapply(aGrob, function(x){
+            allValues <- sapply(aGrob, function(x){
               if(suppressWarnings(all(!is.na(as.numeric(as.character(x$name)))))){
                 as.numeric(as.character(x$name))
               } else {
                 x$name
               }
             })
-            uniqueColours <- sapply(aGrob, function(x){
+            allColours <- sapply(aGrob, function(x){
               x$gp$col
             })
-            uniqueFill <- sapply(aGrob, function(x){
+            allFill <- sapply(aGrob, function(x){
               x$gp$fil
             })
-            if(length(unique(uniqueFill)) > 1){
-              uniqueColours <- uniqueFill
+            if(length(unique(allFill)) > 1){
+              allColours <- allFill
             }
-            uniqueColours <- uniqueColours[order(uniqueVals)]
-            uniqueVals <- uniqueVals[order(uniqueVals)]
-            uniqueValsNum <- seq_along(uniqueColours)
+            allColours <- allColours[order(allValues)]
+            allFill <- allFill[order(allValues)]
+            allValues <- allValues[order(allValues)]
+            allValuesIndex <- seq_along(allColours)
 
-            # determine the tick values and labels
-            if(length(uniqueValsNum) > theme@legend$bins){
-              tickValues <- quantile(uniqueValsNum, probs = seq(0, 1, length.out = theme@legend$bins+1), type = 1, names = FALSE)
+            uniqueColours <- unique(allColours)
+            uniqueFill <- unique(allFill)
+            uniqueValues <- unique(allValues)
+            uniqueValuesIndex <- seq_along(uniqueValues)
+
+            # determine the tick position and labels
+            if(length(uniqueValues) > theme@legend$bins){
+              tickValues <- quantile(uniqueValuesIndex, probs = seq(0, 1, length.out = theme@legend$bins), type = 1, names = FALSE)
             } else{
-              tickValues <- uniqueValsNum
+              tickValues <- uniqueValuesIndex
             }
-            labels <- uniqueVals[tickValues]
+            labels <- uniqueValues[tickValues]
 
             if(theme@legend$ascending){
-              colours <- tibble(colours = rev(uniqueColours),
-                                values = rev(uniqueVals))
+              colours <- tibble(colours = rev(allColours),
+                                values = rev(allValues))
               legendPos <- tibble(labels = labels,
                                   pos = as.numeric(unit(tickValues, "native")))
             } else{
-              colours <- tibble(colours = uniqueColours,
-                                values = uniqueVals)
+              colours <- tibble(colours = allColours,
+                                values = allValues)
               legendPos <- tibble(labels = rev(labels),
                                   pos = rev(as.numeric(unit(tickValues, "native"))))
             }
 
             out$out <- aGrob
             out$hasLegend <- TRUE
-            out$uniqueValues <- colours
+            out$allValues <- colours
             out$legend <- legendPos
 
             return(out)
@@ -109,6 +115,7 @@ setMethod(f = "makeObject",
 #'   contains an image.
 #' @importFrom checkmate testNames testCharacter assertClass
 #' @importFrom grDevices colorRampPalette rgb
+#' @importFrom raster getValues
 #' @importFrom tibble as_tibble
 #' @export
 setMethod(f = "makeObject",
@@ -146,9 +153,9 @@ setMethod(f = "makeObject",
 
               attr <- getTable(x)
               vals <- getValues(x)
-              uniqueVals <- sortUniqueC(vals[!is.na(vals)])
-              tickValues <- as.numeric(uniqueVals)
-              nrVals <- length(uniqueVals)
+              allValues <- sortUniqueC(vals[!is.na(vals)])
+              tickValues <- seq_along(allValues)
+              nrVals <- length(allValues)
               targetColours <- theme@raster$colours
 
               # limit values to 256, this is the number of distinct colours that
@@ -160,46 +167,47 @@ setMethod(f = "makeObject",
               }
 
               if(as.logical(length(x@legend@colortable))){
-                uniqueColours <- x@legend@colortable[uniqueVals]
-                breaksTemp <- c(uniqueVals[1]-1, uniqueVals)
+                allColours <- x@legend@colortable[allValues]
+                breaksTemp <- c(allValues[1]-1, allValues)
               } else if(x@data@isfactor){
-                uniqueColours <- colorRampPalette(colors = targetColours)(nrVals)
+                allColours <- colorRampPalette(colors = targetColours)(nrVals)
                 idPos <- grep("id", colnames(attr), ignore.case = TRUE)
-                breaksTemp <- c(uniqueVals[1]-1, attr[[idPos]])
+                breaksTemp <- c(allValues[1]-1, attr[[idPos]])
               } else {
-                uniqueColours <- colorRampPalette(colors = targetColours)(nrVals)
-                breaksTemp <- c(uniqueVals[1]-1, seq(uniqueVals[1], uniqueVals[[length(uniqueVals)]], length.out = nrVals))
+                allColours <- colorRampPalette(colors = targetColours)(nrVals)
+                breaksTemp <- c(allValues[1]-1, seq(allValues[1], allValues[[length(allValues)]], length.out = nrVals))
               }
 
               valCuts <- cut(vals, breaks = breaksTemp, include.lowest = TRUE)
-              theColours <- uniqueColours[valCuts]
+              theColours <- allColours[valCuts]
             }
 
             if(out$hasLegend){
 
               # determine the tick values and labels
+              # rangetickValues <- c(tickValues, tail(tickValues, 1)+1)
               if(length(tickValues) > theme@legend$bins){
                 tickValues <- quantile(tickValues, probs = seq(0, 1, length.out = theme@legend$bins+1), type = 1, names = FALSE)
               }
 
-              if(is.factor(vals) | is.character(vals)){
-                # tickLabels <- uniqueVals[tickValues]
-              } else {
-                tickLabels <- tickValues
-              }
+              # if(is.factor(vals) | is.character(vals)){
+                tickLabels <- allValues[tickValues]
+              # } else {
+                # tickLabels <- tickValues
+              # }
 
               if(theme@legend$ascending){
-                colours <- tibble(colours = rev(uniqueColours),
-                                  values = rev(uniqueVals))
+                colours <- tibble(colours = rev(allColours),
+                                  values = rev(allValues))
                 legendPos <- tibble(labels = tickLabels,
                                     pos = unit(tickValues, "native"))
               } else{
-                colours <- tibble(colours = uniqueColours,
-                                  values = uniqueVals)
+                colours <- tibble(colours = allColours,
+                                  values = allValues)
                 legendPos <- tibble(labels = rev(tickLabels),
                                     pos = rev(unit(tickValues, "native")))
               }
-              out$uniqueValues <- colours
+              out$allValues <- colours
               out$legend <- legendPos
             }
             out$array <- theColours
@@ -235,9 +243,9 @@ setMethod(f = "makeObject",
 
               vals <- as.vector(t(x))
               assertNumeric(x = vals)
-              uniqueVals <- sortUniqueC(vals[!is.na(vals)])
-              tickValues <- as.numeric(uniqueVals)
-              nrVals <- length(uniqueVals)
+              allValues <- sortUniqueC(vals[!is.na(vals)])
+              tickValues <- as.numeric(allValues)
+              nrVals <- length(allValues)
               targetColours <- theme@raster$colours
 
               # limit values to 256, this is the number of distinct colours that
@@ -247,11 +255,11 @@ setMethod(f = "makeObject",
               } else{
                 nrVals <- 256
               }
-              uniqueColours <- colorRampPalette(colors = targetColours)(nrVals)
-              breaksTemp <- c(uniqueVals[1]-1, seq(uniqueVals[1], uniqueVals[[length(uniqueVals)]], length.out = nrVals))
+              allColours <- colorRampPalette(colors = targetColours)(nrVals)
+              breaksTemp <- c(allValues[1]-1, seq(allValues[1], allValues[[length(allValues)]], length.out = nrVals))
 
               valCuts <- cut(vals, breaks = breaksTemp, include.lowest = TRUE)
-              theColours <- uniqueColours[valCuts]
+              theColours <- allColours[valCuts]
 
             }
 
@@ -263,23 +271,23 @@ setMethod(f = "makeObject",
               }
 
               if(is.factor(vals) | is.character(vals)){
-                tickLabels <- uniqueVals[tickValues]
+                tickLabels <- allValues[tickValues]
               } else {
                 tickLabels <- tickValues
               }
 
               if(theme@legend$ascending){
-                colours <- tibble(colours = rev(uniqueColours),
-                                  values = rev(uniqueVals))
+                colours <- tibble(colours = rev(allColours),
+                                  values = rev(allValues))
                 legendPos <- tibble(labels = tickLabels,
                                     pos = unit(tickValues, "native"))
               } else{
-                colours <- tibble(colours = uniqueColours,
-                                  values = uniqueVals)
+                colours <- tibble(colours = allColours,
+                                  values = allValues)
                 legendPos <- tibble(labels = rev(tickLabels),
                                     pos = rev(unit(tickValues, "native")))
               }
-              out$uniqueValues <- colours
+              out$allValues <- colours
               out$legend <- legendPos
             }
             out$array <- theColours

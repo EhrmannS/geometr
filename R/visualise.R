@@ -62,6 +62,8 @@
 visualise <- function(..., window = NULL, theme = gtTheme, trace = FALSE, image = FALSE,
                       new = TRUE, clip = TRUE){
 
+  # window = NULL; theme = gtTheme; trace = FALSE; image = FALSE; new = TRUE; clip = TRUE
+
   # check arguments ----
   window <- .testWindow(x = window, ...)
   assertDataFrame(x = window, nrows = 5, min.cols = 2, null.ok = TRUE)
@@ -280,20 +282,26 @@ visualise <- function(..., window = NULL, theme = gtTheme, trace = FALSE, image 
       # the legend viewport
       if(theme@legend$plot & obj$hasLegend){
 
-        if(as.numeric(obj$legend$pos[length(obj$legend$pos)]) == 1){
+        if(length(obj$legend$pos) == 1){
           maxYScale <- obj$legend$pos[length(obj$legend$pos)] + 0.00001
         } else {
-          maxYScale <- obj$legend$pos[length(obj$legend$pos)]
+          maxYScale <- unit(as.numeric(obj$legend$pos[which.max(obj$legend$pos)]) + 1, "native")
         }
         pushViewport(viewport(height = unit(1, "npc") * theme@legend$sizeRatio,
                               yscale = c(1, maxYScale),
                               name = "legend"))
 
+        if(obj$type == "vector"){
+          legendColours <- unique(obj$allValues$colours)
+        } else if(obj$type == "raster"){
+          legendColours <- obj$allValues$colours
+        }
+
         grid.raster(x = unit(1, "npc") + unit(10, "points"),
                     width = unit(10, "points"),
                     height = unit(1, "npc"),
                     just = "left",
-                    image = obj$uniqueValues$colours,
+                    image = legendColours,
                     name = "theLegend",
                     interpolate = FALSE)
 
@@ -310,7 +318,7 @@ visualise <- function(..., window = NULL, theme = gtTheme, trace = FALSE, image 
         if(theme@legend$label$plot){
           grid.text(label = obj$legend$labels,
                     x = unit(1, "npc") + unit(1, "grobwidth", "theLegend") + unit(20, "points"),
-                    y = unit(obj$legend$pos, "native"),
+                    y = unit(obj$legend$pos, "native") - unit(0.5, "native"),
                     just = c("left"),
                     gp = gpar(fontsize = theme@legend$label$fontsize,
                               col = theme@legend$label$colour))
@@ -318,7 +326,7 @@ visualise <- function(..., window = NULL, theme = gtTheme, trace = FALSE, image 
 
         # this is a little hack to get all the values that are contained in the
         # raster "into" the plotted object for later use (e.g. by locate())
-        grid.text(label = obj$uniqueValues$values,
+        grid.text(label = obj$allValues$values,
                   name = "legendValues",
                   gp = gpar(col = NA))
 
