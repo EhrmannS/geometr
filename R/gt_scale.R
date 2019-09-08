@@ -2,7 +2,7 @@
 #'
 #' Scale the vertex values of \code{geom}s to a values range or so that they are
 #' either relative to the \code{@window} slot, or absolute values.
-#' @param geom [\code{geom}]\cr the object to be scaled.
+#' @param geom [\code{geom(.)}]\cr the object to be scaled.
 #' @param range [\code{list(2)}]\cr vector of length two for both of the
 #'   \code{x} and \code{y} dimension to which the values should be scaled.
 #' @param to [\code{character(1)}]\cr the scale to which the coordinates should

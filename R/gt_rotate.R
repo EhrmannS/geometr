@@ -1,7 +1,7 @@
 #' Rotate geometries
 #'
 #' Rotate \code{geom}s by a certain angle about a center
-#' @param geom [\code{geom}]\cr the object to rotate.
+#' @param geom [\code{geom(.)}]\cr the object to rotate.
 #' @param angle [\code{numeric(1)}]\cr the counter-clockwise angle by which
 #'   \code{geom} shall be rotated (can be negative to rotate clockwise).
 #' @param about [\code{numeric(2)}]\cr the point about which \code{geom} shall

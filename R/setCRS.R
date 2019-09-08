@@ -1,4 +1,5 @@
 #' Set (or transform) the coordinate reference system of a spatial object.
+#'
 #' @details In case an object does not yet have a coordinate reference system
 #'   assigned, this function simply assigns it. In case the object has already a
 #'   valid crs, a transformation to the new crs will be carried out. The

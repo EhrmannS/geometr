@@ -1,7 +1,7 @@
 #' Stretch geometries
 #'
 #' Stretch \code{geom}s by a scale factor in x and y-dimension.
-#' @param geom [\code{geom}]\cr the object to stretch.
+#' @param geom [\code{geom(.)}]\cr the object to stretch.
 #' @param x [\code{numeric(1)}]\cr the scale factor in x-dimension.
 #' @param y [\code{numeric(1)}]\cr the scale factor in y-dimension.
 #' @param fid [\code{integerish(.)}]\cr if only a subset of features shall be
