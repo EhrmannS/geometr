@@ -14,27 +14,38 @@ knitr::opts_chunk$set(
   comment = "#>"
 )
 ```
+## ToDo
+
+- replace all "spatial" by "geometric"
+- also mention gt_sketch somewhere.
 
 ## Introduction
   
-The `geometr` package provides tools that generate and process fully accessible and tidy geometric shapes (of class `geom`). Moreover, `geometr` aims to improve interoperability of spatial classes. Spatial classes are typically a collection of geometric shapes (or their vertices) that are accompanied by various metadata (such as attributes and a coordinate reference system). Most spatial classes are thus conceptually quite similar, yet a common standard lacks for accessing features, vertices or the metadata.
+The `geometr` package provides tools that generate and process fully accessible and tidy geometric shapes (of class `geom`). 
+Moreover, `geometr` aims to improve interoperability of geometric classes. 
+One could argue that spatial classes are merely a special case of geometric classes, where the vertices refer to real locations on the surface of the earth, specified in further detail by the coordinate reference system (crs) [REF].
+For ordinary geometric shapes (such as squares or circles), the coordinate (reference) system is the *cartesian coordinate system*.
+`geometr` makes this generalisation and treats all geometric and spatial classes in the same way, hence, the further text refers to both, geometric and spatial classes with the term *geometric classes*.
+Geometric objects are typically a collection of geometric shapes, which are called *features* here, or the vertices that outline the shapes.
+They are often accompanied by various metadata, such as properties of the class of geometric object, feature attributes or a coordinate reference system. 
+Most geometric classes are thus conceptually quite similar, yet a common, interoperable standard lacks for accessing and modifying features, vertices or the metadata.
 
-This vignette outlines in more detail first how `geometr` improves interoperability, then it scrutinises the datastructure of a `geom` (the spatial class that comes with `geometr`) and how different types are cast into one another, shows how to visualise spatial objects and eventually gives a short introduction of some of the tools that come with `geometr`.
+This vignette outlines in detail first how `geometr` improves interoperability, then it scrutinises the datastructure of a `geom` (the spatial class that comes with `geometr`) and how different types are cast into one another, shows how to visualise spatial objects and eventually gives a short introduction of initial tools that come with `geometr`.
 
 
 ## Interoperability
 
-Interoperable software is software that can easily exchange information with other software, which is typically achieved by providing the output of functionally similar operations in a common arrangement or format.
+Interoperable software can easily exchange information with other software, which is typically achieved by providing the output of functionally similar operations in a common arrangement or format [REF].
 This principle is not only true for software written in different language, but can also apply, for instance, to several packages within the R ecosystem.
-R is an open source environment which means that no single package or class will ever be the sole source of a particular datastructure and this is also the case for spatial or geometric data.
+R is an open source environment which means that no single package or class will ever be the sole source of a particular datastructure and this is also the case for geometric data.
 
-Interoperable data is data that has a common arrangement and that uses terms from the same vocabulary.
-We can think, for example, of the extent of a spatial or geographic object.
+Interoperable data is data that has a common arrangement and that uses terms from the same vocabulary [REF].
+We can think, for example, of the extent of a geometric object.
 An extent is characterised by a minimum and maximum value in all valid dimensions.
 There are, however, several data structures in which the information can be reported, such as a vector of several numbers or a table.
-Moreover, the data carried by disparate data structures may not be provided so that the same information is at the same position in all structures.
+Moreover, distinct data structures may provided data so that the same information is not at the same location or with the same name in all structures, e.g., the minimum value of the x dimension is not always the first information and is not always called 'xmin'.
 
-The following code section shows various functions, which are all considered standard in R to date, that derive an extent from specific spatial objects:
+The following code chunk shows various functions, which are all considered standard in R to date, that derive an extent from specific spatial objects:
 
 ```{r}
 library(sf)
@@ -51,16 +62,18 @@ extent(ras)
 ```
 
 `st_bbox()` provides the information as a named vector, and presents first minimum and then maximum values of both dimensions, `bbox()` provides a table with minimum and maximum values in columns and `extent()` provides the information in an S4 object that presents first the x and then the y values.
-Neither data structures, nor names or positions of the information are comparable, which requires distinct procedures to extract one and the same information from those outputs.
+Neither data structures, nor names or positions of the information are comparable.
 
-For a human user the structure of those information might not matter.
-However, the capacity of humans to recognise information relative to their context needs to be programmed into the software that is supposed to gather information with respect to context.
-Think, for example, of a custom function that is designed to derive and process information from some arbitraty spatial input a user provides, without knowing in advance what spatial class the user will provide.
+For a human user the structure of those information might not matter, because we recognise, in most cases intuitively, where which information is to be found in a datastructure.
+In the above case it is easiy to recognise how the combination of column and rownames (of `bbox()`) refers to the already combined names (of `st_bbox()` or `extent()`).
+However, this capacity of humans to recognise information relative to the context needs to be programmed into software, for it to have that ability.
+Think, for example, of a custom function that is designed to extract and process information from an arbitraty spatial input, i.e., without knowing in advance what spatial class the user will provide. 
 This would require an extensive code-logic to handle all possible input formats, complicated further by classes that may become available only in the future.
 
 `geometr` improves interoperability in R for spatial classes by following the [Bioconductor standard for S4 classes](https://www.bioconductor.org/help/course-materials/2017/Zurich/S4-classes-and-methods.html#api-vs-internals).
-Here, *getters* and *setters* are used as accessor functions, and as the sole pathway to extract or modify information in a given data structure.
-`geometr` thus provides getters that provide information in identical format from a wide range of classes, and likewise setters that modify many different classes in the same way, despite those classes typically need differently formatted input, arguments and functions.
+Here, *getters* and *setters* are used as accessor functions, and as pathway to extract or modify information from a given data structure.
+`geometr` thus provides getters that provide information in identical arrangement from a wide range of classes, and likewise setters that modify many different classes in the same way, despite those classes typically need differently formatted input, arguments and functions.
+The following code chunk shows how different input classes yield the same outpubt object.
 
 ```{r}
 library(geometr)
@@ -74,8 +87,8 @@ myInput <- ras
 getExtent(x = myInput)
 ```
 
-The output of the tools provided by `geometr` is tidy, i.e. it provides variables in columns and observations in rows, and it is interoperable, i.e. it provides the same information in the same spot of the output object, with the same names.
-This ensures, amongst other advantages, that a custom function that processes spatial information, requires merely one very simple row of code to extract those information from a potentially wide range of distinct classes.
+The output of the tools provided by `geometr` is tidy, i.e. it provides variables in columns and observations in rows, and it is interoperable, i.e. it provides the same information in the same location of the output object, with the same names.
+This ensures, amongst other advantages, that a custom function that processes geometric information, requires merely one very simple row of code to extract those information from a potentially wide range of distinct classes.
 
 ## Datastructure of the class `geom`
 
