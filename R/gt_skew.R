@@ -98,12 +98,7 @@ gt_skew <- function(geom, x = NULL, y = NULL, fid = NULL, update = TRUE){
     window <- geom@window
   }
 
-  if(length(ids) == 1){
-    newHistory <- paste0("geometry was skewed")
-  } else {
-    newHistory <- paste0("geometries were skewed")
-  }
-
+  # make new geom
   out <- new(Class = "geom",
              type = geom@type,
              vert = temp,
@@ -112,7 +107,15 @@ gt_skew <- function(geom, x = NULL, y = NULL, fid = NULL, update = TRUE){
              window = window,
              scale = geom@scale,
              crs = geom@crs,
-             history = c(geom@history, list(newHistory)))
+             history = c(geom@history))
+
+  # assign history
+  if(length(ids) == 1){
+    hist <- paste0("geometry was skewed")
+  } else {
+    hist <- paste0("geometries were skewed")
+  }
+  out <- setHistory(x = out, history = hist)
 
   return(out)
 }

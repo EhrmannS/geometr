@@ -111,12 +111,7 @@ gt_rotate <- function(geom = NULL, angle = NULL, about = c(0, 0), fid = NULL,
     window <- geom@window
   }
 
-  if(length(ids) == 1){
-    newHistory <- paste0("geometry was rotated")
-  } else {
-    newHistory <- paste0("geometries were rotated")
-  }
-
+  # make new geom
   out <- new(Class = "geom",
              type = geom@type,
              vert = temp,
@@ -125,7 +120,15 @@ gt_rotate <- function(geom = NULL, angle = NULL, about = c(0, 0), fid = NULL,
              window = window,
              scale = geom@scale,
              crs = geom@crs,
-             history = c(geom@history, list(newHistory)))
+             history = c(geom@history))
+
+  # assign history
+  if(length(ids) == 1){
+    hist <- paste0("geometry was rotated")
+  } else {
+    hist <- paste0("geometries were rotated")
+  }
+  out <- setHistory(x = out, history = hist)
 
   return(out)
 }

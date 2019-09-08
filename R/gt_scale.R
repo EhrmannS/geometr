@@ -88,6 +88,7 @@ gt_scale <- function(geom, range = NULL, to = "relative"){
     window <- as.data.frame(range)
   }
 
+  # make new geom
   out <- new(Class = "geom",
              type = geom@type,
              vert = out,
@@ -96,7 +97,10 @@ gt_scale <- function(geom, range = NULL, to = "relative"){
              window = window,
              scale = to,
              crs = geom@crs,
-             history = c(geom@history, list(paste0("vertex values were scaled to ", newScale, " scale."))))
+             history = c(geom@history))
+
+  # assign history
+  out <- setHistory(x = out, history = paste0("vertex values were scaled to ", newScale, " scale."))
 
   return(out)
 }
