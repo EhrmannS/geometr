@@ -7,7 +7,7 @@
 gt_skew(geom, x = NULL, y = NULL, fid = NULL, update = TRUE)
 }
 \arguments{
-\item{geom}{[\code{geom}]\cr the object to skew.}
+\item{geom}{[\code{geom(.)}]\cr the object to skew.}
 
 \item{x}{[\code{numeric(1)}]\cr the shear factor in x-dimension.}
 

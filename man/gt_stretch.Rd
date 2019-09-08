@@ -7,7 +7,7 @@
 gt_stretch(geom, x = NULL, y = NULL, fid = NULL, update = TRUE)
 }
 \arguments{
-\item{geom}{[\code{geom}]\cr the object to stretch.}
+\item{geom}{[\code{geom(.)}]\cr the object to stretch.}
 
 \item{x}{[\code{numeric(1)}]\cr the scale factor in x-dimension.}
 

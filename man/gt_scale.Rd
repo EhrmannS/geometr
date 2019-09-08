@@ -7,7 +7,7 @@
 gt_scale(geom, range = NULL, to = "relative")
 }
 \arguments{
-\item{geom}{[\code{geom}]\cr the object to be scaled.}
+\item{geom}{[\code{geom(.)}]\cr the object to be scaled.}
 
 \item{range}{[\code{list(2)}]\cr vector of length two for both of the
 \code{x} and \code{y} dimension to which the values should be scaled.}

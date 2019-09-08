@@ -8,7 +8,7 @@ gt_rotate(geom = NULL, angle = NULL, about = c(0, 0), fid = NULL,
   update = TRUE)
 }
 \arguments{
-\item{geom}{[\code{geom}]\cr the object to rotate.}
+\item{geom}{[\code{geom(.)}]\cr the object to rotate.}
 
 \item{angle}{[\code{numeric(1)}]\cr the counter-clockwise angle by which
 \code{geom} shall be rotated (can be negative to rotate clockwise).}
