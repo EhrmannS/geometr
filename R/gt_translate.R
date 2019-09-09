@@ -1,7 +1,7 @@
 #' Translate geometries
 #'
 #' Translate \code{geom}s by adding a constant in x and y-dimension.
-#' @param [\code{geom(.)}]\cr the object to translate.
+#' @param geom [\code{geom(.)}]\cr the object to translate.
 #' @param x [\code{numeric(1)}]\cr the translation constant in x-dimension.
 #' @param y [\code{numeric(1)}]\cr the translation constant in y-dimension.
 #' @param fid [\code{integerish(.)}]\cr if only a subset of features shall be
