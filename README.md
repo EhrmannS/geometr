@@ -86,7 +86,7 @@ A `geom` has the slot `@window`, which contains a reference window, so to speak.
 
 ``` r
 visualise(`Currituck` = currituck)
-visualise(`Currituck` = currituck, window = tibble(x = c(-75.7, -76.4), y = c(36.6, 36)))
+visualise(`Currituck` = currituck, window = getExtent(currituck))
 ```
 
 Finally, cast a `geom` to another type simply by providing it in ‘anchor’ of the respective type
@@ -94,6 +94,6 @@ Finally, cast a `geom` to another type simply by providing it in ‘anchor’ of
 ``` r
 library(magrittr)
 manyPoints <- gs_point(anchor = currituck) %>% 
-   setWindow(to = tibble(x = c(-75.7, -76.4), y = c(36.6, 36)))
+   setWindow(to = getExtent(.))
 visualise(`Currituck - boundary vertices`= manyPoints)
 ```
