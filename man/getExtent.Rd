@@ -45,3 +45,10 @@ getExtent(gtRasters$categorical)
 
 getExtent(matrix(0, 3, 5))
 }
+\seealso{
+Other getters: \code{\link{getCRS}},
+  \code{\link{getHistory}}, \code{\link{getSubset}},
+  \code{\link{getTable}}, \code{\link{getType}},
+  \code{\link{getVertices}}, \code{\link{getWindow}}
+}
+\concept{getters}

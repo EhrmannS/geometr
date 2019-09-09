@@ -24,7 +24,8 @@
 \item{x}{the object for which to determine the type.}
 }
 \value{
-A vector of two values giving the general type (vector/raster) and the specific type/class of \code{x}.
+A vector of two values giving the general type (vector/raster) and
+  the specific type/class of \code{x}.
 }
 \description{
 Get the type of a spatial object.
@@ -40,3 +41,10 @@ getType(gtSF$multiline)
 
 getType(gtRasters$categorical)
 }
+\seealso{
+Other getters: \code{\link{getCRS}},
+  \code{\link{getExtent}}, \code{\link{getHistory}},
+  \code{\link{getSubset}}, \code{\link{getTable}},
+  \code{\link{getVertices}}, \code{\link{getWindow}}
+}
+\concept{getters}

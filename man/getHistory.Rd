@@ -26,3 +26,10 @@ A list of the events that lead to \code{x}.
 \description{
 Get the history of a spatial object.
 }
+\seealso{
+Other getters: \code{\link{getCRS}},
+  \code{\link{getExtent}}, \code{\link{getSubset}},
+  \code{\link{getTable}}, \code{\link{getType}},
+  \code{\link{getVertices}}, \code{\link{getWindow}}
+}
+\concept{getters}

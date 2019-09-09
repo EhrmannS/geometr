@@ -30,3 +30,8 @@ Both, objects of class \code{geom} and \code{Raster*} have the slot
   modification the object has been exposed to. This happens automatically for
   all geometry operations that come with \code{geometr}.
 }
+\seealso{
+Other setters: \code{\link{setCRS}},
+  \code{\link{setTable}}, \code{\link{setWindow}}
+}
+\concept{setters}

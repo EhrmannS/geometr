@@ -47,3 +47,8 @@ window <- data.frame(x = c(0, 2),
                      y = c(0, 2))
 setWindow(x = gtPPP, to = window)
 }
+\seealso{
+Other setters: \code{\link{setCRS}},
+  \code{\link{setHistory}}, \code{\link{setTable}}
+}
+\concept{setters}

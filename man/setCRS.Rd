@@ -37,3 +37,8 @@ In case an object does not yet have a coordinate reference system
   transformation is computed for all classes with the standard defined in the
   \code{rgdal} package.
 }
+\seealso{
+Other setters: \code{\link{setHistory}},
+  \code{\link{setTable}}, \code{\link{setWindow}}
+}
+\concept{setters}
