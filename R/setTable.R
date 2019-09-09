@@ -6,6 +6,7 @@
 #'   new columns are simply bound to the original attribute table (if possible).
 #'   If there are common columns, they are joined.
 #' @return The object \code{x} with an updated attribute table.
+#' @family setters
 #' @name setTable
 #' @rdname setTable
 NULL

@@ -2,6 +2,7 @@
 #'
 #' @param x the object from which to derive the attribute table.
 #' @return A table of the attributes of \code{x}.
+#' @family getters
 #' @name getTable
 #' @rdname getTable
 NULL

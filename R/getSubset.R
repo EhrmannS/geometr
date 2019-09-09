@@ -8,6 +8,7 @@
 #'   or a vector of booleans. Multiple conditions are combined with &. Only rows
 #'   where the condition evaluates to TRUE are kept.
 #' @return A subset of \code{x} in its original class.
+#' @family getters
 #' @name getSubset
 #' @rdname getSubset
 NULL

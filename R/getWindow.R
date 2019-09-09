@@ -2,6 +2,7 @@
 #'
 #' @param x the object from which to derive the reference window.
 #' @return A table of the corners of the reference window of \code{x}.
+#' @family getters
 #' @name getWindow
 #' @rdname getWindow
 NULL

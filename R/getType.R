@@ -1,7 +1,9 @@
 #' Get the type of a spatial object.
 #'
 #' @param x the object for which to determine the type.
-#' @return A vector of two values giving the general type (vector/raster) and the specific type/class of \code{x}.
+#' @return A vector of two values giving the general type (vector/raster) and
+#'   the specific type/class of \code{x}.
+#' @family getters
 #' @name getType
 #' @rdname getType
 NULL

@@ -9,6 +9,7 @@
 #'   modification the object has been exposed to. This happens automatically for
 #'   all geometry operations that come with \code{geometr}.
 #' @return The object \code{x} where the history slot has been updated.
+#' @family setters
 #' @name setHistory
 #' @rdname setHistory
 NULL

@@ -9,6 +9,7 @@
 #'   columns (named x and y) containing the minimum and maximum values for each
 #'   dimension.}
 #' @return The object \code{x} with an update reference window.
+#' @family setters
 #' @name setWindow
 #' @rdname setWindow
 NULL
