@@ -8,6 +8,12 @@ gt_reflect(geom = NULL, fid = NULL, update = NULL)
 }
 \arguments{
 \item{geom}{[\code{geom(.)}]\cr the object to reflect.}
+
+\item{fid}{[\code{integerish(.)}]\cr if only a subset of features shall be
+rotated, specify that here.}
+
+\item{update}{[\code{logical(1)}]\cr whether or not to update the window slot
+after rotation.}
 }
 \description{
 Reflect \code{geom}s across a line.
