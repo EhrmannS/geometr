@@ -25,6 +25,7 @@
 #' gt_scale(geom = aGeom, range = list(x = c(0, 100), y = c(10, 90)))
 #'
 #' @importFrom checkmate testList assertNames
+#' @importFrom tibble as_tibble
 #' @importFrom methods new
 #' @export
 
@@ -90,7 +91,7 @@ gt_scale <- function(geom, range = NULL, to = "relative"){
 
   out <- new(Class = "geom",
              type = geom@type,
-             vert = out,
+             vert = as_tibble(out),
              feat = geom@feat,
              group = geom@group,
              window = window,

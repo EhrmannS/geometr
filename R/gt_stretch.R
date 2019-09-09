@@ -25,6 +25,7 @@
 #' # stretch single geom
 #' visualise(geom = gt_stretch(geom = aGeom, x = 0.5, fid = 1))
 #' @importFrom checkmate assertClass testList testNumeric assert
+#' @importFrom tibble tibble as_tibble
 #' @importFrom methods new
 #' @export
 
@@ -38,6 +39,7 @@ gt_stretch <- function(geom, x = NULL, y = NULL, fid = NULL, update = TRUE){
   assert(xIsList, xIsNumeric)
   assert(yIsList, yIsNumeric)
   assertIntegerish(x = fid, any.missing = FALSE, null.ok = TRUE)
+  assertLogical(x = update, len = 1, any.missing = FALSE)
 
   if(is.null(x)){
     x <- 1
@@ -87,7 +89,7 @@ gt_stretch <- function(geom, x = NULL, y = NULL, fid = NULL, update = TRUE){
       newCoords$x <- newCoords$x - offset$x
       newCoords$y <- newCoords$y - offset$y
     }
-    temp <- bind_rows(temp, newCoords)
+    temp <- rbind(temp, newCoords)
   }
 
   if(update){
@@ -104,7 +106,7 @@ gt_stretch <- function(geom, x = NULL, y = NULL, fid = NULL, update = TRUE){
 
   out <- new(Class = "geom",
              type = geom@type,
-             vert = temp,
+             vert = as_tibble(temp),
              feat = geom@feat,
              group = geom@group,
              window = window,

@@ -37,6 +37,7 @@
 #' visualise(geom = rotateMore)
 #' @importFrom checkmate assertClass assertNames testList testNumeric
 #'   assertNumeric
+#' @importFrom tibble as_tibble
 #' @importFrom methods new
 #' @export
 
@@ -51,6 +52,7 @@ gt_rotate <- function(geom = NULL, angle = NULL, about = c(0, 0), fid = NULL,
   assert(angleIsList, angleIsNumeric)
   assert(aboutIsList, aboutIsNumeric)
   assertIntegerish(x = fid, any.missing = FALSE, null.ok = TRUE)
+  assertLogical(x = update, len = 1, any.missing = FALSE)
 
   if(aboutIsNumeric){
     about <- list(about)
@@ -102,7 +104,7 @@ gt_rotate <- function(geom = NULL, angle = NULL, about = c(0, 0), fid = NULL,
         tempCoords$y <- tempCoords$y - offset[2]
       }
     }
-    temp <- bind_rows(temp, tempCoords)
+    temp <- rbind(temp, tempCoords)
   }
 
   if(update){
@@ -119,7 +121,7 @@ gt_rotate <- function(geom = NULL, angle = NULL, about = c(0, 0), fid = NULL,
 
   out <- new(Class = "geom",
              type = geom@type,
-             vert = temp,
+             vert = as_tibble(temp),
              feat = geom@feat,
              group = geom@group,
              window = window,
