@@ -7,7 +7,7 @@
 gt_stretch(geom, x = NULL, y = NULL, fid = NULL, update = TRUE)
 }
 \arguments{
-\item{geom}{[\code{geom}]\cr the object to stretch.}
+\item{geom}{[\code{geom(.)}]\cr the object to stretch.}
 
 \item{x}{[\code{numeric(1)}]\cr the scale factor in x-dimension.}
 
@@ -43,6 +43,6 @@ visualise(geom = gt_stretch(geom = aGeom, x = 0.5, fid = 1))
 \seealso{
 Other geometry tools: \code{\link{gt_rotate}},
   \code{\link{gt_scale}}, \code{\link{gt_sketch}},
-  \code{\link{gt_skew}}
+  \code{\link{gt_skew}}, \code{\link{gt_translate}}
 }
 \concept{geometry tools}

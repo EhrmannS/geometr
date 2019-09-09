@@ -66,6 +66,6 @@ gt_sketch(template = gtRasters$continuous, shape = "hexagon") \%>\%
 \seealso{
 Other geometry tools: \code{\link{gt_rotate}},
   \code{\link{gt_scale}}, \code{\link{gt_skew}},
-  \code{\link{gt_stretch}}
+  \code{\link{gt_stretch}}, \code{\link{gt_translate}}
 }
 \concept{geometry tools}

@@ -7,7 +7,7 @@
 gt_scale(geom, range = NULL, to = "relative")
 }
 \arguments{
-\item{geom}{[\code{geom}]\cr the object to be scaled.}
+\item{geom}{[\code{geom(.)}]\cr the object to be scaled.}
 
 \item{range}{[\code{list(2)}]\cr vector of length two for both of the
 \code{x} and \code{y} dimension to which the values should be scaled.}
@@ -41,6 +41,6 @@ gt_scale(geom = aGeom, range = list(x = c(0, 100), y = c(10, 90)))
 \seealso{
 Other geometry tools: \code{\link{gt_rotate}},
   \code{\link{gt_sketch}}, \code{\link{gt_skew}},
-  \code{\link{gt_stretch}}
+  \code{\link{gt_stretch}}, \code{\link{gt_translate}}
 }
 \concept{geometry tools}
