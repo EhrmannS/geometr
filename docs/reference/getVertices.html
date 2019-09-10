@@ -118,7 +118,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Get the table of coordinates of a spatial object.</h1>
-    <small class="dont-index">Source: <a href='https://github.com/EhrmannS/geometr/blob/master/R/getVertices.R'><code>R/getVertices.R</code></a></small>
+    
     <div class="hidden name"><code>getVertices.Rd</code></div>
     </div>
 
@@ -153,66 +153,73 @@
 
     <p>A table of the coordinates <code>x</code> is made up of.</p>
     
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <div class='dont-index'><p>Other getters: <code><a href='getCRS.html'>getCRS</a></code>,
+  <code><a href='getExtent.html'>getExtent</a></code>, <code><a href='getHistory.html'>getHistory</a></code>,
+  <code><a href='getSubset.html'>getSubset</a></code>, <code><a href='getTable.html'>getTable</a></code>,
+  <code><a href='getType.html'>getType</a></code>, <code><a href='getWindow.html'>getWindow</a></code></p></div>
+    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>getVertices</span>(<span class='no'>gtGeoms</span>$<span class='no'>polygon</span>)</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 15 x 3</span><span>
+    <pre class="examples"><div class='input'><span class='fu'>getVertices</span>(<span class='no'>gtGeoms</span>$<span class='no'>polygon</span>)</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 15 x 3</span><span>
 #&gt;        x     y   fid
-#&gt;    </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'> 1</span><span>     0     0     1
-#&gt; </span><span style='color: #BCBCBC;'> 2</span><span>    10     0     1
-#&gt; </span><span style='color: #BCBCBC;'> 3</span><span>    10    10     1
-#&gt; </span><span style='color: #BCBCBC;'> 4</span><span>     0    10     1
-#&gt; </span><span style='color: #BCBCBC;'> 5</span><span>     0     0     1
-#&gt; </span><span style='color: #BCBCBC;'> 6</span><span>     1     1     1
-#&gt; </span><span style='color: #BCBCBC;'> 7</span><span>     1     2     1
-#&gt; </span><span style='color: #BCBCBC;'> 8</span><span>     2     2     1
-#&gt; </span><span style='color: #BCBCBC;'> 9</span><span>     2     1     1
-#&gt; </span><span style='color: #BCBCBC;'>10</span><span>     1     1     1
-#&gt; </span><span style='color: #BCBCBC;'>11</span><span>    11    11     2
-#&gt; </span><span style='color: #BCBCBC;'>12</span><span>    11    12     2
-#&gt; </span><span style='color: #BCBCBC;'>13</span><span>    12    12     2
-#&gt; </span><span style='color: #BCBCBC;'>14</span><span>    12    11     2
-#&gt; </span><span style='color: #BCBCBC;'>15</span><span>    11    11     2</div><div class='input'>
-<span class='fu'>getVertices</span>(<span class='no'>gtSP</span>$<span class='no'>SpatialPoints</span>)</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 4 x 3</span><span>
+#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>
+#&gt; </span><span style='color: #555555;'> 1</span><span>     0     0     1
+#&gt; </span><span style='color: #555555;'> 2</span><span>    10     0     1
+#&gt; </span><span style='color: #555555;'> 3</span><span>    10    10     1
+#&gt; </span><span style='color: #555555;'> 4</span><span>     0    10     1
+#&gt; </span><span style='color: #555555;'> 5</span><span>     0     0     1
+#&gt; </span><span style='color: #555555;'> 6</span><span>     1     1     1
+#&gt; </span><span style='color: #555555;'> 7</span><span>     1     2     1
+#&gt; </span><span style='color: #555555;'> 8</span><span>     2     2     1
+#&gt; </span><span style='color: #555555;'> 9</span><span>     2     1     1
+#&gt; </span><span style='color: #555555;'>10</span><span>     1     1     1
+#&gt; </span><span style='color: #555555;'>11</span><span>    11    11     2
+#&gt; </span><span style='color: #555555;'>12</span><span>    11    12     2
+#&gt; </span><span style='color: #555555;'>13</span><span>    12    12     2
+#&gt; </span><span style='color: #555555;'>14</span><span>    12    11     2
+#&gt; </span><span style='color: #555555;'>15</span><span>    11    11     2</div><div class='input'>
+<span class='fu'>getVertices</span>(<span class='no'>gtSP</span>$<span class='no'>SpatialPoints</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 4 x 3</span><span>
 #&gt;       x     y   fid
-#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'>1</span><span>     0     0     1
-#&gt; </span><span style='color: #BCBCBC;'>2</span><span>    10     0     2
-#&gt; </span><span style='color: #BCBCBC;'>3</span><span>    10    10     3
-#&gt; </span><span style='color: #BCBCBC;'>4</span><span>     0    10     4</div><div class='input'>
-<span class='fu'>getVertices</span>(<span class='no'>gtSF</span>$<span class='no'>multilinestring</span>)</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 12 x 3</span><span>
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>1</span><span>     0     0     1
+#&gt; </span><span style='color: #555555;'>2</span><span>    10     0     2
+#&gt; </span><span style='color: #555555;'>3</span><span>    10    10     3
+#&gt; </span><span style='color: #555555;'>4</span><span>     0    10     4</div><div class='input'>
+<span class='fu'>getVertices</span>(<span class='no'>gtSF</span>$<span class='no'>multilinestring</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 12 x 3</span><span>
 #&gt;        x     y   fid
-#&gt;    </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'> 1</span><span>     0     0     1
-#&gt; </span><span style='color: #BCBCBC;'> 2</span><span>     0    10     1
-#&gt; </span><span style='color: #BCBCBC;'> 3</span><span>    10    10     1
-#&gt; </span><span style='color: #BCBCBC;'> 4</span><span>    10     0     1
-#&gt; </span><span style='color: #BCBCBC;'> 5</span><span>     1     1     2
-#&gt; </span><span style='color: #BCBCBC;'> 6</span><span>     1     2     2
-#&gt; </span><span style='color: #BCBCBC;'> 7</span><span>     2     2     2
-#&gt; </span><span style='color: #BCBCBC;'> 8</span><span>     2     1     2
-#&gt; </span><span style='color: #BCBCBC;'> 9</span><span>    11    11     3
-#&gt; </span><span style='color: #BCBCBC;'>10</span><span>    11    12     3
-#&gt; </span><span style='color: #BCBCBC;'>11</span><span>    12    12     3
-#&gt; </span><span style='color: #BCBCBC;'>12</span><span>    12    11     3</div><div class='input'>
-<span class='fu'>getVertices</span>(<span class='no'>gtPPP</span>)</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 15 x 3</span><span>
+#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>
+#&gt; </span><span style='color: #555555;'> 1</span><span>     0     0     1
+#&gt; </span><span style='color: #555555;'> 2</span><span>     0    10     1
+#&gt; </span><span style='color: #555555;'> 3</span><span>    10    10     1
+#&gt; </span><span style='color: #555555;'> 4</span><span>    10     0     1
+#&gt; </span><span style='color: #555555;'> 5</span><span>     1     1     2
+#&gt; </span><span style='color: #555555;'> 6</span><span>     1     2     2
+#&gt; </span><span style='color: #555555;'> 7</span><span>     2     2     2
+#&gt; </span><span style='color: #555555;'> 8</span><span>     2     1     2
+#&gt; </span><span style='color: #555555;'> 9</span><span>    11    11     3
+#&gt; </span><span style='color: #555555;'>10</span><span>    11    12     3
+#&gt; </span><span style='color: #555555;'>11</span><span>    12    12     3
+#&gt; </span><span style='color: #555555;'>12</span><span>    12    11     3</div><div class='input'>
+<span class='fu'>getVertices</span>(<span class='no'>gtPPP</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 15 x 3</span><span>
 #&gt;        x     y   fid
-#&gt;    </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'> 1</span><span>     0     0     1
-#&gt; </span><span style='color: #BCBCBC;'> 2</span><span>    10     0     2
-#&gt; </span><span style='color: #BCBCBC;'> 3</span><span>    10    10     3
-#&gt; </span><span style='color: #BCBCBC;'> 4</span><span>     0    10     4
-#&gt; </span><span style='color: #BCBCBC;'> 5</span><span>     0     0     5
-#&gt; </span><span style='color: #BCBCBC;'> 6</span><span>     1     1     6
-#&gt; </span><span style='color: #BCBCBC;'> 7</span><span>     1     2     7
-#&gt; </span><span style='color: #BCBCBC;'> 8</span><span>     2     2     8
-#&gt; </span><span style='color: #BCBCBC;'> 9</span><span>     2     1     9
-#&gt; </span><span style='color: #BCBCBC;'>10</span><span>     1     1    10
-#&gt; </span><span style='color: #BCBCBC;'>11</span><span>    11    11    11
-#&gt; </span><span style='color: #BCBCBC;'>12</span><span>    11    12    12
-#&gt; </span><span style='color: #BCBCBC;'>13</span><span>    12    12    13
-#&gt; </span><span style='color: #BCBCBC;'>14</span><span>    12    11    14
-#&gt; </span><span style='color: #BCBCBC;'>15</span><span>    11    11    15</div></span></pre>
+#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>
+#&gt; </span><span style='color: #555555;'> 1</span><span>     0     0     1
+#&gt; </span><span style='color: #555555;'> 2</span><span>    10     0     2
+#&gt; </span><span style='color: #555555;'> 3</span><span>    10    10     3
+#&gt; </span><span style='color: #555555;'> 4</span><span>     0    10     4
+#&gt; </span><span style='color: #555555;'> 5</span><span>     0     0     5
+#&gt; </span><span style='color: #555555;'> 6</span><span>     1     1     6
+#&gt; </span><span style='color: #555555;'> 7</span><span>     1     2     7
+#&gt; </span><span style='color: #555555;'> 8</span><span>     2     2     8
+#&gt; </span><span style='color: #555555;'> 9</span><span>     2     1     9
+#&gt; </span><span style='color: #555555;'>10</span><span>     1     1    10
+#&gt; </span><span style='color: #555555;'>11</span><span>    11    11    11
+#&gt; </span><span style='color: #555555;'>12</span><span>    11    12    12
+#&gt; </span><span style='color: #555555;'>13</span><span>    12    12    13
+#&gt; </span><span style='color: #555555;'>14</span><span>    12    11    14
+#&gt; </span><span style='color: #555555;'>15</span><span>    11    11    15</div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -220,6 +227,8 @@
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
+
+      <li><a href="#see-also">See also</a></li>
       
       <li><a href="#examples">Examples</a></li>
     </ul>

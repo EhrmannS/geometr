@@ -16,10 +16,16 @@
     <loc>http://EhrmannS.github.io/geometr/reference/dot-testAnchor.html</loc>
   </url>
   <url>
+    <loc>http://EhrmannS.github.io/geometr/reference/dot-testColours.html</loc>
+  </url>
+  <url>
     <loc>http://EhrmannS.github.io/geometr/reference/dot-testTemplate.html</loc>
   </url>
   <url>
     <loc>http://EhrmannS.github.io/geometr/reference/dot-testWindow.html</loc>
+  </url>
+  <url>
+    <loc>http://EhrmannS.github.io/geometr/reference/dot-updateOrder.html</loc>
   </url>
   <url>
     <loc>http://EhrmannS.github.io/geometr/reference/dot-updateVertices.html</loc>
@@ -115,6 +121,9 @@
     <loc>http://EhrmannS.github.io/geometr/reference/gt_locate.html</loc>
   </url>
   <url>
+    <loc>http://EhrmannS.github.io/geometr/reference/gt_reflect.html</loc>
+  </url>
+  <url>
     <loc>http://EhrmannS.github.io/geometr/reference/gt_rotate.html</loc>
   </url>
   <url>
@@ -130,6 +139,9 @@
     <loc>http://EhrmannS.github.io/geometr/reference/gt_stretch.html</loc>
   </url>
   <url>
+    <loc>http://EhrmannS.github.io/geometr/reference/gt_translate.html</loc>
+  </url>
+  <url>
     <loc>http://EhrmannS.github.io/geometr/reference/makeLayout.html</loc>
   </url>
   <url>
@@ -137,6 +149,9 @@
   </url>
   <url>
     <loc>http://EhrmannS.github.io/geometr/reference/setCRS.html</loc>
+  </url>
+  <url>
+    <loc>http://EhrmannS.github.io/geometr/reference/setHistory.html</loc>
   </url>
   <url>
     <loc>http://EhrmannS.github.io/geometr/reference/setTable.html</loc>

@@ -87,47 +87,49 @@
                         <h4 class="author">Steffen Ehrmann</h4>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/EhrmannS/geometr/blob/master/vignettes/geometr.Rmd"><code>vignettes/geometr.Rmd</code></a></small>
+      
       <div class="hidden name"><code>geometr.Rmd</code></div>
 
     </div>
 
     
     
+<div id="todo" class="section level2">
+<h2 class="hasAnchor">
+<a href="#todo" class="anchor"></a>ToDo</h2>
+<ul>
+<li>replace all “spatial” by “geometric”</li>
+<li>also mention gt_sketch somewhere.</li>
+</ul>
+</div>
 <div id="introduction" class="section level2">
 <h2 class="hasAnchor">
 <a href="#introduction" class="anchor"></a>Introduction</h2>
-<p>The <code>geometr</code> package provides tools that generate and process fully accessible and tidy geometric shapes (of class <code>geom</code>). Moreover, <code>geometr</code> aims to improve interoperability of spatial classes. Spatial classes are typically a collection of geometric shapes (or their vertices) that are accompanied by various metadata (such as attributes and a coordinate reference system). Most spatial classes are thus conceptually quite similar, yet a common standard lacks for accessing features, vertices or the metadata.</p>
-<p>This vignette outlines in more detail first how <code>geometr</code> improves interoperability, then it scrutinises the datastructure of a <code>geom</code> (the spatial class that comes with <code>geometr</code>) and how different types are cast into one another, shows how to visualise spatial objects and eventually gives a short introduction of some of the tools that come with <code>geometr</code>.</p>
+<p>The <code>geometr</code> package provides tools that generate and process fully accessible and tidy geometric shapes (of class <code>geom</code>). Moreover, <code>geometr</code> aims to improve interoperability of geometric classes. One could argue that spatial classes are merely a special case of geometric classes, where the vertices refer to real locations on the surface of the earth, specified in further detail by the coordinate reference system (crs) [REF]. For ordinary geometric shapes (such as squares or circles), the coordinate (reference) system is the <em>cartesian coordinate system</em>. <code>geometr</code> makes this generalisation and treats all geometric and spatial classes in the same way, hence, the further text refers to both, geometric and spatial classes with the term <em>geometric classes</em>. Geometric objects are typically a collection of geometric shapes, which are called <em>features</em> here, or the vertices that outline the shapes. They are often accompanied by various metadata, such as properties of the class of geometric object, feature attributes or a coordinate reference system. Most geometric classes are thus conceptually quite similar, yet a common, interoperable standard lacks for accessing and modifying features, vertices or the metadata.</p>
+<p>This vignette outlines in detail first how <code>geometr</code> improves interoperability, then it scrutinises the datastructure of a <code>geom</code> (the spatial class that comes with <code>geometr</code>) and how different types are cast into one another, shows how to visualise spatial objects and eventually gives a short introduction of initial tools that come with <code>geometr</code>.</p>
 </div>
 <div id="interoperability" class="section level2">
 <h2 class="hasAnchor">
 <a href="#interoperability" class="anchor"></a>Interoperability</h2>
-<p>R is an open source environment which means that no single package or class will ever be the sole source of a particular datastructure and this is also the case for spatial or geometric data.</p>
-<p>Interoperable software is software that can easily exchange information with other software, which is typically achieved by providing the output of functionally similar operations in a common arrangement or format. <code>Geometr</code> improves interoperability in R for spatial classes, by providing functions that extract and provide metadata in an identical format from a potentially wide range of classes.</p>
-<p>Think, for example about the extent of a spatial object. The extent is characterised by a minimum and maximum value in all dimensions into which the object spans. There are, however, several forms in which this extent can be reported, such as a vector of four numbers or a 2x2 table. When it comes to the structure of the reported information, several questions arise:</p>
-<ul>
-<li>Which value is reported in which position?</li>
-<li>Does the reported object have names and if so, what do they mean?</li>
-<li>How do names/positions relate to names/positions of objects reported by other software?</li>
-</ul>
-<p>Take the following examples, which are all considered standard in R to date:</p>
+<p>Interoperable software can easily exchange information with other software, which is typically achieved by providing the output of functionally similar operations in a common arrangement or format [REF]. This principle is not only true for software written in different language, but can also apply, for instance, to several packages within the R ecosystem. R is an open source environment which means that no single package or class will ever be the sole source of a particular datastructure and this is also the case for geometric data.</p>
+<p>Interoperable data is data that has a common arrangement and that uses terms from the same vocabulary [REF]. We can think, for example, of the extent of a geometric object. An extent is characterised by a minimum and maximum value in all valid dimensions. There are, however, several data structures in which the information can be reported, such as a vector of several numbers or a table. Moreover, distinct data structures may provided data so that the same information is not at the same location or with the same name in all structures, e.g., the minimum value of the x dimension is not always the first information and is not always called ‘xmin’.</p>
+<p>The following code chunk shows various functions, which are all considered standard in R to date, that derive an extent from specific spatial objects:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(sf)</a>
-<a class="sourceLine" id="cb1-2" data-line-number="2"><span class="co">#&gt; Linking to GEOS 3.5.1, GDAL 2.2.2, PROJ 4.9.2</span></a>
-<a class="sourceLine" id="cb1-3" data-line-number="3">nc &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/sf/topics/st_read">st_read</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/system.file">system.file</a></span>(<span class="st">"shape/nc.shp"</span>, <span class="dt">package=</span><span class="st">"sf"</span>))</a>
-<a class="sourceLine" id="cb1-4" data-line-number="4"><span class="co">#&gt; Reading layer `nc' from data source `/home/steffen/R/x86_64-pc-linux-gnu-library/3.6/sf/shape/nc.shp' using driver `ESRI Shapefile'</span></a>
+<a class="sourceLine" id="cb1-2" data-line-number="2"><span class="co">#&gt; Linking to GEOS 3.7.0, GDAL 2.4.0, PROJ 5.2.0</span></a>
+<a class="sourceLine" id="cb1-3" data-line-number="3">nc_sf &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/sf/topics/st_read">st_read</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/system.file">system.file</a></span>(<span class="st">"shape/nc.shp"</span>, <span class="dt">package=</span><span class="st">"sf"</span>))</a>
+<a class="sourceLine" id="cb1-4" data-line-number="4"><span class="co">#&gt; Reading layer `nc' from data source `/home/se87kuhe/R/x86_64-pc-linux-gnu-library/3.6/sf/shape/nc.shp' using driver `ESRI Shapefile'</span></a>
 <a class="sourceLine" id="cb1-5" data-line-number="5"><span class="co">#&gt; Simple feature collection with 100 features and 14 fields</span></a>
 <a class="sourceLine" id="cb1-6" data-line-number="6"><span class="co">#&gt; geometry type:  MULTIPOLYGON</span></a>
 <a class="sourceLine" id="cb1-7" data-line-number="7"><span class="co">#&gt; dimension:      XY</span></a>
 <a class="sourceLine" id="cb1-8" data-line-number="8"><span class="co">#&gt; bbox:           xmin: -84.32385 ymin: 33.88199 xmax: -75.45698 ymax: 36.58965</span></a>
 <a class="sourceLine" id="cb1-9" data-line-number="9"><span class="co">#&gt; epsg (SRID):    4267</span></a>
 <a class="sourceLine" id="cb1-10" data-line-number="10"><span class="co">#&gt; proj4string:    +proj=longlat +datum=NAD27 +no_defs</span></a>
-<a class="sourceLine" id="cb1-11" data-line-number="11"><span class="kw"><a href="https://www.rdocumentation.org/packages/sf/topics/st_bbox">st_bbox</a></span>(nc)</a>
+<a class="sourceLine" id="cb1-11" data-line-number="11"><span class="kw"><a href="https://www.rdocumentation.org/packages/sf/topics/st_bbox">st_bbox</a></span>(nc_sf)</a>
 <a class="sourceLine" id="cb1-12" data-line-number="12"><span class="co">#&gt;      xmin      ymin      xmax      ymax </span></a>
 <a class="sourceLine" id="cb1-13" data-line-number="13"><span class="co">#&gt; -84.32385  33.88199 -75.45698  36.58965</span></a>
 <a class="sourceLine" id="cb1-14" data-line-number="14"></a>
 <a class="sourceLine" id="cb1-15" data-line-number="15"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(sp)</a>
-<a class="sourceLine" id="cb1-16" data-line-number="16">nc_sp &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/sf/topics/coerce-methods">as_Spatial</a></span>(nc)</a>
+<a class="sourceLine" id="cb1-16" data-line-number="16">nc_sp &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/sf/topics/coerce-methods">as_Spatial</a></span>(nc_sf)</a>
 <a class="sourceLine" id="cb1-17" data-line-number="17"><span class="kw"><a href="https://www.rdocumentation.org/packages/sp/topics/bbox">bbox</a></span>(nc_sp)</a>
 <a class="sourceLine" id="cb1-18" data-line-number="18"><span class="co">#&gt;         min       max</span></a>
 <a class="sourceLine" id="cb1-19" data-line-number="19"><span class="co">#&gt; x -84.32385 -75.45698</span></a>
@@ -141,13 +143,15 @@
 <a class="sourceLine" id="cb1-27" data-line-number="27"><span class="co">#&gt; xmax       : 181600 </span></a>
 <a class="sourceLine" id="cb1-28" data-line-number="28"><span class="co">#&gt; ymin       : 329400 </span></a>
 <a class="sourceLine" id="cb1-29" data-line-number="29"><span class="co">#&gt; ymax       : 334000</span></a></code></pre></div>
-<p>For a human user the structure of those information might not matter. However, the capacity of humans to recognise information relative to their context needs to be programmed into the software that is supposed to gather information with respect to context. Think of a custom function that is supposed to take some spatial input from the user and derive information from it, without knowing in advance what spatial class that will be, and hence does not know how the output of the respective class should be interpreted. The need for such a function is derived from the different flavours/functions/pipelines that are common in an open source software, so that all classes, which may be preferable in particular usecases, can be used equally. So far, this interoperability is not given in R and <code>geometr</code> provides it, as the following example shows</p>
+<p><code><a href="https://www.rdocumentation.org/packages/sf/topics/st_bbox">st_bbox()</a></code> provides the information as a named vector, and presents first minimum and then maximum values of both dimensions, <code><a href="https://www.rdocumentation.org/packages/sp/topics/bbox">bbox()</a></code> provides a table with minimum and maximum values in columns and <code><a href="https://www.rdocumentation.org/packages/raster/topics/extent">extent()</a></code> provides the information in an S4 object that presents first the x and then the y values. Neither data structures, nor names or positions of the information are comparable.</p>
+<p>For a human user the structure of those information might not matter, because we recognise, in most cases intuitively, where which information is to be found in a datastructure. In the above case it is easiy to recognise how the combination of column and rownames (of <code><a href="https://www.rdocumentation.org/packages/sp/topics/bbox">bbox()</a></code>) refers to the already combined names (of <code><a href="https://www.rdocumentation.org/packages/sf/topics/st_bbox">st_bbox()</a></code> or <code><a href="https://www.rdocumentation.org/packages/raster/topics/extent">extent()</a></code>). However, this capacity of humans to recognise information relative to the context needs to be programmed into software, for it to have that ability. Think, for example, of a custom function that is designed to extract and process information from an arbitraty spatial input, i.e., without knowing in advance what spatial class the user will provide. This would require an extensive code-logic to handle all possible input formats, complicated further by classes that may become available only in the future.</p>
+<p><code>geometr</code> improves interoperability in R for spatial classes by following the <a href="https://www.bioconductor.org/help/course-materials/2017/Zurich/S4-classes-and-methods.html#api-vs-internals">Bioconductor standard for S4 classes</a>. Here, <em>getters</em> and <em>setters</em> are used as accessor functions, and as pathway to extract or modify information from a given data structure. <code>geometr</code> thus provides getters that provide information in identical arrangement from a wide range of classes, and likewise setters that modify many different classes in the same way, despite those classes typically need differently formatted input, arguments and functions. The following code chunk shows how different input classes yield the same outpubt object.</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(geometr)</a>
-<a class="sourceLine" id="cb2-2" data-line-number="2"><span class="co">#&gt; Registered S3 method overwritten by 'spatstat':</span></a>
-<a class="sourceLine" id="cb2-3" data-line-number="3"><span class="co">#&gt;   method     from</span></a>
-<a class="sourceLine" id="cb2-4" data-line-number="4"><span class="co">#&gt;   print.boxx cli</span></a>
-<a class="sourceLine" id="cb2-5" data-line-number="5">myInput &lt;-<span class="st"> </span>nc</a>
-<a class="sourceLine" id="cb2-6" data-line-number="6"><span class="kw"><a href="../reference/getExtent.html">getExtent</a></span>(<span class="dt">x =</span> myInput)</a>
+<a class="sourceLine" id="cb2-2" data-line-number="2">myInput &lt;-<span class="st"> </span>nc_sf</a>
+<a class="sourceLine" id="cb2-3" data-line-number="3"><span class="kw"><a href="../reference/getExtent.html">getExtent</a></span>(<span class="dt">x =</span> myInput)</a>
+<a class="sourceLine" id="cb2-4" data-line-number="4"><span class="co">#&gt; Registered S3 method overwritten by 'cli':</span></a>
+<a class="sourceLine" id="cb2-5" data-line-number="5"><span class="co">#&gt;   method     from    </span></a>
+<a class="sourceLine" id="cb2-6" data-line-number="6"><span class="co">#&gt;   print.boxx spatstat</span></a>
 <a class="sourceLine" id="cb2-7" data-line-number="7"><span class="co">#&gt; # A tibble: 2 x 2</span></a>
 <a class="sourceLine" id="cb2-8" data-line-number="8"><span class="co">#&gt;       x     y</span></a>
 <a class="sourceLine" id="cb2-9" data-line-number="9"><span class="co">#&gt;   &lt;dbl&gt; &lt;dbl&gt;</span></a>
@@ -169,7 +173,7 @@
 <a class="sourceLine" id="cb2-25" data-line-number="25"><span class="co">#&gt;    &lt;dbl&gt;  &lt;dbl&gt;</span></a>
 <a class="sourceLine" id="cb2-26" data-line-number="26"><span class="co">#&gt; 1 178400 329400</span></a>
 <a class="sourceLine" id="cb2-27" data-line-number="27"><span class="co">#&gt; 2 181600 334000</span></a></code></pre></div>
-<p>The output of the tools provided by <code>geometr</code> is tidy, i.e. it provides variables in columns and observations in rows, and it is interoperable, i.e. it provides the same information in the same spot of the output object. This ensures that a custom function requires merely one very simple row of code to extract those information from a potentially wide range of distinct classes, and not a lengthy if-condition that tests classes and implements different extraction procedures.</p>
+<p>The output of the tools provided by <code>geometr</code> is tidy, i.e. it provides variables in columns and observations in rows, and it is interoperable, i.e. it provides the same information in the same location of the output object, with the same names. This ensures, amongst other advantages, that a custom function that processes geometric information, requires merely one very simple row of code to extract those information from a potentially wide range of distinct classes.</p>
 </div>
 <div id="datastructure-of-the-class-geom" class="section level2">
 <h2 class="hasAnchor">
@@ -189,29 +193,55 @@
 <li>talk about which advantages that brings, vertices are easily accessible and can be provided with attributes, which allows also point patterns to be treated together with other geometries</li>
 <li>somehow a hybrid of ppp and sf (units as in spatstat are indirectly covered by the projection)</li>
 <li>also describe that how a single features looks like (being close by a duplicate vertex and with holes that are inside)</li>
+<li>when making a geom from an sf, group = TRUE can be used to assign values that are unique at the level of multi_ features, into the groups attribute table, and not into the features attribute table, where they would be duplicated in a geom.</li>
+<li>the vert slot is comparable to the “geom” column in an sf, however, the values are easily and explicitly accessible and can be modified also with other functions or routines than the highly specific st_* functions.</li>
 </ul>
 </div>
 <div id="casting" class="section level2">
 <h2 class="hasAnchor">
 <a href="#casting" class="anchor"></a>Casting</h2>
+<ul>
+<li>cast by providing a geom in anchor of the respecive type</li>
+<li>it does not change anything about the data (check if that claim is really true), but merely changes the type.</li>
+<li>the type then determines how the object is plotted.</li>
+<li>when casting to polygon, the polygon checks are carried out.</li>
+</ul>
 </div>
 <div id="visualising" class="section level2">
 <h2 class="hasAnchor">
 <a href="#visualising" class="anchor"></a>Visualising</h2>
+<ul>
+<li>plot objects by providing a “the name = theObject”.</li>
+<li>plot both, vector and raster objects</li>
+<li>methods extract the required information based on the above discussed getters, for any class that has getters defined (this still requires some work to be true for all classes)</li>
+<li>also explain how to use “window” for zooming and quick access to particular areas of a plot.</li>
+</ul>
 <div id="quick-options" class="section level3">
 <h3 class="hasAnchor">
 <a href="#quick-options" class="anchor"></a>Quick options</h3>
+<ul>
+<li>attributes can be used in quick options</li>
+</ul>
 </div>
 <div id="the-gttheme" class="section level3">
 <h3 class="hasAnchor">
 <a href="#the-gttheme" class="anchor"></a>The <code>gtTheme</code>
 </h3>
+<ul>
+<li>explain how to set up a gtTheme</li>
+<li>there is a default gtTheme, which is modified with setTheme, which is kind of a setter, just not for geoms, but for gtTheme.</li>
+<li>explain how colour palettes work.</li>
+</ul>
 </div>
 </div>
 <div id="other-tools-in-geometr" class="section level2">
 <h2 class="hasAnchor">
 <a href="#other-tools-in-geometr" class="anchor"></a>Other tools in <code>geometr</code>
 </h2>
+<ul>
+<li>tools are used feature-wise, if more than one set of modification values is provided. for example, if there are two features and two distinct angles of ration are provided, each feature will be rotated by the respective angle. When there are more features than angles, angles will be recycled.</li>
+<li>mention that those functions access the vertices</li>
+</ul>
 </div>
   </div>
 
@@ -220,7 +250,8 @@
       <h2 class="hasAnchor">
 <a href="#tocnav" class="anchor"></a>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
-<li><a href="#introduction">Introduction</a></li>
+<li><a href="#todo">ToDo</a></li>
+      <li><a href="#introduction">Introduction</a></li>
       <li><a href="#interoperability">Interoperability</a></li>
       <li><a href="#datastructure-of-the-class-geom">Datastructure of the class <code>geom</code></a></li>
       <li><a href="#casting">Casting</a></li>

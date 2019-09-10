@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Scale geometries — gt_scale • geometr</title>
+<title>Translate geometries — gt_translate • geometr</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,10 +30,9 @@
 
 
 
-<meta property="og:title" content="Scale geometries — gt_scale" />
+<meta property="og:title" content="Translate geometries — gt_translate" />
 
-<meta property="og:description" content="Scale the vertex values of geoms to a values range or so that they are
-either relative to the @window slot, or absolute values." />
+<meta property="og:description" content="Translate geoms by adding a constant in x and y-dimension." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -118,90 +117,71 @@ either relative to the @window slot, or absolute values." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Scale geometries</h1>
+    <h1>Translate geometries</h1>
     
-    <div class="hidden name"><code>gt_scale.Rd</code></div>
+    <div class="hidden name"><code>gt_translate.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Scale the vertex values of <code>geom</code>s to a values range or so that they are
-either relative to the <code>@window</code> slot, or absolute values.</p>
+    <p>Translate <code>geom</code>s by adding a constant in x and y-dimension.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>gt_scale</span>(<span class='no'>geom</span>, <span class='kw'>range</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>to</span> <span class='kw'>=</span> <span class='st'>"relative"</span>)</pre>
+    <pre class="usage"><span class='fu'>gt_translate</span>(<span class='kw'>geom</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>x</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>fid</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>update</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>geom</th>
-      <td><p>[<code><a href='geom-class.html'>geom(.)</a></code>]<br /> the object to be scaled.</p></td>
+      <td><p>[<code><a href='geom-class.html'>geom(.)</a></code>]<br /> the object to translate.</p></td>
     </tr>
     <tr>
-      <th>range</th>
-      <td><p>[<code><a href='https://www.rdocumentation.org/packages/base/topics/list'>list(2)</a></code>]<br /> vector of length two for both of the
-<code>x</code> and <code>y</code> dimension to which the values should be scaled.</p></td>
+      <th>x</th>
+      <td><p>[<code><a href='https://www.rdocumentation.org/packages/base/topics/numeric'>numeric(1)</a></code>]<br /> the translation constant in x-dimension.</p></td>
     </tr>
     <tr>
-      <th>to</th>
-      <td><p>[<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code>]<br /> the scale to which the coordinates should
-be transformed; possible are <code>"relative"</code> and <code>"absolute"</code>;
-ignored in case <code>range != NULL</code>.</p></td>
+      <th>y</th>
+      <td><p>[<code><a href='https://www.rdocumentation.org/packages/base/topics/numeric'>numeric(1)</a></code>]<br /> the translation constant in y-dimension.</p></td>
+    </tr>
+    <tr>
+      <th>fid</th>
+      <td><p>[<code>integerish(.)</code>]<br /> if only a subset of features shall be
+rotated, specify that here.</p></td>
+    </tr>
+    <tr>
+      <th>update</th>
+      <td><p>[<code><a href='https://www.rdocumentation.org/packages/base/topics/logical'>logical(1)</a></code>]<br /> whether or not to update the window slot
+after rotation.</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>Scaled <code>geom</code>.</p>
+    <p>Mathematically translated <code>geom</code>.</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>Other geometry tools: <code><a href='gt_rotate.html'>gt_rotate</a></code>,
-  <code><a href='gt_sketch.html'>gt_sketch</a></code>, <code><a href='gt_skew.html'>gt_skew</a></code>,
-  <code><a href='gt_stretch.html'>gt_stretch</a></code>, <code><a href='gt_translate.html'>gt_translate</a></code></p></div>
+  <code><a href='gt_scale.html'>gt_scale</a></code>, <code><a href='gt_sketch.html'>gt_sketch</a></code>,
+  <code><a href='gt_skew.html'>gt_skew</a></code>, <code><a href='gt_stretch.html'>gt_stretch</a></code></p></div>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>coords</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/data.frame'>data.frame</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>40</span>, <span class='fl'>70</span>, <span class='fl'>70</span>, <span class='fl'>50</span>, <span class='fl'>40</span>),
-                     <span class='kw'>y</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>40</span>, <span class='fl'>40</span>, <span class='fl'>60</span>, <span class='fl'>70</span>, <span class='fl'>40</span>),
-                     <span class='kw'>fid</span> <span class='kw'>=</span> <span class='fl'>1</span>)
+    <pre class="examples"><div class='input'><span class='co'># the original object</span>
+<span class='no'>coords</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/data.frame'>data.frame</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>30</span>, <span class='fl'>60</span>, <span class='fl'>60</span>, <span class='fl'>40</span>, <span class='fl'>10</span>, <span class='fl'>40</span>, <span class='fl'>20</span>),
+                     <span class='kw'>y</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>40</span>, <span class='fl'>40</span>, <span class='fl'>60</span>, <span class='fl'>70</span>, <span class='fl'>10</span>, <span class='fl'>20</span>, <span class='fl'>40</span>),
+                     <span class='kw'>fid</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>1</span>, <span class='fl'>1</span>, <span class='fl'>1</span>, <span class='fl'>1</span>, <span class='fl'>2</span>, <span class='fl'>2</span>, <span class='fl'>2</span>))
 <span class='no'>window</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/data.frame'>data.frame</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>0</span>, <span class='fl'>80</span>),
                      <span class='kw'>y</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>0</span>, <span class='fl'>80</span>))
 <span class='no'>aGeom</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='gs_polygon.html'>gs_polygon</a></span>(<span class='kw'>anchor</span> <span class='kw'>=</span> <span class='no'>coords</span>, <span class='kw'>window</span> <span class='kw'>=</span> <span class='no'>window</span>)
 
-<span class='co'># change to relative scale and back to absolute</span>
-(<span class='no'>relCoords</span> <span class='kw'>&lt;-</span> <span class='fu'>gt_scale</span>(<span class='kw'>geom</span> <span class='kw'>=</span> <span class='no'>aGeom</span>, <span class='kw'>to</span> <span class='kw'>=</span> <span class='st'>"relative"</span>))</div><div class='output co'>#&gt; <span style='color: #BBBB00;'>geom</span><span>        polygon
-#&gt;             1 feature | 5 vertices
-#&gt; </span><span style='color: #BBBB00;'>crs         </span><span>cartesian
-#&gt; </span><span style='color: #BBBB00;'>attributes</span><span>  --
-#&gt; </span><span style='color: #BBBB00;'>tiny map  </span><span>    80 
-#&gt;               ◌ ◌ ◌ ◌    
-#&gt;               ◌ ◌ ◌ ◌    
-#&gt;               ◌ ◌ ◌ ◌    
-#&gt;             0 ◉ ◌ ◌ ◌ 80 
-#&gt;               0 </div><div class='input'><span class='fu'>gt_scale</span>(<span class='kw'>geom</span> <span class='kw'>=</span> <span class='no'>relCoords</span>, <span class='kw'>to</span> <span class='kw'>=</span> <span class='st'>"absolute"</span>)</div><div class='output co'>#&gt; </span><span style='color: #BBBB00;'>geom</span><span>        polygon
-#&gt;             1 feature | 5 vertices
-#&gt; </span><span style='color: #BBBB00;'>crs         </span><span>cartesian
-#&gt; </span><span style='color: #BBBB00;'>attributes</span><span>  --
-#&gt; </span><span style='color: #BBBB00;'>tiny map  </span><span>    80 
-#&gt;               ◌ ◌ ◎ ◎    
-#&gt;               ◌ ◉ ◉ ◉    
-#&gt;               ◌ ◉ ◉ ◎    
-#&gt;             0 ◌ ◌ ◌ ◌ 80 
-#&gt;               0 </div><div class='input'>
-<span class='fu'>gt_scale</span>(<span class='kw'>geom</span> <span class='kw'>=</span> <span class='no'>aGeom</span>, <span class='kw'>range</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>0</span>, <span class='fl'>100</span>), <span class='kw'>y</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>10</span>, <span class='fl'>90</span>)))</div><div class='output co'>#&gt; </span><span style='color: #BBBB00;'>geom</span><span>        polygon
-#&gt;             1 feature | 5 vertices
-#&gt; </span><span style='color: #BBBB00;'>crs         </span><span>cartesian
-#&gt; </span><span style='color: #BBBB00;'>attributes</span><span>  --
-#&gt; </span><span style='color: #BBBB00;'>tiny map  </span><span>    90 
-#&gt;               ◌ ◌ ◎ ◎     
-#&gt;               ◌ ◉ ◉ ◉     
-#&gt;               ◌ ◉ ◉ ◎     
-#&gt;             0 ◌ ◌ ◌ ◌ 100 
-#&gt;               10 </div><div class='input'>
-</div></span></pre>
+<span class='co'># translate several geoms</span>
+<span class='fu'><a href='visualise.html'>visualise</a></span>(<span class='kw'>geom</span> <span class='kw'>=</span> <span class='fu'>gt_translate</span>(<span class='kw'>geom</span> <span class='kw'>=</span> <span class='no'>aGeom</span>, <span class='kw'>x</span> <span class='kw'>=</span> <span class='fl'>5</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(-<span class='fl'>10</span>, <span class='fl'>5</span>)))</div><div class='img'><img src='gt_translate-1.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='co'># translate single geom</span>
+<span class='fu'><a href='visualise.html'>visualise</a></span>(<span class='kw'>geom</span> <span class='kw'>=</span> <span class='fu'>gt_translate</span>(<span class='kw'>geom</span> <span class='kw'>=</span> <span class='no'>aGeom</span>, <span class='kw'>x</span> <span class='kw'>=</span> <span class='fl'>5</span>, <span class='kw'>fid</span> <span class='kw'>=</span> <span class='fl'>1</span>))</div><div class='img'><img src='gt_translate-2.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Get the coordinate reference system of a spatial object. — getCRS • geometr</title>
+<title>Set additional entries to the history of an object — setHistory • geometr</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,9 +30,9 @@
 
 
 
-<meta property="og:title" content="Get the coordinate reference system of a spatial object. — getCRS" />
+<meta property="og:title" content="Set additional entries to the history of an object — setHistory" />
 
-<meta property="og:description" content="Get the coordinate reference system of a spatial object." />
+<meta property="og:description" content="Set additional entries to the history of an object" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -117,51 +117,53 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Get the coordinate reference system of a spatial object.</h1>
+    <h1>Set additional entries to the history of an object</h1>
     
-    <div class="hidden name"><code>getCRS.Rd</code></div>
+    <div class="hidden name"><code>setHistory.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Get the coordinate reference system of a spatial object.</p>
+    <p>Set additional entries to the history of an object</p>
     
     </div>
 
     <pre class="usage"><span class='co'># S4 method for geom</span>
-<span class='fu'>getCRS</span>(<span class='no'>x</span>)
-
-<span class='co'># S4 method for Spatial</span>
-<span class='fu'>getCRS</span>(<span class='no'>x</span>)
-
-<span class='co'># S4 method for sf</span>
-<span class='fu'>getCRS</span>(<span class='no'>x</span>)
-
-<span class='co'># S4 method for ppp</span>
-<span class='fu'>getCRS</span>(<span class='no'>x</span>)
+<span class='fu'>setHistory</span>(<span class='no'>x</span>, <span class='kw'>history</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
 
 <span class='co'># S4 method for Raster</span>
-<span class='fu'>getCRS</span>(<span class='no'>x</span>)</pre>
+<span class='fu'>setHistory</span>(<span class='no'>x</span>, <span class='kw'>history</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>x</th>
-      <td><p>the object from which to extract the coordinate reference system.</p></td>
+      <td><p>the object for which to set the coordinate reference system.</p></td>
+    </tr>
+    <tr>
+      <th>history</th>
+      <td><p>[<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code>]<br /> the coordinate reference system to
+set for this object.</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>The coordinate reference system of <code>x</code> given as proj4string.</p>
+    <p>The object <code>x</code> where the history slot has been updated.</p>
+    
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>Both, objects of class <code>geom</code> and <code>Raster*</code> have the slot
+  <code>@history</code>, which contains the provenance of that object. With
+  <code>setHistory</code>, that provenance can be updated, based on the
+  modification the object has been exposed to. This happens automatically for
+  all geometry operations that come with <code>geometr</code>.</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p>Other getters: <code><a href='getExtent.html'>getExtent</a></code>,
-  <code><a href='getHistory.html'>getHistory</a></code>, <code><a href='getSubset.html'>getSubset</a></code>,
-  <code><a href='getTable.html'>getTable</a></code>, <code><a href='getType.html'>getType</a></code>,
-  <code><a href='getVertices.html'>getVertices</a></code>, <code><a href='getWindow.html'>getWindow</a></code></p></div>
+    <div class='dont-index'><p>Other setters: <code><a href='setCRS.html'>setCRS</a></code>,
+  <code><a href='setTable.html'>setTable</a></code>, <code><a href='setWindow.html'>setWindow</a></code></p></div>
     
 
   </div>
@@ -171,6 +173,8 @@
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
+
+      <li><a href="#details">Details</a></li>
 
       <li><a href="#see-also">See also</a></li>
           </ul>
