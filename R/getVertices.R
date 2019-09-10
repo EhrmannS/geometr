@@ -4,6 +4,7 @@
 #' @return A table of the coordinates \code{x} is made up of.
 #' @examples
 #' getVertices(gtGeoms$polygon)
+#' @family getters
 #' @name getVertices
 #' @rdname getVertices
 NULL

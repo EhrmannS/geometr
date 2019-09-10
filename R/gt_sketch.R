@@ -161,6 +161,7 @@ gt_sketch <- function(template = NULL, shape = NULL, features = 1, vertices = NU
     theGroups <- bind_rows(theGroups, tempGroups)
   }
 
+  # make new geom
   theGeom <- new(Class = "geom",
                  type = type,
                  vert = theVertices,

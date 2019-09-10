@@ -86,3 +86,8 @@ table <- data.frame(attr = LETTERS[1:15],
                     colour = topo.colors(15))
 setTable(gtPPP, table = table)
 }
+\seealso{
+Other setters: \code{\link{setCRS}},
+  \code{\link{setHistory}}, \code{\link{setWindow}}
+}
+\concept{setters}

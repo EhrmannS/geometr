@@ -57,3 +57,10 @@ Get the subset of a spatial object.
 
 # getSubset(gtPPP$...)
 }
+\seealso{
+Other getters: \code{\link{getCRS}},
+  \code{\link{getExtent}}, \code{\link{getHistory}},
+  \code{\link{getTable}}, \code{\link{getType}},
+  \code{\link{getVertices}}, \code{\link{getWindow}}
+}
+\concept{getters}

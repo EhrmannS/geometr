@@ -8,6 +8,8 @@ gt_translate(geom = NULL, x = NULL, y = NULL, fid = NULL,
   update = TRUE)
 }
 \arguments{
+\item{geom}{[\code{geom(.)}]\cr the object to translate.}
+
 \item{x}{[\code{numeric(1)}]\cr the translation constant in x-dimension.}
 
 \item{y}{[\code{numeric(1)}]\cr the translation constant in y-dimension.}
@@ -17,8 +19,6 @@ rotated, specify that here.}
 
 \item{update}{[\code{logical(1)}]\cr whether or not to update the window slot
 after rotation.}
-
-\item{[\code{geom(.)}]\cr}{the object to translate.}
 }
 \value{
 Mathematically translated \code{geom}.

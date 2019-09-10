@@ -46,3 +46,10 @@ getWindow(gtRasters$categorical)
 
 getWindow(matrix(0, 3, 5))
 }
+\seealso{
+Other getters: \code{\link{getCRS}},
+  \code{\link{getExtent}}, \code{\link{getHistory}},
+  \code{\link{getSubset}}, \code{\link{getTable}},
+  \code{\link{getType}}, \code{\link{getVertices}}
+}
+\concept{getters}

@@ -29,3 +29,10 @@ The coordinate reference system of \code{x} given as proj4string.
 \description{
 Get the coordinate reference system of a spatial object.
 }
+\seealso{
+Other getters: \code{\link{getExtent}},
+  \code{\link{getHistory}}, \code{\link{getSubset}},
+  \code{\link{getTable}}, \code{\link{getType}},
+  \code{\link{getVertices}}, \code{\link{getWindow}}
+}
+\concept{getters}

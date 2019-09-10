@@ -21,8 +21,8 @@
 
 \item{group}{[\code{logical(1)}]\cr should the attributes of multi* features
 be grouped, i.e. should the unique values per multi* feature be assigned
-into the groups table (\code{TRUE}), or should they be kept as
-duplicated per-feature attributes (\code{FALSE}, default)?}
+into the groups table (\code{TRUE}), or should they be kept as duplicated
+per-feature attributes (\code{FALSE}, default)?}
 }
 \value{
 an object of class \code{geom}

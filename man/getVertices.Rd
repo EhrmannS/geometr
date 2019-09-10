@@ -35,3 +35,10 @@ getVertices(gtSF$multilinestring)
 
 getVertices(gtPPP)
 }
+\seealso{
+Other getters: \code{\link{getCRS}},
+  \code{\link{getExtent}}, \code{\link{getHistory}},
+  \code{\link{getSubset}}, \code{\link{getTable}},
+  \code{\link{getType}}, \code{\link{getWindow}}
+}
+\concept{getters}

@@ -2,6 +2,7 @@
 #'
 #' @param x the object from which to derive the history.
 #' @return A list of the events that lead to \code{x}.
+#' @family getters
 #' @name getHistory
 #' @rdname getHistory
 NULL

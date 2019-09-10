@@ -14,12 +14,24 @@
 \arguments{
 \item{x}{the object for which to set the coordinate reference system.}
 
-\item{history}{[\code{character(1)}]\cr the coordinate reference system to set
-for this object.}
+\item{history}{[\code{character(1)}]\cr the coordinate reference system to
+set for this object.}
 }
 \value{
-bla
+The object \code{x} where the history slot has been updated.
 }
 \description{
 Set additional entries to the history of an object
 }
+\details{
+Both, objects of class \code{geom} and \code{Raster*} have the slot
+  \code{@history}, which contains the provenance of that object. With
+  \code{setHistory}, that provenance can be updated, based on the
+  modification the object has been exposed to. This happens automatically for
+  all geometry operations that come with \code{geometr}.
+}
+\seealso{
+Other setters: \code{\link{setCRS}},
+  \code{\link{setTable}}, \code{\link{setWindow}}
+}
+\concept{setters}

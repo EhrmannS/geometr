@@ -1,6 +1,10 @@
 #' Transform a spatial object to class \code{geom}
 #'
 #' @param input the object to transform to class \code{geom}.
+#' @param group [\code{logical(1)}]\cr should the attributes of multi* features
+#'   be grouped, i.e. should the unique values per multi* feature be assigned
+#'   into the groups table (\code{TRUE}), or should they be kept as duplicated
+#'   per-feature attributes (\code{FALSE}, default)?
 #' @param ... additional arguments.
 #' @return an object of class \code{geom}
 #' @family spatial classes
@@ -33,10 +37,7 @@ setMethod(f = "gc_geom",
 
             theCoords <- getVertices(x = input)
             theData <- getTable(x = input)
-            theCRS <- getCRS(x = input)
-            bbox <- getExtent(x = input)
-            theWindow = tibble(x = c(min(bbox$x), max(bbox$x), max(bbox$x), min(bbox$x), min(bbox$x)),
-                               y = c(min(bbox$y), min(bbox$y), max(bbox$y), max(bbox$y), min(bbox$y)))
+            theWindow <- getWindow(x = input)
             theCRS <- getCRS(x = input)
 
             sourceClass <- class(input)[1]
@@ -66,10 +67,6 @@ setMethod(f = "gc_geom",
 )
 
 # sf ----
-#' @param group [\code{logical(1)}]\cr should the attributes of multi* features
-#'   be grouped, i.e. should the unique values per multi* feature be assigned
-#'   into the groups table (\code{TRUE}), or should they be kept as
-#'   duplicated per-feature attributes (\code{FALSE}, default)?
 #' @rdname gc_geom
 #' @importFrom tibble tibble
 #' @importFrom sf st_geometry_type
@@ -106,7 +103,6 @@ setMethod(f = "gc_geom",
               theGroups <- tibble(gid = unique(theData$gid))
             }
             history <- paste0("geometry was transformed from an sf-object of geometry type '", sourceClass, "'.")
-            theCRS <- getCRS(x = input)
 
             out <- new(Class = "geom",
                        type = type,

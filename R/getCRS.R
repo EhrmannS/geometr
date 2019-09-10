@@ -2,6 +2,7 @@
 #'
 #' @param x the object from which to extract the coordinate reference system.
 #' @return The coordinate reference system of \code{x} given as proj4string.
+#' @family getters
 #' @name getCRS
 #' @rdname getCRS
 NULL

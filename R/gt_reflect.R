@@ -17,6 +17,7 @@ gt_reflect <- function(geom = NULL, fid = NULL, update = NULL){
   # yIsNumeric <- testNumeric(y, any.missing = FALSE, len = 1, null.ok = TRUE)
   # assert(xIsList, xIsNumeric)
   # assert(yIsList, yIsNumeric)
+  # https://en.wikipedia.org/wiki/Cartesian_coordinate_system#Reflection
   # assertIntegerish(x = fid, any.missing = FALSE, null.ok = TRUE)
   # assertLogical(x = update, len = 1, any.missing = FALSE)
   #

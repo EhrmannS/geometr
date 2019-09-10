@@ -10,6 +10,7 @@
 #'   for this object.
 #' @return The object \code{x} with an assigned or transformed coordinate
 #'   reference system.
+#' @family setters
 #' @name setCRS
 #' @rdname setCRS
 NULL
