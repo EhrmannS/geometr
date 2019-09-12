@@ -4,10 +4,13 @@
 \alias{gt_reflect}
 \title{Reflect geometries}
 \usage{
-gt_reflect(geom = NULL, fid = NULL, update = NULL)
+gt_reflect(geom = NULL, angle = NULL, fid = NULL, update = TRUE)
 }
 \arguments{
 \item{geom}{[\code{geom(.)}]\cr the object to reflect.}
+
+\item{angle}{[\code{numeric(1)}]\cr the counter-clockwise angle by which the
+reflection axis shall be rotated (can be negative to rotate clockwise).}
 
 \item{fid}{[\code{integerish(.)}]\cr if only a subset of features shall be
 rotated, specify that here.}
@@ -15,6 +18,36 @@ rotated, specify that here.}
 \item{update}{[\code{logical(1)}]\cr whether or not to update the window slot
 after rotation.}
 }
-\description{
-Reflect \code{geom}s across a line.
+\value{
+Reflected \code{geom}.
 }
+\description{
+Reflect \code{geom}s across a reflection axis.
+}
+\details{
+The reflection axis is a straight line that goes through the plot
+  origin with the given angle, where positive angles open towards the
+  positive y-axis and negative angles open up towards the negative y-axis.
+}
+\examples{
+# the original object
+coords <- data.frame(x = c(30, 60, 60, 40, 10, 40, 20),
+                     y = c(40, 40, 60, 70, 10, 20, 40),
+                     fid = c(1, 1, 1, 1, 2, 2, 2))
+window <- data.frame(x = c(-80, 80),
+                     y = c(-80, 80))
+aGeom <- gs_polygon(anchor = coords, window = window)
+
+# reflect several geoms
+visualise(geom = gt_reflect(geom = aGeom, angle = 30))
+
+# reflect a single geom
+visualise(geom = gt_reflect(geom = aGeom, angle = -45, fid = 1))
+}
+\seealso{
+Other geometry tools: \code{\link{gt_rotate}},
+  \code{\link{gt_scale}}, \code{\link{gt_sketch}},
+  \code{\link{gt_skew}}, \code{\link{gt_stretch}},
+  \code{\link{gt_translate}}
+}
+\concept{geometry tools}
