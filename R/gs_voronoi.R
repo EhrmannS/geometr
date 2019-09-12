@@ -1,16 +1,17 @@
 #' Create a voronoi tiling \code{geom}
 #'
-#' @param anchor [\code{data.frame(1)}]\cr Object to derive the \code{geom}
-#'   from. It must include column names \code{x}, \code{y} and optinally a
-#'   custom \code{fid}. To set further attributes, use \code{\link{setTable}}.
+#' @param anchor [\code{geom(1)}|\code{data.frame(1)}]\cr Object to derive the
+#'   \code{geom} from. It must include column names \code{x}, \code{y} and
+#'   optinally a custom \code{fid}. To set further attributes, use
+#'   \code{\link{setTable}}.
 #' @param window [\code{data.frame(1)}]\cr in case the reference window deviates
 #'   from the bounding box of \code{anchor} (minimum and maximum values),
 #'   specify this here.
 #' @param sketch [\code{RasterLayer(1)} | \code{matrix(1)}]\cr Gridded object
 #'   that serves as template to sketch the tiling.
 #' @param features [\code{integerish(1)}]\cr number of tiles to sketch.
-#' @param ... [various]\cr graphical parameters to \code{\link{gt_locate}}, in case
-#'   the tiling is sketched; see \code{\link{gpar}}.
+#' @param ... [various]\cr graphical parameters to \code{\link{gt_locate}}, in
+#'   case the tiling is sketched; see \code{\link{gpar}}.
 #' @return An invisible \code{geom}.
 #' @family tilings
 #' @examples
