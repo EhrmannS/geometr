@@ -11,7 +11,7 @@ test_that("output is valid geometry", {
   output <- gs_tiles(anchor = aWindow, width = 10)
   expect_class(output, classes = "geom")
   expect_true(output@type == "polygon")
-  expect_data_frame(output@vert, any.missing = FALSE, nrows = 2520, ncols = 3)
+  expect_data_frame(output@vert, any.missing = FALSE, nrows = 2775, ncols = 3)
 
   # hexagonal tiles
   output <- gs_tiles(anchor = aWindow, width = 10, pattern = "hexagonal")
@@ -29,7 +29,7 @@ test_that("output is valid geometry", {
   output <- gs_tiles(anchor = aWindow, width = 10, rotation = 45)
   expect_class(output, classes = "geom")
   expect_true(output@type == "polygon")
-  expect_data_frame(output@vert, any.missing = FALSE, nrows = 2520, ncols = 3)
+  expect_data_frame(output@vert, any.missing = FALSE, nrows = 2775, ncols = 3)
 })
 
 test_that("Error if arguments have wrong value", {
