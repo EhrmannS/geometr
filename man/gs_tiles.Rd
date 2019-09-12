@@ -4,26 +4,19 @@
 \alias{gs_tiles}
 \title{Create a regular tiling \code{geom}}
 \usage{
-gs_tiles(anchor = NULL, window = NULL, width = NULL, offset = NULL,
-  pattern = "squared", rotation = 0, centroids = FALSE, ...)
+gs_tiles(anchor = NULL, width = NULL, pattern = "squared",
+  centroids = FALSE, ...)
 }
 \arguments{
-\item{anchor}{[\code{data.frame(1)}]\cr Object to derive the \code{geom}
-from. It must include column names \code{x}, \code{y} and optinally a
-custom \code{fid}. To set further attributes, use \code{\link{setTable}}.}
-
-\item{window}{[\code{data.frame(1)}]\cr the origin (lower left corner) and
-the maximum value (upper right corner) of the tiling.}
+\item{anchor}{[\code{geom(1)}|\code{data.frame(1)}]\cr Object to derive the
+tiling \code{geom} from. It must include column names \code{x}, \code{y}
+and optinally a custom \code{fid}. To set further attributes, use
+\code{\link{setTable}}.}
 
 \item{width}{[\code{numeric(1)}]\cr the width of a tile.}
 
-\item{offset}{[\code{numeric(1)}]\cr fraction of \code{width}, by which the
-tiles will be offset. Can go from \code{-1} to \code{+1}.}
-
 \item{pattern}{[\code{character(1)}]\cr pattern of the tiling. Possible
 options are \code{"squared"} (default) or \code{"hexagonal"}.}
-
-\item{rotation}{[\code{integerish(1)}]\cr the rotation of the tiling.}
 
 \item{centroids}{[\code{logical(1)}]\cr should the centroids of the tiling be
 returned (\code{TRUE}) or should the tiling be returned (\code{FALSE},
@@ -55,7 +48,7 @@ When deriving a regular tiling for a prescribed window, there is
 library(magrittr)
 aWindow <- data.frame(x = c(-180, 180),
                       y = c(-60, 80))
-gs_tiles(window = aWindow, width = 10) \%>\%
+gs_tiles(anchor = aWindow, width = 10) \%>\%
   visualise(`10° world tiles` = .)
 
 # create a hexagonal tiling on top of a geom
@@ -65,7 +58,7 @@ window <- data.frame(x = c(0, 80),
                      y = c(0, 80))
 aGeom <- gs_polygon(anchor = coords, window = window)
 visualise(`honeycomb background` = aGeom)
-gs_tiles(anchor = aGeom, width = 8, pattern = "hexagonal", rotation = 41) \%>\%
+gs_tiles(anchor = aGeom, width = 8, pattern = "hexagonal") \%>\%
   visualise(., linecol = "deeppink", new = FALSE)
 }
 \seealso{

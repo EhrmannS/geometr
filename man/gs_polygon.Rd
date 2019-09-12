@@ -25,9 +25,10 @@ gs_hexagon(anchor = NULL, window = NULL, sketch = NULL,
   features = 1, fixed = FALSE, ...)
 }
 \arguments{
-\item{anchor}{[\code{data.frame(1)}]\cr Object to derive the \code{geom}
-from. It must include column names \code{x}, \code{y} and optinally a
-custom \code{fid}. To set further attributes, use \code{\link{setTable}}.}
+\item{anchor}{[\code{geom(1)}|\code{data.frame(1)}]\cr Object to derive the
+\code{geom} from. It must include column names \code{x}, \code{y} and
+optinally a custom \code{fid}. To set further attributes, use
+\code{\link{setTable}}.}
 
 \item{window}{[\code{data.frame(1)}]\cr in case the reference window deviates
 from the bounding box of \code{anchor} (minimum and maximum values),
@@ -61,8 +62,8 @@ specifying anchor values or by sketching it.
 }
 \details{
 The arguments \code{anchor} and \code{sketch} indicate how the
-  geometry is created: \itemize{ \item if \code{anchor} is set, the geometry is
-  created parametrically, the input provided is used to parameterise the
+  geometry is created: \itemize{ \item if \code{anchor} is set, the geometry
+  is created parametrically, the input provided is used to parameterise the
   geometry \item, if \code{sketch} is set, the geometry is created
   interactively, by clicking into the plot.}
 

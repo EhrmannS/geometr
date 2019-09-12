@@ -8,9 +8,10 @@ gs_voronoi(anchor = NULL, window = NULL, features = 3,
   sketch = NULL, ...)
 }
 \arguments{
-\item{anchor}{[\code{data.frame(1)}]\cr Object to derive the \code{geom}
-from. It must include column names \code{x}, \code{y} and optinally a
-custom \code{fid}. To set further attributes, use \code{\link{setTable}}.}
+\item{anchor}{[\code{geom(1)}|\code{data.frame(1)}]\cr Object to derive the
+\code{geom} from. It must include column names \code{x}, \code{y} and
+optinally a custom \code{fid}. To set further attributes, use
+\code{\link{setTable}}.}
 
 \item{window}{[\code{data.frame(1)}]\cr in case the reference window deviates
 from the bounding box of \code{anchor} (minimum and maximum values),
@@ -21,8 +22,8 @@ specify this here.}
 \item{sketch}{[\code{RasterLayer(1)} | \code{matrix(1)}]\cr Gridded object
 that serves as template to sketch the tiling.}
 
-\item{...}{[various]\cr graphical parameters to \code{\link{gt_locate}}, in case
-the tiling is sketched; see \code{\link{gpar}}.}
+\item{...}{[various]\cr graphical parameters to \code{\link{gt_locate}}, in
+case the tiling is sketched; see \code{\link{gpar}}.}
 }
 \value{
 An invisible \code{geom}.

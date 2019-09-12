@@ -42,7 +42,7 @@ visualise(geom = aGeom)
 rotatedGeom <- gt_rotate(geom = aGeom, angle = 90, about = c(40, 40))
 visualise(geom = rotatedGeom)
 
-# rotate single geom
+# rotate a single geom
 rotatedTriangle <- gt_rotate(geom = aGeom, angle = -180, about = c(30, 40), fid = 2)
 visualise(geom = rotatedTriangle)
 
@@ -53,8 +53,9 @@ rotateMore <- gt_rotate(geom = aGeom,
 visualise(geom = rotateMore)
 }
 \seealso{
-Other geometry tools: \code{\link{gt_scale}},
-  \code{\link{gt_sketch}}, \code{\link{gt_skew}},
-  \code{\link{gt_stretch}}, \code{\link{gt_translate}}
+Other geometry tools: \code{\link{gt_reflect}},
+  \code{\link{gt_scale}}, \code{\link{gt_sketch}},
+  \code{\link{gt_skew}}, \code{\link{gt_stretch}},
+  \code{\link{gt_translate}}
 }
 \concept{geometry tools}

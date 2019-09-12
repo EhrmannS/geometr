@@ -10,9 +10,11 @@ gt_translate(geom = NULL, x = NULL, y = NULL, fid = NULL,
 \arguments{
 \item{geom}{[\code{geom(.)}]\cr the object to translate.}
 
-\item{x}{[\code{numeric(1)}]\cr the translation constant in x-dimension.}
+\item{x}{[\code{numeric(1)}]\cr the translation constant (offset) in
+x-dimension.}
 
-\item{y}{[\code{numeric(1)}]\cr the translation constant in y-dimension.}
+\item{y}{[\code{numeric(1)}]\cr the translation constant (offset) in
+y-dimension.}
 
 \item{fid}{[\code{integerish(.)}]\cr if only a subset of features shall be
 rotated, specify that here.}
@@ -38,12 +40,13 @@ aGeom <- gs_polygon(anchor = coords, window = window)
 # translate several geoms
 visualise(geom = gt_translate(geom = aGeom, x = 5, y = list(-10, 5)))
 
-# translate single geom
+# translate a single geom
 visualise(geom = gt_translate(geom = aGeom, x = 5, fid = 1))
 }
 \seealso{
-Other geometry tools: \code{\link{gt_rotate}},
-  \code{\link{gt_scale}}, \code{\link{gt_sketch}},
-  \code{\link{gt_skew}}, \code{\link{gt_stretch}}
+Other geometry tools: \code{\link{gt_reflect}},
+  \code{\link{gt_rotate}}, \code{\link{gt_scale}},
+  \code{\link{gt_sketch}}, \code{\link{gt_skew}},
+  \code{\link{gt_stretch}}
 }
 \concept{geometry tools}
