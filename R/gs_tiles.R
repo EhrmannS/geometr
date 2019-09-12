@@ -1,16 +1,12 @@
 #' Create a regular tiling \code{geom}
 #'
-#' @param anchor [\code{data.frame(1)}]\cr Object to derive the \code{geom}
-#'   from. It must include column names \code{x}, \code{y} and optinally a
-#'   custom \code{fid}. To set further attributes, use \code{\link{setTable}}.
-#' @param window [\code{data.frame(1)}]\cr the origin (lower left corner) and
-#'   the maximum value (upper right corner) of the tiling.
+#' @param anchor [\code{geom(1)}|\code{data.frame(1)}]\cr Object to derive the
+#'   tiling \code{geom} from. It must include column names \code{x}, \code{y}
+#'   and optinally a custom \code{fid}. To set further attributes, use
+#'   \code{\link{setTable}}.
 #' @param width [\code{numeric(1)}]\cr the width of a tile.
-#' @param offset [\code{numeric(1)}]\cr fraction of \code{width}, by which the
-#'   tiles will be offset. Can go from \code{-1} to \code{+1}.
 #' @param pattern [\code{character(1)}]\cr pattern of the tiling. Possible
 #'   options are \code{"squared"} (default) or \code{"hexagonal"}.
-#' @param rotation [\code{integerish(1)}]\cr the rotation of the tiling.
 #' @param centroids [\code{logical(1)}]\cr should the centroids of the tiling be
 #'   returned (\code{TRUE}) or should the tiling be returned (\code{FALSE},
 #'   default)?
@@ -33,7 +29,7 @@
 #' library(magrittr)
 #' aWindow <- data.frame(x = c(-180, 180),
 #'                       y = c(-60, 80))
-#' gs_tiles(window = aWindow, width = 10) %>%
+#' gs_tiles(anchor = aWindow, width = 10) %>%
 #'   visualise(`10° world tiles` = .)
 #'
 #' # create a hexagonal tiling on top of a geom
@@ -43,7 +39,7 @@
 #'                      y = c(0, 80))
 #' aGeom <- gs_polygon(anchor = coords, window = window)
 #' visualise(`honeycomb background` = aGeom)
-#' gs_tiles(anchor = aGeom, width = 8, pattern = "hexagonal", rotation = 41) %>%
+#' gs_tiles(anchor = aGeom, width = 8, pattern = "hexagonal") %>%
 #'   visualise(., linecol = "deeppink", new = FALSE)
 #' @importFrom checkmate testDataFrame assertNames testClass testIntegerish
 #'   assertDataFrame assertNames assertCharacter assertSubset assertLogical
@@ -51,52 +47,27 @@
 #' @importFrom dplyr bind_rows group_by summarise left_join select mutate
 #' @export
 
-gs_tiles <- function(anchor = NULL, window = NULL, width = NULL, offset = NULL,
-                     pattern = "squared", rotation = 0, centroids = FALSE, ...){
+gs_tiles <- function(anchor = NULL, width = NULL, pattern = "squared",
+                     centroids = FALSE, ...){
 
   # check arguments
   anchor <- .testAnchor(x = anchor, ...)
-  window <- .testWindow(x = window, ...)
+  assertIntegerish(x = width, len = 1)
+  assertChoice(x = pattern, choices = c("squared", "hexagonal", "triangular"))
+  assertLogical(x = centroids)
 
-  if(is.null(anchor) & is.null(window)){
-    stop("please provide either 'anchor' or 'window'.")
-  }
-
-  if(is.null(anchor)){
-    anchor <- gs_rectangle(anchor = window)
-  } else {
+  if(!is.null(anchor)){
     if(anchor$type == "geom"){
       anchor <- anchor$obj
+    } else if(anchor$type == "df"){
+      anchor <- gs_rectangle(anchor = anchor$obj)
     }
-  }
-  if(is.null(window)){
-    window <- anchor@window
-  }
-  window = tibble(x = c(min(window$x), max(window$x), max(window$x), min(window$x), min(window$x)),
-                  y = c(min(window$y), min(window$y), max(window$y), max(window$y), min(window$y)))
-
-  assertIntegerish(width, len = 1)
-  assertChoice(x = pattern, choices = c("squared", "hexagonal", "triangular"))
-  assertNumeric(x = rotation, lower = 0, upper = 360, len = 1)
-  assertLogical(centroids)
-
-  targetRotation <- rotation
-  if(targetRotation != 0){
-    coords <- getSubset(anchor, !!(!duplicated(anchor@vert[c("x", "y")])), slot = "vert")
-    originCentroid <- c(mean(x = coords@vert$x), mean(x = coords@vert$y))
-    anchor <- gt_rotate(geom = anchor, about = originCentroid, angle = -targetRotation, update = FALSE)
   }
 
   # set pattern specific properties
   if(pattern == "squared"){
 
-    if(is.null(offset)){
-      offset <- 0.5
-    }
-    offset <- width*offset*-1
-
-    xRange <- max(anchor@vert$x) - min(anchor@vert$x)
-    yRange <- max(anchor@vert$y) - min(anchor@vert$y)
+    offset <- width*0.5*-1
 
     # determine centroids
     xCentroids <- seq(min(anchor@vert$x) - offset, max(anchor@vert$x) + offset, width)
@@ -115,20 +86,14 @@ gs_tiles <- function(anchor = NULL, window = NULL, width = NULL, offset = NULL,
   } else if(pattern == "hexagonal"){
     # https://www.redblobgames.com/grids/hexagons/
 
-    if(!is.null(offset)){
-      stop("offset for hexagonal tilings is not yet supported.")
-    } else {
-      offset <- 0
-    }
+    offset <- 0
+
     inRadius <- width/2
     circumRadius <- 2/sqrt(3) * inRadius
     radius <- circumRadius
 
     xOffset <- inRadius*2*offset*-1
     yOffset <- 2*circumRadius*offset*-1
-
-    xRange <- max(anchor@vert$x) - min(anchor@vert$x)
-    yRange <- max(anchor@vert$y) - min(anchor@vert$y)
 
     # determine centroids
     xC1 <- seq(min(anchor@vert$x) - 2*inRadius - xOffset, max(anchor@vert$x) + 2*inRadius + xOffset, by = inRadius*2)
@@ -175,38 +140,32 @@ gs_tiles <- function(anchor = NULL, window = NULL, width = NULL, offset = NULL,
     theType <- "point"
   }
 
+  nodes$incl <- as.logical(pointInGeomC(vert = as.matrix(nodes[c("x", "y")]),
+                                        geom = as.matrix(anchor@vert[c("x", "y")]),
+                                        invert = FALSE))
+
+  retain <- NULL
+  for(i in unique(nodes$fid)){
+    temp <- nodes[nodes$fid == i,]
+    if(any(temp$incl)){
+      if(is.null(retain$fid)){
+        temp$fid <- 1
+      } else {
+        temp$fid <- max(retain$fid) + 1
+      }
+      retain <- rbind(retain, temp)
+    }
+  }
+
   theTiles <- new(Class = "geom",
                   type = theType,
-                  vert = nodes,
-                  feat = tibble(fid = unique(nodes$fid), gid = unique(nodes$fid)),
-                  group = tibble(gid = unique(nodes$fid)),
-                  window = tibble(x = c(min(window$x), max(window$x), max(window$x), min(window$x), min(window$x)),
-                                  y = c(min(window$y), min(window$y), max(window$y), max(window$y), min(window$y))),
+                  vert = tibble(fid = retain$fid, x = retain$x, y = retain$y),
+                  feat = tibble(fid = unique(retain$fid), gid = unique(retain$fid)),
+                  group = tibble(gid = unique(retain$fid)),
+                  window = anchor@window,
                   scale = "absolute",
                   crs = NA_character_,
                   history = list(paste0("tiled geometry of type '", theType, "' was created.")))
-
-  theTiles@vert$include <- as.logical(pointInGeomC(vert = as.matrix(theTiles@vert[c("x", "y")]),
-                                                   geom = as.matrix(anchor@vert[c("x", "y")]),
-                                                   invert = FALSE))
-
-  sbst <- group_by(theTiles@vert, fid)
-  sbst <- summarise(sbst, sub = any(include == TRUE))
-  # theTiles <- setTable(x = theTiles, table = sbst, regroup = FALSE)
-
-  theTiles <- getSubset(x = theTiles, !!sbst$sub, slot = "feat")
-
-  # reconstruct IDs
-  newIDs <- tibble(fid = theTiles@feat$fid, new = seq_along(fid))
-  theTiles@vert <- left_join(theTiles@vert, newIDs, by = "fid")
-  theTiles@vert <- select(theTiles@vert, "x", "y", fid = new)
-  theTiles@feat <- left_join(theTiles@feat, newIDs, by = "fid")
-  theTiles@feat <- mutate(theTiles@feat, fid = new, gid = fid)
-  theTiles@feat <- select(theTiles@feat, fid, gid)
-
-  if(targetRotation != 0){
-    theTiles <- gt_rotate(geom = theTiles, about = originCentroid, angle = targetRotation, update = FALSE)
-  }
 
   invisible(theTiles)
 }
