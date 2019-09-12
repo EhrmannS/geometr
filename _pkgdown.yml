@@ -36,6 +36,7 @@ reference:
       - getVertices
       - getWindow
       - setCRS
+      - setHistory
       - setTable
       - setWindow
   - title: utility functions
@@ -43,10 +44,12 @@ reference:
     contents:
       - gt_locate
       - gt_rotate
+      - gt_reflect
       - gt_scale
       - gt_sketch
       - gt_skew
       - gt_stretch
+      - gt_translate
   - title: visualise
     desc: plot spatial objects and locate coordinates
     contents:
