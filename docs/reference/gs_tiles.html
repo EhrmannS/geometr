@@ -128,40 +128,27 @@
     
     </div>
 
-    <pre class="usage"><span class='fu'>gs_tiles</span>(<span class='kw'>anchor</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>window</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>width</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>offset</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>pattern</span> <span class='kw'>=</span> <span class='st'>"squared"</span>, <span class='kw'>rotation</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>centroids</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>gs_tiles</span>(<span class='kw'>anchor</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>width</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>pattern</span> <span class='kw'>=</span> <span class='st'>"squared"</span>,
+  <span class='kw'>centroids</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>anchor</th>
-      <td><p>[<code><a href='https://www.rdocumentation.org/packages/base/topics/data.frame'>data.frame(1)</a></code>]<br /> Object to derive the <code>geom</code>
-from. It must include column names <code>x</code>, <code>y</code> and optinally a
-custom <code>fid</code>. To set further attributes, use <code><a href='setTable.html'>setTable</a></code>.</p></td>
-    </tr>
-    <tr>
-      <th>window</th>
-      <td><p>[<code><a href='https://www.rdocumentation.org/packages/base/topics/data.frame'>data.frame(1)</a></code>]<br /> the origin (lower left corner) and
-the maximum value (upper right corner) of the tiling.</p></td>
+      <td><p>[<code><a href='geom-class.html'>geom(1)</a></code>|<code><a href='https://www.rdocumentation.org/packages/base/topics/data.frame'>data.frame(1)</a></code>]<br /> Object to derive the
+tiling <code>geom</code> from. It must include column names <code>x</code>, <code>y</code>
+and optinally a custom <code>fid</code>. To set further attributes, use
+<code><a href='setTable.html'>setTable</a></code>.</p></td>
     </tr>
     <tr>
       <th>width</th>
       <td><p>[<code><a href='https://www.rdocumentation.org/packages/base/topics/numeric'>numeric(1)</a></code>]<br /> the width of a tile.</p></td>
     </tr>
     <tr>
-      <th>offset</th>
-      <td><p>[<code><a href='https://www.rdocumentation.org/packages/base/topics/numeric'>numeric(1)</a></code>]<br /> fraction of <code>width</code>, by which the
-tiles will be offset. Can go from <code>-1</code> to <code>+1</code>.</p></td>
-    </tr>
-    <tr>
       <th>pattern</th>
       <td><p>[<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code>]<br /> pattern of the tiling. Possible
 options are <code>"squared"</code> (default) or <code>"hexagonal"</code>.</p></td>
-    </tr>
-    <tr>
-      <th>rotation</th>
-      <td><p>[<code>integerish(1)</code>]<br /> the rotation of the tiling.</p></td>
     </tr>
     <tr>
       <th>centroids</th>
@@ -204,7 +191,7 @@ default)?</p></td>
 <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>library</a></span>(<span class='no'>magrittr</span>)
 <span class='no'>aWindow</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/data.frame'>data.frame</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(-<span class='fl'>180</span>, <span class='fl'>180</span>),
                       <span class='kw'>y</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(-<span class='fl'>60</span>, <span class='fl'>80</span>))
-<span class='fu'>gs_tiles</span>(<span class='kw'>window</span> <span class='kw'>=</span> <span class='no'>aWindow</span>, <span class='kw'>width</span> <span class='kw'>=</span> <span class='fl'>10</span>) <span class='kw'>%&gt;%</span>
+<span class='fu'>gs_tiles</span>(<span class='kw'>anchor</span> <span class='kw'>=</span> <span class='no'>aWindow</span>, <span class='kw'>width</span> <span class='kw'>=</span> <span class='fl'>10</span>) <span class='kw'>%&gt;%</span>
   <span class='fu'><a href='visualise.html'>visualise</a></span>(<span class='kw'>`10° world tiles`</span> <span class='kw'>=</span> <span class='no'>.</span>)</div><div class='img'><img src='gs_tiles-1.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># create a hexagonal tiling on top of a geom</span>
 <span class='no'>coords</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/data.frame'>data.frame</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>40</span>, <span class='fl'>70</span>, <span class='fl'>70</span>, <span class='fl'>50</span>),
@@ -212,7 +199,7 @@ default)?</p></td>
 <span class='no'>window</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/data.frame'>data.frame</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>0</span>, <span class='fl'>80</span>),
                      <span class='kw'>y</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>0</span>, <span class='fl'>80</span>))
 <span class='no'>aGeom</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='gs_polygon.html'>gs_polygon</a></span>(<span class='kw'>anchor</span> <span class='kw'>=</span> <span class='no'>coords</span>, <span class='kw'>window</span> <span class='kw'>=</span> <span class='no'>window</span>)
-<span class='fu'><a href='visualise.html'>visualise</a></span>(<span class='kw'>`honeycomb background`</span> <span class='kw'>=</span> <span class='no'>aGeom</span>)</div><div class='input'><span class='fu'>gs_tiles</span>(<span class='kw'>anchor</span> <span class='kw'>=</span> <span class='no'>aGeom</span>, <span class='kw'>width</span> <span class='kw'>=</span> <span class='fl'>8</span>, <span class='kw'>pattern</span> <span class='kw'>=</span> <span class='st'>"hexagonal"</span>, <span class='kw'>rotation</span> <span class='kw'>=</span> <span class='fl'>41</span>) <span class='kw'>%&gt;%</span>
+<span class='fu'><a href='visualise.html'>visualise</a></span>(<span class='kw'>`honeycomb background`</span> <span class='kw'>=</span> <span class='no'>aGeom</span>)</div><div class='input'><span class='fu'>gs_tiles</span>(<span class='kw'>anchor</span> <span class='kw'>=</span> <span class='no'>aGeom</span>, <span class='kw'>width</span> <span class='kw'>=</span> <span class='fl'>8</span>, <span class='kw'>pattern</span> <span class='kw'>=</span> <span class='st'>"hexagonal"</span>) <span class='kw'>%&gt;%</span>
   <span class='fu'><a href='visualise.html'>visualise</a></span>(<span class='no'>.</span>, <span class='kw'>linecol</span> <span class='kw'>=</span> <span class='st'>"deeppink"</span>, <span class='kw'>new</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</div><div class='img'><img src='gs_tiles-2.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

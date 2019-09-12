@@ -166,9 +166,10 @@ after rotation.</p></td>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p>Other geometry tools: <code><a href='gt_scale.html'>gt_scale</a></code>,
-  <code><a href='gt_sketch.html'>gt_sketch</a></code>, <code><a href='gt_skew.html'>gt_skew</a></code>,
-  <code><a href='gt_stretch.html'>gt_stretch</a></code>, <code><a href='gt_translate.html'>gt_translate</a></code></p></div>
+    <div class='dont-index'><p>Other geometry tools: <code><a href='gt_reflect.html'>gt_reflect</a></code>,
+  <code><a href='gt_scale.html'>gt_scale</a></code>, <code><a href='gt_sketch.html'>gt_sketch</a></code>,
+  <code><a href='gt_skew.html'>gt_skew</a></code>, <code><a href='gt_stretch.html'>gt_stretch</a></code>,
+  <code><a href='gt_translate.html'>gt_translate</a></code></p></div>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
@@ -182,15 +183,15 @@ after rotation.</p></td>
 <span class='fu'><a href='visualise.html'>visualise</a></span>(<span class='kw'>geom</span> <span class='kw'>=</span> <span class='no'>aGeom</span>)</div><div class='img'><img src='gt_rotate-1.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># rotate all geoms</span>
 <span class='no'>rotatedGeom</span> <span class='kw'>&lt;-</span> <span class='fu'>gt_rotate</span>(<span class='kw'>geom</span> <span class='kw'>=</span> <span class='no'>aGeom</span>, <span class='kw'>angle</span> <span class='kw'>=</span> <span class='fl'>90</span>, <span class='kw'>about</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>40</span>, <span class='fl'>40</span>))
-<span class='fu'><a href='visualise.html'>visualise</a></span>(<span class='kw'>geom</span> <span class='kw'>=</span> <span class='no'>rotatedGeom</span>)</div><div class='img'><img src='gt_rotate-2.png' alt='' width='700' height='433' /></div><div class='input'>
-<span class='co'># rotate single geom</span>
+<span class='fu'><a href='visualise.html'>visualise</a></span>(<span class='kw'>geom</span> <span class='kw'>=</span> <span class='no'>rotatedGeom</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: some vertices are not within the plotting window.</span></div><div class='img'><img src='gt_rotate-2.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='co'># rotate a single geom</span>
 <span class='no'>rotatedTriangle</span> <span class='kw'>&lt;-</span> <span class='fu'>gt_rotate</span>(<span class='kw'>geom</span> <span class='kw'>=</span> <span class='no'>aGeom</span>, <span class='kw'>angle</span> <span class='kw'>=</span> -<span class='fl'>180</span>, <span class='kw'>about</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>30</span>, <span class='fl'>40</span>), <span class='kw'>fid</span> <span class='kw'>=</span> <span class='fl'>2</span>)
 <span class='fu'><a href='visualise.html'>visualise</a></span>(<span class='kw'>geom</span> <span class='kw'>=</span> <span class='no'>rotatedTriangle</span>)</div><div class='img'><img src='gt_rotate-3.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># rotate different geoms about different centers by different angles</span>
 <span class='no'>rotateMore</span> <span class='kw'>&lt;-</span> <span class='fu'>gt_rotate</span>(<span class='kw'>geom</span> <span class='kw'>=</span> <span class='no'>aGeom</span>,
                         <span class='kw'>angle</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='fl'>90</span>, -<span class='fl'>180</span>),
                         <span class='kw'>about</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>40</span>, <span class='fl'>40</span>), <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>30</span>, <span class='fl'>40</span>)))
-<span class='fu'><a href='visualise.html'>visualise</a></span>(<span class='kw'>geom</span> <span class='kw'>=</span> <span class='no'>rotateMore</span>)</div><div class='img'><img src='gt_rotate-4.png' alt='' width='700' height='433' /></div></pre>
+<span class='fu'><a href='visualise.html'>visualise</a></span>(<span class='kw'>geom</span> <span class='kw'>=</span> <span class='no'>rotateMore</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: some vertices are not within the plotting window.</span></div><div class='img'><img src='gt_rotate-4.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
