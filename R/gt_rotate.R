@@ -26,7 +26,7 @@
 #' rotatedGeom <- gt_rotate(geom = aGeom, angle = 90, about = c(40, 40))
 #' visualise(geom = rotatedGeom)
 #'
-#' # rotate single geom
+#' # rotate a single geom
 #' rotatedTriangle <- gt_rotate(geom = aGeom, angle = -180, about = c(30, 40), fid = 2)
 #' visualise(geom = rotatedTriangle)
 #'
@@ -54,23 +54,26 @@ gt_rotate <- function(geom = NULL, angle = NULL, about = c(0, 0), fid = NULL,
   assertIntegerish(x = fid, any.missing = FALSE, null.ok = TRUE)
   assertLogical(x = update, len = 1, any.missing = FALSE)
 
+  # make list, if it is not yet
   if(aboutIsNumeric){
     about <- list(about)
   }
   if(angleIsNumeric){
     angle <- list(angle)
   }
-  existsID <- !is.null(fid)
 
   verts <- geom@vert
   ids <- unique(verts$fid)
 
+  # identify fids to modify
+  existsID <- !is.null(fid)
   if(existsID){
     doRotate <- ids %in% fid
   } else{
     doRotate <- rep(TRUE, length(ids))
   }
 
+  # repeat values to match fids
   if(length(angle) != length(ids)){
     angle <- rep(angle, length.out = length(ids))
   }
@@ -80,9 +83,11 @@ gt_rotate <- function(geom = NULL, angle = NULL, about = c(0, 0), fid = NULL,
 
   digits <- getOption("digits")
 
+  # modify vertices
   temp <- NULL
   for(i in seq_along(ids)){
     tempCoords <- verts[verts$fid == ids[i],]
+    newCoords <- tempCoords
 
     if(doRotate[i]){
       tempAngle <- angle[[i]]
@@ -96,21 +101,29 @@ gt_rotate <- function(geom = NULL, angle = NULL, about = c(0, 0), fid = NULL,
         yVals <- yVals + offset[2]
       }
 
-      tempCoords$x <- round(xVals * cos(.rad(tempAngle)) - yVals * sin(.rad(tempAngle)), digits)
-      tempCoords$y <- round(xVals * sin(.rad(tempAngle)) + yVals * cos(.rad(tempAngle)), digits)
+      newCoords$x <- round(xVals * cos(.rad(tempAngle)) - yVals * sin(.rad(tempAngle)), digits)
+      newCoords$y <- round(xVals * sin(.rad(tempAngle)) + yVals * cos(.rad(tempAngle)), digits)
 
       if(!all(tempAbout == c(0, 0))){
-        tempCoords$x <- tempCoords$x - offset[1]
-        tempCoords$y <- tempCoords$y - offset[2]
+        newCoords$x <- tempCoords$x - offset[1]
+        newCoords$y <- tempCoords$y - offset[2]
       }
     }
-    temp <- rbind(temp, tempCoords)
+    temp <- rbind(temp, newCoords)
   }
 
+  # update window
   if(update){
     window <- .updateWindow(input = temp, window = geom@window)
   } else {
     window <- geom@window
+  }
+
+  # make history
+  if(length(ids) == 1){
+    hist <- paste0("geometry was rotated")
+  } else {
+    hist <- paste0("geometries were rotated")
   }
 
   # make new geom
@@ -122,15 +135,7 @@ gt_rotate <- function(geom = NULL, angle = NULL, about = c(0, 0), fid = NULL,
              window = window,
              scale = geom@scale,
              crs = geom@crs,
-             history = c(geom@history))
-
-  # assign history
-  if(length(ids) == 1){
-    hist <- paste0("geometry was rotated")
-  } else {
-    hist <- paste0("geometries were rotated")
-  }
-  out <- setHistory(x = out, history = hist)
+             history = c(geom@history, list(hist)))
 
   return(out)
 }

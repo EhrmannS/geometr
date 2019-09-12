@@ -41,6 +41,7 @@ gt_stretch <- function(geom, x = NULL, y = NULL, fid = NULL, update = TRUE){
   assertIntegerish(x = fid, any.missing = FALSE, null.ok = TRUE)
   assertLogical(x = update, len = 1, any.missing = FALSE)
 
+  # set default values
   if(is.null(x)){
     x <- 1
   }
@@ -48,6 +49,7 @@ gt_stretch <- function(geom, x = NULL, y = NULL, fid = NULL, update = TRUE){
     y <- 1
   }
 
+  # make list, if it is not yet
   if(xIsNumeric){
     x <- list(x)
   }
@@ -58,6 +60,7 @@ gt_stretch <- function(geom, x = NULL, y = NULL, fid = NULL, update = TRUE){
   verts <- geom@vert
   ids <- unique(verts$fid)
 
+  # identify fids to modify
   existsID <- !is.null(fid)
   if(existsID){
     doStretch <- ids %in% fid
@@ -65,6 +68,7 @@ gt_stretch <- function(geom, x = NULL, y = NULL, fid = NULL, update = TRUE){
     doStretch <- rep(TRUE, length(ids))
   }
 
+  # repeat values to match fids
   if(length(x) != length(ids)){
     x <- rep(x, length.out = length(ids))
   }
@@ -72,14 +76,15 @@ gt_stretch <- function(geom, x = NULL, y = NULL, fid = NULL, update = TRUE){
     y <- rep(y, length.out = length(ids))
   }
 
+  # modify vertices
   temp <- NULL
   for(i in seq_along(ids)){
     tempCoords <- verts[verts$fid == ids[i],]
     newCoords <- tempCoords
 
-    centroid <- tibble(x = mean(x = tempCoords$x), y = mean(x = tempCoords$y))
-
     if(doStretch[i]){
+      centroid <- tibble(x = mean(x = tempCoords$x), y = mean(x = tempCoords$y))
+
       newCoords$x <- x[[i]] * tempCoords$x
       newCoords$y <- y[[i]] * tempCoords$y
 
@@ -92,10 +97,18 @@ gt_stretch <- function(geom, x = NULL, y = NULL, fid = NULL, update = TRUE){
     temp <- rbind(temp, newCoords)
   }
 
+  # update window
   if(update){
     window <- .updateWindow(input = temp, window = geom@window)
   } else {
     window <- geom@window
+  }
+
+  # make history
+  if(length(ids) == 1){
+    hist <- paste0("geometry was stretched")
+  } else {
+    hist <- paste0("geometries were stretched")
   }
 
   # make new geom
@@ -107,15 +120,7 @@ gt_stretch <- function(geom, x = NULL, y = NULL, fid = NULL, update = TRUE){
              window = window,
              scale = geom@scale,
              crs = geom@crs,
-             history = c(geom@history))
-
-  # assign history
-  if(length(ids) == 1){
-    hist <- paste0("geometry was stretched")
-  } else {
-    hist <- paste0("geometries were stretched")
-  }
-  out <- setHistory(x = out, history = hist)
+             history = c(geom@history, list(hist)))
 
   return(out)
 }

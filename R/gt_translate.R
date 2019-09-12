@@ -2,8 +2,10 @@
 #'
 #' Translate \code{geom}s by adding a constant in x and y-dimension.
 #' @param geom [\code{geom(.)}]\cr the object to translate.
-#' @param x [\code{numeric(1)}]\cr the translation constant in x-dimension.
-#' @param y [\code{numeric(1)}]\cr the translation constant in y-dimension.
+#' @param x [\code{numeric(1)}]\cr the translation constant (offset) in
+#'   x-dimension.
+#' @param y [\code{numeric(1)}]\cr the translation constant (offset) in
+#'   y-dimension.
 #' @param fid [\code{integerish(.)}]\cr if only a subset of features shall be
 #'   rotated, specify that here.
 #' @param update [\code{logical(1)}]\cr whether or not to update the window slot
@@ -22,7 +24,7 @@
 #' # translate several geoms
 #' visualise(geom = gt_translate(geom = aGeom, x = 5, y = list(-10, 5)))
 #'
-#' # translate single geom
+#' # translate a single geom
 #' visualise(geom = gt_translate(geom = aGeom, x = 5, fid = 1))
 #' @importFrom checkmate assertClass testList testNumeric assert
 #'   assertIntegerish assertLogical
@@ -43,6 +45,7 @@ gt_translate <- function(geom = NULL, x = NULL, y = NULL, fid = NULL,
   assertIntegerish(x = fid, any.missing = FALSE, null.ok = TRUE)
   assertLogical(x = update, len = 1, any.missing = FALSE)
 
+  # set default values
   if(is.null(x)){
     x <- 0
   }
@@ -50,6 +53,7 @@ gt_translate <- function(geom = NULL, x = NULL, y = NULL, fid = NULL,
     y <- 0
   }
 
+  # make list, if it is not yet
   if(xIsNumeric){
     x <- list(x)
   }
@@ -60,6 +64,7 @@ gt_translate <- function(geom = NULL, x = NULL, y = NULL, fid = NULL,
   verts <- geom@vert
   ids <- unique(verts$fid)
 
+  # identify fids to modify
   existsID <- !is.null(fid)
   if(existsID){
     doTranslate <- ids %in% fid
@@ -67,6 +72,7 @@ gt_translate <- function(geom = NULL, x = NULL, y = NULL, fid = NULL,
     doTranslate <- rep(TRUE, length(ids))
   }
 
+  # repeat values to match fids
   if(length(x) != length(ids)){
     x <- rep(x, length.out = length(ids))
   }
@@ -74,6 +80,7 @@ gt_translate <- function(geom = NULL, x = NULL, y = NULL, fid = NULL,
     y <- rep(y, length.out = length(ids))
   }
 
+  # modify vertices
   temp <- NULL
   for(i in seq_along(ids)){
     tempCoords <- verts[verts$fid == ids[i],]
@@ -83,22 +90,24 @@ gt_translate <- function(geom = NULL, x = NULL, y = NULL, fid = NULL,
       newCoords$x <- tempCoords$x + x[[i]]
       newCoords$y <- tempCoords$y + y[[i]]
     }
-
     temp <- rbind(temp, newCoords)
   }
 
+  # update window
   if(update){
     window <- .updateWindow(input = temp, window = geom@window)
   } else {
     window <- geom@window
   }
 
+  # make history
   if(length(ids) == 1){
-    newHistory <- paste0("geometry was translated")
+    hist <- paste0("geometry was translated")
   } else {
-    newHistory <- paste0("geometries were translated")
+    hist <- paste0("geometries were translated")
   }
 
+  # make new geom
   out <- new(Class = "geom",
              type = geom@type,
              vert = as_tibble(temp),
@@ -107,7 +116,7 @@ gt_translate <- function(geom = NULL, x = NULL, y = NULL, fid = NULL,
              window = window,
              scale = geom@scale,
              crs = geom@crs,
-             history = c(geom@history, list(newHistory)))
+             history = c(geom@history, list(hist)))
 
   return(out)
 }
