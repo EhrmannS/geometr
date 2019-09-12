@@ -32,7 +32,8 @@
 
 <meta property="og:title" content="Create a regular tiling <code>geom</code> — gs_tiles" />
 
-<meta property="og:description" content="Create a regular tiling geom" />
+<meta property="og:description" content="Create a regular tiling polygon geometry (of class geom) for the
+extent of an anchor value." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -124,7 +125,8 @@
 
     <div class="ref-description">
     
-    <p>Create a regular tiling <code>geom</code></p>
+    <p>Create a regular tiling polygon geometry (of class <code>geom</code>) for the
+extent of an anchor value.</p>
     
     </div>
 
@@ -143,7 +145,8 @@ and optinally a custom <code>fid</code>. To set further attributes, use
     </tr>
     <tr>
       <th>width</th>
-      <td><p>[<code><a href='https://www.rdocumentation.org/packages/base/topics/numeric'>numeric(1)</a></code>]<br /> the width of a tile.</p></td>
+      <td><p>[<code><a href='https://www.rdocumentation.org/packages/base/topics/numeric'>numeric(1)</a></code>]<br /> the width (which does not correspond to
+the height in case of <code>pattern = "hexagonal"</code>) of a tile.</p></td>
     </tr>
     <tr>
       <th>pattern</th>
@@ -192,7 +195,7 @@ default)?</p></td>
 <span class='no'>aWindow</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/data.frame'>data.frame</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(-<span class='fl'>180</span>, <span class='fl'>180</span>),
                       <span class='kw'>y</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(-<span class='fl'>60</span>, <span class='fl'>80</span>))
 <span class='fu'>gs_tiles</span>(<span class='kw'>anchor</span> <span class='kw'>=</span> <span class='no'>aWindow</span>, <span class='kw'>width</span> <span class='kw'>=</span> <span class='fl'>10</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='visualise.html'>visualise</a></span>(<span class='kw'>`10° world tiles`</span> <span class='kw'>=</span> <span class='no'>.</span>)</div><div class='img'><img src='gs_tiles-1.png' alt='' width='700' height='433' /></div><div class='input'>
+  <span class='fu'><a href='visualise.html'>visualise</a></span>(<span class='kw'>`10° world tiles`</span> <span class='kw'>=</span> <span class='no'>.</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: some vertices are not within the plotting window.</span></div><div class='img'><img src='gs_tiles-1.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># create a hexagonal tiling on top of a geom</span>
 <span class='no'>coords</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/data.frame'>data.frame</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>40</span>, <span class='fl'>70</span>, <span class='fl'>70</span>, <span class='fl'>50</span>),
                      <span class='kw'>y</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>40</span>, <span class='fl'>40</span>, <span class='fl'>60</span>, <span class='fl'>70</span>))

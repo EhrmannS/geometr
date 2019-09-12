@@ -17,7 +17,7 @@ reference:
       - gs_tiles
       - gs_voronoi
   - title: transform spatial classes
-    desc: functions that transform between spatial classes
+    desc: functions that transform between geometric/spatial classes
     contents:
       - gc_geom
       - gc_grob
@@ -25,7 +25,7 @@ reference:
       - gc_sf
       - gc_sp
   - title: getters and setters
-    desc: methods that standardise dealing with spatial objects
+    desc: methods that standardise dealing with geometric/spatial objects
     contents:
       - getCRS
       - getExtent
@@ -40,7 +40,7 @@ reference:
       - setTable
       - setWindow
   - title: utility functions
-    desc: functions that modify geometries
+    desc: functions that modify `geom`s
     contents:
       - gt_locate
       - gt_rotate
@@ -51,7 +51,7 @@ reference:
       - gt_stretch
       - gt_translate
   - title: visualise
-    desc: plot spatial objects and locate coordinates
+    desc: plot geometric/spatial objects
     contents:
       - visualise
       - setTheme
