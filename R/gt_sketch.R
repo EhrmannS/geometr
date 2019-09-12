@@ -1,4 +1,4 @@
-#' Sketch geometries
+#' Sketch \code{geom}s
 #'
 #' Sketch \code{geom}s by clicking into a plot.
 #' @param template [\code{RasterLayer(1)} | \code{matrix(1)}]\cr Gridded object

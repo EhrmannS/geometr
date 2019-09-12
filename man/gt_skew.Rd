@@ -2,7 +2,7 @@
 % Please edit documentation in R/gt_skew.R
 \name{gt_skew}
 \alias{gt_skew}
-\title{Skew geometries}
+\title{Skew \code{geom}s}
 \usage{
 gt_skew(geom, x = NULL, y = NULL, fid = NULL, update = TRUE)
 }

@@ -1,4 +1,4 @@
-#' Reflect geometries
+#' Reflect \code{geom}s
 #'
 #' Reflect \code{geom}s across a reflection axis.
 #' @param geom [\code{geom(.)}]\cr the object to reflect.

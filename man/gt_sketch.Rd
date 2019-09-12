@@ -2,7 +2,7 @@
 % Please edit documentation in R/gt_sketch.R
 \name{gt_sketch}
 \alias{gt_sketch}
-\title{Sketch geometries}
+\title{Sketch \code{geom}s}
 \usage{
 gt_sketch(template = NULL, shape = NULL, features = 1,
   vertices = NULL, regular = FALSE, fixed = FALSE, show = FALSE,

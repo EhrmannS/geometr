@@ -2,7 +2,7 @@
 % Please edit documentation in R/gt_stretch.R
 \name{gt_stretch}
 \alias{gt_stretch}
-\title{Stretch geometries}
+\title{Stretch \code{geom}s}
 \usage{
 gt_stretch(geom, x = NULL, y = NULL, fid = NULL, update = TRUE)
 }

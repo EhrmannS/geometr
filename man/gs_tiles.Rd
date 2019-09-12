@@ -13,7 +13,8 @@ tiling \code{geom} from. It must include column names \code{x}, \code{y}
 and optinally a custom \code{fid}. To set further attributes, use
 \code{\link{setTable}}.}
 
-\item{width}{[\code{numeric(1)}]\cr the width of a tile.}
+\item{width}{[\code{numeric(1)}]\cr the width (which does not correspond to
+the height in case of \code{pattern = "hexagonal"}) of a tile.}
 
 \item{pattern}{[\code{character(1)}]\cr pattern of the tiling. Possible
 options are \code{"squared"} (default) or \code{"hexagonal"}.}
@@ -28,7 +29,8 @@ default)?}
 An invisible \code{geom}.
 }
 \description{
-Create a regular tiling \code{geom}
+Create a regular tiling polygon geometry (of class \code{geom}) for the
+extent of an anchor value.
 }
 \details{
 When deriving a regular tiling for a prescribed window, there is

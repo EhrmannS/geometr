@@ -1,4 +1,4 @@
-#' Skew geometries
+#' Skew \code{geom}s
 #'
 #' Skew \code{geom}s by a shear factor in x and y-dimension.
 #' @param geom [\code{geom(.)}]\cr the object to skew.

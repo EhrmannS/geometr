@@ -2,7 +2,7 @@
 % Please edit documentation in R/gt_translate.R
 \name{gt_translate}
 \alias{gt_translate}
-\title{Translate geometries}
+\title{Translate \code{geom}s}
 \usage{
 gt_translate(geom = NULL, x = NULL, y = NULL, fid = NULL,
   update = TRUE)

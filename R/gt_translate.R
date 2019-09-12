@@ -1,4 +1,4 @@
-#' Translate geometries
+#' Translate \code{geom}s
 #'
 #' Translate \code{geom}s by adding a constant in x and y-dimension.
 #' @param geom [\code{geom(.)}]\cr the object to translate.

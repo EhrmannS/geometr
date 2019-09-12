@@ -2,7 +2,7 @@
 % Please edit documentation in R/gt_reflect.R
 \name{gt_reflect}
 \alias{gt_reflect}
-\title{Reflect geometries}
+\title{Reflect \code{geom}s}
 \usage{
 gt_reflect(geom = NULL, angle = NULL, fid = NULL, update = TRUE)
 }

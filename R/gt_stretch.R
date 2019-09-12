@@ -1,4 +1,4 @@
-#' Stretch geometries
+#' Stretch \code{geom}s
 #'
 #' Stretch \code{geom}s by a scale factor in x and y-dimension.
 #' @param geom [\code{geom(.)}]\cr the object to stretch.

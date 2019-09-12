@@ -1,4 +1,4 @@
-#' Rotate geometries
+#' Rotate \code{geom}s
 #'
 #' Rotate \code{geom}s by a certain angle about a center
 #' @param geom [\code{geom(.)}]\cr the object to rotate.

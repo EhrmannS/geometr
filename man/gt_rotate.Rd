@@ -2,7 +2,7 @@
 % Please edit documentation in R/gt_rotate.R
 \name{gt_rotate}
 \alias{gt_rotate}
-\title{Rotate geometries}
+\title{Rotate \code{geom}s}
 \usage{
 gt_rotate(geom = NULL, angle = NULL, about = c(0, 0), fid = NULL,
   update = TRUE)

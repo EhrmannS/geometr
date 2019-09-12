@@ -1,4 +1,4 @@
-#' Scale geometries
+#' Scale \code{geom}s
 #'
 #' Scale the vertex values of \code{geom}s to a values range or so that they are
 #' either relative to the \code{@window} slot, or absolute values.

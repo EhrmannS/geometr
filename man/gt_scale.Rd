@@ -2,7 +2,7 @@
 % Please edit documentation in R/gt_scale.R
 \name{gt_scale}
 \alias{gt_scale}
-\title{Scale geometries}
+\title{Scale \code{geom}s}
 \usage{
 gt_scale(geom, range = NULL, to = "relative")
 }
