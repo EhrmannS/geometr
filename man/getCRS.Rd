@@ -31,8 +31,8 @@ Get the coordinate reference system of a spatial object.
 }
 \seealso{
 Other getters: \code{\link{getExtent}},
-  \code{\link{getHistory}}, \code{\link{getSubset}},
-  \code{\link{getTable}}, \code{\link{getType}},
-  \code{\link{getVertices}}, \code{\link{getWindow}}
+  \code{\link{getHistory}}, \code{\link{getPoints}},
+  \code{\link{getSubset}}, \code{\link{getTable}},
+  \code{\link{getType}}, \code{\link{getWindow}}
 }
 \concept{getters}

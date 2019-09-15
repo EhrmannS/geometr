@@ -53,7 +53,7 @@ getTable(gtRasters$categorical)
 \seealso{
 Other getters: \code{\link{getCRS}},
   \code{\link{getExtent}}, \code{\link{getHistory}},
-  \code{\link{getSubset}}, \code{\link{getType}},
-  \code{\link{getVertices}}, \code{\link{getWindow}}
+  \code{\link{getPoints}}, \code{\link{getSubset}},
+  \code{\link{getType}}, \code{\link{getWindow}}
 }
 \concept{getters}

@@ -44,7 +44,7 @@ getType(gtRasters$categorical)
 \seealso{
 Other getters: \code{\link{getCRS}},
   \code{\link{getExtent}}, \code{\link{getHistory}},
-  \code{\link{getSubset}}, \code{\link{getTable}},
-  \code{\link{getVertices}}, \code{\link{getWindow}}
+  \code{\link{getPoints}}, \code{\link{getSubset}},
+  \code{\link{getTable}}, \code{\link{getWindow}}
 }
 \concept{getters}

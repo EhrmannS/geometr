@@ -3,29 +3,29 @@
 #' @param x the object from which to extract the coordinates
 #' @return A table of the coordinates \code{x} is made up of.
 #' @examples
-#' getVertices(gtGeoms$polygon)
+#' getPoints(gtGeoms$polygon)
 #' @family getters
-#' @name getVertices
-#' @rdname getVertices
+#' @name getPoints
+#' @rdname getPoints
 NULL
 
 # generic ----
-#' @rdname getVertices
-#' @name getVertices
+#' @rdname getPoints
+#' @name getPoints
 #' @export
-if(!isGeneric("getVertices")){
-  setGeneric(name = "getVertices",
+if(!isGeneric("getPoints")){
+  setGeneric(name = "getPoints",
              def = function(x, ...){
-               standardGeneric("getVertices")
+               standardGeneric("getPoints")
              }
   )
 }
 
 # geom ----
-#' @rdname getVertices
+#' @rdname getPoints
 #' @importFrom tibble as_tibble
 #' @export
-setMethod(f = "getVertices",
+setMethod(f = "getPoints",
           signature = "geom",
           definition = function(x){
             as_tibble(x@vert)
@@ -33,14 +33,14 @@ setMethod(f = "getVertices",
 )
 
 # Spatial ----
-#' @rdname getVertices
+#' @rdname getPoints
 #' @examples
 #'
-#' getVertices(gtSP$SpatialPoints)
+#' getPoints(gtSP$SpatialPoints)
 #' @importFrom methods as
 #' @importFrom tibble tibble as_tibble
 #' @export
-setMethod(f = "getVertices",
+setMethod(f = "getPoints",
           signature = "Spatial",
           definition = function(x){
             theCoords <- NULL
@@ -113,14 +113,14 @@ setMethod(f = "getVertices",
 )
 
 # sf ----
-#' @rdname getVertices
+#' @rdname getPoints
 #' @examples
 #'
-#' getVertices(gtSF$multilinestring)
+#' getPoints(gtSF$multilinestring)
 #' @importFrom tibble as_tibble
 #' @importFrom sf st_geometry_type st_coordinates
 #' @export
-setMethod(f = "getVertices",
+setMethod(f = "getPoints",
           signature = "sf",
           definition = function(x){
 
@@ -195,12 +195,12 @@ setMethod(f = "getVertices",
 )
 
 # ppp ----
-#' @rdname getVertices
+#' @rdname getPoints
 #' @examples
 #'
-#' getVertices(gtPPP)
+#' getPoints(gtPPP)
 #' @export
-setMethod(f = "getVertices",
+setMethod(f = "getPoints",
           signature = "ppp",
           definition = function(x){
             bla <- x

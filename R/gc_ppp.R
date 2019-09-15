@@ -29,7 +29,7 @@ setMethod(f = "gc_ppp",
           signature = "geom",
           definition = function(input = NULL){
 
-            theCoords <- getVertices(x = input)
+            theCoords <- getPoints(x = input)
             theData <- getTable(x = input)
             theData$fid <- NULL
             theData$gid <- NULL

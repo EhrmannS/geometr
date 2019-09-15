@@ -55,7 +55,7 @@ test_that("output has different coordinates than input", {
   input <- gs_polygon(anchor = coords, window = window)
   rotGeom <- gt_rotate(geom = input, angle = 45, about = c(50, 30))
 
-  expect_false(all(getVertices(input)[c(1, 2)] == getVertices(rotGeom)[c(1, 2)]))
+  expect_false(all(getPoints(input)[c(1, 2)] == getPoints(rotGeom)[c(1, 2)]))
 })
 
 test_that("Error if arguments have wrong value", {

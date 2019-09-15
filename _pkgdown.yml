@@ -33,7 +33,7 @@ reference:
       - getSubset
       - getTable
       - getType
-      - getVertices
+      - getPoints
       - getWindow
       - setCRS
       - setHistory

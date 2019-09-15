@@ -39,7 +39,7 @@ setMethod(f = "gc_sf",
           signature = "geom",
           definition = function(input = NULL){
 
-            theCoords <- getVertices(x = input)
+            theCoords <- getPoints(x = input)
             theData <- getTable(x = input, slot = "feat")
             theGroups <- getTable(x = input, slot = "group")
             theVertices <- getTable(x = input, slot = "vert")

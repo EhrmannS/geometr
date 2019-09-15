@@ -55,7 +55,7 @@ test_that("output has different coordinates than input", {
   input <- gs_polygon(anchor = coords, window = window)
   output <- gt_translate(geom = input, x = list(0.5), y = list(0, 0.2))
 
-  expect_false(all(getVertices(input)[c(1, 2)] == getVertices(output)[c(1, 2)]))
+  expect_false(all(getPoints(input)[c(1, 2)] == getPoints(output)[c(1, 2)]))
 })
 
 test_that("Error if arguments have wrong value", {

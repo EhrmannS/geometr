@@ -51,7 +51,7 @@ setMethod(f = "gc_grob",
               outGeom <- input
             }
 
-            vert <- getVertices(x = outGeom)
+            vert <- getPoints(x = outGeom)
             if(featureType == "point"){
               attr <- left_join(x = input@vert, y = input@feat, by = "fid")
             } else {

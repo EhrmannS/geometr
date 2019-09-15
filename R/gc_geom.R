@@ -35,7 +35,7 @@ setMethod(f = "gc_geom",
           signature = "Spatial",
           definition = function(input = NULL, ...){
 
-            theCoords <- getVertices(x = input)
+            theCoords <- getPoints(x = input)
             theData <- getTable(x = input)
             theWindow <- getWindow(x = input)
             theCRS <- getCRS(x = input)
@@ -76,7 +76,7 @@ setMethod(f = "gc_geom",
           signature = "sf",
           definition = function(input = NULL, group = FALSE, ...){
 
-            theCoords <- getVertices(x = input)
+            theCoords <- getPoints(x = input)
             theData <- getTable(x = input)
             theCRS <- getCRS(x = input)
             theWindow <- getWindow(x = input)
@@ -126,7 +126,7 @@ setMethod(f = "gc_geom",
           signature = "ppp",
           definition = function(input = NULL, ...){
 
-            theCoords <- getVertices(x = input)
+            theCoords <- getPoints(x = input)
             theData <- getTable(x = input)
             theGroups <- tibble(gid = theData$gid)
             theWindow <- getWindow(x = input)
