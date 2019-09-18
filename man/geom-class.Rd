@@ -6,40 +6,41 @@
 \alias{geom}
 \title{Geometry class (S4) and methods}
 \description{
-A \code{geom} stores a table of vertices, a table of feature to which the
-vertices are associated and a table of groups, to which features are
+A \code{geom} stores a table of points, a table of feature to which the
+points are associated and a table of groups, to which features are
 associated. A \code{geom} can be spatial, but is not by default. A
 \code{geom} can either have absolute or relative values, where relative
-values specify the vertex position relative to the \code{window} slot.
+values specify the point position relative to the \code{window} slot.
 }
 \details{
 A \code{geom} is one of three geometry objects: \itemize{ \item
-\code{"point"}, when none of the vertices are connected to other vertices,
-\item \code{"line"}, where vertices with the same \code{fid} are connected
-following the sequence of their order, without the line closing in itself and
-\item \code{"polygon"}, where vertices with the same \code{fid} are connected
-following the sequence of their order and the line thus closes in on itself.
-Moreover, \code{polygon} objects can contain holes.}
+\code{"point"}, when none of the points are connected to other points, \item
+\code{"line"}, where points with the same \code{fid} are connected following
+the sequence of their order, without the line closing in itself and \item
+\code{"polygon"}, where points with the same \code{fid} are connected
+following the sequence of their order and the line closes in on itself due to
+first and last point being the same. Moreover, \code{polygon} objects can
+contain holes.}
 
-The data model for storing vertices follows the spaghetti model. Vertices are
+The data model for storing points follows the spaghetti model. Points are
 stored as a sequence of x and y values, associated to a feature ID. The
 feature ID relates coordinates to features and thus common attributes. Points
 and Lines are implemented straightforward in this model, but polygons, which
 may contain holes, are a bit trickier. In \code{geometr} they are implemented
-as follows: \enumerate{ \item All vertices with the same \code{fid} make up
+as follows: \enumerate{ \item All points with the same \code{fid} make up
 one polygon, irrespective of it containing holes or not. \item The outer
-path/ring of a polygon is composed of all vertices until a duplicated of its
-first vertex occurs. This signals that all following vertices are part of
+path/ring of a polygon is composed of all points until a duplicated of its
+first point occurs. This signals that all following points are part of
 another path/ring, which must be inside the outer path and which consists of
-all vertices until a duplicate of it's first vertex occurs. \item This
-repeats until all vertices of the feature are processed.}
+all points until a duplicate of it's first point occurs. \item This
+repeats until all points of the feature are processed.}
 
 Moreover, a \code{geom} does not have the slot \emph{extent}, which
-characterises the minimum and maximum value of the vertex coordinates and
-which is thus derived "on the fly" from the vertices. Instead it has a
+characterises the minimum and maximum value of the point coordinates and
+which is thus derived "on the fly" from the points. Instead it has a
 \emph{reference window}, which is sort of a second extent that may be bigger
 (or smaller) than \code{extent} and which determines the relative position of
-the vertices when plotting.
+the points when plotting.
 }
 \section{Slots}{
 
@@ -47,11 +48,11 @@ the vertices when plotting.
 \item{\code{type}}{[\code{character(1)}]\cr the type of feature, either
 \code{"point"}, \code{"line"} or \code{"polygon"}.}
 
-\item{\code{vert}}{[\code{data.frame(1)}]\cr the \code{fid} (feature ID), \code{x}
-and \code{y} coordinates per vertex and optional arbitrary vertex
+\item{\code{point}}{[\code{data.frame(1)}]\cr the \code{fid} (feature ID), \code{x}
+and \code{y} coordinates per point and optional arbitrary point
 attributes.}
 
-\item{\code{feat}}{[\code{data.frame(1)}]\cr \code{fid} (feature ID), \code{gid}
+\item{\code{feature}}{[\code{data.frame(1)}]\cr \code{fid} (feature ID), \code{gid}
 (group ID) and optional arbitrary feature attributes.}
 
 \item{\code{group}}{[\code{data.frame(1)}]\cr \code{gid} (group ID) and optional
@@ -60,7 +61,7 @@ arbitrary group attributes.}
 \item{\code{window}}{[\code{data.frame(1)}]\cr the minimum and maximum value in x and
 y dimension of the reference window in which the \code{geom} dwells.}
 
-\item{\code{scale}}{[\code{character(1)}]\cr whether the vertex coordinates are
+\item{\code{scale}}{[\code{character(1)}]\cr whether the point coordinates are
 stored as \code{"absolute"} values, or \code{"relative"} to \code{window}.}
 
 \item{\code{crs}}{[\code{character(1)}]\cr the coordinate reference system in proj4

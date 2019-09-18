@@ -11,7 +11,7 @@
 \alias{setTable,RasterLayer-method}
 \title{Set the attribute table(s) of a spatial object.}
 \usage{
-\S4method{setTable}{geom}(x, table = NULL, slot = "feat")
+\S4method{setTable}{geom}(x, table = NULL, slot = "feature")
 
 \S4method{setTable}{Spatial}(x, table = NULL)
 
@@ -29,7 +29,7 @@
 \item{table}{[\code{data.frame(.)}]\cr the attribute table.}
 
 \item{slot}{[\code{character(1)}]\cr the slot (of \code{geom}) for which to
-set the attribute table, either \code{"vert"}, \code{"feat"} or
+set the attribute table, either \code{"point"}, \code{"feature"} or
 \code{"group"}.}
 }
 \value{
@@ -48,14 +48,14 @@ If \code{table} does not have columns in common with \code{x}, the
 # individual attributes per point/line/polygon feature
 getTable(gtGeoms$point)
 newAttr <- setTable(x = gtGeoms$point,
-                    slot = "vert",
+                    slot = "point",
                     table = data.frame(attr = letters[c(1:12)]))
-getTable(x = newAttr, slot = "vert")
+getTable(x = newAttr, slot = "point")
 
 newAttr2 <- setTable(x = newAttr,
-                     slot = "feat",
+                     slot = "feature",
                      table = data.frame(gid = c(1:3), attr = letters[1:3]))
-getTable(x = newAttr2, slot = "feat")
+getTable(x = newAttr2, slot = "feature")
 newAttr2
 
 # set table of an Spatial object

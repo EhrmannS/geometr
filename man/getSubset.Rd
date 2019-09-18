@@ -9,7 +9,7 @@
 \alias{getSubset,ppp-method}
 \title{Get the subset of a spatial object.}
 \usage{
-\S4method{getSubset}{geom}(x, ..., slot = "feat")
+\S4method{getSubset}{geom}(x, ..., slot = "feature")
 
 \S4method{getSubset}{Spatial}(x, ...)
 
@@ -25,7 +25,7 @@ or a vector of booleans. Multiple conditions are combined with &. Only rows
 where the condition evaluates to TRUE are kept.}
 
 \item{slot}{[\code{character(1)}]\cr the slot in which to determine a subset,
-either \code{"vert"} for vertices, \code{"feat"} for features or
+either \code{"point"} for vertices, \code{"feature"} for features or
 \code{"group"} for group tables.}
 }
 \value{
