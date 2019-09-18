@@ -39,7 +39,7 @@ setMethod(f = "makeObject",
             out$name <- "geom"
 
             # test whether vertices are outside of 'window'
-            inWindow <- pointInGeomC(vert = as.matrix(x@vert[c("x", "y")]),
+            inWindow <- pointInGeomC(vert = as.matrix(x@point[c("x", "y")]),
                                      geom = as.matrix(x@window[c("x", "y")]),
                                      invert = FALSE)
             inWindow <- inWindow[-5] != 0

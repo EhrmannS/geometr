@@ -44,6 +44,7 @@ makeLayout <- function(x = NULL, window = NULL, theme = gtTheme, image = FALSE, 
   } else {
     arg <- 0
   }
+  arg <- as.character(arg)
 
   if(!is.null(window)){
     plotWin <- window
@@ -109,7 +110,7 @@ makeLayout <- function(x = NULL, window = NULL, theme = gtTheme, image = FALSE, 
     titleH <- unit(0, "points")
   }
   if(theme@legend$plot){
-    legendW <- ceiling(convertX(unit(1, "strwidth", as.character(arg[which.max(nchar(arg))])) + unit(30, "points"), "points"))
+    legendW <- ceiling(convertX(unit(1, "strwidth", arg[which.max(nchar(arg))]) + unit(30, "points"), "points"))
   } else{
     legendW <- unit(0, "points")
   }
@@ -509,12 +510,12 @@ makeLayout <- function(x = NULL, window = NULL, theme = gtTheme, image = FALSE, 
   # define symbols
   full <- '\u25C9'
   half <- '\u25CE'
-  quarter <- '\u25EF'
+  quarter <- '\u25CB'
   empty <- '\u25CC'
 
   # create vector of symbols
   filled <- NULL
-  nrPoints <- dim(geom@vert)[1]
+  nrPoints <- dim(geom@point)[1]
   for(i in 1:4){
     for(j in 1:4){
       x <- xmin + c(((xmax-xmin)/4 * j) - (xmax-xmin)/4, (xmax-xmin)/4 * j)
@@ -522,7 +523,7 @@ makeLayout <- function(x = NULL, window = NULL, theme = gtTheme, image = FALSE, 
       target <- data.frame(x = c(x[1], x[2], x[2], x[1], x[1]),
                            y = c(y[1], y[1], y[2], y[2], y[1]))
 
-      inside <- pointInGeomC(vert = as.matrix(geom@vert[c("x", "y")]),
+      inside <- pointInGeomC(vert = as.matrix(geom@point[c("x", "y")]),
                              geom = as.matrix(target),
                              invert = FALSE)
       pointsInside <- sum(inside != 0)
