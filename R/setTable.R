@@ -26,45 +26,45 @@ if(!isGeneric("setTable")){
 # geom ----
 #' @rdname setTable
 #' @param slot [\code{character(1)}]\cr the slot (of \code{geom}) for which to
-#'   set the attribute table, either \code{"vert"}, \code{"feat"} or
+#'   set the attribute table, either \code{"point"}, \code{"feature"} or
 #'   \code{"group"}.
 #' @examples
 #' # set table of a geom
 #' # individual attributes per point/line/polygon feature
 #' getTable(gtGeoms$point)
 #' newAttr <- setTable(x = gtGeoms$point,
-#'                     slot = "vert",
+#'                     slot = "point",
 #'                     table = data.frame(attr = letters[c(1:12)]))
-#' getTable(x = newAttr, slot = "vert")
+#' getTable(x = newAttr, slot = "point")
 #'
 #' newAttr2 <- setTable(x = newAttr,
-#'                      slot = "feat",
+#'                      slot = "feature",
 #'                      table = data.frame(gid = c(1:3), attr = letters[1:3]))
-#' getTable(x = newAttr2, slot = "feat")
+#' getTable(x = newAttr2, slot = "feature")
 #' newAttr2
 #' @importFrom tibble as_tibble
 #' @export
 setMethod(f = "setTable",
           signature = "geom",
-          definition = function(x, table = NULL, slot = "feat"){
+          definition = function(x, table = NULL, slot = "feature"){
             assertDataFrame(x = table)
-            assertChoice(x = slot, choices = c("vert", "feat", "group"))
-            if(slot == "vert"){
-              if(any(colnames(table) %in% colnames(x@vert))){
-                temp <- merge(x@vert, table, all.x = TRUE)
+            assertChoice(x = slot, choices = c("point", "feature", "group"))
+            if(slot == "point"){
+              if(any(colnames(table) %in% colnames(x@point))){
+                temp <- merge(x@point, table, all.x = TRUE)
                 temp <- .updateOrder(input = temp)
               } else{
-                temp <- cbind(x@vert, table)
+                temp <- cbind(x@point, table)
               }
-              x@vert <- as_tibble(temp)
-            } else if(slot == "feat"){
-              if(any(colnames(table) %in% colnames(x@feat))){
-                temp <- merge(x@feat, table, all.x = TRUE)
+              x@point <- as_tibble(temp)
+            } else if(slot == "feature"){
+              if(any(colnames(table) %in% colnames(x@feature))){
+                temp <- merge(x@feature, table, all.x = TRUE)
                 temp <- .updateOrder(input = temp)
               } else{
-                temp <- cbind(x@feat, table)
+                temp <- cbind(x@feature, table)
               }
-              x@feat <- as_tibble(temp)
+              x@feature <- as_tibble(temp)
             } else {
               if(any(colnames(table) %in% colnames(x@group))){
                 temp <- merge(x@group, table, all.x = TRUE)

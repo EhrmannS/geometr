@@ -164,8 +164,8 @@ gt_sketch <- function(template = NULL, shape = NULL, features = 1, vertices = NU
   # make new geom
   theGeom <- new(Class = "geom",
                  type = type,
-                 vert = theVertices,
-                 feat = theFeatures,
+                 point = theVertices,
+                 feature = theFeatures,
                  group = theGroups,
                  window = theWindow,
                  scale = "absolute",

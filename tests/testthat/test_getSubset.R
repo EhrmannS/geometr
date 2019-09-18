@@ -12,19 +12,19 @@ test_that("getSubset of a geom", {
   input <- gs_polygon(anchor = coords, window = window)
 
   # get a subset of the vertices
-  output <- getSubset(x = input, fid == 2, slot = "vert")
+  output <- getSubset(x = input, fid == 2, slot = "point")
   expect_class(output, "geom")
-  expect_true(dim(output@vert)[1] == 3)
-  expect_true(dim(output@vert)[1] < dim(input@vert)[1])
+  expect_true(dim(output@point)[1] == 3)
+  expect_true(dim(output@point)[1] < dim(input@point)[1])
 
   # get a subset of the features
   input <- setTable(x = input,
                     table = data.frame(fid = c(1, 2), attr = c("a", "b")),
-                    slot = "feat")
-  output <- getSubset(x = input, attr == 'b', slot = "feat")
+                    slot = "feature")
+  output <- getSubset(x = input, attr == 'b', slot = "feature")
   expect_class(output, "geom")
-  expect_true(dim(output@feat)[1] == 1)
-  expect_true(dim(output@feat)[1] < dim(input@group)[1])
+  expect_true(dim(output@feature)[1] == 1)
+  expect_true(dim(output@feature)[1] < dim(input@group)[1])
 
   # get a subset of the groups
   input <- setTable(x = input,
@@ -48,7 +48,7 @@ test_that("getSubset of a Spatial* object", {
 test_that("getSubset of an sf object", {
   input <- gtSF$point
 
-  output <- getSubset(x = input, feat = "a == 2")
+  output <- getSubset(x = input, feature = "a == 2")
   expect_class(output, "sf")
   expect_data_frame(output, any.missing = FALSE, nrows = 1, ncols = 2)
 })

@@ -47,7 +47,7 @@ gt_reflect <- function(geom = NULL, angle = NULL, fid = NULL, update = TRUE){
     angle <- list(angle)
   }
 
-  verts <- geom@vert
+  verts <- geom@point
   ids <- unique(verts$fid)
 
   # identify fids to modify
@@ -97,8 +97,8 @@ gt_reflect <- function(geom = NULL, angle = NULL, fid = NULL, update = TRUE){
   # make new geom
   out <- new(Class = "geom",
              type = geom@type,
-             vert = temp,
-             feat = geom@feat,
+             point = temp,
+             feature = geom@feature,
              group = geom@group,
              window = window,
              scale = geom@scale,

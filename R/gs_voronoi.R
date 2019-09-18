@@ -51,7 +51,7 @@ gs_voronoi <- function(anchor = NULL, window = NULL, features = 3, sketch = NULL
   }
   if(!is.null(anchor)){
     if(anchor$type == "geom"){
-      features <- length(unique(anchor$obj@feat$fid))
+      features <- length(unique(anchor$obj@feature$fid))
     } else if(anchor$type == "df"){
       if("fid" %in% names(anchor$obj)){
         features <- length(unique(anchor$obj$fid))
@@ -67,7 +67,7 @@ gs_voronoi <- function(anchor = NULL, window = NULL, features = 3, sketch = NULL
                          shape = "point",
                          features = features,
                          ...)
-    tempAnchor <- theGeom@vert
+    tempAnchor <- theGeom@point
     theWindow <- theGeom@window
     theFeatures = tibble(fid = seq_along(tempAnchor$x), gid = seq_along(tempAnchor$x))
     theGroups = tibble(gid = seq_along(tempAnchor$x))
@@ -79,8 +79,8 @@ gs_voronoi <- function(anchor = NULL, window = NULL, features = 3, sketch = NULL
       if(is.null(theWindow)){
         theWindow <- anchor$obj@window
       }
-      tempAnchor <- anchor$obj@vert
-      theFeatures <- anchor$obj@feat
+      tempAnchor <- anchor$obj@point
+      theFeatures <- anchor$obj@feature
       theGroups <- anchor$obj@group
       projection <- getCRS(x = anchor$obj)
 
@@ -115,8 +115,8 @@ gs_voronoi <- function(anchor = NULL, window = NULL, features = 3, sketch = NULL
 
   theGeom <- new(Class = "geom",
                  type = "polygon",
-                 vert = theVertices,
-                 feat = theFeatures,
+                 point = theVertices,
+                 feature = theFeatures,
                  group = theGroups,
                  window = theWindow,
                  scale = "absolute",

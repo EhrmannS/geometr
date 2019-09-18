@@ -43,7 +43,7 @@ gt_scale <- function(geom, range = NULL, to = "relative"){
     to <- assertChoice(x = to, choices = c("relative", "absolute"))
   }
 
-  vert <- geom@vert
+  point <- geom@point
   window <- geom@window
 
   out <- NULL
@@ -80,7 +80,7 @@ gt_scale <- function(geom, range = NULL, to = "relative"){
     maxY <- 1
   }
 
-  temp <- vert
+  temp <- point
   temp$x <- (temp$x - minX) * (rangeX[2] - rangeX[1]) / (maxX - minX) + rangeX[1]
   temp$y <- (temp$y - minY) * (rangeY[2] - rangeY[1]) / (maxY - minY) + rangeY[1]
   out <- rbind(out, temp)
@@ -92,8 +92,8 @@ gt_scale <- function(geom, range = NULL, to = "relative"){
   # make new geom
   out <- new(Class = "geom",
              type = geom@type,
-             vert = as_tibble(out),
-             feat = geom@feat,
+             point = as_tibble(out),
+             feature = geom@feature,
              group = geom@group,
              window = window,
              scale = to,

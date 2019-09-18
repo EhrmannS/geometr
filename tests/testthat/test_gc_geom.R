@@ -11,7 +11,7 @@ test_that("transform from sf to geom", {
   output <- gc_geom(input = input)
   expect_class(output, classes = "geom")
   expect_true(output@type == "point")
-  expect_data_frame(output@vert, any.missing = FALSE, nrows = 2, ncols = 3)
+  expect_data_frame(output@point, any.missing = FALSE, nrows = 2, ncols = 3)
 
   # test MULTIPOINT
   input <- gtSF$multipoint
@@ -19,7 +19,7 @@ test_that("transform from sf to geom", {
   output <- gc_geom(input)
   expect_class(output, classes = "geom")
   expect_true(output@type == "point")
-  expect_data_frame(output@vert, any.missing = FALSE, nrows = 8, ncols = 3)
+  expect_data_frame(output@point, any.missing = FALSE, nrows = 8, ncols = 3)
 
   # test LINESTRING
   input <- gtSF$linestring
@@ -27,7 +27,7 @@ test_that("transform from sf to geom", {
   output <- gc_geom(input)
   expect_class(output, classes = "geom")
   expect_true(output@type == "line")
-  expect_data_frame(output@vert, any.missing = FALSE, nrows = 8, ncols = 3)
+  expect_data_frame(output@point, any.missing = FALSE, nrows = 8, ncols = 3)
 
   # test MULTILINESTRING
   input <- gtSF$multilinestring
@@ -35,7 +35,7 @@ test_that("transform from sf to geom", {
   output <- gc_geom(input)
   expect_class(output, classes = "geom")
   expect_true(output@type == "line")
-  expect_data_frame(output@vert, any.missing = FALSE, nrows = 12, ncols = 3)
+  expect_data_frame(output@point, any.missing = FALSE, nrows = 12, ncols = 3)
 
   # test POLYGON
   input <- gtSF$polygon
@@ -43,7 +43,7 @@ test_that("transform from sf to geom", {
   output <- gc_geom(input)
   expect_class(output, classes = "geom")
   expect_true(output@type == "polygon")
-  expect_data_frame(output@vert, any.missing = FALSE, nrows = 15, ncols = 3)
+  expect_data_frame(output@point, any.missing = FALSE, nrows = 15, ncols = 3)
 
   # test MULTIPOLYGON
   input <- gtSF$multipolygon
@@ -51,7 +51,7 @@ test_that("transform from sf to geom", {
   output <- gc_geom(input)
   expect_class(output, classes = "geom")
   expect_true(output@type == "polygon")
-  expect_data_frame(output@vert, any.missing = FALSE, nrows = 25, ncols = 3)
+  expect_data_frame(output@point, any.missing = FALSE, nrows = 25, ncols = 3)
 })
 
 test_that("transform from sp to geom", {
@@ -75,7 +75,7 @@ test_that("transform from sp to geom", {
   output <- gc_geom(input)
   expect_class(output, "geom")
   expect_true(output@type == "point")
-  expect_true(length(unique(output@vert$fid)) == 8)
+  expect_true(length(unique(output@point$fid)) == 8)
 
   # test 'SpatialMultiPointsDataFrame'
   input <- SpatialMultiPointsDataFrame(input, data = data.frame(data = 1:2))
@@ -91,7 +91,7 @@ test_that("transform from sp to geom", {
   output <- gc_geom(input)
   expect_class(output, "geom")
   expect_true(output@type == "line")
-  expect_true(length(unique(output@vert$fid)) == 2)
+  expect_true(length(unique(output@point$fid)) == 2)
 
   # test 'SpatialLinesDataFrame'
   input <- SpatialLinesDataFrame(input, data = data.frame(data = 1:2), match.ID = FALSE)

@@ -28,7 +28,7 @@ if(!isGeneric("getPoints")){
 setMethod(f = "getPoints",
           signature = "geom",
           definition = function(x){
-            as_tibble(x@vert)
+            as_tibble(x@point)
           }
 )
 

@@ -32,7 +32,7 @@ test_that("output has correctly scaled values (only 'relative')", {
   rectGeom <- gs_polygon(anchor = coords, extent = extent)
   rectGeomRel <- gt_scale(geom = rectGeom, to = "relative")
 
-  expect_true(all(rectGeomRel@vert[c("x", "y")] <= 1))
+  expect_true(all(rectGeomRel@point[c("x", "y")] <= 1))
   expect_true(rectGeomRel@scale == "relative")
 })
 

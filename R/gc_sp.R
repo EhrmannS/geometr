@@ -36,9 +36,9 @@ setMethod(f = "gc_sp",
           definition = function(input = NULL){
 
             theCoords <- getPoints(x = input)
-            theData <- getTable(x = input, slot = "feat")
+            theData <- getTable(x = input, slot = "feature")
             theGroups <- getTable(x = input, slot = "group")
-            theVertices <- getTable(x = input, slot = "vert")
+            theVertices <- getTable(x = input, slot = "point")
             theCRS <- getCRS(x = input)
 
             featureType <- input@type

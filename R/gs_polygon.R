@@ -96,12 +96,12 @@ gs_polygon <- function(anchor = NULL, window = NULL, features = 1, vertices = NU
   if(!is.null(anchor)){
     if(anchor$type == "geom"){
       if(anchor$obj@type == "point"){
-        anchor$obj@vert$fid <- rep(1, length(anchor$obj@vert$fid))
-        anchor$obj@feat <- tibble(fid = 1, gid = 1)
+        anchor$obj@point$fid <- rep(1, length(anchor$obj@point$fid))
+        anchor$obj@feature <- tibble(fid = 1, gid = 1)
         anchor$obj@group <- tibble(gid = 1)
         features <- 1
       } else {
-        features <- length(unique(anchor$obj@feat$fid))
+        features <- length(unique(anchor$obj@feature$fid))
       }
     } else if(anchor$type == "df"){
       if("fid" %in% names(anchor$obj)){
@@ -132,9 +132,9 @@ gs_polygon <- function(anchor = NULL, window = NULL, features = 1, vertices = NU
         if(is.null(theWindow)){
           theWindow <- anchor$obj@window
         }
-        tempAnchor <- anchor$obj@vert[anchor$obj@vert$fid == i,]
+        tempAnchor <- anchor$obj@point[anchor$obj@point$fid == i,]
         openingAngle <- atan((tempAnchor$x[1] - tempAnchor$x[2]) / (tempAnchor$y[1] - tempAnchor$y[2])) * 180 / pi
-        tempFeatures <- anchor$obj@feat[anchor$obj@feat$fid == i,]
+        tempFeatures <- anchor$obj@feature[anchor$obj@feature$fid == i,]
         tempGroups <- anchor$obj@group[anchor$obj@group$gid == i,]
         projection <- getCRS(x = anchor$obj)
 
@@ -180,8 +180,8 @@ gs_polygon <- function(anchor = NULL, window = NULL, features = 1, vertices = NU
 
     theGeom <- new(Class = "geom",
                    type = "polygon",
-                   vert = theVertices,
-                   feat = theFeatures,
+                   point = theVertices,
+                   feature = theFeatures,
                    group = theGroups,
                    window = theWindow,
                    scale = "absolute",
@@ -246,8 +246,8 @@ gs_rectangle <- function(anchor = NULL, window = NULL, sketch = NULL,
                         ...)
 
   outTable <- NULL
-  for(i in seq_along(theGeom@feat$fid)){
-    geomSubset <- getSubset(theGeom, fid == !!i, slot = "feat")
+  for(i in seq_along(theGeom@feature$fid)){
+    geomSubset <- getSubset(theGeom, fid == !!i, slot = "feature")
     temp <- getExtent(geomSubset)
     temp <- tibble(x = c(rep(temp$x, each = 2), temp$x[1]),
                    y = c(temp$y, rev(temp$y), temp$y[1]),
@@ -255,7 +255,7 @@ gs_rectangle <- function(anchor = NULL, window = NULL, sketch = NULL,
     outTable <- bind_rows(outTable, temp)
   }
 
-  theGeom@vert <- outTable
+  theGeom@point <- outTable
 
   invisible(theGeom)
 }

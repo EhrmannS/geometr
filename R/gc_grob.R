@@ -51,9 +51,10 @@ setMethod(f = "gc_grob",
               outGeom <- input
             }
 
-            vert <- getPoints(x = outGeom)
+            point <- getPoints(x = outGeom)
             if(featureType == "point"){
-              attr <- left_join(x = input@vert, y = input@feat, by = "fid")
+              attr <- left_join(x = input@point, y = input@feature, by = "fid")
+              attr <- left_join(x = attr, y = input@group, by = "gid")
             } else {
               attr <- getTable(x = input)
             }
@@ -95,7 +96,7 @@ setMethod(f = "gc_grob",
                   toEval <- thisArg
                   toRamp <- params[[which(names(params) %in% thisArgName)]]
                 } else{
-                  toEval <- as.symbol("fid")
+                  toEval <- as.symbol(params$scale$to)
                   toRamp <- thisArg
                   if(!any(.testColours(colours = toRamp))){
                     stop(paste0(toRamp, " was neither found as column in the object to plot, nor is it a valid colour."))
@@ -103,22 +104,57 @@ setMethod(f = "gc_grob",
                 }
 
                 vals <- eval(parse(text = paste0(toEval)), envir = attr)
-                valsNum <- as.numeric(as.factor(vals))
-                uniqueVals <- unique(vals)
-                uniqueValsNum <- as.numeric(as.factor(uniqueVals))
+                params$scale$x <- thisArgName
+                params$scale$to <- toEval
+
+                # figure out numeric representations of 'vals'
+                temp <- suppressWarnings(as.numeric(as.character(vals)))
+                if(!all(is.na(temp))){
+                  valsNum <- temp
+                  uniqueValsNum <- unique(temp)
+                } else {
+                  valsNum <- as.numeric(as.factor(vals))
+                  uniqueValsNum <- as.numeric(as.factor(unique(vals)))
+                }
 
                 # if the argument is a colour argument, construct a color ramp from two or more values
                 if(thisArgName %in% c("linecol", "fillcol")){
-                  params$scale$x <- thisArgName
-                  params$scale$to <- toEval
+
+                  if(length(toRamp) <= 1){
+                    warning(paste0("please provide a theme with at least two values for '", thisArgName, "' to make a color gradient between."))
+                  }
 
                   uniqueColours <- colorRampPalette(colors = toRamp)(length(uniqueValsNum))
                   breaks <- c(min(uniqueValsNum)-1, uniqueValsNum)
                   valCuts <- cut(valsNum, breaks = breaks, include.lowest = FALSE)
                   tempOut <- uniqueColours[valCuts]
 
-                } else{
-                  tempOut <- rep_along(valsNum, thisArg)
+                } else if(thisArgName %in% c("linewidth", "pointsize")){
+
+                  if(length(toRamp) <= 1){
+                    warning(paste0("please provide a theme with at least two values for '", thisArgName, "' to scale between."))
+                  }
+
+                  uniquItems <- seq(from = min(toRamp, na.rm = TRUE), to = max(toRamp, na.rm = TRUE), length.out = length(uniqueValsNum))
+                  breaks <- c(min(uniqueValsNum)-1, uniqueValsNum)
+                  valCuts <- cut(valsNum, breaks = breaks, include.lowest = FALSE)
+                  tempOut <- uniquItems[valCuts]
+
+                } else if(thisArgName %in% c("pointsymbol")){
+
+                  # perhaps a warning/stop if there are more than 12 (or so...) values?
+                  if(length(toRamp) < length(uniqueValsNum)){
+                    toRamp <- rep(toRamp, length.out = length(uniqueValsNum))
+                    warning(paste0("please provide a theme with ", length(uniqueValsNum)," values for the unique values of '", thisArgName, "'."))
+                  }
+
+                  uniquItems <- toRamp
+                  breaks <- uniqueValsNum[order(uniqueValsNum)]
+                  valCuts <- cut(valsNum, breaks = breaks, include.lowest = FALSE)
+                  tempOut <- uniquItems[valCuts]
+
+                } else if(thisArgName %in% c("linetype")){
+
                 }
 
                 params[[pos]] <- tempOut
@@ -147,8 +183,8 @@ setMethod(f = "gc_grob",
 
             if(input@type %in% "point"){
 
-              out <- pointsGrob(x = unit(vert$x, "npc"),
-                                y = unit(vert$y, "npc"),
+              out <- pointsGrob(x = unit(point$x, "npc"),
+                                y = unit(point$y, "npc"),
                                 pch = params$pointsymbol,
                                 name = ids,
                                 size = unit(params$pointsize, "char"),
@@ -158,9 +194,9 @@ setMethod(f = "gc_grob",
 
             } else if(input@type %in% "line"){
 
-              out <- polylineGrob(x = unit(vert$x, "npc"),
-                                  y = unit(vert$y, "npc"),
-                                  id = as.numeric(as.factor(vert$fid)),
+              out <- polylineGrob(x = unit(point$x, "npc"),
+                                  y = unit(point$y, "npc"),
+                                  id = as.numeric(as.factor(point$fid)),
                                   name = ids,
                                   gp = gpar(col = params$linecol,
                                             lty = params$linetype,
@@ -173,7 +209,7 @@ setMethod(f = "gc_grob",
 
                 theID <- unique(attr$fid)[i]
                 tempIDs <- attr[attr$fid == theID, ]
-                tempCoords <- vert[vert$fid %in% tempIDs$fid, ]
+                tempCoords <- point[point$fid %in% tempIDs$fid, ]
 
                 # determine subpaths by searching for duplicates. Whenever there is a
                 # duplicate in the vertices, the next vertex is part of the next subpaths

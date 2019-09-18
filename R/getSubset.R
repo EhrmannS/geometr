@@ -2,7 +2,7 @@
 #'
 #' @param x object to \code{subset}.
 #' @param slot [\code{character(1)}]\cr the slot in which to determine a subset,
-#'   either \code{"vert"} for vertices, \code{"feat"} for features or
+#'   either \code{"point"} for vertices, \code{"feature"} for features or
 #'   \code{"group"} for group tables.
 #' @param ... Logical predicates defined in terms of the variables in \code{x}
 #'   or a vector of booleans. Multiple conditions are combined with &. Only rows
@@ -39,32 +39,32 @@ if(!isGeneric("getSubset")){
 #' @export
 setMethod(f = "getSubset",
           signature = signature("geom"),
-          definition = function(x, ..., slot = "feat"){
+          definition = function(x, ..., slot = "feature"){
             assertCharacter(x = slot, len = 1, any.missing = FALSE)
-            assertChoice(x = slot, choices = c("vert", "feat", "group"))
+            assertChoice(x = slot, choices = c("point", "feature", "group"))
             subset <- enquos(...)
             isLogical <- tryCatch(is.logical(eval_tidy(expr = subset[[1]])), error = function(e) FALSE)
-            if(slot == "vert"){
+            if(slot == "point"){
               if(isLogical){
                 matches <- eval_tidy(expr = subset[[1]])
               } else {
                 subset <- exprs(...)
-                matches <- eval(parse(text = subset), envir = x@vert)
+                matches <- eval(parse(text = subset), envir = x@point)
               }
-              x@vert <- x@vert[matches,]
-              x@feat <- x@feat[x@feat$fid %in% x@vert$fid,]
-              gids <- x@feat$gid
+              x@point <- x@point[matches,]
+              x@feature <- x@feature[x@feature$fid %in% x@point$fid,]
+              gids <- x@feature$gid
               x@group <- x@group[x@group$gid %in% gids,]
-            } else if(slot == "feat"){
+            } else if(slot == "feature"){
               if(isLogical){
                 matches <- eval_tidy(expr = subset[[1]])
               } else {
                 subset <- exprs(...)
-                matches <- eval(parse(text = subset), envir = x@feat)
+                matches <- eval(parse(text = subset), envir = x@feature)
               }
-              x@feat <- x@feat[matches,]
-              x@vert <- x@vert[x@vert$fid %in% x@feat$fid,]
-              gids <- x@feat$gid
+              x@feature <- x@feature[matches,]
+              x@point <- x@point[x@point$fid %in% x@feature$fid,]
+              gids <- x@feature$gid
               x@group <- x@group[x@group$gid %in% gids,]
             } else {
               if(isLogical){
@@ -74,8 +74,8 @@ setMethod(f = "getSubset",
                 matches <- eval(parse(text = subset), envir = x@group)
               }
               x@group <- x@group[matches,]
-              x@feat <- x@feat[x@feat$gid %in% x@group$gid,]
-              x@vert <- x@vert[x@vert$fid %in% x@feat$fid,]
+              x@feature <- x@feature[x@feature$gid %in% x@group$gid,]
+              x@point <- x@point[x@point$fid %in% x@feature$fid,]
             }
             return(x)
           }

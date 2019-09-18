@@ -81,8 +81,8 @@ gs_point <- function(anchor = NULL, window = NULL, vertices = 1,
       if(is.null(theWindow)){
         theWindow <- anchor$obj@window
       }
-      theVertices <- anchor$obj@vert
-      theFeatures <- anchor$obj@feat
+      theVertices <- anchor$obj@point
+      theFeatures <- anchor$obj@feature
       theGroups <- anchor$obj@group
       projection <- getCRS(x = anchor$obj)
 
@@ -105,8 +105,8 @@ gs_point <- function(anchor = NULL, window = NULL, vertices = 1,
 
     theGeom <- new(Class = "geom",
                    type = "point",
-                   vert = theVertices,
-                   feat = theFeatures,
+                   point = theVertices,
+                   feature = theFeatures,
                    group = theGroups,
                    window = theWindow,
                    scale = "absolute",

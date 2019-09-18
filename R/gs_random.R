@@ -79,8 +79,8 @@ gs_random <- function(type = "point", window = NULL, vertices = NULL, ...){
 
   theGeom <- new(Class = "geom",
                  type = outType,
-                 vert = anchor,
-                 feat = tibble(fid = unique(anchor$fid), gid = unique(anchor$fid)),
+                 point = anchor,
+                 feature = tibble(fid = unique(anchor$fid), gid = unique(anchor$fid)),
                  group = tibble(gid = unique(anchor$fid)),
                  window = theWindow,
                  scale = "relative",

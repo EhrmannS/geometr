@@ -57,7 +57,7 @@ gt_stretch <- function(geom, x = NULL, y = NULL, fid = NULL, update = TRUE){
     y <- list(y)
   }
 
-  verts <- geom@vert
+  verts <- geom@point
   ids <- unique(verts$fid)
 
   # identify fids to modify
@@ -114,8 +114,8 @@ gt_stretch <- function(geom, x = NULL, y = NULL, fid = NULL, update = TRUE){
   # make new geom
   out <- new(Class = "geom",
              type = geom@type,
-             vert = as_tibble(temp),
-             feat = geom@feat,
+             point = as_tibble(temp),
+             feature = geom@feature,
              group = geom@group,
              window = window,
              scale = geom@scale,

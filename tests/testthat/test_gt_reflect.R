@@ -14,7 +14,7 @@ test_that("output is valid geometry", {
   output <- gt_reflect(geom = input, angle = 30)
   expect_class(output, classes = "geom")
   expect_true(output@type == "polygon")
-  expect_data_frame(output@vert, any.missing = FALSE, nrows = 5, ncols = 3)
+  expect_data_frame(output@point, any.missing = FALSE, nrows = 5, ncols = 3)
 
   # reflect one out of two features
   coords <- data.frame(x = c(30, 60, 60, 40, 10, 40, 20),
@@ -26,7 +26,7 @@ test_that("output is valid geometry", {
   output <- gt_reflect(geom = input, angle = -45, fid = 1)
   expect_class(output, classes = "geom")
   expect_true(output@type == "polygon")
-  expect_data_frame(output@vert, any.missing = FALSE, nrows = 9, ncols = 3)
+  expect_data_frame(output@point, any.missing = FALSE, nrows = 9, ncols = 3)
 
   # reflect two out of two features
   coords <- data.frame(x = c(30, 60, 60, 40, 10, 40, 20),
@@ -38,7 +38,7 @@ test_that("output is valid geometry", {
   output <- gt_reflect(geom = input, angle = list(30, -45))
   expect_class(output, classes = "geom")
   expect_true(output@type == "polygon")
-  expect_data_frame(output@vert, any.missing = FALSE, nrows = 9, ncols = 3)
+  expect_data_frame(output@point, any.missing = FALSE, nrows = 9, ncols = 3)
 })
 
 test_that("output has different coordinates than input", {

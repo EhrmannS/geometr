@@ -73,8 +73,8 @@ gs_tiles <- function(anchor = NULL, width = NULL, pattern = "squared",
     offset <- width*0.5*-1
 
     # determine centroids
-    xCentroids <- seq(min(anchor@vert$x) - offset, max(anchor@vert$x) + width + offset, by = width)
-    yCentroids <- seq(min(anchor@vert$y) - offset, max(anchor@vert$y) + width + offset, by = width)
+    xCentroids <- seq(min(anchor@point$x) - offset, max(anchor@point$x) + width + offset, by = width)
+    yCentroids <- seq(min(anchor@point$y) - offset, max(anchor@point$y) + width + offset, by = width)
     cntrds <- tibble(fid = seq(1:(length(xCentroids)*length(yCentroids))),
                      x = rep(xCentroids, times = length(yCentroids)),
                      y = rep(yCentroids, each = length(xCentroids)))
@@ -99,10 +99,10 @@ gs_tiles <- function(anchor = NULL, width = NULL, pattern = "squared",
     yOffset <- 2*circumRadius*offset*-1
 
     # determine centroids
-    xC1 <- seq(min(anchor@vert$x) - 2*inRadius - xOffset, max(anchor@vert$x) + 2*inRadius + xOffset, by = inRadius*2)
-    xC2 <- seq(min(anchor@vert$x) - inRadius - xOffset, max(anchor@vert$x) + 3*inRadius + xOffset, by = inRadius*2)
-    yC1 <- seq(min(anchor@vert$y) - yOffset, max(anchor@vert$y) + circumRadius + yOffset, by = 3*circumRadius)
-    yC2 <- seq(min(anchor@vert$y) + 3/2*circumRadius - yOffset, max(anchor@vert$y) + 3/2*circumRadius + yOffset, by = 3*circumRadius)
+    xC1 <- seq(min(anchor@point$x) - 2*inRadius - xOffset, max(anchor@point$x) + 2*inRadius + xOffset, by = inRadius*2)
+    xC2 <- seq(min(anchor@point$x) - inRadius - xOffset, max(anchor@point$x) + 3*inRadius + xOffset, by = inRadius*2)
+    yC1 <- seq(min(anchor@point$y) - yOffset, max(anchor@point$y) + circumRadius + yOffset, by = 3*circumRadius)
+    yC2 <- seq(min(anchor@point$y) + 3/2*circumRadius - yOffset, max(anchor@point$y) + 3/2*circumRadius + yOffset, by = 3*circumRadius)
 
     cntrds <- tibble(fid = seq(1:(length(yC1)*length(xC1) + length(yC2)*length(xC2))),
                      x = c(rep(xC1, times = length(yC1)), rep(xC2, times = length(yC2))),
@@ -125,10 +125,10 @@ gs_tiles <- function(anchor = NULL, width = NULL, pattern = "squared",
 
   if(!centroids){
     nodes <- NULL
-    for(i in seq_along(targetCentroids@vert$fid)){
-      cx <- targetCentroids@vert$x[i] + relX
+    for(i in seq_along(targetCentroids@point$fid)){
+      cx <- targetCentroids@point$x[i] + relX
       cx <- c(cx, cx[1])
-      cy <- targetCentroids@vert$y[i] + relY
+      cy <- targetCentroids@point$y[i] + relY
       cy <- c(cy, cy[1])
       theNodes <- tibble(x = cx,
                          y = cy,
@@ -144,7 +144,7 @@ gs_tiles <- function(anchor = NULL, width = NULL, pattern = "squared",
   }
 
   nodes$incl <- as.logical(pointInGeomC(vert = as.matrix(nodes[c("x", "y")]),
-                                        geom = as.matrix(anchor@vert[c("x", "y")]),
+                                        geom = as.matrix(anchor@point[c("x", "y")]),
                                         invert = FALSE))
 
   retain <- NULL
@@ -162,8 +162,8 @@ gs_tiles <- function(anchor = NULL, width = NULL, pattern = "squared",
 
   theTiles <- new(Class = "geom",
                   type = theType,
-                  vert = tibble(fid = retain$fid, x = retain$x, y = retain$y),
-                  feat = tibble(fid = unique(retain$fid), gid = unique(retain$fid)),
+                  point = tibble(fid = retain$fid, x = retain$x, y = retain$y),
+                  feature = tibble(fid = unique(retain$fid), gid = unique(retain$fid)),
                   group = tibble(gid = unique(retain$fid)),
                   window = anchor@window,
                   scale = "absolute",

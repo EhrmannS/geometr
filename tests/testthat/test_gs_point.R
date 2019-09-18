@@ -11,7 +11,7 @@ test_that("output is valid geometry", {
   output <- gs_point(anchor = coords, window = window)
   expect_class(output, classes = "geom")
   expect_true(output@type == "point")
-  expect_data_frame(output@vert, any.missing = FALSE, nrows = 2, ncols = 3)
+  expect_data_frame(output@point, any.missing = FALSE, nrows = 2, ncols = 3)
 })
 
 test_that("casting to 'point' works", {
@@ -23,14 +23,14 @@ test_that("casting to 'point' works", {
   output <- gs_point(anchor = input)
   expect_class(output, classes = "geom")
   expect_true(output@type == "point")
-  expect_data_frame(output@vert, any.missing = FALSE, nrows = 5, ncols = 3)
+  expect_data_frame(output@point, any.missing = FALSE, nrows = 5, ncols = 3)
 
   # from line to point
   input <- gs_line(anchor = coords)
   output <- gs_point(anchor = input)
   expect_class(output, classes = "geom")
   expect_true(output@type == "point")
-  expect_data_frame(output@vert, any.missing = FALSE, nrows = 4, ncols = 3)
+  expect_data_frame(output@point, any.missing = FALSE, nrows = 4, ncols = 3)
 })
 
 test_that("Error if arguments have wrong value", {

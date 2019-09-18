@@ -14,7 +14,7 @@ test_that("output is valid geometry", {
   output <- gt_skew(geom = input)
   expect_class(output, classes = "geom")
   expect_true(output@type == "polygon")
-  expect_data_frame(output@vert, any.missing = FALSE, nrows = 5, ncols = 3)
+  expect_data_frame(output@point, any.missing = FALSE, nrows = 5, ncols = 3)
 
   # skew one out of two features
   coords <- data.frame(x = c(30, 60, 60, 40, 10, 40, 20),
@@ -29,7 +29,7 @@ test_that("output is valid geometry", {
                     fid = 2)
   expect_class(output, classes = "geom")
   expect_true(output@type == "polygon")
-  expect_data_frame(output@vert, any.missing = FALSE, nrows = 9, ncols = 3)
+  expect_data_frame(output@point, any.missing = FALSE, nrows = 9, ncols = 3)
 
   # skew two out of two features
   coords <- data.frame(x = c(30, 60, 60, 40, 10, 40, 20),
@@ -43,7 +43,7 @@ test_that("output is valid geometry", {
                     y = list(1, 0.2))
   expect_class(output, classes = "geom")
   expect_true(output@type == "polygon")
-  expect_data_frame(output@vert, any.missing = FALSE, nrows = 9, ncols = 3)
+  expect_data_frame(output@point, any.missing = FALSE, nrows = 9, ncols = 3)
 })
 
 test_that("output has different coordinates than input", {

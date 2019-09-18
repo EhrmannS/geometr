@@ -40,9 +40,9 @@ setMethod(f = "gc_sf",
           definition = function(input = NULL){
 
             theCoords <- getPoints(x = input)
-            theData <- getTable(x = input, slot = "feat")
+            theData <- getTable(x = input, slot = "feature")
             theGroups <- getTable(x = input, slot = "group")
-            theVertices <- getTable(x = input, slot = "vert")
+            theVertices <- getTable(x = input, slot = "point")
             theCRS <- getCRS(x = input)
 
             featureType <- input@type
@@ -81,12 +81,12 @@ setMethod(f = "gc_sf",
               if(!all(names(theData) %in% c("fid", "gid"))){
                 makeDF <- TRUE
               }
-              attr <- merge(x = attr, y = theData, by = "fid", all.x = TRUE, suffixes = c(".vert", ".feat"))
+              attr <- merge(x = attr, y = theData, by = "fid", all.x = TRUE, suffixes = c(".point", ".feature"))
 
               if(!all(names(theGroups) %in% c("gid"))){
                 makeDF <- TRUE
               }
-              attr <- as_tibble(merge(x = attr, y = theGroups, by = "gid", all.x = TRUE, suffixes = c(".feat", ".group")))
+              attr <- as_tibble(merge(x = attr, y = theGroups, by = "gid", all.x = TRUE, suffixes = c(".feature", ".group")))
 
               if(makeDF){
                 attr <- attr[,!names(attr) %in% c("fid", "gid")]
@@ -133,7 +133,7 @@ setMethod(f = "gc_sf",
               if(!all(names(theGroups) %in% c("gid"))){
                 makeDF <- TRUE
               }
-              attr <- as_tibble(merge(x = attr, y = theGroups, by = "gid", all.x = TRUE, suffixes = c(".feat", ".group")))
+              attr <- as_tibble(merge(x = attr, y = theGroups, by = "gid", all.x = TRUE, suffixes = c(".feature", ".group")))
 
               if(makeDF){
                 attr <- attr[,!names(attr) %in% c("fid", "gid")]
@@ -194,7 +194,7 @@ setMethod(f = "gc_sf",
               if(!all(names(theGroups) %in% c("gid"))){
                 makeDF <- TRUE
               }
-              attr <- as_tibble(merge(x = attr, y = theGroups, by = "gid", all.x = TRUE, suffixes = c(".feat", ".group")))
+              attr <- as_tibble(merge(x = attr, y = theGroups, by = "gid", all.x = TRUE, suffixes = c(".feature", ".group")))
 
               if(makeDF){
                 attr <- attr[,!names(attr) %in% c("fid", "gid")]

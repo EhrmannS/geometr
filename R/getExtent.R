@@ -28,8 +28,8 @@ if(!isGeneric("getExtent")){
 setMethod(f = "getExtent",
           signature = "geom",
           definition = function(x){
-            bind_cols(x = c(min(x@vert$x), max(x@vert$x)),
-                      y = c(min(x@vert$y), max(x@vert$y)))
+            bind_cols(x = c(min(x@point$x), max(x@point$x)),
+                      y = c(min(x@point$y), max(x@point$y)))
           }
 )
 

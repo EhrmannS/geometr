@@ -22,8 +22,8 @@ if(!isGeneric("getTable")){
 # geom ----
 #' @rdname getTable
 #' @param slot [\code{character(1)}]\cr the geom slot from which to get the
-#'   attribute table, either \code{"vert"}, \code{"feat"} or \code{"group"}. If
-#'   left at \code{NULL}, 'feat' and 'group' will be joined.
+#'   attribute table, either \code{"point"}, \code{"feature"} or \code{"group"}. If
+#'   left at \code{NULL}, 'feature' and 'group' will be joined.
 #' @examples
 #' getTable(x = gtGeoms$polygon)
 #' @importFrom tibble as_tibble
@@ -31,15 +31,15 @@ if(!isGeneric("getTable")){
 setMethod(f = "getTable",
           signature = "geom",
           definition = function(x, slot = NULL){
-            assertChoice(x = slot, choices = c("vert", "feat", "group"), null.ok = TRUE)
+            assertChoice(x = slot, choices = c("point", "feature", "group"), null.ok = TRUE)
             if(is.null(slot)){
-              out <- merge(x = x@feat, y = x@group, by = "gid", all.x = TRUE)
+              out <- merge(x = x@feature, y = x@group, by = "gid", all.x = TRUE)
               out <- .updateOrder(input = out)
             } else {
-              if(slot == "vert"){
-                out <- x@vert
-              } else if(slot == "feat"){
-                out <- x@feat
+              if(slot == "point"){
+                out <- x@point
+              } else if(slot == "feature"){
+                out <- x@feature
               } else {
                 out <- x@group
               }
