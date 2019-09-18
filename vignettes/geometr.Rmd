@@ -1,9 +1,17 @@
 ---
 title: "geometr - An overview"
 author: "Steffen Ehrmann"
-output: rmarkdown::html_vignette
+date: "`r Sys.Date()`"
+output: 
+  html_document:
+    toc: yes
+    toc_float: true
+    number_sections: true
+    fig_width: 7
+    fig_caption: true
+    highlight: pygments
 vignette: >
-  %\VignetteIndexEntry{overview}
+  %\VignetteIndexEntry{An overview}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -14,38 +22,37 @@ knitr::opts_chunk$set(
   comment = "#>"
 )
 ```
-## ToDo
 
-- replace all "spatial" by "geometric"
-- also mention gt_sketch somewhere.
-
-## Introduction
+# Introduction
   
-The `geometr` package provides tools that generate and process fully accessible and tidy geometric shapes (of class `geom`). 
+The `geometr` package provides tools that generate and process easily accessible and tidy geometric shapes (of class `geom`). 
 Moreover, `geometr` aims to improve interoperability of geometric classes. 
-One could argue that spatial classes are merely a special case of geometric classes, where the vertices refer to real locations on the surface of the earth, specified in further detail by the coordinate reference system (crs) [REF].
+One could argue that spatial classes are merely a special case of geometric classes, where the points' coordinates refer to real locations on the surface of the earth, specified in further detail by the coordinate reference system (crs).
 For ordinary geometric shapes (such as squares or circles), the coordinate (reference) system is the *cartesian coordinate system*.
-`geometr` makes this generalisation and treats all geometric and spatial classes in the same way, hence, the further text refers to both, geometric and spatial classes with the term *geometric classes*.
-Geometric objects are typically a collection of geometric shapes, which are called *features* here, or the vertices that outline the shapes.
-They are often accompanied by various metadata, such as properties of the class of geometric object, feature attributes or a coordinate reference system. 
-Most geometric classes are thus conceptually quite similar, yet a common, interoperable standard lacks for accessing and modifying features, vertices or the metadata.
+`geometr` makes the generalisation to treat all geometric and spatial classes in the same way, and thus I term all of them *geometric objects/classes* here.
 
-This vignette outlines in detail first how `geometr` improves interoperability, then it scrutinises the datastructure of a `geom` (the spatial class that comes with `geometr`) and how different types are cast into one another, shows how to visualise spatial objects and eventually gives a short introduction of initial tools that come with `geometr`.
+Geometric classes contain typically a collection of points that outline the geometric shapes or features.
+A feature in `geometr` is defined as a set of points that form no more than one single unit of a given feature type (point, line and polygon) and, in contrast to the simple features <a href="http://www.opengeospatial.org/standards/sfa" target="_blank">standard</a>, there are no *multi-\** features.
+Sets of geometric objects that belong together beyond their geometric connectedess are assigned a common group, that can have its own group attributes (more on this in the chapter [Attributes of a `geom`](#attributes-of-a-geom)).
+Features are characterised by a location, some coordinate (reference) system, and various other properties or metadata. 
+Most geometric classes are conceptually quite similar, yet a common, interoperable standard lacks for accessing and modifying features, their points or the metadata.
+
+This vignette outlines in detail first how `geometr` improves interoperability, then it describes the datastructure of a `geom` (the geometric class that comes with `geometr`), how different feature types are cast into one another, shows how to visualise geometric objects and eventually gives a short introduction of the tools that come with `geometr` initially.
 
 
-## Interoperability
+# Interoperability
 
 Interoperable software can easily exchange information with other software, which is typically achieved by providing the output of functionally similar operations in a common arrangement or format [REF].
 This principle is not only true for software written in different language, but can also apply, for instance, to several packages within the R ecosystem.
 R is an open source environment which means that no single package or class will ever be the sole source of a particular datastructure and this is also the case for geometric data.
 
 Interoperable data is data that has a common arrangement and that uses terms from the same vocabulary [REF].
-We can think, for example, of the extent of a geometric object.
-An extent is characterised by a minimum and maximum value in all valid dimensions.
-There are, however, several data structures in which the information can be reported, such as a vector of several numbers or a table.
-Moreover, distinct data structures may provided data so that the same information is not at the same location or with the same name in all structures, e.g., the minimum value of the x dimension is not always the first information and is not always called 'xmin'.
+As an example, we can think of the extent of a geometric object.
+An extent reports the minimum and maximum value in all valid dimensions.
+There are, however, several ways in which even this simple information can be reported, for example as vector or as table and with or without names.
+Moreover, distinct workflows provide data so that the same information is not at the same location or with the same name in all structures, e.g., the minimum value of the x dimension is not always the first information and is not always called 'xmin'.
 
-The following code chunk shows various functions, which are all considered standard in R to date, that derive an extent from specific spatial objects:
+The following code chunk exemplifies this by showing various functions, which are all considered standard in R to date, that derive an extent from specific spatial objects:
 
 ```{r}
 library(sf)
@@ -67,13 +74,13 @@ Neither data structures, nor names or positions of the information are comparabl
 For a human user the structure of those information might not matter, because we recognise, in most cases intuitively, where which information is to be found in a datastructure.
 In the above case it is easiy to recognise how the combination of column and rownames (of `bbox()`) refers to the already combined names (of `st_bbox()` or `extent()`).
 However, this capacity of humans to recognise information relative to the context needs to be programmed into software, for it to have that ability.
-Think, for example, of a custom function that is designed to extract and process information from an arbitraty spatial input, i.e., without knowing in advance what spatial class the user will provide. 
+Think, for example, of a new custom function that is designed to extract and process information from an arbitraty spatial input, i.e., without knowing in advance what spatial class the user will provide. 
 This would require an extensive code-logic to handle all possible input formats, complicated further by classes that may become available only in the future.
 
-`geometr` improves interoperability in R for spatial classes by following the [Bioconductor standard for S4 classes](https://www.bioconductor.org/help/course-materials/2017/Zurich/S4-classes-and-methods.html#api-vs-internals).
+`geometr` improves interoperability in R for geometric and thus spatial classes by following the <a href="https://www.bioconductor.org/help/course-materials/2017/Zurich/S4-classes-and-methods.html#api-vs-internals" target="_blank">Bioconductor standard for S4 classes</a>.
 Here, *getters* and *setters* are used as accessor functions, and as pathway to extract or modify information from a given data structure.
 `geometr` thus provides getters that provide information in identical arrangement from a wide range of classes, and likewise setters that modify many different classes in the same way, despite those classes typically need differently formatted input, arguments and functions.
-The following code chunk shows how different input classes yield the same outpubt object.
+The following code chunk shows how different input classes yield the same output object.
 
 ```{r}
 library(geometr)
@@ -87,53 +94,199 @@ myInput <- ras
 getExtent(x = myInput)
 ```
 
-The output of the tools provided by `geometr` is tidy, i.e. it provides variables in columns and observations in rows, and it is interoperable, i.e. it provides the same information in the same location of the output object, with the same names.
+The output of the getters provided by `geometr` is tidy, i.e., it provides variables in columns and observations in rows, and it is interoperable, i.e., it provides the same information in the same location of the output object, with the same names.
 This ensures, amongst other advantages, that a custom function that processes geometric information, requires merely one very simple row of code to extract those information from a potentially wide range of distinct classes.
 
-## Datastructure of the class `geom`
 
-- three feature types
-- all types have the same datastructure (i.e. it's interoperable, no slots are removed or added when modifying things)
-- three tables, vertices, features and groups all can be joined with ancilliary data
-- has a scale, which is either absolute or relative, the latter case then contains vertices relative to the reference window
-- has a history slot that contains the provenance of a geom
-- features are single closed paths
-- multi* features are transformed to several (simpler) features and assigned the same group (some reasoning on that)
-- geom contains only direct information, i.e. such information that can't be derived for example the extent
-- has a reference window instead of an extent (like in spatstat)
-- talk about tiny map
-- talk about which advantages that brings, vertices are easily accessible and can be provided with attributes, which allows also point patterns to be treated together with other geometries
-- somehow a hybrid of ppp and sf (units as in spatstat are indirectly covered by the projection)
-- also describe that how a single features looks like (being close by a duplicate vertex and with holes that are inside)
-- when making a geom from an sf, group = TRUE can be used to assign values that are unique at the level of multi_ features, into the groups attribute table, and not into the features attribute table, where they would be duplicated in a geom.
+
+# Description of the class `geom`
+
+`geometr` comes with the S4 class `geom`. 
+`geom` is a geometric (spatial) class that has been primarily developed for its interoperability and easy access.
+
+This means also here that all objects of this class are structurally the same, that no slots are removed or added when modifying an object and that all slots are labelled with the same terms in each object of that class.
+This interoperability is true for objects representing point, line or polygon features, for objects that contain a single or several features and for objects that are either merely geometric or indeed spatial/geographic because they contain a corrdinate reference system.
+A `geom` contains, moreover, only direct information, i.e., such information that can't be derived from other of its information.
+A prominent example is the extent, which is not stored within a `geom` but within many other spatial classes (in R), and which can very simply be derived from the coordinate values of the points that make up the geometry.
+
+
+## Create a `geom`
+
+A `geom` can be created simply by transforming it from another class (that is, any class for which a method has been defined), or by using one of the *geometry shape* functions that are labelled `gs_*` in `geometr`.
+
+```{r}
+# transform from class sf
+(nc_geom <- gc_geom(input = nc_sf))
+
+# make "by hand"
+library(tibble)
+coords <- tibble(x = c(40, 70, 70, 50),
+                 y = c(40, 40, 60, 70))
+(aPoly <- gs_polygon(anchor = coords))
+```
+
+From these examples we learn something more about objects of class `geom`.
+`nc_geom` is made up of 108 polygon features (with 2529 points), has a coordinate reference system (crs) and a set of (feature) attributes.
+The attributes' values are not shown by the print method of a `geom`, which is a more compact visualisation of the important information.
+Moreover, there is a "tiny map" that shows where the points of the respective `geom` are concentrated, which gives a rough but quick overview of the shape of the object.
+If there is less than 1/16th of all points in a section of the map, a `r '\u25CC'` is shown, for more than 1/16th but less than 1/8th this is `r '\u25CB'`, for more than 1/8th but less than 1/4th `r '\u25CE'` and for sections with more than 1/4th of points, this is `r '\u25C9'`.
+
+`aPoly` is only made up of one feature with 5 points and a cartesian coordinate system. 
+As a matter of fact, any `geom` that has no crs assigned is assumed to be a mere geometric object of which the values are valid for a catesian coordinate system.
+
+
+## How are polygons handled?
+
+You might wonder why it shows 5 points for `aPoly`, while only 4 have been defined.
+This is due to how polygons are stored in a `geom`.
+A polygon is by definition a two-dimensional plane, in contrast to a line that has only one dimension, its length and a point, which is dimensionless.
+However, a polygon and a line can be made up of the same points and as a matter of fact, a polygon is nothing more than a sequence of lines (a path) that outline the shape of the polygon.
+To then distinguish a line and polygon with the same points, it can be defined that a polygon **must** have duplicate start and end points, which would constitute a *closed path*.
+
+```{r}
+aLine <- gs_line(anchor = coords)
+
+getPoints(x = aPoly)
+getPoints(x = aLine)
+```
+
+Polygons may also have holes (and islands therein), for example a park with a pond that has a little island in the middle.
+Such cases are of course also possible with a `geom` and the only thing to consider is that the outer (closed) ring must be given as first ring.
+All rings that are supposed to be nested within this ring must themselves be closed paths, but their order does not matter.
+When building a polygon with hole by hand, the rotation direction described by the sequence of the points does not matter for the class `geom`.
+The "inside" of a polygon, and thus whether part of the ring describes a hole or not, is determined by the code-logic of the functions processing those polygons.
+
+```{r}
+pond <- tibble(x = c(30, 30, 80, 80, 30),
+               y = c(30, 80, 80, 30, 30),
+               fid = 1)
+island <- tibble(x = c(60, 65, 65, 60, 60),
+                y = c(45, 45, 50, 50, 45),
+                fid = 1)
+temp <- rbind(pond, island, getPoints(aPoly))
+
+perforatedPoly <- gs_polygon(anchor = temp)
+# visualise(perforatedPoly, fillcol = fid)
+```
+
+
+## Attributes of a `geom`
+
+You may also be wondering why `nc_geom` has 108 features, while `nc_sf` has actually 100 features.
+`nc_sf` contains of 100 "`MULTIPOLYGONS`" where in fact only a small set of them are composed of several polygons.
+This is due the definition of simple features, that one "simple" feature can be of a *multi\** type that comprises several closed paths in the same object and which would thus be called `MULTIPOLYGON`; yet, a multipolygon is not defined so that it than also *has to* contain several features but could as well contain only a single polygon.
+In `geometr` these inconsistencies are avoided becuse they require a lot of extra code logic that is, in my opinion, not worth the supposed flexibility.
+Hence, a `geom` breaks down multi*-features into their distinct closed paths, into "simpler features", so to speak.
+
+This, however, requires that the togetherness of multi*-features has to be captured in another way.
+Eventually, a set of features that belong together do so, because they share attributes, such as a group of islands that form a nation.
+To capture attributes of sets or groups of features, a `geom` has an additional attribute tables, one that captures those group attributes.
+Moreover, also the list of points is treated as a seperate attribute table, for attributes that only the points, but not the features (groups of points) have.
+
+All three attribute tables can be accessed with the function `getTable()`.
+
+```{r}
+getTable(x = nc_geom, slot = "point")
+
+getTable(x = nc_geom, slot = "feature")
+
+getTable(x = nc_geom, slot = "group")
+```
+
+We see that the tables contain ID variables, namely `fid` and `gid`, which were not part of the original object.
+Those allow identifying to which feature coordinates belong and which features form groups.
+We also see that the `feature`-table contains those 108 features and that, for instance, features four, five and six are "the same", or at least have the same attributes.
+This makes no sense, obviously, so `gc_geom` has the argument `group = FALSE/TRUE` to set whether duplicate feature attributes are actually group attributes. 
+
+```{r}
+new_geom <- gc_geom(input = nc_sf, group = TRUE)
+
+getTable(x = new_geom, slot = "feature")
+
+getTable(x = new_geom, slot = "group")
+```
+
+It becomes clear, as mentioned above, that the this approach to attribute tables makes `geom`s quite flexible.
+One could for example assign some measurements of a point pattern (such as [Arne Pommerening's](http://www.pommerening.org) Clocaenog 6 sample data) to the attribute table of a point `geom`.
+
+```{r}
+library(readr)
+library(magrittr)
+clocaenog <- read_delim(file = "http://www.pommerening.org/wiki/images/d/dc/Clg6.txt", 
+                        delim = "\t", col_types = "iifdddd")
+locations <- tibble(x = clocaenog$x,
+                    y = clocaenog$y,
+                    fid = clocaenog$Number)
+locations <- gs_point(anchor = locations)
+
+trees <- tibble(fid = clocaenog$Number,
+                species = clocaenog$Species,
+                dbh = clocaenog$dbh,
+                height = clocaenog$ht)
+trees <- setTable(x = locations, table = trees) %>% 
+  getSubset(!is.na(height))
+
+# visualise(`Clocaenog - tree heights` = trees, linecol = "height")
+```
+
+
 - the vert slot is comparable to the "geom" column in an sf, however, the values are easily and explicitly accessible and can be modified also with other functions or routines than the highly specific st_* functions.
 
 
-## Casting
+## Other slots
+
+
+- has a history slot that contains the provenance of a geom
+- has a scale, which is either absolute or relative, the latter case then contains points relative to the reference window
+- has a reference window instead of an extent (like in spatstat)
+
+
+# Casting
 
 - cast by providing a geom in anchor of the respecive type
 - it does not change anything about the data (check if that claim is really true), but merely changes the type.
 - the type then determines how the object is plotted.
 - when casting to polygon, the polygon checks are carried out.
 
-## Visualising
+# Visualising
 
 - plot objects by providing a "the name = theObject".
 - plot both, vector and raster objects
 - methods extract the required information based on the above discussed getters, for any class that has getters defined (this still requires some work to be true for all classes)
 - also explain how to use "window" for zooming and quick access to particular areas of a plot.
 
-### Quick options
+## Quick options
 
 - attributes can be used in quick options
 
+```{r}
+# visualise(`Clocaenog - tree diameters` = trees, linecol = "dbh")
+
+# visualise(`Clocaenog - tree diameters` = trees, pointsize = "dbh")
+```
+
 ### The `gtTheme`
+
+```{r}
+gtTheme
+```
 
 - explain how to set up a gtTheme
 - there is a default gtTheme, which is modified with setTheme, which is kind of a setter, just not for geoms, but for gtTheme.
 - explain how colour palettes work.
 
-## Other tools in `geometr`
+```{r}
+treeTheme <- setTheme(geom = list(pointsize = c(0.05, 0.77), pointsymbol = 21))
+# visualise(`Clocaenog - tree diameters` = trees, pointsize = "dbh", theme = treeTheme)
+
+treeTheme <- setTheme(geom = list(pointsize = c(0.05, 0.77), pointsymbol = 21))
+# visualise(`Clocaenog - tree diameters` = trees, pointsize = "dbh", linecol = "height", theme = treeTheme)
+```
+
+# Other tools in `geometr`
 
 - tools are used feature-wise, if more than one set of modification values is provided. for example, if there are two features and two distinct angles of ration are provided, each feature will be rotated by the respective angle. When there are more features than angles, angles will be recycled.
-- mention that those functions access the vertices
+- mention that those functions access the points
+
+
+- also mention gt_sketch somewhere.
