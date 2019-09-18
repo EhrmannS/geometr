@@ -1,51 +1,52 @@
 #' Geometry class (S4) and methods
 #'
-#' A \code{geom} stores a table of vertices, a table of feature to which the
-#' vertices are associated and a table of groups, to which features are
+#' A \code{geom} stores a table of points, a table of feature to which the
+#' points are associated and a table of groups, to which features are
 #' associated. A \code{geom} can be spatial, but is not by default. A
 #' \code{geom} can either have absolute or relative values, where relative
-#' values specify the vertex position relative to the \code{window} slot.
+#' values specify the point position relative to the \code{window} slot.
 #'
 #' A \code{geom} is one of three geometry objects: \itemize{ \item
-#' \code{"point"}, when none of the vertices are connected to other vertices,
-#' \item \code{"line"}, where vertices with the same \code{fid} are connected
-#' following the sequence of their order, without the line closing in itself and
-#' \item \code{"polygon"}, where vertices with the same \code{fid} are connected
-#' following the sequence of their order and the line thus closes in on itself.
-#' Moreover, \code{polygon} objects can contain holes.}
+#' \code{"point"}, when none of the points are connected to other points, \item
+#' \code{"line"}, where points with the same \code{fid} are connected following
+#' the sequence of their order, without the line closing in itself and \item
+#' \code{"polygon"}, where points with the same \code{fid} are connected
+#' following the sequence of their order and the line closes in on itself due to
+#' first and last point being the same. Moreover, \code{polygon} objects can
+#' contain holes.}
 #'
-#' The data model for storing vertices follows the spaghetti model. Vertices are
+#' The data model for storing points follows the spaghetti model. Points are
 #' stored as a sequence of x and y values, associated to a feature ID. The
 #' feature ID relates coordinates to features and thus common attributes. Points
 #' and Lines are implemented straightforward in this model, but polygons, which
 #' may contain holes, are a bit trickier. In \code{geometr} they are implemented
-#' as follows: \enumerate{ \item All vertices with the same \code{fid} make up
+#' as follows: \enumerate{ \item All points with the same \code{fid} make up
 #' one polygon, irrespective of it containing holes or not. \item The outer
-#' path/ring of a polygon is composed of all vertices until a duplicated of its
-#' first vertex occurs. This signals that all following vertices are part of
+#' path/ring of a polygon is composed of all points until a duplicated of its
+#' first point occurs. This signals that all following points are part of
 #' another path/ring, which must be inside the outer path and which consists of
-#' all vertices until a duplicate of it's first vertex occurs. \item This
-#' repeats until all vertices of the feature are processed.}
+#' all points until a duplicate of it's first point occurs. \item This
+#' repeats until all points of the feature are processed.}
 #'
 #' Moreover, a \code{geom} does not have the slot \emph{extent}, which
-#' characterises the minimum and maximum value of the vertex coordinates and
-#' which is thus derived "on the fly" from the vertices. Instead it has a
+#' characterises the minimum and maximum value of the point coordinates and
+#' which is thus derived "on the fly" from the points. Instead it has a
 #' \emph{reference window}, which is sort of a second extent that may be bigger
 #' (or smaller) than \code{extent} and which determines the relative position of
-#' the vertices when plotting.
+#' the points when plotting.
 #'
 #' @slot type [\code{character(1)}]\cr the type of feature, either
 #'   \code{"point"}, \code{"line"} or \code{"polygon"}.
-#' @slot vert [\code{data.frame(1)}]\cr the \code{fid} (feature ID), \code{x}
-#'   and \code{y} coordinates per vertex and optional arbitrary vertex
+#' @slot point [\code{data.frame(1)}]\cr the \code{fid} (feature ID), \code{x}
+#'   and \code{y} coordinates per point and optional arbitrary point
 #'   attributes.
-#' @slot feat [\code{data.frame(1)}]\cr \code{fid} (feature ID), \code{gid}
+#' @slot feature [\code{data.frame(1)}]\cr \code{fid} (feature ID), \code{gid}
 #'   (group ID) and optional arbitrary feature attributes.
 #' @slot group [\code{data.frame(1)}]\cr \code{gid} (group ID) and optional
 #'   arbitrary group attributes.
 #' @slot window [\code{data.frame(1)}]\cr the minimum and maximum value in x and
 #'   y dimension of the reference window in which the \code{geom} dwells.
-#' @slot scale [\code{character(1)}]\cr whether the vertex coordinates are
+#' @slot scale [\code{character(1)}]\cr whether the point coordinates are
 #'   stored as \code{"absolute"} values, or \code{"relative"} to \code{window}.
 #' @slot crs [\code{character(1)}]\cr the coordinate reference system in proj4
 #'   notation.
@@ -54,8 +55,8 @@
 
 geom <- setClass(Class = "geom",
                  slots = c(type = "character",
-                           vert = "data.frame",
-                           feat = "data.frame",
+                           point = "data.frame",
+                           feature = "data.frame",
                            group = "data.frame",
                            window = "data.frame",
                            scale = "character",
@@ -68,24 +69,24 @@ setValidity("geom", function(object){
 
   errors = character()
 
-  if(!.hasSlot(object = object, name = "vert")){
-    errors = c(errors, "the geom does not have a 'vert' slot.")
+  if(!.hasSlot(object = object, name = "point")){
+    errors = c(errors, "the geom does not have a 'point' slot.")
   } else {
-    if(!is.data.frame(object@vert)){
-      errors = c(errors, "the slot 'vert' is not a data.frame.")
+    if(!is.data.frame(object@point)){
+      errors = c(errors, "the slot 'point' is not a data.frame.")
     }
-    if(!all(c("fid", "x" ,"y") %in% names(object@vert))){
-      errors = c(errors, "the geom must have a vertex table with the columns 'x', 'y' and 'fid'.")
+    if(!all(c("fid", "x" ,"y") %in% names(object@point))){
+      errors = c(errors, "the geom must have a point table with the columns 'x', 'y' and 'fid'.")
     }
   }
 
-  if(!.hasSlot(object = object, name = "feat")){
-    errors = c(errors, "the geom does not have a 'feat' slot.")
+  if(!.hasSlot(object = object, name = "feature")){
+    errors = c(errors, "the geom does not have a 'feature' slot.")
   } else {
-    if(!is.data.frame(object@feat)){
-      errors = c(errors, "the slot 'feat' is not a data.frame.")
+    if(!is.data.frame(object@feature)){
+      errors = c(errors, "the slot 'feature' is not a data.frame.")
     }
-    if(!all(c("fid", "gid") %in% names(object@feat))){
+    if(!all(c("fid", "gid") %in% names(object@feature))){
       errors = c(errors, "the geom must have a features table with the columns 'fid' and 'gid'.")
     }
   }
@@ -107,16 +108,16 @@ setValidity("geom", function(object){
     if(!any(object@type %in% c("point", "line", "polygon"))){
       errors = c(errors, "the geom must either be of type 'point', 'line' or 'polygon'.")
     } else if(object@type == "point"){
-      if(dim(object@vert)[1] < 1){
-        errors = c(errors, "a geom of type 'point' must have at least 1 vertex.")
+      if(dim(object@point)[1] < 1){
+        errors = c(errors, "a geom of type 'point' must have at least 1 point.")
       }
     } else if(object@type == "line"){
-      if(dim(object@vert)[1] < 2){
-        errors = c(errors, "a geom of type 'line' must have at least 2 vertices.")
+      if(dim(object@point)[1] < 2){
+        errors = c(errors, "a geom of type 'line' must have at least 2 points.")
       }
     } else if(object@type == "polygon"){
-      if(dim(object@vert)[1] < 3){
-        errors = c(errors, "a geom of type 'polygon' must have at least 3 vertices.")
+      if(dim(object@point)[1] < 3){
+        errors = c(errors, "a geom of type 'polygon' must have at least 3 points.")
       }
     }
   }
@@ -177,10 +178,10 @@ setValidity("geom", function(object){
 setMethod(f = "show",
           signature = "geom",
           definition = function(object){
-            vertAttribs <- length(object@vert)
-            featureAttribs <- length(object@feat)
+            vertAttribs <- length(object@point)
+            featureAttribs <- length(object@feature)
             groupAttribs <- length(object@group)
-            if(length(unique(object@feat$fid)) == 1){
+            if(length(unique(object@feature$fid)) == 1){
               myFeat <- "feature"
             } else {
               myFeat <- "features"
@@ -191,30 +192,30 @@ setMethod(f = "show",
               myCrs <- object@crs
             }
             myAttributes <- NULL
-            verts <- feats <- groups <- FALSE
-            if(!all(names(object@vert) %in% c("x", "y", "fid"))){
-              myAttributes <- c(myAttributes, paste0(" (vertices) ",
+            points <- feats <- groups <- FALSE
+            if(!all(names(object@point) %in% c("x", "y", "fid"))){
+              myAttributes <- c(myAttributes, paste0(" (points) ",
                                                      ifelse(vertAttribs <= 9,
-                                                            paste0(paste0(names(object@vert)[!names(object@vert) %in% c("x", "y", "fid")], collapse = ", "), "\n"),
-                                                            paste0(paste0(c(head(names(object@vert)[!names(object@vert) %in% c("x", "y", "fid")], 9), "..."), collapse = ", "), "\n")
+                                                            paste0(paste0(names(object@point)[!names(object@point) %in% c("x", "y", "fid")], collapse = ", "), "\n"),
+                                                            paste0(paste0(c(head(names(object@point)[!names(object@point) %in% c("x", "y", "fid")], 9), "..."), collapse = ", "), "\n")
                                                      )))
-              verts <- TRUE
+              points <- TRUE
             }
-            if(!all(names(object@feat) %in% c("fid", "gid"))){
-              if(verts){
+            if(!all(names(object@feature) %in% c("fid", "gid"))){
+              if(points){
                 theFeats <- "           (features) "
               } else {
                 theFeats <- " (features) "
               }
               myAttributes <- c(myAttributes, paste0(theFeats,
                                                      ifelse(featureAttribs <= 9,
-                                                            paste0(paste0(names(object@feat)[!names(object@feat) %in% c("fid", "gid")], collapse = ", "), "\n"),
-                                                            paste0(paste0(c(head(names(object@feat)[!names(object@feat) %in% c("fid", "gid")], 9), "..."), collapse = ", "), "\n")
+                                                            paste0(paste0(names(object@feature)[!names(object@feature) %in% c("fid", "gid")], collapse = ", "), "\n"),
+                                                            paste0(paste0(c(head(names(object@feature)[!names(object@feature) %in% c("fid", "gid")], 9), "..."), collapse = ", "), "\n")
                                                      )))
               feats <- TRUE
             }
             if(!all(names(object@group) %in% c("gid"))){
-              if(feats | verts){
+              if(feats | points){
                 theGroups <- "           (groups) "
               } else {
                 theGroups <- " (groups) "
@@ -233,7 +234,7 @@ setMethod(f = "show",
             tinyMap <- .makeTinyMap(geom = object)
 
             cat(yellow(class(object)), "        ", object@type, "\n", sep = "")
-            cat("            ", length(unique(object@feat$fid)), " ", myFeat, " | ", length(object@vert$fid), " vertices\n", sep = "")
+            cat("            ", length(unique(object@feature$fid)), " ", myFeat, " | ", length(object@point$fid), " points\n", sep = "")
             cat(yellow("crs         "), myCrs, "\n", sep = "")
             cat(yellow("attributes"), myAttributes)
             cat(yellow("tiny map  "), tinyMap)
