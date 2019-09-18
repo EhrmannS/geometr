@@ -156,7 +156,7 @@ setMethod(f = "makeObject",
               out$hasLegend <- TRUE
 
               attr <- getTable(x = x)
-              vals <- getValues(xx)
+              vals <- getValues(x = x)
               allValues <- sortUniqueC(vals[!is.na(vals)])
               tickValues <- seq_along(allValues)
               nrVals <- length(allValues)
