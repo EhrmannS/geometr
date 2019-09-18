@@ -166,7 +166,7 @@ island <- tibble(x = c(60, 65, 65, 60, 60),
 temp <- rbind(pond, island, getPoints(aPoly))
 
 perforatedPoly <- gs_polygon(anchor = temp)
-# visualise(perforatedPoly, fillcol = fid)
+visualise(perforatedPoly, fillcol = fid)
 ```
 
 
@@ -226,7 +226,7 @@ trees <- tibble(fid = clocaenog$Number,
 trees <- setTable(x = locations, table = trees) %>% 
   getSubset(!is.na(height))
 
-# visualise(`Clocaenog - tree heights` = trees, linecol = "height")
+visualise(`Clocaenog - tree heights` = trees, linecol = "height")
 ```
 
 
@@ -260,9 +260,9 @@ trees <- setTable(x = locations, table = trees) %>%
 - attributes can be used in quick options
 
 ```{r}
-# visualise(`Clocaenog - tree diameters` = trees, linecol = "dbh")
+visualise(`Clocaenog - tree diameters` = trees, linecol = "dbh")
 
-# visualise(`Clocaenog - tree diameters` = trees, pointsize = "dbh")
+visualise(`Clocaenog - tree diameters` = trees, pointsize = "dbh")
 ```
 
 ### The `gtTheme`
@@ -277,10 +277,12 @@ gtTheme
 
 ```{r}
 treeTheme <- setTheme(geom = list(pointsize = c(0.05, 0.77), pointsymbol = 21))
-# visualise(`Clocaenog - tree diameters` = trees, pointsize = "dbh", theme = treeTheme)
+visualise(`Clocaenog - tree diameters` = trees, theme = treeTheme, 
+          pointsize = "dbh")
 
-treeTheme <- setTheme(geom = list(pointsize = c(0.05, 0.77), pointsymbol = 21))
-# visualise(`Clocaenog - tree diameters` = trees, pointsize = "dbh", linecol = "height", theme = treeTheme)
+# needs another legend setup... working on it.
+# visualise(`Clocaenog - tree diameters` = trees, theme = treeTheme, 
+#           pointsize = "dbh", linecol = "height")
 ```
 
 # Other tools in `geometr`
