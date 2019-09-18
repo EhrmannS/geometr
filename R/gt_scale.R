@@ -43,8 +43,8 @@ gt_scale <- function(geom, range = NULL, to = "relative"){
     to <- assertChoice(x = to, choices = c("relative", "absolute"))
   }
 
-  point <- geom@point
-  window <- geom@window
+  point <- getPoints(x = geom)
+  window <- getWindow(x = geom)
 
   out <- NULL
   if(to == "relative"){
@@ -91,14 +91,14 @@ gt_scale <- function(geom, range = NULL, to = "relative"){
 
   # make new geom
   out <- new(Class = "geom",
-             type = geom@type,
+             type = getType(x = geom)[2],
              point = as_tibble(out),
-             feature = geom@feature,
-             group = geom@group,
+             feature = getTable(x = geom, slot = "feature"),
+             group = getTable(x = geom, slot = "group"),
              window = window,
              scale = to,
-             crs = geom@crs,
-             history = c(geom@history))
+             crs = getCRS(x = geom),
+             history = c(getHistory(x = geom)))
 
   # assign history
   out <- setHistory(x = out, history = paste0("vertex values were scaled to ", newScale, " scale."))

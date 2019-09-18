@@ -47,7 +47,7 @@ gt_reflect <- function(geom = NULL, angle = NULL, fid = NULL, update = TRUE){
     angle <- list(angle)
   }
 
-  verts <- geom@point
+  verts <- getPoints(x = geom)
   ids <- unique(verts$fid)
 
   # identify fids to modify
@@ -81,10 +81,11 @@ gt_reflect <- function(geom = NULL, angle = NULL, fid = NULL, update = TRUE){
   }
 
   # update window
+  thewindow <- getWindow(x = geom)
   if(update){
-    window <- .updateWindow(input = temp, window = geom@window)
+    window <- .updateWindow(input = temp, window = thewindow)
   } else {
-    window <- geom@window
+    window <- thewindow
   }
 
   # make history
@@ -96,14 +97,14 @@ gt_reflect <- function(geom = NULL, angle = NULL, fid = NULL, update = TRUE){
 
   # make new geom
   out <- new(Class = "geom",
-             type = geom@type,
+             type = getType(x = geom)[2],
              point = temp,
-             feature = geom@feature,
-             group = geom@group,
+             feature = getTable(x = geom, slot = "feature"),
+             group = getTable(x = geom, slot = "group"),
              window = window,
              scale = geom@scale,
-             crs = geom@crs,
-             history = c(geom@history, list(hist)))
+             crs = getCRS(x = geom),
+             history = c(getHistory(x = geom), list(hist)))
 
   return(out)
 }

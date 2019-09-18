@@ -42,7 +42,10 @@ setMethod(f = "gc_grob",
 
             # capture display arguments
             displayArgs <- exprs(...)
-            featureType <- input@type
+            featureType <- getType(x = input)[2]
+            thePoints <- getPoints(x = input)
+            theFeatures <- getTable(x = input, slot = "feature")
+            theGroups <- getTable(x = input, slot = "group")
 
             # scale input to relative, if it's not
             if(input@scale == "absolute"){
@@ -53,8 +56,8 @@ setMethod(f = "gc_grob",
 
             point <- getPoints(x = outGeom)
             if(featureType == "point"){
-              attr <- left_join(x = input@point, y = input@feature, by = "fid")
-              attr <- left_join(x = attr, y = input@group, by = "gid")
+              attr <- left_join(x = thePoints, y = theFeatures, by = "fid")
+              attr <- left_join(x = attr, y = theGroups, by = "gid")
             } else {
               attr <- getTable(x = input)
             }

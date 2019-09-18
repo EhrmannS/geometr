@@ -497,15 +497,15 @@ makeLayout <- function(x = NULL, window = NULL, theme = gtTheme, image = FALSE, 
 
   assertClass(x = geom, classes = "geom")
   theWindow <- getWindow(x = geom)
-  featureType <- geom@type
+  thePoints <- getPoints(x = geom)
 
   # get the window labels
-  xmin <- round(min(geom@window$x), 2)
+  xmin <- round(min(theWindow$x), 2)
   xminFill <- paste0(rep(" ", nchar(xmin)), collapse = "")
-  xmax <- round(max(geom@window$x), 2)
+  xmax <- round(max(theWindow$x), 2)
   xmaxFill <- paste0(rep(" ", nchar(xmax)), collapse = "")
-  ymin <- round(min(geom@window$y), 2)
-  ymax <- round(max(geom@window$y), 2)
+  ymin <- round(min(theWindow$y), 2)
+  ymax <- round(max(theWindow$y), 2)
 
   # define symbols
   full <- '\u25C9'
@@ -515,7 +515,7 @@ makeLayout <- function(x = NULL, window = NULL, theme = gtTheme, image = FALSE, 
 
   # create vector of symbols
   filled <- NULL
-  nrPoints <- dim(geom@point)[1]
+  nrPoints <- dim(thePoints)[1]
   for(i in 1:4){
     for(j in 1:4){
       x <- xmin + c(((xmax-xmin)/4 * j) - (xmax-xmin)/4, (xmax-xmin)/4 * j)
@@ -523,7 +523,7 @@ makeLayout <- function(x = NULL, window = NULL, theme = gtTheme, image = FALSE, 
       target <- data.frame(x = c(x[1], x[2], x[2], x[1], x[1]),
                            y = c(y[1], y[1], y[2], y[2], y[1]))
 
-      inside <- pointInGeomC(vert = as.matrix(geom@point[c("x", "y")]),
+      inside <- pointInGeomC(vert = as.matrix(thePoints[c("x", "y")]),
                              geom = as.matrix(target),
                              invert = FALSE)
       pointsInside <- sum(inside != 0)

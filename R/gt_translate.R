@@ -61,7 +61,8 @@ gt_translate <- function(geom = NULL, x = NULL, y = NULL, fid = NULL,
     y <- list(y)
   }
 
-  verts <- geom@point
+  verts <- getPoints(x = geom)
+  thewindow <- getWindow(x = geom)
   ids <- unique(verts$fid)
 
   # identify fids to modify
@@ -95,9 +96,9 @@ gt_translate <- function(geom = NULL, x = NULL, y = NULL, fid = NULL,
 
   # update window
   if(update){
-    window <- .updateWindow(input = temp, window = geom@window)
+    window <- .updateWindow(input = temp, window = thewindow)
   } else {
-    window <- geom@window
+    window <- thewindow
   }
 
   # make history
@@ -109,14 +110,14 @@ gt_translate <- function(geom = NULL, x = NULL, y = NULL, fid = NULL,
 
   # make new geom
   out <- new(Class = "geom",
-             type = geom@type,
+             type = getType(x = geom)[2],
              point = as_tibble(temp),
-             feature = geom@feature,
-             group = geom@group,
+             feature = getTable(x = geom, slot = "feature"),
+             group = getTable(x = geom, slot = "group"),
              window = window,
              scale = geom@scale,
-             crs = geom@crs,
-             history = c(geom@history, list(hist)))
+             crs = getCRS(x = geom),
+             history = c(getHistory(x = geom), list(hist)))
 
   return(out)
 }

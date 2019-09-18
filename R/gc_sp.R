@@ -40,8 +40,8 @@ setMethod(f = "gc_sp",
             theGroups <- getTable(x = input, slot = "group")
             theVertices <- getTable(x = input, slot = "point")
             theCRS <- getCRS(x = input)
+            featureType <- getType(input)[2]
 
-            featureType <- input@type
             makeDF <- FALSE
 
             if(featureType %in% c("point")){

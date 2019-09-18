@@ -34,13 +34,17 @@ setMethod(f = "makeObject",
             if(!is.null(window)){
               x <- setWindow(x = x, to = window)
             }
+
+            thePoints <- getPoints(x = x)
+            theWindow <- getWindow(x = x)
+
             out <- list()
             out$type <- "vector"
             out$name <- "geom"
 
             # test whether vertices are outside of 'window'
-            inWindow <- pointInGeomC(vert = as.matrix(x@point[c("x", "y")]),
-                                     geom = as.matrix(x@window[c("x", "y")]),
+            inWindow <- pointInGeomC(vert = as.matrix(thePoints[c("x", "y")]),
+                                     geom = as.matrix(theWindow[c("x", "y")]),
                                      invert = FALSE)
             inWindow <- inWindow[-5] != 0
 
@@ -151,8 +155,8 @@ setMethod(f = "makeObject",
               assertClass(x = x, classes = "RasterLayer")
               out$hasLegend <- TRUE
 
-              attr <- getTable(x)
-              vals <- getValues(x)
+              attr <- getTable(x = x)
+              vals <- getValues(xx)
               allValues <- sortUniqueC(vals[!is.na(vals)])
               tickValues <- seq_along(allValues)
               nrVals <- length(allValues)
