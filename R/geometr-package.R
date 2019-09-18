@@ -1,4 +1,4 @@
-#' geometr: Generate and Process Geometric Shapes
+#' geometr: Generate and modify interoperable geometric shapes
 #'
 #' The geometr package provides tools that generate and process fully
 #' accessible and tidy geometric shapes (of class \code{geom}). Moreover, it aims
@@ -41,12 +41,12 @@
 #' # Information, such as the attribute table, can be extracted from the object
 #' # in interoperable quality (i.e. same arrangement of the same information).
 #' attr_sf <- getTable(x = nc_sf)
-#' attr_geom <- getTable(x = nc_geom, slot = "feat")
+#' attr_geom <- getTable(x = nc_geom, slot = "feature")
 #'
 #' # However, a `geom` has three attribute tables, one for vertices, one for
 #' # features and one for groups of features. All of them (and not only
 #' # features) can be filled with ancilliary information.
-#' getTable(x = nc_geom, slot = "vert")
+#' getTable(x = nc_geom, slot = "point")
 #' getTable(x = nc_geom, slot = "group")
 #'
 #' # Groups of features are called *multi* features in the simple features
@@ -56,7 +56,7 @@
 #' # distinc (simpler) features. The equivalent attributes of a multi\* feature
 #' # are captured in the 'groups attribute table'
 #' currituck <- getSubset(x = nc_geom, gid == 4)
-#' getTable(x = currituck, slot = "feat")
+#' getTable(x = currituck, slot = "feature")
 #' getTable(x = currituck, slot = "group")
 #'
 #' # A geom can be visualised ...
