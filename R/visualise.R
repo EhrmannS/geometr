@@ -195,6 +195,7 @@ visualise <- function(..., window = NULL, theme = gtTheme, trace = FALSE, image 
       plotName <- obj$name
     }
 
+    # ----
     if(newPlot | (!newPlot & obj$type == "raster")){
 
       # create the plot ----
