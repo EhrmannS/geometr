@@ -151,8 +151,8 @@ gt_locate <- function(samples = 1, panel = NULL, identify = FALSE, snap = FALSE,
     }
 
     if(identify & isLegendInPlot){
-      metaLegend <- grid.get(gPath("theLegend"), global = TRUE)
-      metaValues <- grid.get(gPath("legendValues"), global = TRUE)
+      metaLegend <- grid.get(gPath("legend_items"), global = TRUE)
+      metaValues <- grid.get(gPath("legend_values"), global = TRUE)
       if(length(panelNames) > 1){
         theLegend <- metaLegend[which(panel == panelNames)][[1]]$raster
         theValues <- as.numeric(metaValues[which(panel == panelNames)][[1]]$label)
