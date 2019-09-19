@@ -35,8 +35,26 @@ setMethod(f = "makeObject",
               x <- setWindow(x = x, to = window)
             }
 
-            thePoints <- getPoints(x = x)
+            displayArgs <- exprs(...)
+            displayArgs <- displayArgs[names(displayArgs) %in% names(theme@geom)]
+            if(length(displayArgs) != 0){
+              tempArgs <- displayArgs
+            } else{
+              tempArgs <- setNames(list(theme@geom$scale$to), theme@geom$scale$x)
+            }
+
+            featureType <- getType(x = x)[2]
             theWindow <- getWindow(x = x)
+            thePoints <- getPoints(x = x)
+            theFeatures <- getTable(x = x, slot = "feature")
+            theGroups <- getTable(x = x, slot = "group")
+
+            if(featureType == "point"){
+              attr <- left_join(x = thePoints, y = theFeatures, by = "fid")
+              attr <- left_join(x = attr, y = theGroups, by = "gid")
+            } else {
+              attr <- left_join(x = theFeatures, y = theGroups, by = "gid")
+            }
 
             out <- list()
             out$type <- "vector"
@@ -70,45 +88,94 @@ setMethod(f = "makeObject",
               x$gp$col
             })
             allFill <- sapply(aGrob, function(x){
-              x$gp$fil
+              if(!is.null(x$gp$fill)){
+                x$gp$fill
+              } else {
+                NA_integer_
+              }
             })
-            if(length(unique(allFill)) > 1){
-              allColours <- allFill
+            allPch <- sapply(aGrob, function(x){
+              if(!is.null(x$pch)){
+                x$pch
+              } else {
+                NA_integer_
+              }
+            })
+            allSize <- sapply(aGrob, function(x){
+              if(!is.null(x$size)){
+                x$size
+              } else {
+                NA_real_
+              }
+            })
+            allLty <- sapply(aGrob, function(x){
+              if(!is.null(x$gp$lty)){
+                x$gp$lty
+              } else {
+                NA_character_
+              }
+            })
+            allLwd <- sapply(aGrob, function(x){
+              if(!is.null(x$gp$lwd)){
+                x$gp$lwd
+              } else {
+                NA_integer_
+              }
+            })
+
+            # make an overall table of parameters
+            params <- tibble(fid = rev(allValues),
+                             fillcol = rev(allFill),
+                             pointsymbol = rev(allPch),
+                             pointsize = rev(allSize),
+                             linecol = rev(allColours),
+                             linetype = rev(allLty),
+                             linewidth = rev(allLwd))
+            params <- left_join(x = params, y = attr, by = "fid")
+
+            # go through the defined display arguments ...
+            legends <- list()
+            for(i in seq_along(tempArgs)){
+
+              theArg <- names(tempArgs)[i]
+              theVal <- as.character(tempArgs[[i]])
+
+              # ... construct the indices for selecting attributes
+              uniqueArg <- unique(eval(parse(text = theArg), envir = params))
+              if(length(uniqueArg) > theme@legend$bins){
+                tempTicks <- quantile(seq_along(uniqueArg), probs = seq(0, 1, length.out = theme@legend$bins), type = 1, names = FALSE)
+              } else {
+                tempTicks <- seq_along(uniqueArg)
+              }
+
+              # ... and select the attributes
+              if(!theVal %in% names(params)){
+                theVal <- "fid"
+              }
+              uniqueVal <- unique(eval(parse(text = theVal), envir = params))
+              legendVals <- sort(uniqueVal)[tempTicks]
+
+              tempLegend <- tibble(labels = legendVals,
+                                   pos = as.numeric(unit(tempTicks, "native")))
+              names(tempLegend)[1] <- as.character(theVal)
+
+              legends <- c(legends, setNames(object = list(tempLegend), nm = theArg))
             }
-            allColours <- allColours[order(allValues)]
-            allFill <- allFill[order(allValues)]
-            allValues <- allValues[order(allValues)]
-            allValuesIndex <- seq_along(allColours)
 
-            uniqueColours <- unique(allColours)
-            uniqueFill <- unique(allFill)
-            uniqueValues <- unique(allValues)
-            uniqueValuesIndex <- seq_along(uniqueValues)
-
-            # determine the tick position and labels
-            if(length(uniqueValues) > theme@legend$bins){
-              tickValues <- quantile(uniqueValuesIndex, probs = seq(0, 1, length.out = theme@legend$bins), type = 1, names = FALSE)
-            } else{
-              tickValues <- uniqueValuesIndex
-            }
-            labels <- uniqueValues[tickValues]
-
-            if(theme@legend$ascending){
-              colours <- tibble(colours = rev(allColours),
-                                values = rev(allValues))
-              legendPos <- tibble(labels = labels,
-                                  pos = as.numeric(unit(tickValues, "native")))
-            } else{
-              colours <- tibble(colours = allColours,
-                                values = allValues)
-              legendPos <- tibble(labels = rev(labels),
-                                  pos = rev(as.numeric(unit(tickValues, "native"))))
+            # revert order if given
+            if(!theme@legend$ascending){
+              params <- params[dim(params)[1]:1,]
+              legendNames <- names(legends)
+              legends <- lapply(seq_along(legends), function(x){
+                legends[[x]][dim(legends[[x]])[1]:1,]
+              })
+              names(legends) <- legendNames
             }
 
             out$out <- aGrob
             out$hasLegend <- TRUE
-            out$allValues <- colours
-            out$legend <- legendPos
+            out$params <- params
+            out$legend <- legends
 
             return(out)
           }
@@ -195,24 +262,25 @@ setMethod(f = "makeObject",
               }
 
               # if(is.factor(vals) | is.character(vals)){
-                tickLabels <- allValues[tickValues]
+              tickLabels <- allValues[tickValues]
               # } else {
-                # tickLabels <- tickValues
+              # tickLabels <- tickValues
               # }
 
               if(theme@legend$ascending){
-                colours <- tibble(colours = rev(allColours),
-                                  values = rev(allValues))
-                legendPos <- tibble(labels = tickLabels,
+                params <- tibble(fillcol = rev(allColours),
+                                 values = rev(allValues))
+                allValues <- rev(allValues)
+                legendPos <- tibble(values = tickLabels,
                                     pos = unit(tickValues, "native"))
               } else{
-                colours <- tibble(colours = allColours,
-                                  values = allValues)
-                legendPos <- tibble(labels = rev(tickLabels),
+                params <- tibble(fillcol = allColours,
+                                 values = allValues)
+                legendPos <- tibble(values = rev(tickLabels),
                                     pos = rev(unit(tickValues, "native")))
               }
-              out$allValues <- colours
-              out$legend <- legendPos
+              out$params <- params
+              out$legend <- list(fillcol = legendPos)
             }
             out$array <- theColours
 
@@ -281,18 +349,19 @@ setMethod(f = "makeObject",
               }
 
               if(theme@legend$ascending){
-                colours <- tibble(colours = rev(allColours),
-                                  values = rev(allValues))
-                legendPos <- tibble(labels = tickLabels,
+                params <- tibble(fillcol = rev(allColours),
+                                 values = rev(allValues))
+                allValues <- rev(allValues)
+                legendPos <- tibble(values = tickLabels,
                                     pos = unit(tickValues, "native"))
               } else{
-                colours <- tibble(colours = allColours,
-                                  values = allValues)
-                legendPos <- tibble(labels = rev(tickLabels),
+                params <- tibble(fillcol = allColours,
+                                 values = allValues)
+                legendPos <- tibble(values = rev(tickLabels),
                                     pos = rev(unit(tickValues, "native")))
               }
-              out$allValues <- colours
-              out$legend <- legendPos
+              out$params <- params
+              out$legend <- list(fillcol = legendPos)
             }
             out$array <- theColours
 
