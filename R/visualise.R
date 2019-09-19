@@ -53,7 +53,7 @@
 #' @importFrom tibble tibble
 #' @importFrom grid grid.ls grid.newpage pushViewport viewport grid.rect
 #'   grid.raster grid.clip unit grid.draw grid.grill upViewport grid.text gpar
-#'   grid.get convertX downViewport
+#'   grid.get convertX downViewport grid.polyline grid.points unit.c
 #' @importFrom grDevices recordPlot dev.list
 #' @importFrom raster nlayers getValues as.matrix ncol nrow stack
 #' @importFrom stats quantile
@@ -289,53 +289,111 @@ visualise <- function(..., window = NULL, theme = gtTheme, trace = FALSE, image 
       # the legend viewport
       if(theme@legend$plot & obj$hasLegend){
 
-        if(length(obj$legend$pos) == 1){
-          maxYScale <- obj$legend$pos[length(obj$legend$pos)] + 0.00001
-        } else {
-          maxYScale <- unit(as.numeric(obj$legend$pos[which.max(obj$legend$pos)]) + 1, "native")
+        pushViewport(viewport(name = "legend"))
+
+        # go through possible legend attributes and check whether it has more
+        # than 1 unique value
+        for(j in seq_along(obj$legend)){
+          theParam <- names(obj$legend)[j]
+          theLegend <- obj$legend[[j]]
+          legendName <- names(theLegend[,1])
+
+          if(length(theLegend$pos) == 1){
+            maxYScale <- theLegend$pos[length(theLegend$pos)] + 0.00001
+          } else {
+            maxYScale <- unit(as.numeric(theLegend$pos[which.max(theLegend$pos)]) + 1, "native")
+          }
+          pushViewport(viewport(height = unit(1, "npc") * theme@legend$sizeRatio,
+                                yscale = c(1, maxYScale),
+                                name = legendName))
+
+          # this is a little hack to get all the values that are contained in the
+          # object "into" the plotted object for later use (e.g. by gt_locate())
+          theValues <- unlist(obj$params[legendName], use.names = FALSE)
+          grid.text(label = theValues,
+                    name = "legend_values",
+                    gp = gpar(col = NA))
+
+
+          if(theParam %in% c("linecol", "fillcol")){
+
+            temp <- unlist(obj$params[legendName], use.names = FALSE)
+            theColours <- unlist(obj$params[order(temp),][theParam], use.names = FALSE)
+            grid.raster(x = unit(1, "npc") + unit(10, "points"),
+                        width = unit(10, "points"),
+                        height = unit(1, "npc"),
+                        just = "left",
+                        name = "legend_items",
+                        image = theColours,
+                        interpolate = FALSE)
+
+            if(theme@legend$box$plot){
+              grid.rect(x = unit(1, "npc") + unit(10, "points"),
+                        just = "left",
+                        width = unit(1, "grobwidth", "legend_items"),
+                        name = "legend_box",
+                        gp = gpar(col = theme@legend$box$colour,
+                                  fill = NA,
+                                  lty = theme@legend$box$linetype,
+                                  lwd = theme@legend$box$linewidth))
+            }
+
+          } else if(theParam %in% "pointsize"){
+
+            theSizes <- sort(unique(unlist(obj$params[theParam], use.names = FALSE)))[theLegend$pos]
+            grid.points(x = rep(unit(1, "npc") + unit(10, "points"), times = length(theLegend$pos)),
+                        y = unit(theLegend$pos, "native") - unit(0.5, "native"),
+                        pch = theme@geom$pointsymbol[1],
+                        size = unit(theSizes, "char"),
+                        name = "legend_items")
+
+          } else if(theParam %in% "pointsymbol"){
+
+            theSymbols <- sort(unique(unlist(obj$params[theParam], use.names = FALSE)))[theLegend$pos]
+            grid.points(x = rep(unit(1, "npc") + unit(10, "points"), length(theSymbols)),
+                        y = unit(theLegend$pos, "native") - unit(0.5, "native"),
+                        pch = theSymbols,
+                        size = unit(max(theme@geom$pointsize), "char"),
+                        name = "legend_items")
+
+          } else if(theParam %in% c("linewidth")){
+
+            theWidths <- sort(unique(unlist(obj$params[theParam], use.names = FALSE)))[theLegend$pos]
+            grid.polyline(x = rep(unit(c(1, 1), "npc") + unit.c(unit(10, "points"), unit(20, "points")), times = length(theLegend$pos)),
+                          y = unit(rep(theLegend$pos, each = 2), "native") - unit(0.5, "native"),
+                          id = rep(theLegend$pos, each = 2),
+                          name = "legend_items",
+                          gp = gpar(col = theme@geom$linecol[1],
+                                    lwd = theWidths,
+                                    lty = theme@geom$linetype[1]))
+
+          } else if(theParam %in% c("linetype")){
+
+            theTypes <- sort(unique(unlist(obj$params[theParam], use.names = FALSE)))[theLegend$pos]
+            grid.polyline(x = rep(unit(c(1, 1), "npc") + unit.c(unit(10, "points"), unit(20, "points")), times = length(theLegend$pos)),
+                          y = unit(rep(theLegend$pos, each = 2), "native") - unit(0.5, "native"),
+                          id = rep(theLegend$pos, each = 2),
+                          name = "legend_items",
+                          gp = gpar(col = theme@geom$linecol[1],
+                                    lwd = max(theme@geom$linewidth),
+                                    lty = theTypes))
+
+          }
+
+          if(theme@legend$label$plot){
+            grid.text(label = unlist(theLegend[legendName], use.names = FALSE),
+                      x = unit(1, "npc") + unit(1, "grobwidth", "legend_items") + unit(20, "points"),
+                      y = unit(theLegend$pos, "native") - unit(0.5, "native"),
+                      name = "legend_labels",
+                      just = c("left"),
+                      gp = gpar(fontsize = theme@legend$label$fontsize,
+                                col = theme@legend$label$colour))
+          }
+
+          # also include title for that legend
+
+          upViewport() # exit current legend
         }
-        pushViewport(viewport(height = unit(1, "npc") * theme@legend$sizeRatio,
-                              yscale = c(1, maxYScale),
-                              name = "legend"))
-
-        if(obj$type == "vector"){
-          legendColours <- unique(obj$allValues$colours)
-        } else if(obj$type == "raster"){
-          legendColours <- obj$allValues$colours
-        }
-
-        grid.raster(x = unit(1, "npc") + unit(10, "points"),
-                    width = unit(10, "points"),
-                    height = unit(1, "npc"),
-                    just = "left",
-                    image = legendColours,
-                    name = "theLegend",
-                    interpolate = FALSE)
-
-        if(theme@legend$box$plot){
-          grid.rect(x = unit(1, "npc") + unit(10, "points"),
-                    just = "left",
-                    width = unit(1, "grobwidth", "theLegend"),
-                    gp = gpar(col = theme@legend$box$colour,
-                              fill = NA,
-                              lty = theme@legend$box$linetype,
-                              lwd = theme@legend$box$linewidth))
-        }
-
-        if(theme@legend$label$plot){
-          grid.text(label = obj$legend$labels,
-                    x = unit(1, "npc") + unit(1, "grobwidth", "theLegend") + unit(20, "points"),
-                    y = unit(obj$legend$pos, "native") - unit(0.5, "native"),
-                    just = c("left"),
-                    gp = gpar(fontsize = theme@legend$label$fontsize,
-                              col = theme@legend$label$colour))
-        }
-
-        # this is a little hack to get all the values that are contained in the
-        # raster "into" the plotted object for later use (e.g. by locate())
-        grid.text(label = obj$allValues$values,
-                  name = "legendValues",
-                  gp = gpar(col = NA))
 
         upViewport() # exit legend
       }
