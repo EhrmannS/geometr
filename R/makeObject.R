@@ -45,6 +45,7 @@ setMethod(f = "makeObject",
 
             featureType <- getType(x = x)[2]
             theWindow <- getWindow(x = x)
+            theExtent <- getExtent(x = x)
             thePoints <- getPoints(x = x)
             theFeatures <- getTable(x = x, slot = "feature")
             theGroups <- getTable(x = x, slot = "group")
@@ -59,6 +60,8 @@ setMethod(f = "makeObject",
             out <- list()
             out$type <- "vector"
             out$name <- "geom"
+            out$window <- tibble(x = c(min(theWindow$x), max(theWindow$x)),
+                                 y = c(min(theWindow$y), max(theWindow$y)))
 
             # test whether vertices are outside of 'window'
             inWindow <- pointInGeomC(vert = as.matrix(thePoints[c("x", "y")]),
@@ -196,6 +199,9 @@ setMethod(f = "makeObject",
             out <- list()
             out$type <- "raster"
             out$name <- names(x)
+            theWindow <- getWindow(x = x)
+            out$window <- tibble(x = c(min(theWindow$x), max(theWindow$x)),
+                                 y = c(min(theWindow$y), max(theWindow$y)))
             out$rows <- x@nrows
             out$cols <- x@ncols
 
@@ -299,6 +305,9 @@ setMethod(f = "makeObject",
             out <- list()
             out$type <- "raster"
             out$name <- names(x)
+            theWindow <- getWindow(x = x)
+            out$window <- tibble(x = c(min(theWindow$x), max(theWindow$x)),
+                                 y = c(min(theWindow$y), max(theWindow$y)))
             out$rows <- nrow(x)
             out$cols <- ncol(x)
 
