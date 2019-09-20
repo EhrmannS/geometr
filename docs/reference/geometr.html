@@ -128,7 +128,7 @@ that require different input (socalled setters)." />
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>geometr: Generate and modify interoperable geometric shapes</h1>
-    
+    <small class="dont-index">Source: <a href='https://github.com/EhrmannS/geometr/blob/master/R/geometr-package.R'><code>R/geometr-package.R</code></a></small>
     <div class="hidden name"><code>geometr.Rd</code></div>
     </div>
 
@@ -160,9 +160,9 @@ that require different input (socalled setters).</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>library</a></span>(<span class='no'>sf</span>)</div><div class='output co'>#&gt; <span class='message'>Linking to GEOS 3.5.1, GDAL 2.2.2, PROJ 4.9.2</span></div><div class='input'>
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>library</a></span>(<span class='no'>sf</span>)</div><div class='output co'>#&gt; <span class='message'>Linking to GEOS 3.7.0, GDAL 2.4.0, PROJ 5.2.0</span></div><div class='input'>
 <span class='co'># A geom can be created from other classes ...</span>
-<span class='no'>nc_sf</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/sf/topics/st_read'>st_read</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/system.file'>system.file</a></span>(<span class='st'>"shape/nc.shp"</span>, <span class='kw'>package</span><span class='kw'>=</span><span class='st'>"sf"</span>))</div><div class='output co'>#&gt; Reading layer `nc' from data source `/home/steffen/R/x86_64-pc-linux-gnu-library/3.6/sf/shape/nc.shp' using driver `ESRI Shapefile'
+<span class='no'>nc_sf</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/sf/topics/st_read'>st_read</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/system.file'>system.file</a></span>(<span class='st'>"shape/nc.shp"</span>, <span class='kw'>package</span><span class='kw'>=</span><span class='st'>"sf"</span>))</div><div class='output co'>#&gt; Reading layer `nc' from data source `/home/se87kuhe/R/x86_64-pc-linux-gnu-library/3.6/sf/shape/nc.shp' using driver `ESRI Shapefile'
 #&gt; Simple feature collection with 100 features and 14 fields
 #&gt; geometry type:  MULTIPOLYGON
 #&gt; dimension:      XY
@@ -179,50 +179,50 @@ that require different input (socalled setters).</p>
 
 <span class='co'># The "tiny map" shows where the vertices are concentrated.</span>
 <span class='no'>nc_geom</span></div><div class='output co'>#&gt; <span style='color: #BBBB00;'>geom</span><span>        polygon
-#&gt;             108 features | 2529 vertices
+#&gt;             108 features | 2529 points
 #&gt; </span><span style='color: #BBBB00;'>crs         </span><span>+proj=longlat +datum=NAD27 +no_defs
 #&gt; </span><span style='color: #BBBB00;'>attributes</span><span>  (features) AREA, PERIMETER, CNTY_, CNTY_ID, NAME, FIPS, FIPSNO, CRESS_ID, BIR74, ...
 #&gt; </span><span style='color: #BBBB00;'>tiny map  </span><span>         36.59 
-#&gt;                    ◌ ◯ ◌ ◯        
-#&gt;                    ◯ ◯ ◯ ◯        
-#&gt;                    ◌ ◌ ◯ ◌        
+#&gt;                    ◌ ○ ◌ ○        
+#&gt;                    ○ ○ ○ ○        
+#&gt;                    ◌ ◌ ○ ◌        
 #&gt;             -84.32 ◌ ◌ ◌ ◌ -75.46 
 #&gt;                    33.88 </div><div class='input'>
 <span class='co'># Information, such as the attribute table, can be extracted from the object</span>
 <span class='co'># in interoperable quality (i.e. same arrangement of the same information).</span>
 <span class='no'>attr_sf</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='getTable.html'>getTable</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>nc_sf</span>)
-<span class='no'>attr_geom</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='getTable.html'>getTable</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>nc_geom</span>, <span class='kw'>slot</span> <span class='kw'>=</span> <span class='st'>"feat"</span>)
+<span class='no'>attr_geom</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='getTable.html'>getTable</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>nc_geom</span>, <span class='kw'>slot</span> <span class='kw'>=</span> <span class='st'>"feature"</span>)
 
 <span class='co'># However, a `geom` has three attribute tables, one for vertices, one for</span>
 <span class='co'># features and one for groups of features. All of them (and not only</span>
 <span class='co'># features) can be filled with ancilliary information.</span>
-<span class='fu'><a href='getTable.html'>getTable</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>nc_geom</span>, <span class='kw'>slot</span> <span class='kw'>=</span> <span class='st'>"vert"</span>)</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 2,529 x 3</span><span>
+<span class='fu'><a href='getTable.html'>getTable</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>nc_geom</span>, <span class='kw'>slot</span> <span class='kw'>=</span> <span class='st'>"point"</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 2,529 x 3</span><span>
 #&gt;        x     y   fid
-#&gt;    </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'> 1</span><span> -</span><span style='color: #BB0000;'>81.5</span><span>  36.2     1
-#&gt; </span><span style='color: #BCBCBC;'> 2</span><span> -</span><span style='color: #BB0000;'>81.5</span><span>  36.3     1
-#&gt; </span><span style='color: #BCBCBC;'> 3</span><span> -</span><span style='color: #BB0000;'>81.6</span><span>  36.3     1
-#&gt; </span><span style='color: #BCBCBC;'> 4</span><span> -</span><span style='color: #BB0000;'>81.6</span><span>  36.3     1
-#&gt; </span><span style='color: #BCBCBC;'> 5</span><span> -</span><span style='color: #BB0000;'>81.7</span><span>  36.4     1
-#&gt; </span><span style='color: #BCBCBC;'> 6</span><span> -</span><span style='color: #BB0000;'>81.7</span><span>  36.5     1
-#&gt; </span><span style='color: #BCBCBC;'> 7</span><span> -</span><span style='color: #BB0000;'>81.7</span><span>  36.5     1
-#&gt; </span><span style='color: #BCBCBC;'> 8</span><span> -</span><span style='color: #BB0000;'>81.7</span><span>  36.6     1
-#&gt; </span><span style='color: #BCBCBC;'> 9</span><span> -</span><span style='color: #BB0000;'>81.3</span><span>  36.6     1
-#&gt; </span><span style='color: #BCBCBC;'>10</span><span> -</span><span style='color: #BB0000;'>81.3</span><span>  36.5     1
-#&gt; </span><span style='color: #949494;'># … with 2,519 more rows</span><span></div><div class='input'><span class='fu'><a href='getTable.html'>getTable</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>nc_geom</span>, <span class='kw'>slot</span> <span class='kw'>=</span> <span class='st'>"group"</span>)</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 100 x 1</span><span>
+#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>
+#&gt; </span><span style='color: #555555;'> 1</span><span> -</span><span style='color: #BB0000;'>81.5</span><span>  36.2     1
+#&gt; </span><span style='color: #555555;'> 2</span><span> -</span><span style='color: #BB0000;'>81.5</span><span>  36.3     1
+#&gt; </span><span style='color: #555555;'> 3</span><span> -</span><span style='color: #BB0000;'>81.6</span><span>  36.3     1
+#&gt; </span><span style='color: #555555;'> 4</span><span> -</span><span style='color: #BB0000;'>81.6</span><span>  36.3     1
+#&gt; </span><span style='color: #555555;'> 5</span><span> -</span><span style='color: #BB0000;'>81.7</span><span>  36.4     1
+#&gt; </span><span style='color: #555555;'> 6</span><span> -</span><span style='color: #BB0000;'>81.7</span><span>  36.5     1
+#&gt; </span><span style='color: #555555;'> 7</span><span> -</span><span style='color: #BB0000;'>81.7</span><span>  36.5     1
+#&gt; </span><span style='color: #555555;'> 8</span><span> -</span><span style='color: #BB0000;'>81.7</span><span>  36.6     1
+#&gt; </span><span style='color: #555555;'> 9</span><span> -</span><span style='color: #BB0000;'>81.3</span><span>  36.6     1
+#&gt; </span><span style='color: #555555;'>10</span><span> -</span><span style='color: #BB0000;'>81.3</span><span>  36.5     1
+#&gt; </span><span style='color: #555555;'># … with 2,519 more rows</span><span></div><div class='input'><span class='fu'><a href='getTable.html'>getTable</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>nc_geom</span>, <span class='kw'>slot</span> <span class='kw'>=</span> <span class='st'>"group"</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 100 x 1</span><span>
 #&gt;      gid
-#&gt;    </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'> 1</span><span>     1
-#&gt; </span><span style='color: #BCBCBC;'> 2</span><span>     2
-#&gt; </span><span style='color: #BCBCBC;'> 3</span><span>     3
-#&gt; </span><span style='color: #BCBCBC;'> 4</span><span>     4
-#&gt; </span><span style='color: #BCBCBC;'> 5</span><span>     5
-#&gt; </span><span style='color: #BCBCBC;'> 6</span><span>     6
-#&gt; </span><span style='color: #BCBCBC;'> 7</span><span>     7
-#&gt; </span><span style='color: #BCBCBC;'> 8</span><span>     8
-#&gt; </span><span style='color: #BCBCBC;'> 9</span><span>     9
-#&gt; </span><span style='color: #BCBCBC;'>10</span><span>    10
-#&gt; </span><span style='color: #949494;'># … with 90 more rows</span><span></div><div class='input'>
+#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>
+#&gt; </span><span style='color: #555555;'> 1</span><span>     1
+#&gt; </span><span style='color: #555555;'> 2</span><span>     2
+#&gt; </span><span style='color: #555555;'> 3</span><span>     3
+#&gt; </span><span style='color: #555555;'> 4</span><span>     4
+#&gt; </span><span style='color: #555555;'> 5</span><span>     5
+#&gt; </span><span style='color: #555555;'> 6</span><span>     6
+#&gt; </span><span style='color: #555555;'> 7</span><span>     7
+#&gt; </span><span style='color: #555555;'> 8</span><span>     8
+#&gt; </span><span style='color: #555555;'> 9</span><span>     9
+#&gt; </span><span style='color: #555555;'>10</span><span>    10
+#&gt; </span><span style='color: #555555;'># … with 90 more rows</span><span></div><div class='input'>
 <span class='co'># Groups of features are called *multi* features in the simple features</span>
 <span class='co'># standard. By lumping several closed geometric shapes into one multi\*</span>
 <span class='co'># feature, the separate geometric shapes can't be attributed with ancilliary</span>
@@ -230,17 +230,17 @@ that require different input (socalled setters).</p>
 <span class='co'># distinc (simpler) features. The equivalent attributes of a multi\* feature</span>
 <span class='co'># are captured in the 'groups attribute table'</span>
 <span class='no'>currituck</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='getSubset.html'>getSubset</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>nc_geom</span>, <span class='no'>gid</span> <span class='kw'>==</span> <span class='fl'>4</span>)
-<span class='fu'><a href='getTable.html'>getTable</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>currituck</span>, <span class='kw'>slot</span> <span class='kw'>=</span> <span class='st'>"feat"</span>)</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 3 x 16</span><span>
+<span class='fu'><a href='getTable.html'>getTable</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>currituck</span>, <span class='kw'>slot</span> <span class='kw'>=</span> <span class='st'>"feature"</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 3 x 16</span><span>
 #&gt;     fid   gid  AREA PERIMETER CNTY_ CNTY_ID NAME  FIPS  FIPSNO CRESS_ID BIR74
-#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>   </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;fct&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;fct&gt;</span><span>  </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'>1</span><span>     4     4  0.07      2.97  </span><span style='text-decoration: underline;'>1</span><span>831    </span><span style='text-decoration: underline;'>1</span><span>831 Curr… 37053  </span><span style='text-decoration: underline;'>37</span><span>053       27   508
-#&gt; </span><span style='color: #BCBCBC;'>2</span><span>     5     4  0.07      2.97  </span><span style='text-decoration: underline;'>1</span><span>831    </span><span style='text-decoration: underline;'>1</span><span>831 Curr… 37053  </span><span style='text-decoration: underline;'>37</span><span>053       27   508
-#&gt; </span><span style='color: #BCBCBC;'>3</span><span>     6     4  0.07      2.97  </span><span style='text-decoration: underline;'>1</span><span>831    </span><span style='text-decoration: underline;'>1</span><span>831 Curr… 37053  </span><span style='text-decoration: underline;'>37</span><span>053       27   508
-#&gt; </span><span style='color: #949494;'># … with 5 more variables: SID74 </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #949494;'>, NWBIR74 </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #949494;'>, BIR79 </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #949494;'>,
-#&gt; #   SID79 </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #949494;'>, NWBIR79 </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span></div><div class='input'><span class='fu'><a href='getTable.html'>getTable</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>currituck</span>, <span class='kw'>slot</span> <span class='kw'>=</span> <span class='st'>"group"</span>)</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 1 x 1</span><span>
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>1</span><span>     4     4  0.07      2.97  </span><span style='text-decoration: underline;'>1</span><span>831    </span><span style='text-decoration: underline;'>1</span><span>831 Curr… 37053  </span><span style='text-decoration: underline;'>37</span><span>053       27   508
+#&gt; </span><span style='color: #555555;'>2</span><span>     5     4  0.07      2.97  </span><span style='text-decoration: underline;'>1</span><span>831    </span><span style='text-decoration: underline;'>1</span><span>831 Curr… 37053  </span><span style='text-decoration: underline;'>37</span><span>053       27   508
+#&gt; </span><span style='color: #555555;'>3</span><span>     6     4  0.07      2.97  </span><span style='text-decoration: underline;'>1</span><span>831    </span><span style='text-decoration: underline;'>1</span><span>831 Curr… 37053  </span><span style='text-decoration: underline;'>37</span><span>053       27   508
+#&gt; </span><span style='color: #555555;'># … with 5 more variables: SID74 </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, NWBIR74 </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, BIR79 </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>,
+#&gt; #   SID79 </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, NWBIR79 </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span></div><div class='input'><span class='fu'><a href='getTable.html'>getTable</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>currituck</span>, <span class='kw'>slot</span> <span class='kw'>=</span> <span class='st'>"group"</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 1 x 1</span><span>
 #&gt;     gid
-#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'>1</span><span>     4</div><div class='input'>
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>1</span><span>     4</div><div class='input'>
 <span class='co'># A geom can be visualised ...</span>
 <span class='fu'><a href='visualise.html'>visualise</a></span>(<span class='kw'>`North Carolina`</span> <span class='kw'>=</span> <span class='no'>nc_geom</span>)</div><div class='img'><img src='geometr-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='visualise.html'>visualise</a></span>(<span class='kw'>`NC - NWBIR74`</span> <span class='kw'>=</span> <span class='no'>nc_geom</span>, <span class='kw'>fillcol</span> <span class='kw'>=</span> <span class='no'>NWBIR74</span>)</div><div class='img'><img src='geometr-2.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># ... and it can be cast into another type simply by providing it in</span>

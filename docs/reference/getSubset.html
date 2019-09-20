@@ -118,7 +118,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Get the subset of a spatial object.</h1>
-    
+    <small class="dont-index">Source: <a href='https://github.com/EhrmannS/geometr/blob/master/R/getSubset.R'><code>R/getSubset.R</code></a></small>
     <div class="hidden name"><code>getSubset.Rd</code></div>
     </div>
 
@@ -129,7 +129,7 @@
     </div>
 
     <pre class="usage"><span class='co'># S4 method for geom</span>
-<span class='fu'>getSubset</span>(<span class='no'>x</span>, <span class='no'>...</span>, <span class='kw'>slot</span> <span class='kw'>=</span> <span class='st'>"feat"</span>)
+<span class='fu'>getSubset</span>(<span class='no'>x</span>, <span class='no'>...</span>, <span class='kw'>slot</span> <span class='kw'>=</span> <span class='st'>"feature"</span>)
 
 <span class='co'># S4 method for Spatial</span>
 <span class='fu'>getSubset</span>(<span class='no'>x</span>, <span class='no'>...</span>)
@@ -156,7 +156,7 @@ where the condition evaluates to TRUE are kept.</p></td>
     <tr>
       <th>slot</th>
       <td><p>[<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code>]<br /> the slot in which to determine a subset,
-either <code>"vert"</code> for vertices, <code>"feat"</code> for features or
+either <code>"point"</code> for vertices, <code>"feature"</code> for features or
 <code>"group"</code> for group tables.</p></td>
     </tr>
     </table>
@@ -176,18 +176,18 @@ either <code>"vert"</code> for vertices, <code>"feat"</code> for features or
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># get the subset of a geom</span>
 (<span class='no'>obj</span> <span class='kw'>&lt;-</span> <span class='no'>gtGeoms</span>$<span class='no'>point</span>)</div><div class='output co'>#&gt; <span style='color: #BBBB00;'>geom</span><span>        point
-#&gt;             3 features | 12 vertices
+#&gt;             12 features | 12 points
 #&gt; </span><span style='color: #BBBB00;'>crs         </span><span>cartesian
 #&gt; </span><span style='color: #BBBB00;'>attributes</span><span>  --
 #&gt; </span><span style='color: #BBBB00;'>tiny map  </span><span>    12 
-#&gt;               ◯ ◌ ◌ ◉    
+#&gt;               ○ ◌ ◌ ◉    
 #&gt;               ◌ ◌ ◌ ◌    
 #&gt;               ◌ ◌ ◌ ◌    
-#&gt;             0 ◉ ◌ ◌ ◯ 12 
+#&gt;             0 ◉ ◌ ◌ ○ 12 
 #&gt;               0 </div><div class='input'>
 <span class='co'># the first feature</span>
 (<span class='fu'>getSubset</span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>gtGeoms</span>$<span class='no'>line</span>, <span class='no'>fid</span> <span class='kw'>==</span> <span class='fl'>1</span>))</div><div class='output co'>#&gt; </span><span style='color: #BBBB00;'>geom</span><span>        line
-#&gt;             1 feature | 4 vertices
+#&gt;             1 feature | 4 points
 #&gt; </span><span style='color: #BBBB00;'>crs         </span><span>cartesian
 #&gt; </span><span style='color: #BBBB00;'>attributes</span><span>  --
 #&gt; </span><span style='color: #BBBB00;'>tiny map  </span><span>    12 

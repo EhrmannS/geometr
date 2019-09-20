@@ -32,11 +32,11 @@
 
 <meta property="og:title" content="Geometry class (S4) and methods — geom-class" />
 
-<meta property="og:description" content="A geom stores a table of vertices, a table of feature to which the
-vertices are associated and a table of groups, to which features are
+<meta property="og:description" content="A geom stores a table of points, a table of feature to which the
+points are associated and a table of groups, to which features are
 associated. A geom can be spatial, but is not by default. A
 geom can either have absolute or relative values, where relative
-values specify the vertex position relative to the window slot." />
+values specify the point position relative to the window slot." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -122,17 +122,17 @@ values specify the vertex position relative to the window slot." />
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Geometry class (S4) and methods</h1>
-    
+    <small class="dont-index">Source: <a href='https://github.com/EhrmannS/geometr/blob/master/R/geom.R'><code>R/geom.R</code></a></small>
     <div class="hidden name"><code>geom-class.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>A <code>geom</code> stores a table of vertices, a table of feature to which the
-vertices are associated and a table of groups, to which features are
+    <p>A <code>geom</code> stores a table of points, a table of feature to which the
+points are associated and a table of groups, to which features are
 associated. A <code>geom</code> can be spatial, but is not by default. A
 <code>geom</code> can either have absolute or relative values, where relative
-values specify the vertex position relative to the <code>window</code> slot.</p>
+values specify the point position relative to the <code>window</code> slot.</p>
     
     </div>
 
@@ -140,35 +140,36 @@ values specify the vertex position relative to the <code>window</code> slot.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>A <code>geom</code> is one of three geometry objects:</p><ul>
-<li><p><code>"point"</code>, when none of the vertices are connected to other vertices,</p></li>
-<li><p><code>"line"</code>, where vertices with the same <code>fid</code> are connected
-following the sequence of their order, without the line closing in itself and</p></li>
-<li><p><code>"polygon"</code>, where vertices with the same <code>fid</code> are connected
-following the sequence of their order and the line thus closes in on itself.
-Moreover, <code>polygon</code> objects can contain holes.</p></li>
+<li><p><code>"point"</code>, when none of the points are connected to other points,</p></li>
+<li><p><code>"line"</code>, where points with the same <code>fid</code> are connected following
+the sequence of their order, without the line closing in itself and</p></li>
+<li><p><code>"polygon"</code>, where points with the same <code>fid</code> are connected
+following the sequence of their order and the line closes in on itself due to
+first and last point being the same. Moreover, <code>polygon</code> objects can
+contain holes.</p></li>
 </ul>
-    <p>The data model for storing vertices follows the spaghetti model. Vertices are
+    <p>The data model for storing points follows the spaghetti model. Points are
 stored as a sequence of x and y values, associated to a feature ID. The
 feature ID relates coordinates to features and thus common attributes. Points
 and Lines are implemented straightforward in this model, but polygons, which
 may contain holes, are a bit trickier. In <code>geometr</code> they are implemented
 as follows:</p><ol>
-<li><p>All vertices with the same <code>fid</code> make up
+<li><p>All points with the same <code>fid</code> make up
 one polygon, irrespective of it containing holes or not.</p></li>
 <li><p>The outer
-path/ring of a polygon is composed of all vertices until a duplicated of its
-first vertex occurs. This signals that all following vertices are part of
+path/ring of a polygon is composed of all points until a duplicated of its
+first point occurs. This signals that all following points are part of
 another path/ring, which must be inside the outer path and which consists of
-all vertices until a duplicate of it's first vertex occurs.</p></li>
+all points until a duplicate of it's first point occurs.</p></li>
 <li><p>This
-repeats until all vertices of the feature are processed.</p></li>
+repeats until all points of the feature are processed.</p></li>
 </ol>
     <p>Moreover, a <code>geom</code> does not have the slot <em>extent</em>, which
-characterises the minimum and maximum value of the vertex coordinates and
-which is thus derived "on the fly" from the vertices. Instead it has a
+characterises the minimum and maximum value of the point coordinates and
+which is thus derived "on the fly" from the points. Instead it has a
 <em>reference window</em>, which is sort of a second extent that may be bigger
 (or smaller) than <code>extent</code> and which determines the relative position of
-the vertices when plotting.</p>
+the points when plotting.</p>
     
     <h2 class="hasAnchor" id="slots"><a class="anchor" href="#slots"></a>Slots</h2>
 
@@ -176,16 +177,16 @@ the vertices when plotting.</p>
     <dl class='dl-horizontal'>
 <dt><code>type</code></dt><dd><p>[<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code>]<br /> the type of feature, either
 <code>"point"</code>, <code>"line"</code> or <code>"polygon"</code>.</p></dd>
-    <dt><code>vert</code></dt><dd><p>[<code><a href='https://www.rdocumentation.org/packages/base/topics/data.frame'>data.frame(1)</a></code>]<br /> the <code>fid</code> (feature ID), <code>x</code>
-and <code>y</code> coordinates per vertex and optional arbitrary vertex
+    <dt><code>point</code></dt><dd><p>[<code><a href='https://www.rdocumentation.org/packages/base/topics/data.frame'>data.frame(1)</a></code>]<br /> the <code>fid</code> (feature ID), <code>x</code>
+and <code>y</code> coordinates per point and optional arbitrary point
 attributes.</p></dd>
-    <dt><code>feat</code></dt><dd><p>[<code><a href='https://www.rdocumentation.org/packages/base/topics/data.frame'>data.frame(1)</a></code>]<br /> <code>fid</code> (feature ID), <code>gid</code>
+    <dt><code>feature</code></dt><dd><p>[<code><a href='https://www.rdocumentation.org/packages/base/topics/data.frame'>data.frame(1)</a></code>]<br /> <code>fid</code> (feature ID), <code>gid</code>
 (group ID) and optional arbitrary feature attributes.</p></dd>
     <dt><code>group</code></dt><dd><p>[<code><a href='https://www.rdocumentation.org/packages/base/topics/data.frame'>data.frame(1)</a></code>]<br /> <code>gid</code> (group ID) and optional
 arbitrary group attributes.</p></dd>
     <dt><code>window</code></dt><dd><p>[<code><a href='https://www.rdocumentation.org/packages/base/topics/data.frame'>data.frame(1)</a></code>]<br /> the minimum and maximum value in x and
 y dimension of the reference window in which the <code>geom</code> dwells.</p></dd>
-    <dt><code>scale</code></dt><dd><p>[<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code>]<br /> whether the vertex coordinates are
+    <dt><code>scale</code></dt><dd><p>[<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code>]<br /> whether the point coordinates are
 stored as <code>"absolute"</code> values, or <code>"relative"</code> to <code>window</code>.</p></dd>
     <dt><code>crs</code></dt><dd><p>[<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code>]<br /> the coordinate reference system in proj4
 notation.</p></dd>
