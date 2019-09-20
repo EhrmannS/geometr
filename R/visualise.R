@@ -168,13 +168,6 @@ visualise <- function(..., window = NULL, theme = gtTheme, trace = FALSE, image 
   # plot the panels ----
   for(i in 1:panels){
 
-    # make panel layout ----
-    pnl <- makeLayout(x = objects[[i]],
-                      window = window,
-                      image = image,
-                      theme = theme,
-                      ...)
-
     if(!newPlot){
       # set objects[[i]]@window to the previous panel extent
       prev <- grid.get(gPath("extentGrob"), global = TRUE)
@@ -188,6 +181,9 @@ visualise <- function(..., window = NULL, theme = gtTheme, trace = FALSE, image 
                       image = image,
                       theme = theme,
                       ...)
+
+    # make panel layout ----
+    pnl <- makeLayout(x = obj, theme = theme)
 
     if(!is.na(names[[i]]) & !is.null(names[[i]])){
       plotName <- names[[i]]
@@ -320,7 +316,8 @@ visualise <- function(..., window = NULL, theme = gtTheme, trace = FALSE, image 
 
             temp <- unlist(obj$params[legendName], use.names = FALSE)
             theColours <- unlist(obj$params[order(temp),][theParam], use.names = FALSE)
-            grid.raster(x = unit(1, "npc") + unit(10, "points"),
+            grid.raster(x = unit(1, "npc") + pnl$legendX[j],
+                        # x = unit(1, "npc") + unit(10, "points"),
                         width = unit(10, "points"),
                         height = unit(1, "npc"),
                         just = "left",
@@ -329,9 +326,9 @@ visualise <- function(..., window = NULL, theme = gtTheme, trace = FALSE, image 
                         interpolate = FALSE)
 
             if(theme@legend$box$plot){
-              grid.rect(x = unit(1, "npc") + unit(10, "points"),
+              grid.rect(x = unit(1, "npc") + pnl$legendX[j],
                         just = "left",
-                        width = unit(1, "grobwidth", "legend_items"),
+                        width = unit(10, "points"),
                         name = "legend_box",
                         gp = gpar(col = theme@legend$box$colour,
                                   fill = NA,
@@ -342,7 +339,8 @@ visualise <- function(..., window = NULL, theme = gtTheme, trace = FALSE, image 
           } else if(theParam %in% "pointsize"){
 
             theSizes <- sort(unique(unlist(obj$params[theParam], use.names = FALSE)))[theLegend$pos]
-            grid.points(x = rep(unit(1, "npc") + unit(10, "points"), times = length(theLegend$pos)),
+            grid.points(x = rep(unit(1, "npc") + pnl$legendX[j], times = length(theLegend$pos)),
+                        # x = rep(unit(1, "npc") + unit(10, "points"), times = length(theLegend$pos)),
                         y = unit(theLegend$pos, "native") - unit(0.5, "native"),
                         pch = theme@geom$pointsymbol[1],
                         size = unit(theSizes, "char"),
@@ -351,7 +349,8 @@ visualise <- function(..., window = NULL, theme = gtTheme, trace = FALSE, image 
           } else if(theParam %in% "pointsymbol"){
 
             theSymbols <- sort(unique(unlist(obj$params[theParam], use.names = FALSE)))[theLegend$pos]
-            grid.points(x = rep(unit(1, "npc") + unit(10, "points"), length(theSymbols)),
+            grid.points(x = rep(unit(1, "npc") + pnl$legendX[j], length(theSymbols)),
+                        # x = rep(unit(1, "npc") + unit(10, "points"), length(theSymbols)),
                         y = unit(theLegend$pos, "native") - unit(0.5, "native"),
                         pch = theSymbols,
                         size = unit(max(theme@geom$pointsize), "char"),
@@ -360,7 +359,8 @@ visualise <- function(..., window = NULL, theme = gtTheme, trace = FALSE, image 
           } else if(theParam %in% c("linewidth")){
 
             theWidths <- sort(unique(unlist(obj$params[theParam], use.names = FALSE)))[theLegend$pos]
-            grid.polyline(x = rep(unit(c(1, 1), "npc") + unit.c(unit(10, "points"), unit(20, "points")), times = length(theLegend$pos)),
+            grid.polyline(x = rep(unit(c(1, 1), "npc") + unit.c(pnl$legendX[j], pnl$legendX[j] + 10), times = length(theLegend$pos)),
+                          # x = rep(unit(c(1, 1), "npc") + unit.c(unit(10, "points"), unit(20, "points")), times = length(theLegend$pos)),
                           y = unit(rep(theLegend$pos, each = 2), "native") - unit(0.5, "native"),
                           id = rep(theLegend$pos, each = 2),
                           name = "legend_items",
@@ -371,7 +371,8 @@ visualise <- function(..., window = NULL, theme = gtTheme, trace = FALSE, image 
           } else if(theParam %in% c("linetype")){
 
             theTypes <- sort(unique(unlist(obj$params[theParam], use.names = FALSE)))[theLegend$pos]
-            grid.polyline(x = rep(unit(c(1, 1), "npc") + unit.c(unit(10, "points"), unit(20, "points")), times = length(theLegend$pos)),
+            grid.polyline(x = rep(unit(c(1, 1), "npc") + unit.c(pnl$legendX[j], pnl$legendX[j] + 10), times = length(theLegend$pos)),
+                          # x = rep(unit(c(1, 1), "npc") + unit.c(unit(10, "points"), unit(20, "points")), times = length(theLegend$pos)),
                           y = unit(rep(theLegend$pos, each = 2), "native") - unit(0.5, "native"),
                           id = rep(theLegend$pos, each = 2),
                           name = "legend_items",
@@ -383,7 +384,8 @@ visualise <- function(..., window = NULL, theme = gtTheme, trace = FALSE, image 
 
           if(theme@legend$label$plot){
             grid.text(label = unlist(theLegend[legendName], use.names = FALSE),
-                      x = unit(1, "npc") + unit(1, "grobwidth", "legend_items") + unit(20, "points"),
+                      x = unit(1, "npc") + pnl$legendX[j] + unit(1, "grobwidth", "legend_items") + unit(20, "points"),
+                      # x = unit(1, "npc") + unit(1, "grobwidth", "legend_items") + unit(20, "points"),
                       y = unit(theLegend$pos, "native") - unit(0.5, "native"),
                       name = "legend_labels",
                       just = c("left"),
