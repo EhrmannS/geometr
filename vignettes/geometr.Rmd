@@ -172,15 +172,16 @@ visualise(perforatedPoly, fillcol = fid)
 
 ## Attributes of a `geom`
 
-You may also be wondering why `nc_geom` has 108 features, while `nc_sf` has actually 100 features.
-`nc_sf` contains of 100 "`MULTIPOLYGONS`" where in fact only a small set of them are composed of several polygons.
-This is due the definition of simple features, that one "simple" feature can be of a *multi\** type that comprises several closed paths in the same object and which would thus be called `MULTIPOLYGON`; yet, a multipolygon is not defined so that it than also *has to* contain several features but could as well contain only a single polygon.
-In `geometr` these inconsistencies are avoided becuse they require a lot of extra code logic that is, in my opinion, not worth the supposed flexibility.
-Hence, a `geom` breaks down multi*-features into their distinct closed paths, into "simpler features", so to speak.
+You may also be wondering why `nc_geom` has 108 features, while `nc_sf` actually only has 100 features.
+`nc_sf` is composed of 100 "`MULTIPOLYGONS`" where in fact only a small set of them are composed of several polygons.
+This is due the definition of simple features, where one single simple feature can be of a *multi\** type that comprises several closed paths in the same object and which would thus be called `MULTIPOLYGON`. 
+Yet, a `MULTIPOLYGON` does not *have to* contain several features, as the name implies, but could as well contain only a single polygon.
+In `geometr` these inconsistencies are avoided becuse they require extra code logic and create downstream complexity that is, in my opinion, not worth the supposed flexibility.
+Hence, a `geom` breaks down *multi\**-features into their distinct closed paths, into "simpler features", so to speak.
 
 This, however, requires that the togetherness of multi*-features has to be captured in another way.
-Eventually, a set of features that belong together do so, because they share attributes, such as a group of islands that form a nation.
-To capture attributes of sets or groups of features, a `geom` has an additional attribute tables, one that captures those group attributes.
+Eventually, a set of features belong together because they share attributes, such as a group of islands that form a nation.
+To capture attributes of sets or groups of features, a `geom` has an additional attribute table, one that captures those group attributes.
 Moreover, also the list of points is treated as a seperate attribute table, for attributes that only the points, but not the features (groups of points) have.
 
 All three attribute tables can be accessed with the function `getTable()`.
@@ -206,8 +207,8 @@ getTable(x = new_geom, slot = "feature")
 getTable(x = new_geom, slot = "group")
 ```
 
-It becomes clear, as mentioned above, that the this approach to attribute tables makes `geom`s quite flexible.
-One could for example assign some measurements of a point pattern (such as [Arne Pommerening's](http://www.pommerening.org) Clocaenog 6 sample data) to the attribute table of a point `geom`.
+It becomes clear, as mentioned above, that this approach to attribute tables makes the class `geom` quite flexible.
+One could for example assign some measurements of a point pattern (such as [Arne Pommerening's](http://www.pommerening.org) Clocaenog 6 sample data) to the attribute table of a point `geom` of that pattern.
 
 ```{r}
 library(readr)
@@ -229,12 +230,7 @@ trees <- setTable(x = locations, table = trees) %>%
 visualise(`Clocaenog - tree heights` = trees, linecol = "height")
 ```
 
-
-- the vert slot is comparable to the "geom" column in an sf, however, the values are easily and explicitly accessible and can be modified also with other functions or routines than the highly specific st_* functions.
-
-
 ## Other slots
-
 
 - has a history slot that contains the provenance of a geom
 - has a scale, which is either absolute or relative, the latter case then contains points relative to the reference window
@@ -276,13 +272,12 @@ gtTheme
 - explain how colour palettes work.
 
 ```{r}
-treeTheme <- setTheme(geom = list(pointsize = c(0.05, 0.77), pointsymbol = 21))
+treeTheme <- setTheme(geom = list(pointsize = c(0.05, 0.77)))
 visualise(`Clocaenog - tree diameters` = trees, theme = treeTheme, 
           pointsize = "dbh")
 
-# needs another legend setup... working on it.
-# visualise(`Clocaenog - tree diameters` = trees, theme = treeTheme, 
-#           pointsize = "dbh", linecol = "height")
+visualise(`Clocaenog - tree diameters` = trees, theme = treeTheme,
+          pointsize = "dbh", linecol = "height")
 ```
 
 # Other tools in `geometr`
@@ -292,3 +287,4 @@ visualise(`Clocaenog - tree diameters` = trees, theme = treeTheme,
 
 
 - also mention gt_sketch somewhere.
+- check whether zooming works.

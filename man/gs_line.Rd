@@ -55,16 +55,18 @@ coords <- data.frame(x = c(40, 70, 70, 50),
 
 # the vertices are plottet relative to the window
 library(magrittr)
-visualise(geom = gs_line(anchor = coords))
 window <- data.frame(x = c(0, 80),
                      y = c(0, 80))
 gs_line(anchor = coords, window = window) \%>\%
-  visualise(geom = ., linecol = "green", new = FALSE)
+  visualise(linecol = "green")
+
+# not when a plot is already open though
+visualise(geom = gs_line(anchor = coords), new = FALSE)
 
 # when a geom is used in 'anchor', its properties (e.g. 'window') are passed on
 aGeom <- setWindow(x = aGeom, to = window)
 gs_line(anchor = aGeom) \%>\%
-  visualise(geom = ., linecol = "deeppink")
+  visualise(linecol = "deeppink")
 
 \dontrun{
 

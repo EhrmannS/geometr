@@ -51,11 +51,13 @@ coords <- data.frame(x = c(40, 70, 70, 50),
 
 # the vertices are plottet relative to the window
 library(magrittr)
-visualise(geom = gs_point(anchor = coords))
 window <- data.frame(x = c(0, 80),
                      y = c(0, 80))
 gs_point(anchor = coords, window = window) \%>\%
-  visualise(geom = ., linecol = "green", new = FALSE)
+  visualise(geom = ., linecol = "green")
+
+# not when a plot is already open though
+visualise(geom = gs_point(anchor = coords), new = FALSE)
 
 # when a geom is used in 'anchor', its properties (e.g. 'window') are passed on
 aGeom <- setWindow(x = aGeom, to = window)
