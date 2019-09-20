@@ -1,70 +1,30 @@
 #' Make the layout of a plot
 #'
-#' @param x the object from which to make the plot.
-#' @param window [\code{data.frame(1)}] two oposing corners of a rectangle to
-#'   which the plot is limited.
+#' @param x [\code{list(.)}]\cr the object, output from \code{makeObject}, from which to make the
+#'   plot.
 #' @param theme [\code{gtTheme(1)}]\cr the theme from which to take graphical
 #'   parameters.
-#' @param image [\code{logical(1)}]\cr whether or not the raster (brick)
-#'   contains an image.
-#' @param ... []
 #' @importFrom raster getValues
 #' @export
 
-makeLayout <- function(x = NULL, window = NULL, theme = gtTheme, image = FALSE, ...){
+makeLayout <- function(x = NULL, theme = gtTheme){
 
-  window <- .testWindow(x = window, ...)
+  attr <- x$params
+  window <- x$window
 
-  # capture display arguments
-  displayArgs <- exprs(...)
-
-  attr <- getTable(x = x)
-  params <- theme@geom
-
-  # select only displayArgs that are part of the valid parameters.
-  displayArgs <- displayArgs[names(displayArgs) %in% names(params)]
-  if("fillcol" %in% names(displayArgs)){
-    toEval <- as.character(displayArgs[which(names(displayArgs) == "fillcol")])
-  } else if("linecol" %in% names(displayArgs)){
-    toEval <- as.character(displayArgs[which(names(displayArgs) == "linecol")][[1]])
-  } else {
-    toEval <- NULL
+  if(min(window$x) == max(window$x)){
+    window$x[1] <- window$x[1] - 1
+    window$x[2] <- window$x[2] + 1
   }
-  if(!image){
-    if(!is.null(toEval)){
-      if(toEval %in% names(attr)){
-        toEval <- names(attr)[which(names(attr) %in% toEval)]
-      } else {
-        toEval <- "fid"
-      }
-      arg <- eval(parse(text = paste0(toEval)), envir = attr)
-    } else {
-      arg <- eval(parse(text = "fid"), envir = attr)
-    }
-  } else {
-    arg <- 0
-  }
-  arg <- as.character(arg)
-
-  if(!is.null(window)){
-    plotWin <- window
-  } else {
-    plotWin <- getWindow(x = x)
+  if(min(window$y) == max(window$y)){
+    window$y[1] <- window$y[1] - 1
+    window$y[2] <- window$y[2] + 1
   }
 
-  if(min(plotWin$x) == max(plotWin$x)){
-    plotWin$x[1] <- plotWin$x[1] - 1
-    plotWin$x[2] <- plotWin$x[2] + 1
-  }
-  if(min(plotWin$y) == max(plotWin$y)){
-    plotWin$y[1] <- plotWin$y[1] - 1
-    plotWin$y[2] <- plotWin$y[2] + 1
-  }
-
-  maxPlotX <- max(plotWin$x)
-  minPlotX <- min(plotWin$x)
-  maxPlotY <- max(plotWin$y)
-  minPlotY <- min(plotWin$y)
+  maxPlotX <- max(window$x)
+  minPlotX <- min(window$x)
+  maxPlotY <- max(window$y)
+  minPlotY <- min(window$y)
 
   xBins <- theme@xAxis$bins
   yBins <- theme@yAxis$bins
@@ -88,21 +48,22 @@ makeLayout <- function(x = NULL, window = NULL, theme = gtTheme, image = FALSE, 
   margin <- list(x = (maxPlotX-minPlotX)*theme@yAxis$margin,
                  y = (maxPlotY-minPlotY)*theme@xAxis$margin)
 
-  if(!is.null(window)){
-    tempExt <- getExtent(x = x)
-    minExtX <- min(tempExt$x)
-    maxExtX <- max(tempExt$x)
-    minExtY <- min(tempExt$y)
-    maxExtY <- max(tempExt$y)
+  # if(!is.null(window)){
+    # tempExt <- getExtent(x = x)
+  # tempExt <- x$window
+    # minExtX <- min(tempExt$x)
+    # maxExtX <- max(tempExt$x)
+    # minExtY <- min(tempExt$y)
+    # maxExtY <- max(tempExt$y)
 
-    xFactor <- abs(maxExtX - minExtX)/abs(maxPlotX - minPlotX)
-    yFactor <- abs(maxExtY - minExtY)/abs(maxPlotY - minPlotY)
-    xWindowOffset <- minPlotX / abs(maxExtX - minExtX)
-    yWindowOffset <- minPlotY / abs(maxExtY - minExtY)
-  } else{
+    # xFactor <- abs(maxExtX - minExtX)/abs(maxPlotX - minPlotX)
+    # yFactor <- abs(maxExtY - minExtY)/abs(maxPlotY - minPlotY)
+    # xWindowOffset <- minPlotX / abs(maxExtX - minExtX)
+    # yWindowOffset <- minPlotY / abs(maxExtY - minExtY)
+  # } else{
     xFactor <- yFactor <- 1
     xWindowOffset <- yWindowOffset <- 0
-  }
+  # }
 
   if(theme@title$plot){
     titleH <- unit(theme@title$fontsize+6, units = "points")
@@ -110,9 +71,23 @@ makeLayout <- function(x = NULL, window = NULL, theme = gtTheme, image = FALSE, 
     titleH <- unit(0, "points")
   }
   if(theme@legend$plot){
-    legendW <- ceiling(convertX(unit(1, "strwidth", arg[which.max(nchar(arg))]) + unit(30, "points"), "points"))
+    legendW <- NULL
+    legendX <- unit(10, "points")
+    for(i in seq_along(x$legend)){
+
+      theAttr <- names(x$legend[[i]])[1]
+      arg <- eval(parse(text = paste0(theAttr)), envir = attr)
+      arg <- as.character(arg)
+
+      temp <- ceiling(convertX(unit(1, "strwidth", arg[which.max(nchar(arg))]) + unit(30, "points"), "points"))
+      temp2 <- legendX[i] + temp
+      legendW <- c(legendW, temp)
+      legendX <- unit.c(legendX, temp2)
+    }
+    legendW <- unit(sum(legendW), "points")
   } else{
     legendW <- unit(0, "points")
+    legendX <- unit(0, "points")
   }
   if(theme@yAxis$plot){
     yAxisTitleW <- unit(theme@yAxis$label$fontsize+6, units = "points")
@@ -159,7 +134,8 @@ makeLayout <- function(x = NULL, window = NULL, theme = gtTheme, image = FALSE, 
               yAxisTicksW = yAxisTicksW, #
               xAxisTitleH = xAxisTitleH, #
               xWindowOffset = xWindowOffset, #
-              yWindowOffset = yWindowOffset #
+              yWindowOffset = yWindowOffset,
+              legendX = legendX
   )
 
   return(out)
