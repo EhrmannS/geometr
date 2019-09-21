@@ -4,22 +4,14 @@
 \alias{makeLayout}
 \title{Make the layout of a plot}
 \usage{
-makeLayout(x = NULL, window = NULL, theme = gtTheme, image = FALSE,
-  ...)
+makeLayout(x = NULL, theme = gtTheme)
 }
 \arguments{
-\item{x}{the object from which to make the plot.}
-
-\item{window}{[\code{data.frame(1)}] two oposing corners of a rectangle to
-which the plot is limited.}
+\item{x}{[\code{list(.)}]\cr the object, output from \code{makeObject}, from which to make the
+plot.}
 
 \item{theme}{[\code{gtTheme(1)}]\cr the theme from which to take graphical
 parameters.}
-
-\item{image}{[\code{logical(1)}]\cr whether or not the raster (brick)
-contains an image.}
-
-\item{...}{[]}
 }
 \description{
 Make the layout of a plot

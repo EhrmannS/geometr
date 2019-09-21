@@ -47,6 +47,13 @@ setMethod(f = "gc_grob",
             theFeatures <- getTable(x = input, slot = "feature")
             theGroups <- getTable(x = input, slot = "group")
 
+            if(featureType == "point"){
+              attr <- left_join(x = thePoints, y = theFeatures, by = "fid")
+              attr <- left_join(x = attr, y = theGroups, by = "gid")
+            } else {
+              attr <- left_join(x = theFeatures, y = theGroups, by = "gid")
+            }
+
             # scale input to relative, if it's not
             if(input@scale == "absolute"){
               outGeom <- gt_scale(geom = input, to = "relative")
@@ -55,12 +62,6 @@ setMethod(f = "gc_grob",
             }
 
             point <- getPoints(x = outGeom)
-            if(featureType == "point"){
-              attr <- left_join(x = thePoints, y = theFeatures, by = "fid")
-              attr <- left_join(x = attr, y = theGroups, by = "gid")
-            } else {
-              attr <- getTable(x = input)
-            }
             params <- theme@geom
 
             # select only displayArgs that are part of the valid parameters.
@@ -123,8 +124,10 @@ setMethod(f = "gc_grob",
                 # if the argument is a colour argument, construct a color ramp from two or more values
                 if(thisArgName %in% c("linecol", "fillcol")){
 
-                  if(length(toRamp) <= 1){
-                    warning(paste0("please provide a theme with at least two values for '", thisArgName, "' to make a color gradient between."))
+                  if(length(uniqueValsNum) > 1){
+                    if(length(toRamp) <= 1){
+                      warning(paste0("please provide a theme with at least two values for '", thisArgName, "' to make a color gradient between."))
+                    }
                   }
 
                   uniqueColours <- colorRampPalette(colors = toRamp)(length(uniqueValsNum))
@@ -134,8 +137,10 @@ setMethod(f = "gc_grob",
 
                 } else if(thisArgName %in% c("linewidth", "pointsize")){
 
-                  if(length(toRamp) <= 1){
-                    warning(paste0("please provide a theme with at least two values for '", thisArgName, "' to scale between."))
+                  if(length(uniqueValsNum) > 1){
+                    if(length(toRamp) <= 1){
+                      warning(paste0("please provide a theme with at least two values for '", thisArgName, "' to scale between."))
+                    }
                   }
 
                   uniquItems <- seq(from = min(toRamp, na.rm = TRUE), to = max(toRamp, na.rm = TRUE), length.out = length(uniqueValsNum))
@@ -143,20 +148,20 @@ setMethod(f = "gc_grob",
                   valCuts <- cut(valsNum, breaks = breaks, include.lowest = FALSE)
                   tempOut <- uniquItems[valCuts]
 
-                } else if(thisArgName %in% c("pointsymbol")){
+                } else if(thisArgName %in% c("pointsymbol", "linetype")){
 
                   # perhaps a warning/stop if there are more than 12 (or so...) values?
-                  if(length(toRamp) < length(uniqueValsNum)){
-                    toRamp <- rep(toRamp, length.out = length(uniqueValsNum))
-                    warning(paste0("please provide a theme with ", length(uniqueValsNum)," values for the unique values of '", thisArgName, "'."))
+                  if(length(uniqueValsNum) > 1){
+                    if(length(toRamp) < length(uniqueValsNum)){
+                      toRamp <- rep(toRamp, length.out = length(uniqueValsNum))
+                      warning(paste0("please provide a theme with ", length(uniqueValsNum)," values for the unique values of '", thisArgName, "'."))
+                    }
                   }
 
                   uniquItems <- toRamp
-                  breaks <- uniqueValsNum[order(uniqueValsNum)]
+                  breaks <- c(0, uniqueValsNum[order(uniqueValsNum)])
                   valCuts <- cut(valsNum, breaks = breaks, include.lowest = FALSE)
                   tempOut <- uniquItems[valCuts]
-
-                } else if(thisArgName %in% c("linetype")){
 
                 }
 
@@ -181,8 +186,7 @@ setMethod(f = "gc_grob",
 
             }
 
-            ids <- eval(parse(text = params$scale$to), envir = attr)
-            if(is.factor(ids)) ids <- as.character(ids)
+            ids <- eval(parse(text = "fid"), envir = attr)
 
             if(input@type %in% "point"){
 

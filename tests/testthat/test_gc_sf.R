@@ -71,7 +71,7 @@ test_that("transform geom to POINT sf", {
 test_that("transform geom to MULTIPOINT sf", {
   output <- gc_sf(input = gtGeoms$point)
   expect_class(x = output, classes = "sf")
-  expect_list(x = output$geom, types = "numeric", len = 12)
+  expect_list(x = output$geom, types = "numeric", len = 3)
   expect_names(x = names(output), identical.to = c("geom"))
 })
 

@@ -118,7 +118,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Make the layout of a plot</h1>
-    
+    <small class="dont-index">Source: <a href='https://github.com/EhrmannS/geometr/blob/master/R/helpers.R'><code>R/helpers.R</code></a></small>
     <div class="hidden name"><code>makeLayout.Rd</code></div>
     </div>
 
@@ -128,34 +128,20 @@
     
     </div>
 
-    <pre class="usage"><span class='fu'>makeLayout</span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>window</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>theme</span> <span class='kw'>=</span> <span class='no'>gtTheme</span>, <span class='kw'>image</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>makeLayout</span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>theme</span> <span class='kw'>=</span> <span class='no'>gtTheme</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>x</th>
-      <td><p>the object from which to make the plot.</p></td>
-    </tr>
-    <tr>
-      <th>window</th>
-      <td><p>[<code><a href='https://www.rdocumentation.org/packages/base/topics/data.frame'>data.frame(1)</a></code>] two oposing corners of a rectangle to
-which the plot is limited.</p></td>
+      <td><p>[<code><a href='https://www.rdocumentation.org/packages/base/topics/list'>list(.)</a></code>]<br /> the object, output from <code>makeObject</code>, from which to make the
+plot.</p></td>
     </tr>
     <tr>
       <th>theme</th>
       <td><p>[<code><a href='gtTheme.html'>gtTheme(1)</a></code>]<br /> the theme from which to take graphical
 parameters.</p></td>
-    </tr>
-    <tr>
-      <th>image</th>
-      <td><p>[<code><a href='https://www.rdocumentation.org/packages/base/topics/logical'>logical(1)</a></code>]<br /> whether or not the raster (brick)
-contains an image.</p></td>
-    </tr>
-    <tr>
-      <th>...</th>
-      <td><p>[]</p></td>
     </tr>
     </table>
     

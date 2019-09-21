@@ -118,7 +118,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Set the reference window of a spatial object.</h1>
-    
+    <small class="dont-index">Source: <a href='https://github.com/EhrmannS/geometr/blob/master/R/setWindow.R'><code>R/setWindow.R</code></a></small>
     <div class="hidden name"><code>setWindow.Rd</code></div>
     </div>
 
@@ -175,7 +175,7 @@ be set.</p></td>
 <span class='no'>coords</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/data.frame'>data.frame</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>40</span>, <span class='fl'>70</span>, <span class='fl'>70</span>, <span class='fl'>50</span>),
                      <span class='kw'>y</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>40</span>, <span class='fl'>40</span>, <span class='fl'>60</span>, <span class='fl'>70</span>))
 (<span class='no'>aGeom</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='gs_polygon.html'>gs_polygon</a></span>(<span class='kw'>anchor</span> <span class='kw'>=</span> <span class='no'>coords</span>))</div><div class='output co'>#&gt; <span style='color: #BBBB00;'>geom</span><span>        polygon
-#&gt;             1 feature | 5 vertices
+#&gt;             1 feature | 5 points
 #&gt; </span><span style='color: #BBBB00;'>crs         </span><span>cartesian
 #&gt; </span><span style='color: #BBBB00;'>attributes</span><span>  --
 #&gt; </span><span style='color: #BBBB00;'>tiny map  </span><span>     70 
@@ -187,7 +187,7 @@ be set.</p></td>
 <span class='no'>window</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/data.frame'>data.frame</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>0</span>, <span class='fl'>80</span>),
                      <span class='kw'>y</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>0</span>, <span class='fl'>80</span>))
 (<span class='no'>aGeom</span> <span class='kw'>&lt;-</span> <span class='fu'>setWindow</span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>aGeom</span>, <span class='kw'>to</span> <span class='kw'>=</span> <span class='no'>window</span>))</div><div class='output co'>#&gt; </span><span style='color: #BBBB00;'>geom</span><span>        polygon
-#&gt;             1 feature | 5 vertices
+#&gt;             1 feature | 5 points
 #&gt; </span><span style='color: #BBBB00;'>crs         </span><span>cartesian
 #&gt; </span><span style='color: #BBBB00;'>attributes</span><span>  --
 #&gt; </span><span style='color: #BBBB00;'>tiny map  </span><span>    80 

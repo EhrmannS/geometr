@@ -207,8 +207,8 @@ getTable(x = new_geom, slot = "feature")
 getTable(x = new_geom, slot = "group")
 ```
 
-It becomes clear, as mentioned above, that the this approach to attribute tables makes `geom`s quite flexible.
-One could for example assign some measurements of a point pattern (such as [Arne Pommerening's](http://www.pommerening.org) Clocaenog 6 sample data) to the attribute table of a point `geom`.
+It becomes clear, as mentioned above, that this approach to attribute tables makes the class `geom` quite flexible.
+One could for example assign some measurements of a point pattern (such as [Arne Pommerening's](http://www.pommerening.org) Clocaenog 6 sample data) to the attribute table of a point `geom` of that pattern.
 
 ```{r}
 library(readr)
@@ -230,12 +230,7 @@ trees <- setTable(x = locations, table = trees) %>%
 visualise(`Clocaenog - tree heights` = trees, linecol = "height")
 ```
 
-
-- the vert slot is comparable to the "geom" column in an sf, however, the values are easily and explicitly accessible and can be modified also with other functions or routines than the highly specific st_* functions.
-
-
 ## Other slots
-
 
 - has a history slot that contains the provenance of a geom
 - has a scale, which is either absolute or relative, the latter case then contains points relative to the reference window
@@ -277,13 +272,12 @@ gtTheme
 - explain how colour palettes work.
 
 ```{r}
-treeTheme <- setTheme(geom = list(pointsize = c(0.05, 0.77), pointsymbol = 21))
+treeTheme <- setTheme(geom = list(pointsize = c(0.05, 0.77)))
 visualise(`Clocaenog - tree diameters` = trees, theme = treeTheme, 
           pointsize = "dbh")
 
-# needs another legend setup... working on it.
-# visualise(`Clocaenog - tree diameters` = trees, theme = treeTheme, 
-#           pointsize = "dbh", linecol = "height")
+visualise(`Clocaenog - tree diameters` = trees, theme = treeTheme,
+          pointsize = "dbh", linecol = "height")
 ```
 
 # Other tools in `geometr`
@@ -293,3 +287,4 @@ visualise(`Clocaenog - tree diameters` = trees, theme = treeTheme,
 
 
 - also mention gt_sketch somewhere.
+- check whether zooming works.
