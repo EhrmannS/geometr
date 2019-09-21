@@ -171,8 +171,8 @@ visualise <- function(..., window = NULL, theme = gtTheme, trace = FALSE, image 
     if(!newPlot){
       # set objects[[i]]@window to the previous panel extent
       prev <- grid.get(gPath("extentGrob"), global = TRUE)
-      window <- .testWindow(x = tibble(x = c(as.numeric(prev$x), as.numeric(prev$width)),
-                                       y = c(as.numeric(prev$y), as.numeric(prev$height))), ...)
+      window <- .testWindow(x = tibble(x = c(as.numeric(prev$x), as.numeric(prev$x) + as.numeric(prev$width)),
+                                       y = c(as.numeric(prev$y), as.numeric(prev$y) + as.numeric(prev$height))))
     }
 
     # make colours from theme for the object ----
