@@ -215,30 +215,50 @@ library(readr)
 library(magrittr)
 clocaenog <- read_delim(file = "http://www.pommerening.org/wiki/images/d/dc/Clg6.txt", 
                         delim = "\t", col_types = "iifdddd")
+
+# make geom of locations ...
 locations <- tibble(x = clocaenog$x,
                     y = clocaenog$y,
                     fid = clocaenog$Number)
 locations <- gs_point(anchor = locations)
 
+# ... and a table of tree properties
 trees <- tibble(fid = clocaenog$Number,
                 species = clocaenog$Species,
                 dbh = clocaenog$dbh,
                 height = clocaenog$ht)
+
+# set these as attribute table and select only trees with a height value
 trees <- setTable(x = locations, table = trees) %>% 
   getSubset(!is.na(height))
 
-visualise(`Clocaenog - tree heights` = trees, linecol = "height")
+# make the title
+treepoints <- getTable(x = trees, slot = "point")
+title <- paste0("Clocaenog - tree heights (", dim(treepoints)[1], ")")
+
+# and visualise
+visualise(!!title := trees, linecol = height)
 ```
 
-## Other slots
+## Data provenance
 
-- has a history slot that contains the provenance of a geom
-- has a scale, which is either absolute or relative, the latter case then contains points relative to the reference window
-- has a reference window instead of an extent (like in spatstat)
+An object of class `geom` contains, just like a `raster` the slot `@history`.
+This slot documents the <a href="https://en.wikipedia.org/wiki/Data_lineage" target="_blank">provenance</a> of that object, i.e., where it came from and how it has been modified.
+This slot is filled with information by the function `gc_geom()`, by all `gs_*()` functions and by all `gt_*` functions.
+In case you want to make use of this slot, it can be set via `setHistory()`.
 
+```{r}
+visualise(aPoly)
+
+aLine <- gs_line(anchor = aPoly) %>% 
+  gt_reflect(angle = 45)
+visualise(aLine, linecol = "deeppink", new = FALSE, trace = TRUE)
+```
 
 # Casting
 
+The previous example shows casting in `geometr`.
+  
 - cast by providing a geom in anchor of the respecive type
 - it does not change anything about the data (check if that claim is really true), but merely changes the type.
 - the type then determines how the object is plotted.
