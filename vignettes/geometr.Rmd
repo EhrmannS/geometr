@@ -29,7 +29,7 @@ The `geometr` package provides tools that generate and process easily accessible
 Moreover, `geometr` aims to improve interoperability of geometric classes. 
 One could argue that spatial classes are merely a special case of geometric classes, where the points' coordinates refer to real locations on the surface of the earth, specified in further detail by the coordinate reference system (crs).
 For ordinary geometric shapes (such as squares or circles), the coordinate (reference) system is the *cartesian coordinate system*.
-`geometr` makes the generalisation to treat all geometric and spatial classes in the same way, and thus I term all of them *geometric objects/classes* here.
+`geometr` makes the generalisation to treat all geometric and spatial classes in the same way, and thus both of them are termed *geometric objects/classes* here.
 
 Geometric classes contain typically a collection of points that outline the geometric shapes or features.
 A feature in `geometr` is defined as a set of points that form no more than one single unit of a given feature type (point, line and polygon) and, in contrast to the simple features <a href="http://www.opengeospatial.org/standards/sfa" target="_blank">standard</a>, there are no *multi-\** features.
@@ -37,16 +37,16 @@ Sets of geometric objects that belong together beyond their geometric connectede
 Features are characterised by a location, some coordinate (reference) system, and various other properties or metadata. 
 Most geometric classes are conceptually quite similar, yet a common, interoperable standard lacks for accessing and modifying features, their points or the metadata.
 
-This vignette outlines in detail first how `geometr` improves interoperability, then it describes the datastructure of a `geom` (the geometric class that comes with `geometr`), how different feature types are cast into one another, shows how to visualise geometric objects and eventually gives a short introduction of the tools that come with `geometr` initially.
+This vignette outlines in detail first how `geometr` improves interoperability, then it describes the datastructure of a `geom` (the geometric class that comes with `geometr`), how different feature types are cast into one another, shows how to visualise geometric objects and eventually gives a short introduction of the tools that come with this first version of `geometr`.
 
 
 # Interoperability
 
 Interoperable software can easily exchange information with other software, which is typically achieved by providing the output of functionally similar operations in a common arrangement or format [REF].
-This principle is not only true for software written in different language, but can also apply, for instance, to several packages within the R ecosystem.
-R is an open source environment which means that no single package or class will ever be the sole source of a particular datastructure and this is also the case for geometric data.
+This principle is not only true for software written in different languages, but can also apply to several packages within the R ecosystem.
+R is an open source environment which means that no single package or class will ever be the sole source of a particular datastructure and this is also the case for spatial and other geometric data.
 
-Interoperable data is data that has a common arrangement and that uses terms from the same vocabulary [REF].
+Interoperable data is data that has a common arrangement and that uses terms from the same <a href="http://www-ksl.stanford.edu/kst/what-is-an-ontology.html" target="_blank">ontology</a>.
 As an example, we can think of the extent of a geometric object.
 An extent reports the minimum and maximum value in all valid dimensions.
 There are, however, several ways in which even this simple information can be reported, for example as vector or as table and with or without names.
@@ -68,7 +68,7 @@ ras <- raster(system.file("external/test.grd", package="raster"))
 extent(ras)
 ```
 
-`st_bbox()` provides the information as a named vector, and presents first minimum and then maximum values of both dimensions, `bbox()` provides a table with minimum and maximum values in columns and `extent()` provides the information in an S4 object that presents first the x and then the y values.
+`st_bbox()` provides the information as a named vector and presents first minimum and then maximum values of both dimensions, `bbox()` provides a table with minimum and maximum values in columns and `extent()` provides the information in an S4 object that presents first the x and then the y values.
 Neither data structures, nor names or positions of the information are comparable.
 
 For a human user the structure of those information might not matter, because we recognise, in most cases intuitively, where which information is to be found in a datastructure.
@@ -104,7 +104,7 @@ This ensures, amongst other advantages, that a custom function that processes ge
 `geometr` comes with the S4 class `geom`. 
 `geom` is a geometric (spatial) class that has been primarily developed for its interoperability and easy access.
 
-This means also here that all objects of this class are structurally the same, that no slots are removed or added when modifying an object and that all slots are labelled with the same terms in each object of that class.
+This means also here that all objects of this class are structurally the same, that no slots are removed or added when modifying an object and that all properties are labelled with the same terms in each object of that class.
 This interoperability is true for objects representing point, line or polygon features, for objects that contain a single or several features and for objects that are either merely geometric or indeed spatial/geographic because they contain a corrdinate reference system.
 A `geom` contains, moreover, only direct information, i.e., such information that can't be derived from other of its information.
 A prominent example is the extent, which is not stored within a `geom` but within many other spatial classes (in R), and which can very simply be derived from the coordinate values of the points that make up the geometry.
@@ -139,8 +139,8 @@ As a matter of fact, any `geom` that has no crs assigned is assumed to be a mere
 
 You might wonder why it shows 5 points for `aPoly`, while only 4 have been defined.
 This is due to how polygons are stored in a `geom`.
-A polygon is by definition a two-dimensional plane, in contrast to a line that has only one dimension, its length and a point, which is dimensionless.
-However, a polygon and a line can be made up of the same points and as a matter of fact, a polygon is nothing more than a sequence of lines (a path) that outline the shape of the polygon.
+A polygon is by definition a two-dimensional plane, in contrast to a line that has only one dimension, its length, and a point, which is dimensionless.
+A polygon and a line can be made up of the same points and a polygon is indeed nothing more than a sequence of lines (a path) that outlines the shape of the polygon.
 To then distinguish a line and polygon with the same points, it can be defined that a polygon **must** have duplicate start and end points, which would constitute a *closed path*.
 
 ```{r}
@@ -153,8 +153,8 @@ getPoints(x = aLine)
 Polygons may also have holes (and islands therein), for example a park with a pond that has a little island in the middle.
 Such cases are of course also possible with a `geom` and the only thing to consider is that the outer (closed) ring must be given as first ring.
 All rings that are supposed to be nested within this ring must themselves be closed paths, but their order does not matter.
-When building a polygon with hole by hand, the rotation direction described by the sequence of the points does not matter for the class `geom`.
-The "inside" of a polygon, and thus whether part of the ring describes a hole or not, is determined by the code-logic of the functions processing those polygons.
+Moreover, when building a polygon with hole in `geometr`, the rotation direction described by the sequence of the points does not matter.
+Whether part of a polygon is "inside", and thus whether a closed path describes a hole or not, is determined by the code-logic of the functions processing polygons.
 
 ```{r}
 pond <- tibble(x = c(30, 30, 80, 80, 30),
@@ -173,15 +173,16 @@ visualise(perforatedPoly, fillcol = fid)
 ## Attributes of a `geom`
 
 You may also be wondering why `nc_geom` has 108 features, while `nc_sf` has actually 100 features.
-`nc_sf` contains of 100 "`MULTIPOLYGONS`" where in fact only a small set of them are composed of several polygons.
-This is due the definition of simple features, that one "simple" feature can be of a *multi\** type that comprises several closed paths in the same object and which would thus be called `MULTIPOLYGON`; yet, a multipolygon is not defined so that it than also *has to* contain several features but could as well contain only a single polygon.
+`nc_sf` consists of 100 "`MULTIPOLYGONS`" where in fact only a small set of them are composed of several polygons.
+This is due the definition of simple features, where one "simple" feature can be of a *multi\** type that comprises several closed paths in the same object and which would thus be called `MULTIPOLYGON`.
+Yet, an object can also contain only a single closed path and still have the feature type `MULTIPOLYGON`.
 In `geometr` these inconsistencies are avoided becuse they require a lot of extra code logic that is, in my opinion, not worth the supposed flexibility.
-Hence, a `geom` breaks down multi*-features into their distinct closed paths, into "simpler features", so to speak.
+Hence, a `geom` breaks down *multi\**-features into their distinct closed paths, into "simpler features", so to speak.
 
-This, however, requires that the togetherness of multi*-features has to be captured in another way.
-Eventually, a set of features that belong together do so, because they share attributes, such as a group of islands that form a nation.
-To capture attributes of sets or groups of features, a `geom` has an additional attribute tables, one that captures those group attributes.
-Moreover, also the list of points is treated as a seperate attribute table, for attributes that only the points, but not the features (groups of points) have.
+This, however, requires that the togetherness of *multi\**-features has to be captured in another way.
+A set of features can be regarded as belonging together when they share attributes, such as a group of islands that form a nation.
+To capture attributes of sets or groups of features, a `geom` has an additional attribute table, one that captures those group attributes.
+Moreover, also the list of points is treated as a seperate, third attribute table, for attributes that only the points, but not the features (groups of points) have.
 
 All three attribute tables can be accessed with the function `getTable()`.
 
