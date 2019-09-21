@@ -95,6 +95,8 @@ gs_polygon <- function(anchor = NULL, window = NULL, features = 1, vertices = NU
   }
   if(!is.null(anchor)){
     if(anchor$type == "geom"){
+      hist <- paste0("object was cast to 'polygon' geom.")
+
       if(anchor$obj@type == "point"){
         anchor$obj@point$fid <- rep(1, length(anchor$obj@point$fid))
         anchor$obj@feature <- tibble(fid = 1, gid = 1)
@@ -104,6 +106,8 @@ gs_polygon <- function(anchor = NULL, window = NULL, features = 1, vertices = NU
         features <- length(unique(anchor$obj@feature$fid))
       }
     } else if(anchor$type == "df"){
+      hist <- paste0("object was created as 'polygon' geom.")
+
       if("fid" %in% names(anchor$obj)){
         features <- length(unique(anchor$obj$fid))
       }
@@ -112,6 +116,7 @@ gs_polygon <- function(anchor = NULL, window = NULL, features = 1, vertices = NU
 
   # sketch the geometry
   if(!is.null(sketch)){
+    hist <- paste0("object was sketched as 'polygon' geom.")
 
     template <- .testTemplate(x = sketch, ...)
     theGeom <- gt_sketch(template = template$obj,
@@ -186,7 +191,7 @@ gs_polygon <- function(anchor = NULL, window = NULL, features = 1, vertices = NU
                    window = theWindow,
                    scale = "absolute",
                    crs = as.character(projection),
-                   history = list(paste0("geometry was created as 'polygon'.")))
+                   history = c(getHistory(x = anchor$obj), list(hist)))
   }
 
   invisible(theGeom)

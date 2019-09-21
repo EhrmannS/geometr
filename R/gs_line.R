@@ -75,6 +75,7 @@ gs_line <- function(anchor = NULL, window = NULL, features = 1, vertices = NULL,
   }
   if(!is.null(anchor)){
     if(anchor$type == "geom"){
+      hist <- paste0("object was cast to 'line' geom.")
       if(anchor$obj@type == "point"){
         anchor$obj@point$fid <- rep(1, length(anchor$obj@point$fid))
         anchor$obj@feature <- tibble(fid = 1, gid = 1)
@@ -84,6 +85,7 @@ gs_line <- function(anchor = NULL, window = NULL, features = 1, vertices = NULL,
         features <- length(unique(anchor$obj@feature$fid))
       }
     } else if(anchor$type == "df"){
+      hist <- paste0("object was created as 'line' geom.")
       if("fid" %in% names(anchor$obj)){
         features <- length(unique(anchor$obj$fid))
       }
@@ -92,6 +94,7 @@ gs_line <- function(anchor = NULL, window = NULL, features = 1, vertices = NULL,
 
   # sketch the geometry
   if(!is.null(sketch)){
+    hist <- paste0("object was sketched as 'line' geom.")
 
     template <- .testTemplate(x = sketch, ...)
     theGeom <- gt_sketch(template = template$obj,
@@ -148,7 +151,7 @@ gs_line <- function(anchor = NULL, window = NULL, features = 1, vertices = NULL,
                    window = theWindow,
                    scale = "absolute",
                    crs = as.character(projection),
-                   history = list(paste0("geometry was created as 'line'.")))
+                   history = c(getHistory(x = anchor$obj), list(hist)))
   }
 
   invisible(theGeom)

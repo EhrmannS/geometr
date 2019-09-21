@@ -69,6 +69,7 @@ gs_point <- function(anchor = NULL, window = NULL, vertices = 1,
 
   # sketch the geometry
   if(!is.null(sketch)){
+    hist <- paste0("object was sketched as 'point' geom.")
 
     template <- .testTemplate(x = sketch, ...)
     theGeom <- gt_sketch(template = template$obj,
@@ -79,6 +80,7 @@ gs_point <- function(anchor = NULL, window = NULL, vertices = 1,
   } else {
 
     if(anchor$type == "geom"){
+      hist <- paste0("object was cast to 'point' geom.")
 
       if(is.null(theWindow)){
         theWindow <- anchor$obj@window
@@ -89,6 +91,7 @@ gs_point <- function(anchor = NULL, window = NULL, vertices = 1,
       projection <- getCRS(x = anchor$obj)
 
     } else if(anchor$type == "df"){
+      hist <- paste0("object was created as 'point' geom.")
 
       if(is.null(theWindow)){
         theWindow = tibble(x = c(min(anchor$obj$x), max(anchor$obj$x), max(anchor$obj$x), min(anchor$obj$x), min(anchor$obj$x)),
@@ -113,7 +116,7 @@ gs_point <- function(anchor = NULL, window = NULL, vertices = 1,
                    window = theWindow,
                    scale = "absolute",
                    crs = as.character(projection),
-                   history = list(paste0("geometry was created as 'point'.")))
+                   history = c(getHistory(x = anchor$obj), list(hist)))
   }
 
   invisible(theGeom)
