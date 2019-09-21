@@ -19,6 +19,16 @@ if(!isGeneric("getExtent")){
   )
 }
 
+# any ----
+#' @rdname getExtent
+#' @export
+setMethod(f = "getExtent",
+          signature = "ANY",
+          definition = function(x){
+            NULL
+          }
+)
+
 # geom ----
 #' @rdname getExtent
 #' @examples

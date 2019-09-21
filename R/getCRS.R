@@ -19,6 +19,16 @@ if(!isGeneric("getCRS")){
   )
 }
 
+# any ----
+#' @rdname getCRS
+#' @export
+setMethod(f = "getCRS",
+          signature = "ANY",
+          definition = function(x){
+            NULL
+          }
+)
+
 # geom ----
 #' @rdname getCRS
 #' @export

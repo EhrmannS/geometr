@@ -19,6 +19,16 @@ if(!isGeneric("getTable")){
   )
 }
 
+# any ----
+#' @rdname getTable
+#' @export
+setMethod(f = "getTable",
+          signature = "ANY",
+          definition = function(x){
+            NULL
+          }
+)
+
 # geom ----
 #' @rdname getTable
 #' @param slot [\code{character(1)}]\cr the geom slot from which to get the

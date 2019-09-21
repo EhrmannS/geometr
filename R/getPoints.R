@@ -21,6 +21,16 @@ if(!isGeneric("getPoints")){
   )
 }
 
+# any ----
+#' @rdname getPoints
+#' @export
+setMethod(f = "getPoints",
+          signature = "ANY",
+          definition = function(x){
+            NULL
+          }
+)
+
 # geom ----
 #' @rdname getPoints
 #' @importFrom tibble as_tibble

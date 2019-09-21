@@ -20,6 +20,16 @@ if(!isGeneric("getType")){
   )
 }
 
+# any ----
+#' @rdname getType
+#' @export
+setMethod(f = "getType",
+          signature = "ANY",
+          definition = function(x){
+            NULL
+          }
+)
+
 # geom ----
 #' @rdname getType
 #' @examples

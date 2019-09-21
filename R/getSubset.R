@@ -25,6 +25,16 @@ if(!isGeneric("getSubset")){
   )
 }
 
+# any ----
+#' @rdname getSubset
+#' @export
+setMethod(f = "getSubset",
+          signature = "ANY",
+          definition = function(x){
+            NULL
+          }
+)
+
 # geom ----
 #' @rdname getSubset
 #' @examples

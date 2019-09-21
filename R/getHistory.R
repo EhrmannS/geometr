@@ -19,6 +19,16 @@ if(!isGeneric("getHistory")){
   )
 }
 
+# any ----
+#' @rdname getHistory
+#' @export
+setMethod(f = "getHistory",
+          signature = "ANY",
+          definition = function(x){
+            NULL
+          }
+)
+
 # geom ----
 #' @rdname getHistory
 #' @export

@@ -19,6 +19,16 @@ if(!isGeneric("getWindow")){
   )
 }
 
+# any ----
+#' @rdname getWindow
+#' @export
+setMethod(f = "getWindow",
+          signature = "ANY",
+          definition = function(x){
+            NULL
+          }
+)
+
 # geom ----
 #' @rdname getWindow
 #' @examples
