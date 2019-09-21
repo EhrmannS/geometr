@@ -52,3 +52,8 @@ test_that("getSubset of an sf object", {
   expect_class(output, "sf")
   expect_data_frame(output, any.missing = FALSE, nrows = 1, ncols = 2)
 })
+
+test_that("getSubset of any other object", {
+  output <- getSubset("bla")
+  expect_null(object = output)
+})

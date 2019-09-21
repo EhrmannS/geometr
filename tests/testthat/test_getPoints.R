@@ -53,3 +53,8 @@ test_that("Error if arguments have wrong value", {
   expect_error(getPoints(x = input))
 })
 
+test_that("getPoints of any other object", {
+  output <- getPoints("bla")
+  expect_null(object = output)
+})
+

@@ -64,3 +64,8 @@ test_that("getWindow of a ppp object", {
   expect_data_frame(output, any.missing = FALSE, nrows = 5, ncols = 2)
   expect_names(names(output), identical.to = c("x", "y"))
 })
+
+test_that("getWindow of any other object", {
+  output <- getWindow("bla")
+  expect_null(object = output)
+})

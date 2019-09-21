@@ -62,3 +62,8 @@ test_that("getTable returns a given attribute table", {
   expect_names(names(output), identical.to = c("fid", "cover"))
 })
 
+test_that("getTable of any other object", {
+  output <- getTable("bla")
+  expect_null(object = output)
+})
+

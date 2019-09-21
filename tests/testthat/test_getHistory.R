@@ -14,7 +14,7 @@ test_that("getHistory of a geom", {
   output <- getHistory(aGeom)
 
   expect_list(output, any.missing = FALSE, types = "character")
-  expect_true(output[[1]] == "geometry was created as 'polygon'.")
+  expect_true(output[[1]] == "object was created as 'polygon' geom.")
 })
 
 test_that("getHistory of a RasterLayer", {
@@ -40,4 +40,9 @@ test_that("getHistory of a RasteStack", {
 
   output <- getHistory(input)
   expect_list(output, len = 2, types = "character")
+})
+
+test_that("getHistory of any other object", {
+  output <- getHistory("bla")
+  expect_null(object = output)
 })

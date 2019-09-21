@@ -37,3 +37,8 @@ test_that("getType of a RasterLayer", {
   expect_character(x = output, len = 2)
   expect_true(all(output %in% c("raster", "RasterLayer")))
 })
+
+test_that("getType of any other object", {
+  output <- getType("bla")
+  expect_null(object = output)
+})

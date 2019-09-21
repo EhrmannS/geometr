@@ -53,3 +53,8 @@ test_that("getExtent of a matrix", {
   expect_names(names(output), identical.to = c("x", "y"))
 })
 
+test_that("getExtent of any other object", {
+  output <- getExtent("bla")
+  expect_null(object = output)
+})
+

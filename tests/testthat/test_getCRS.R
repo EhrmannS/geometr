@@ -40,3 +40,8 @@ test_that("getCRS of a Raster", {
   output <- getCRS(aRaster)
   expect_character(output, any.missing = FALSE, pattern = "+proj=longlat", len = 1)
 })
+
+test_that("getCRS of any other object", {
+  output <- getCRS("bla")
+  expect_null(object = output)
+})
