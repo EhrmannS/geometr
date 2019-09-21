@@ -3,6 +3,7 @@
 \docType{methods}
 \name{getExtent}
 \alias{getExtent}
+\alias{getExtent,ANY-method}
 \alias{getExtent,geom-method}
 \alias{getExtent,Spatial-method}
 \alias{getExtent,sf-method}
@@ -11,6 +12,8 @@
 \alias{getExtent,matrix-method}
 \title{Get the extent (bounding box) of a spatial object.}
 \usage{
+\S4method{getExtent}{ANY}(x)
+
 \S4method{getExtent}{geom}(x)
 
 \S4method{getExtent}{Spatial}(x)

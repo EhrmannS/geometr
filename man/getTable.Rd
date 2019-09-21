@@ -3,6 +3,7 @@
 \docType{methods}
 \name{getTable}
 \alias{getTable}
+\alias{getTable,ANY-method}
 \alias{getTable,geom-method}
 \alias{getTable,Spatial-method}
 \alias{getTable,sf-method}
@@ -12,6 +13,8 @@
 \alias{getTable,matrix-method}
 \title{Get the attribute table of a spatial object.}
 \usage{
+\S4method{getTable}{ANY}(x)
+
 \S4method{getTable}{geom}(x, slot = NULL)
 
 \S4method{getTable}{Spatial}(x)

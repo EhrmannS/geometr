@@ -3,6 +3,7 @@
 \docType{methods}
 \name{getCRS}
 \alias{getCRS}
+\alias{getCRS,ANY-method}
 \alias{getCRS,geom-method}
 \alias{getCRS,Spatial-method}
 \alias{getCRS,sf-method}
@@ -10,6 +11,8 @@
 \alias{getCRS,Raster-method}
 \title{Get the coordinate reference system of a spatial object.}
 \usage{
+\S4method{getCRS}{ANY}(x)
+
 \S4method{getCRS}{geom}(x)
 
 \S4method{getCRS}{Spatial}(x)

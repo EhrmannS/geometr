@@ -3,12 +3,15 @@
 \docType{methods}
 \name{getHistory}
 \alias{getHistory}
+\alias{getHistory,ANY-method}
 \alias{getHistory,geom-method}
 \alias{getHistory,RasterLayer-method}
 \alias{getHistory,RasterBrick-method}
 \alias{getHistory,RasterStack-method}
 \title{Get the history of a spatial object.}
 \usage{
+\S4method{getHistory}{ANY}(x)
+
 \S4method{getHistory}{geom}(x)
 
 \S4method{getHistory}{RasterLayer}(x)

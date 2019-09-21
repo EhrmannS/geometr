@@ -3,12 +3,15 @@
 \docType{methods}
 \name{getPoints}
 \alias{getPoints}
+\alias{getPoints,ANY-method}
 \alias{getPoints,geom-method}
 \alias{getPoints,Spatial-method}
 \alias{getPoints,sf-method}
 \alias{getPoints,ppp-method}
 \title{Get the table of coordinates of a spatial object.}
 \usage{
+\S4method{getPoints}{ANY}(x)
+
 \S4method{getPoints}{geom}(x)
 
 \S4method{getPoints}{Spatial}(x)

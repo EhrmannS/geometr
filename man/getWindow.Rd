@@ -3,6 +3,7 @@
 \docType{methods}
 \name{getWindow}
 \alias{getWindow}
+\alias{getWindow,ANY-method}
 \alias{getWindow,geom-method}
 \alias{getWindow,Spatial-method}
 \alias{getWindow,sf-method}
@@ -11,6 +12,8 @@
 \alias{getWindow,matrix-method}
 \title{Get the reference window of a spatial object.}
 \usage{
+\S4method{getWindow}{ANY}(x)
+
 \S4method{getWindow}{geom}(x)
 
 \S4method{getWindow}{Spatial}(x)

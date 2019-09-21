@@ -3,12 +3,15 @@
 \docType{methods}
 \name{getSubset}
 \alias{getSubset}
+\alias{getSubset,ANY-method}
 \alias{getSubset,geom-method}
 \alias{getSubset,Spatial-method}
 \alias{getSubset,sf-method}
 \alias{getSubset,ppp-method}
 \title{Get the subset of a spatial object.}
 \usage{
+\S4method{getSubset}{ANY}(x)
+
 \S4method{getSubset}{geom}(x, ..., slot = "feature")
 
 \S4method{getSubset}{Spatial}(x, ...)
