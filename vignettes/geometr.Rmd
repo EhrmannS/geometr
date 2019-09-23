@@ -122,7 +122,7 @@ A `geom` can be created simply by transforming it from another class (that is, a
 library(tibble)
 coords <- tibble(x = c(40, 70, 70, 50),
                  y = c(40, 40, 60, 70))
-(aPoly <- gs_polygon(anchor = coords))
+(somePoints <- gs_point(anchor = coords))
 ```
 
 From these examples we learn something more about objects of class `geom`.
@@ -144,10 +144,10 @@ A polygon and a line can be made up of the same points and a polygon is indeed n
 To then distinguish a line and polygon with the same points, it can be defined that a polygon **must** have duplicate start and end points, which would constitute a *closed path*.
 
 ```{r}
-aLine <- gs_line(anchor = coords)
+aPoly <- gs_polygon(anchor = coords)
 
+getPoints(x = somePoints)
 getPoints(x = aPoly)
-getPoints(x = aLine)
 ```
 
 Polygons may also have holes (and islands therein), for example a park with a pond that has a little island in the middle.
@@ -244,25 +244,39 @@ visualise(!!title := trees, linecol = height)
 
 An object of class `geom` contains, just like a `raster` the slot `@history`.
 This slot documents the <a href="https://en.wikipedia.org/wiki/Data_lineage" target="_blank">provenance</a> of that object, i.e., where it came from and how it has been modified.
-This slot is filled with information by the function `gc_geom()`, by all `gs_*()` functions and by all `gt_*` functions.
+The function `gc_geom()`, all `gs_*()` and all `gt_()*` functions attach information to the list the `@history` slot is.
 In case you want to make use of this slot, it can be set via `setHistory()`.
 
 ```{r}
 visualise(aPoly)
 
-aLine <- gs_line(anchor = aPoly) %>% 
+reflPoly <- gs_polygon(anchor = somePoints) %>% 
   gt_reflect(angle = 45)
-visualise(aLine, linecol = "deeppink", new = FALSE, trace = TRUE)
+
+visualise(reflPoly, linecol = "deeppink", new = FALSE, trace = TRUE)
 ```
 
 # Casting
 
-The previous example shows casting in `geometr`.
-  
-- cast by providing a geom in anchor of the respecive type
-- it does not change anything about the data (check if that claim is really true), but merely changes the type.
-- the type then determines how the object is plotted.
-- when casting to polygon, the polygon checks are carried out.
+It is quite straightforward to cast from one feature type to another with `geometr`.
+As already mentioned above, all feature types (point, line and polygon) have the same arrangement and differ only in the slot `@type`. 
+This means that the only element that needs to be changed to cast a any `geom` to another `geom` is the feature type.
+All `gs_*()` functions contain the argument `anchor = `, this is where location information for creating the output are provided.
+If what is provided here is already a `geom`, most of the location information and other properties can be (and in fact are) simply copied into the new object.
+
+The following code chunk shows casting in `geometr`.
+When casting to polygons, vertex checks are carried out that make sure the output is a valid polygon. 
+This results, as also described above, in the first/last point becoming duplicated to form a closed path. 
+Consequently, those duplicates have to be handled, for example by removing duplicates.
+
+```{r}
+# make points and discard duplicates ...
+(somePoints <- gs_point(anchor = aPoly) %>% 
+  getSubset(!(duplicated(x) & duplicated(y)), slot = "point"))
+
+# ... and recreate (the same) polygon from that 
+(aPoly <- gs_polygon(anchor = somePoints))
+```
 
 # Visualising
 
