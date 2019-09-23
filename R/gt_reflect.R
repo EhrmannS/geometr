@@ -90,9 +90,9 @@ gt_reflect <- function(geom = NULL, angle = NULL, fid = NULL, update = TRUE){
 
   # make history
   if(length(ids) == 1){
-    hist <- paste0("geometry was reflected")
+    hist <- paste0("geom was reflected.")
   } else {
-    hist <- paste0("geometries were reflected")
+    hist <- paste0("geoms were reflected.")
   }
 
   # make new geom

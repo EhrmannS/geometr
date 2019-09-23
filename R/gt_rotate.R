@@ -122,9 +122,9 @@ gt_rotate <- function(geom = NULL, angle = NULL, about = c(0, 0), fid = NULL,
 
   # make history
   if(length(ids) == 1){
-    hist <- paste0("geometry was rotated")
+    hist <- paste0("geom was rotated.")
   } else {
-    hist <- paste0("geometries were rotated")
+    hist <- paste0("geoms were rotated.")
   }
 
   # make new geom

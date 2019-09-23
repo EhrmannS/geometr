@@ -107,9 +107,9 @@ gt_stretch <- function(geom, x = NULL, y = NULL, fid = NULL, update = TRUE){
 
   # make history
   if(length(ids) == 1){
-    hist <- paste0("geometry was stretched")
+    hist <- paste0("geom was stretched.")
   } else {
-    hist <- paste0("geometries were stretched")
+    hist <- paste0("geoms were stretched.")
   }
 
   # make new geom

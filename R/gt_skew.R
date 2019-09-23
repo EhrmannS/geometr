@@ -107,9 +107,9 @@ gt_skew <- function(geom, x = NULL, y = NULL, fid = NULL, update = TRUE){
 
   # make history
   if(length(ids) == 1){
-    hist <- paste0("geometry was skewed")
+    hist <- paste0("geom was skewed.")
   } else {
-    hist <- paste0("geometries were skewed")
+    hist <- paste0("geoms were skewed.")
   }
 
   # make new geom

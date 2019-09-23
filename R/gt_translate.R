@@ -103,9 +103,9 @@ gt_translate <- function(geom = NULL, x = NULL, y = NULL, fid = NULL,
 
   # make history
   if(length(ids) == 1){
-    hist <- paste0("geometry was translated")
+    hist <- paste0("geom was translated.")
   } else {
-    hist <- paste0("geometries were translated")
+    hist <- paste0("geoms were translated.")
   }
 
   # make new geom
