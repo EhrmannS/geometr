@@ -9,25 +9,24 @@
 \title{Create a polygon \code{geom}}
 \usage{
 gs_polygon(anchor = NULL, window = NULL, features = 1,
-  vertices = NULL, sketch = NULL, regular = FALSE, fixed = TRUE,
-  ...)
+  vertices = NULL, sketch = NULL, regular = FALSE, ...)
 
 gs_triangle(anchor = NULL, window = NULL, sketch = NULL,
-  features = 1, fixed = FALSE, ...)
+  features = 1, ...)
 
 gs_square(anchor = NULL, window = NULL, sketch = NULL,
-  features = 1, fixed = FALSE, ...)
+  features = 1, ...)
 
 gs_rectangle(anchor = NULL, window = NULL, sketch = NULL,
   features = 1, ...)
 
 gs_hexagon(anchor = NULL, window = NULL, sketch = NULL,
-  features = 1, fixed = FALSE, ...)
+  features = 1, ...)
 }
 \arguments{
 \item{anchor}{[\code{geom(1)}|\code{data.frame(1)}]\cr Object to derive the
 \code{geom} from. It must include column names \code{x}, \code{y} and
-optinally a custom \code{fid}. To set further attributes, use
+optionally a custom \code{fid}. To set further attributes, use
 \code{\link{setTable}}.}
 
 \item{window}{[\code{data.frame(1)}]\cr in case the reference window deviates
@@ -47,10 +46,6 @@ serves as template to sketch polygons.}
 point symmetric (\code{TRUE}) or should the vertices be selected as
 provided by \code{anchor} (\code{FALSE}, default)?}
 
-\item{fixed}{[\code{logical(1)}]\cr should the polygon be aligned vertically
-(\code{TRUE}, default), or should it be aligned according to the second
-vertex (\code{FALSE})? See Details.}
-
 \item{...}{[various]\cr additional arguments; see Details.}
 }
 \value{
@@ -61,23 +56,22 @@ Create any (regular) polygon geometry (of class \code{\link{geom}}) either by
 specifying anchor values or by sketching it.
 }
 \details{
-The arguments \code{anchor} and \code{sketch} indicate how the
-  geometry is created: \itemize{ \item if \code{anchor} is set, the geometry
-  is created parametrically, the input provided is used to parameterise the
-  geometry \item, if \code{sketch} is set, the geometry is created
-  interactively, by clicking into the plot.}
+The arguments \code{anchor} and \code{sketch} indicate how the line
+  is created: \itemize{ \item if \code{anchor} is set, the line is created
+  parametrically from the given objects' points, \item if an object is set in
+  \code{sketch}, this is used to create the \code{geom} interactively, by
+  clicking into the plot.}
 
-  The argument \code{regular} and \code{fixed} determine how the vertices
-  provided in \code{anchor} or via \code{sketch} are transformed into a
-  polygon: \itemize{ \item if \code{regular = FALSE} the resulting polygon is
-  created from all vertices in \code{anchor}, \item if \code{regular = TRUE},
-  only the first two vertices are considered, as center and indicating the
-  distance to the (outer) radius. \itemize{ \item if also \code{fixed =
-  TRUE}, the regular polygon is aligned vertically.}}
+  The argument \code{regular} determines how the vertices provided in
+  \code{anchor} or via \code{sketch} are transformed into a polygon:
+  \itemize{ \item if \code{regular = FALSE} the resulting polygon is created
+  from all vertices in \code{anchor}, \item if \code{regular = TRUE}, only
+  the first two vertices are considered, as center and indicating the
+  distance to the (outer) radius.}
 
   Possible additional arguments are: \itemize{ \item verbose = TRUE/FALSE
   \item graphical parameters to \code{\link{gt_locate}}, in case points are
-  sketched; see \code{\link{gpar}}}
+  sketched; see \code{\link[grid]{gpar}}}
 }
 \section{Functions}{
 \itemize{
@@ -100,19 +94,21 @@ the two given opposing corners.
 coords <- data.frame(x = c(40, 70, 70, 50),
                      y = c(40, 40, 60, 70))
 
-# if no window is set, the bounding box (i.e. min/max values) will be set as window
+# if no window is set, the bounding box will be set as window
 (aGeom <- gs_polygon(anchor = coords))
 
 # the vertices are plottet relative to the window
 library(magrittr)
-visualise(geom = gs_polygon(anchor = coords,
-                            vertices = 6, regular = TRUE))
 window <- data.frame(x = c(0, 80),
                      y = c(0, 80))
-gs_triangle(anchor = coords, window = window) \%>\%
-  visualise(geom = ., linecol = "green", new = FALSE)
+gs_polygon(anchor = coords, vertices = 6, window = window,
+           regular = TRUE) \%>\%
+  visualise(linecol = "green")
 
-# when a geom is used in 'anchor', its properties (e.g. 'window') are passed on
+# if a plot is already open, vertices are set relative to its' window
+visualise(geom = gs_triangle(anchor = coords), new = FALSE)
+
+# when a geom is used in 'anchor', its properties are passed on
 aGeom <- setWindow(x = aGeom, to = window)
 gs_polygon(anchor = aGeom) \%>\%
   visualise(geom = ., fillcol = "deeppink")
@@ -122,7 +118,7 @@ gs_rectangle(anchor = aGeom) \%>\%
 \dontrun{
 
 # sketch a hexagon by clicking into a template
-gs_hexagon(sketch = gtRasters$continuous, fixed = TRUE) \%>\%
+gs_hexagon(sketch = gtRasters$continuous) \%>\%
   visualise(geom = ., linecol = "deeppink", linetype = 2, new = FALSE)
 }
 }

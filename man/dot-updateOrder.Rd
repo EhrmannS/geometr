@@ -7,7 +7,7 @@
 .updateOrder(input = NULL)
 }
 \arguments{
-\item{input}{[\code{data.frame(1)}]\cr a table othat contains at least the
+\item{input}{[\code{data.frame(1)}]\cr a table that contains at least the
 columns \code{fid} and \code{gid}.}
 }
 \value{

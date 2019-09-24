@@ -4,15 +4,9 @@
 \name{gc_grob}
 \alias{gc_grob}
 \alias{gc_grob,geom-method}
-\alias{gc_grob,sf-method}
-\alias{gc_grob,Spatial-method}
 \title{Transform a spatial object to a grob}
 \usage{
 \S4method{gc_grob}{geom}(input = NULL, theme = gtTheme, ...)
-
-\S4method{gc_grob}{sf}(input = NULL, theme = gtTheme, ...)
-
-\S4method{gc_grob}{Spatial}(input = NULL, theme = gtTheme, ...)
 }
 \arguments{
 \item{input}{the object to transform to class \code{grob}.}
@@ -29,11 +23,6 @@ Depending on the provided geometry either a \code{\link{pointsGrob}},
 }
 \description{
 Transform a spatial object to a grob
-}
-\details{
-Methods for \code{Spatial} and \code{sf} objects are not yet
-  supported. They will come together with transformations for various other
-  spatial classes with a future update.
 }
 \seealso{
 Other spatial classes: \code{\link{gc_geom}},

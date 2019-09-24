@@ -11,5 +11,5 @@
 brought into the correct form.}
 }
 \description{
-Set the verties in a table so that they are valid for a geom.
+Set the vertices in a table so that they are valid for a geom.
 }

@@ -7,7 +7,8 @@
 .updateWindow(input = NULL, window = NULL)
 }
 \arguments{
-\item{input}{[\code{data.frame(1)}]\cr a table of vertices for which a new window should be derived.}
+\item{input}{[\code{data.frame(1)}]\cr a table of vertices for which a new
+window should be derived.}
 
 \item{window}{[\code{data.frame(1)}]\cr the old window.}
 }
