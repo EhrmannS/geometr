@@ -17,6 +17,7 @@ knitr::opts_chunk$set(
 [![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/geometr)](https://cran.r-project.org/package=geometr)
 [![Travis-CI Build
 Status](https://travis-ci.org/EhrmannS/geometr.svg?branch=master)](https://travis-ci.org/EhrmannS/geometr)
+[![AppVeyor build status](https://ci.appveyor.com/api/projects/status/github/EhrmannS/geometr?branch=master&svg=true)](https://ci.appveyor.com/project/EhrmannS/geometr)
 [![Coverage
 Status](https://img.shields.io/codecov/c/github/EhrmannS/geometr/master.svg)](https://codecov.io/github/EhrmannS/geometr?branch=master)
 [![](http://cranlogs.r-pkg.org/badges/grand-total/geometr)](https://cran.rstudio.com/web/packages/geometr/index.html)
