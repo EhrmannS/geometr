@@ -76,18 +76,6 @@ extent of an anchor value." />
 <li>
   <a href="../reference/index.html">Reference</a>
 </li>
-<li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    Articles
-     
-    <span class="caret"></span>
-  </a>
-  <ul class="dropdown-menu" role="menu">
-    <li>
-      <a href="../articles/usecases.html">Example Usecases</a>
-    </li>
-  </ul>
-</li>
 <li>
   <a href="../news/index.html">Changelog</a>
 </li>
@@ -140,7 +128,7 @@ extent of an anchor value.</p>
       <th>anchor</th>
       <td><p>[<code><a href='geom-class.html'>geom(1)</a></code>|<code><a href='https://www.rdocumentation.org/packages/base/topics/data.frame'>data.frame(1)</a></code>]<br /> Object to derive the
 tiling <code>geom</code> from. It must include column names <code>x</code>, <code>y</code>
-and optinally a custom <code>fid</code>. To set further attributes, use
+and optionally a custom <code>fid</code>. To set further attributes, use
 <code><a href='setTable.html'>setTable</a></code>.</p></td>
     </tr>
     <tr>
@@ -203,7 +191,7 @@ default)?</p></td>
                      <span class='kw'>y</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>0</span>, <span class='fl'>80</span>))
 <span class='no'>aGeom</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='gs_polygon.html'>gs_polygon</a></span>(<span class='kw'>anchor</span> <span class='kw'>=</span> <span class='no'>coords</span>, <span class='kw'>window</span> <span class='kw'>=</span> <span class='no'>window</span>)
 <span class='fu'><a href='visualise.html'>visualise</a></span>(<span class='kw'>`honeycomb background`</span> <span class='kw'>=</span> <span class='no'>aGeom</span>)</div><div class='input'><span class='fu'>gs_tiles</span>(<span class='kw'>anchor</span> <span class='kw'>=</span> <span class='no'>aGeom</span>, <span class='kw'>width</span> <span class='kw'>=</span> <span class='fl'>8</span>, <span class='kw'>pattern</span> <span class='kw'>=</span> <span class='st'>"hexagonal"</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='visualise.html'>visualise</a></span>(<span class='no'>.</span>, <span class='kw'>linecol</span> <span class='kw'>=</span> <span class='st'>"deeppink"</span>, <span class='kw'>new</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: please provide a theme with at least two values for 'linecol' to make a color gradient between.</span></div><div class='img'><img src='gs_tiles-2.png' alt='' width='700' height='433' /></div></pre>
+  <span class='fu'><a href='visualise.html'>visualise</a></span>(<span class='no'>.</span>, <span class='kw'>linecol</span> <span class='kw'>=</span> <span class='st'>"deeppink"</span>, <span class='kw'>new</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</div><div class='img'><img src='gs_tiles-2.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
