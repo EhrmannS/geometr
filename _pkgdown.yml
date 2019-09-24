@@ -69,10 +69,6 @@ navbar:
       href: articles/geometr.html
     - text: "Reference"
       href: reference/index.html
-    - text: "Articles"
-      menu:
-      - text: Example Usecases
-        href: articles/usecases.html
     - text: "Changelog"
       href: news/index.html
   right:
