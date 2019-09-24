@@ -244,18 +244,12 @@ the two given opposing corners.</p></li>
 <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>library</a></span>(<span class='no'>magrittr</span>)
 <span class='no'>window</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/data.frame'>data.frame</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>0</span>, <span class='fl'>80</span>),
                      <span class='kw'>y</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>0</span>, <span class='fl'>80</span>))
-<<<<<<< HEAD
-<span class='fu'>gs_triangle</span>(<span class='kw'>anchor</span> <span class='kw'>=</span> <span class='no'>coords</span>, <span class='kw'>window</span> <span class='kw'>=</span> <span class='no'>window</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='visualise.html'>visualise</a></span>(<span class='kw'>geom</span> <span class='kw'>=</span> <span class='no'>.</span>, <span class='kw'>linecol</span> <span class='kw'>=</span> <span class='st'>"green"</span>, <span class='kw'>new</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</div><div class='img'><img src='gs_polygon-1.png' alt='' width='700' height='433' /></div><div class='input'>
-<span class='co'># when a geom is used in 'anchor', its properties (e.g. 'window') are passed on</span>
-=======
 <span class='fu'>gs_polygon</span>(<span class='kw'>anchor</span> <span class='kw'>=</span> <span class='no'>coords</span>, <span class='kw'>vertices</span> <span class='kw'>=</span> <span class='fl'>6</span>, <span class='kw'>window</span> <span class='kw'>=</span> <span class='no'>window</span>,
            <span class='kw'>regular</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>) <span class='kw'>%&gt;%</span>
   <span class='fu'><a href='visualise.html'>visualise</a></span>(<span class='kw'>linecol</span> <span class='kw'>=</span> <span class='st'>"green"</span>)</div><div class='input'>
 <span class='co'># if a plot is already open, vertices are set relative to its' window</span>
 <span class='fu'><a href='visualise.html'>visualise</a></span>(<span class='kw'>geom</span> <span class='kw'>=</span> <span class='fu'>gs_triangle</span>(<span class='kw'>anchor</span> <span class='kw'>=</span> <span class='no'>coords</span>), <span class='kw'>new</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</div><div class='img'><img src='gs_polygon-1.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># when a geom is used in 'anchor', its properties are passed on</span>
->>>>>>> 0bdf5c7fc506e407eb9e857290d6d06913121847
 <span class='no'>aGeom</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='setWindow.html'>setWindow</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>aGeom</span>, <span class='kw'>to</span> <span class='kw'>=</span> <span class='no'>window</span>)
 <span class='fu'>gs_polygon</span>(<span class='kw'>anchor</span> <span class='kw'>=</span> <span class='no'>aGeom</span>) <span class='kw'>%&gt;%</span>
   <span class='fu'><a href='visualise.html'>visualise</a></span>(<span class='kw'>geom</span> <span class='kw'>=</span> <span class='no'>.</span>, <span class='kw'>fillcol</span> <span class='kw'>=</span> <span class='st'>"deeppink"</span>)</div><div class='input'><span class='fu'>gs_rectangle</span>(<span class='kw'>anchor</span> <span class='kw'>=</span> <span class='no'>aGeom</span>) <span class='kw'>%&gt;%</span>
