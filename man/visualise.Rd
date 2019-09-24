@@ -36,7 +36,7 @@ Returns invisibly an object of class \code{recordedplot}, see
 Visualise raster and geom objects
 }
 \details{
-In case you want to plot an image (simiar to
+In case you want to plot an image (similar to
   \code{\link[raster]{plotRGB}}), you either have to: \enumerate{ \item
   provide a \code{RasterStack} with the three layers \code{red}, \code{green}
   and \code{blue} or \item provide a matrix with hexadecimal colour values

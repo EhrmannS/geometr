@@ -7,7 +7,8 @@
 .getDecimals(x)
 }
 \arguments{
-\item{x}{[\code{numeric(1)}]\ the number for which to derive decimal places.}
+\item{x}{[\code{numeric(1)}]\cr the number for which to derive decimal
+places.}
 }
 \description{
 Get the number of decimal places

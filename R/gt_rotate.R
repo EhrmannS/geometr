@@ -27,8 +27,8 @@
 #' visualise(geom = rotatedGeom)
 #'
 #' # rotate a single geom
-#' rotatedTriangle <- gt_rotate(geom = aGeom, angle = -180, about = c(30, 40), fid = 2)
-#' visualise(geom = rotatedTriangle)
+#' rotTri <- gt_rotate(geom = aGeom, angle = -180, about = c(30, 40), fid = 2)
+#' visualise(geom = rotTri)
 #'
 #' # rotate different geoms about different centers by different angles
 #' rotateMore <- gt_rotate(geom = aGeom,

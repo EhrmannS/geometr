@@ -32,17 +32,19 @@
 
 <meta property="og:title" content="geometr: Generate and modify interoperable geometric shapes — geometr" />
 
-<meta property="og:description" content="The geometr package provides tools that generate and process fully
-accessible and tidy geometric shapes (of class geom). Moreover, it aims
-to improve interoperability of spatial and other geometric classes. Spatial
-classes are typically a collection of geometric shapes (or their vertices)
-that are accompanied by various metadata (such as attributes and a coordinate
-reference system). Most spatial classes are thus conceptually quite similar,
-yet a common standard lacks for accessing features, vertices or the metadata.
-Geometr fills this gap by providing tools that have a unified interface and
-that produce an identical output (socalled getters), irrespective of the
-treated class or that use an indentical input to write to various classes
-that require different input (socalled setters)." />
+<meta property="og:description" content="The geometr package provides tools that generate and process easily
+accessible and tidy geometric shapes (of class geom). Moreover, it
+aims to improve interoperability of spatial and other geometric classes.
+Spatial classes are typically a collection of geometric shapes (or their
+vertices) that are accompanied by various metadata (such as attributes and a
+coordinate reference system). Most spatial classes are thus conceptually
+quite similar, yet a common standard lacks for accessing features, vertices
+or the metadata. Geometr fills this gap by providing tools
+that produce an identical output for the same metadata of different
+        classes (via so-called getters) and
+that use an identical input to write to various classes that
+        originally require different input (via so-called setters).
+" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -85,18 +87,6 @@ that require different input (socalled setters)." />
 <li>
   <a href="../reference/index.html">Reference</a>
 </li>
-<li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    Articles
-     
-    <span class="caret"></span>
-  </a>
-  <ul class="dropdown-menu" role="menu">
-    <li>
-      <a href="../articles/usecases.html">Example Usecases</a>
-    </li>
-  </ul>
-</li>
 <li>
   <a href="../news/index.html">Changelog</a>
 </li>
@@ -134,17 +124,19 @@ that require different input (socalled setters)." />
 
     <div class="ref-description">
     
-    <p>The geometr package provides tools that generate and process fully
-accessible and tidy geometric shapes (of class <code>geom</code>). Moreover, it aims
-to improve interoperability of spatial and other geometric classes. Spatial
-classes are typically a collection of geometric shapes (or their vertices)
-that are accompanied by various metadata (such as attributes and a coordinate
-reference system). Most spatial classes are thus conceptually quite similar,
-yet a common standard lacks for accessing features, vertices or the metadata.
-Geometr fills this gap by providing tools that have a unified interface and
-that produce an identical output (socalled getters), irrespective of the
-treated class or that use an indentical input to write to various classes
-that require different input (socalled setters).</p>
+    <p>The geometr package provides tools that generate and process easily
+accessible and tidy geometric shapes (of class <code>geom</code>). Moreover, it
+aims to improve interoperability of spatial and other geometric classes.
+Spatial classes are typically a collection of geometric shapes (or their
+vertices) that are accompanied by various metadata (such as attributes and a
+coordinate reference system). Most spatial classes are thus conceptually
+quite similar, yet a common standard lacks for accessing features, vertices
+or the metadata. Geometr fills this gap by providing tools</p><ul>
+<li><p>that produce an identical output for the same metadata of different
+        classes (via so-called getters) and</p></li>
+<li><p>that use an identical input to write to various classes that
+        originally require different input (via so-called setters).</p></li>
+</ul>
     
     </div>
 
@@ -153,12 +145,13 @@ that require different input (socalled setters).</p>
 
     <div class='dont-index'><ul>
 <li><p>Github project:
-<a href='https://github.com/EhrmannS/geometr'>https://github.com/EhrmannS/geometr</a></p></li>
+  <a href='https://github.com/EhrmannS/geometr'>https://github.com/EhrmannS/geometr</a></p></li>
 <li><p>Report bugs:
-<a href='https://github.com/EhrmannS/geometr/issues'>https://github.com/EhrmannS/geometr/issues</a></p></li>
+  <a href='https://github.com/EhrmannS/geometr/issues'>https://github.com/EhrmannS/geometr/issues</a></p></li>
 </ul></div>
     
 
+<<<<<<< HEAD
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>library</a></span>(<span class='no'>sf</span>)</div><div class='output co'>#&gt; <span class='message'>Linking to GEOS 3.5.1, GDAL 2.2.2, PROJ 4.9.2</span></div><div class='input'>
 <span class='co'># A geom can be created from other classes ...</span>
@@ -248,15 +241,15 @@ that require different input (socalled setters).</p>
 <span class='no'>bndPoints</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='gs_point.html'>gs_point</a></span>(<span class='kw'>anchor</span> <span class='kw'>=</span> <span class='no'>nc_geom</span>)
 <span class='fu'><a href='visualise.html'>visualise</a></span>(<span class='kw'>`NC - boundary vertices`</span> <span class='kw'>=</span> <span class='no'>bndPoints</span>)</div><div class='img'><img src='geometr-3.png' alt='' width='700' height='433' /></div><div class='input'>
 </div></span></pre>
+=======
+>>>>>>> 0bdf5c7fc506e407eb9e857290d6d06913121847
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       
       <li><a href="#see-also">See also</a></li>
-      
-      <li><a href="#examples">Examples</a></li>
-    </ul>
+          </ul>
 
     <h2>Author</h2>
     <p><strong>Maintainer, Author</strong>: Steffen Ehrmann

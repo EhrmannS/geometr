@@ -1,7 +1,8 @@
 #' Get the extent (bounding box) of a spatial object.
 #'
 #' @param x the object from which to derive the extent.
-#' @return A table of the lower left and upper right corner of the extent of \code{x}.
+#' @return A table of the lower left and upper right corner of the extent of
+#'   \code{x}.
 #' @family getters
 #' @name getExtent
 #' @rdname getExtent

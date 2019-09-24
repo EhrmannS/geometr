@@ -7,8 +7,8 @@
 makeLayout(x = NULL, theme = gtTheme)
 }
 \arguments{
-\item{x}{[\code{list(.)}]\cr the object, output from \code{makeObject}, from which to make the
-plot.}
+\item{x}{[\code{list(.)}]\cr the object, output from \code{makeObject}, from
+which to make the plot.}
 
 \item{theme}{[\code{gtTheme(1)}]\cr the theme from which to take graphical
 parameters.}

@@ -13,7 +13,7 @@
 #' @param new [\code{logical(1)}]\cr force a new plot (\code{TRUE}, default).
 #' @param clip [\code{logical(1)}]\cr clip the plot by the plot box
 #'   (\code{TRUE}, default), or plot all of the objects.
-#' @details In case you want to plot an image (simiar to
+#' @details In case you want to plot an image (similar to
 #'   \code{\link[raster]{plotRGB}}), you either have to: \enumerate{ \item
 #'   provide a \code{RasterStack} with the three layers \code{red}, \code{green}
 #'   and \code{blue} or \item provide a matrix with hexadecimal colour values

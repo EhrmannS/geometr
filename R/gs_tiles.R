@@ -4,7 +4,7 @@
 #' extent of an anchor value.
 #' @param anchor [\code{geom(1)}|\code{data.frame(1)}]\cr Object to derive the
 #'   tiling \code{geom} from. It must include column names \code{x}, \code{y}
-#'   and optinally a custom \code{fid}. To set further attributes, use
+#'   and optionally a custom \code{fid}. To set further attributes, use
 #'   \code{\link{setTable}}.
 #' @param width [\code{numeric(1)}]\cr the width (which does not correspond to
 #'   the height in case of \code{pattern = "hexagonal"}) of a tile.

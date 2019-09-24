@@ -4,7 +4,7 @@
 #' anchor values or by sketching it.
 #' @param anchor [\code{geom(1)}|\code{data.frame(1)}]\cr Object to derive the
 #'   \code{geom} from. It must include column names \code{x}, \code{y} and
-#'   optinally a custom \code{fid}. To set further attributes, use
+#'   optionally a custom \code{fid}. To set further attributes, use
 #'   \code{\link{setTable}}.
 #' @param window [\code{data.frame(1)}]\cr in case the reference window deviates
 #'   from the bounding box of \code{anchor} (minimum and maximum values),
@@ -20,18 +20,19 @@
 #' @family geometry shapes
 #' @details The arguments \code{anchor} and \code{sketch} indicate how the line
 #'   is created: \itemize{ \item if \code{anchor} is set, the line is created
-#'   parametrically from the given vertices, \item if \code{sketch} is set, the
-#'   geometry is created interactively, by clicking into the plot.}
+#'   parametrically from the given objects' points, \item if an object is set in
+#'   \code{sketch}, this is used to create the \code{geom} interactively, by
+#'   clicking into the plot.}
 #'
 #'   Possible additional arguments are: \itemize{ \item verbose = TRUE/FALSE
 #'   \item graphical parameters to \code{\link{gt_locate}}, in case points are
-#'   sketched; see \code{\link{gpar}}}
+#'   sketched; see \code{\link[grid]{gpar}}}
 #' @examples
 #' # create a line programmatically
 #' coords <- data.frame(x = c(40, 70, 70, 50),
 #'                      y = c(40, 40, 60, 70))
 #'
-#' # if no window is set, the bounding box (i.e. min/max values) will be set as window
+#' # if no window is set, the bounding box will be set as window
 #' (aGeom <- gs_line(anchor = coords))
 #'
 #' # the vertices are plottet relative to the window
@@ -41,10 +42,10 @@
 #' gs_line(anchor = coords, window = window) %>%
 #'   visualise(linecol = "green")
 #'
-#' # not when a plot is already open though
+#' # if a plot is already open, vertices are set relative to its' window
 #' visualise(geom = gs_line(anchor = coords), new = FALSE)
 #'
-#' # when a geom is used in 'anchor', its properties (e.g. 'window') are passed on
+#' # when a geom is used in 'anchor', its properties are passed on
 #' aGeom <- setWindow(x = aGeom, to = window)
 #' gs_line(anchor = aGeom) %>%
 #'   visualise(linecol = "deeppink")

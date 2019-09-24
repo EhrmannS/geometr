@@ -31,6 +31,7 @@ an object of class \code{geom}
 Transform a spatial object to class \code{geom}
 }
 \examples{
+(geomPoints <- gc_geom(input = gtPPP))
 (geomPoly <- gc_geom(input = gtSF$polygon))
 (geomLine <- gc_geom(input = gtSP$SpatialLinesDataFrame))
 }

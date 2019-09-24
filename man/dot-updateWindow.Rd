@@ -7,7 +7,8 @@
 .updateWindow(input = NULL, window = NULL)
 }
 \arguments{
-\item{input}{[\code{data.frame(1)}]\cr a table of vertices for which a new window should be derived.}
+\item{input}{[\code{data.frame(1)}]\cr a table of vertices for which a new
+window should be derived.}
 
 \item{window}{[\code{data.frame(1)}]\cr the old window.}
 }
@@ -15,6 +16,5 @@
 A new window that has the extent of \code{input}.
 }
 \description{
-Set the extent of a window to smaller/larger values, if the vertices would be
-beyond the window otherwise.
+Set a window to the minimum/maximum values of input vertices.
 }

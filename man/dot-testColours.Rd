@@ -14,5 +14,6 @@ value that is valid in R.}
 Test colours
 }
 \details{
-inspired by \href{https://stackoverflow.com/a/13290832}{https://stackoverflow.com/a/13290832}
+inspired by
+  \href{https://stackoverflow.com/a/13290832}{https://stackoverflow.com/a/13290832}
 }
