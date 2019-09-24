@@ -5,9 +5,6 @@
 #' @param ... instead of providing a modified \code{theme}, you can also
 #'   determine specific graphic parameters (see \code{\link{gpar}}) separately;
 #'   see \code{\link{setTheme}} for details.
-#' @details Methods for \code{Spatial} and \code{sf} objects are not yet
-#'   supported. They will come together with transformations for various other
-#'   spatial classes with a future update.
 #' @return Depending on the provided geometry either a \code{\link{pointsGrob}},
 #'   \code{\link{polylineGrob}} or a \code{\link{pathGrob}}.
 #' @family spatial classes
@@ -99,9 +96,11 @@ setMethod(f = "gc_grob",
                 if(as.character(thisArg) %in% colnames(attr)){
                   toEval <- thisArg
                   toRamp <- params[[which(names(params) %in% thisArgName)]]
+                  makeWarning <- TRUE
                 } else{
                   toEval <- as.symbol(params$scale$to)
                   toRamp <- thisArg
+                  makeWarning <- FALSE
                   if(!any(.testColours(colours = toRamp))){
                     stop(paste0(toRamp, " was neither found as column in the object to plot, nor is it a valid colour."))
                   }
@@ -124,9 +123,11 @@ setMethod(f = "gc_grob",
                 # if the argument is a colour argument, construct a color ramp from two or more values
                 if(thisArgName %in% c("linecol", "fillcol")){
 
-                  if(length(uniqueValsNum) > 1){
-                    if(length(toRamp) <= 1){
-                      warning(paste0("please provide a theme with at least two values for '", thisArgName, "' to make a color gradient between."))
+                  if(makeWarning){
+                    if(length(uniqueValsNum) > 1){
+                      if(length(toRamp) <= 1){
+                        warning(paste0("please provide a theme with at least two values for '", thisArgName, "' to make a color gradient between."))
+                      }
                     }
                   }
 
@@ -137,9 +138,11 @@ setMethod(f = "gc_grob",
 
                 } else if(thisArgName %in% c("linewidth", "pointsize")){
 
-                  if(length(uniqueValsNum) > 1){
-                    if(length(toRamp) <= 1){
-                      warning(paste0("please provide a theme with at least two values for '", thisArgName, "' to scale between."))
+                  if(makeWarning){
+                    if(length(uniqueValsNum) > 1){
+                      if(length(toRamp) <= 1){
+                        warning(paste0("please provide a theme with at least two values for '", thisArgName, "' to scale between."))
+                      }
                     }
                   }
 
@@ -151,10 +154,12 @@ setMethod(f = "gc_grob",
                 } else if(thisArgName %in% c("pointsymbol", "linetype")){
 
                   # perhaps a warning/stop if there are more than 12 (or so...) values?
-                  if(length(uniqueValsNum) > 1){
-                    if(length(toRamp) < length(uniqueValsNum)){
-                      toRamp <- rep(toRamp, length.out = length(uniqueValsNum))
-                      warning(paste0("please provide a theme with ", length(uniqueValsNum)," values for the unique values of '", thisArgName, "'."))
+                  if(makeWarning){
+                    if(length(uniqueValsNum) > 1){
+                      if(length(toRamp) < length(uniqueValsNum)){
+                        toRamp <- rep(toRamp, length.out = length(uniqueValsNum))
+                        warning(paste0("please provide a theme with ", length(uniqueValsNum)," values for the unique values of '", thisArgName, "'."))
+                      }
                     }
                   }
 
@@ -251,27 +256,5 @@ setMethod(f = "gc_grob",
             }
 
             return(out)
-          }
-)
-
-# sf ----
-#' @rdname gc_grob
-#' @importFrom tibble as_tibble
-#' @export
-setMethod(f = "gc_grob",
-          signature = "sf",
-          definition = function(input = NULL, theme = gtTheme, ...){
-            stop("objects of class 'sf' can't be transformed to 'grob' recently.")
-          }
-)
-
-# Spatial ----
-#' @rdname gc_grob
-#' @importFrom tibble as_tibble
-#' @export
-setMethod(f = "gc_grob",
-          signature = "Spatial",
-          definition = function(input = NULL, theme = gtTheme, ...){
-            stop("objects of class 'Spatial' can't be transformed to 'grob' recently.")
           }
 )
