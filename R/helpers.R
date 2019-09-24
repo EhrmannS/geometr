@@ -1,7 +1,7 @@
 #' Make the layout of a plot
 #'
-#' @param x [\code{list(.)}]\cr the object, output from \code{makeObject}, from which to make the
-#'   plot.
+#' @param x [\code{list(.)}]\cr the object, output from \code{makeObject}, from
+#'   which to make the plot.
 #' @param theme [\code{gtTheme(1)}]\cr the theme from which to take graphical
 #'   parameters.
 #' @importFrom raster getValues
@@ -154,7 +154,8 @@ makeLayout <- function(x = NULL, theme = gtTheme){
 }
 
 #' Get the number of decimal places
-#' @param x [\code{numeric(1)}]\ the number for which to derive decimal places.
+#' @param x [\code{numeric(1)}]\cr the number for which to derive decimal
+#'   places.
 #' @importFrom checkmate assertNumeric
 #' @export
 
@@ -173,9 +174,9 @@ makeLayout <- function(x = NULL, theme = gtTheme){
 
 #' Update the window
 #'
-#' Set the extent of a window to smaller/larger values, if the vertices would be
-#' beyond the window otherwise.
-#' @param input [\code{data.frame(1)}]\cr a table of vertices for which a new window should be derived.
+#' Set a window to the minimum/maximum values of input vertices.
+#' @param input [\code{data.frame(1)}]\cr a table of vertices for which a new
+#'   window should be derived.
 #' @param window [\code{data.frame(1)}]\cr the old window.
 #' @return A new window that has the extent of \code{input}.
 #' @importFrom checkmate assertNames assertDataFrame
@@ -195,28 +196,29 @@ makeLayout <- function(x = NULL, theme = gtTheme){
   }
   assertDataFrame(x = window, nrows = 5)
 
-  if(min(input$x) < min(window$x)){
-    window$x[which.min(window$x)] <- min(input$x)
+  if(min(input$x) != min(window$x)){
+    window$x[window$x %in% min(window$x)] <- min(input$x)
   }
-  if(max(input$x) > max(window$x)){
-    window$x[which.max(window$x)] <- max(input$x)
+  if(max(input$x) != max(window$x)){
+    window$x[window$x %in% max(window$x)] <- max(input$x)
   }
-  if(min(input$y) < min(window$y)){
-    window$y[which.min(window$y)] <- min(input$y)
+  if(min(input$y) != min(window$y)){
+    window$y[window$y %in% min(window$y)] <- min(input$y)
   }
-  if(max(input$y) > max(window$y)){
-    window$y[which.max(window$y)] <- max(input$y)
+  if(max(input$y) != max(window$y)){
+    window$y[window$y %in% max(window$y)] <- max(input$y)
   }
   return(window)
 }
 
 #' Update the vertices
 #'
-#' Set the verties in a table so that they are valid for a geom.
+#' Set the vertices in a table so that they are valid for a geom.
 #' @param input [\code{data.frame(1)}]\cr a table of vertices which should be
 #'   brought into the correct form.
 #' @importFrom checkmate assertNames assertDataFrame
-#' @importFrom dplyr bind_cols group_by mutate distinct ungroup add_row bind_rows
+#' @importFrom dplyr bind_cols group_by mutate distinct ungroup add_row
+#'   bind_rows
 #' @importFrom utils tail
 #' @export
 
@@ -327,7 +329,7 @@ makeLayout <- function(x = NULL, theme = gtTheme){
 #' Update column order
 #'
 #' Set the order of the table columns to \code{c("fid", "gid", rest)}
-#' @param input [\code{data.frame(1)}]\cr a table othat contains at least the
+#' @param input [\code{data.frame(1)}]\cr a table that contains at least the
 #'   columns \code{fid} and \code{gid}.
 #' @return A new table where the columns have the correct order.
 #' @importFrom checkmate assertNames
@@ -453,7 +455,9 @@ makeLayout <- function(x = NULL, theme = gtTheme){
 #'
 #' @param colours [\code{.}]\cr the items to test for whether they are a colour
 #'   value that is valid in R.
-#' @details inspired by \href{https://stackoverflow.com/a/13290832}{https://stackoverflow.com/a/13290832}
+#' @details inspired by
+#'   \href{https://stackoverflow.com/a/13290832}{https://stackoverflow.com/a/13290832}
+#'
 #' @importFrom grDevices col2rgb
 #' @export
 
