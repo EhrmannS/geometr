@@ -16,6 +16,5 @@ window should be derived.}
 A new window that has the extent of \code{input}.
 }
 \description{
-Set the extent of a window to smaller/larger values, if the vertices would be
-beyond the window otherwise.
+Set a window to the minimum/maximum values of input vertices.
 }
