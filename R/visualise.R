@@ -315,7 +315,7 @@ visualise <- function(..., window = NULL, theme = gtTheme, trace = FALSE, image 
           if(theParam %in% c("linecol", "fillcol")){
 
             temp <- unlist(obj$params[legendName], use.names = FALSE)
-            theColours <- unlist(obj$params[order(temp),][theParam], use.names = FALSE)
+            theColours <- unique(unlist(obj$params[order(temp),][theParam], use.names = FALSE))
             grid.raster(x = unit(1, "npc") + pnl$legendX[j],
                         width = unit(10, "points"),
                         height = unit(1, "npc"),
@@ -378,8 +378,8 @@ visualise <- function(..., window = NULL, theme = gtTheme, trace = FALSE, image 
           }
 
           if(theme@legend$label$plot){
-            grid.text(label = unlist(theLegend[legendName], use.names = FALSE),
-                      x = unit(1, "npc") + pnl$legendX[j] + unit(1, "grobwidth", "legend_items") + unit(20, "points"),
+            grid.text(label = rev(unlist(theLegend[legendName], use.names = FALSE)),
+                      x = unit(1, "npc") + unit(5, "points") + pnl$legendX[j] + unit(1, "grobwidth", "legend_items"),
                       y = unit(theLegend$pos, "native") - unit(0.5, "native"),
                       name = "legend_labels",
                       just = c("left"),
