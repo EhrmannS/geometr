@@ -147,4 +147,3 @@ setMethod(f = "gc_geom",
             return(out)
           }
 )
-
