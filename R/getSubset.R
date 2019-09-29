@@ -105,10 +105,12 @@ setMethod(f = "getSubset",
 setMethod(f = "getSubset",
           signature = signature("Spatial"),
           definition = function(x, ...){
-            subset <- exprs(...)
-            if(is.logical(subset)){
-              matches <- subset
+            subset <- enquos(...)
+            isLogical <- tryCatch(is.logical(eval_tidy(expr = subset[[1]])), error = function(e) FALSE)
+            if(isLogical){
+              matches <- eval_tidy(expr = subset[[1]])
             } else {
+              subset <- exprs(...)
               matches <- eval(parse(text = subset), envir = x@data)
             }
             x <- x[matches,]
@@ -129,10 +131,12 @@ setMethod(f = "getSubset",
 setMethod(f = "getSubset",
           signature = signature("sf"),
           definition = function(x, ...){
-            subset <- exprs(...)
-            if(is.logical(subset)){
-              matches <- subset
+            subset <- enquos(...)
+            isLogical <- tryCatch(is.logical(eval_tidy(expr = subset[[1]])), error = function(e) FALSE)
+            if(isLogical){
+              matches <- eval_tidy(expr = subset[[1]])
             } else {
+              subset <- exprs(...)
               matches <- eval(parse(text = subset), envir = x)
             }
             x <- x[matches,]
