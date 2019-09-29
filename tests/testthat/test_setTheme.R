@@ -137,13 +137,13 @@ test_that("modifying geom works", {
   window <- data.frame(x = c(0, 80),
                        y = c(0, 80))
   aGeom <<- gs_polygon(anchor = coords, window = window)
-  myTheme <- setTheme(geom = list(scale = list(x = "fillcol", to = "fid"),
-                                  linecol = "grey",
-                                  fillcol = c("#00204DFF", "#FFEA46FF"),
-                                  linetype = "dashed",
-                                  linewidth = 1,
-                                  pointsize = 2,
-                                  pointsymbol = 3))
+  myTheme <- setTheme(vector = list(scale = list(x = "fillcol", to = "fid"),
+                                    linecol = "grey",
+                                    fillcol = c("#00204DFF", "#FFEA46FF"),
+                                    linetype = "dashed",
+                                    linewidth = 1,
+                                    pointsize = 2,
+                                    pointsymbol = 3))
   output <- visualise(geom = aGeom, theme = myTheme)
   expect_class(output, "recordedplot")
 })

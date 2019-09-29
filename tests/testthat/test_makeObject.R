@@ -37,26 +37,26 @@ test_that("make object from a geom", {
 
 test_that("make object from a Raster", {
   # a categorical raster with colourtable
-  output <- makeObject(x = gtRasters$categorical, theme = gtTheme)
-  expect_list(x = output, len = 9)
-  expect_names(x = names(output), identical.to = c("type", "name", "window", "rows", "cols", "hasLegend", "params", "legend", "array"))
+  output <- makeObject(x = gtRasters$categorical, window = NULL, theme = gtTheme)
+  expect_list(x = output, len = 10)
+  expect_names(x = names(output), identical.to = c("type", "name", "extent", "window", "rows", "cols", "hasLegend", "params", "legend", "array"))
 
   # a categorical raster without colourtable
   input <- gtRasters$categorical
   input@legend@colortable <- list()
-  output <- makeObject(x = input, theme = gtTheme)
-  expect_list(x = output, len = 9)
-  expect_names(x = names(output), identical.to = c("type", "name", "window", "rows", "cols", "hasLegend", "params", "legend", "array"))
+  output <- makeObject(x = input, window = NULL, theme = gtTheme)
+  expect_list(x = output, len = 10)
+  expect_names(x = names(output), identical.to = c("type", "name", "extent", "window", "rows", "cols", "hasLegend", "params", "legend", "array"))
 
   # a continuous raster
-  output <- makeObject(x = gtRasters$continuous, theme = gtTheme)
-  expect_list(x = output, len = 9)
-  expect_names(x = names(output), identical.to = c("type", "name", "window", "rows", "cols", "hasLegend", "params", "legend", "array"))
+  output <- makeObject(x = gtRasters$continuous, window = NULL, theme = gtTheme)
+  expect_list(x = output, len = 10)
+  expect_names(x = names(output), identical.to = c("type", "name", "extent", "window", "rows", "cols", "hasLegend", "params", "legend", "array"))
 
   # an image
   input <- RGB(gtRasters$continuous)
-  output <- makeObject(x = input, image = TRUE, theme = gtTheme)
-  expect_names(x = names(output), identical.to = c("type", "name", "window", "rows", "cols", "hasLegend", "array"))
+  output <- makeObject(x = input, image = TRUE, window = NULL, theme = gtTheme)
+  expect_names(x = names(output), identical.to = c("type", "name", "extent", "window", "rows", "cols", "hasLegend", "array"))
 
   # errors
   expect_error(object = makeObject(x = input, theme = gtTheme))
@@ -66,22 +66,22 @@ test_that("make object from a Raster", {
 test_that("make object from a matrix", {
   # a matrix with hexadecimal colour values
   input1 <- matrix(c(rep('#000000', 4)), nrow = 2)
-  output <- makeObject(x = input1, image = TRUE, theme = gtTheme)
-  expect_list(x = output, len = 6)
-  expect_names(x = names(output), identical.to = c("type", "window", "rows", "cols", "hasLegend", "array"))
+  output <- makeObject(x = input1, window = NULL, image = TRUE, theme = gtTheme)
+  expect_list(x = output, len = 7)
+  expect_names(x = names(output), identical.to = c("type", "extent", "window", "rows", "cols", "hasLegend", "array"))
 
   # an integer value matrix
   input2 <- matrix(c(rep(1, 4)), nrow = 2)
-  output <- makeObject(x = input2, theme = gtTheme)
-  expect_list(x = output, len = 8)
-  expect_names(x = names(output), identical.to = c("type", "window", "rows", "cols", "hasLegend", "params", "legend", "array"))
+  output <- makeObject(x = input2, window = NULL, theme = gtTheme)
+  expect_list(x = output, len = 9)
+  expect_names(x = names(output), identical.to = c("type", "extent", "window", "rows", "cols", "hasLegend", "params", "legend", "array"))
 
   # with a modified theme
   myTheme <- gtTheme
   myTheme@legend$ascending <- FALSE
-  output <- makeObject(x = input2, theme = myTheme)
-  expect_list(x = output, len = 8)
-  expect_names(x = names(output), identical.to = c("type", "window", "rows", "cols", "hasLegend", "params", "legend", "array"))
+  output <- makeObject(x = input2, window = NULL, theme = myTheme)
+  expect_list(x = output, len = 9)
+  expect_names(x = names(output), identical.to = c("type", "extent", "window", "rows", "cols", "hasLegend", "params", "legend", "array"))
 
   # errors
   expect_error(object = makeObject(x = input1, theme = gtTheme))
