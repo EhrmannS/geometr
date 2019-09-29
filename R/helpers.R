@@ -4,7 +4,6 @@
 #'   which to make the plot.
 #' @param theme [\code{gtTheme(1)}]\cr the theme from which to take graphical
 #'   parameters.
-#' @importFrom raster getValues
 #' @export
 
 makeLayout <- function(x = NULL, theme = gtTheme){
@@ -48,22 +47,23 @@ makeLayout <- function(x = NULL, theme = gtTheme){
   margin <- list(x = (maxPlotX-minPlotX)*theme@yAxis$margin,
                  y = (maxPlotY-minPlotY)*theme@xAxis$margin)
 
-  # if(!is.null(window)){
-    # tempExt <- getExtent(x = x)
-  # tempExt <- x$window
-    # minExtX <- min(tempExt$x)
-    # maxExtX <- max(tempExt$x)
-    # minExtY <- min(tempExt$y)
-    # maxExtY <- max(tempExt$y)
+  if(x$type == "raster"){
 
-    # xFactor <- abs(maxExtX - minExtX)/abs(maxPlotX - minPlotX)
-    # yFactor <- abs(maxExtY - minExtY)/abs(maxPlotY - minPlotY)
-    # xWindowOffset <- minPlotX / abs(maxExtX - minExtX)
-    # yWindowOffset <- minPlotY / abs(maxExtY - minExtY)
-  # } else{
+    tempExt <- x$extent
+    minExtX <- min(tempExt$x)
+    maxExtX <- max(tempExt$x)
+    minExtY <- min(tempExt$y)
+    maxExtY <- max(tempExt$y)
+
+    xFactor <- abs(maxExtX - minExtX)/abs(maxPlotX - minPlotX)
+    yFactor <- abs(maxExtY - minExtY)/abs(maxPlotY - minPlotY)
+    xWindowOffset <- minPlotX / abs(maxExtX - minExtX)
+    yWindowOffset <- minPlotY / abs(maxExtY - minExtY)
+
+  } else{
     xFactor <- yFactor <- 1
     xWindowOffset <- yWindowOffset <- 0
-  # }
+  }
 
   if(theme@title$plot){
     titleH <- unit(theme@title$fontsize+6, units = "points")
@@ -79,7 +79,7 @@ makeLayout <- function(x = NULL, theme = gtTheme){
       arg <- eval(parse(text = paste0(theAttr)), envir = attr)
       arg <- as.character(arg)
 
-      temp <- ceiling(convertX(unit(1, "strwidth", arg[which.max(nchar(arg))]) + unit(30, "points"), "points"))
+      temp <- ceiling(convertX(unit(1, "strwidth", arg[which.max(nchar(arg))]) + unit(20, "points"), "points"))
       temp2 <- legendX[i] + temp
       legendW <- c(legendW, temp)
       legendX <- unit.c(legendX, temp2)
@@ -449,22 +449,6 @@ makeLayout <- function(x = NULL, theme = gtTheme){
   out$obj <- x
 
   return(out)
-}
-
-#' Test colours
-#'
-#' @param colours [\code{.}]\cr the items to test for whether they are a colour
-#'   value that is valid in R.
-#' @details inspired by
-#'   \href{https://stackoverflow.com/a/13290832}{https://stackoverflow.com/a/13290832}
-#'
-#' @importFrom grDevices col2rgb
-#' @export
-
-.testColours <- function(colours = NULL) {
-  sapply(colours, function(X) {
-    tryCatch(is.matrix(col2rgb(X)), error = function(e) FALSE)
-  })
 }
 
 #' Make a tiny map
