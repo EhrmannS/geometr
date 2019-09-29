@@ -356,7 +356,7 @@ visualise <- function(..., window = NULL, theme = gtTheme, trace = FALSE, image 
           } else if(theParam %in% c("linewidth")){
 
             theWidths <- sort(unique(unlist(obj$params[theParam], use.names = FALSE)))[theLegend$pos]
-            grid.polyline(x = rep(unit(c(1, 1), "npc") + unit.c(pnl$legendX[j], pnl$legendX[j] + 10), times = length(theLegend$pos)),
+            grid.polyline(x = rep(unit(c(1, 1), "npc") + unit.c(pnl$legendX[j], pnl$legendX[j] + unit(10, "points")), times = length(theLegend$pos)),
                           y = unit(rep(theLegend$pos, each = 2), "native") - unit(0.5, "native"),
                           id = rep(theLegend$pos, each = 2),
                           name = "legend_items",
@@ -367,7 +367,7 @@ visualise <- function(..., window = NULL, theme = gtTheme, trace = FALSE, image 
           } else if(theParam %in% c("linetype")){
 
             theTypes <- sort(unique(unlist(obj$params[theParam], use.names = FALSE)))[theLegend$pos]
-            grid.polyline(x = rep(unit(c(1, 1), "npc") + unit.c(pnl$legendX[j], pnl$legendX[j] + 10), times = length(theLegend$pos)),
+            grid.polyline(x = rep(unit(c(1, 1), "npc") + unit.c(pnl$legendX[j], pnl$legendX[j] + unit(10, "points")), times = length(theLegend$pos)),
                           y = unit(rep(theLegend$pos, each = 2), "native") - unit(0.5, "native"),
                           id = rep(theLegend$pos, each = 2),
                           name = "legend_items",
