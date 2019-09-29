@@ -20,6 +20,13 @@ test_that("transform from sf to geom", {
   expect_class(output, classes = "geom")
   expect_true(output@type == "point")
   expect_data_frame(output@point, any.missing = FALSE, nrows = 8, ncols = 3)
+  expect_data_frame(output@feature, any.missing = FALSE, nrows = 8, ncols = 3)
+
+  output <- gc_geom(input, group = TRUE)
+  expect_class(output, classes = "geom")
+  expect_true(output@type == "point")
+  expect_data_frame(output@point, any.missing = FALSE, nrows = 8, ncols = 3)
+  expect_data_frame(output@group, any.missing = FALSE, nrows = 2, ncols = 2)
 
   # test LINESTRING
   input <- gtSF$linestring

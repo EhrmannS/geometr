@@ -27,5 +27,7 @@ test_that("Error if arguments have wrong value", {
   input <- matrix(nrow = 100, ncol = 100, data = 0)
 
   expect_error(gs_random(type = "bla"))
+  expect_error(gs_random(type = "line", vertices = 1))
+  expect_error(gs_random(type = "polygon", vertices = 2))
   expect_error(gs_random(sketch = input, vertices = "bla"))
 })
