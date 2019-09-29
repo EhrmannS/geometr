@@ -18,7 +18,7 @@
 #'   (\code{FALSE}, default)?
 #' @param ... [\code{various}]\cr graphical parameters of the objects that are
 #'   created when \code{show = TRUE}.
-#' @return A \code{data.frame} of the selected locations and, if \code{identify
+#' @return A \code{tibble} of the selected locations and, if \code{identify
 #'   = TRUE}, the respective values. If \code{show = TRUE} the values are also
 #'   shown in the plot.
 #' @examples
@@ -155,10 +155,10 @@ gt_locate <- function(samples = 1, panel = NULL, identify = FALSE, snap = FALSE,
       metaValues <- grid.get(gPath("legend_values"), global = TRUE)
       if(length(panelNames) > 1){
         theLegend <- metaLegend[which(panel == panelNames)][[1]]$raster
-        theValues <- as.numeric(metaValues[which(panel == panelNames)][[1]]$label)
+        theValues <- rev(as.numeric(metaValues[which(panel == panelNames)][[1]]$label))
       } else{
         theLegend <- metaLegend$raster
-        theValues <- as.numeric(metaValues$label)
+        theValues <- rev(as.numeric(metaValues$label))
       }
       if(isRasterInPlot){
 
