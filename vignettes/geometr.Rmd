@@ -9,6 +9,7 @@ output:
     number_sections: true
     fig_width: 7
     fig_caption: true
+    theme: spacelab
     highlight: pygments
 vignette: >
   %\VignetteIndexEntry{An overview}
@@ -42,13 +43,13 @@ This vignette outlines in detail first how `geometr` improves interoperability, 
 
 # Interoperability
 
-Interoperable software can easily exchange information with other software, which is typically achieved by providing the output of functionally similar operations in a common arrangement or format [REF].
+<a href="https://en.wikipedia.org/wiki/Interoperability" target="_blank">Interoperable software</a> can easily exchange information with other software, which can be achieved by providing the output of functionally similar operations in a common arrangement or format.
 This principle is not only true for software written in different languages, but can also apply to several packages within the R ecosystem.
 R is an open source environment which means that no single package or class will ever be the sole source of a particular datastructure and this is also the case for spatial and other geometric data.
 
-Interoperable data is data that has a common arrangement and that uses terms from the same <a href="http://www-ksl.stanford.edu/kst/what-is-an-ontology.html" target="_blank">ontology</a>.
+Interoperable data is data that has a common arrangement and that uses terms from the same <a href="http://www-ksl.stanford.edu/kst/what-is-an-ontology.html" target="_blank">ontology</a>, resulting ideally in <a href="https://en.wikipedia.org/wiki/Semantic_interoperability" target="_blank">semantic interoperability</a>.
 As an example, we can think of the extent of a geometric object.
-An extent reports the minimum and maximum value in all valid dimensions.
+An extent reports the minimum and maximum value of all dimensions an object resides in.
 There are, however, several ways in which even this simple information can be reported, for example as vector or as table and with or without names.
 Moreover, distinct workflows provide data so that the same information is not at the same location or with the same name in all structures, e.g., the minimum value of the x dimension is not always the first information and is not always called 'xmin'.
 
@@ -78,8 +79,8 @@ Think, for example, of a new custom function that is designed to extract and pro
 This would require an extensive code-logic to handle all possible input formats, complicated further by classes that may become available only in the future.
 
 `geometr` improves interoperability in R for geometric and thus spatial classes by following the <a href="https://www.bioconductor.org/help/course-materials/2017/Zurich/S4-classes-and-methods.html#api-vs-internals" target="_blank">Bioconductor standard for S4 classes</a>.
-Here, *getters* and *setters* are used as accessor functions, and as pathway to extract or modify information from a given data structure.
-`geometr` thus provides getters that provide information in identical arrangement from a wide range of classes, and likewise setters that modify many different classes in the same way, despite those classes typically need differently formatted input, arguments and functions.
+Here, *getters* and *setters* are used as accessor functions, and as pathway to extract or modify information of a given data structure.
+`geometr` thus provides getters that provide information in identical arrangement from a wide range of classes, and likewise setters that modify different classes in the same way, despite those classes typically need differently formatted input, arguments and functions.
 The following code chunk shows how different input classes yield the same output object.
 
 ```{r}
@@ -281,47 +282,90 @@ Consequently, those duplicates have to be handled, for example by removing dupli
 
 # Visualising
 
+We saw already some quite powerful use-cases of the `visualise()` function that comes with `geometr`.
+The philosophy of plotting geometric objects in `geometr` deviates a bit from other approaches.
 
-
-- plot objects by providing a "the name = theObject".
-- plot both, vector and raster objects
-- methods extract the required information based on the above discussed getters, for any class that has getters defined (this still requires some work to be true for all classes)
-- also explain how to use "window" for zooming and quick access to particular areas of a plot.
-
-## Quick options
-
-- attributes can be used in quick options
+The idea is that both vector and raster objects can be visualised at the same time, and that additional options can be specified for their appearance, and for the appearance of the other plot elements.
+In case several objects are provided to `visualise()` at the same time, they are facetted, i.e., plotted in separate panels next to one another.
+Moreover, it is possible to set the plot title by providing a name to the object that shall be plotted, for example via `'plot name' = plotObject`.
+In case a title is not provided in that way, the title is either extracted from the object name (for example, the raster in the following example is part of the `RasterStack` `gtRasters` with the name `continuous`) or a default value is used.
 
 ```{r}
-visualise(`Clocaenog - tree diameters` = trees, linecol = "dbh")
-
-visualise(`Clocaenog - tree diameters` = trees, pointsize = "dbh")
+visualise('I made a polygon!' = aPoly, gtRasters$continuous)
 ```
 
+In case a `geom` is provided with a relative scale, the values are scaled between 0 and 1 and it is plotted by default relative to the plot extent.
+This allows, for example, to observe always the same region in a set of images, in which some signal changes, and eventually to extract the values.
+To this end, a `geom` would be provided with a reference window from which the relative values shall be derived and its' coordinates are scaled to those values.
+
+```{r}
+relPoly <- gs_rectangle(anchor = aPoly) %>% 
+  setWindow(to = tibble(x = c(0, 100), y = c(0, 100))) %>%
+  gt_scale(to = "relative")
+
+visualise(gtRasters$categorical, gtRasters$continuous)
+visualise(relPoly, linecol = "deeppink", new = F)
+```
+
+In various functions of `geometr` the reference window can play a role, most prominently to control which part of an object is plotted.
+The window of any object that has been plotted here so far, other than `relPoly`, has been set implicitly, usually to the extent of that object.
+`relPoly` has been assigned with a reference window that is larger than its' extent and this lead to an effect that could be described *zoming out*.
+Likewise, one could *zoom in* by assigning a reference window smaller than the extent of an object.
+The reference region for a plot can be set via the `window = ` argument in `visualise()`, which requires absolute values.
+To zoom in on `relPoly`, we thus have to assign the plot extent as window to `relPoly` and rescale the relative values to absolute values on that basis.
+
+```{r}
+zoom <- setWindow(x = relPoly, to = getExtent(x = gtRasters$categorical)) %>% 
+  gt_scale(to = "absolute")
+visualise('zoomed object' = gtRasters$categorical, window = getExtent(x = zoom))
+```
+
+`visualise()` also allows to plot images, simply by providing an object that has the three layers `red`,  `green` and `blue` and setting `image = TRUE`.
+
+```{r}
+anImage <- brick(system.file("external/rlogo.grd", package="raster"))
+visualise('R logo' = anImage, image = TRUE)
+```
+
+To adjust the appearance of a plot one can either provide a theme for all plot elements or quick options for the plotted objects only.
+
 ### The `gtTheme`
+
+The theme controls how plots that are created with `visualise()` appear.
+By default, this theme is `gtTheme` and it has the following properties.
 
 ```{r}
 gtTheme
 ```
 
-- explain how to set up a gtTheme
-- there is a default gtTheme, which is modified with setTheme, which is kind of a setter, just not for geoms, but for gtTheme.
-- explain how colour palettes work.
+A new theme can be created by modifying any of the elements (shown in yellow in the console), via the function `setTheme()`.
+`vector` and `raster` are provided with a `scale`, where it is noted that one of the properties is scaled to one of the attributes of the object.
+By default, the line colour (`linecol`) is scaled to the feature ID (`fid`) for `vector` objects and rasters are scaled to their unique values, or the ID of an optional <a href="https://rdrr.io/cran/raster/man/factor.html" target="_blank">attribute table</a>.
+For `vector` objects also other properties can be scaled, namely the point symbol (`pointsymbol`) and size (`pointsize`), the colour of points (also `linecol`), the line type (`linetype`) and width (`linewidth`) of lines and polygons and the fill colour of polygons (`fillcol`).
+
+By default `gtTheme` contains only a single value for most properties (except colours), so when scaling a property, a sensible range needs to be specified.
+For example, to make a plot where each point represents the diameter of a tree, it would make sense to scale the points between values that resemble the tree diameter.
 
 ```{r}
-treeTheme <- setTheme(geom = list(pointsize = c(0.05, 0.77)))
-visualise(`Clocaenog - tree diameters` = trees, theme = treeTheme, 
-          pointsize = "dbh")
-
-visualise(`Clocaenog - tree diameters` = trees, theme = treeTheme,
-          pointsize = "dbh", linecol = "height")
+treeTheme <- setTheme(vector = list(scale = list(x = "pointsize", to = "dbh"), 
+                                    pointsize = c(0.05, 0.77)))
+visualise(`Clocaenog - tree diameters` = trees, theme = treeTheme)
 ```
 
-# Other tools in `geometr`
+Alternatively, one could use quick options to set scaling, by providing the property to scale and the attribute to scale to as `property = attribute`, also for several properties at the same time.
 
-- tools are used feature-wise, if more than one set of modification values is provided. for example, if there are two features and two distinct angles of ration are provided, each feature will be rotated by the respective angle. When there are more features than angles, angles will be recycled.
-- mention that those functions access the points
+```{r}
+treeTheme <- setTheme(vector = list(pointsize = c(0.05, 0.77)))
+visualise(`Clocaenog - tree diameters and heights` = trees, theme = treeTheme,
+          pointsize = dbh, linecol = height)
+```
 
+Colour palettes can be set by providing "waypoints" between which colours should be interpolated (see the documentation of <a href="https://rdrr.io/r/grDevices/colorRamp.html" target="_blank">`colorRamp`</a>).
+By default, these are a darkish blue (`#00204D`) for low values and yellow (`#FFEA46`) for high values.
+When including additional values, or when building totally new palettes, the colour can be modified accordingly.
 
-- also mention gt_sketch somewhere.
-- check whether zooming works.
+```{r}
+treeTheme <- setTheme(vector = list(linecol = c("#00204DFF", "#73D216FF", "#FFEA46FF", "#CC0000F0")))
+visualise(`Clocaenog - tree heights` = trees, theme = treeTheme, linecol = height)
+
+```
