@@ -1,9 +1,9 @@
 #' Theme class (S4) and methods
 #'
-#' An \code{gtTheme} stores the \code{\link{visualise}} compatible theme to plot
-#' rasters and geoms. While you can assign values to the slots manually, it
-#' makes more sense to use \code{\link{setTheme}}, which carries out all the
-#' checks and makes sure that names of the parameters are properly matched.
+#' An \code{gtTheme} stores a theme to \code{\link{visualise}} vector and raster
+#' objects. It is recommended to use \code{\link{setTheme}} to modify a
+#' \code{gtTheme}, because it carries out all the checks and makes sure that
+#' names of the parameters are properly matched.
 #' @slot title [\code{named list(3)}]\cr properties of the title.
 #' @slot box [\code{named list(4)}]\cr properties of the bounding box.
 #' @slot xAxis [\code{named list(5)}]\cr properties of the x-axis, its labels
@@ -13,8 +13,8 @@
 #' @slot grid [\code{named list(5)}]\cr properties of the major and minor grid.
 #' @slot legend [\code{named list(10)}]\cr properties of the legend, its title,
 #'   labels, ticks and bounding box.
-#' @slot geom [\code{named list(7)}]\cr properties of a geom.
-#' @slot raster [\code{named list(2)}]\cr properties of a raster.
+#' @slot vector [\code{named list(7)}]\cr properties of a vector object.
+#' @slot raster [\code{named list(2)}]\cr properties of a raster object.
 
 themeClass <- setClass(Class = "gtTheme",
                        slots = c(title = "list",
@@ -23,7 +23,7 @@ themeClass <- setClass(Class = "gtTheme",
                                  yAxis = "list",
                                  grid = "list",
                                  legend = "list",
-                                 geom = "list",
+                                 vector = "list",
                                  raster = "list"
                        )
 )
@@ -73,7 +73,7 @@ setMethod(f = "show",
                                      paste0(green('\u2714'), yellow("  - box    "), "in ", object@legend$box$colour, " with ", object@legend$box$linewidth, " wide ", object@legend$box$linetype, " lines"),
                                      paste0(red('\u2716'), yellow("  - box    ")))),
                        paste0(red('\u2716'), yellow(" legend    "))), "\n")
-            cat(paste0(green('\u2714'), yellow(" geom     "), " with '", object@geom$scale$x, "' scaled to ", cyan(object@geom$scale$to), ", ", object@geom$linewidth, " wide ", object@geom$linetype, " lines or points with size ", object@geom$pointsize, " of type ", object@geom$pointsymbol, "\n"))
+            cat(paste0(green('\u2714'), yellow(" vector   "), " with '", object@vector$scale$x, "' scaled to ", cyan(object@vector$scale$to), ", ", object@vector$linewidth, " wide ", object@vector$linetype, " lines or points with size ", object@vector$pointsize, " of type ", object@vector$pointsymbol, "\n"))
             cat(paste0(green('\u2714'), yellow(" raster   "), " with colours scaled to ", cyan(object@raster$scale)))
           }
 )

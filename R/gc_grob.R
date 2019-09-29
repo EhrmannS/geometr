@@ -59,7 +59,7 @@ setMethod(f = "gc_grob",
             }
 
             point <- getPoints(x = outGeom)
-            params <- theme@geom
+            params <- theme@vector
 
             # select only displayArgs that are part of the valid parameters.
             displayArgs <- displayArgs[names(displayArgs) %in% names(params)]
@@ -101,9 +101,6 @@ setMethod(f = "gc_grob",
                   toEval <- as.symbol(params$scale$to)
                   toRamp <- thisArg
                   makeWarning <- FALSE
-                  if(!any(.testColours(colours = toRamp))){
-                    stop(paste0(toRamp, " was neither found as column in the object to plot, nor is it a valid colour."))
-                  }
                 }
 
                 vals <- eval(parse(text = paste0(toEval)), envir = attr)

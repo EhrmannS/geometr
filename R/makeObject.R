@@ -36,11 +36,11 @@ setMethod(f = "makeObject",
             }
 
             displayArgs <- exprs(...)
-            displayArgs <- displayArgs[names(displayArgs) %in% names(theme@geom)]
+            displayArgs <- displayArgs[names(displayArgs) %in% names(theme@vector)]
             if(length(displayArgs) != 0){
               tempArgs <- displayArgs
             } else{
-              tempArgs <- setNames(list(theme@geom$scale$to), theme@geom$scale$x)
+              tempArgs <- setNames(list(theme@vector$scale$to), theme@vector$scale$x)
             }
 
             featureType <- getType(x = x)[2]
@@ -199,7 +199,12 @@ setMethod(f = "makeObject",
             out <- list()
             out$type <- "raster"
             out$name <- names(x)
-            theWindow <- getWindow(x = x)
+            out$extent <- getExtent(x = x)
+            if(!is.null(window)){
+              theWindow <- window
+            } else {
+              theWindow <- getExtent(x = x)
+            }
             out$window <- tibble(x = c(min(theWindow$x), max(theWindow$x)),
                                  y = c(min(theWindow$y), max(theWindow$y)))
             out$rows <- x@nrows
@@ -305,7 +310,12 @@ setMethod(f = "makeObject",
             out <- list()
             out$type <- "raster"
             out$name <- names(x)
-            theWindow <- getWindow(x = x)
+            out$extent <- getExtent(x = x)
+            if(!is.null(window)){
+              theWindow <- window
+            } else {
+              theWindow <- getExtent(x = x)
+            }
             out$window <- tibble(x = c(min(theWindow$x), max(theWindow$x)),
                                  y = c(min(theWindow$y), max(theWindow$y)))
             out$rows <- nrow(x)

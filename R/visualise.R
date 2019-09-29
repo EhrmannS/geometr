@@ -102,7 +102,7 @@ visualise <- function(..., window = NULL, theme = gtTheme, trace = FALSE, image 
         theObject <- list(theObject)
       }
     } else {
-      if(!names(objs)[i] %in% names(theme@geom)){
+      if(!names(objs)[i] %in% names(theme@vector)){
         theObject <- eval_tidy(expr = objs[[i]])
 
         if((class(theObject) == "RasterBrick" | class(theObject) == "RasterStack") & !image){
@@ -340,7 +340,7 @@ visualise <- function(..., window = NULL, theme = gtTheme, trace = FALSE, image 
             theSizes <- sort(unique(unlist(obj$params[theParam], use.names = FALSE)))[theLegend$pos]
             grid.points(x = rep(unit(1, "npc") + pnl$legendX[j], times = length(theLegend$pos)),
                         y = unit(theLegend$pos, "native") - unit(0.5, "native"),
-                        pch = theme@geom$pointsymbol[1],
+                        pch = theme@vector$pointsymbol[1],
                         size = unit(theSizes, "char"),
                         name = "legend_items")
 
@@ -350,7 +350,7 @@ visualise <- function(..., window = NULL, theme = gtTheme, trace = FALSE, image 
             grid.points(x = rep(unit(1, "npc") + pnl$legendX[j], length(theSymbols)),
                         y = unit(theLegend$pos, "native") - unit(0.5, "native"),
                         pch = theSymbols,
-                        size = unit(max(theme@geom$pointsize), "char"),
+                        size = unit(max(theme@vector$pointsize), "char"),
                         name = "legend_items")
 
           } else if(theParam %in% c("linewidth")){
@@ -360,9 +360,9 @@ visualise <- function(..., window = NULL, theme = gtTheme, trace = FALSE, image 
                           y = unit(rep(theLegend$pos, each = 2), "native") - unit(0.5, "native"),
                           id = rep(theLegend$pos, each = 2),
                           name = "legend_items",
-                          gp = gpar(col = theme@geom$linecol[1],
+                          gp = gpar(col = theme@vector$linecol[1],
                                     lwd = theWidths,
-                                    lty = theme@geom$linetype[1]))
+                                    lty = theme@vector$linetype[1]))
 
           } else if(theParam %in% c("linetype")){
 
@@ -371,15 +371,15 @@ visualise <- function(..., window = NULL, theme = gtTheme, trace = FALSE, image 
                           y = unit(rep(theLegend$pos, each = 2), "native") - unit(0.5, "native"),
                           id = rep(theLegend$pos, each = 2),
                           name = "legend_items",
-                          gp = gpar(col = theme@geom$linecol[1],
-                                    lwd = max(theme@geom$linewidth),
+                          gp = gpar(col = theme@vector$linecol[1],
+                                    lwd = max(theme@vector$linewidth),
                                     lty = theTypes))
 
           }
 
           if(theme@legend$label$plot){
             grid.text(label = rev(unlist(theLegend[legendName], use.names = FALSE)),
-                      x = unit(1, "npc") + unit(5, "points") + pnl$legendX[j] + unit(1, "grobwidth", "legend_items"),
+                      x = unit(1, "npc") + pnl$legendX[j] + unit(15, "points"),
                       y = unit(theLegend$pos, "native") - unit(0.5, "native"),
                       name = "legend_labels",
                       just = c("left"),
@@ -570,9 +570,9 @@ visualise <- function(..., window = NULL, theme = gtTheme, trace = FALSE, image 
 #'   \code{plot = TRUE/FALSE}, \code{fontsize} and \code{colour} of the legend
 #'   labels, \cr\cr box [\code{named list(.)}]\cr \code{plot = TRUE/FALSE},
 #'   \code{linetype}, \code{linewidth} and \code{colour} of the legend box.
-#' @param geom [\code{named list(.)}]\cr \code{line}, \code{fill},
+#' @param vector [\code{named list(.)}]\cr \code{linecol}, \code{fillcol},
 #'   \code{linetype}, \code{linewidth}, \code{pointsize} and \code{pointsymbol}
-#'   of a geom, \cr\cr scale [\code{named list(.)}]\cr \code{x =
+#'   of a vector object, \cr\cr scale [\code{named list(.)}]\cr \code{x =
 #'   'someParameter'} and \code{to = 'someAttribute'} to which to scale
 #'   'someParameter' to.
 #' @param raster [ \code{named list(.)}]\cr \code{scale = 'someAttribute'} and
@@ -586,7 +586,7 @@ visualise <- function(..., window = NULL, theme = gtTheme, trace = FALSE, image 
 #' @export
 
 setTheme <- function(from = NULL, title = NULL, box = NULL, xAxis = NULL,
-                     yAxis = NULL, grid = NULL, legend = NULL, geom = NULL,
+                     yAxis = NULL, grid = NULL, legend = NULL, vector = NULL,
                      raster = NULL){
 
   assertClass(x = from, classes = "gtTheme", null.ok = TRUE)
@@ -716,12 +716,12 @@ setTheme <- function(from = NULL, title = NULL, box = NULL, xAxis = NULL,
     }
   }
 
-  assertList(geom, any.missing = FALSE, max.len = 7, null.ok = TRUE)
-  if(!is.null(geom)){
-    assertNames(names(geom), subset.of = c("scale", "linecol", "fillcol", "linetype", "linewidth", "pointsize", "pointsymbol"))
-    previous <- from@geom
-    for(i in seq_along(names(geom))){
-      out@geom[which(names(previous) == names(geom)[i])] <- geom[i]
+  assertList(vector, any.missing = FALSE, max.len = 7, null.ok = TRUE)
+  if(!is.null(vector)){
+    assertNames(names(vector), subset.of = c("scale", "linecol", "fillcol", "linetype", "linewidth", "pointsize", "pointsymbol"))
+    previous <- from@vector
+    for(i in seq_along(names(vector))){
+      out@vector[which(names(previous) == names(vector)[i])] <- vector[i]
     }
   }
 
