@@ -27,7 +27,7 @@ if(!isGeneric("gc_grob")){
 # geom ----
 #' @rdname gc_grob
 #' @importFrom rlang exprs rep_along
-#' @importFrom grDevices colorRampPalette
+#' @importFrom grDevices colorRampPalette colors
 #' @importFrom stats setNames
 #' @importFrom tibble as_tibble
 #' @importFrom checkmate assertNames assertSubset assertList
@@ -52,21 +52,17 @@ setMethod(f = "gc_grob",
             }
 
             # scale input to relative, if it's not
+            outGeom <- input
             if(input@scale == "absolute"){
-              outGeom <- gt_scale(geom = input, to = "relative")
-            } else{
-              outGeom <- input
+              outGeom <- gt_scale(geom = outGeom, to = "relative")
             }
 
             point <- getPoints(x = outGeom)
             params <- theme@vector
 
             # select only displayArgs that are part of the valid parameters.
-            displayArgs <- displayArgs[names(displayArgs) %in% names(params)]
-
-            if(length(displayArgs) != 0){
-              tempArgs <- displayArgs
-            } else{
+            tempArgs <- displayArgs[names(displayArgs) %in% names(params)]
+            if(length(tempArgs) == 0){
               tempArgs <- setNames(list(params$scale$to), params$scale$x)
             }
             if(!any(names(tempArgs) == "fillcol")){
@@ -101,6 +97,11 @@ setMethod(f = "gc_grob",
                   toEval <- as.symbol(params$scale$to)
                   toRamp <- thisArg
                   makeWarning <- FALSE
+
+                  # test whether 'toEval' is a colour
+                  if(!as.character(toRamp) %in% colors() & !grepl(pattern = "^#(?:[0-9a-fA-F]{3}){1,2}$", x = toRamp)){
+                    stop(paste0(toRamp, " was neither found as column in the object to plot, nor is it a valid colour."))
+                  }
                 }
 
                 vals <- eval(parse(text = paste0(toEval)), envir = attr)
