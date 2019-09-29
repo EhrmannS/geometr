@@ -102,14 +102,21 @@ gt_sketch <- function(template = NULL, shape = NULL, features = 1, vertices = NU
   }
 
   # get some raster properties
-  if(template$type == "RasterLayer"){
-    tempName <- names(template$obj)
-    dims <- dim(template$obj)
-    projection <- getCRS(x = template$obj)
-  } else{
-    tempName <- NULL
-    dims <- dim(template$obj)
+  if(!is.null(template)){
+    if(template$type == "RasterLayer"){
+      tempName <- names(template$obj)
+      dims <- dim(template$obj)
+      projection <- getCRS(x = template$obj)
+    } else{
+      tempName <- NULL
+      dims <- dim(template$obj)
+      projection <- NA
+    }
+  } else {
+    tempName <- "geom"
+    dims <- c(1, 1)
     projection <- NA
+    template <- list(obj = gs_polygon(anchor = data.frame(x = c(0, 1, 1, 0), y = c(0, 0, 1, 1))))
   }
 
   theVertices <- theFeatures <- theGroups <- NULL
