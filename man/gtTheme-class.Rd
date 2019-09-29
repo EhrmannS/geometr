@@ -6,10 +6,10 @@
 \alias{themeClass}
 \title{Theme class (S4) and methods}
 \description{
-An \code{gtTheme} stores the \code{\link{visualise}} compatible theme to plot
-rasters and geoms. While you can assign values to the slots manually, it
-makes more sense to use \code{\link{setTheme}}, which carries out all the
-checks and makes sure that names of the parameters are properly matched.
+An \code{gtTheme} stores a theme to \code{\link{visualise}} vector and raster
+objects. It is recommended to use \code{\link{setTheme}} to modify a
+\code{gtTheme}, because it carries out all the checks and makes sure that
+names of the parameters are properly matched.
 }
 \section{Slots}{
 
@@ -29,8 +29,8 @@ and ticks.}
 \item{\code{legend}}{[\code{named list(10)}]\cr properties of the legend, its title,
 labels, ticks and bounding box.}
 
-\item{\code{geom}}{[\code{named list(7)}]\cr properties of a geom.}
+\item{\code{vector}}{[\code{named list(7)}]\cr properties of a vector object.}
 
-\item{\code{raster}}{[\code{named list(2)}]\cr properties of a raster.}
+\item{\code{raster}}{[\code{named list(2)}]\cr properties of a raster object.}
 }}
 

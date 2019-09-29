@@ -33,7 +33,7 @@ returned (\code{FALSE}, default)?}
 created when \code{show = TRUE}.}
 }
 \value{
-A \code{data.frame} of the selected locations and, if \code{identify
+A \code{tibble} of the selected locations and, if \code{identify
   = TRUE}, the respective values. If \code{show = TRUE} the values are also
   shown in the plot.
 }

@@ -5,7 +5,7 @@
 \title{Create a new theme}
 \usage{
 setTheme(from = NULL, title = NULL, box = NULL, xAxis = NULL,
-  yAxis = NULL, grid = NULL, legend = NULL, geom = NULL,
+  yAxis = NULL, grid = NULL, legend = NULL, vector = NULL,
   raster = NULL)
 }
 \arguments{
@@ -45,9 +45,9 @@ grid and whether or not to plot the \code{minor = TRUE/FALSE} grid.}
 labels, \cr\cr box [\code{named list(.)}]\cr \code{plot = TRUE/FALSE},
 \code{linetype}, \code{linewidth} and \code{colour} of the legend box.}
 
-\item{geom}{[\code{named list(.)}]\cr \code{line}, \code{fill},
+\item{vector}{[\code{named list(.)}]\cr \code{linecol}, \code{fillcol},
 \code{linetype}, \code{linewidth}, \code{pointsize} and \code{pointsymbol}
-of a geom, \cr\cr scale [\code{named list(.)}]\cr \code{x =
+of a vector object, \cr\cr scale [\code{named list(.)}]\cr \code{x =
 'someParameter'} and \code{to = 'someAttribute'} to which to scale
 'someParameter' to.}
 
