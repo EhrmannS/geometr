@@ -99,7 +99,7 @@ setMethod(f = "gc_grob",
                   makeWarning <- FALSE
 
                   # test whether 'toEval' is a colour
-                  if(!as.character(toRamp) %in% colors() & !grepl(pattern = "^#(?:[0-9a-fA-F]{3}){1,2}$", x = toRamp)){
+                  if(!as.character(toRamp) %in% colors() & !grepl(pattern = "\\#(.{6,8})", x = toRamp)){
                     stop(paste0(toRamp, " was neither found as column in the object to plot, nor is it a valid colour."))
                   }
                 }
