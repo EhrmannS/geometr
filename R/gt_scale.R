@@ -63,12 +63,10 @@ gt_scale <- function(geom, range = NULL, to = "relative"){
     maxY <- max(window$y)
 
     if(minX == maxX){
-      minX <- minX - 1
-      maxX <- maxX + 1
+      stop("I can't scale a 'geom' that has equal minimum and maximum x values of the window.")
     }
     if(minY == maxY){
-      minY <- minY - 1
-      maxY <- maxY + 1
+      stop("I can't scale a 'geom' that has equal minimum and maximum y values of the window.")
     }
   } else{
     newScale <- "an 'absolute'"
