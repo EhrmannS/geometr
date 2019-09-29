@@ -1,7 +1,7 @@
 #' Visualise raster and geom objects
 #'
 #' @param ... objects to plot and optional graphical parameters.
-#' @param window [\code{data.frame(1)}]\cr two oposing corners of a rectangle to
+#' @param window [\code{data.frame(1)}]\cr two opposing corners of a rectangle to
 #'   which the plot is limited.
 #' @param theme [\code{list(7)}]\cr visualising options; see
 #'   \code{\link{setTheme}} for details.

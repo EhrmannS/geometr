@@ -309,7 +309,7 @@ visualise(relPoly, linecol = "deeppink", new = F)
 
 In various functions of `geometr` the reference window can play a role, most prominently to control which part of an object is plotted.
 The window of any object that has been plotted here so far, other than `relPoly`, has been set implicitly, usually to the extent of that object.
-`relPoly` has been assigned with a reference window that is larger than its' extent and this lead to an effect that could be described *zoming out*.
+`relPoly` has been assigned with a reference window that is larger than its' extent and this lead to an effect that could be described *zooming out*.
 Likewise, one could *zoom in* by assigning a reference window smaller than the extent of an object.
 The reference region for a plot can be set via the `window = ` argument in `visualise()`, which requires absolute values.
 To zoom in on `relPoly`, we thus have to assign the plot extent as window to `relPoly` and rescale the relative values to absolute values on that basis.
