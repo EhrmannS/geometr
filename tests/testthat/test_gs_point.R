@@ -41,5 +41,4 @@ test_that("Error if arguments have wrong value", {
   expect_error(gs_point(vertices = 4))
   expect_error(gs_point(anchor = "bla"))
   expect_error(gs_point(anchor = coords, vertices = "bla"))
-  expect_error(gs_point(sketch = "bla", vertices = 4))
 })

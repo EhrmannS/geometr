@@ -40,6 +40,38 @@ test_that("visualise a geom", {
   expect_class(output, "recordedplot")
 })
 
+test_that("quick options produce output", {
+
+  aTheme <- setTheme(vector = list(linewidth = c(1, 3),
+                                   pointsize = c(1, 3),
+                                   pointsymbol = c(0:12),
+                                   linetype = c(1, 2)))
+
+  # linecol
+  output <- visualise(geom = gtGeoms$polygon, linecol = "fid")
+  expect_class(output, "recordedplot")
+
+  # fillcol
+  output <- visualise(geom = gtGeoms$polygon, fillcol = "fid")
+  expect_class(output, "recordedplot")
+
+  # pointsize
+  output <- visualise(geom = gtGeoms$polygon, pointsize = "fid")
+  expect_class(output, "recordedplot")
+
+  # pointsymbol
+  output <- visualise(geom = gtGeoms$polygon, pointsymbol = "fid")
+  expect_class(output, "recordedplot")
+
+  # linewidth
+  output <- visualise(geom = gtGeoms$polygon, linewidth = "fid", theme = aTheme)
+  expect_class(output, "recordedplot")
+
+  # linetype
+  output <- visualise(geom = gtGeoms$polygon, linetype = "fid", theme = aTheme)
+  expect_class(output, "recordedplot")
+})
+
 test_that("visualise a geom on top of an already plotted raster", {
   continuous <- gtRasters$continuous
   coords <- data.frame(x = c(40, 70, 70, 50),

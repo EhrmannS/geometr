@@ -22,5 +22,4 @@ test_that("Error if arguments have wrong value", {
   expect_error(gs_square(window = coords), regexp = "please provide anchor values.")
   expect_error(gs_square(anchor = "bla"))
   expect_error(gs_square(anchor = coords, features = "bla"))
-  expect_error(gs_square(sketch = "bla"))
 })

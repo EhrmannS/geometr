@@ -60,7 +60,7 @@ test_that("make object from a Raster", {
 
   # errors
   expect_error(object = makeObject(x = input, theme = gtTheme))
-  expect_error(object = makeObject(x = gtRasters$categorical, image = TRUE, theme = gtTheme))
+  expect_error(object = makeObject(x = gtRasters$categorical, window = NULL, image = TRUE, theme = gtTheme))
 })
 
 test_that("make object from a matrix", {
@@ -85,7 +85,7 @@ test_that("make object from a matrix", {
 
   # errors
   expect_error(object = makeObject(x = input1, theme = gtTheme))
-  expect_error(object = makeObject(x = input2, image = TRUE, theme = gtTheme))
+  expect_error(object = makeObject(x = input2, window = NULL, image = TRUE, theme = gtTheme))
 })
 
 test_that("make object from a Spatial", {
