@@ -121,7 +121,7 @@
     </div>
 
     <pre class="usage"><span class='fu'>setTheme</span>(<span class='kw'>from</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>title</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>box</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>xAxis</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>yAxis</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>grid</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>legend</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>geom</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>yAxis</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>grid</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>legend</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>vector</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>raster</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -178,10 +178,10 @@ labels, <br /><br /> box [<code>named list(.)</code>]<br /> <code>plot = TRUE/FA
 <code>linetype</code>, <code>linewidth</code> and <code>colour</code> of the legend box.</p></td>
     </tr>
     <tr>
-      <th>geom</th>
-      <td><p>[<code>named list(.)</code>]<br /> <code>line</code>, <code>fill</code>,
+      <th>vector</th>
+      <td><p>[<code>named list(.)</code>]<br /> <code>linecol</code>, <code>fillcol</code>,
 <code>linetype</code>, <code>linewidth</code>, <code>pointsize</code> and <code>pointsymbol</code>
-of a geom, <br /><br /> scale [<code>named list(.)</code>]<br /> <code>x =
+of a vector object, <br /><br /> scale [<code>named list(.)</code>]<br /> <code>x =
 'someParameter'</code> and <code>to = 'someAttribute'</code> to which to scale
 'someParameter' to.</p></td>
     </tr>
@@ -204,10 +204,10 @@ at least two <code>colours</code> to which to scale 'someAttribute' to.</p></td>
 #&gt; </span><span style='color: #00BB00;'>✔</span><span style='color: #BBBB00;'>  - label  </span><span>'y' in black with fontsize 12
 #&gt; </span><span style='color: #00BB00;'>✔</span><span style='color: #BBBB00;'>  - ticks  </span><span>in black with fontsize 10 rounded to 1 digit 
 #&gt; </span><span style='color: #00BB00;'>✔</span><span style='color: #BBBB00;'> grid     </span><span> in grey with 0.6 wide solid lines 
-#&gt; </span><span style='color: #00BB00;'>✔</span><span style='color: #BBBB00;'> legend   </span><span> with values ordered ascending in 5 bins and a relative height of 0.6
+#&gt; </span><span style='color: #00BB00;'>✔</span><span style='color: #BBBB00;'> legend   </span><span> with values ordered ascending in 4 bins and a relative height of 0.6
 #&gt; </span><span style='color: #00BB00;'>✔</span><span style='color: #BBBB00;'>  - label  </span><span>in black with fontsize 10
 #&gt; </span><span style='color: #00BB00;'>✔</span><span style='color: #BBBB00;'>  - box    </span><span>in black with 0.2 wide solid lines 
-#&gt; </span><span style='color: #00BB00;'>✔</span><span style='color: #BBBB00;'> geom     </span><span> with 'linecol' scaled to </span><span style='color: #00BBBB;'>fid</span><span>, 1 wide solid lines or points with size 0.5 of type 20
+#&gt; </span><span style='color: #00BB00;'>✔</span><span style='color: #BBBB00;'> vector   </span><span> with 'linecol' scaled to </span><span style='color: #00BBBB;'>fid</span><span>, 1 wide solid lines or points with size 0.5 of type 20
 #&gt; </span><span style='color: #00BB00;'>✔</span><span style='color: #BBBB00;'> raster   </span><span> with colours scaled to </span><span style='color: #00BBBB;'>id</span><span></div><div class='input'>
 <span class='fu'><a href='visualise.html'>visualise</a></span>(<span class='no'>input</span>, <span class='kw'>theme</span> <span class='kw'>=</span> <span class='no'>myTheme</span>)</div><div class='img'><img src='setTheme-1.png' alt='' width='700' height='433' /></div></span></pre>
   </div>

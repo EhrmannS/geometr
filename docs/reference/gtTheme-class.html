@@ -36,10 +36,10 @@
 
 
 <meta property="og:title" content="Theme class (S4) and methods — gtTheme-class" />
-<meta property="og:description" content="An gtTheme stores the visualise compatible theme to plot
-rasters and geoms. While you can assign values to the slots manually, it
-makes more sense to use setTheme, which carries out all the
-checks and makes sure that names of the parameters are properly matched." />
+<meta property="og:description" content="An gtTheme stores a theme to visualise vector and raster
+objects. It is recommended to use setTheme to modify a
+gtTheme, because it carries out all the checks and makes sure that
+names of the parameters are properly matched." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -120,10 +120,10 @@ checks and makes sure that names of the parameters are properly matched." />
     </div>
 
     <div class="ref-description">
-    <p>An <code>gtTheme</code> stores the <code><a href='visualise.html'>visualise</a></code> compatible theme to plot
-rasters and geoms. While you can assign values to the slots manually, it
-makes more sense to use <code><a href='setTheme.html'>setTheme</a></code>, which carries out all the
-checks and makes sure that names of the parameters are properly matched.</p>
+    <p>An <code>gtTheme</code> stores a theme to <code><a href='visualise.html'>visualise</a></code> vector and raster
+objects. It is recommended to use <code><a href='setTheme.html'>setTheme</a></code> to modify a
+<code>gtTheme</code>, because it carries out all the checks and makes sure that
+names of the parameters are properly matched.</p>
     </div>
 
 
@@ -148,9 +148,9 @@ and ticks.</p></dd>
 <dt><code>legend</code></dt><dd><p>[<code>named list(10)</code>]<br /> properties of the legend, its title,
 labels, ticks and bounding box.</p></dd>
 
-<dt><code>geom</code></dt><dd><p>[<code>named list(7)</code>]<br /> properties of a geom.</p></dd>
+<dt><code>vector</code></dt><dd><p>[<code>named list(7)</code>]<br /> properties of a vector object.</p></dd>
 
-<dt><code>raster</code></dt><dd><p>[<code>named list(2)</code>]<br /> properties of a raster.</p></dd>
+<dt><code>raster</code></dt><dd><p>[<code>named list(2)</code>]<br /> properties of a raster object.</p></dd>
 
 </dl>
 

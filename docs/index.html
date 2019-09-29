@@ -166,7 +166,7 @@
 <a class="sourceLine" id="cb3-33" data-line-number="33"><span class="co">#&gt; 10    10     8 0.091      1.28  1835    1835 Gates 37073  37073       37</span></a>
 <a class="sourceLine" id="cb3-34" data-line-number="34"><span class="co">#&gt; # … with 98 more rows, and 6 more variables: BIR74 &lt;dbl&gt;, SID74 &lt;dbl&gt;,</span></a>
 <a class="sourceLine" id="cb3-35" data-line-number="35"><span class="co">#&gt; #   NWBIR74 &lt;dbl&gt;, BIR79 &lt;dbl&gt;, SID79 &lt;dbl&gt;, NWBIR79 &lt;dbl&gt;</span></a></code></pre></div>
-<p>A <code>geom</code> has three attribute tables, one for vertices, one for features and one for groups of features, all of which can be provided with ancillary information (<a href="https://ehrmanns.github.io/geometr/articles/geometr.html#the-class-geom">details on data structure of a <code>geom</code></a>).</p>
+<p>A <code>geom</code> has three attribute tables, one for vertices, one for features and one for groups of features, all of which can be provided with ancillary information (<a href="https://ehrmanns.github.io/geometr/articles/geometr.html#description-of-the-class-geom">details on data structure of a <code>geom</code></a>.</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="kw"><a href="reference/getTable.html">getTable</a></span>(<span class="dt">x =</span> nc_geom, <span class="dt">slot =</span> <span class="st">"point"</span>)</a>
 <a class="sourceLine" id="cb4-2" data-line-number="2"><span class="co">#&gt; # A tibble: 2,529 x 3</span></a>
 <a class="sourceLine" id="cb4-3" data-line-number="3"><span class="co">#&gt;        x     y   fid</span></a>
@@ -181,22 +181,7 @@
 <a class="sourceLine" id="cb4-12" data-line-number="12"><span class="co">#&gt;  8 -81.7  36.6     1</span></a>
 <a class="sourceLine" id="cb4-13" data-line-number="13"><span class="co">#&gt;  9 -81.3  36.6     1</span></a>
 <a class="sourceLine" id="cb4-14" data-line-number="14"><span class="co">#&gt; 10 -81.3  36.5     1</span></a>
-<a class="sourceLine" id="cb4-15" data-line-number="15"><span class="co">#&gt; # … with 2,519 more rows</span></a>
-<a class="sourceLine" id="cb4-16" data-line-number="16"><span class="kw"><a href="reference/getTable.html">getTable</a></span>(<span class="dt">x =</span> nc_geom, <span class="dt">slot =</span> <span class="st">"group"</span>)</a>
-<a class="sourceLine" id="cb4-17" data-line-number="17"><span class="co">#&gt; # A tibble: 100 x 1</span></a>
-<a class="sourceLine" id="cb4-18" data-line-number="18"><span class="co">#&gt;      gid</span></a>
-<a class="sourceLine" id="cb4-19" data-line-number="19"><span class="co">#&gt;    &lt;int&gt;</span></a>
-<a class="sourceLine" id="cb4-20" data-line-number="20"><span class="co">#&gt;  1     1</span></a>
-<a class="sourceLine" id="cb4-21" data-line-number="21"><span class="co">#&gt;  2     2</span></a>
-<a class="sourceLine" id="cb4-22" data-line-number="22"><span class="co">#&gt;  3     3</span></a>
-<a class="sourceLine" id="cb4-23" data-line-number="23"><span class="co">#&gt;  4     4</span></a>
-<a class="sourceLine" id="cb4-24" data-line-number="24"><span class="co">#&gt;  5     5</span></a>
-<a class="sourceLine" id="cb4-25" data-line-number="25"><span class="co">#&gt;  6     6</span></a>
-<a class="sourceLine" id="cb4-26" data-line-number="26"><span class="co">#&gt;  7     7</span></a>
-<a class="sourceLine" id="cb4-27" data-line-number="27"><span class="co">#&gt;  8     8</span></a>
-<a class="sourceLine" id="cb4-28" data-line-number="28"><span class="co">#&gt;  9     9</span></a>
-<a class="sourceLine" id="cb4-29" data-line-number="29"><span class="co">#&gt; 10    10</span></a>
-<a class="sourceLine" id="cb4-30" data-line-number="30"><span class="co">#&gt; # … with 90 more rows</span></a></code></pre></div>
+<a class="sourceLine" id="cb4-15" data-line-number="15"><span class="co">#&gt; # … with 2,519 more rows</span></a></code></pre></div>
 <p>Groups of features are called <em>multi*</em> features in other packages. By lumping several closed geometric shapes into one multi* feature, the separate geometric shapes can’t be attributed with ancillary information any more. In a <code>geom</code>, multi* features are separated into distinct (simpler) features, while the attributes of multi* features can be captured by the <em>group attribute table</em>.</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1">nc_geom2 &lt;-<span class="st"> </span><span class="kw"><a href="reference/gc_geom.html">gc_geom</a></span>(<span class="dt">input =</span> nc_sf, <span class="dt">group =</span> <span class="ot">TRUE</span>)</a>
 <a class="sourceLine" id="cb5-2" data-line-number="2">currituck &lt;-<span class="st"> </span><span class="kw"><a href="reference/getSubset.html">getSubset</a></span>(<span class="dt">x =</span> nc_geom2, gid <span class="op">==</span><span class="st"> </span><span class="dv">4</span>)</a>
@@ -214,7 +199,7 @@
 <a class="sourceLine" id="cb5-14" data-line-number="14"><span class="co">#&gt; 1     4  0.07      2.97  1831    1831 Curr… 37053  37053       27   508</span></a>
 <a class="sourceLine" id="cb5-15" data-line-number="15"><span class="co">#&gt; # … with 5 more variables: SID74 &lt;dbl&gt;, NWBIR74 &lt;dbl&gt;, BIR79 &lt;dbl&gt;,</span></a>
 <a class="sourceLine" id="cb5-16" data-line-number="16"><span class="co">#&gt; #   SID79 &lt;dbl&gt;, NWBIR79 &lt;dbl&gt;</span></a></code></pre></div>
-<p>Visualise a <code>geom</code></p>
+<p>Visualise a <code>geom</code> and use quick options to scale attributes to plot properties.</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1"><span class="kw"><a href="reference/visualise.html">visualise</a></span>(<span class="st">`</span><span class="dt">North Carolina</span><span class="st">`</span> =<span class="st"> </span>nc_geom)</a></code></pre></div>
 <p><img src="reference/figures/README-unnamed-chunk-7-1.png" width="100%"></p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="kw"><a href="reference/visualise.html">visualise</a></span>(<span class="st">`</span><span class="dt">NC - NWBIR74</span><span class="st">`</span> =<span class="st"> </span>nc_geom, <span class="dt">fillcol =</span> NWBIR74)</a></code></pre></div>
@@ -267,6 +252,7 @@
 <ul class="list-unstyled">
 <li><a href="https://cran.r-project.org/package=geometr"><img src="http://www.r-pkg.org/badges/version/geometr" alt="CRAN_Status_Badge"></a></li>
 <li><a href="https://travis-ci.org/EhrmannS/geometr"><img src="https://travis-ci.org/EhrmannS/geometr.svg?branch=master" alt="Travis-CI Build Status"></a></li>
+<li><a href="https://ci.appveyor.com/project/EhrmannS/geometr"><img src="https://ci.appveyor.com/api/projects/status/github/EhrmannS/geometr?branch=master&amp;svg=true" alt="AppVeyor build status"></a></li>
 <li><a href="https://codecov.io/github/EhrmannS/geometr?branch=master"><img src="https://img.shields.io/codecov/c/github/EhrmannS/geometr/master.svg" alt="Coverage Status"></a></li>
 <li><a href="https://cran.rstudio.com/web/packages/geometr/index.html"><img src="http://cranlogs.r-pkg.org/badges/grand-total/geometr"></a></li>
 <li><a href="https://www.tidyverse.org/lifecycle/#maturing"><img src="https://img.shields.io/badge/lifecycle-maturing-blue.svg" alt="Lifecycle:maturing"></a></li>
