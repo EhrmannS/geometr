@@ -75,6 +75,14 @@ setMethod(f = "setTable",
               x@group <- as_tibble(temp)
             }
 
+            cln <- colnames(table)
+            if(length(cln) > 1){
+              hist <- paste0("the ", slot, " attribute table was joined with the variables (", paste(cln, collapse = ", "), ")")
+            } else {
+              hist <- paste0("the ", slot, " attribute table was joined with the variable ", cln)
+            }
+            x@history <- c(getHistory(x = x), list())
+
             return(x)
           }
 )

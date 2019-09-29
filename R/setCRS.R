@@ -53,6 +53,7 @@ setMethod(f = "setCRS",
               x@crs <- crs
               x <- setWindow(x = x, to = getExtent(x))
             }
+            x@history <- c(getHistory(x = x), list(paste0("the crs was set to '", crs, "'.")))
             return(x)
           }
 )
@@ -102,6 +103,7 @@ setMethod(f = "setCRS",
             } else{
               x <- projectRaster(from = x, crs = crs)
             }
+            x@history <- c(getHistory(x = x), list(paste0("the crs was set to '", crs, "'.")))
             return(x)
           }
 )
