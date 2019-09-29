@@ -36,10 +36,8 @@ setMethod(f = "makeObject",
             }
 
             displayArgs <- exprs(...)
-            displayArgs <- displayArgs[names(displayArgs) %in% names(theme@vector)]
-            if(length(displayArgs) != 0){
-              tempArgs <- displayArgs
-            } else{
+            tempArgs <- displayArgs[names(displayArgs) %in% names(theme@vector)]
+            if(length(tempArgs) == 0){
               tempArgs <- setNames(list(theme@vector$scale$to), theme@vector$scale$x)
             }
 
