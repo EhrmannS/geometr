@@ -75,11 +75,10 @@ getTable(x = nc_sf)
 getTable(x = nc_geom, slot = "feature")
 ```
 
-A `geom` has three attribute tables, one for vertices, one for features and one for groups of features, all of which can be provided with ancillary information ([details on data structure of a `geom`](https://ehrmanns.github.io/geometr/articles/geometr.html#the-class-geom)).
+A `geom` has three attribute tables, one for vertices, one for features and one for groups of features, all of which can be provided with ancillary information ([details on data structure of a `geom`](https://ehrmanns.github.io/geometr/articles/geometr.html#description-of-the-class-geom).
 
 ```{r}
 getTable(x = nc_geom, slot = "point")
-getTable(x = nc_geom, slot = "group")
 ```
 
 Groups of features are called *multi\** features in other packages. By lumping several closed geometric shapes into one multi\* feature, the separate geometric shapes can’t be attributed with ancillary information any more. In a `geom`, multi\* features are separated into distinct (simpler) features, while the attributes of multi\* features can be captured by the *group attribute table*.
@@ -91,14 +90,14 @@ getTable(x = currituck, slot = "feature")
 getTable(x = currituck, slot = "group")
 ```
 
-Visualise a `geom`
+Visualise a `geom` and use quick options to scale attributes to plot properties.
 
 ```{r}
 visualise(`North Carolina` = nc_geom)
 visualise(`NC - NWBIR74` = nc_geom, fillcol = NWBIR74)
 ```
 
-A `geom` has the slot `@window`, which contains a reference window, so to speak. This reference window can be used or modified in many functions of `geometr`
+A `geom` has the slot `@window`, which contains a reference window. This reference window can be used or modified in many functions of `geometr`
 
 ```{r}
 visualise(`Currituck` = currituck, window = getExtent(currituck))

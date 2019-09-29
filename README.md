@@ -128,7 +128,7 @@ getTable(x = nc_geom, slot = "feature")
 A `geom` has three attribute tables, one for vertices, one for features
 and one for groups of features, all of which can be provided with
 ancillary information ([details on data structure of a
-`geom`](https://ehrmanns.github.io/geometr/articles/geometr.html#the-class-geom)).
+`geom`](https://ehrmanns.github.io/geometr/articles/geometr.html#description-of-the-class-geom).
 
 ``` r
 getTable(x = nc_geom, slot = "point")
@@ -146,21 +146,6 @@ getTable(x = nc_geom, slot = "point")
 #>  9 -81.3  36.6     1
 #> 10 -81.3  36.5     1
 #> # … with 2,519 more rows
-getTable(x = nc_geom, slot = "group")
-#> # A tibble: 100 x 1
-#>      gid
-#>    <int>
-#>  1     1
-#>  2     2
-#>  3     3
-#>  4     4
-#>  5     5
-#>  6     6
-#>  7     7
-#>  8     8
-#>  9     9
-#> 10    10
-#> # … with 90 more rows
 ```
 
 Groups of features are called *multi\** features in other packages. By
@@ -189,7 +174,8 @@ getTable(x = currituck, slot = "group")
 #> #   SID79 <dbl>, NWBIR79 <dbl>
 ```
 
-Visualise a `geom`
+Visualise a `geom` and use quick options to scale attributes to plot
+properties.
 
 ``` r
 visualise(`North Carolina` = nc_geom)
