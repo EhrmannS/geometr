@@ -11,15 +11,6 @@ makeLayout <- function(x = NULL, theme = gtTheme){
   attr <- x$params
   window <- x$window
 
-  if(min(window$x) == max(window$x)){
-    window$x[1] <- window$x[1] - 1
-    window$x[2] <- window$x[2] + 1
-  }
-  if(min(window$y) == max(window$y)){
-    window$y[1] <- window$y[1] - 1
-    window$y[2] <- window$y[2] + 1
-  }
-
   maxPlotX <- max(window$x)
   minPlotX <- min(window$x)
   maxPlotY <- max(window$y)
