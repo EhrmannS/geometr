@@ -1,6 +1,6 @@
 Package: geometr
 Title: Generate and modify interoperable geometric shapes
-Version: 0.1.0
+Version: 0.1.1
 Authors@R: person("Steffen", "Ehrmann", email = "steffen@funroll-loops.de",
     role = c("aut", "cre"), 
     comment = c(ORCID = "0000-0002-2958-0796"))
