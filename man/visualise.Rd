@@ -10,7 +10,7 @@ visualise(..., window = NULL, theme = gtTheme, trace = FALSE,
 \arguments{
 \item{...}{objects to plot and optional graphical parameters.}
 
-\item{window}{[\code{data.frame(1)}]\cr two oposing corners of a rectangle to
+\item{window}{[\code{data.frame(1)}]\cr two opposing corners of a rectangle to
 which the plot is limited.}
 
 \item{theme}{[\code{list(7)}]\cr visualising options; see
