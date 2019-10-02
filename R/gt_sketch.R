@@ -112,11 +112,13 @@ gt_sketch <- function(template = NULL, shape = NULL, features = 1, vertices = NU
       dims <- dim(template$obj)
       projection <- NA
     }
+    theScale <- "absolute"
   } else {
     tempName <- "geom"
     dims <- c(1, 1)
     projection <- NA
     template <- list(obj = gs_polygon(anchor = data.frame(x = c(0, 1, 1, 0), y = c(0, 0, 1, 1))))
+    theScale <- "relative"
   }
 
   theVertices <- theFeatures <- theGroups <- NULL
@@ -178,7 +180,7 @@ gt_sketch <- function(template = NULL, shape = NULL, features = 1, vertices = NU
                  feature = theFeatures,
                  group = theGroups,
                  window = theWindow,
-                 scale = "absolute",
+                 scale = theScale,
                  crs = as.character(projection),
                  history = list(paste0("geometry was created as '", type, "'.")))
 
