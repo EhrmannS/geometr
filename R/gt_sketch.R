@@ -163,6 +163,7 @@ gt_sketch <- function(template = NULL, shape = NULL, features = 1, vertices = NU
       theNodes <- tempAnchor
     }
 
+    theNodes <- .updateVertices(input = theNodes)
     theVertices <- bind_rows(theVertices, theNodes)
     theFeatures <- bind_rows(theFeatures, tempFeatures)
     theGroups <- bind_rows(theGroups, tempGroups)

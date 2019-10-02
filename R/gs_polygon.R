@@ -122,7 +122,6 @@ gs_polygon <- function(anchor = NULL, window = NULL, features = 1, vertices = NU
                          vertices = vertices,
                          regular = regular,
                          ...)
-
   } else{
 
     theVertices <- theFeatures <- theGroups <- NULL
