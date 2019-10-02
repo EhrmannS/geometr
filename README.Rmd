@@ -34,15 +34,15 @@ providing tools
 
 ## Installation
 
-1)  Install the development version from github and load it:
+1) Install the latest development version from github:
 
 ```{r, eval=FALSE}
 devtools::install_github("EhrmannS/geometr")
 ```
 
-2)  The [vignette](https://ehrmanns.github.io/geometr/articles/geometr.html) gives a more in depth introduction, explains `geometr`s take on interoperability and discusses the spatial class `geom` that comes with `geometr`.
+2) The [vignette](https://ehrmanns.github.io/geometr/articles/geometr.html) gives an in depth introduction, explains the take on interoperability and discusses the spatial class `geom` that comes with `geometr`.
 
-3)  Have fun being a [geometer](https://en.wikipedia.org/wiki/List_of_geometers)\!
+3) Have fun being a [geometer](https://en.wikipedia.org/wiki/List_of_geometers)\!
 
 ## Examples
 

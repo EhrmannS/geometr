@@ -32,7 +32,7 @@ providing tools
 
 ## Installation
 
-1)  Install the development version from github and load it:
+1)  Install the latest development version from github:
 
 <!-- end list -->
 
@@ -42,7 +42,7 @@ devtools::install_github("EhrmannS/geometr")
 
 2)  The
     [vignette](https://ehrmanns.github.io/geometr/articles/geometr.html)
-    gives a more in depth introduction, explains `geometr`s take on
+    gives an in depth introduction, explains the take on
     interoperability and discusses the spatial class `geom` that comes
     with `geometr`.
 
@@ -58,7 +58,7 @@ library(geometr)
 
 # ... from other classes
 library(sf)
-#> Linking to GEOS 3.5.1, GDAL 2.2.2, PROJ 4.9.2
+#> Linking to GEOS 3.7.0, GDAL 2.4.0, PROJ 5.2.0
 nc_sf <- st_read(system.file("shape/nc.shp", package="sf"), quiet = TRUE)
 nc_geom <- gc_geom(input = nc_sf)
 
