@@ -9,3 +9,9 @@
 0 errors | 0 warnings | 0 notes
 
 * This is a new release.
+
+
+02.10.2019
+
+changed https://cran.rstudio.com/web/packages/geometr/index.html to https://CRAN.R-project.org/package=geometr at line 23 in README.Rmd
+fiyed some more typos
