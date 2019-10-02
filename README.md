@@ -10,7 +10,7 @@ Status](https://travis-ci.org/EhrmannS/geometr.svg?branch=master)](https://travi
 status](https://ci.appveyor.com/api/projects/status/github/EhrmannS/geometr?branch=master&svg=true)](https://ci.appveyor.com/project/EhrmannS/geometr)
 [![Coverage
 Status](https://img.shields.io/codecov/c/github/EhrmannS/geometr/master.svg)](https://codecov.io/github/EhrmannS/geometr?branch=master)
-[![](http://cranlogs.r-pkg.org/badges/grand-total/geometr)](https://cran.rstudio.com/web/packages/geometr/index.html)
+[![](http://cranlogs.r-pkg.org/badges/grand-total/geometr)](https://cran.r-project.org/package=geometr)
 [![Lifecycle:maturing](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
 
 ## Overview
@@ -189,9 +189,8 @@ visualise(`NC - NWBIR74` = nc_geom, fillcol = NWBIR74)
 
 <img src="man/figures/README-unnamed-chunk-7-2.png" width="100%" />
 
-A `geom` has the slot `@window`, which contains a reference window, so
-to speak. This reference window can be used or modified in many
-functions of `geometr`
+A `geom` has the slot `@window`, which contains a reference window. This
+reference window can be used or modified in many functions of `geometr`
 
 ``` r
 visualise(`Currituck` = currituck, window = getExtent(currituck))
