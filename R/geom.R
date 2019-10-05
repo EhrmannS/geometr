@@ -69,44 +69,11 @@ setValidity("geom", function(object){
 
   errors = character()
 
-  if(!.hasSlot(object = object, name = "point")){
-    errors = c(errors, "the geom does not have a 'point' slot.")
-  } else {
-    if(!is.data.frame(object@point)){
-      errors = c(errors, "the slot 'point' is not a data.frame.")
-    }
-    if(!all(c("fid", "x" ,"y") %in% names(object@point))){
-      errors = c(errors, "the geom must have a point table with the columns 'x', 'y' and 'fid'.")
-    }
-  }
-
-  if(!.hasSlot(object = object, name = "feature")){
-    errors = c(errors, "the geom does not have a 'feature' slot.")
-  } else {
-    if(!is.data.frame(object@feature)){
-      errors = c(errors, "the slot 'feature' is not a data.frame.")
-    }
-    if(!all(c("fid", "gid") %in% names(object@feature))){
-      errors = c(errors, "the geom must have a features table with the columns 'fid' and 'gid'.")
-    }
-  }
-
-  if(!.hasSlot(object = object, name = "group")){
-    errors = c(errors, "the geom does not have a 'group' slot.")
-  } else {
-    if(!is.data.frame(object@group)){
-      errors = c(errors, "the slot 'group' is not a data.frame.")
-    }
-    if(!all(c("gid") %in% names(object@group))){
-      errors = c(errors, "the geom must have a group table with the column 'gid'.")
-    }
-  }
-
   if(!.hasSlot(object = object, name = "type")){
     errors = c(errors, "the geom does not have a 'type' slot.")
   } else {
-    if(!any(object@type %in% c("point", "line", "polygon"))){
-      errors = c(errors, "the geom must either be of type 'point', 'line' or 'polygon'.")
+    if(!any(object@type %in% c("point", "line", "polygon", "grid"))){
+      errors = c(errors, "the geom must either be of type 'point', 'line', 'polygon' or 'grid'.")
     } else if(object@type == "point"){
       if(dim(object@point)[1] < 1){
         errors = c(errors, "a geom of type 'point' must have at least 1 point.")
@@ -119,7 +86,52 @@ setValidity("geom", function(object){
       if(dim(object@point)[1] < 3){
         errors = c(errors, "a geom of type 'polygon' must have at least 3 points.")
       }
+    } else if(object@type == "grid"){
+      if(dim(object@point)[1] != 3){
+        errors = c(errors, "a geom of type 'grid' must have three rows ('origin' and 'cell number' extent and 'cell size').")
+      }
     }
+  }
+
+  if(!.hasSlot(object = object, name = "point")){
+    errors = c(errors, "the geom does not have a 'point' slot.")
+  } else {
+    if(!is.data.frame(object@point)){
+      errors = c(errors, "the slot 'point' is not a data.frame.")
+    }
+    if(object@type == "grid"){
+      if(!all(c("x" ,"y") %in% names(object@point))){
+        errors = c(errors, "the geom must have a grid table with the columns 'x' and 'y'.")
+      }
+    } else {
+      if(!all(c("fid", "x" ,"y") %in% names(object@point))){
+        errors = c(errors, "the geom must have a point table with the columns 'x', 'y' and 'fid'.")
+      }
+    }
+  }
+
+  if(!.hasSlot(object = object, name = "feature")){
+    errors = c(errors, "the geom does not have a 'feature' slot.")
+  } else {
+    if(!is.data.frame(object@feature)){
+      errors = c(errors, "the slot 'feature' is not a data.frame.")
+    }
+    if(object@type != "grid"){
+      if(!all(c("fid", "gid") %in% names(object@feature))){
+        errors = c(errors, "the geom must have a features table with at least the columns 'fid' and 'gid'.")
+      }
+    }
+  }
+
+  if(!.hasSlot(object = object, name = "group")){
+    errors = c(errors, "the geom does not have a 'group' slot.")
+  } else {
+    if(!is.list(object@group)){
+      errors = c(errors, "the slot 'group' is not a list.")
+    }
+    # if(!all(c("gid") %in% names(object@group))){
+    #   errors = c(errors, "the geom must have a group table with the column 'gid'.")
+    # }
   }
 
   if(!.hasSlot(object = object, name = "window")){
@@ -129,7 +141,7 @@ setValidity("geom", function(object){
       errors = c(errors, "the slot 'window' is not a data.frame.")
     }
     if(!all(c("x" ,"y") %in% names(object@window))){
-    errors = c(errors, "the geom must have a window table with columns 'x' and 'y'.")
+      errors = c(errors, "the geom must have a window table with columns 'x' and 'y'.")
     }
   }
 
@@ -139,9 +151,16 @@ setValidity("geom", function(object){
     if(!is.character(object@scale)){
       errors = c(errors, "the slot 'scale' is not a character vector.")
     } else {
+      # if(object@type == "grid"){
+      #   if(!any(object@scale %in% c("continuous", "categorical"))){
+      #     errors = c(errors, "the scale must either be 'continuous' or 'categorical'.")
+      #   }
+      # } else {
       if(!any(object@scale %in% c("absolute", "relative"))){
         errors = c(errors, "the scale must either be 'absolute' or 'relative'.")
       }
+      # }
+
     }
   }
 
@@ -181,16 +200,30 @@ setMethod(f = "show",
             vertAttribs <- length(object@point)
             featureAttribs <- length(object@feature)
             groupAttribs <- length(object@group)
-            if(length(unique(object@feature$fid)) == 1){
-              myFeat <- "feature"
+            theType <- object@type
+
+            if(theType == "grid"){
+              theFeats <- object@feature$val
+              if(length(unique(theFeats)) == 1){
+                myFeat <- "class"
+              } else {
+                myFeat <- "classes"
+              }
             } else {
-              myFeat <- "features"
+              theFeats <- object@feature$fid
+              if(length(unique(theFeats)) == 1){
+                myFeat <- "feature"
+              } else {
+                myFeat <- "features"
+              }
             }
+
             if(is.na(object@crs)){
               myCrs <- "cartesian"
             } else {
               myCrs <- object@crs
             }
+
             myAttributes <- NULL
             points <- feats <- groups <- FALSE
             if(!all(names(object@point) %in% c("x", "y", "fid"))){
@@ -203,11 +236,11 @@ setMethod(f = "show",
             }
             if(!all(names(object@feature) %in% c("fid", "gid"))){
               if(points){
-                theFeats <- "           (features) "
+                featureString <- "           (features) "
               } else {
-                theFeats <- " (features) "
+                featureString <- " (features) "
               }
-              myAttributes <- c(myAttributes, paste0(theFeats,
+              myAttributes <- c(myAttributes, paste0(featureString,
                                                      ifelse(featureAttribs <= 9,
                                                             paste0(paste0(names(object@feature)[!names(object@feature) %in% c("fid", "gid")], collapse = ", "), "\n"),
                                                             paste0(paste0(c(head(names(object@feature)[!names(object@feature) %in% c("fid", "gid")], 9), "..."), collapse = ", "), "\n")
@@ -216,11 +249,11 @@ setMethod(f = "show",
             }
             if(!all(names(object@group) %in% c("gid"))){
               if(feats | points){
-                theGroups <- "           (groups) "
+                groupString <- "           (groups) "
               } else {
-                theGroups <- " (groups) "
+                groupString <- " (groups) "
               }
-              myAttributes <- c(myAttributes, paste0(theGroups,
+              myAttributes <- c(myAttributes, paste0(groupString,
                                                      ifelse(groupAttribs <= 9,
                                                             paste0(paste0(names(object@group)[!names(object@group) %in% c("gid")], collapse = ", "), "\n"),
                                                             paste0(paste0(c(head(names(object@group)[!names(object@group) %in% c("gid")], 9), "..."), collapse = ", "), "\n")
@@ -234,7 +267,7 @@ setMethod(f = "show",
             tinyMap <- .makeTinyMap(geom = object)
 
             cat(yellow(class(object)), "        ", object@type, "\n", sep = "")
-            cat("            ", length(unique(object@feature$fid)), " ", myFeat, " | ", length(object@point$fid), " points\n", sep = "")
+            cat("            ", length(unique(theFeats)), " ", myFeat, " | ", length(theFeats), " points\n", sep = "")
             cat(yellow("crs         "), myCrs, "\n", sep = "")
             cat(yellow("attributes"), myAttributes)
             cat(yellow("tiny map  "), tinyMap)
