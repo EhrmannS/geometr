@@ -321,7 +321,7 @@ visualise <- function(..., window = NULL, theme = gtTheme, trace = FALSE, image 
                         height = unit(1, "npc"),
                         just = "left",
                         name = "legend_items",
-                        image = theColours,
+                        image = rev(theColours),
                         interpolate = FALSE)
 
             if(theme@legend$box$plot){
@@ -378,7 +378,7 @@ visualise <- function(..., window = NULL, theme = gtTheme, trace = FALSE, image 
           }
 
           if(theme@legend$label$plot){
-            grid.text(label = rev(unlist(theLegend[legendName], use.names = FALSE)),
+            grid.text(label = unlist(theLegend[legendName], use.names = FALSE),
                       x = unit(1, "npc") + pnl$legendX[j] + unit(15, "points"),
                       y = unit(theLegend$pos, "native") - unit(0.5, "native"),
                       name = "legend_labels",
