@@ -36,7 +36,7 @@
 #' the points when plotting.
 #'
 #' @slot type [\code{character(1)}]\cr the type of feature, either
-#'   \code{"point"}, \code{"line"} or \code{"polygon"}.
+#'   \code{"point"}, \code{"line"}, \code{"polygon"} or \code{"grid"}.
 #' @slot point [\code{data.frame(1)}]\cr the \code{fid} (feature ID), \code{x}
 #'   and \code{y} coordinates per point and optional arbitrary point
 #'   attributes.
@@ -57,7 +57,7 @@ geom <- setClass(Class = "geom",
                  slots = c(type = "character",
                            point = "data.frame",
                            feature = "data.frame",
-                           group = "data.frame",
+                           group = "list",
                            window = "data.frame",
                            scale = "character",
                            crs = "character",
@@ -129,9 +129,9 @@ setValidity("geom", function(object){
     if(!is.list(object@group)){
       errors = c(errors, "the slot 'group' is not a list.")
     }
-    # if(!all(c("gid") %in% names(object@group))){
-    #   errors = c(errors, "the geom must have a group table with the column 'gid'.")
-    # }
+    if(is.null(names(object@group))){
+      errors = c(errors, "the slot 'group' must contain named lists.")
+    }
   }
 
   if(!.hasSlot(object = object, name = "window")){
