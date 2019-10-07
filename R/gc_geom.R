@@ -51,7 +51,7 @@ setMethod(f = "gc_geom",
             } else if(sourceClass %in% c("SpatialPolygons", "SpatialPolygonsDataFrame", "SpatialGrid", "SpatialGridDataFrame")){
               type <- "polygon"
             }
-            history <- paste0("geometry was transformed from an object of class '", sourceClass, "'.")
+            history <- paste0("geom was transformed from an object of class '", sourceClass, "'.")
 
             out <- new(Class = "geom",
                        type = type,
@@ -103,7 +103,7 @@ setMethod(f = "gc_geom",
             } else {
               theGroups <- tibble(gid = unique(theData$gid))
             }
-            history <- paste0("geometry was transformed from an sf-object of geometry type '", sourceClass, "'.")
+            history <- paste0("geom was transformed from an sf-object of geometry type '", sourceClass, "'.")
 
             out <- new(Class = "geom",
                        type = type,
@@ -131,7 +131,7 @@ setMethod(f = "gc_geom",
             theData <- getTable(x = input)
             theGroups <- tibble(gid = theData$gid)
             theWindow <- getWindow(x = input)
-            history <- paste0("geometry was transformed from an object of class ppp.")
+            history <- paste0("geom was transformed from an object of class ppp.")
             theCRS <- NA_character_
 
             out <- new(Class = "geom",
@@ -143,6 +143,76 @@ setMethod(f = "gc_geom",
                        scale = "absolute",
                        crs = theCRS,
                        history = list(history))
+
+            return(out)
+          }
+)
+
+# Raster ----
+#' @rdname gc_geom
+#' @importFrom tibble tibble
+#' @importFrom raster xres yres
+#' @export
+setMethod(f = "gc_geom",
+          signature = "Raster",
+          definition = function(input = NULL, attr = FALSE, ...){
+
+            theExtent <- getExtent(x = input)
+            theCoords <- tibble(x = c(min(theExtent$x), input@nrows, xres(input)),
+                                y = c(min(theExtent$y), input@ncols, yres(input)))
+
+            theType <- getType(x = gtRasters)
+            theWindow <- getWindow(x = input)
+
+            theFeatures <- tibble(.rows = length(input[[1]]))
+            theGroups <- list()
+            for(i in 1:dim(input)[3]){
+
+              theInput <- input[[i]]
+              theName <- names(input)[i]
+
+
+              if(dim(input)[3] > 1){
+                theFeatures <- bind_cols(theFeatures, !!theName := theInput@data@values)
+              } else {
+                rawVal <- tibble(val = theInput@data@values)
+                rleVal <- rle(rawVal[[1]])
+                rleVal <- tibble(val = rleVal$values,
+                                 len = rleVal$lengths)
+                if(object.size(rleVal) > object.size(rawVal)){
+                  theFeatures <- rawVal
+                } else {
+                  theFeatures <- rleVal
+                }
+              }
+
+              if(length(theInput@data@attributes) != 0){
+                tempGroups <- as_tibble(theInput@data@attributes[[1]])
+                colnames(tempGroups) <- c("gid", colnames(tempGroups)[-1])
+              } else {
+                if(attr){
+                  tempGroups <- tibble(sort(unique(theInput@data@values)))
+                  colnames(tempGroups) <- c("gid", colnames(tempGroups)[-1])
+                } else {
+                  tempGroups <- tibble(gid = integer())
+                }
+              }
+              theGroups <- c(theGroups, setNames(list(tempGroups), theName))
+
+            }
+
+            history <- paste0("geom was transformed from an object of class ", theType[2], ".")
+            theCRS <- getCRS(x = input)
+
+            out <- new(Class = "geom",
+                       type = "grid",
+                       point = theCoords,
+                       feature = theFeatures,
+                       group = theGroups,
+                       window = theWindow,
+                       scale = "absolute",
+                       crs = theCRS,
+                       history = c(getHistory(input), list(history)))
 
             return(out)
           }
