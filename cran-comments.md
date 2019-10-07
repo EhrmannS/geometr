@@ -15,3 +15,8 @@
 
 changed https://cran.rstudio.com/web/packages/geometr/index.html to https://CRAN.R-project.org/package=geometr at line 23 in README.Rmd
 fiyed some more typos
+
+07.10.2019
+
+adapt package description
+using \donttest{} instead of \dontrun{}, testing the functions manually (and fixing an issue in gc_grob() I saw due to this) 
