@@ -33,7 +33,7 @@ setMethod(f = "getExtent",
 # geom ----
 #' @rdname getExtent
 #' @examples
-#' getTable(gtGeoms$polygon)
+#' getTable(x = gtGeoms$polygon)
 #' @importFrom dplyr bind_cols
 #' @export
 setMethod(f = "getExtent",
@@ -48,7 +48,7 @@ setMethod(f = "getExtent",
 #' @rdname getExtent
 #' @examples
 #'
-#' getExtent(gtSP$SpatialPolygons)
+#' getExtent(x = gtSP$SpatialPolygons)
 #' @importFrom raster extent
 #' @importFrom tibble tibble
 #' @export
@@ -65,7 +65,7 @@ setMethod(f = "getExtent",
 #' @rdname getExtent
 #' @examples
 #'
-#' getExtent(gtSF$multilinestring)
+#' getExtent(x = gtSF$multilinestring)
 #' @importFrom sf st_bbox
 #' @importFrom tibble tibble
 #' @export
@@ -82,7 +82,7 @@ setMethod(f = "getExtent",
 #' @rdname getExtent
 #' @examples
 #'
-#' getExtent(gtPPP)
+#' getExtent(x = gtPPP)
 #' @export
 setMethod(f = "getExtent",
           signature = "ppp",
@@ -97,7 +97,7 @@ setMethod(f = "getExtent",
 #' @rdname getExtent
 #' @examples
 #'
-#' getExtent(gtRasters$categorical)
+#' getExtent(x = gtRasters$categorical)
 #' @importFrom raster extent
 #' @importFrom dplyr bind_cols
 #' @export
@@ -114,7 +114,7 @@ setMethod(f = "getExtent",
 #' @rdname getExtent
 #' @examples
 #'
-#' getExtent(matrix(0, 3, 5))
+#' getExtent(x = matrix(0, 3, 5))
 #' @importFrom dplyr bind_cols
 #' @export
 setMethod(f = "getExtent",

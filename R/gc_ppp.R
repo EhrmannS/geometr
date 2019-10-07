@@ -22,7 +22,7 @@ if(!isGeneric("gc_ppp")){
 # geom ----
 #' @rdname gc_ppp
 #' @examples
-#' (pppPoints <- gc_ppp(input = gtGeoms$point))
+#' pppPoints <- gc_ppp(input = gtGeoms$point)
 #' @importFrom spatstat ppp
 #' @export
 setMethod(f = "gc_ppp",

@@ -10,7 +10,7 @@
 #'   from the bounding box of \code{anchor} (minimum and maximum values),
 #'   specify this here.
 #' @param sketch [\code{RasterLayer(1)} | \code{matrix(1)}]\cr Gridded object
-#'   that serves as template to sketch lines.
+#'   that serves as template to sketch line(s).
 #' @param features [\code{integerish(1)}]\cr number of lines to create.
 #' @param vertices [\code{integerish(.)}]\cr number of vertices per line; will
 #'   be recycled if it does not have as many elements as specified in
@@ -28,7 +28,7 @@
 #'   \item graphical parameters to \code{\link{gt_locate}}, in case points are
 #'   sketched; see \code{\link[grid]{gpar}}}
 #' @examples
-#' # create a line programmatically
+#' # 1. create a line programmatically
 #' coords <- data.frame(x = c(40, 70, 70, 50),
 #'                      y = c(40, 40, 60, 70))
 #'
@@ -42,19 +42,17 @@
 #' gs_line(anchor = coords, window = window) %>%
 #'   visualise(linecol = "green")
 #'
-#' # if a plot is already open, vertices are set relative to its' window
+#' # if a plot is already open, vertices are set relative to the plot window
 #' visualise(geom = gs_line(anchor = coords), new = FALSE)
 #'
 #' # when a geom is used in 'anchor', its properties are passed on
 #' aGeom <- setWindow(x = aGeom, to = window)
 #' gs_line(anchor = aGeom) %>%
 #'   visualise(linecol = "deeppink")
-#'
-#' \dontrun{
-#'
-#' # sketch a line by clicking into a template
+#' \donttest{
+#' # 2. sketch a line by clicking into a template
 #' gs_line(sketch = gtRasters$continuous, vertices = 4) %>%
-#'   visualise(geom = ., linecol = "orange", linewidth = 5, new = FALSE)
+#'   visualise(linecol = "orange", linewidth = 5, new = FALSE)
 #' }
 #' @importFrom checkmate testDataFrame assertNames testClass testNull
 #'   assertDataFrame assert assertIntegerish

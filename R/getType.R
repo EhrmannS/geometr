@@ -33,7 +33,7 @@ setMethod(f = "getType",
 # geom ----
 #' @rdname getType
 #' @examples
-#' getType(gtGeoms$polygon)
+#' getType(x = gtGeoms$polygon)
 #' @export
 setMethod(f = "getType",
           signature = "geom",
@@ -60,7 +60,7 @@ setMethod(f = "getType",
 #' @rdname getType
 #' @examples
 #'
-#' getType(gtSF$multiline)
+#' getType(x = gtSF$multiline)
 #' @importFrom sf st_geometry_type
 #' @export
 setMethod(f = "getType",
@@ -74,7 +74,7 @@ setMethod(f = "getType",
 #' @rdname getType
 #' @examples
 #'
-#' # getType(gtPPP$...)
+#' # getType(x = gtPPP$...)
 #' @export
 setMethod(f = "getType",
           signature = "ppp",
@@ -87,7 +87,7 @@ setMethod(f = "getType",
 #' @rdname getType
 #' @examples
 #'
-#' getType(gtRasters$categorical)
+#' getType(x = gtRasters$categorical)
 #' @export
 setMethod(f = "getType",
           signature = "RasterLayer",

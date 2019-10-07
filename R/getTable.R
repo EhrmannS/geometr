@@ -175,7 +175,7 @@ setMethod(f = "getTable",
 #' @rdname getTable
 #' @examples
 #'
-#' getTable(gtSF$multiline)
+#' getTable(x = gtSF$multiline)
 #' @importFrom tibble tibble as_tibble
 #' @importFrom sf st_geometry_type st_coordinates st_geometry<-
 #' @export
@@ -267,7 +267,7 @@ setMethod(f = "getTable",
 #' @rdname getTable
 #' @examples
 #'
-#' getTable(gtPPP)
+#' getTable(x = gtPPP)
 #' @importFrom tibble as_tibble
 #' @importFrom dplyr bind_cols
 #' @export
@@ -288,7 +288,7 @@ setMethod(f = "getTable",
 #' @rdname getTable
 #' @examples
 #'
-#' getTable(gtRasters$categorical)
+#' getTable(x = gtRasters$categorical)
 #' @importFrom tibble tibble as_tibble
 #' @export
 setMethod(f = "getTable",

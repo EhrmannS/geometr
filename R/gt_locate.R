@@ -22,8 +22,7 @@
 #'   = TRUE}, the respective values. If \code{show = TRUE} the values are also
 #'   shown in the plot.
 #' @examples
-#' \dontrun{
-#'
+#' \donttest{
 #' # locate coordinates with geoms
 #' visualise(geom = gtGeoms$polygon)
 #' gt_locate(samples = 2)

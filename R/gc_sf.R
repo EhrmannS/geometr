@@ -8,9 +8,9 @@
 #'   common, otherwise they are returned as a single simple feature.
 #' @family spatial classes
 #' @examples
-#' (sfPoints <- gc_sf(input = gtGeoms$point))
-#' (sfLines <- gc_sf(input = gtGeoms$line))
-#' (sfPolygon <- gc_sf(input = gtGeoms$polygon))
+#' sfPoints <- gc_sf(input = gtGeoms$point)
+#' sfLines <- gc_sf(input = gtGeoms$line)
+#' sfPolygon <- gc_sf(input = gtGeoms$polygon)
 #' @importFrom checkmate assertClass
 #' @importFrom raster crs
 #' @importFrom sf st_multipoint st_point st_multilinestring st_linestring st_sfc

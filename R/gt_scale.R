@@ -22,6 +22,7 @@
 #' (relCoords <- gt_scale(geom = aGeom, to = "relative"))
 #' gt_scale(geom = relCoords, to = "absolute")
 #'
+#' # scale to another range
 #' gt_scale(geom = aGeom, range = list(x = c(0, 100), y = c(10, 90)))
 #'
 #' @importFrom checkmate testList assertNames

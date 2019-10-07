@@ -39,11 +39,10 @@ setMethod(f = "getSubset",
 #' @rdname getSubset
 #' @examples
 #' # get the subset of a geom
-#' (obj <- gtGeoms$point)
+#' obj <- gtGeoms$point
 #'
 #' # the first feature
-#' (getSubset(x = gtGeoms$line, fid == 1))
-#'
+#' getSubset(x = gtGeoms$line, fid == 1)
 #' @importFrom checkmate assertCharacter assertChoice
 #' @importFrom rlang enquos
 #' @export
@@ -96,11 +95,8 @@ setMethod(f = "getSubset",
 #' @examples
 #'
 #' # get the subset of a Spatial object
-#' (obj <- gtSP$SpatialPolygonsDataFrame)
-#'
-#' # the subset where the attribute a equals 2
-#' (getSubset(x = obj, a == 2))
-#'
+#' getSubset(x = gtSP$SpatialPolygonsDataFrame,
+#'           a == 2)
 #' @export
 setMethod(f = "getSubset",
           signature = signature("Spatial"),
@@ -123,10 +119,7 @@ setMethod(f = "getSubset",
 #' @examples
 #'
 #' # get the subset of an sf object
-#' (obj <- gtSF$polygon)
-#'
-#' # the subset where the attribute a equals 1
-#' (getSubset(x = obj, a == 1))
+#' getSubset(x = gtSF$polygon, a == 1)
 #' @export
 setMethod(f = "getSubset",
           signature = signature("sf"),
@@ -141,18 +134,5 @@ setMethod(f = "getSubset",
             }
             x <- x[matches,]
             return(x)
-          }
-)
-
-# ppp ----
-#' @rdname getSubset
-#' @examples
-#'
-#' # getSubset(gtPPP$...)
-#' @export
-setMethod(f = "getSubset",
-          signature = "ppp",
-          definition = function(x){
-
           }
 )

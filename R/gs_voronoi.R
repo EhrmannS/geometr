@@ -15,7 +15,7 @@
 #' @return An invisible \code{geom}.
 #' @family tilings
 #' @examples
-#' # create voronoi polygons programmatically
+#' # 1. create voronoi polygons programmatically
 #' coords <- data.frame(x = c(40, 70, 70, 50),
 #'                      y = c(40, 40, 60, 70))
 #' window <- data.frame(x = c(0, 80),
@@ -25,9 +25,8 @@
 #'
 #' tiles <- gs_voronoi(anchor = aGeom)
 #' visualise(tiles, new = FALSE)
-#'
-#' \dontrun{
-#'
+#' \donttest{
+#' # 2. sketch a voronoi polygon by clicking into a template
 #' gs_voronoi(sketch = gtRasters$continuous) %>%
 #'   visualise(tiles = ., new = FALSE)
 #' }

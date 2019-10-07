@@ -27,9 +27,7 @@
 #' @return An invisible \code{geom}.
 #' @family geometry tools
 #' @examples
-#'
-#' \dontrun{
-#'
+#' \donttest{
 #' # sketch a point geometry
 #' gt_sketch(template = gtRasters$categorical, shape = "point") %>%
 #'   visualise(points = ., linecol = "green", pointsymbol = 5, new = FALSE)

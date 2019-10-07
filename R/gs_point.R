@@ -25,7 +25,7 @@
 #'   \item graphical parameters to \code{\link{gt_locate}}, in case points are
 #'   sketched; see \code{\link[grid]{gpar}}}
 #' @examples
-#' # create points programmatically
+#' # 1. create points programmatically
 #' coords <- data.frame(x = c(40, 70, 70, 50),
 #'                      y = c(40, 40, 60, 70))
 #'
@@ -46,12 +46,10 @@
 #' aGeom <- setWindow(x = aGeom, to = window)
 #' gs_point(anchor = aGeom) %>%
 #'   visualise(geom = .)
-#'
-#' \dontrun{
-#'
-#' # sketch two points by clicking into a template
+#' \donttest{
+#' # 2. sketch two points by clicking into a template
 #' gs_point(sketch = gtRasters$continuous, vertices = 2) %>%
-#'   visualise(geom = pts, linecol = "orange", pointsymbol = 5, new = FALSE)
+#'   visualise(linecol = "orange", pointsymbol = 5, new = FALSE)
 #' }
 #' @importFrom checkmate testDataFrame assertNames testNull assert testClass
 #'   assertLogical assertIntegerish

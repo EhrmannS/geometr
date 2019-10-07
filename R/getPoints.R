@@ -33,6 +33,8 @@ setMethod(f = "getPoints",
 
 # geom ----
 #' @rdname getPoints
+#' @examples
+#' getPoints(x = gtGeoms$point)
 #' @importFrom tibble as_tibble
 #' @export
 setMethod(f = "getPoints",
@@ -46,7 +48,7 @@ setMethod(f = "getPoints",
 #' @rdname getPoints
 #' @examples
 #'
-#' getPoints(gtSP$SpatialPoints)
+#' getPoints(x = gtSP$SpatialPoints)
 #' @importFrom methods as
 #' @importFrom tibble tibble as_tibble
 #' @export
@@ -126,7 +128,7 @@ setMethod(f = "getPoints",
 #' @rdname getPoints
 #' @examples
 #'
-#' getPoints(gtSF$multilinestring)
+#' getPoints(x = gtSF$multilinestring)
 #' @importFrom tibble as_tibble
 #' @importFrom sf st_geometry_type st_coordinates
 #' @export
@@ -208,7 +210,7 @@ setMethod(f = "getPoints",
 #' @rdname getPoints
 #' @examples
 #'
-#' getPoints(gtPPP)
+#' getPoints(x = gtPPP)
 #' @export
 setMethod(f = "getPoints",
           signature = "ppp",

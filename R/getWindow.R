@@ -33,7 +33,7 @@ setMethod(f = "getWindow",
 #' @rdname getWindow
 #' @examples
 #'
-#' getWindow(gtGeoms$line)
+#' getWindow(x = gtGeoms$line)
 #' @importFrom tibble as_tibble
 #' @export
 setMethod(f = "getWindow",
@@ -47,7 +47,7 @@ setMethod(f = "getWindow",
 #' @rdname getWindow
 #' @examples
 #'
-#' getWindow(gtSP$SpatialLines)
+#' getWindow(x = gtSP$SpatialLines)
 #' @importFrom raster extent
 #' @importFrom tibble tibble
 #' @export
@@ -64,7 +64,7 @@ setMethod(f = "getWindow",
 #' @rdname getWindow
 #' @examples
 #'
-#' getWindow(gtSF$multilinestring)
+#' getWindow(x = gtSF$multilinestring)
 #' @importFrom sf st_bbox
 #' @importFrom tibble tibble
 #' @export
@@ -81,7 +81,7 @@ setMethod(f = "getWindow",
 #' @rdname getWindow
 #' @examples
 #'
-#' getWindow(gtPPP)
+#' getWindow(x = gtPPP)
 #' @export
 setMethod(f = "getWindow",
           signature = "ppp",
@@ -110,7 +110,7 @@ setMethod(f = "getWindow",
 #' @rdname getWindow
 #' @examples
 #'
-#' getWindow(gtRasters$categorical)
+#' getWindow(x = gtRasters$categorical)
 #' @importFrom raster extent
 #' @importFrom dplyr bind_cols
 #' @export
@@ -127,7 +127,7 @@ setMethod(f = "getWindow",
 #' @rdname getWindow
 #' @examples
 #'
-#' getWindow(matrix(0, 3, 5))
+#' getWindow(x = matrix(0, 3, 5))
 #' @importFrom dplyr bind_cols
 #' @export
 setMethod(f = "getWindow",

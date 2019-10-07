@@ -38,7 +38,7 @@
 #' @return An invisible \code{geom}.
 #' @family geometry shapes
 #' @examples
-#' # create a polygon programmatically
+#' # 1. create a polygon programmatically
 #' coords <- data.frame(x = c(40, 70, 70, 50),
 #'                      y = c(40, 40, 60, 70))
 #'
@@ -62,10 +62,8 @@
 #'   visualise(geom = ., fillcol = "deeppink")
 #' gs_rectangle(anchor = aGeom) %>%
 #'   visualise(geom = ., new = FALSE)
-#'
-#' \dontrun{
-#'
-#' # sketch a hexagon by clicking into a template
+#' \donttest{
+#' # 2. sketch a hexagon by clicking into a template
 #' gs_hexagon(sketch = gtRasters$continuous) %>%
 #'   visualise(geom = ., linecol = "deeppink", linetype = 2, new = FALSE)
 #' }
