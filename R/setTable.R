@@ -23,6 +23,16 @@ if(!isGeneric("setTable")){
   )
 }
 
+# any ----
+#' @rdname setTable
+#' @export
+setMethod(f = "setTable",
+          signature = "ANY",
+          definition = function(x){
+            stop("the class is not (yet) supported, or does not have an attribute table.")
+          }
+)
+
 # geom ----
 #' @rdname setTable
 #' @param slot [\code{character(1)}]\cr the slot (of \code{geom}) for which to

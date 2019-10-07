@@ -1,8 +1,7 @@
 #' Set additional entries to the history of an object
 #'
 #' @param x the object for which to set the coordinate reference system.
-#' @param history [\code{character(1)}]\cr the coordinate reference system to
-#'   set for this object.
+#' @param history [\code{list(1)}]\cr the history to set for this object.
 #' @details Both, objects of class \code{geom} and \code{Raster*} have the slot
 #'   \code{@history}, which contains the provenance of that object. With
 #'   \code{setHistory}, that provenance can be updated, based on the
@@ -26,6 +25,16 @@ if(!isGeneric("setHistory")){
              }
   )
 }
+
+# any ----
+#' @rdname setHistory
+#' @export
+setMethod(f = "setHistory",
+          signature = "ANY",
+          definition = function(x){
+            stop("the class is not (yet) supported, or does not have an history slot.")
+          }
+)
 
 # geom ----
 #' @rdname setHistory

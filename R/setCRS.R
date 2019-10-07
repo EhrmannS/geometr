@@ -28,6 +28,16 @@ if(!isGeneric("setCRS")){
   )
 }
 
+# any ----
+#' @rdname setCRS
+#' @export
+setMethod(f = "setCRS",
+          signature = "ANY",
+          definition = function(x){
+            stop("the class is not (yet) supported, or does not have a coordinate reference system.")
+          }
+)
+
 # geom ----
 #' @rdname setCRS
 #' @importFrom rgdal project
