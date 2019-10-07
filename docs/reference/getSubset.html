@@ -130,10 +130,7 @@
 <span class='fu'>getSubset</span>(<span class='no'>x</span>, <span class='no'>...</span>)
 
 <span class='co'># S4 method for sf</span>
-<span class='fu'>getSubset</span>(<span class='no'>x</span>, <span class='no'>...</span>)
-
-<span class='co'># S4 method for ppp</span>
-<span class='fu'>getSubset</span>(<span class='no'>x</span>)</pre>
+<span class='fu'>getSubset</span>(<span class='no'>x</span>, <span class='no'>...</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -168,18 +165,10 @@ either <code>"point"</code> for vertices, <code>"feature"</code> for features or
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># get the subset of a geom</span>
-(<span class='no'>obj</span> <span class='kw'>&lt;-</span> <span class='no'>gtGeoms</span>$<span class='no'>point</span>)</div><div class='output co'>#&gt; <span style='color: #BBBB00;'>geom</span><span>        point
-#&gt;             12 features | 12 points
-#&gt; </span><span style='color: #BBBB00;'>crs         </span><span>cartesian
-#&gt; </span><span style='color: #BBBB00;'>attributes</span><span>  --
-#&gt; </span><span style='color: #BBBB00;'>tiny map  </span><span>    12 
-#&gt;               ○ ◌ ◌ ◉    
-#&gt;               ◌ ◌ ◌ ◌    
-#&gt;               ◌ ◌ ◌ ◌    
-#&gt;             0 ◉ ◌ ◌ ○ 12 
-#&gt;               0 </div><div class='input'>
+<span class='no'>obj</span> <span class='kw'>&lt;-</span> <span class='no'>gtGeoms</span>$<span class='no'>point</span>
+
 <span class='co'># the first feature</span>
-(<span class='fu'>getSubset</span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>gtGeoms</span>$<span class='no'>line</span>, <span class='no'>fid</span> <span class='kw'>==</span> <span class='fl'>1</span>))</div><div class='output co'>#&gt; </span><span style='color: #BBBB00;'>geom</span><span>        line
+<span class='fu'>getSubset</span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>gtGeoms</span>$<span class='no'>line</span>, <span class='no'>fid</span> <span class='kw'>==</span> <span class='fl'>1</span>)</div><div class='output co'>#&gt; <span style='color: #BBBB00;'>geom</span><span>        line
 #&gt;             1 feature | 4 points
 #&gt; </span><span style='color: #BBBB00;'>crs         </span><span>cartesian
 #&gt; </span><span style='color: #BBBB00;'>attributes</span><span>  --
@@ -189,46 +178,24 @@ either <code>"point"</code> for vertices, <code>"feature"</code> for features or
 #&gt;               ◌ ◌ ◌ ◌    
 #&gt;             0 ◎ ◌ ◌ ◎ 12 
 #&gt;               0 </div><div class='input'>
-
 <span class='co'># get the subset of a Spatial object</span>
-(<span class='no'>obj</span> <span class='kw'>&lt;-</span> <span class='no'>gtSP</span>$<span class='no'>SpatialPolygonsDataFrame</span>)</div><div class='output co'>#&gt; class       : SpatialPolygonsDataFrame 
-#&gt; features    : 2 
-#&gt; extent      : 0, 12, 0, 12  (xmin, xmax, ymin, ymax)
-#&gt; crs         : NA 
-#&gt; variables   : 1
-#&gt; names       : a 
-#&gt; min values  : 1 
-#&gt; max values  : 2 </div><div class='input'>
-<span class='co'># the subset where the attribute a equals 2</span>
-(<span class='fu'>getSubset</span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>obj</span>, <span class='no'>a</span> <span class='kw'>==</span> <span class='fl'>2</span>))</div><div class='output co'>#&gt; class       : SpatialPolygonsDataFrame 
+<span class='fu'>getSubset</span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>gtSP</span>$<span class='no'>SpatialPolygonsDataFrame</span>,
+          <span class='no'>a</span> <span class='kw'>==</span> <span class='fl'>2</span>)</div><div class='output co'>#&gt; class       : SpatialPolygonsDataFrame 
 #&gt; features    : 1 
 #&gt; extent      : 11, 12, 11, 12  (xmin, xmax, ymin, ymax)
 #&gt; crs         : NA 
 #&gt; variables   : 1
 #&gt; names       : a 
 #&gt; value       : 2 </div><div class='input'>
-
 <span class='co'># get the subset of an sf object</span>
-(<span class='no'>obj</span> <span class='kw'>&lt;-</span> <span class='no'>gtSF</span>$<span class='no'>polygon</span>)</div><div class='output co'>#&gt; Simple feature collection with 2 features and 1 field
-#&gt; geometry type:  POLYGON
-#&gt; dimension:      XY
-#&gt; bbox:           xmin: 0 ymin: 0 xmax: 12 ymax: 12
-#&gt; epsg (SRID):    NA
-#&gt; proj4string:    NA
-#&gt;   a                       geometry
-#&gt; 1 1 POLYGON ((0 0, 10 0, 10 10,...
-#&gt; 2 2 POLYGON ((11 11, 11 12, 12 ...</div><div class='input'>
-<span class='co'># the subset where the attribute a equals 1</span>
-(<span class='fu'>getSubset</span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>obj</span>, <span class='no'>a</span> <span class='kw'>==</span> <span class='fl'>1</span>))</div><div class='output co'>#&gt; Simple feature collection with 1 feature and 1 field
+<span class='fu'>getSubset</span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>gtSF</span>$<span class='no'>polygon</span>, <span class='no'>a</span> <span class='kw'>==</span> <span class='fl'>1</span>)</div><div class='output co'>#&gt; Simple feature collection with 1 feature and 1 field
 #&gt; geometry type:  POLYGON
 #&gt; dimension:      XY
 #&gt; bbox:           xmin: 0 ymin: 0 xmax: 10 ymax: 10
 #&gt; epsg (SRID):    NA
 #&gt; proj4string:    NA
 #&gt;   a                       geometry
-#&gt; 1 1 POLYGON ((0 0, 10 0, 10 10,...</div><div class='input'>
-# getSubset(gtPPP$...)
-</div></span></pre>
+#&gt; 1 1 POLYGON ((0 0, 10 0, 10 10,...</div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

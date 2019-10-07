@@ -59,6 +59,7 @@ reference:
     desc: data that are used throughout the documentation
     contents:
       - gtGeoms
+      - gtPPP
       - gtSF
       - gtSP
       - gtRasters

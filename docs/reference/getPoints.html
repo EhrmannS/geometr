@@ -172,15 +172,29 @@
 #&gt; </span><span style='color: #BCBCBC;'>12</span><span>    11    12     2
 #&gt; </span><span style='color: #BCBCBC;'>13</span><span>    12    12     2
 #&gt; </span><span style='color: #BCBCBC;'>14</span><span>    12    11     2
-#&gt; </span><span style='color: #BCBCBC;'>15</span><span>    11    11     2</div><div class='input'>
-<span class='fu'>getPoints</span>(<span class='no'>gtSP</span>$<span class='no'>SpatialPoints</span>)</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 4 x 3</span><span>
+#&gt; </span><span style='color: #BCBCBC;'>15</span><span>    11    11     2</div><div class='input'><span class='fu'>getPoints</span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>gtGeoms</span>$<span class='no'>point</span>)</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 12 x 3</span><span>
+#&gt;        x     y   fid
+#&gt;    </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span>
+#&gt; </span><span style='color: #BCBCBC;'> 1</span><span>     0     0     1
+#&gt; </span><span style='color: #BCBCBC;'> 2</span><span>     0    10     2
+#&gt; </span><span style='color: #BCBCBC;'> 3</span><span>    10    10     3
+#&gt; </span><span style='color: #BCBCBC;'> 4</span><span>    10     0     4
+#&gt; </span><span style='color: #BCBCBC;'> 5</span><span>     1     1     5
+#&gt; </span><span style='color: #BCBCBC;'> 6</span><span>     1     2     6
+#&gt; </span><span style='color: #BCBCBC;'> 7</span><span>     2     2     7
+#&gt; </span><span style='color: #BCBCBC;'> 8</span><span>     2     1     8
+#&gt; </span><span style='color: #BCBCBC;'> 9</span><span>    11    11     9
+#&gt; </span><span style='color: #BCBCBC;'>10</span><span>    11    12    10
+#&gt; </span><span style='color: #BCBCBC;'>11</span><span>    12    12    11
+#&gt; </span><span style='color: #BCBCBC;'>12</span><span>    12    11    12</div><div class='input'>
+<span class='fu'>getPoints</span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>gtSP</span>$<span class='no'>SpatialPoints</span>)</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 4 x 3</span><span>
 #&gt;       x     y   fid
 #&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span>
 #&gt; </span><span style='color: #BCBCBC;'>1</span><span>     0     0     1
 #&gt; </span><span style='color: #BCBCBC;'>2</span><span>    10     0     2
 #&gt; </span><span style='color: #BCBCBC;'>3</span><span>    10    10     3
 #&gt; </span><span style='color: #BCBCBC;'>4</span><span>     0    10     4</div><div class='input'>
-<span class='fu'>getPoints</span>(<span class='no'>gtSF</span>$<span class='no'>multilinestring</span>)</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 12 x 3</span><span>
+<span class='fu'>getPoints</span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>gtSF</span>$<span class='no'>multilinestring</span>)</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 12 x 3</span><span>
 #&gt;        x     y   fid
 #&gt;    </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span>
 #&gt; </span><span style='color: #BCBCBC;'> 1</span><span>     0     0     1
@@ -195,7 +209,7 @@
 #&gt; </span><span style='color: #BCBCBC;'>10</span><span>    11    12     3
 #&gt; </span><span style='color: #BCBCBC;'>11</span><span>    12    12     3
 #&gt; </span><span style='color: #BCBCBC;'>12</span><span>    12    11     3</div><div class='input'>
-<span class='fu'>getPoints</span>(<span class='no'>gtPPP</span>)</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 15 x 3</span><span>
+<span class='fu'>getPoints</span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>gtPPP</span>)</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 15 x 3</span><span>
 #&gt;        x     y   fid
 #&gt;    </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span>
 #&gt; </span><span style='color: #BCBCBC;'> 1</span><span>     0     0     1

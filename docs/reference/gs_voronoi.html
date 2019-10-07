@@ -163,7 +163,7 @@ case the tiling is sketched; see <code>gpar</code>.</p></td>
     <div class='dont-index'><p>Other tilings: <code><a href='gs_tiles.html'>gs_tiles</a></code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># create voronoi polygons programmatically</span>
+    <pre class="examples"><div class='input'><span class='co'># 1. create voronoi polygons programmatically</span>
 <span class='no'>coords</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>40</span>, <span class='fl'>70</span>, <span class='fl'>70</span>, <span class='fl'>50</span>),
                      <span class='kw'>y</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>40</span>, <span class='fl'>40</span>, <span class='fl'>60</span>, <span class='fl'>70</span>))
 <span class='no'>window</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0</span>, <span class='fl'>80</span>),
@@ -171,12 +171,13 @@ case the tiling is sketched; see <code>gpar</code>.</p></td>
 <span class='no'>aGeom</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='gs_point.html'>gs_point</a></span>(<span class='kw'>anchor</span> <span class='kw'>=</span> <span class='no'>coords</span>, <span class='kw'>window</span> <span class='kw'>=</span> <span class='no'>window</span>)
 <span class='fu'><a href='visualise.html'>visualise</a></span>(<span class='kw'>voronoi</span> <span class='kw'>=</span> <span class='no'>aGeom</span>)</div><div class='input'>
 <span class='no'>tiles</span> <span class='kw'>&lt;-</span> <span class='fu'>gs_voronoi</span>(<span class='kw'>anchor</span> <span class='kw'>=</span> <span class='no'>aGeom</span>)
-<span class='fu'><a href='visualise.html'>visualise</a></span>(<span class='no'>tiles</span>, <span class='kw'>new</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</div><div class='img'><img src='gs_voronoi-1.png' alt='' width='700' height='433' /></div><div class='input'>
-<span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
-
+<span class='fu'><a href='visualise.html'>visualise</a></span>(<span class='no'>tiles</span>, <span class='kw'>new</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</div><div class='img'><img src='gs_voronoi-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='co'># \donttest{</span>
+<span class='co'># 2. sketch a voronoi polygon by clicking into a template</span>
 <span class='fu'>gs_voronoi</span>(<span class='kw'>sketch</span> <span class='kw'>=</span> <span class='no'>gtRasters</span>$<span class='no'>continuous</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='visualise.html'>visualise</a></span>(<span class='kw'>tiles</span> <span class='kw'>=</span> <span class='no'>.</span>, <span class='kw'>new</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
-}</div></pre>
+  <span class='fu'><a href='visualise.html'>visualise</a></span>(<span class='kw'>tiles</span> <span class='kw'>=</span> <span class='no'>.</span>, <span class='kw'>new</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</div><div class='output co'>#&gt; <span class='message'>please click 3 vertices.</span></div><div class='output co'>#&gt; <span class='error'>Error in deldir(as.data.frame(tempAnchor), rw = c(min(theWindow$x), max(theWindow$x),     min(theWindow$y), max(theWindow$y)), suppressMsge = TRUE): There is at most one point, data or dummy, inside</span>
+#&gt; <span class='error'>  the given rectangular window. Thus there are</span>
+#&gt; <span class='error'>  insufficiently many points to triangulate/tessellate.</span></div><div class='img'><img src='gs_voronoi-2.png' alt='' width='700' height='433' /></div><div class='input'># }
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

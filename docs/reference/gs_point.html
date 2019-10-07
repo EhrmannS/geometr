@@ -182,7 +182,7 @@ that serves as template to sketch points.</p></td>
   <code><a href='gs_polygon.html'>gs_polygon</a></code>, <code><a href='gs_random.html'>gs_random</a></code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># create points programmatically</span>
+    <pre class="examples"><div class='input'><span class='co'># 1. create points programmatically</span>
 <span class='no'>coords</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>40</span>, <span class='fl'>70</span>, <span class='fl'>70</span>, <span class='fl'>50</span>),
                      <span class='kw'>y</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>40</span>, <span class='fl'>40</span>, <span class='fl'>60</span>, <span class='fl'>70</span>))
 
@@ -208,13 +208,11 @@ that serves as template to sketch points.</p></td>
 <span class='co'># when a geom is used in 'anchor', its properties are passed on</span>
 <span class='no'>aGeom</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='setWindow.html'>setWindow</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>aGeom</span>, <span class='kw'>to</span> <span class='kw'>=</span> <span class='no'>window</span>)
 <span class='fu'>gs_point</span>(<span class='kw'>anchor</span> <span class='kw'>=</span> <span class='no'>aGeom</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='visualise.html'>visualise</a></span>(<span class='kw'>geom</span> <span class='kw'>=</span> <span class='no'>.</span>)</div><div class='img'><img src='gs_point-2.png' alt='' width='700' height='433' /></div><div class='input'>
-<span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
-
-<span class='co'># sketch two points by clicking into a template</span>
+  <span class='fu'><a href='visualise.html'>visualise</a></span>(<span class='kw'>geom</span> <span class='kw'>=</span> <span class='no'>.</span>)</div><div class='img'><img src='gs_point-2.png' alt='' width='700' height='433' /></div><div class='input'><span class='co'># \donttest{</span>
+<span class='co'># 2. sketch two points by clicking into a template</span>
 <span class='fu'>gs_point</span>(<span class='kw'>sketch</span> <span class='kw'>=</span> <span class='no'>gtRasters</span>$<span class='no'>continuous</span>, <span class='kw'>vertices</span> <span class='kw'>=</span> <span class='fl'>2</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='visualise.html'>visualise</a></span>(<span class='kw'>geom</span> <span class='kw'>=</span> <span class='no'>pts</span>, <span class='kw'>linecol</span> <span class='kw'>=</span> <span class='st'>"orange"</span>, <span class='kw'>pointsymbol</span> <span class='kw'>=</span> <span class='fl'>5</span>, <span class='kw'>new</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
-}</div></span></pre>
+  <span class='fu'><a href='visualise.html'>visualise</a></span>(<span class='kw'>linecol</span> <span class='kw'>=</span> <span class='st'>"orange"</span>, <span class='kw'>pointsymbol</span> <span class='kw'>=</span> <span class='fl'>5</span>, <span class='kw'>new</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</div><div class='output co'>#&gt; <span class='message'>please click 2 vertices.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: no vertices are within the plotting window.</span></div><div class='img'><img src='gs_point-3.png' alt='' width='700' height='433' /></div><div class='input'># }
+</div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

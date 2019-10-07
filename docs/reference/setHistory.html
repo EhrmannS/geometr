@@ -120,7 +120,10 @@
     <p>Set additional entries to the history of an object</p>
     </div>
 
-    <pre class="usage"><span class='co'># S4 method for geom</span>
+    <pre class="usage"><span class='co'># S4 method for ANY</span>
+<span class='fu'>setHistory</span>(<span class='no'>x</span>)
+
+<span class='co'># S4 method for geom</span>
 <span class='fu'>setHistory</span>(<span class='no'>x</span>, <span class='kw'>history</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
 
 <span class='co'># S4 method for Raster</span>
@@ -135,8 +138,7 @@
     </tr>
     <tr>
       <th>history</th>
-      <td><p>[<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>]<br /> the coordinate reference system to
-set for this object.</p></td>
+      <td><p>[<code><a href='https://rdrr.io/r/base/list.html'>list(1)</a></code>]<br /> the history to set for this object.</p></td>
     </tr>
     </table>
 
