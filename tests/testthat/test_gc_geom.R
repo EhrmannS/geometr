@@ -26,7 +26,7 @@ test_that("transform from sf to geom", {
   expect_class(output, classes = "geom")
   expect_true(output@type == "point")
   expect_data_frame(output@point, any.missing = FALSE, nrows = 8, ncols = 3)
-  expect_data_frame(output@group, any.missing = FALSE, nrows = 2, ncols = 2)
+  expect_list(x = output@group, any.missing = FALSE, len = 2)
 
   # test LINESTRING
   input <- gtSF$linestring
@@ -153,6 +153,22 @@ test_that("transform from sp to geom", {
   output <- gc_geom(input)
   expect_class(output, "geom")
   expect_true(output@type == "point")
+})
+
+test_that("transform from Raster to geom", {
+  # RasterStack
+  input <- gtRasters
+
+  output <- gc_geom(input)
+  expect_class(output, "geom")
+  expect_true(output@type == "grid")
+
+  # RasterLayer
+  input <- gtRasters$continuous
+
+  output <- gc_geom(input)
+  expect_class(output, "geom")
+  expect_true(output@type == "grid")
 })
 
 test_that("transform from ppp to geom", {

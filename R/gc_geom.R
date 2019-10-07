@@ -175,7 +175,7 @@ setMethod(f = "gc_geom",
               if(dim(input)[3] > 1){
                 theFeatures <- bind_cols(theFeatures, !!theName := theInput@data@values)
               } else {
-                rawVal <- tibble(val = theInput@data@values)
+                rawVal <- tibble(!!theName := theInput@data@values)
                 rleVal <- rle(rawVal[[1]])
                 rleVal <- tibble(val = rleVal$values,
                                  len = rleVal$lengths)

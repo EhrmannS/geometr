@@ -46,7 +46,7 @@ the points when plotting.
 
 \describe{
 \item{\code{type}}{[\code{character(1)}]\cr the type of feature, either
-\code{"point"}, \code{"line"} or \code{"polygon"}.}
+\code{"point"}, \code{"line"}, \code{"polygon"} or \code{"grid"}.}
 
 \item{\code{point}}{[\code{data.frame(1)}]\cr the \code{fid} (feature ID), \code{x}
 and \code{y} coordinates per point and optional arbitrary point
