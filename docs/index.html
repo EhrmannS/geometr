@@ -34,7 +34,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">geometr</a>
-        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="Unreleased version">0.1.0</span>
+        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="Unreleased version">0.1.1</span>
       </span>
     </div>
 
@@ -92,10 +92,10 @@
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
-<p>1) Install the development version from github and load it:</p>
+<p>1) Install the latest development version from github:</p>
 <!-- end list -->
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1">devtools<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/devtools/man/remote-reexports.html">install_github</a></span>(<span class="st">"EhrmannS/geometr"</span>)</a></code></pre></div>
-<p>2) The <a href="https://ehrmanns.github.io/geometr/articles/geometr.html">vignette</a> gives a more in depth introduction, explains <code>geometr</code>s take on interoperability and discusses the spatial class <code>geom</code> that comes with <code>geometr</code>.</p>
+<p>2) The <a href="https://ehrmanns.github.io/geometr/articles/geometr.html">vignette</a> gives an in depth introduction, explains the take on interoperability and discusses the spatial class <code>geom</code> that comes with <code>geometr</code>.</p>
 <p>3) Have fun being a <a href="https://en.wikipedia.org/wiki/List_of_geometers">geometer</a>!</p>
 </div>
 <div id="examples" class="section level2">
@@ -106,7 +106,7 @@
 <a class="sourceLine" id="cb2-2" data-line-number="2"></a>
 <a class="sourceLine" id="cb2-3" data-line-number="3"><span class="co"># ... from other classes</span></a>
 <a class="sourceLine" id="cb2-4" data-line-number="4"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(sf)</a>
-<a class="sourceLine" id="cb2-5" data-line-number="5"><span class="co">#&gt; Linking to GEOS 3.5.1, GDAL 2.2.2, PROJ 4.9.2</span></a>
+<a class="sourceLine" id="cb2-5" data-line-number="5"><span class="co">#&gt; Linking to GEOS 3.7.0, GDAL 2.4.0, PROJ 5.2.0</span></a>
 <a class="sourceLine" id="cb2-6" data-line-number="6">nc_sf &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/pkg/sf/man/st_read.html">st_read</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span>(<span class="st">"shape/nc.shp"</span>, <span class="dt">package=</span><span class="st">"sf"</span>), <span class="dt">quiet =</span> <span class="ot">TRUE</span>)</a>
 <a class="sourceLine" id="cb2-7" data-line-number="7">nc_geom &lt;-<span class="st"> </span><span class="kw"><a href="reference/gc_geom.html">gc_geom</a></span>(<span class="dt">input =</span> nc_sf)</a>
 <a class="sourceLine" id="cb2-8" data-line-number="8"></a>
