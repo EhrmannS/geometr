@@ -90,7 +90,7 @@ setMethod(f = "getType",
 #' getType(gtRasters$categorical)
 #' @export
 setMethod(f = "getType",
-          signature = "RasterLayer",
+          signature = "Raster",
           definition = function(x){
             c("raster", class(x)[1])
           }

@@ -8,7 +8,7 @@
 \alias{getType,Spatial-method}
 \alias{getType,sf-method}
 \alias{getType,ppp-method}
-\alias{getType,RasterLayer-method}
+\alias{getType,Raster-method}
 \title{Get the type of a spatial object.}
 \usage{
 \S4method{getType}{ANY}(x)
@@ -21,7 +21,7 @@
 
 \S4method{getType}{ppp}(x)
 
-\S4method{getType}{RasterLayer}(x)
+\S4method{getType}{Raster}(x)
 }
 \arguments{
 \item{x}{the object for which to determine the type.}
