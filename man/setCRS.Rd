@@ -3,12 +3,15 @@
 \docType{methods}
 \name{setCRS}
 \alias{setCRS}
+\alias{setCRS,ANY-method}
 \alias{setCRS,geom-method}
 \alias{setCRS,Spatial-method}
 \alias{setCRS,sf-method}
 \alias{setCRS,Raster-method}
 \title{Set (or transform) the coordinate reference system of a spatial object.}
 \usage{
+\S4method{setCRS}{ANY}(x)
+
 \S4method{setCRS}{geom}(x, crs = NULL)
 
 \S4method{setCRS}{Spatial}(x, crs = NULL)

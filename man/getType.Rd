@@ -34,15 +34,15 @@ A vector of two values giving the general type (vector/raster) and
 Get the type of a spatial object.
 }
 \examples{
-getType(gtGeoms$polygon)
+getType(x = gtGeoms$polygon)
 
 getType(x = gtSP$SpatialPolygons)
 
-getType(gtSF$multiline)
+getType(x = gtSF$multiline)
 
-# getType(gtPPP$...)
+# getType(x = gtPPP$...)
 
-getType(gtRasters$categorical)
+getType(x = gtRasters$categorical)
 }
 \seealso{
 Other getters: \code{\link{getCRS}},

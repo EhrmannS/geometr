@@ -47,11 +47,11 @@ getTable(x = gtGeoms$polygon)
 
 getTable(x = gtSP$SpatialPolygons)
 
-getTable(gtSF$multiline)
+getTable(x = gtSF$multiline)
 
-getTable(gtPPP)
+getTable(x = gtPPP)
 
-getTable(gtRasters$categorical)
+getTable(x = gtRasters$categorical)
 }
 \seealso{
 Other getters: \code{\link{getCRS}},

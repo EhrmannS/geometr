@@ -31,12 +31,13 @@ Get the table of coordinates of a spatial object.
 }
 \examples{
 getPoints(gtGeoms$polygon)
+getPoints(x = gtGeoms$point)
 
-getPoints(gtSP$SpatialPoints)
+getPoints(x = gtSP$SpatialPoints)
 
-getPoints(gtSF$multilinestring)
+getPoints(x = gtSF$multilinestring)
 
-getPoints(gtPPP)
+getPoints(x = gtPPP)
 }
 \seealso{
 Other getters: \code{\link{getCRS}},

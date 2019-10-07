@@ -3,6 +3,7 @@
 \docType{methods}
 \name{setTable}
 \alias{setTable}
+\alias{setTable,ANY-method}
 \alias{setTable,geom-method}
 \alias{setTable,Spatial-method}
 \alias{setTable,sf-method}
@@ -11,6 +12,8 @@
 \alias{setTable,RasterLayer-method}
 \title{Set the attribute table(s) of a spatial object.}
 \usage{
+\S4method{setTable}{ANY}(x)
+
 \S4method{setTable}{geom}(x, table = NULL, slot = "feature")
 
 \S4method{setTable}{Spatial}(x, table = NULL)

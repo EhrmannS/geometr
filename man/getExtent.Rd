@@ -37,17 +37,17 @@ A table of the lower left and upper right corner of the extent of
 Get the extent (bounding box) of a spatial object.
 }
 \examples{
-getTable(gtGeoms$polygon)
+getTable(x = gtGeoms$polygon)
 
-getExtent(gtSP$SpatialPolygons)
+getExtent(x = gtSP$SpatialPolygons)
 
-getExtent(gtSF$multilinestring)
+getExtent(x = gtSF$multilinestring)
 
-getExtent(gtPPP)
+getExtent(x = gtPPP)
 
-getExtent(gtRasters$categorical)
+getExtent(x = gtRasters$categorical)
 
-getExtent(matrix(0, 3, 5))
+getExtent(x = matrix(0, 3, 5))
 }
 \seealso{
 Other getters: \code{\link{getCRS}},

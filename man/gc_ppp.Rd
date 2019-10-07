@@ -18,7 +18,7 @@ an object of class \code{ppp}
 Transform a spatial object to class \code{ppp}
 }
 \examples{
-(pppPoints <- gc_ppp(input = gtGeoms$point))
+pppPoints <- gc_ppp(input = gtGeoms$point)
 }
 \seealso{
 Other spatial classes: \code{\link{gc_geom}},

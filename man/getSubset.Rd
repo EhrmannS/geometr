@@ -7,7 +7,6 @@
 \alias{getSubset,geom-method}
 \alias{getSubset,Spatial-method}
 \alias{getSubset,sf-method}
-\alias{getSubset,ppp-method}
 \title{Get the subset of a spatial object.}
 \usage{
 \S4method{getSubset}{ANY}(x)
@@ -17,8 +16,6 @@
 \S4method{getSubset}{Spatial}(x, ...)
 
 \S4method{getSubset}{sf}(x, ...)
-
-\S4method{getSubset}{ppp}(x)
 }
 \arguments{
 \item{x}{object to \code{subset}.}
@@ -39,26 +36,17 @@ Get the subset of a spatial object.
 }
 \examples{
 # get the subset of a geom
-(obj <- gtGeoms$point)
+obj <- gtGeoms$point
 
 # the first feature
-(getSubset(x = gtGeoms$line, fid == 1))
-
+getSubset(x = gtGeoms$line, fid == 1)
 
 # get the subset of a Spatial object
-(obj <- gtSP$SpatialPolygonsDataFrame)
-
-# the subset where the attribute a equals 2
-(getSubset(x = obj, a == 2))
-
+getSubset(x = gtSP$SpatialPolygonsDataFrame,
+          a == 2)
 
 # get the subset of an sf object
-(obj <- gtSF$polygon)
-
-# the subset where the attribute a equals 1
-(getSubset(x = obj, a == 1))
-
-# getSubset(gtPPP$...)
+getSubset(x = gtSF$polygon, a == 1)
 }
 \seealso{
 Other getters: \code{\link{getCRS}},

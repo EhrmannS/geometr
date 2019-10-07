@@ -41,8 +41,7 @@ A \code{tibble} of the selected locations and, if \code{identify
 Click into a plot to get the location or identify values
 }
 \examples{
-\dontrun{
-
+\donttest{
 # locate coordinates with geoms
 visualise(geom = gtGeoms$polygon)
 gt_locate(samples = 2)

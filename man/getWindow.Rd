@@ -37,17 +37,17 @@ Get the reference window of a spatial object.
 }
 \examples{
 
-getWindow(gtGeoms$line)
+getWindow(x = gtGeoms$line)
 
-getWindow(gtSP$SpatialLines)
+getWindow(x = gtSP$SpatialLines)
 
-getWindow(gtSF$multilinestring)
+getWindow(x = gtSF$multilinestring)
 
-getWindow(gtPPP)
+getWindow(x = gtPPP)
 
-getWindow(gtRasters$categorical)
+getWindow(x = gtRasters$categorical)
 
-getWindow(matrix(0, 3, 5))
+getWindow(x = matrix(0, 3, 5))
 }
 \seealso{
 Other getters: \code{\link{getCRS}},

@@ -3,10 +3,13 @@
 \docType{methods}
 \name{setHistory}
 \alias{setHistory}
+\alias{setHistory,ANY-method}
 \alias{setHistory,geom-method}
 \alias{setHistory,Raster-method}
 \title{Set additional entries to the history of an object}
 \usage{
+\S4method{setHistory}{ANY}(x)
+
 \S4method{setHistory}{geom}(x, history = NULL)
 
 \S4method{setHistory}{Raster}(x, history = NULL)
@@ -14,8 +17,7 @@
 \arguments{
 \item{x}{the object for which to set the coordinate reference system.}
 
-\item{history}{[\code{character(1)}]\cr the coordinate reference system to
-set for this object.}
+\item{history}{[\code{list(1)}]\cr the history to set for this object.}
 }
 \value{
 The object \code{x} where the history slot has been updated.

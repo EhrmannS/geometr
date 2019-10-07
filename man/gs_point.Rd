@@ -43,7 +43,7 @@ The arguments \code{anchor} and \code{sketch} indicate how the line
   sketched; see \code{\link[grid]{gpar}}}
 }
 \examples{
-# create points programmatically
+# 1. create points programmatically
 coords <- data.frame(x = c(40, 70, 70, 50),
                      y = c(40, 40, 60, 70))
 
@@ -64,12 +64,10 @@ visualise(geom = gs_point(anchor = coords), new = FALSE)
 aGeom <- setWindow(x = aGeom, to = window)
 gs_point(anchor = aGeom) \%>\%
   visualise(geom = .)
-
-\dontrun{
-
-# sketch two points by clicking into a template
+\donttest{
+# 2. sketch two points by clicking into a template
 gs_point(sketch = gtRasters$continuous, vertices = 2) \%>\%
-  visualise(geom = pts, linecol = "orange", pointsymbol = 5, new = FALSE)
+  visualise(linecol = "orange", pointsymbol = 5, new = FALSE)
 }
 }
 \seealso{

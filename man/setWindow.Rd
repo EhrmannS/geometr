@@ -3,10 +3,13 @@
 \docType{methods}
 \name{setWindow}
 \alias{setWindow}
+\alias{setWindow,ANY-method}
 \alias{setWindow,geom-method}
 \alias{setWindow,ppp-method}
 \title{Set the reference window of a spatial object.}
 \usage{
+\S4method{setWindow}{ANY}(x)
+
 \S4method{setWindow}{geom}(x, to = NULL)
 
 \S4method{setWindow}{ppp}(x, to = NULL)
