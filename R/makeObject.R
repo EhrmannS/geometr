@@ -26,6 +26,7 @@ if(!isGeneric("makeObject")){
 #' @importFrom tibble as_tibble
 #' @importFrom methods is
 #' @export
+
 setMethod(f = "makeObject",
           signature = "geom",
           definition = function(x, window = NULL, theme = gtTheme, ...){
@@ -190,6 +191,7 @@ setMethod(f = "makeObject",
 #' @importFrom raster getValues
 #' @importFrom tibble as_tibble
 #' @export
+
 setMethod(f = "makeObject",
           signature = "Raster",
           definition = function(x, window = NULL, theme = gtTheme, image = FALSE, ...){
@@ -301,6 +303,7 @@ setMethod(f = "makeObject",
 #' @importFrom tibble as_tibble
 #' @importFrom grDevices colorRampPalette
 #' @export
+
 setMethod(f = "makeObject",
           signature = "matrix",
           definition = function(x, window = NULL, theme = gtTheme, image = FALSE, ...){
@@ -389,6 +392,7 @@ setMethod(f = "makeObject",
 #' @rdname makeObject
 #' @importFrom tibble as_tibble
 #' @export
+
 setMethod(f = "makeObject",
           signature = "Spatial",
           definition = function(x, window = NULL, theme = gtTheme, ...){
@@ -400,6 +404,7 @@ setMethod(f = "makeObject",
 #' @rdname makeObject
 #' @importFrom tibble as_tibble
 #' @export
+
 setMethod(f = "makeObject",
           signature = "sf",
           definition = function(x, window = NULL, theme = gtTheme, ...){

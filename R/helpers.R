@@ -4,7 +4,6 @@
 #'   which to make the plot.
 #' @param theme [\code{gtTheme(1)}]\cr the theme from which to take graphical
 #'   parameters.
-#' @export
 
 makeLayout <- function(x = NULL, theme = gtTheme){
 
@@ -135,7 +134,6 @@ makeLayout <- function(x = NULL, theme = gtTheme){
 #' Convert degree to radians
 #' @param degree [\code{numeric(1)}]\cr a degree value to convert to radians.
 #' @importFrom checkmate assertNumeric
-#' @export
 
 .rad <- function(degree){
 
@@ -148,7 +146,6 @@ makeLayout <- function(x = NULL, theme = gtTheme){
 #' @param x [\code{numeric(1)}]\cr the number for which to derive decimal
 #'   places.
 #' @importFrom checkmate assertNumeric
-#' @export
 
 .getDecimals <- function(x) {
   # https://stackoverflow.com/a/5173906/4506642
@@ -171,7 +168,6 @@ makeLayout <- function(x = NULL, theme = gtTheme){
 #' @param window [\code{data.frame(1)}]\cr the old window.
 #' @return A new window that has the extent of \code{input}.
 #' @importFrom checkmate assertNames assertDataFrame
-#' @export
 
 .updateWindow <- function(input = NULL, window = NULL){
 
@@ -211,7 +207,6 @@ makeLayout <- function(x = NULL, theme = gtTheme){
 #' @importFrom dplyr bind_cols group_by mutate distinct ungroup add_row
 #'   bind_rows
 #' @importFrom utils tail
-#' @export
 
 .updateVertices <- function(input = NULL){
 
@@ -324,7 +319,6 @@ makeLayout <- function(x = NULL, theme = gtTheme){
 #'   columns \code{fid} and \code{gid}.
 #' @return A new table where the columns have the correct order.
 #' @importFrom checkmate assertNames
-#' @export
 
 .updateOrder <- function(input = NULL){
 
@@ -344,7 +338,6 @@ makeLayout <- function(x = NULL, theme = gtTheme){
 #' @param ... [\code{.}]\cr additional arguments.
 #' @importFrom checkmate testDataFrame testClass assertNames
 #' @importFrom rlang exprs
-#' @export
 
 .testAnchor <- function(x, ...){
 
@@ -381,7 +374,6 @@ makeLayout <- function(x = NULL, theme = gtTheme){
 #' @importFrom checkmate testDataFrame assertNames
 #' @importFrom rlang exprs
 #' @importFrom tibble as_tibble
-#' @export
 
 .testWindow <- function(x, ...){
 
@@ -416,7 +408,6 @@ makeLayout <- function(x = NULL, theme = gtTheme){
 #' @param ... [\code{.}]\cr additional arguments.
 #' @importFrom checkmate testClass
 #' @importFrom rlang exprs
-#' @export
 
 .testTemplate <- function(x, ...){
 
@@ -446,7 +437,6 @@ makeLayout <- function(x = NULL, theme = gtTheme){
 #'
 #' A tiny map is used via the show method of a geom.
 #' @param geom [\code{geom}]\cr the geom from which to create a tiny map.
-#' @export
 
 .makeTinyMap <- function(geom = NULL){
 
