@@ -20,3 +20,7 @@ fiyed some more typos
 
 adapt package description
 using \donttest{} instead of \dontrun{}, testing the functions manually (and fixing an issue in gc_grob() I saw due to this) 
+
+11.10.2019
+
+include Dan Sunday as copyright holder for the point-in-polygon algorithm in DESCRIPTION and geometr.Rd

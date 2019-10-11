@@ -17,6 +17,7 @@
 #'
 #' @author \strong{Maintainer, Author}: Steffen Ehrmann
 #'   \email{steffen.ehrmann@idiv.de}
+#' @author \strong{Copyright holder} Dan Sunday \href{http://geomalgorithms.com/a03-_inclusion.html}{fast point-in-polygon algorithm}
 #'
 #' @seealso \itemize{ \item Github project:
 #'   \href{https://github.com/EhrmannS/geometr}{https://github.com/EhrmannS/geometr}
