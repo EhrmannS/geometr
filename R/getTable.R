@@ -40,21 +40,43 @@ setMethod(f = "getTable",
 #' @export
 setMethod(f = "getTable",
           signature = "geom",
-          definition = function(x, slot = NULL){
+          definition = function(x, slot = "feature"){
             assertChoice(x = slot, choices = c("point", "feature", "group"), null.ok = TRUE)
-            if(is.null(slot)){
-              out <- merge(x = x@feature, y = x@group, by = "gid", all.x = TRUE)
-              out <- .updateOrder(input = out)
-            } else {
-              if(slot == "point"){
-                out <- x@point
-              } else if(slot == "feature"){
-                out <- x@feature
+
+            # replace slot access also here by getters
+
+
+            if(slot == "point"){
+              if(x@type == "grid"){
+                xGrid <- seq(from = x@point$x[1], length.out = x@point$x[2], by = x@point$x[3]) + 0.5
+                yGrid <- seq(from = x@point$y[1], length.out = x@point$y[2], by = x@point$y[3]) + 0.5
+                out <- tibble(fid = seq(1:(length(xGrid)*length(yGrid))),
+                              x = rep(xGrid, times = length(yGrid)),
+                              y = rep(yGrid, each = length(xGrid)))
+
               } else {
-                out <- x@group
+                out <- as_tibble(x@point)
               }
+            } else if(slot == "feature"){
+              if(x@type == "grid"){
+                theFeatures <- x@feature
+                if(all(names(theFeatures) %in% c("val", "len"))){
+                  temp <- list(lengths = theFeatures$len,
+                               values = theFeatures$val)
+                  attr(temp, "class") <- "rle"
+                  temp <- inverse.rle(temp)
+                  out <- tibble(fid = seq_along(temp), values = temp)
+                } else {
+                  out <- as_tibble(cbind(fid = seq_along(theFeatures[[1]]), theFeatures))
+                }
+              } else {
+                out <- as_tibble(x@feature)
+              }
+            } else {
+              out <- x@group
             }
-            return(as_tibble(out))
+            # }
+            return(out)
           }
 )
 
