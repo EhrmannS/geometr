@@ -39,17 +39,7 @@ setMethod(f = "getPoints",
           signature = "geom",
           definition = function(x){
 
-            if(x@type == "grid"){
-              xGrid <- seq(from = x@point$x[1], length.out = x@point$x[2], by = x@point$x[3]) + 0.5
-              yGrid <- seq(from = x@point$y[1], length.out = x@point$y[2], by = x@point$y[3]) + 0.5
-              out <- tibble(fid = seq(1:(length(xGrid)*length(yGrid))),
-                            x = rep(xGrid, times = length(yGrid)),
-                            y = rep(yGrid, each = length(xGrid)))
-
-            } else {
-              out <- as_tibble(x@point)
-            }
-
+            out <- getTable(x, slot = "point")
             return(out)
           }
 )
