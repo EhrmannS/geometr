@@ -165,7 +165,7 @@ setMethod(f = "gc_geom",
             theWindow <- getWindow(x = input)
 
             theFeatures <- tibble(.rows = length(input[[1]]))
-            theGroups <- list()
+            theGroups <- hist <- list()
             for(i in 1:dim(input)[3]){
 
               theInput <- input[[i]]
@@ -183,6 +183,7 @@ setMethod(f = "gc_geom",
                   theFeatures <- rawVal
                 } else {
                   theFeatures <- rleVal
+                  hist <- c(hist, paste0("layer '", theName, "' is run-length encoded."))
                 }
               }
 
@@ -201,7 +202,7 @@ setMethod(f = "gc_geom",
 
             }
 
-            history <- paste0("geom was transformed from an object of class ", theType[2], ".")
+            history <- c(hist, paste0("geom was transformed from an object of class ", theType[2], "."))
             theCRS <- getCRS(x = input)
 
             out <- new(Class = "geom",
