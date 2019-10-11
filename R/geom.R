@@ -57,6 +57,7 @@ geom <- setClass(Class = "geom",
                  slots = c(type = "character",
                            point = "data.frame",
                            feature = "data.frame",
+                           perhaps its wisest to also make 'feature' a list of dataframe per layer
                            group = "list",
                            window = "data.frame",
                            scale = "character",
