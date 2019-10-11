@@ -56,8 +56,7 @@
 geom <- setClass(Class = "geom",
                  slots = c(type = "character",
                            point = "data.frame",
-                           feature = "data.frame",
-                           perhaps its wisest to also make 'feature' a list of dataframe per layer
+                           feature = "list",
                            group = "list",
                            window = "data.frame",
                            scale = "character",
@@ -114,11 +113,14 @@ setValidity("geom", function(object){
   if(!.hasSlot(object = object, name = "feature")){
     errors = c(errors, "the geom does not have a 'feature' slot.")
   } else {
-    if(!is.data.frame(object@feature)){
-      errors = c(errors, "the slot 'feature' is not a data.frame.")
+    if(!is.list(object@feature)){
+      errors = c(errors, "the slot 'feature' is not a list")
+    }
+    if(is.null(names(object@feature))){
+      errors = c(errors, "the slot 'feature' must contain named lists.")
     }
     if(object@type != "grid"){
-      if(!all(c("fid", "gid") %in% names(object@feature))){
+      if(!all(c("fid", "gid") %in% names(object@feature[[1]]))){
         errors = c(errors, "the geom must have a features table with at least the columns 'fid' and 'gid'.")
       }
     }
