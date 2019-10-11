@@ -4,11 +4,10 @@ This minor version introduces the geom type 'grid', which is meant to store rast
 
 - gc_geom() now has a method to convert Raster objects to grid geoms.
 - getPoints()/getTable(slot = "point") extracts the compact grid-points version into the interoperable table this getter is supposed to hand out.
-- getTable(slot = "feature") assigns fid to match with the points
-- setTable()
+- getTable(slot = "feature") for grid geoms reconstructs fid for points and extracts rle tables, if they exist
+- setTable()                (completely revised to handle the new data structure)
 
 ToDo:
-- getTable() likewise needs to inverse-rle, in case that is how values are provided
 - setters need to be written
 - makeObject needs to handle the grid geom differently than other geoms, more like a raster
 
