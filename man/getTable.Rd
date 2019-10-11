@@ -15,7 +15,7 @@
 \usage{
 \S4method{getTable}{ANY}(x)
 
-\S4method{getTable}{geom}(x, slot = NULL)
+\S4method{getTable}{geom}(x, slot = "feature")
 
 \S4method{getTable}{Spatial}(x)
 
