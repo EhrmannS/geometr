@@ -54,39 +54,49 @@ setMethod(f = "getSubset",
             assertChoice(x = slot, choices = c("point", "feature", "group"))
             subset <- enquos(...)
             isLogical <- tryCatch(is.logical(eval_tidy(expr = subset[[1]])), error = function(e) FALSE)
+
+            thePoints <- getTable(x = x, slot = "point")
+            theFeatures <- getTable(x = x, slot = "feature")
+            theGroups <- getTable(x = x, slot = "group")
+
             if(slot == "point"){
               if(isLogical){
                 matches <- eval_tidy(expr = subset[[1]])
               } else {
                 subset <- exprs(...)
-                matches <- eval(parse(text = subset), envir = x@point)
+                matches <- eval(parse(text = subset), envir = thePoints)
               }
-              x@point <- x@point[matches,]
-              x@feature <- x@feature[x@feature$fid %in% x@point$fid,]
-              gids <- x@feature$gid
-              x@group <- x@group[x@group$gid %in% gids,]
+              thePoints <- thePoints[matches,]
+              theFeatures <- theFeatures[theFeatures$fid %in% thePoints$fid,]
+              theGroups <- theGroups[theGroups$gid %in% theFeatures$gid,]
             } else if(slot == "feature"){
               if(isLogical){
                 matches <- eval_tidy(expr = subset[[1]])
               } else {
                 subset <- exprs(...)
-                matches <- eval(parse(text = subset), envir = x@feature)
+                matches <- eval(parse(text = subset), envir = theFeatures)
               }
-              x@feature <- x@feature[matches,]
-              x@point <- x@point[x@point$fid %in% x@feature$fid,]
-              gids <- x@feature$gid
-              x@group <- x@group[x@group$gid %in% gids,]
+              theFeatures <- theFeatures[matches,]
+              thePoints <- thePoints[thePoints$fid %in% theFeatures$fid,]
+              theGroups <- theGroups[theGroups$gid %in% theFeatures$gid,]
             } else {
               if(isLogical){
                 matches <- eval_tidy(expr = subset[[1]])
               } else {
                 subset <- exprs(...)
-                matches <- eval(parse(text = subset), envir = x@group)
+                matches <- eval(parse(text = subset), envir = theGroups)
               }
-              x@group <- x@group[matches,]
-              x@feature <- x@feature[x@feature$gid %in% x@group$gid,]
-              x@point <- x@point[x@point$fid %in% x@feature$fid,]
+              theGroups <- theGroups[matches,]
+              theFeatures <- theFeatures[theFeatures$gid %in% theGroups$gid,]
+              thePoints <- thePoints[thePoints$fid %in% theFeatures$fid,]
             }
+
+            # actually not using setTable() here, because this is not a
+            # merge/cbind operation, but setting a totally new table
+            x@point <- thePoints
+            x@feature <- theFeatures
+            x@group <- as.list(theGroups)
+
             return(x)
           }
 )
