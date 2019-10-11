@@ -34,86 +34,48 @@ IntegerVector pointInGeomC(NumericMatrix &vert, NumericMatrix &geom, bool invert
   double xMin = min(geom(_, 0)), xMax = max(geom(_, 0));
   double yMin = min(geom(_, 1)), yMax = max(geom(_, 1));
 
-  // warning if first and last coordinate are not the same
-  // if(any(geom(0, _) != geom(gRows-1, _)).is_true()){
-  //   stop("first and last vertex must be the same.");
-  // }
-  // Rcout << "\n[x- " << xMin << "," << xMax << " | y- " << yMin << "," << yMax << "]" << std::endl;
-
   for(int j = 0; j < vRows; j++){
-    int on = 1; // as we start with a new vertex, reset indicator for "on the line" to 1
+    int on = 1;                              // as we start with a new vertex, reset indicator for "on the line" to 1
 
     double x = vert(j, 0);
     double y = vert(j, 1);
-    // Rcout << "\n(" << x << "," << y << ")" << std::endl;
 
-    // if the coordinate is within the bounding box, proceed, otherwise value is definitely 0
+    // if the coordinate is within the bounding box, proceed, otherwise value is definitely 'outside'
     if((x <= xMax) & (x >= xMin) & (y <= yMax) & (y >= yMin)){
       int wn = 0;                            // the  winding number counter
 
-      // Rcout << "inside extent\n" << std::endl;
       // loop through all edges of the geometry and find wn
       for (int i = 0; i < gRows-1; i++){
 
-        // Rcout << "\n" << i+1 << ". ----" << std::endl;
-
         if (y >= geom(i, 1)){
-          // Rcout << "y >= vertex " << i+1 << " (" << y << " >= " << geom(i, 1) << ")" << std::endl;
 
           if (y < geom(i+1, 1)){             // an upward crossing
-            // Rcout << "    y < vertex " << i+2 << " (" << y << " < " << geom(i+1, 1) << ")" << std::endl;
 
             isLeft = (geom(i+1, 0) - geom(i, 0)) * (y - geom(i, 1)) - (x -  geom(i, 0)) * (geom(i+1, 1) - geom(i, 1));
-            if(isLeft == 0){                  // point is on the line
+            if(isLeft == 0){                 // point is on the line
               ++on;
-              // Rcout << "    y is on the line (" << isLeft << ")" << std::endl;
-              // Rcout << "                    -- set 'on' (" << on << ")" << std::endl;
-            } else if(isLeft > 0){                  // P left of or on edge "isLeft > 0"
+            } else if(isLeft > 0){           // P left of or on edge "isLeft > 0"
               ++wn;                          // have  a valid up intersect
-              // Rcout << "    y is left of line (" << isLeft << ")" << std::endl;
-              // Rcout << "                    -- wn+1 (" << wn << ")" << std::endl;
-            } else {
-              // Rcout << "    y is right of line (" << isLeft << ")" << std::endl;
-              // Rcout << "                    -- NULL" << std::endl;
             }
           } else {
-            // Rcout << "    y >= vertex " << i+2 << " (" << y << " >= " << geom(i+1, 1) << ")" << std::endl;
-            // Rcout << "                    -- NULL" << std::endl;
             isLeft = (geom(i+1, 0) - geom(i, 0)) * (y - geom(i, 1)) - (x -  geom(i, 0)) * (geom(i+1, 1) - geom(i, 1));
             if(isLeft == 0){
               ++on;
-              // Rcout << "    y is on the line (" << isLeft << ")" << std::endl;
-              // Rcout << "                    -- on+1 (" << on << ")" << std::endl;
             }
           }
 
         } else {
-          // Rcout << "y < vertex " << i+1 << " (" << y << " < " << geom(i, 1) << ")" << std::endl;
 
           if (y >= geom(i+1, 1)){            // a downward crossing
-            // Rcout << "    y >= vertex " << i+2 << " (" << y << " >= " << geom(i+1, 1) << ")" << std::endl;
 
             isLeft = (geom(i+1, 0) - geom(i, 0)) * (y - geom(i, 1)) - (x -  geom(i, 0)) * (geom(i+1, 1) - geom(i, 1));
             if(isLeft == 0){
               ++on;
-              // Rcout << "    y is on the line (" << isLeft << ")" << std::endl;
-              // Rcout << "                    -- on+1 (" << on << ")" << std::endl;
-            } else if(isLeft < 0){                  // P right of edge
+            } else if(isLeft < 0){           // P right of edge
               --wn;                          // have  a valid down intersect
-              // Rcout << "    y is right of line (" << isLeft << ")" << std::endl;
-              // Rcout << "                    -- wn-1 (" << wn << ")" << std::endl;
-            } else {
-              // Rcout << "    y is left of line (" << isLeft << ")" << std::endl;
-              // Rcout << "                    -- NULL" << std::endl;
             }
-          } else {
-            // Rcout << "    y < vertex " << i+2 << " (" << y << " < " << geom(i+1, 1) << ")" << std::endl;
-            // Rcout << "                    -- NULL" << std::endl;
-
           }
-
         }
-
       }
 
       if(on != 1){
@@ -127,7 +89,6 @@ IntegerVector pointInGeomC(NumericMatrix &vert, NumericMatrix &geom, bool invert
       }
 
     } else {
-      // Rcout << "outside of extent\n" << std::endl;
       out[j] = outside;
     }
   }
