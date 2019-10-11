@@ -49,28 +49,35 @@ setMethod(f = "setTable",
           definition = function(x, table = NULL, slot = "feature"){
             assertDataFrame(x = table)
             assertChoice(x = slot, choices = c("point", "feature", "group"))
+
             if(slot == "point"){
+              thePoints <- getTable(x = x, slot = "point")
+
               if(any(colnames(table) %in% colnames(x@point))){
-                temp <- merge(x@point, table, all.x = TRUE)
+                temp <- merge(thePoints, table, all.x = TRUE)
                 temp <- .updateOrder(input = temp)
               } else{
-                temp <- cbind(x@point, table)
+                temp <- cbind(thePoints, table)
               }
               x@point <- as_tibble(temp)
             } else if(slot == "feature"){
-              if(any(colnames(table) %in% colnames(x@feature))){
-                temp <- merge(x@feature, table, all.x = TRUE)
+              theFeatures <- getTable(x = x, slot = "feature")
+
+              if(any(colnames(table) %in% colnames(theFeatures))){
+                temp <- merge(theFeatures, table, all.x = TRUE)
                 temp <- .updateOrder(input = temp)
               } else{
-                temp <- cbind(x@feature, table)
+                temp <- cbind(theFeatures, table)
               }
               x@feature <- as_tibble(temp)
             } else {
-              if(any(colnames(table) %in% colnames(x@group))){
-                temp <- merge(x@group, table, all.x = TRUE)
+              theGroups <- getTable(x = x, slot = "group")
+
+              if(any(colnames(table) %in% colnames(theGroups))){
+                temp <- merge(theGroups, table, all.x = TRUE)
                 temp <- .updateOrder(input = temp)
               } else{
-                temp <- cbind(x@group, table)
+                temp <- cbind(theGroups, table)
               }
               x@group <- as_tibble(temp)
             }
