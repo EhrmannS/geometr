@@ -18,7 +18,8 @@
 #' @param regular [\code{logical(1)}]\cr should the polygon be regular, i.e.
 #'   point symmetric (\code{TRUE}) or should the vertices be selected as
 #'   provided by \code{anchor} (\code{FALSE}, default)?
-#' @param ... [various]\cr additional arguments; see Details.
+#' @param ... [various]\cr graphical parameters to \code{\link{gt_locate}}, in
+#'   case points are sketched; see \code{\link[grid]{gpar}}
 #' @details The arguments \code{anchor} and \code{sketch} indicate how the line
 #'   is created: \itemize{ \item if \code{anchor} is set, the line is created
 #'   parametrically from the given objects' points, \item if an object is set in
@@ -31,10 +32,6 @@
 #'   from all vertices in \code{anchor}, \item if \code{regular = TRUE}, only
 #'   the first two vertices are considered, as center and indicating the
 #'   distance to the (outer) radius.}
-#'
-#'   Possible additional arguments are: \itemize{ \item verbose = TRUE/FALSE
-#'   \item graphical parameters to \code{\link{gt_locate}}, in case points are
-#'   sketched; see \code{\link[grid]{gpar}}}
 #' @return An invisible \code{geom}.
 #' @family geometry shapes
 #' @examples
@@ -81,8 +78,8 @@ gs_polygon <- function(anchor = NULL, window = NULL, features = 1, vertices = NU
                        sketch = NULL, regular = FALSE, ...){
 
   # check arguments
-  anchor <- .testAnchor(x = anchor, ...)
-  theWindow <- .testWindow(x = window, ...)
+  anchor <- .testAnchor(x = anchor)
+  theWindow <- .testWindow(x = window)
   assertIntegerish(x = features, len = 1, lower = 1)
   assertIntegerish(x = vertices, min.len = 1, lower = 2, any.missing = FALSE, null.ok = TRUE)
   assertLogical(x = regular)
@@ -100,7 +97,7 @@ gs_polygon <- function(anchor = NULL, window = NULL, features = 1, vertices = NU
         anchor$obj@group <- tibble(gid = 1)
         features <- 1
       } else {
-        features <- length(unique(anchor$obj@feature$fid))
+        features <- length(unique(anchor$obj@feature$geometry$fid))
       }
     } else if(anchor$type == "df"){
       hist <- paste0("object was created as 'polygon' geom.")
@@ -182,8 +179,8 @@ gs_polygon <- function(anchor = NULL, window = NULL, features = 1, vertices = NU
     theGeom <- new(Class = "geom",
                    type = "polygon",
                    point = theVertices,
-                   feature = theFeatures,
-                   group = theGroups,
+                   feature = list(geometry = theFeatures),
+                   group = list(geometry = theGroups),
                    window = theWindow,
                    scale = "absolute",
                    crs = as.character(projection),

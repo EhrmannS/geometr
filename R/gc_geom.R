@@ -51,13 +51,15 @@ setMethod(f = "gc_geom",
             } else if(sourceClass %in% c("SpatialPolygons", "SpatialPolygonsDataFrame", "SpatialGrid", "SpatialGridDataFrame")){
               type <- "polygon"
             }
+            theGroups <- tibble(gid = unique(theData$gid))
+
             history <- paste0("geom was transformed from an object of class '", sourceClass, "'.")
 
             out <- new(Class = "geom",
                        type = type,
                        point = theCoords,
-                       feature = theData,
-                       group = tibble(gid = unique(theData$gid)),
+                       feature = list(geometry = theData),
+                       group = list(geometry = theGroups),
                        window = theWindow,
                        scale = "absolute",
                        crs = theCRS,
@@ -108,8 +110,8 @@ setMethod(f = "gc_geom",
             out <- new(Class = "geom",
                        type = type,
                        point = theCoords,
-                       feature = theData,
-                       group = theGroups,
+                       feature = list(geometry = theData),
+                       group = list(geometry = theGroups),
                        window = theWindow,
                        scale = "absolute",
                        crs = theCRS,
@@ -137,8 +139,8 @@ setMethod(f = "gc_geom",
             out <- new(Class = "geom",
                        type = "point",
                        point = theCoords,
-                       feature = theData,
-                       group = theGroups,
+                       feature = list(geometry = theData),
+                       group = list(geometry = theGroups),
                        window = theWindow,
                        scale = "absolute",
                        crs = theCRS,
@@ -158,34 +160,29 @@ setMethod(f = "gc_geom",
           definition = function(input = NULL, attr = FALSE, ...){
 
             theExtent <- getExtent(x = input)
-            theCoords <- tibble(x = c(min(theExtent$x), input@nrows, xres(input)),
-                                y = c(min(theExtent$y), input@ncols, yres(input)))
+            theCoords <- tibble(x = c(min(theExtent$x), input@ncols, xres(input)),
+                                y = c(min(theExtent$y), input@nrows, yres(input)))
 
             theType <- getType(x = gtRasters)
             theWindow <- getWindow(x = input)
 
-            theFeatures <- tibble(.rows = length(input[[1]]))
+            theFeatures <- list()
             theGroups <- hist <- list()
             for(i in 1:dim(input)[3]){
 
               theInput <- input[[i]]
               theName <- names(input)[i]
 
-
-              if(dim(input)[3] > 1){
-                theFeatures <- bind_cols(theFeatures, !!theName := theInput@data@values)
+              rawVal <- theInput@data@values
+              rleVal <- rle(rawVal)
+              if(object.size(rleVal) > object.size(rawVal)){
+                tempFeatures <- tibble(values = rawVal)
               } else {
-                rawVal <- tibble(!!theName := theInput@data@values)
-                rleVal <- rle(rawVal[[1]])
-                rleVal <- tibble(val = rleVal$values,
-                                 len = rleVal$lengths)
-                if(object.size(rleVal) > object.size(rawVal)){
-                  theFeatures <- rawVal
-                } else {
-                  theFeatures <- rleVal
-                  hist <- c(hist, paste0("layer '", theName, "' is run-length encoded."))
-                }
+                tempFeatures <- tibble(val = rleVal$values,
+                                       len = rleVal$lengths)
+                hist <- c(hist, paste0("layer '", theName, "' is run-length encoded."))
               }
+              theFeatures <- c(theFeatures, setNames(list(tempFeatures), theName))
 
               if(length(theInput@data@attributes) != 0){
                 tempGroups <- as_tibble(theInput@data@attributes[[1]])

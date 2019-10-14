@@ -12,7 +12,8 @@
 #' @param vertices [\code{integer(1)}]\cr number of vertices.
 #' @param sketch [\code{RasterLayer(1)} | \code{matrix(1)}]\cr Gridded object
 #'   that serves as template to sketch points.
-#' @param ... [various]\cr additional arguments; see Details.
+#' @param ... [various]\cr graphical parameters to \code{\link{gt_locate}}, in
+#'   case points are sketched; see \code{\link[grid]{gpar}}
 #' @return An invisible \code{geom}.
 #' @family geometry shapes
 #' @details The arguments \code{anchor} and \code{sketch} indicate how the line
@@ -20,10 +21,6 @@
 #'   parametrically from the given objects' points, \item if an object is set in
 #'   \code{sketch}, this is used to create the \code{geom} interactively, by
 #'   clicking into the plot.}
-#'
-#'   Possible additional arguments are: \itemize{ \item verbose = TRUE/FALSE
-#'   \item graphical parameters to \code{\link{gt_locate}}, in case points are
-#'   sketched; see \code{\link[grid]{gpar}}}
 #' @examples
 #' # create points programmatically
 #' coords <- data.frame(x = c(40, 70, 70, 50),
@@ -64,8 +61,8 @@ gs_point <- function(anchor = NULL, window = NULL, vertices = 1,
                      sketch = NULL, ...){
 
   # check arguments
-  anchor <- .testAnchor(x = anchor, ...)
-  theWindow <- .testWindow(x = window, ...)
+  anchor <- .testAnchor(x = anchor)
+  theWindow <- .testWindow(x = window)
   assertIntegerish(vertices, min.len = 1, lower = 1, any.missing = FALSE)
 
   # sketch the geometry
@@ -103,8 +100,10 @@ gs_point <- function(anchor = NULL, window = NULL, vertices = 1,
         theVertices <- bind_cols(theVertices, fid = seq_along(theVertices$x))
       }
       vertices <- dim(theVertices)[1]
-      theFeatures = tibble(fid = 1:vertices, gid = 1:vertices)
-      theGroups = tibble(gid = 1:vertices)
+      theFeatures <- tibble(fid = 1:vertices, gid = 1:vertices)
+      theFeatures <- list(geometry = theFeatures)
+      theGroups <- tibble(gid = 1:vertices)
+      theGroups <- list(geometry = theGroups)
       projection <- NA
 
     }
