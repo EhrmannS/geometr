@@ -39,8 +39,11 @@ setMethod(f = "getExtent",
 setMethod(f = "getExtent",
           signature = "geom",
           definition = function(x){
-            bind_cols(x = c(min(x@point$x), max(x@point$x)),
-                      y = c(min(x@point$y), max(x@point$y)))
+
+            thePoints <- getPoints(x = x)
+            bind_cols(x = c(min(thePoints$x), max(thePoints$x)),
+                      y = c(min(thePoints$y), max(thePoints$y)))
+
           }
 )
 

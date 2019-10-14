@@ -120,8 +120,10 @@ setValidity("geom", function(object){
       errors = c(errors, "the slot 'feature' must contain named lists.")
     }
     if(object@type != "grid"){
-      if(!all(c("fid", "gid") %in% names(object@feature[[1]]))){
-        errors = c(errors, "the geom must have a features table with at least the columns 'fid' and 'gid'.")
+      for(i in seq_along(object@feature)){
+        if(!all(c("fid", "gid") %in% names(object@feature[[i]]))){
+          errors = c(errors, "the geom must have a features table with at least the columns 'fid' and 'gid'.")
+        }
       }
     }
   }
@@ -134,6 +136,11 @@ setValidity("geom", function(object){
     }
     if(is.null(names(object@group))){
       errors = c(errors, "the slot 'group' must contain named lists.")
+    }
+    for(i in seq_along(object@group)){
+      if(!all(c("gid") %in% names(object@group[[i]]))){
+        errors = c(errors, "the geom must have a group table with the column 'gid'.")
+      }
     }
   }
 

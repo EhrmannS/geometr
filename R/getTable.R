@@ -43,31 +43,36 @@ setMethod(f = "getTable",
           definition = function(x, slot = "feature"){
             assertChoice(x = slot, choices = c("point", "feature", "group"), null.ok = TRUE)
 
-            # replace slot access also here by getters
-
+            theType <- getType(x = x)[2]
 
             if(slot == "point"){
-              if(x@type == "grid"){
+              if(theType == "grid"){
                 xGrid <- seq(from = x@point$x[1], length.out = x@point$x[2], by = x@point$x[3]) + 0.5
                 yGrid <- seq(from = x@point$y[1], length.out = x@point$y[2], by = x@point$y[3]) + 0.5
                 out <- tibble(fid = seq(1:(length(xGrid)*length(yGrid))),
                               x = rep(xGrid, times = length(yGrid)),
                               y = rep(yGrid, each = length(xGrid)))
-
               } else {
                 out <- as_tibble(x@point)
               }
             } else if(slot == "feature"){
-              if(x@type == "grid"){
+              if(theType == "grid"){
                 theFeatures <- x@feature
-                if(all(names(theFeatures) %in% c("val", "len"))){
-                  temp <- list(lengths = theFeatures$len,
-                               values = theFeatures$val)
-                  attr(temp, "class") <- "rle"
-                  temp <- inverse.rle(temp)
-                  out <- tibble(fid = seq_along(temp), values = temp)
-                } else {
-                  out <- as_tibble(cbind(fid = seq_along(theFeatures[[1]]), theFeatures))
+                out <- list()
+                for(i in seq_along(theFeatures)){
+                  theInput <- theFeatures[[i]]
+                  theName <- names(theFeatures)[i]
+
+                  if(all(names(theInput) %in% c("val", "len"))){
+                    temp <- list(lengths = theInput$len,
+                                 values = theInput$val)
+                    attr(temp, "class") <- "rle"
+                    temp <- inverse.rle(temp)
+                    tempFeatures <- tibble(fid = seq_along(temp), values = temp)
+                  } else {
+                    tempFeatures <- as_tibble(cbind(fid = 1:dim(theInput)[1], theInput))
+                  }
+                  out <- c(out, setNames(list(tempFeatures), theName))
                 }
               } else {
                 out <- as_tibble(x@feature)
@@ -75,7 +80,6 @@ setMethod(f = "getTable",
             } else {
               out <- x@group
             }
-            # }
             return(out)
           }
 )
