@@ -4,7 +4,7 @@
 \name{geometr}
 \alias{geometr}
 \alias{geometr-package}
-\title{geometr: Generate and modify interoperable geometric shapes}
+\title{geometr: Generate and Modify Interoperable Geometric Shapes}
 \description{
 The geometr package provides tools that generate and process easily
 accessible and tidy geometric shapes (of class \code{geom}). Moreover, it

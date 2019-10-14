@@ -1,4 +1,4 @@
-#' geometr: Generate and modify interoperable geometric shapes
+#' geometr: Generate and Modify Interoperable Geometric Shapes
 #'
 #' The geometr package provides tools that generate and process easily
 #' accessible and tidy geometric shapes (of class \code{geom}). Moreover, it
