@@ -57,8 +57,8 @@
 #' @importFrom methods new
 #' @export
 
-gs_point <- function(anchor = NULL, window = NULL, vertices = 1,
-                     sketch = NULL, ...){
+gs_point <- function(anchor = NULL, window = NULL, vertices = 1, sketch = NULL,
+                     ...){
 
   # check arguments
   anchor <- .testAnchor(x = anchor)
@@ -98,11 +98,15 @@ gs_point <- function(anchor = NULL, window = NULL, vertices = 1,
       theVertices <- bind_cols(anchor$obj)
       if(!"fid" %in% names(theVertices)){
         theVertices <- bind_cols(theVertices, fid = seq_along(theVertices$x))
+        vertices <- dim(theVertices)[1]
+        theFeatures <- tibble(fid = 1:vertices, gid = 1:vertices)
+        theGroups <- tibble(gid = 1:vertices)
+      } else {
+        vertices <- unique(theVertices$fid)
+        theFeatures <- tibble(fid = vertices, gid = seq_along(vertices))
+        theGroups <- tibble(gid = seq_along(vertices))
       }
-      vertices <- dim(theVertices)[1]
-      theFeatures <- tibble(fid = 1:vertices, gid = 1:vertices)
       theFeatures <- list(geometry = theFeatures)
-      theGroups <- tibble(gid = 1:vertices)
       theGroups <- list(geometry = theGroups)
       projection <- NA
 
