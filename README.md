@@ -32,9 +32,15 @@ providing tools
 
 ## Installation
 
-1)  Install the latest development version from github:
+1)  Install the official version from CRAN:
 
 <!-- end list -->
+
+``` r
+install.packages("geometr")
+```
+
+or the latest development version from github:
 
 ``` r
 devtools::install_github("EhrmannS/geometr")
@@ -58,7 +64,7 @@ library(geometr)
 
 # ... from other classes
 library(sf)
-#> Linking to GEOS 3.7.0, GDAL 2.4.0, PROJ 5.2.0
+#> Linking to GEOS 3.5.1, GDAL 2.2.2, PROJ 4.9.2
 nc_sf <- st_read(system.file("shape/nc.shp", package="sf"), quiet = TRUE)
 nc_geom <- gc_geom(input = nc_sf)
 
@@ -181,13 +187,13 @@ properties.
 visualise(`North Carolina` = nc_geom)
 ```
 
-<img src="man/figures/README-unnamed-chunk-7-1.png" width="100%" />
+<img src="man/figures/README-unnamed-chunk-8-1.png" width="100%" />
 
 ``` r
 visualise(`NC - NWBIR74` = nc_geom, fillcol = NWBIR74)
 ```
 
-<img src="man/figures/README-unnamed-chunk-7-2.png" width="100%" />
+<img src="man/figures/README-unnamed-chunk-8-2.png" width="100%" />
 
 A `geom` has the slot `@window`, which contains a reference window. This
 reference window can be used or modified in many functions of `geometr`
@@ -196,7 +202,7 @@ reference window can be used or modified in many functions of `geometr`
 visualise(`Currituck` = currituck, window = getExtent(currituck))
 ```
 
-<img src="man/figures/README-unnamed-chunk-8-1.png" width="100%" />
+<img src="man/figures/README-unnamed-chunk-9-1.png" width="100%" />
 
 Finally, cast a `geom` to another type simply by providing it in
 `anchor` of the respective type
@@ -208,4 +214,4 @@ boundPoints <- gs_point(anchor = currituck) %>%
 visualise(`Currituck - boundary vertices`= boundPoints)
 ```
 
-<img src="man/figures/README-unnamed-chunk-9-1.png" width="100%" />
+<img src="man/figures/README-unnamed-chunk-10-1.png" width="100%" />

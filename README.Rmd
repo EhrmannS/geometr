@@ -34,7 +34,13 @@ providing tools
 
 ## Installation
 
-1) Install the latest development version from github:
+1) Install the official version from CRAN:
+
+```{r, eval=FALSE}
+install.packages("geometr")
+```
+
+or the latest development version from github:
 
 ```{r, eval=FALSE}
 devtools::install_github("EhrmannS/geometr")

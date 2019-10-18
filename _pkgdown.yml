@@ -4,7 +4,7 @@ authors:
 title: geometr
 url: http://EhrmannS.github.io/geometr
 development:
-  mode: unreleased
+  mode: release
 
 reference:
   - title: geometries
