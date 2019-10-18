@@ -90,21 +90,14 @@ gs_polygon <- function(anchor = NULL, window = NULL, features = 1, vertices = NU
   if(!is.null(anchor)){
     if(anchor$type == "geom"){
       hist <- paste0("object was cast to 'polygon' geom.")
-
-      if(anchor$obj@type == "point"){
-        anchor$obj@point$fid <- rep(1, length(anchor$obj@point$fid))
-        anchor$obj@feature <- tibble(fid = 1, gid = 1)
-        anchor$obj@group <- tibble(gid = 1)
-        features <- 1
-      } else {
-        features <- length(unique(anchor$obj@feature$geometry$fid))
-      }
+      features <- length(unique(anchor$obj@feature$geometry$fid))
+      projection <- getCRS(x = anchor$obj)
     } else if(anchor$type == "df"){
       hist <- paste0("object was created as 'polygon' geom.")
-
       if("fid" %in% names(anchor$obj)){
         features <- length(unique(anchor$obj$fid))
       }
+      projection <- NA
     }
   }
 
@@ -131,10 +124,12 @@ gs_polygon <- function(anchor = NULL, window = NULL, features = 1, vertices = NU
           theWindow <- anchor$obj@window
         }
         tempAnchor <- anchor$obj@point[anchor$obj@point$fid == i,]
+        if(dim(tempAnchor)[1] < 3){
+          stop(paste0("a polygon geom must have at least 3 points per 'fid'."))
+        }
         openingAngle <- atan((tempAnchor$x[1] - tempAnchor$x[2]) / (tempAnchor$y[1] - tempAnchor$y[2])) * 180 / pi
-        tempFeatures <- anchor$obj@feature[anchor$obj@feature$fid == i,]
-        tempGroups <- anchor$obj@group[anchor$obj@group$gid == i,]
-        projection <- getCRS(x = anchor$obj)
+        tempFeatures <- anchor$obj@feature$geometry[anchor$obj@feature$geometry$fid == i,]
+        tempGroups <- anchor$obj@group$geometry[anchor$obj@group$geometry$gid == i,]
 
       } else if(anchor$type == "df"){
 
@@ -151,7 +146,6 @@ gs_polygon <- function(anchor = NULL, window = NULL, features = 1, vertices = NU
         openingAngle <- atan((tempAnchor$x[1] - tempAnchor$x[2]) / (tempAnchor$y[1] - tempAnchor$y[2])) * 180 / pi
         tempFeatures <- tibble(fid = i, gid = i)
         tempGroups <- tibble(gid = i)
-        projection <- NA
 
       }
 

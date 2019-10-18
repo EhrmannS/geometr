@@ -74,19 +74,14 @@ gs_line <- function(anchor = NULL, window = NULL, features = 1, vertices = NULL,
   if(!is.null(anchor)){
     if(anchor$type == "geom"){
       hist <- paste0("object was cast to 'line' geom.")
-      if(anchor$obj@type == "point"){
-        anchor$obj@point$fid <- rep(1, length(anchor$obj@point$fid))
-        anchor$obj@feature$geometry <- tibble(fid = 1, gid = 1)
-        anchor$obj@group$geometry <- tibble(gid = 1)
-        features <- 1
-      } else {
-        features <- length(unique(anchor$obj@feature$geometry$fid))
-      }
+      features <- length(unique(anchor$obj@feature$geometry$fid))
+      projection <- getCRS(x = anchor$obj)
     } else if(anchor$type == "df"){
       hist <- paste0("object was created as 'line' geom.")
       if("fid" %in% names(anchor$obj)){
         features <- length(unique(anchor$obj$fid))
       }
+      projection <- NA
     }
   }
 
@@ -107,18 +102,16 @@ gs_line <- function(anchor = NULL, window = NULL, features = 1, vertices = NULL,
     for(i in 1:features){
 
       if(anchor$type == "geom"){
-
         if(is.null(theWindow)){
           theWindow <- anchor$obj@window
         }
-        continue here and in gs_polygon with fiddling in $geometry
         tempAnchor <- anchor$obj@point[anchor$obj@point$fid == i,]
-        tempFeatures <- anchor$obj@feature[anchor$obj@feature$fid == i,]
-        tempGroups <- anchor$obj@group[anchor$obj@group$gid == i,]
-        projection <- getCRS(x = anchor$obj)
-
+        if(dim(tempAnchor)[1] < 2){
+          stop(paste0("a line geom must have at least 2 points per 'fid'."))
+        }
+        tempFeatures <- anchor$obj@feature$geometry[anchor$obj@feature$geometry$fid == i,]
+        tempGroups <- anchor$obj@group$geometry[anchor$obj@group$geometry$gid == i,]
       } else if(anchor$type == "df"){
-
         if(is.null(theWindow)){
           theWindow = tibble(x = c(min(anchor$obj$x), max(anchor$obj$x), max(anchor$obj$x), min(anchor$obj$x), min(anchor$obj$x)),
                              y = c(min(anchor$obj$y), min(anchor$obj$y), max(anchor$obj$y), max(anchor$obj$y), min(anchor$obj$y)))
@@ -131,21 +124,18 @@ gs_line <- function(anchor = NULL, window = NULL, features = 1, vertices = NULL,
         }
         tempFeatures <- tibble(fid = i, gid = i)
         tempGroups <- tibble(gid = i)
-        projection <- NA
-
       }
-
       theNodes <- tempAnchor[c("x", "y", "fid")]
-
       theVertices <- bind_rows(theVertices, theNodes)
       theFeatures <- bind_rows(theFeatures, tempFeatures)
       theGroups <- bind_rows(theGroups, tempGroups)
+
     }
 
     theGeom <- new(Class = "geom",
                    type = "line",
                    point = theVertices,
-                   feature = list(gemetry = theFeatures),
+                   feature = list(geometry = theFeatures),
                    group = list(geometry = theGroups),
                    window = theWindow,
                    scale = "absolute",
