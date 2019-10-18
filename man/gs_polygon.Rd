@@ -46,7 +46,8 @@ serves as template to sketch polygons.}
 point symmetric (\code{TRUE}) or should the vertices be selected as
 provided by \code{anchor} (\code{FALSE}, default)?}
 
-\item{...}{[various]\cr additional arguments; see Details.}
+\item{...}{[various]\cr graphical parameters to \code{\link{gt_locate}}, in
+case points are sketched; see \code{\link[grid]{gpar}}}
 }
 \value{
 An invisible \code{geom}.
@@ -68,10 +69,6 @@ The arguments \code{anchor} and \code{sketch} indicate how the line
   from all vertices in \code{anchor}, \item if \code{regular = TRUE}, only
   the first two vertices are considered, as center and indicating the
   distance to the (outer) radius.}
-
-  Possible additional arguments are: \itemize{ \item verbose = TRUE/FALSE
-  \item graphical parameters to \code{\link{gt_locate}}, in case points are
-  sketched; see \code{\link[grid]{gpar}}}
 }
 \section{Functions}{
 \itemize{

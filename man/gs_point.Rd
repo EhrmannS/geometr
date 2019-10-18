@@ -22,7 +22,8 @@ specify this here.}
 \item{sketch}{[\code{RasterLayer(1)} | \code{matrix(1)}]\cr Gridded object
 that serves as template to sketch points.}
 
-\item{...}{[various]\cr additional arguments; see Details.}
+\item{...}{[various]\cr graphical parameters to \code{\link{gt_locate}}, in
+case points are sketched; see \code{\link[grid]{gpar}}}
 }
 \value{
 An invisible \code{geom}.
@@ -37,10 +38,6 @@ The arguments \code{anchor} and \code{sketch} indicate how the line
   parametrically from the given objects' points, \item if an object is set in
   \code{sketch}, this is used to create the \code{geom} interactively, by
   clicking into the plot.}
-
-  Possible additional arguments are: \itemize{ \item verbose = TRUE/FALSE
-  \item graphical parameters to \code{\link{gt_locate}}, in case points are
-  sketched; see \code{\link[grid]{gpar}}}
 }
 \examples{
 # create points programmatically
