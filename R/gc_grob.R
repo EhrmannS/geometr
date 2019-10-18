@@ -41,8 +41,8 @@ setMethod(f = "gc_grob",
             displayArgs <- exprs(...)
             featureType <- getType(x = input)[2]
             thePoints <- getPoints(x = input)
-            theFeatures <- getTable(x = input, slot = "feature")
-            theGroups <- getTable(x = input, slot = "group")
+            theFeatures <- getTable(x = input, slot = "feature")$geometry
+            theGroups <- getTable(x = input, slot = "group")$geometry
 
             if(featureType == "point"){
               attr <- left_join(x = thePoints, y = theFeatures, by = "fid")
