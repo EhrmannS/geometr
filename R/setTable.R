@@ -50,36 +50,40 @@ setMethod(f = "setTable",
             assertDataFrame(x = table)
             assertChoice(x = slot, choices = c("point", "feature", "group"))
 
-            if(slot == "point"){
-              thePoints <- getTable(x = x, slot = "point")
+            if(x@type == "grid"){
 
-              if(any(colnames(table) %in% colnames(x@point))){
-                temp <- merge(thePoints, table, all.x = TRUE)
-                temp <- .updateOrder(input = temp)
-              } else{
-                temp <- cbind(thePoints, table)
-              }
-              x@point <- as_tibble(temp)
-            } else if(slot == "feature"){
-              theFeatures <- getTable(x = x, slot = "feature")
-
-              if(any(colnames(table) %in% colnames(theFeatures))){
-                temp <- merge(theFeatures, table, all.x = TRUE)
-                temp <- .updateOrder(input = temp)
-              } else{
-                temp <- cbind(theFeatures, table)
-              }
-              x@feature <- as_tibble(temp)
             } else {
-              theGroups <- getTable(x = x, slot = "group")
+              if(slot == "point"){
+                thePoints <- getTable(x = x, slot = "point")
 
-              if(any(colnames(table) %in% colnames(theGroups))){
-                temp <- merge(theGroups, table, all.x = TRUE)
-                temp <- .updateOrder(input = temp)
-              } else{
-                temp <- cbind(theGroups, table)
+                if(any(colnames(table) %in% colnames(x@point))){
+                  temp <- merge(thePoints, table, all.x = TRUE)
+                  temp <- .updateOrder(input = temp)
+                } else{
+                  temp <- cbind(thePoints, table)
+                }
+                x@point <- as_tibble(temp)
+              } else if(slot == "feature"){
+                theFeatures <- getTable(x = x, slot = "feature")$geometry
+
+                if(any(colnames(table) %in% colnames(theFeatures))){
+                  temp <- merge(theFeatures, table, all.x = TRUE)
+                  temp <- .updateOrder(input = temp)
+                } else{
+                  temp <- cbind(theFeatures, table)
+                }
+                x@feature <- list(geometry = as_tibble(temp))
+              } else {
+                theGroups <- getTable(x = x, slot = "group")$geometry
+
+                if(any(colnames(table) %in% colnames(theGroups))){
+                  temp <- merge(theGroups, table, all.x = TRUE)
+                  temp <- .updateOrder(input = temp)
+                } else{
+                  temp <- cbind(theGroups, table)
+                }
+                x@group <- list(geometry = as_tibble(temp))
               }
-              x@group <- as_tibble(temp)
             }
 
             cln <- colnames(table)
