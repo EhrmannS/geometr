@@ -16,14 +16,14 @@ test_that("setTable of a 'geom'", {
   # set table with a known variable
   output <- setTable(x = input, table = attributes)
   expect_class(output, "geom")
-  expect_data_frame(output@feature, ncols = 3)
-  expect_names(names(output@feature), must.include = c("fid", "gid", "data"))
+  expect_list(output@feature, len = 1)
+  expect_names(names(output@feature$geometry), must.include = c("fid", "gid", "data"))
 
   # set table with only unknown variables
   output <- setTable(x = input, table = data.frame(data = "B"))
   expect_class(output, "geom")
-  expect_data_frame(output@feature, ncols = 3)
-  expect_names(names(output@feature), must.include = c("fid", "gid", "data"))
+  expect_list(output@feature, len = 1)
+  expect_names(names(output@feature$geometry), must.include = c("fid", "gid", "data"))
 })
 
 test_that("setTable of a Spatial*DataFrame object", {

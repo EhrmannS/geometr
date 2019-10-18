@@ -16,7 +16,8 @@ test_that("output is valid geometry", {
 
 test_that("casting to 'line' works", {
   coords <- data.frame(x = c(40, 70, 70, 50),
-                       y = c(40, 40, 60, 70))
+                       y = c(40, 40, 60, 70),
+                       fid = 1)
 
   # from point to line
   input <- gs_point(anchor = coords)
@@ -35,10 +36,11 @@ test_that("casting to 'line' works", {
 
 test_that("Error if arguments have wrong value", {
   coords <- data.frame(x = c(40, 70, 70, 50),
-                       y = c(40, 40, 60, 70),
-                       fid = 1)
+                       y = c(40, 40, 60, 70))
+  input <- gs_point(anchor = coords)
 
   expect_error(gs_line(vertices = 4))
+  expect_error(gs_line(anchor = input))
   expect_error(gs_line(anchor = "bla"))
   expect_error(gs_line(anchor = coords, vertices = "bla"))
 })

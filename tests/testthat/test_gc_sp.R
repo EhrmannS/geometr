@@ -88,6 +88,3 @@ test_that("Error if arguments have wrong value", {
   expect_error(gc_sp(input = "bla"))
   expect_error(gc_sp(input = notAGeom))
 })
-
-
-"+proj=longlat +ellps=sphere +no_defs"

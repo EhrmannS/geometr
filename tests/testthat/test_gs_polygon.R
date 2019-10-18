@@ -15,7 +15,8 @@ test_that("output is valid geometry", {
 
 test_that("casting to 'polygon' works", {
   coords <- data.frame(x = c(40, 70, 70, 50),
-                       y = c(40, 40, 60, 70))
+                       y = c(40, 40, 60, 70),
+                       fid = 1)
 
   # from point to polygon
   input <- gs_point(anchor = coords)
@@ -34,11 +35,12 @@ test_that("casting to 'polygon' works", {
 
 test_that("Error if arguments have wrong value", {
   coords <- data.frame(x = c(40, 40),
-                       y = c(40, 70),
-                       fid = c(1))
+                       y = c(40, 70))
+  input <- gs_point(anchor = coords)
 
   expect_error(gs_polygon(window = coords), regexp = "please provide anchor values.")
   expect_error(gs_polygon(anchor = "bla"))
+  expect_error(gs_polygon(anchor = input))
   expect_error(gs_polygon(anchor = coords, vertices = "bla"))
   expect_error(gs_polygon(anchor = coords, regular = "bla"))
   expect_error(gs_polygon(anchor = coords, vertices = 4, regular = "bla"))
