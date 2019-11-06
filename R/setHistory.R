@@ -27,6 +27,16 @@ if(!isGeneric("setHistory")){
   )
 }
 
+# any ----
+#' @rdname setHistory
+#' @export
+setMethod(f = "setHistory",
+          signature = "ANY",
+          definition = function(x){
+            warning(paste0("I can't set a history to an object of class '", paste0(class(x), collapse = ", "), "'."))
+          }
+)
+
 # geom ----
 #' @rdname setHistory
 #' @export
@@ -49,7 +59,7 @@ setMethod(f = "setHistory",
 #' @rdname setHistory
 #' @export
 setMethod(f = "setHistory",
-          signature = "Raster",
+          signature = "RasterLayer",
           definition = function(x, history = NULL){
 
             if(length(x@history) == 0){

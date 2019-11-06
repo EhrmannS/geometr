@@ -28,6 +28,16 @@ if(!isGeneric("setCRS")){
   )
 }
 
+# any ----
+#' @rdname setCRS
+#' @export
+setMethod(f = "setCRS",
+          signature = "ANY",
+          definition = function(x){
+            warning(paste0("I can't set a history to an object of class '", paste0(class(x), collapse = ", "), "'."))
+          }
+)
+
 # geom ----
 #' @rdname setCRS
 #' @importFrom rgdal project

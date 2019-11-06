@@ -26,6 +26,16 @@ if(!isGeneric("setWindow")){
   )
 }
 
+# any ----
+#' @rdname setWindow
+#' @export
+setMethod(f = "setWindow",
+          signature = "ANY",
+          definition = function(x){
+            warning(paste0("I can't set a reference window to an object of class '", paste0(class(x), collapse = ", "), "'."))
+          }
+)
+
 # geom ----
 #' @rdname setWindow
 #' @examples
