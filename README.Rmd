@@ -75,7 +75,7 @@ getTable(x = nc_sf)
 getTable(x = nc_geom, slot = "feature")
 ```
 
-A `geom` has three attribute tables, one for vertices, one for features and one for groups of features, all of which can be provided with ancillary information ([details on data structure of a `geom`](https://ehrmanns.github.io/geometr/articles/geometr.html#description-of-the-class-geom).
+A `geom` has three attribute tables, one for points, one for features and one for groups of features, all of which can be provided with ancillary information ([details on data structure of a `geom`](https://ehrmanns.github.io/geometr/articles/geometr.html#description-of-the-class-geom)).
 
 ```{r}
 getTable(x = nc_geom, slot = "point")
