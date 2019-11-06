@@ -37,7 +37,7 @@ A table of the lower left and upper right corner of the extent of
 Get the extent (bounding box) of a spatial object.
 }
 \examples{
-getTable(gtGeoms$polygon)
+getExtent(gtGeoms$polygon)
 
 getExtent(gtSP$SpatialPolygons)
 
@@ -51,8 +51,8 @@ getExtent(matrix(0, 3, 5))
 }
 \seealso{
 Other getters: \code{\link{getCRS}},
+  \code{\link{getFeatures}}, \code{\link{getGroups}},
   \code{\link{getHistory}}, \code{\link{getPoints}},
-  \code{\link{getSubset}}, \code{\link{getTable}},
   \code{\link{getType}}, \code{\link{getWindow}}
 }
 \concept{getters}

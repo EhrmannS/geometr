@@ -25,8 +25,8 @@ Get the history of a spatial object.
 }
 \seealso{
 Other getters: \code{\link{getCRS}},
-  \code{\link{getExtent}}, \code{\link{getPoints}},
-  \code{\link{getSubset}}, \code{\link{getTable}},
+  \code{\link{getExtent}}, \code{\link{getFeatures}},
+  \code{\link{getGroups}}, \code{\link{getPoints}},
   \code{\link{getType}}, \code{\link{getWindow}}
 }
 \concept{getters}

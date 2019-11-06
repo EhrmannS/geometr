@@ -3,10 +3,13 @@
 \docType{methods}
 \name{setWindow}
 \alias{setWindow}
+\alias{setWindow,ANY-method}
 \alias{setWindow,geom-method}
 \alias{setWindow,ppp-method}
 \title{Set the reference window of a spatial object.}
 \usage{
+\S4method{setWindow}{ANY}(x)
+
 \S4method{setWindow}{geom}(x, to = NULL)
 
 \S4method{setWindow}{ppp}(x, to = NULL)
@@ -49,6 +52,7 @@ setWindow(x = gtPPP, to = window)
 }
 \seealso{
 Other setters: \code{\link{setCRS}},
-  \code{\link{setHistory}}, \code{\link{setTable}}
+  \code{\link{setFeatures}}, \code{\link{setGroups}},
+  \code{\link{setHistory}}, \code{\link{setPoints}}
 }
 \concept{setters}

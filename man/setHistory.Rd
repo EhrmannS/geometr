@@ -3,13 +3,16 @@
 \docType{methods}
 \name{setHistory}
 \alias{setHistory}
+\alias{setHistory,ANY-method}
 \alias{setHistory,geom-method}
-\alias{setHistory,Raster-method}
+\alias{setHistory,RasterLayer-method}
 \title{Set additional entries to the history of an object}
 \usage{
+\S4method{setHistory}{ANY}(x)
+
 \S4method{setHistory}{geom}(x, history = NULL)
 
-\S4method{setHistory}{Raster}(x, history = NULL)
+\S4method{setHistory}{RasterLayer}(x, history = NULL)
 }
 \arguments{
 \item{x}{the object for which to set the coordinate reference system.}
@@ -32,6 +35,7 @@ Both, objects of class \code{geom} and \code{Raster*} have the slot
 }
 \seealso{
 Other setters: \code{\link{setCRS}},
-  \code{\link{setTable}}, \code{\link{setWindow}}
+  \code{\link{setFeatures}}, \code{\link{setGroups}},
+  \code{\link{setPoints}}, \code{\link{setWindow}}
 }
 \concept{setters}

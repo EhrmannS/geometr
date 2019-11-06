@@ -8,26 +8,37 @@
 \alias{getPoints,Spatial-method}
 \alias{getPoints,sf-method}
 \alias{getPoints,ppp-method}
-\title{Get the table of coordinates of a spatial object.}
+\alias{getPoints,Raster-method}
+\alias{getPoints,matrix-method}
+\title{Get the table of point attributes}
 \usage{
-\S4method{getPoints}{ANY}(x)
+\S4method{getPoints}{ANY}(x, ...)
 
-\S4method{getPoints}{geom}(x)
+\S4method{getPoints}{geom}(x, ...)
 
 \S4method{getPoints}{Spatial}(x)
 
 \S4method{getPoints}{sf}(x)
 
 \S4method{getPoints}{ppp}(x)
+
+\S4method{getPoints}{Raster}(x)
+
+\S4method{getPoints}{matrix}(x)
 }
 \arguments{
-\item{x}{the object from which to extract the coordinates}
+\item{x}{the object from which to derive the attribute table.}
+
+\item{...}{subset based on logical predicates defined in terms of the
+variables in \code{x} or a vector of booleans. Multiple conditions are
+combined with &. Only rows where the condition evaluates to TRUE are kept.}
 }
 \value{
-A table of the coordinates \code{x} is made up of.
+A table of the point attributes of \code{x} or an object where the
+  point table has been subsetted.
 }
 \description{
-Get the table of coordinates of a spatial object.
+Get tabular information of the attributes of points (incl. coordinates).
 }
 \examples{
 getPoints(gtGeoms$polygon)
@@ -37,11 +48,13 @@ getPoints(gtSP$SpatialPoints)
 getPoints(gtSF$multilinestring)
 
 getPoints(gtPPP)
+
+getPoints(gtRasters$categorical)
 }
 \seealso{
 Other getters: \code{\link{getCRS}},
-  \code{\link{getExtent}}, \code{\link{getHistory}},
-  \code{\link{getSubset}}, \code{\link{getTable}},
+  \code{\link{getExtent}}, \code{\link{getFeatures}},
+  \code{\link{getGroups}}, \code{\link{getHistory}},
   \code{\link{getType}}, \code{\link{getWindow}}
 }
 \concept{getters}

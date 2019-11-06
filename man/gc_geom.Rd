@@ -15,7 +15,7 @@
 
 \S4method{gc_geom}{ppp}(input = NULL, ...)
 
-\S4method{gc_geom}{Raster}(input = NULL, attr = FALSE, ...)
+\S4method{gc_geom}{Raster}(input = NULL, ...)
 }
 \arguments{
 \item{input}{the object to transform to class \code{geom}.}
