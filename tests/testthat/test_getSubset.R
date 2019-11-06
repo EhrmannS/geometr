@@ -21,8 +21,8 @@ test_that("getSubset of a geom, based on a condition", {
                     slot = "feature")
   output <- getSubset(x = input, attr == 'b', slot = "feature")
   expect_class(output, "geom")
-  expect_true(dim(output@feature)[1] == 1)
-  expect_true(dim(output@feature)[1] < dim(input@group)[1])
+  expect_true(dim(output@feature$geometry)[1] == 1)
+  expect_true(dim(output@feature$geometry)[1] < dim(input@group$geometry)[1])
 
   # get a subset of the groups
   input <- setTable(x = input,
@@ -30,8 +30,8 @@ test_that("getSubset of a geom, based on a condition", {
                     slot = "group")
   output <- getSubset(x = input, attr == 'B', slot = "group")
   expect_class(output, "geom")
-  expect_true(dim(output@group)[1] == 1)
-  expect_true(dim(output@group)[1] < dim(input@group)[1])
+  expect_true(dim(output@group$geometry)[1] == 1)
+  expect_true(dim(output@group$geometry)[1] < dim(input@group$geometry)[1])
 })
 
 test_that("getSubset of a geom, based on a logical", {
@@ -51,15 +51,15 @@ test_that("getSubset of a geom, based on a logical", {
   subset <- c(TRUE, FALSE)
   output <- getSubset(x = input, subset, slot = "feature")
   expect_class(output, "geom")
-  expect_true(dim(output@feature)[1] == 1)
-  expect_true(dim(output@feature)[1] < dim(input@group)[1])
+  expect_true(dim(output@feature$geometry)[1] == 1)
+  expect_true(dim(output@feature$geometry)[1] < dim(input@group$geometry)[1])
 
   # get a subset of the groups
   subset <- c(TRUE, FALSE)
   output <- getSubset(x = input, subset, slot = "group")
   expect_class(output, "geom")
-  expect_true(dim(output@group)[1] == 1)
-  expect_true(dim(output@group)[1] < dim(input@group)[1])
+  expect_true(dim(output@group$geometry)[1] == 1)
+  expect_true(dim(output@group$geometry)[1] < dim(input@group$geometry)[1])
 })
 
 test_that("getSubset of a Spatial* object", {

@@ -17,53 +17,39 @@ test_that("transform from geom to sp", {
 
 test_that("make a Spatial*DataFrame object", {
   # test type == 'point'
-  input <- setTable(x = gtGeoms$point,
-                    slot = "point",
-                    table = data.frame(attr = letters[1:12]))
+  input <- setPoints(x = gtGeoms$point, table = data.frame(attr = letters[1:12]))
   spPoints <- gc_sp(input)
   expect_class(spPoints, "SpatialPointsDataFrame")
   expect_names(x = names(spPoints), identical.to = c("attr"))
 
-  input <- setTable(x = gtGeoms$point,
-                    slot = "feature",
-                    table = data.frame(gid = c(1:3), attr = letters[1:3]))
+  input <- setFeatures(x = gtGeoms$point, table = data.frame(gid = c(1:3), attr = letters[1:3]))
   spPoints <- gc_sp(input)
   expect_class(spPoints, "SpatialPointsDataFrame")
   expect_names(x = names(spPoints), identical.to = c("attr"))
 
-  input <- setTable(x = gtGeoms$point,
-                    slot = "group",
-                    table = data.frame(gid = c(1:3), attr = letters[1:3]))
+  input <- setGroups(x = gtGeoms$point, table = data.frame(gid = c(1:3), attr = letters[1:3]))
   spPoints <- gc_sp(input)
   expect_class(spPoints, "SpatialPointsDataFrame")
   expect_names(x = names(spPoints), identical.to = c("attr"))
 
   # test type == 'line'
-  input <- setTable(x = gtGeoms$line,
-                    slot = "feature",
-                    table = data.frame(gid = c(1:3), attr = letters[1:3]))
+  input <- setFeatures(x = gtGeoms$line, table = data.frame(gid = c(1:3), attr = letters[1:3]))
   spPoints <- gc_sp(input)
   expect_class(spPoints, "SpatialLinesDataFrame")
   expect_names(x = names(spPoints), identical.to = c("attr"))
 
-  input <- setTable(gtGeoms$line,
-                    slot = "group",
-                    table = data.frame(gid = c(1:3), attr = letters[1:3]))
+  input <- setGroups(gtGeoms$line, table = data.frame(gid = c(1:3), attr = letters[1:3]))
   spLines <- gc_sp(input)
   expect_class(spLines, "SpatialLinesDataFrame")
   expect_names(x = names(spLines), identical.to = c("attr"))
 
   # test type == 'polygon'
-  input <- setTable(gtGeoms$polygon,
-                    slot = "feature",
-                    table = data.frame(fid = c(1:2), attr = letters[1:2]))
+  input <- setFeatures(gtGeoms$polygon, table = data.frame(fid = c(1:2), attr = letters[1:2]))
   spPolygon <- gc_sp(input)
   expect_class(spPolygon, "SpatialPolygonsDataFrame")
   expect_names(x = names(spPolygon), identical.to = c("attr"))
 
-  input <- setTable(gtGeoms$polygon,
-                    slot = "group",
-                    table = data.frame(gid = c(1:2), attr = letters[1:2]))
+  input <- setGroups(gtGeoms$polygon, table = data.frame(gid = c(1:2), attr = letters[1:2]))
   spLines <- gc_sp(input)
   expect_class(spLines, "SpatialPolygonsDataFrame")
   expect_names(x = names(spLines), identical.to = c("attr"))

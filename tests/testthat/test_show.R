@@ -57,14 +57,16 @@ test_that("geom with crs", {
 })
 
 test_that("more than 9 attributes", {
+  attr <- getFeatures(gtGeoms$polygon)
+  n <- dim(attr)[1]
   newAttributes <- data.frame(fid = 1:2,
-                              af = sample(letters, length(gtGeoms$polygon@feature$fid)),
-                              asd = sample(letters, length(gtGeoms$polygon@feature$fid)),
-                              adf = sample(letters, length(gtGeoms$polygon@feature$fid)),
-                              addsa = sample(letters, length(gtGeoms$polygon@feature$fid)),
-                              aslk = sample(letters, length(gtGeoms$polygon@feature$fid)),
-                              ial = sample(letters, length(gtGeoms$polygon@feature$fid)),
-                              afasdsa = sample(letters, length(gtGeoms$polygon@feature$fid)))
+                              af = sample(letters, n),
+                              asd = sample(letters, n),
+                              adf = sample(letters, n),
+                              addsa = sample(letters, n),
+                              aslk = sample(letters, n),
+                              ial = sample(letters, n),
+                              afasdsa = sample(letters, n))
   temp <- setTable(x = gtGeoms$polygon, newAttributes)
   output <- capture.output(temp)
 

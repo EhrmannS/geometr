@@ -15,8 +15,7 @@ test_that("transform geom to POINT sf", {
   expect_names(x = names(output), identical.to = "geom")
 
   # test with point attributes
-  pointGeomV <- setTable(x = pointGeom, slot = "point",
-                         table = data.frame(vertex = "first"))
+  pointGeomV <- setPoints(x = pointGeom, table = data.frame(vertex = "first"))
 
   output <- gc_sf(input = pointGeomV)
   expect_class(x = output, classes = "sf")
@@ -24,44 +23,38 @@ test_that("transform geom to POINT sf", {
   expect_names(x = names(output), identical.to = c("vertex", "geom"))
 
   # test with feature attributes
-  pointGeomF <- setTable(x = pointGeom, slot = "feature",
-                         table = data.frame(gid = 1, feature = "a"))
+  pointGeomF <- setFeatures(x = pointGeom, table = data.frame(gid = 1, feature = "a"))
   output <- gc_sf(input = pointGeomF)
   expect_class(x = output, classes = "sf")
   expect_true(st_geometry_type(output) == "POINT")
   expect_names(x = names(output), identical.to = c("feature", "geom"))
 
-  pointGeomVF <- setTable(x = pointGeomV, slot = "feature",
-                          table = data.frame(gid = 1, feature = "a"))
+  pointGeomVF <- setFeatures(x = pointGeomV, table = data.frame(gid = 1, feature = "a"))
   output <- gc_sf(input = pointGeomVF)
   expect_class(x = output, classes = "sf")
   expect_true(st_geometry_type(output) == "POINT")
   expect_names(x = names(output), identical.to = c("vertex", "feature", "geom"))
 
   # test with group attributes
-  pointGeomFG <- setTable(x = pointGeomF, slot = "group",
-                          table = data.frame(gid = 1, group = "red"))
+  pointGeomFG <- setGroups(x = pointGeomF, table = data.frame(gid = 1, group = "red"))
   output <- gc_sf(input = pointGeomFG)
   expect_class(x = output, classes = "sf")
   expect_true(st_geometry_type(output) == "POINT")
   expect_names(x = names(output), identical.to = c("feature", "group", "geom"))
 
-  pointGeomVFG <- setTable(x = pointGeomVF, slot = "group",
-                           table = data.frame(gid = 1, group = "red"))
+  pointGeomVFG <- setGroups(x = pointGeomVF, table = data.frame(gid = 1, group = "red"))
   output <- gc_sf(input = pointGeomVFG)
   expect_class(x = output, classes = "sf")
   expect_true(st_geometry_type(output) == "POINT")
   expect_names(x = names(output), identical.to = c("vertex", "feature", "group", "geom"))
 
-  pointGeomG <- setTable(x = pointGeom, slot = "group",
-                         table = data.frame(gid = 1, group = "red"))
+  pointGeomG <- setGroups(x = pointGeom, table = data.frame(gid = 1, group = "red"))
   output <- gc_sf(input = pointGeomG)
   expect_class(x = output, classes = "sf")
   expect_true(st_geometry_type(output) == "POINT")
   expect_names(x = names(output), identical.to = c("group", "geom"))
 
-  pointGeomVG <- setTable(x = pointGeomV, slot = "group",
-                          table = data.frame(gid = 1, group = "red"))
+  pointGeomVG <- setGroups(x = pointGeomV, table = data.frame(gid = 1, group = "red"))
   output <- gc_sf(input = pointGeomVG)
   expect_class(x = output, classes = "sf")
   expect_true(st_geometry_type(output) == "POINT")
@@ -86,23 +79,20 @@ test_that("transform geom to LINESTRING sf", {
   expect_names(x = names(output), identical.to = "geom")
 
   # test with feature attributes
-  lineGeomF <- setTable(x = lineGeom, slot = "feature",
-                        table = data.frame(gid = 1, feature = "a"))
+  lineGeomF <- setFeatures(x = lineGeom, table = data.frame(gid = 1, feature = "a"))
   output <- gc_sf(input = lineGeomF)
   expect_class(x = output, classes = "sf")
   expect_true(st_geometry_type(output) == "LINESTRING")
   expect_names(x = names(output), identical.to = c("feature", "geom"))
 
   # test with group attributes
-  lineGeomG <- setTable(x = lineGeom, slot = "group",
-                        table = data.frame(gid = 1, group = "red"))
+  lineGeomG <- setGroups(x = lineGeom, table = data.frame(gid = 1, group = "red"))
   output <- gc_sf(input = lineGeomG)
   expect_class(x = output, classes = "sf")
   expect_true(st_geometry_type(output) == "LINESTRING")
   expect_names(x = names(output), identical.to = c("group", "geom"))
 
-  lineGeomFG <- setTable(x = lineGeomF, slot = "group",
-                         table = data.frame(gid = 1, group = "red"))
+  lineGeomFG <- setGroups(x = lineGeomF, table = data.frame(gid = 1, group = "red"))
   output <- gc_sf(input = lineGeomFG)
   expect_class(x = output, classes = "sf")
   expect_true(st_geometry_type(output) == "LINESTRING")
@@ -113,8 +103,7 @@ test_that("transform geom to MULTILINE sf", {
   input <- gtGeoms$line
   input@feature$geometry$gid <- c(1, 1, 2)
   input@group <- list(geometry = tibble(gid = c(1, 2)))
-  lineGeomF <- setTable(x = input, slot = "feature",
-                        table = data.frame(feature = LETTERS[1:3]))
+  lineGeomF <- setFeatures(x = input, table = data.frame(feature = LETTERS[1:3]))
   expect_warning(object = output <- gc_sf(input = lineGeomF))
   expect_class(x = output, classes = "sf")
   expect_list(x = output$geom, len = 2)
@@ -132,23 +121,20 @@ test_that("transform geom to POLYGON sf", {
   expect_names(x = names(output), identical.to = "geom")
 
   # test with feature attributes
-  polyGeomF <- setTable(x = polyGeom, slot = "feature",
-                        table = data.frame(feature = "a"))
+  polyGeomF <- setFeatures(x = polyGeom, table = data.frame(feature = "a"))
   output <- gc_sf(input = polyGeomF)
   expect_class(x = output, classes = "sf")
   expect_true(st_geometry_type(output) == "POLYGON")
   expect_names(x = names(output), identical.to = c("feature", "geom"))
 
   # test with group attributes
-  polyGeomG <- setTable(x = polyGeom, slot = "group",
-                        table = data.frame(gid = 1, group = "red"))
+  polyGeomG <- setGroups(x = polyGeom, table = data.frame(gid = 1, group = "red"))
   output <- gc_sf(input = polyGeomG)
   expect_class(x = output, classes = "sf")
   expect_true(st_geometry_type(output) == "POLYGON")
   expect_names(x = names(output), identical.to = c("group", "geom"))
 
-  polyGeomFG <- setTable(x = polyGeomF, slot = "group",
-                         table = data.frame(gid = 1, group = "red"))
+  polyGeomFG <- setGroups(x = polyGeomF, table = data.frame(gid = 1, group = "red"))
   output <- gc_sf(input = polyGeomFG)
   expect_class(x = output, classes = "sf")
   expect_true(st_geometry_type(output) == "POLYGON")
@@ -163,8 +149,7 @@ test_that("transform geom to MULTIPOLYGON sf", {
   polyGeom@feature$geometry$gid <- c(1, 1, 2)
   polyGeom@group <- list(geometry = tibble(gid = c(1, 2)))
 
-  polyGeomF <- setTable(x = polyGeom, slot = "feature",
-                        table = data.frame(feature = LETTERS[1:3]))
+  polyGeomF <- setFeatures(x = polyGeom, table = data.frame(feature = LETTERS[1:3]))
   expect_warning(object = output <- gc_sf(input = polyGeomF))
   expect_class(x = output, classes = "sf")
   expect_list(x = output$geom, len = 2)
