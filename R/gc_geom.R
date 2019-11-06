@@ -37,7 +37,7 @@ setMethod(f = "gc_geom",
           definition = function(input = NULL, ...){
 
             theCoords <- getPoints(x = input)
-            theData <- getTable(x = input)
+            theData <- getFeatures(x = input)
             theWindow <- getWindow(x = input)
             theCRS <- getCRS(x = input)
 
@@ -80,7 +80,7 @@ setMethod(f = "gc_geom",
           definition = function(input = NULL, group = FALSE, ...){
 
             theCoords <- getPoints(x = input)
-            theData <- getTable(x = input)
+            theData <- getFeatures(x = input)
             theCRS <- getCRS(x = input)
             theWindow <- getWindow(x = input)
 
@@ -130,7 +130,7 @@ setMethod(f = "gc_geom",
           definition = function(input = NULL, ...){
 
             theCoords <- getPoints(x = input)
-            theData <- getTable(x = input)
+            theData <- getFeatures(x = input)
             theGroups <- tibble(gid = theData$gid)
             theWindow <- getWindow(x = input)
             history <- paste0("geom was transformed from an object of class ppp.")
@@ -154,16 +154,17 @@ setMethod(f = "gc_geom",
 #' @rdname gc_geom
 #' @importFrom tibble tibble
 #' @importFrom raster xres yres
+#' @importFrom utils object.size
 #' @export
 setMethod(f = "gc_geom",
           signature = "Raster",
-          definition = function(input = NULL, attr = FALSE, ...){
+          definition = function(input = NULL, ...){
 
             theExtent <- getExtent(x = input)
             theCoords <- tibble(x = c(min(theExtent$x), input@ncols, xres(input)),
                                 y = c(min(theExtent$y), input@nrows, yres(input)))
 
-            theType <- getType(x = gtRasters)
+            theType <- getType(x = input)
             theWindow <- getWindow(x = input)
 
             theFeatures <- list()
@@ -188,12 +189,7 @@ setMethod(f = "gc_geom",
                 tempGroups <- as_tibble(theInput@data@attributes[[1]])
                 colnames(tempGroups) <- c("gid", colnames(tempGroups)[-1])
               } else {
-                if(attr){
-                  tempGroups <- tibble(sort(unique(theInput@data@values)))
-                  colnames(tempGroups) <- c("gid", colnames(tempGroups)[-1])
-                } else {
-                  tempGroups <- tibble(gid = integer())
-                }
+                tempGroups <- tibble(gid = integer())
               }
               theGroups <- c(theGroups, setNames(list(tempGroups), theName))
 

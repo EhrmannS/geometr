@@ -30,7 +30,7 @@ setMethod(f = "gc_ppp",
           definition = function(input = NULL){
 
             theCoords <- getPoints(x = input)
-            theData <- getTable(x = input)
+            theData <- getFeatures(x = input)
             theData$fid <- NULL
             theData$gid <- NULL
             theWindow <- getWindow(x = input)

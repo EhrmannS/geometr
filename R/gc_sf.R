@@ -40,9 +40,8 @@ setMethod(f = "gc_sf",
           definition = function(input = NULL){
 
             theCoords <- getPoints(x = input)
-            theData <- getTable(x = input, slot = "feature")$geometry
-            theGroups <- getTable(x = input, slot = "group")$geometry
-            theVertices <- getTable(x = input, slot = "point")
+            theData <- getFeatures(x = input)
+            theGroups <- getGroups(x = input)
             theCRS <- getCRS(x = input)
             featureType <- getType(input)[2]
 
@@ -68,13 +67,13 @@ setMethod(f = "gc_sf",
               }
               out <- st_sfc(tempOut)
 
-              attr <- tibble(fid = unique(theVertices$fid))
-              if(!all(names(theVertices) %in% c("x", "y", "fid"))){
-                if(length(out) < dim(theVertices)[1]){
-                  warning("MULTIPOINTS don't support individual attributes per point, ignoring '", names(theVertices)[!names(theVertices) %in% c("x", "y", "fid")] , "'.")
+              attr <- tibble(fid = unique(theCoords$fid))
+              if(!all(names(theCoords) %in% c("x", "y", "fid"))){
+                if(length(out) < dim(theCoords)[1]){
+                  warning("MULTIPOINTS don't support individual attributes per point, ignoring '", names(theCoords)[!names(theCoords) %in% c("x", "y", "fid")] , "'.")
                 } else {
                   makeDF <- TRUE
-                  attr <- theVertices[,!names(theVertices) %in% c("x", "y")]
+                  attr <- theCoords[,!names(theCoords) %in% c("x", "y")]
                 }
               }
 

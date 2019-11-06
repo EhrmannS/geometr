@@ -36,23 +36,22 @@ setMethod(f = "gc_sp",
           definition = function(input = NULL){
 
             theCoords <- getPoints(x = input)
-            theData <- getTable(x = input, slot = "feature")$geometry
-            theGroups <- getTable(x = input, slot = "group")$geometry
-            theVertices <- getTable(x = input, slot = "point")
+            theData <- getFeatures(x = input)
+            theGroups <- getGroups(x = input)
             theCRS <- getCRS(x = input)
             featureType <- getType(input)[2]
 
             makeDF <- FALSE
 
-            if(featureType %in% c("point")){
+            if(featureType == "point"){
               attr <- tibble(fid = theCoords$fid)
 
               temp <- theCoords[c("x", "y")]
               out <- SpatialPoints(temp)
 
-              if(!all(names(theVertices) %in% c("x", "y", "fid"))){
+              if(!all(names(theCoords) %in% c("x", "y", "fid"))){
                 makeDF <- TRUE
-                attr <- theVertices[,!names(theVertices) %in% c("x", "y")]
+                attr <- theCoords[,!names(theCoords) %in% c("x", "y")]
               }
               if(!all(names(theData) %in% c("fid", "gid"))){
                 makeDF <- TRUE
@@ -70,7 +69,7 @@ setMethod(f = "gc_sp",
                 out <- SpatialPointsDataFrame(out, data = attr, match.ID = FALSE)
               }
 
-            } else if(featureType %in% c("line")){
+            } else if(featureType == "line"){
               attr <- tibble(fid = theData$fid)
 
               fids <- unique(theData$fid)
@@ -99,7 +98,7 @@ setMethod(f = "gc_sp",
                 out <- SpatialLinesDataFrame(out, data = attr, match.ID = FALSE)
               }
 
-            } else if(featureType %in% c("polygon")){
+            } else if(featureType == "polygon"){
               attr <- tibble(fid = theData$fid)
 
               gids <- unique(theData$gid)
@@ -146,7 +145,10 @@ setMethod(f = "gc_sp",
                 attr <- attr[,!names(attr) %in% c("fid", "gid")]
                 out <- SpatialPolygonsDataFrame(out, data = attr, match.ID = FALSE)
               }
+            } else if(featureType == "grid"){
+
             }
+
             if(!is.na(theCRS)){
               proj4string(out) <- CRS(theCRS)
             }
