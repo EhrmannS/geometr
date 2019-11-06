@@ -4,8 +4,7 @@
 #' specifying anchor values or by sketching it.
 #' @param anchor [\code{geom(1)}|\code{data.frame(1)}]\cr Object to derive the
 #'   \code{geom} from. It must include column names \code{x}, \code{y} and
-#'   optionally a custom \code{fid}. To set further attributes, use
-#'   \code{\link{setTable}}.
+#'   optionally a custom \code{fid}.
 #' @param window [\code{data.frame(1)}]\cr in case the reference window deviates
 #'   from the bounding box of \code{anchor} (minimum and maximum values),
 #'   specify this here.
@@ -236,8 +235,8 @@ gs_rectangle <- function(anchor = NULL, window = NULL, sketch = NULL,
                         ...)
 
   outTable <- NULL
-  for(i in seq_along(theGeom@feature$fid)){
-    geomSubset <- getSubset(theGeom, fid == !!i, slot = "feature")
+  for(i in seq_along(theGeom@feature$geometry$fid)){
+    geomSubset <- getFeatures(theGeom, fid == !!i)
     temp <- getExtent(geomSubset)
     temp <- tibble(x = c(rep(temp$x, each = 2), temp$x[1]),
                    y = c(temp$y, rev(temp$y), temp$y[1]),
