@@ -24,7 +24,7 @@
 #'
 #' gt_scale(geom = aGeom, range = list(x = c(0, 100), y = c(10, 90)))
 #'
-#' @importFrom checkmate testList assertNames
+#' @importFrom checkmate testList assertNames assertChoice
 #' @importFrom tibble as_tibble
 #' @importFrom methods new
 #' @export
@@ -87,12 +87,20 @@ gt_scale <- function(geom, range = NULL, to = "relative"){
     window <- as.data.frame(range)
   }
 
+  if(geom@type == "grid"){
+    theFeatures <- getFeatures(x = geom)
+    theGroups <- getGroups(x = geom)
+  } else {
+    theFeatures <- list(geometry = getFeatures(x = geom))
+    theGroups <- list(geometry = getGroups(x = geom))
+  }
+
   # make new geom
   out <- new(Class = "geom",
              type = getType(x = geom)[2],
              point = as_tibble(out),
-             feature = getTable(x = geom, slot = "feature"),
-             group = getTable(x = geom, slot = "group"),
+             feature = theFeatures,
+             group = theGroups,
              window = window,
              scale = to,
              crs = getCRS(x = geom),

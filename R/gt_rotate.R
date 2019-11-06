@@ -54,6 +54,9 @@ gt_rotate <- function(geom = NULL, angle = NULL, about = c(0, 0), fid = NULL,
   assertIntegerish(x = fid, any.missing = FALSE, null.ok = TRUE)
   assertLogical(x = update, len = 1, any.missing = FALSE)
 
+  theFeatures <- getFeatures(x = geom)
+  theGroups <- getGroups(x = geom)
+
   # make list, if it is not yet
   if(aboutIsNumeric){
     about <- list(about)
@@ -131,8 +134,8 @@ gt_rotate <- function(geom = NULL, angle = NULL, about = c(0, 0), fid = NULL,
   out <- new(Class = "geom",
              type = getType(x = geom)[2],
              point = as_tibble(temp),
-             feature = getTable(x = geom, slot = "feature"),
-             group = getTable(x = geom, slot = "group"),
+             feature = list(geometry = theFeatures),
+             group = list(geometry = theGroups),
              window = window,
              scale = geom@scale,
              crs = getCRS(x = geom),

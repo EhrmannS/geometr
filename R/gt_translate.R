@@ -45,6 +45,9 @@ gt_translate <- function(geom = NULL, x = NULL, y = NULL, fid = NULL,
   assertIntegerish(x = fid, any.missing = FALSE, null.ok = TRUE)
   assertLogical(x = update, len = 1, any.missing = FALSE)
 
+  theFeatures <- getFeatures(x = geom)
+  theGroups <- getGroups(x = geom)
+
   # set default values
   if(is.null(x)){
     x <- 0
@@ -112,8 +115,8 @@ gt_translate <- function(geom = NULL, x = NULL, y = NULL, fid = NULL,
   out <- new(Class = "geom",
              type = getType(x = geom)[2],
              point = as_tibble(temp),
-             feature = getTable(x = geom, slot = "feature"),
-             group = getTable(x = geom, slot = "group"),
+             feature = list(geometry = theFeatures),
+             group = list(geometry = theGroups),
              window = window,
              scale = geom@scale,
              crs = getCRS(x = geom),
