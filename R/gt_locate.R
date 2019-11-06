@@ -173,7 +173,7 @@ gt_locate <- function(samples = 1, panel = NULL, identify = FALSE, snap = FALSE,
       } else if(isVectorInPlot){
 
         theVal <- plotVal <- NA
-        for(i in seq_along(theValues)){
+        for(i in seq_along(unique(theValues))){
           geom <- grid.get(gPath(as.character(i)), global = TRUE)
           inside <- pointInGeomC(vert = matrix(data = c(values[1], values[2]), ncol = 2),
                                  geom = matrix(data = c(geom$x, geom$y), ncol = 2),

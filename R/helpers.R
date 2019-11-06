@@ -483,7 +483,7 @@ makeLayout <- function(x = NULL, theme = gtTheme){
                              invert = FALSE)
       pointsInside <- sum(inside != 0)
       ratio <- pointsInside/nrPoints
-      if(ratio < 1/16){
+      if(ratio <= 1/16){
         recent <- empty
       } else if(ratio > 1/16 & ratio <= 1/8){
         recent <- quarter
