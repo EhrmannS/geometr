@@ -65,7 +65,7 @@ visualise <- function(..., window = NULL, theme = gtTheme, trace = FALSE, image 
   # window = NULL; theme = gtTheme; trace = FALSE; image = FALSE; new = TRUE; clip = TRUE
 
   # check arguments ----
-  window <- .testWindow(x = window, ...)
+  window <- .testWindow(x = window)
   assertDataFrame(x = window, nrows = 5, min.cols = 2, null.ok = TRUE)
   assertClass(x = theme, classes = "gtTheme", null.ok = TRUE)
   assertLogical(x = trace, len = 1, any.missing = FALSE)
@@ -78,12 +78,23 @@ visualise <- function(..., window = NULL, theme = gtTheme, trace = FALSE, image 
 
   names <- NULL
   objects <- list()
+  # get names and objects
   for(i in seq_along(objs)){
     theObject <- theName <- NULL
 
     if(is.null(names(objs)[i]) || names(objs)[i] == ""){
 
       theObject <- eval_tidy(expr = objs[[i]])
+      theType <- getType(x = theObject)
+
+      if((theType[2] == "RasterBrick" | theType[2] == "RasterStack") & !image){
+        temp <- lapply(1:dim(theObject)[3], function(x){
+          theObject[[x]]
+        })
+        theObject <- temp
+      } else {
+        theObject <- list(theObject)
+      }
 
       if(is.null(names(theObject))){
         theName <- NA
@@ -92,20 +103,12 @@ visualise <- function(..., window = NULL, theme = gtTheme, trace = FALSE, image 
       } else {
         theName <- names(theObject)
       }
-
-      if((class(theObject) == "RasterBrick" | class(theObject) == "RasterStack") & !image){
-        temp <- lapply(1:dim(theObject)[3], function(x){
-          theObject[[x]]
-        })
-        theObject <- temp
-      } else if(class(theObject) == "matrix"){
-        theObject <- list(theObject)
-      }
     } else {
       if(!names(objs)[i] %in% names(theme@vector)){
         theObject <- eval_tidy(expr = objs[[i]])
+        theType <- getType(x = theObject)
 
-        if((class(theObject) == "RasterBrick" | class(theObject) == "RasterStack") & !image){
+        if((theType[2] == "RasterBrick" | theType[2] == "RasterStack") & !image){
           theName <- paste(names(objs)[i], 1:dim(theObject)[3])
           temp <- lapply(1:dim(theObject)[3], function(x){
             t <- theObject[[x]]
@@ -115,10 +118,11 @@ visualise <- function(..., window = NULL, theme = gtTheme, trace = FALSE, image 
             return(t)
           })
           theObject <- temp
-        } else if(class(theObject) == "matrix"){
+        } else if(theType[2] == "matrix"){
           theObject <- list(theObject)
           theName <- "a matrix"
         } else {
+          theObject <- list(theObject)
           theName <- names(objs)[i]
         }
       }
@@ -465,7 +469,7 @@ visualise <- function(..., window = NULL, theme = gtTheme, trace = FALSE, image 
                     height = unit(pnl$yFactor, "npc"),
                     hjust = 0,
                     vjust = 0,
-                    image = matrix(data = obj$array, nrow = obj$rows, ncol = obj$cols, byrow = TRUE),
+                    image = matrix(data = obj$values, nrow = obj$rows, ncol = obj$cols, byrow = TRUE),
                     name = "theRaster",
                     interpolate = FALSE)
       } else if(obj$type == "vector") {
