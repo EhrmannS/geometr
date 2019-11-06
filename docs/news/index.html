@@ -67,7 +67,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">geometr</a>
-        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="Unreleased version">0.1.0</span>
+        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="Unreleased version">0.2.0</span>
       </span>
     </div>
 
@@ -113,9 +113,46 @@
       <small>Source: <a href='https://github.com/EhrmannS/geometr/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
     </div>
 
+    <div id="geometr-0-2-0---grid-update-development" class="section level1">
+<h1 class="page-header">
+<a href="#geometr-0-2-0---grid-update-development" class="anchor"></a>geometr 0.2.0 - grid update (development)<small> Unreleased </small>
+</h1>
+<p>This minor version introduces the geom type ‘grid’, which is meant to store raster data. It stores as <code>@point</code> slot a compact version that gives (in both x and y dimension) the three values origin, number of cells and cell distance/resolution. It stores values in run-length encoding (rle) (if that is smaller than non-compressed) and the <code>@feature</code> table can contain any number of columns, which would correspond to layers in a raster. It can store in the <code>@group</code> slot an attribute table per layer (column in the feature table).</p>
+<p>The following functions have been modified:</p>
+<ul>
+<li>
+<code><a href="../reference/gc_geom.html">gc_geom()</a></code> now has a method to convert Raster objects to grid geoms.</li>
+<li>
+<code>get/setTable(x, slot = "point")</code> has been moved to <code>get/setPoints(x)</code>
+</li>
+<li>
+<code>get/setTable(x, slot = "feat")</code> has been moved to <code>get/setFeatures(x)</code>
+</li>
+<li>
+<code>get/setTable(x, slot = "group")</code> has been moved to <code>get/setGroups(x)</code>
+</li>
+<li>
+<code><a href="../reference/getPoints.html">getPoints()</a></code> for grid geoms extracts the compact grid-points version into the interoperable table this getter is supposed to hand out.</li>
+<li>
+<code><a href="../reference/getFeatures.html">getFeatures()</a></code> for grid geoms reconstructs fid for points and extracts rle tables, if they exist.</li>
+<li>makeObject is not generic anymore but is now a function based on the getters. This means that any class that has the respective getters defined, can be plotted with <code><a href="../reference/visualise.html">visualise()</a></code>
+</li>
+<li>
+<code>getSubset()</code> has been integrated into the respective getters, i.e., to get a subset of points, use <code><a href="../reference/getPoints.html">getPoints(x, fid == 1)</a></code>
+</li>
+</ul>
+<p>still needs:</p>
+<ul>
+<li>getPoints() of Raster* and matrix</li>
+<li>subset possible to define for getPoints(Spatial, sf, ppp, Raster, matrix and geom) based on coordinates</li>
+<li>subset possible to define for getFeatures(ppp)</li>
+<li>subset possible to define for getGroups(Raster)</li>
+</ul>
+</div>
     <div id="geometr-0-1-0" class="section level1">
 <h1 class="page-header">
-<a href="#geometr-0-1-0" class="anchor"></a>geometr 0.1.0</h1>
+<a href="#geometr-0-1-0" class="anchor"></a>geometr 0.1.0<small> Unreleased </small>
+</h1>
 <ul>
 <li>initial realease</li>
 </ul>
@@ -126,6 +163,7 @@
     <div id="tocnav">
       <h2>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
+        <li><a href="#geometr-0-2-0---grid-update-development">0.2.0</a></li>
         <li><a href="#geometr-0-1-0">0.1.0</a></li>
       </ul>
     </div>

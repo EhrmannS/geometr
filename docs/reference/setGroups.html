@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Get the history of a spatial object. — getHistory • geometr</title>
+<title>Set the table of group attributes — setGroups • geometr</title>
 
 
 <!-- jquery -->
@@ -35,8 +35,8 @@
 
 
 
-<meta property="og:title" content="Get the history of a spatial object. — getHistory" />
-<meta property="og:description" content="Get the history of a spatial object." />
+<meta property="og:title" content="Set the table of group attributes — setGroups" />
+<meta property="og:description" content="Set the table of group attributes" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -111,42 +111,45 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Get the history of a spatial object.</h1>
-    <small class="dont-index">Source: <a href='https://github.com/EhrmannS/geometr/blob/master/R/getHistory.R'><code>R/getHistory.R</code></a></small>
-    <div class="hidden name"><code>getHistory.Rd</code></div>
+    <h1>Set the table of group attributes</h1>
+    <small class="dont-index">Source: <a href='https://github.com/EhrmannS/geometr/blob/master/R/setGroups.R'><code>R/setGroups.R</code></a></small>
+    <div class="hidden name"><code>setGroups.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Get the history of a spatial object.</p>
+    <p>Set the table of group attributes</p>
     </div>
 
     <pre class="usage"><span class='co'># S4 method for ANY</span>
-<span class='fu'>getHistory</span>(<span class='no'>x</span>)
+<span class='fu'>setGroups</span>(<span class='no'>x</span>)
 
 <span class='co'># S4 method for geom</span>
-<span class='fu'>getHistory</span>(<span class='no'>x</span>)
+<span class='fu'>setGroups</span>(<span class='no'>x</span>, <span class='kw'>table</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
 
-<span class='co'># S4 method for Raster</span>
-<span class='fu'>getHistory</span>(<span class='no'>x</span>)</pre>
+<span class='co'># S4 method for RasterLayer</span>
+<span class='fu'>setGroups</span>(<span class='no'>x</span>, <span class='kw'>table</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>x</th>
-      <td><p>the object from which to derive the history.</p></td>
+      <td><p>the object to which to assign an attribute table.</p></td>
+    </tr>
+    <tr>
+      <th>table</th>
+      <td><p>[<code><a href='https://rdrr.io/r/base/data.frame.html'>data.frame(.)</a></code>]<br /> the attribute table.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A list of the events that lead to <code>x</code>.</p>
+    <p>The object <code>x</code> with an updated attribute table.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p>Other getters: <code><a href='getCRS.html'>getCRS</a></code>,
-  <code><a href='getExtent.html'>getExtent</a></code>, <code><a href='getFeatures.html'>getFeatures</a></code>,
-  <code><a href='getGroups.html'>getGroups</a></code>, <code><a href='getPoints.html'>getPoints</a></code>,
-  <code><a href='getType.html'>getType</a></code>, <code><a href='getWindow.html'>getWindow</a></code></p></div>
+    <div class='dont-index'><p>Other setters: <code><a href='setCRS.html'>setCRS</a></code>,
+  <code><a href='setFeatures.html'>setFeatures</a></code>, <code><a href='setHistory.html'>setHistory</a></code>,
+  <code><a href='setPoints.html'>setPoints</a></code>, <code><a href='setWindow.html'>setWindow</a></code></p></div>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

@@ -58,16 +58,16 @@
     <loc>http://EhrmannS.github.io/geometr/reference/getExtent.html</loc>
   </url>
   <url>
+    <loc>http://EhrmannS.github.io/geometr/reference/getFeatures.html</loc>
+  </url>
+  <url>
+    <loc>http://EhrmannS.github.io/geometr/reference/getGroups.html</loc>
+  </url>
+  <url>
     <loc>http://EhrmannS.github.io/geometr/reference/getHistory.html</loc>
   </url>
   <url>
     <loc>http://EhrmannS.github.io/geometr/reference/getPoints.html</loc>
-  </url>
-  <url>
-    <loc>http://EhrmannS.github.io/geometr/reference/getSubset.html</loc>
-  </url>
-  <url>
-    <loc>http://EhrmannS.github.io/geometr/reference/getTable.html</loc>
   </url>
   <url>
     <loc>http://EhrmannS.github.io/geometr/reference/getType.html</loc>
@@ -148,10 +148,16 @@
     <loc>http://EhrmannS.github.io/geometr/reference/setCRS.html</loc>
   </url>
   <url>
+    <loc>http://EhrmannS.github.io/geometr/reference/setFeatures.html</loc>
+  </url>
+  <url>
+    <loc>http://EhrmannS.github.io/geometr/reference/setGroups.html</loc>
+  </url>
+  <url>
     <loc>http://EhrmannS.github.io/geometr/reference/setHistory.html</loc>
   </url>
   <url>
-    <loc>http://EhrmannS.github.io/geometr/reference/setTable.html</loc>
+    <loc>http://EhrmannS.github.io/geometr/reference/setPoints.html</loc>
   </url>
   <url>
     <loc>http://EhrmannS.github.io/geometr/reference/setTheme.html</loc>

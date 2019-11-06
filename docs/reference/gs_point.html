@@ -70,7 +70,7 @@ anchor values or by sketching it." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">geometr</a>
-        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="Unreleased version">0.1.0</span>
+        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="Unreleased version">0.2.0</span>
       </span>
     </div>
 
@@ -132,8 +132,7 @@ anchor values or by sketching it.</p>
       <th>anchor</th>
       <td><p>[<code><a href='geom-class.html'>geom(1)</a></code>|<code><a href='https://rdrr.io/r/base/data.frame.html'>data.frame(1)</a></code>]<br /> Object to derive the
 <code>geom</code> from. It must include column names <code>x</code>, <code>y</code> and
-optionally a custom <code>fid</code>. To set further attributes, use
-<code><a href='setTable.html'>setTable</a></code>.</p></td>
+optionally a custom <code>fid</code>.</p></td>
     </tr>
     <tr>
       <th>window</th>
@@ -152,7 +151,8 @@ that serves as template to sketch points.</p></td>
     </tr>
     <tr>
       <th>...</th>
-      <td><p>[various]<br /> additional arguments; see Details.</p></td>
+      <td><p>[various]<br /> graphical parameters to <code><a href='gt_locate.html'>gt_locate</a></code>, in
+case points are sketched; see <code><a href='https://rdrr.io/r/grid/gpar.html'>gpar</a></code></p></td>
     </tr>
     </table>
 
@@ -168,12 +168,6 @@ that serves as template to sketch points.</p></td>
 <li><p>if an object is set in
   <code>sketch</code>, this is used to create the <code>geom</code> interactively, by
   clicking into the plot.</p></li>
-</ul>
-
-<p>Possible additional arguments are:</p><ul>
-<li><p>verbose = TRUE/FALSE</p></li>
-<li><p>graphical parameters to <code><a href='gt_locate.html'>gt_locate</a></code>, in case points are
-  sketched; see <code><a href='https://rdrr.io/r/grid/gpar.html'>gpar</a></code></p></li>
 </ul>
 
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
