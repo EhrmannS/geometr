@@ -33,7 +33,7 @@ setMethod(f = "getExtent",
 # geom ----
 #' @rdname getExtent
 #' @examples
-#' getTable(gtGeoms$polygon)
+#' getExtent(gtGeoms$polygon)
 #' @importFrom dplyr bind_cols
 #' @export
 setMethod(f = "getExtent",

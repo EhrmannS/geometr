@@ -38,7 +38,11 @@ setMethod(f = "getType",
 setMethod(f = "getType",
           signature = "geom",
           definition = function(x){
-            c("vector", x@type)
+            if(x@type == "grid"){
+              c("raster", x@type)
+            } else {
+              c("vector", x@type)
+            }
           }
 )
 
@@ -93,5 +97,15 @@ setMethod(f = "getType",
           signature = "Raster",
           definition = function(x){
             c("raster", class(x)[1])
+          }
+)
+
+# matrix ----
+#' @rdname getType
+#' @export
+setMethod(f = "getType",
+          signature = "matrix",
+          definition = function(x){
+            c("raster", "matrix")
           }
 )
