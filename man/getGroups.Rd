@@ -8,7 +8,7 @@
 \alias{getGroups,Raster-method}
 \title{Get the table of group attributes}
 \usage{
-\S4method{getGroups}{ANY}(x)
+\S4method{getGroups}{ANY}(x, ...)
 
 \S4method{getGroups}{geom}(x, ...)
 

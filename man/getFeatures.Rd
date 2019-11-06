@@ -10,7 +10,7 @@
 \alias{getFeatures,ppp-method}
 \title{Get the table of feature attributes}
 \usage{
-\S4method{getFeatures}{ANY}(x)
+\S4method{getFeatures}{ANY}(x, ...)
 
 \S4method{getFeatures}{geom}(x, ...)
 
