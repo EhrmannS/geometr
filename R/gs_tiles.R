@@ -4,8 +4,7 @@
 #' extent of an anchor value.
 #' @param anchor [\code{geom(1)}|\code{data.frame(1)}]\cr Object to derive the
 #'   tiling \code{geom} from. It must include column names \code{x}, \code{y}
-#'   and optionally a custom \code{fid}. To set further attributes, use
-#'   \code{\link{setTable}}.
+#'   and optionally a custom \code{fid}.
 #' @param width [\code{numeric(1)}]\cr the width (which does not correspond to
 #'   the height in case of \code{pattern = "hexagonal"}) of a tile.
 #' @param pattern [\code{character(1)}]\cr pattern of the tiling. Possible
@@ -159,12 +158,14 @@ gs_tiles <- function(anchor = NULL, width = NULL, pattern = "squared",
       retain <- rbind(retain, temp)
     }
   }
+  theFeatures <- tibble(fid = unique(retain$fid), gid = unique(retain$fid))
+  theGroups <- tibble(gid = unique(retain$fid))
 
   theTiles <- new(Class = "geom",
                   type = theType,
                   point = tibble(fid = retain$fid, x = retain$x, y = retain$y),
-                  feature = tibble(fid = unique(retain$fid), gid = unique(retain$fid)),
-                  group = tibble(gid = unique(retain$fid)),
+                  feature = list(geometry = theFeatures),
+                  group = list(geometry = theGroups),
                   window = anchor@window,
                   scale = "absolute",
                   crs = NA_character_,

@@ -2,8 +2,7 @@
 #'
 #' @param anchor [\code{geom(1)}|\code{data.frame(1)}]\cr Object to derive the
 #'   \code{geom} from. It must include column names \code{x}, \code{y} and
-#'   optionally a custom \code{fid}. To set further attributes, use
-#'   \code{\link{setTable}}.
+#'   optionally a custom \code{fid}.
 #' @param window [\code{data.frame(1)}]\cr in case the reference window deviates
 #'   from the bounding box of \code{anchor} (minimum and maximum values),
 #'   specify this here.
@@ -42,8 +41,8 @@ gs_voronoi <- function(anchor = NULL, window = NULL, features = 3, sketch = NULL
                        ...){
 
   # check arguments
-  anchor <- .testAnchor(x = anchor, ...)
-  theWindow <- .testWindow(x = window, ...)
+  anchor <- .testAnchor(x = anchor)
+  theWindow <- .testWindow(x = window)
   assertIntegerish(features, len = 1, lower = 1)
 
   if(is.null(anchor) & is.null(sketch)){
@@ -51,11 +50,15 @@ gs_voronoi <- function(anchor = NULL, window = NULL, features = 3, sketch = NULL
   }
   if(!is.null(anchor)){
     if(anchor$type == "geom"){
-      features <- length(unique(anchor$obj@feature$fid))
+      hist <- paste0("object was cast to 'polygon' geom.")
+      features <- length(unique(anchor$obj@feature$geometry$fid))
+      projection <- getCRS(x = anchor$obj)
     } else if(anchor$type == "df"){
+      hist <- paste0("object was created as 'polygon' geom.")
       if("fid" %in% names(anchor$obj)){
         features <- length(unique(anchor$obj$fid))
       }
+      projection <- NA
     }
   }
 
@@ -80,8 +83,8 @@ gs_voronoi <- function(anchor = NULL, window = NULL, features = 3, sketch = NULL
         theWindow <- anchor$obj@window
       }
       tempAnchor <- anchor$obj@point
-      theFeatures <- anchor$obj@feature
-      theGroups <- anchor$obj@group
+      theFeatures <- anchor$obj@feature$geometry
+      theGroups <- anchor$obj@group$geometry
       projection <- getCRS(x = anchor$obj)
 
     } else if(anchor$type == "df"){
@@ -116,12 +119,12 @@ gs_voronoi <- function(anchor = NULL, window = NULL, features = 3, sketch = NULL
   theGeom <- new(Class = "geom",
                  type = "polygon",
                  point = theVertices,
-                 feature = theFeatures,
-                 group = theGroups,
+                 feature = list(geometry = theFeatures),
+                 group = list(geometry = theGroups),
                  window = theWindow,
                  scale = "absolute",
                  crs = as.character(projection),
-                 history = list(paste0("geometry was created as voronoi 'polygon'.")))
+                 history = c(getHistory(x = anchor$obj), list(hist)))
 
   invisible(theGeom)
 }

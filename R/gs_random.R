@@ -77,11 +77,14 @@ gs_random <- function(type = "point", window = NULL, vertices = NULL, ...){
                        y = c(0, 0, 1, 1, 0))
   }
 
+  theFeatures <- tibble(fid = unique(anchor$fid), gid = unique(anchor$fid))
+  theGroups <- tibble(gid = unique(anchor$fid))
+
   theGeom <- new(Class = "geom",
                  type = outType,
                  point = anchor,
-                 feature = tibble(fid = unique(anchor$fid), gid = unique(anchor$fid)),
-                 group = tibble(gid = unique(anchor$fid)),
+                 feature = list(geometry = theFeatures),
+                 group = list(geometry = theGroups),
                  window = theWindow,
                  scale = "relative",
                  crs = as.character(NA),
