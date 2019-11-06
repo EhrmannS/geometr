@@ -29,15 +29,17 @@ reference:
     contents:
       - getCRS
       - getExtent
+      - getFeatures
+      - getGroups
       - getHistory
-      - getSubset
-      - getTable
-      - getType
       - getPoints
+      - getType
       - getWindow
       - setCRS
+      - setFeatures
+      - setGroups
       - setHistory
-      - setTable
+      - setPoints
       - setWindow
   - title: utility functions
     desc: functions that modify `geom`s
