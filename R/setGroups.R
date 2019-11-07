@@ -38,7 +38,7 @@ setMethod(f = "setGroups",
           signature = "geom",
           definition = function(x, table = NULL){
             if(!any(names(table) %in% c("gid"))){
-              if(dim(table)[1] != dim(x@point)[1]){
+              if(dim(table)[1] != dim(x@group$geometry)[1]){
                 stop("'table' must either contain the column 'gid' or be of the same length as 'x'.")
               }
             }

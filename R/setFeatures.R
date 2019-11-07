@@ -38,7 +38,7 @@ setMethod(f = "setFeatures",
           signature = "geom",
           definition = function(x, table = NULL){
             if(!any(names(table) %in% c("fid", "gid"))){
-              if(dim(table)[1] != dim(x@point)[1]){
+              if(dim(table)[1] != dim(x@feature$geometry)[1]){
                 stop("'table' must either contain the columns 'fid' or 'gid' or be of the same length as 'x'.")
               }
             }
