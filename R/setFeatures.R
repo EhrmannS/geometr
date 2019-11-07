@@ -48,7 +48,7 @@ setMethod(f = "setFeatures",
               theFeatures <- getFeatures(x = x)
 
               if(any(colnames(table) %in% colnames(theFeatures))){
-                temp <- merge(theFeatures, table, all.x = TRUE)
+                temp <- merge(x = theFeatures, y = table, all.x = TRUE)
                 temp <- .updateOrder(input = temp)
               } else{
                 temp <- cbind(theFeatures, table)
