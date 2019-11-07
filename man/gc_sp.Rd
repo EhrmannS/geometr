@@ -25,6 +25,6 @@ Transform a spatial object to class \code{sp}
 \seealso{
 Other spatial classes: \code{\link{gc_geom}},
   \code{\link{gc_grob}}, \code{\link{gc_ppp}},
-  \code{\link{gc_sf}}
+  \code{\link{gc_raster}}, \code{\link{gc_sf}}
 }
 \concept{spatial classes}

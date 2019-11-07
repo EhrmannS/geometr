@@ -40,7 +40,7 @@ Transform a spatial object to class \code{geom}
 }
 \seealso{
 Other spatial classes: \code{\link{gc_grob}},
-  \code{\link{gc_ppp}}, \code{\link{gc_sf}},
-  \code{\link{gc_sp}}
+  \code{\link{gc_ppp}}, \code{\link{gc_raster}},
+  \code{\link{gc_sf}}, \code{\link{gc_sp}}
 }
 \concept{spatial classes}
