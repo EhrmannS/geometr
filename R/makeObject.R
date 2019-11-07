@@ -216,13 +216,17 @@ makeObject <- function(x, window = NULL, image = FALSE, theme = gtTheme, ...){
         stop("to visualise an object with hexadecimal colour values (e.g. '#000000'), use 'image = TRUE'")
       }
 
-      attr <- getFeatures(x = x) # this function must give the same for all raster/gridded objects
+      attr <- getGroups(x = x) # this function must give the same for all raster/gridded objects
       if(!is.null(attr)){
         out$hasLegend <- TRUE
       } else {
         out$hasLegend <- FALSE
       }
-      vals <- getValues(x = x)
+      if(grepl(x = featureType[2], pattern = "Raster")){
+        vals <- getValues(x = x)
+      } else {
+        vals <- as.vector(x)
+      }
       allValues <- sortUniqueC(vals[!is.na(vals)])
       tickValues <- seq_along(allValues)
       nrVals <- length(allValues)
