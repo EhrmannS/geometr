@@ -18,7 +18,7 @@
 
 \S4method{getFeatures}{sf}(x, ...)
 
-\S4method{getFeatures}{ppp}(x)
+\S4method{getFeatures}{ppp}(x, ...)
 }
 \arguments{
 \item{x}{the object from which to derive the attribute table.}
