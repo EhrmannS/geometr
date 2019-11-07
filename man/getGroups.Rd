@@ -6,6 +6,7 @@
 \alias{getGroups,ANY-method}
 \alias{getGroups,geom-method}
 \alias{getGroups,Raster-method}
+\alias{getGroups,matrix-method}
 \title{Get the table of group attributes}
 \usage{
 \S4method{getGroups}{ANY}(x, ...)
@@ -13,6 +14,8 @@
 \S4method{getGroups}{geom}(x, ...)
 
 \S4method{getGroups}{Raster}(x)
+
+\S4method{getGroups}{matrix}(x)
 }
 \arguments{
 \item{x}{the object from which to derive the attribute table.}
