@@ -254,10 +254,10 @@ setMethod(f = "getPoints",
 setMethod(f = "getPoints",
           signature = "ppp",
           definition = function(x){
-            bla <- x
-            tibble(x = bla$x,
-                   y = bla$y,
-                   fid = seq_along(bla$x))
+            temp <- x
+            tibble(x = temp$x,
+                   y = temp$y,
+                   fid = seq_along(temp$x))
           }
 )
 
@@ -267,11 +267,19 @@ setMethod(f = "getPoints",
 #'
 #' getPoints(gtRasters$categorical)
 #' @importFrom tibble tibble as_tibble
+#' @importFrom raster res
 #' @export
 setMethod(f = "getPoints",
           signature = "Raster",
           definition = function(x){
 
+            res <- res(x)
+            xGrid <- seq(from = x@extent@xmin, length.out = x@ncols, by = res[1]) + 0.5
+            yGrid <- seq(from = x@extent@ymin, length.out = x@nrows, by = res[2]) + 0.5
+            out <- tibble(x = rep(xGrid, times = length(yGrid)),
+                          y = rep(yGrid, each = length(xGrid)),
+                          fid = seq(1:(length(xGrid)*length(yGrid))))
+            return(out)
           }
 )
 
@@ -281,6 +289,13 @@ setMethod(f = "getPoints",
 setMethod(f = "getPoints",
           signature = "matrix",
           definition = function(x){
+
+            xGrid <- seq(from = 0, length.out = ncol(x), by = 1) + 0.5
+            yGrid <- seq(from = 0, length.out = nrow(x), by = 1) + 0.5
+            out <- tibble(x = rep(xGrid, times = length(yGrid)),
+                          y = rep(yGrid, each = length(xGrid)),
+                          fid = seq(1:(length(xGrid)*length(yGrid))))
+            return(out)
 
           }
 )
