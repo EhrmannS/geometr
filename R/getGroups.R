@@ -111,3 +111,15 @@ setMethod(f = "getGroups",
             }
           }
 )
+
+# master ----
+#' @rdname getGroups
+#' @importFrom tibble tibble as_tibble
+#' @export
+setMethod(f = "getGroups",
+          signature = "matrix",
+          definition = function(x){
+            vals <- sort(unique(as.vector(x = x)))
+            tibble(fid = seq_along(vals), values = vals)
+          }
+)
