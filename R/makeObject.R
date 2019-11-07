@@ -268,11 +268,7 @@ makeObject <- function(x, window = NULL, image = FALSE, theme = gtTheme, ...){
         tickValues <- quantile(tickValues, probs = seq(0, 1, length.out = theme@legend$bins+1), type = 1, names = FALSE)
       }
 
-      if(is.factor(vals) | is.character(vals)){
-        tickLabels <- allValues[tickValues]
-      } else {
-        tickLabels <- tickValues
-      }
+      tickLabels <- allValues[tickValues]
 
       if(theme@legend$ascending){
         params <- tibble(fillcol = rev(allColours),
