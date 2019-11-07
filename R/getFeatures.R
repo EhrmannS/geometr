@@ -348,11 +348,25 @@ setMethod(f = "getFeatures",
 #' @export
 setMethod(f = "getFeatures",
           signature = "ppp",
-          definition = function(x){
-            temp <- x
-            out <- tibble(fid = seq_along(temp$x), gid = seq_along(temp$x))
-            if("marks" %in% names(temp)){
-              out <- bind_cols(out, value = temp$marks)
+          definition = function(x, ...){
+
+            if(length(exprs(...)) > 0){
+              out <- x
+              subset <- enquos(...)
+              isLogical <- tryCatch(is.logical(eval_tidy(expr = subset[[1]])), error = function(e) FALSE)
+              if(isLogical){
+                matches <- eval_tidy(expr = subset[[1]])
+              } else {
+                subset <- exprs(...)
+                matches <- eval(parse(text = subset), envir = x)
+              }
+              out <- out[matches,]
+            } else {
+              temp <- x
+              out <- tibble(fid = seq_along(temp$x), gid = seq_along(temp$x))
+              if("marks" %in% names(temp)){
+                out <- bind_cols(out, value = temp$marks)
+              }
             }
             return(out)
           }
