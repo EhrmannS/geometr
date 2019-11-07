@@ -28,3 +28,26 @@ test_that("getGroups of a 'geom'", {
   expect_names(x = names(output), permutation.of = c("gid"))
 })
 
+test_that("getGroups of a Raster* object", {
+
+  # test RasterLayer without attribute table
+  input <- gtRasters$continuous
+  output <- getGroups(input)
+  expect_tibble(output, any.missing = FALSE, nrows = 91, ncols = 2)
+  expect_names(names(output), permutation.of = c("fid", "values"))
+
+  # test RasterLayer with attribute table
+  input <- gtRasters$categorical
+  output <- getGroups(input)
+  expect_tibble(output, any.missing = FALSE, nrows = 9, ncols = 2)
+  expect_names(names(output), permutation.of = c("fid", "cover"))
+})
+
+test_that("getGroups returns a given attribute table", {
+  input <- gtRasters$categorical
+
+  output <- getGroups(input)
+  expect_data_frame(output, any.missing = FALSE, nrows = 9, ncols = 2)
+  expect_names(names(output), identical.to = c("fid", "cover"))
+})
+

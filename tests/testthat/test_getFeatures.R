@@ -66,29 +66,6 @@ test_that("getFeatures of a ppp object", {
   expect_names(names(output), identical.to = c("fid", "gid", "value"))
 })
 
-test_that("getFeatures of a Raster* object", {
-
-  # test RasterLayer without attribute table
-  input <- gtRasters$continuous
-  output <- getFeatures(input)
-  expect_tibble(output, any.missing = FALSE, nrows = 91, ncols = 2)
-  expect_names(names(output), permutation.of = c("fid", "values"))
-
-  # test RasterLayer with attribute table
-  input <- gtRasters$categorical
-  output <- getFeatures(input)
-  expect_tibble(output, any.missing = FALSE, nrows = 9, ncols = 2)
-  expect_names(names(output), permutation.of = c("fid", "cover"))
-})
-
-test_that("getFeatures returns a given attribute table", {
-  input <- gtRasters$categorical
-
-  output <- getFeatures(input)
-  expect_data_frame(output, any.missing = FALSE, nrows = 9, ncols = 2)
-  expect_names(names(output), identical.to = c("fid", "cover"))
-})
-
 test_that("getFeatures of any other object", {
   output <- getFeatures("bla")
   expect_null(object = output)
