@@ -22,6 +22,7 @@ reference:
       - gc_geom
       - gc_grob
       - gc_ppp
+      - gc_raster
       - gc_sf
       - gc_sp
   - title: getters and setters

@@ -132,23 +132,14 @@
 <code>get/setTable(x, slot = "group")</code> has been moved to <code>get/setGroups(x)</code>
 </li>
 <li>
-<code><a href="../reference/getPoints.html">getPoints()</a></code> for grid geoms extracts the compact grid-points version into the interoperable table this getter is supposed to hand out.</li>
+<code><a href="../reference/getPoints.html">getPoints()</a></code> for grid geoms extracts the compacted <a href='https://github.com/points'>@points</a> slot into the interoperable table this getter is supposed to hand out.</li>
 <li>
 <code><a href="../reference/getFeatures.html">getFeatures()</a></code> for grid geoms reconstructs fid for points and extracts rle tables, if they exist.</li>
-<li>makeObject is not generic anymore but is now a function based on the getters. This means that any class that has the respective getters defined, can be plotted with <code><a href="../reference/visualise.html">visualise()</a></code>
+<li>
+<code><a href="../reference/makeObject.html">makeObject()</a></code> is not a generic anymore but is now a function based on getters. That means that any class that has the respective getters defined, can be plotted with <code><a href="../reference/visualise.html">visualise()</a></code>
 </li>
 <li>
-<code>getSubset()</code> has been integrated into the respective getters, i.e., to get a subset of points, use <code><a href="../reference/getPoints.html">getPoints(x, fid == 1)</a></code>
-</li>
-</ul>
-<p>still needs:</p>
-<ul>
-<li>getPoints() of Raster* and matrix</li>
-<li>subset possible to define for getPoints(Spatial, sf, ppp, Raster, matrix and geom) based on coordinates</li>
-<li>subset possible to define for getFeatures(ppp)</li>
-<li>subset possible to define for getGroups(Raster)</li>
-<li>when setting a new table, make it possible that it can be merged from more rows than what is in the original table</li>
-<li>update README.md with new functions</li>
+<code>getSubset()</code> has been integrated into the respective getters, i.e., to get a subset of points, use <code><a href="../reference/getPoints.html">getPoints(x, fid == 1)</a></code>, etc.</li>
 </ul>
 </div>
     <div id="geometr-0-1-0" class="section level1">

@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Transform a spatial object to a grob — gc_grob • geometr</title>
+<title>Transform a spatial object to class <code>Raster*</code> — gc_raster • geometr</title>
 
 
 <!-- jquery -->
@@ -35,8 +35,8 @@
 
 
 
-<meta property="og:title" content="Transform a spatial object to a grob — gc_grob" />
-<meta property="og:description" content="Transform a spatial object to a grob" />
+<meta property="og:title" content="Transform a spatial object to class <code>Raster*</code> — gc_raster" />
+<meta property="og:description" content="Transform a spatial object to class Raster*" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -111,47 +111,40 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Transform a spatial object to a grob</h1>
-    <small class="dont-index">Source: <a href='https://github.com/EhrmannS/geometr/blob/master/R/gc_grob.R'><code>R/gc_grob.R</code></a></small>
-    <div class="hidden name"><code>gc_grob.Rd</code></div>
+    <h1>Transform a spatial object to class <code>Raster*</code></h1>
+    <small class="dont-index">Source: <a href='https://github.com/EhrmannS/geometr/blob/master/R/gc_raster.R'><code>R/gc_raster.R</code></a></small>
+    <div class="hidden name"><code>gc_raster.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Transform a spatial object to a grob</p>
+    <p>Transform a spatial object to class <code>Raster*</code></p>
     </div>
 
     <pre class="usage"><span class='co'># S4 method for geom</span>
-<span class='fu'>gc_grob</span>(<span class='kw'>input</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>theme</span> <span class='kw'>=</span> <span class='no'>gtTheme</span>, <span class='no'>...</span>)</pre>
+<span class='fu'>gc_raster</span>(<span class='kw'>input</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>input</th>
-      <td><p>the object to transform to class <code>grob</code>.</p></td>
-    </tr>
-    <tr>
-      <th>theme</th>
-      <td><p>[<code><a href='gtTheme.html'>gtTheme(1)</a></code>]<br /> the theme from which to take parameters.</p></td>
-    </tr>
-    <tr>
-      <th>...</th>
-      <td><p>instead of providing a modified <code>theme</code>, you can also
-determine specific graphic parameters (see <code>gpar</code>) separately;
-see <code><a href='setTheme.html'>setTheme</a></code> for details.</p></td>
+      <td><p>the object to transform to class <code>Raster*</code>.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>Depending on the provided geometry either a <code>pointsGrob</code>,
-  <code>polylineGrob</code> or a <code>pathGrob</code>.</p>
+    <p>an object of class <code>Raster*</code></p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>Other spatial classes: <code><a href='gc_geom.html'>gc_geom</a></code>,
-  <code><a href='gc_ppp.html'>gc_ppp</a></code>, <code><a href='gc_raster.html'>gc_raster</a></code>,
+  <code><a href='gc_grob.html'>gc_grob</a></code>, <code><a href='gc_ppp.html'>gc_ppp</a></code>,
   <code><a href='gc_sf.html'>gc_sf</a></code>, <code><a href='gc_sp.html'>gc_sp</a></code></p></div>
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='no'>rasGeom</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='gc_geom.html'>gc_geom</a></span>(<span class='kw'>input</span> <span class='kw'>=</span> <span class='no'>gtRasters</span>$<span class='no'>categorical</span>)
+
+<span class='no'>aRaster</span> <span class='kw'>&lt;-</span> <span class='fu'>gc_raster</span>(<span class='kw'>input</span> <span class='kw'>=</span> <span class='no'>rasGeom</span>)</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -159,6 +152,7 @@ see <code><a href='setTheme.html'>setTheme</a></code> for details.</p></td>
       <li><a href="#arguments">Arguments</a></li>
       <li><a href="#value">Value</a></li>
       <li><a href="#see-also">See also</a></li>
+      <li><a href="#examples">Examples</a></li>
     </ul>
 
   </div>
