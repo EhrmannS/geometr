@@ -1,7 +1,7 @@
-#' Transform a spatial object to class \code{sp}
+#' Transform a spatial object to class \code{Spatial}
 #'
-#' @param input the object to transform to class \code{sp}.
-#' @return an object of class \code{sp}
+#' @param input the object to transform to class \code{Spatial}.
+#' @return an object of class \code{Spatial}
 #' @family spatial classes
 #' @examples
 #' (spPoints <- gc_sp(input = gtGeoms$point))
