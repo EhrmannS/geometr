@@ -212,7 +212,9 @@ makeObject <- function(x, window = NULL, image = FALSE, theme = gtTheme, ...){
 
     } else {
 
-      if(testCharacter(x = x[1], pattern = "\\#(.{6,8})")){
+      vals <- getFeatures(x = x)$values
+
+      if(testCharacter(x = vals, pattern = "\\#(.{6,8})")){
         stop("to visualise an object with hexadecimal colour values (e.g. '#000000'), use 'image = TRUE'")
       }
 
@@ -222,11 +224,7 @@ makeObject <- function(x, window = NULL, image = FALSE, theme = gtTheme, ...){
       } else {
         out$hasLegend <- FALSE
       }
-      if(grepl(x = featureType[2], pattern = "Raster")){
-        vals <- getValues(x = x)
-      } else {
-        vals <- as.vector(x)
-      }
+
       allValues <- sortUniqueC(vals[!is.na(vals)])
       tickValues <- seq_along(allValues)
       nrVals <- length(allValues)
