@@ -8,6 +8,8 @@
 \alias{getFeatures,Spatial-method}
 \alias{getFeatures,sf-method}
 \alias{getFeatures,ppp-method}
+\alias{getFeatures,Raster-method}
+\alias{getFeatures,matrix-method}
 \title{Get the table of feature attributes}
 \usage{
 \S4method{getFeatures}{ANY}(x, ...)
@@ -19,6 +21,10 @@
 \S4method{getFeatures}{sf}(x, ...)
 
 \S4method{getFeatures}{ppp}(x, ...)
+
+\S4method{getFeatures}{Raster}(x)
+
+\S4method{getFeatures}{matrix}(x)
 }
 \arguments{
 \item{x}{the object from which to derive the attribute table.}
@@ -40,6 +46,8 @@ getFeatures(x = gtGeoms$polygon)
 getFeatures(x = gtSP$SpatialPolygons)
 
 getFeatures(gtSF$multiline)
+
+getFeatures(gtPPP)
 
 getFeatures(gtPPP)
 }

@@ -79,9 +79,9 @@ setMethod(f = "getFeatures",
                                  values = theInput$val)
                     attr(temp, "class") <- "rle"
                     temp <- inverse.rle(temp)
-                    tempFeatures <- tibble(fid = seq_along(temp), values = temp)
+                    tempFeatures <- tibble(fid = seq_along(temp), gid = seq_along(temp), values = temp)
                   } else {
-                    tempFeatures <- as_tibble(cbind(fid = 1:dim(theInput)[1], theInput))
+                    tempFeatures <- as_tibble(cbind(fid = 1:dim(theInput)[1], gid = 1:dim(theInput)[1], theInput))
                   }
 
                   if(length(theFeatures) > 1){
@@ -365,9 +365,43 @@ setMethod(f = "getFeatures",
               temp <- x
               out <- tibble(fid = seq_along(temp$x), gid = seq_along(temp$x))
               if("marks" %in% names(temp)){
-                out <- bind_cols(out, value = temp$marks)
+                out <- bind_cols(out, values = temp$marks)
               }
             }
+            return(out)
+          }
+)
+
+# Raster ----
+#' @rdname getFeatures
+#' @examples
+#'
+#' getFeatures(gtPPP)
+#' @importFrom tibble tibble
+#' @importFrom dplyr bind_cols
+#' @importFrom raster getValues
+#' @export
+setMethod(f = "getFeatures",
+          signature = "Raster",
+          definition = function(x){
+
+            temp <- getValues(x)
+            out <- tibble(fid = seq_along(temp), gid = seq_along(temp), values = temp)
+            return(out)
+          }
+)
+
+# matrix ----
+#' @rdname getFeatures
+#' @importFrom tibble as_tibble
+#' @export
+setMethod(f = "getFeatures",
+          signature = "matrix",
+          definition = function(x){
+
+            temp <- as.vector(x)
+            out <- tibble(fid = seq_along(temp), gid = seq_along(temp), values = temp)
+            return(out)
             return(out)
           }
 )
