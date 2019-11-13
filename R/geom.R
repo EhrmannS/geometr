@@ -245,7 +245,7 @@ setMethod(f = "show",
               } else {
                 theFeats <- names(object@feature)
                 theLayer <- theGroups
-                if(dim(theLayer)[1] != 0){
+                if(!is.null(theLayer)){
                   if(!all(names(thePoints) %in% c("gid"))){
                     myAttributes <- c(myAttributes, paste0(" ", ifelse(featureAttribs <= 9,
                                                                        paste0(paste0(names(theLayer)[!names(theLayer) %in% c("gid")], collapse = ", "), "\n"),
