@@ -284,10 +284,10 @@ Consequently, those duplicates have to be handled, for example by removing dupli
 We saw already some quite powerful use-cases of the `visualise()` function that comes with `geometr`.
 The philosophy of plotting geometric objects in `geometr` deviates a bit from other approaches.
 
-The idea is that both vector and raster objects can be visualised at the same time, and that additional options can be specified for their appearance, and for the appearance of the other plot elements.
+The idea is that both vector and raster objects can be visualised at the same time, and that additional options can be specified for their appearance, and for the appearance of other plot elements (such as the legend, the box or the axes).
 In case several objects are provided to `visualise()` at the same time, they are facetted, i.e., plotted in separate panels next to one another.
 Moreover, it is possible to set the plot title by providing a name to the object that shall be plotted, for example via `'plot name' = plotObject`.
-In case a title is not provided in that way, the title is either extracted from the object name (for example, the raster in the following example is part of the `RasterStack` `gtRasters` with the name `continuous`) or a default value is used.
+In case a title is not provided in that way, the title is either extracted from the object name (for example, the raster in the following example is part of a `RasterStack` with the name `continuous`) or a default value is used.
 
 ```{r}
 visualise('I made a polygon!' = aPoly, gtRasters$continuous)
@@ -303,7 +303,7 @@ relPoly <- gs_rectangle(anchor = aPoly) %>%
   gt_scale(to = "relative")
 
 visualise(gtRasters$categorical, gtRasters$continuous)
-visualise(relPoly, linecol = "deeppink", new = F)
+visualise(relPoly, linecol = "deeppink", new = FALSE)
 ```
 
 In various functions of `geometr` the reference window can play a role, most prominently to control which part of an object is plotted.
