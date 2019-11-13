@@ -77,7 +77,11 @@ setMethod(f = "getGroups",
                   if(length(theGroups) > 1){
                     out <- c(out, setNames(list(theInput), theName))
                   } else {
-                    out <- theInput
+                    if(dim(theInput)[1] == 0){
+                      out <- NULL
+                    } else {
+                      out <- theInput
+                    }
                   }
                 }
               } else {
@@ -101,10 +105,10 @@ setMethod(f = "getGroups",
           definition = function(x){
             if(length(x@data@attributes) == 0){
               vals <- sort(unique(getValues(x = x)))
-              tibble(fid = seq_along(vals), values = vals)
+              tibble(gid = seq_along(vals), values = vals)
             } else{
               names <- names(x@data@attributes[[1]])
-              names[which(names == "id")] <- "fid"
+              names[which(names == "id")] <- "gid"
               out <- as_tibble(x@data@attributes[[1]])
               names(out) <- names
               return(out)
@@ -120,6 +124,6 @@ setMethod(f = "getGroups",
           signature = "matrix",
           definition = function(x){
             vals <- sort(unique(as.vector(x = x)))
-            tibble(fid = seq_along(vals), values = vals)
+            tibble(gid = seq_along(vals), values = vals)
           }
 )

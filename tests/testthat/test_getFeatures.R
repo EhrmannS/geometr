@@ -28,14 +28,14 @@ test_that("getFeatures of a 'geom'", {
   # ... layer with attribute table
   input <- gc_geom(gtRasters$categorical)
   output <- getFeatures(input)
-  expect_data_frame(output, any.missing = FALSE, nrows = 3360, ncols = 2)
-  expect_names(x = names(output), permutation.of = c("fid", "values"))
+  expect_data_frame(output, any.missing = FALSE, nrows = 3360)
+  expect_names(x = names(output), permutation.of = c("fid", "gid", "values"))
 
   # ... layer without attribute table
   input <- gc_geom(gtRasters$continuous)
   output <- getFeatures(input)
-  expect_data_frame(output, any.missing = FALSE, nrows = 3360, ncols = 2)
-  expect_names(x = names(output), permutation.of = c("fid", "values"))
+  expect_data_frame(output, any.missing = FALSE, nrows = 3360)
+  expect_names(x = names(output), permutation.of = c("fid", "gid", "values"))
 })
 
 test_that("getFeatures with subset of a 'geom'", {
@@ -116,7 +116,7 @@ test_that("getFeatures of a ppp object", {
 
   output <- getFeatures(input)
   expect_data_frame(output, any.missing = FALSE, nrows = 20, ncols = 3)
-  expect_names(names(output), identical.to = c("fid", "gid", "value"))
+  expect_names(names(output), identical.to = c("fid", "gid", "values"))
 })
 
 test_that("getFeatures of any other object", {
