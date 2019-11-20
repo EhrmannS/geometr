@@ -51,6 +51,7 @@ getType(gtRasters$categorical)
 Other getters: \code{\link{getCRS}},
   \code{\link{getExtent}}, \code{\link{getFeatures}},
   \code{\link{getGroups}}, \code{\link{getHistory}},
-  \code{\link{getPoints}}, \code{\link{getWindow}}
+  \code{\link{getPoints}}, \code{\link{getRes}},
+  \code{\link{getWindow}}
 }
 \concept{getters}

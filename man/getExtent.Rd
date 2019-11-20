@@ -53,6 +53,7 @@ getExtent(matrix(0, 3, 5))
 Other getters: \code{\link{getCRS}},
   \code{\link{getFeatures}}, \code{\link{getGroups}},
   \code{\link{getHistory}}, \code{\link{getPoints}},
-  \code{\link{getType}}, \code{\link{getWindow}}
+  \code{\link{getRes}}, \code{\link{getType}},
+  \code{\link{getWindow}}
 }
 \concept{getters}
