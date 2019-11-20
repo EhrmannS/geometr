@@ -34,16 +34,23 @@ setMethod(f = "getExtent",
 #' @rdname getExtent
 #' @examples
 #' getExtent(gtGeoms$polygon)
-#' @importFrom dplyr bind_cols
+#' @importFrom tibble tibble
 #' @export
 setMethod(f = "getExtent",
           signature = "geom",
           definition = function(x){
 
-            thePoints <- getPoints(x = x)
-            bind_cols(x = c(min(thePoints$x), max(thePoints$x)),
-                      y = c(min(thePoints$y), max(thePoints$y)))
+            if(x@type == "grid"){
+              temp <- x
+              out <- tibble(x = c(temp@point$x[1], temp@point$x[2]),
+                            y = c(temp@point$y[1], temp@point$y[2]))
+            } else {
+              thePoints <- getPoints(x = x)
+              out <- tibble(x = c(min(thePoints$x), max(thePoints$x)),
+                            y = c(min(thePoints$y), max(thePoints$y)))
+            }
 
+            return(out)
           }
 )
 
