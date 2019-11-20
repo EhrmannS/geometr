@@ -97,11 +97,6 @@ setMethod(f = "gc_grob",
                   toEval <- as.symbol(params$scale$to)
                   toRamp <- thisArg
                   makeWarning <- FALSE
-
-                  # test whether 'toEval' is a colour
-                  if(!as.character(toRamp) %in% colors() & !grepl(pattern = "\\#(.{6,8})", x = toRamp)){
-                    stop(paste0(toRamp, " was neither found as column in the object to plot, nor is it a valid colour."))
-                  }
                 }
 
                 vals <- eval(parse(text = paste0(toEval)), envir = attr)
@@ -120,6 +115,11 @@ setMethod(f = "gc_grob",
 
                 # if the argument is a colour argument, construct a color ramp from two or more values
                 if(thisArgName %in% c("linecol", "fillcol")){
+
+                  # test whether 'toRamp' is a colour
+                  if(!any(as.character(toRamp) %in% colors()) & !any(grepl(pattern = "\\#(.{6,8})", x = toRamp))){
+                    stop(paste0(toRamp, " was neither found as column in the object to plot, nor is it a valid colour."))
+                  }
 
                   if(makeWarning){
                     if(length(uniqueValsNum) > 1){
