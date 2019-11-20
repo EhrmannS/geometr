@@ -6,7 +6,7 @@
 #' @examples
 #' rasGeom <- gc_geom(input = gtRasters$categorical)
 #'
-#' aRaster <- gc_raster(input = rasGeom)
+#' gc_raster(input = rasGeom)
 #' @name gc_raster
 #' @rdname gc_raster
 NULL

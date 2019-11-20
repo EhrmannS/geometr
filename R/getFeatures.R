@@ -3,11 +3,17 @@
 #' Get tabular information of the attributes of features.
 #' @param x the object from which to derive the attribute table.
 #' @param ... subset based on logical predicates defined in terms of the
-#'   variables in \code{x} or a vector of booleans. Multiple conditions are
-#'   combined with &. Only rows where the condition evaluates to TRUE are kept.
+#'   columns in \code{x} or a vector of booleans. Multiple conditions are
+#'   combined with \code{&}. Only rows where the condition evaluates to TRUE are kept.
 #' @return A table of the feature attributes of \code{x} or an object where the
 #'   features table has been subsetted.
 #' @family getters
+#' @examples
+#' getFeatures(x = gtGeoms$polygon)
+#'
+#' getFeatures(x = gtSF$multilinestring, a == 1)
+#'
+#' getFeatures(x = gtRasters$continuous)
 #' @name getFeatures
 #' @rdname getFeatures
 NULL
@@ -36,8 +42,6 @@ setMethod(f = "getFeatures",
 
 # geom ----
 #' @rdname getFeatures
-#' @examples
-#' getFeatures(x = gtGeoms$polygon)
 #' @importFrom tibble as_tibble
 #' @export
 setMethod(f = "getFeatures",
@@ -102,9 +106,6 @@ setMethod(f = "getFeatures",
 
 # Spatial ----
 #' @rdname getFeatures
-#' @examples
-#'
-#' getFeatures(x = gtSP$SpatialPolygons)
 #' @importFrom methods as
 #' @importFrom tibble tibble as_tibble
 #' @importFrom dplyr bind_cols
@@ -233,9 +234,6 @@ setMethod(f = "getFeatures",
 
 # sf ----
 #' @rdname getFeatures
-#' @examples
-#'
-#' getFeatures(gtSF$multiline)
 #' @importFrom tibble tibble as_tibble
 #' @importFrom sf st_geometry_type st_coordinates st_geometry<-
 #' @export
@@ -340,9 +338,6 @@ setMethod(f = "getFeatures",
 
 # ppp ----
 #' @rdname getFeatures
-#' @examples
-#'
-#' getFeatures(gtPPP)
 #' @importFrom tibble as_tibble
 #' @importFrom dplyr bind_cols
 #' @export
@@ -374,9 +369,6 @@ setMethod(f = "getFeatures",
 
 # Raster ----
 #' @rdname getFeatures
-#' @examples
-#'
-#' getFeatures(gtPPP)
 #' @importFrom tibble tibble
 #' @importFrom dplyr bind_cols
 #' @importFrom raster getValues

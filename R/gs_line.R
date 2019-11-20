@@ -38,9 +38,6 @@
 #' gs_line(anchor = coords, window = window) %>%
 #'   visualise(linecol = "green")
 #'
-#' # if a plot is already open, vertices are set relative to its' window
-#' visualise(geom = gs_line(anchor = coords), new = FALSE)
-#'
 #' # when a geom is used in 'anchor', its properties are passed on
 #' aGeom <- setWindow(x = aGeom, to = window)
 #' gs_line(anchor = aGeom) %>%

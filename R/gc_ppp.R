@@ -3,6 +3,8 @@
 #' @param input the object to transform to class \code{ppp}.
 #' @return an object of class \code{ppp}
 #' @family spatial classes
+#' @examples
+#' gc_ppp(input = gtGeoms$point)
 #' @name gc_ppp
 #' @rdname gc_ppp
 NULL
@@ -21,8 +23,6 @@ if(!isGeneric("gc_ppp")){
 
 # geom ----
 #' @rdname gc_ppp
-#' @examples
-#' (pppPoints <- gc_ppp(input = gtGeoms$point))
 #' @importFrom spatstat ppp
 #' @export
 setMethod(f = "gc_ppp",

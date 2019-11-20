@@ -9,9 +9,11 @@
 #' @return an object of class \code{geom}
 #' @family spatial classes
 #' @examples
-#' (geomPoints <- gc_geom(input = gtPPP))
-#' (geomPoly <- gc_geom(input = gtSF$polygon))
-#' (geomLine <- gc_geom(input = gtSP$SpatialLinesDataFrame))
+#' gc_geom(input = gtPPP)
+#'
+#' gc_geom(input = gtSF$polygon)
+#'
+#' gc_geom(input = gtRasters$categorical)
 #' @name gc_geom
 #' @rdname gc_geom
 NULL

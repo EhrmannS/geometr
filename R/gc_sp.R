@@ -4,9 +4,11 @@
 #' @return an object of class \code{Spatial}
 #' @family spatial classes
 #' @examples
-#' (spPoints <- gc_sp(input = gtGeoms$point))
-#' (spLines <- gc_sp(input = gtGeoms$line))
-#' (spPolygon <- gc_sp(input = gtGeoms$polygon))
+#' gc_sp(input = gtGeoms$point)
+#'
+#' gc_sp(input = gtGeoms$line)
+#'
+#' gc_sp(input = gtGeoms$polygon)
 #' @name gc_sp
 #' @rdname gc_sp
 NULL

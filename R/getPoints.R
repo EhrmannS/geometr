@@ -3,12 +3,12 @@
 #' Get tabular information of the attributes of points (incl. coordinates).
 #' @param x the object from which to derive the attribute table.
 #' @param ... subset based on logical predicates defined in terms of the
-#'   variables in \code{x} or a vector of booleans. Multiple conditions are
-#'   combined with &. Only rows where the condition evaluates to TRUE are kept.
+#'   columns in \code{x} or a vector of booleans. Multiple conditions are
+#'   combined with \code{&}. Only rows where the condition evaluates to TRUE are kept.
 #' @return A table of the point attributes of \code{x} or an object where the
 #'   point table has been subsetted.
 #' @examples
-#' getPoints(gtGeoms$polygon)
+#' getPoints(x = gtGeoms$polygon)
 #' @family getters
 #' @name getPoints
 #' @rdname getPoints
@@ -85,9 +85,6 @@ setMethod(f = "getPoints",
 
 # Spatial ----
 #' @rdname getPoints
-#' @examples
-#'
-#' getPoints(gtSP$SpatialPoints)
 #' @importFrom methods as
 #' @importFrom tibble tibble as_tibble
 #' @export
@@ -165,9 +162,6 @@ setMethod(f = "getPoints",
 
 # sf ----
 #' @rdname getPoints
-#' @examples
-#'
-#' getPoints(gtSF$multilinestring)
 #' @importFrom tibble as_tibble
 #' @importFrom sf st_geometry_type st_coordinates
 #' @export
@@ -247,9 +241,6 @@ setMethod(f = "getPoints",
 
 # ppp ----
 #' @rdname getPoints
-#' @examples
-#'
-#' getPoints(gtPPP)
 #' @export
 setMethod(f = "getPoints",
           signature = "ppp",
@@ -263,9 +254,6 @@ setMethod(f = "getPoints",
 
 # Raster ----
 #' @rdname getPoints
-#' @examples
-#'
-#' getPoints(gtRasters$categorical)
 #' @importFrom tibble tibble as_tibble
 #' @importFrom raster res
 #' @export

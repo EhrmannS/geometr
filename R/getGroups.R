@@ -3,11 +3,17 @@
 #' Get tabular information of the attributes of groups of features.
 #' @param x the object from which to derive the attribute table.
 #' @param ... subset based on logical predicates defined in terms of the
-#'   variables in \code{x} or a vector of booleans. Multiple conditions are
-#'   combined with &. Only rows where the condition evaluates to TRUE are kept.
+#'   columns in \code{x} or a vector of booleans. Multiple conditions are
+#'   combined with \code{&}. Only rows where the condition evaluates to TRUE are kept.
 #' @return A table of the group attributes of \code{x} or an object where the
 #'   groups table has been subsetted.
 #' @family getters
+#' @examples
+#' getGroups(x = gtGeoms$polygon)
+#'
+#' # for gridded objects (raster) groups are likewise unique values,
+#' # with attributes (raster attribute table)
+#' getGroups(x = gtRasters$categorical)
 #' @name getGroups
 #' @rdname getGroups
 NULL
@@ -36,8 +42,6 @@ setMethod(f = "getGroups",
 
 # geom ----
 #' @rdname getGroups
-#' @examples
-#' getGroups(x = gtGeoms$polygon)
 #' @importFrom tibble as_tibble
 #' @export
 setMethod(f = "getGroups",
@@ -95,9 +99,6 @@ setMethod(f = "getGroups",
 
 # Raster ----
 #' @rdname getGroups
-#' @examples
-#'
-#' getGroups(gtRasters$categorical)
 #' @importFrom tibble tibble as_tibble
 #' @export
 setMethod(f = "getGroups",
