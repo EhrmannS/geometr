@@ -78,7 +78,7 @@ setMethod(f = "getGroups",
                     out <- c(out, setNames(list(theInput), theName))
                   } else {
                     if(dim(theInput)[1] == 0){
-                      out <- NULL
+                      out <- theGroups[[1]]
                     } else {
                       out <- theInput
                     }
@@ -104,15 +104,14 @@ setMethod(f = "getGroups",
           signature = "Raster",
           definition = function(x){
             if(length(x@data@attributes) == 0){
-              vals <- sort(unique(getValues(x = x)))
-              tibble(gid = seq_along(vals), values = vals)
+              out <- tibble(gid = integer())
             } else{
               names <- names(x@data@attributes[[1]])
               names[which(names == "id")] <- "gid"
               out <- as_tibble(x@data@attributes[[1]])
               names(out) <- names
-              return(out)
             }
+            return(out)
           }
 )
 
