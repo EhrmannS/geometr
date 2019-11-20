@@ -24,7 +24,8 @@ test_that("getGroups of a 'geom'", {
   # ... layer without attribute table
   input <- gc_geom(gtRasters$continuous)
   output <- getGroups(input)
-  expect_null(object = output)
+  expect_data_frame(output, any.missing = FALSE, nrows = 0, ncols = 1)
+  expect_names(x = names(output), permutation.of = c("gid"))
 })
 
 test_that("getGroups with subset of a 'geom'", {
@@ -53,8 +54,8 @@ test_that("getGroups of a Raster* object", {
   # test RasterLayer without attribute table
   input <- gtRasters$continuous
   output <- getGroups(input)
-  expect_tibble(output, any.missing = FALSE, nrows = 91, ncols = 2)
-  expect_names(names(output), permutation.of = c("gid", "values"))
+  expect_data_frame(output, any.missing = FALSE, nrows = 0, ncols = 1)
+  expect_names(x = names(output), permutation.of = c("gid"))
 
   # test RasterLayer with attribute table
   input <- gtRasters$categorical
