@@ -144,7 +144,19 @@
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='no'>rasGeom</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='gc_geom.html'>gc_geom</a></span>(<span class='kw'>input</span> <span class='kw'>=</span> <span class='no'>gtRasters</span>$<span class='no'>categorical</span>)
 
-<span class='no'>aRaster</span> <span class='kw'>&lt;-</span> <span class='fu'>gc_raster</span>(<span class='kw'>input</span> <span class='kw'>=</span> <span class='no'>rasGeom</span>)</div></pre>
+<span class='fu'>gc_raster</span>(<span class='kw'>input</span> <span class='kw'>=</span> <span class='no'>rasGeom</span>)</div><div class='output co'>#&gt; class      : RasterLayer 
+#&gt; dimensions : 56, 60, 3360  (nrow, ncol, ncell)
+#&gt; resolution : 1, 1  (x, y)
+#&gt; extent     : 0, 60, 0, 56  (xmin, xmax, ymin, ymax)
+#&gt; crs        : NA 
+#&gt; source     : memory
+#&gt; names      : layer 
+#&gt; values     : 1, 47  (min, max)
+#&gt; attributes :
+#&gt;        gid        cover
+#&gt;  from:   1         lake
+#&gt;   to :  47 mixed forest
+#&gt; </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

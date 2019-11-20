@@ -142,13 +142,15 @@
   <code><a href='gc_raster.html'>gc_raster</a></code>, <code><a href='gc_sf.html'>gc_sf</a></code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'>(<span class='no'>spPoints</span> <span class='kw'>&lt;-</span> <span class='fu'>gc_sp</span>(<span class='kw'>input</span> <span class='kw'>=</span> <span class='no'>gtGeoms</span>$<span class='no'>point</span>))</div><div class='output co'>#&gt; class       : SpatialPoints 
+    <pre class="examples"><div class='input'><span class='fu'>gc_sp</span>(<span class='kw'>input</span> <span class='kw'>=</span> <span class='no'>gtGeoms</span>$<span class='no'>point</span>)</div><div class='output co'>#&gt; class       : SpatialPoints 
 #&gt; features    : 12 
 #&gt; extent      : 0, 12, 0, 12  (xmin, xmax, ymin, ymax)
-#&gt; crs         : NA </div><div class='input'>(<span class='no'>spLines</span> <span class='kw'>&lt;-</span> <span class='fu'>gc_sp</span>(<span class='kw'>input</span> <span class='kw'>=</span> <span class='no'>gtGeoms</span>$<span class='no'>line</span>))</div><div class='output co'>#&gt; class       : SpatialLines 
+#&gt; crs         : NA </div><div class='input'>
+<span class='fu'>gc_sp</span>(<span class='kw'>input</span> <span class='kw'>=</span> <span class='no'>gtGeoms</span>$<span class='no'>line</span>)</div><div class='output co'>#&gt; class       : SpatialLines 
 #&gt; features    : 3 
 #&gt; extent      : 0, 12, 0, 12  (xmin, xmax, ymin, ymax)
-#&gt; crs         : NA </div><div class='input'>(<span class='no'>spPolygon</span> <span class='kw'>&lt;-</span> <span class='fu'>gc_sp</span>(<span class='kw'>input</span> <span class='kw'>=</span> <span class='no'>gtGeoms</span>$<span class='no'>polygon</span>))</div><div class='output co'>#&gt; class       : SpatialPolygons 
+#&gt; crs         : NA </div><div class='input'>
+<span class='fu'>gc_sp</span>(<span class='kw'>input</span> <span class='kw'>=</span> <span class='no'>gtGeoms</span>$<span class='no'>polygon</span>)</div><div class='output co'>#&gt; class       : SpatialPolygons 
 #&gt; features    : 2 
 #&gt; extent      : 0, 12, 0, 12  (xmin, xmax, ymin, ymax)
 #&gt; crs         : NA </div></pre>

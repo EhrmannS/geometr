@@ -162,7 +162,7 @@ per-feature attributes (<code>FALSE</code>, default)?</p></td>
   <code><a href='gc_sf.html'>gc_sf</a></code>, <code><a href='gc_sp.html'>gc_sp</a></code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'>(<span class='no'>geomPoints</span> <span class='kw'>&lt;-</span> <span class='fu'>gc_geom</span>(<span class='kw'>input</span> <span class='kw'>=</span> <span class='no'>gtPPP</span>))</div><div class='output co'>#&gt; <span style='color: #BBBB00;'>geom</span><span>        point
+    <pre class="examples"><div class='input'><span class='fu'>gc_geom</span>(<span class='kw'>input</span> <span class='kw'>=</span> <span class='no'>gtPPP</span>)</div><div class='output co'>#&gt; <span style='color: #BBBB00;'>geom</span><span>        point
 #&gt;             15 features | 15 points
 #&gt; </span><span style='color: #BBBB00;'>crs         </span><span>cartesian
 #&gt; </span><span style='color: #BBBB00;'>attributes</span><span>  --
@@ -171,7 +171,8 @@ per-feature attributes (<code>FALSE</code>, default)?</p></td>
 #&gt;               ◌ ◌ ◌ ◌    
 #&gt;               ◌ ◌ ◌ ◌    
 #&gt;             0 ◉ ◌ ◌ ○ 12 
-#&gt;               0 </div><div class='input'>(<span class='no'>geomPoly</span> <span class='kw'>&lt;-</span> <span class='fu'>gc_geom</span>(<span class='kw'>input</span> <span class='kw'>=</span> <span class='no'>gtSF</span>$<span class='no'>polygon</span>))</div><div class='output co'>#&gt; </span><span style='color: #BBBB00;'>geom</span><span>        polygon
+#&gt;               0 </div><div class='input'>
+<span class='fu'>gc_geom</span>(<span class='kw'>input</span> <span class='kw'>=</span> <span class='no'>gtSF</span>$<span class='no'>polygon</span>)</div><div class='output co'>#&gt; </span><span style='color: #BBBB00;'>geom</span><span>        polygon
 #&gt;             2 features | 15 points
 #&gt; </span><span style='color: #BBBB00;'>crs         </span><span>cartesian
 #&gt; </span><span style='color: #BBBB00;'>attributes</span><span>  (features) a
@@ -180,15 +181,16 @@ per-feature attributes (<code>FALSE</code>, default)?</p></td>
 #&gt;               ◌ ◌ ◌ ◌    
 #&gt;               ◌ ◌ ◌ ◌    
 #&gt;             0 ◉ ◌ ◌ ○ 12 
-#&gt;               0 </div><div class='input'>(<span class='no'>geomLine</span> <span class='kw'>&lt;-</span> <span class='fu'>gc_geom</span>(<span class='kw'>input</span> <span class='kw'>=</span> <span class='no'>gtSP</span>$<span class='no'>SpatialLinesDataFrame</span>))</div><div class='output co'>#&gt; </span><span style='color: #BBBB00;'>geom</span><span>        line
-#&gt;             2 features | 8 points
+#&gt;               0 </div><div class='input'>
+<span class='fu'>gc_geom</span>(<span class='kw'>input</span> <span class='kw'>=</span> <span class='no'>gtRasters</span>$<span class='no'>categorical</span>)</div><div class='output co'>#&gt; </span><span style='color: #BBBB00;'>geom</span><span>        grid
+#&gt;             1 layer | 3360 cells
 #&gt; </span><span style='color: #BBBB00;'>crs         </span><span>cartesian
-#&gt; </span><span style='color: #BBBB00;'>attributes</span><span>  (features) a
-#&gt; </span><span style='color: #BBBB00;'>tiny map  </span><span>    10 
-#&gt;               ○ ◌ ◌ ○    
+#&gt; </span><span style='color: #BBBB00;'>attributes</span><span>  cover
+#&gt; </span><span style='color: #BBBB00;'>tiny map  </span><span>    56 
 #&gt;               ◌ ◌ ◌ ◌    
 #&gt;               ◌ ◌ ◌ ◌    
-#&gt;             0 ◉ ◌ ◌ ○ 10 
+#&gt;               ◌ ◌ ◌ ◌    
+#&gt;             0 ◌ ◌ ◌ ◌ 60 
 #&gt;               0 </div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

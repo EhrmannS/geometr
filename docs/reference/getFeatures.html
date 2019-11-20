@@ -151,8 +151,8 @@
     <tr>
       <th>...</th>
       <td><p>subset based on logical predicates defined in terms of the
-variables in <code>x</code> or a vector of booleans. Multiple conditions are
-combined with &amp;. Only rows where the condition evaluates to TRUE are kept.</p></td>
+columns in <code>x</code> or a vector of booleans. Multiple conditions are
+combined with <code>&amp;</code>. Only rows where the condition evaluates to TRUE are kept.</p></td>
     </tr>
     </table>
 
@@ -174,53 +174,28 @@ combined with &amp;. Only rows where the condition evaluates to TRUE are kept.</
 #&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span>
 #&gt; </span><span style='color: #BCBCBC;'>1</span><span>     1     1
 #&gt; </span><span style='color: #BCBCBC;'>2</span><span>     2     2</div><div class='input'>
-<span class='fu'>getFeatures</span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>gtSP</span>$<span class='no'>SpatialPolygons</span>)</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 2 x 2</span><span>
-#&gt;     fid   gid
-#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'>1</span><span>     1     1
-#&gt; </span><span style='color: #BCBCBC;'>2</span><span>     2     2</div><div class='input'>
-<span class='fu'>getFeatures</span>(<span class='no'>gtSF</span>$<span class='no'>multiline</span>)</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 3 x 3</span><span>
-#&gt;     fid   gid     a
-#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'>1</span><span>     1     1     1
-#&gt; </span><span style='color: #BCBCBC;'>2</span><span>     2     1     1
-#&gt; </span><span style='color: #BCBCBC;'>3</span><span>     3     2     2</div><div class='input'>
-<span class='fu'>getFeatures</span>(<span class='no'>gtPPP</span>)</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 15 x 2</span><span>
-#&gt;      fid   gid
-#&gt;    </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'> 1</span><span>     1     1
-#&gt; </span><span style='color: #BCBCBC;'> 2</span><span>     2     2
-#&gt; </span><span style='color: #BCBCBC;'> 3</span><span>     3     3
-#&gt; </span><span style='color: #BCBCBC;'> 4</span><span>     4     4
-#&gt; </span><span style='color: #BCBCBC;'> 5</span><span>     5     5
-#&gt; </span><span style='color: #BCBCBC;'> 6</span><span>     6     6
-#&gt; </span><span style='color: #BCBCBC;'> 7</span><span>     7     7
-#&gt; </span><span style='color: #BCBCBC;'> 8</span><span>     8     8
-#&gt; </span><span style='color: #BCBCBC;'> 9</span><span>     9     9
-#&gt; </span><span style='color: #BCBCBC;'>10</span><span>    10    10
-#&gt; </span><span style='color: #BCBCBC;'>11</span><span>    11    11
-#&gt; </span><span style='color: #BCBCBC;'>12</span><span>    12    12
-#&gt; </span><span style='color: #BCBCBC;'>13</span><span>    13    13
-#&gt; </span><span style='color: #BCBCBC;'>14</span><span>    14    14
-#&gt; </span><span style='color: #BCBCBC;'>15</span><span>    15    15</div><div class='input'>
-<span class='fu'>getFeatures</span>(<span class='no'>gtPPP</span>)</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 15 x 2</span><span>
-#&gt;      fid   gid
-#&gt;    </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'> 1</span><span>     1     1
-#&gt; </span><span style='color: #BCBCBC;'> 2</span><span>     2     2
-#&gt; </span><span style='color: #BCBCBC;'> 3</span><span>     3     3
-#&gt; </span><span style='color: #BCBCBC;'> 4</span><span>     4     4
-#&gt; </span><span style='color: #BCBCBC;'> 5</span><span>     5     5
-#&gt; </span><span style='color: #BCBCBC;'> 6</span><span>     6     6
-#&gt; </span><span style='color: #BCBCBC;'> 7</span><span>     7     7
-#&gt; </span><span style='color: #BCBCBC;'> 8</span><span>     8     8
-#&gt; </span><span style='color: #BCBCBC;'> 9</span><span>     9     9
-#&gt; </span><span style='color: #BCBCBC;'>10</span><span>    10    10
-#&gt; </span><span style='color: #BCBCBC;'>11</span><span>    11    11
-#&gt; </span><span style='color: #BCBCBC;'>12</span><span>    12    12
-#&gt; </span><span style='color: #BCBCBC;'>13</span><span>    13    13
-#&gt; </span><span style='color: #BCBCBC;'>14</span><span>    14    14
-#&gt; </span><span style='color: #BCBCBC;'>15</span><span>    15    15</div></span></pre>
+<span class='fu'>getFeatures</span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>gtSF</span>$<span class='no'>multilinestring</span>, <span class='no'>a</span> <span class='kw'>==</span> <span class='fl'>1</span>)</div><div class='output co'>#&gt; Simple feature collection with 1 feature and 1 field
+#&gt; geometry type:  MULTILINESTRING
+#&gt; dimension:      XY
+#&gt; bbox:           xmin: 0 ymin: 0 xmax: 10 ymax: 10
+#&gt; epsg (SRID):    NA
+#&gt; proj4string:    NA
+#&gt;   a                       geometry
+#&gt; 1 1 MULTILINESTRING ((0 0, 0 10...</div><div class='input'>
+<span class='fu'>getFeatures</span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>gtRasters</span>$<span class='no'>continuous</span>)</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 3,360 x 3</span><span>
+#&gt;      fid   gid values
+#&gt;    </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span>  </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span>
+#&gt; </span><span style='color: #BCBCBC;'> 1</span><span>     1     1     21
+#&gt; </span><span style='color: #BCBCBC;'> 2</span><span>     2     2     25
+#&gt; </span><span style='color: #BCBCBC;'> 3</span><span>     3     3     55
+#&gt; </span><span style='color: #BCBCBC;'> 4</span><span>     4     4     45
+#&gt; </span><span style='color: #BCBCBC;'> 5</span><span>     5     5     77
+#&gt; </span><span style='color: #BCBCBC;'> 6</span><span>     6     6     79
+#&gt; </span><span style='color: #BCBCBC;'> 7</span><span>     7     7     75
+#&gt; </span><span style='color: #BCBCBC;'> 8</span><span>     8     8     79
+#&gt; </span><span style='color: #BCBCBC;'> 9</span><span>     9     9     50
+#&gt; </span><span style='color: #BCBCBC;'>10</span><span>    10    10     77
+#&gt; </span><span style='color: #949494;'># … with 3,350 more rows</span><span></div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

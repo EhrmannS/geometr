@@ -142,8 +142,8 @@
     <tr>
       <th>...</th>
       <td><p>subset based on logical predicates defined in terms of the
-variables in <code>x</code> or a vector of booleans. Multiple conditions are
-combined with &amp;. Only rows where the condition evaluates to TRUE are kept.</p></td>
+columns in <code>x</code> or a vector of booleans. Multiple conditions are
+combined with <code>&amp;</code>. Only rows where the condition evaluates to TRUE are kept.</p></td>
     </tr>
     </table>
 
@@ -165,7 +165,9 @@ combined with &amp;. Only rows where the condition evaluates to TRUE are kept.</
 #&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
 #&gt; </span><span style='color: #BCBCBC;'>1</span><span>     1
 #&gt; </span><span style='color: #BCBCBC;'>2</span><span>     2</div><div class='input'>
-<span class='fu'>getGroups</span>(<span class='no'>gtRasters</span>$<span class='no'>categorical</span>)</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 9 x 2</span><span>
+<span class='co'># for gridded objects (raster) groups are likewise unique values,</span>
+<span class='co'># with attributes (raster attribute table)</span>
+<span class='fu'>getGroups</span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>gtRasters</span>$<span class='no'>categorical</span>)</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 9 x 2</span><span>
 #&gt;     gid cover            
 #&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;fct&gt;</span><span>            
 #&gt; </span><span style='color: #BCBCBC;'>1</span><span>     1 lake             

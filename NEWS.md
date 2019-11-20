@@ -12,8 +12,11 @@ The following functions have been modified:
 - `getFeatures()` for grid geoms reconstructs fid for points and extracts rle tables, if they exist.
 - `makeObject()` is not a generic anymore but is now a function based on getters. That means that any class that has the respective getters defined, can be plotted with `visualise()` (which includes now sf and sp objects).
 - `getSubset()` has been integrated into the respective getters, i.e., to get a subset of points, use `getPoints(x, fid == 1)`, etc.
-- new function `gc_raster()` to transform a grid geom to an object of class `Raster*`.
-- new function `getRes()` to get the resolution of a gridded object.
+
+The following functions are new:
+
+- `gc_raster()` to transform a grid geom to an object of class `Raster*`.
+- `getRes()` to get the resolution of a gridded object.
 
 
 # geometr 0.1.0

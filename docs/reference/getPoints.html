@@ -151,8 +151,8 @@
     <tr>
       <th>...</th>
       <td><p>subset based on logical predicates defined in terms of the
-variables in <code>x</code> or a vector of booleans. Multiple conditions are
-combined with &amp;. Only rows where the condition evaluates to TRUE are kept.</p></td>
+columns in <code>x</code> or a vector of booleans. Multiple conditions are
+combined with <code>&amp;</code>. Only rows where the condition evaluates to TRUE are kept.</p></td>
     </tr>
     </table>
 
@@ -169,7 +169,7 @@ combined with &amp;. Only rows where the condition evaluates to TRUE are kept.</
   <code><a href='getWindow.html'>getWindow</a></code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>getPoints</span>(<span class='no'>gtGeoms</span>$<span class='no'>polygon</span>)</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 15 x 3</span><span>
+    <pre class="examples"><div class='input'><span class='fu'>getPoints</span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>gtGeoms</span>$<span class='no'>polygon</span>)</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 15 x 3</span><span>
 #&gt;        x     y   fid
 #&gt;    </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span>
 #&gt; </span><span style='color: #BCBCBC;'> 1</span><span>     0     0     1
@@ -186,61 +186,7 @@ combined with &amp;. Only rows where the condition evaluates to TRUE are kept.</
 #&gt; </span><span style='color: #BCBCBC;'>12</span><span>    11    12     2
 #&gt; </span><span style='color: #BCBCBC;'>13</span><span>    12    12     2
 #&gt; </span><span style='color: #BCBCBC;'>14</span><span>    12    11     2
-#&gt; </span><span style='color: #BCBCBC;'>15</span><span>    11    11     2</div><div class='input'>
-<span class='fu'>getPoints</span>(<span class='no'>gtSP</span>$<span class='no'>SpatialPoints</span>)</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 4 x 3</span><span>
-#&gt;       x     y   fid
-#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'>1</span><span>     0     0     1
-#&gt; </span><span style='color: #BCBCBC;'>2</span><span>    10     0     2
-#&gt; </span><span style='color: #BCBCBC;'>3</span><span>    10    10     3
-#&gt; </span><span style='color: #BCBCBC;'>4</span><span>     0    10     4</div><div class='input'>
-<span class='fu'>getPoints</span>(<span class='no'>gtSF</span>$<span class='no'>multilinestring</span>)</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 12 x 3</span><span>
-#&gt;        x     y   fid
-#&gt;    </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'> 1</span><span>     0     0     1
-#&gt; </span><span style='color: #BCBCBC;'> 2</span><span>     0    10     1
-#&gt; </span><span style='color: #BCBCBC;'> 3</span><span>    10    10     1
-#&gt; </span><span style='color: #BCBCBC;'> 4</span><span>    10     0     1
-#&gt; </span><span style='color: #BCBCBC;'> 5</span><span>     1     1     2
-#&gt; </span><span style='color: #BCBCBC;'> 6</span><span>     1     2     2
-#&gt; </span><span style='color: #BCBCBC;'> 7</span><span>     2     2     2
-#&gt; </span><span style='color: #BCBCBC;'> 8</span><span>     2     1     2
-#&gt; </span><span style='color: #BCBCBC;'> 9</span><span>    11    11     3
-#&gt; </span><span style='color: #BCBCBC;'>10</span><span>    11    12     3
-#&gt; </span><span style='color: #BCBCBC;'>11</span><span>    12    12     3
-#&gt; </span><span style='color: #BCBCBC;'>12</span><span>    12    11     3</div><div class='input'>
-<span class='fu'>getPoints</span>(<span class='no'>gtPPP</span>)</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 15 x 3</span><span>
-#&gt;        x     y   fid
-#&gt;    </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'> 1</span><span>     0     0     1
-#&gt; </span><span style='color: #BCBCBC;'> 2</span><span>    10     0     2
-#&gt; </span><span style='color: #BCBCBC;'> 3</span><span>    10    10     3
-#&gt; </span><span style='color: #BCBCBC;'> 4</span><span>     0    10     4
-#&gt; </span><span style='color: #BCBCBC;'> 5</span><span>     0     0     5
-#&gt; </span><span style='color: #BCBCBC;'> 6</span><span>     1     1     6
-#&gt; </span><span style='color: #BCBCBC;'> 7</span><span>     1     2     7
-#&gt; </span><span style='color: #BCBCBC;'> 8</span><span>     2     2     8
-#&gt; </span><span style='color: #BCBCBC;'> 9</span><span>     2     1     9
-#&gt; </span><span style='color: #BCBCBC;'>10</span><span>     1     1    10
-#&gt; </span><span style='color: #BCBCBC;'>11</span><span>    11    11    11
-#&gt; </span><span style='color: #BCBCBC;'>12</span><span>    11    12    12
-#&gt; </span><span style='color: #BCBCBC;'>13</span><span>    12    12    13
-#&gt; </span><span style='color: #BCBCBC;'>14</span><span>    12    11    14
-#&gt; </span><span style='color: #BCBCBC;'>15</span><span>    11    11    15</div><div class='input'>
-<span class='fu'>getPoints</span>(<span class='no'>gtRasters</span>$<span class='no'>categorical</span>)</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 3,360 x 3</span><span>
-#&gt;        x     y   fid
-#&gt;    </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'> 1</span><span>   0.5   0.5     1
-#&gt; </span><span style='color: #BCBCBC;'> 2</span><span>   1.5   0.5     2
-#&gt; </span><span style='color: #BCBCBC;'> 3</span><span>   2.5   0.5     3
-#&gt; </span><span style='color: #BCBCBC;'> 4</span><span>   3.5   0.5     4
-#&gt; </span><span style='color: #BCBCBC;'> 5</span><span>   4.5   0.5     5
-#&gt; </span><span style='color: #BCBCBC;'> 6</span><span>   5.5   0.5     6
-#&gt; </span><span style='color: #BCBCBC;'> 7</span><span>   6.5   0.5     7
-#&gt; </span><span style='color: #BCBCBC;'> 8</span><span>   7.5   0.5     8
-#&gt; </span><span style='color: #BCBCBC;'> 9</span><span>   8.5   0.5     9
-#&gt; </span><span style='color: #BCBCBC;'>10</span><span>   9.5   0.5    10
-#&gt; </span><span style='color: #949494;'># … with 3,350 more rows</span><span></div></span></pre>
+#&gt; </span><span style='color: #BCBCBC;'>15</span><span>    11    11     2</div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
