@@ -278,8 +278,8 @@ makeObject <- function(x, window = NULL, image = FALSE, theme = gtTheme, ...){
                          y = c(min(theWindow$y), max(theWindow$y)))
 
     if(all(c("raster", "grid") %in% featureType)){
-      out$rows <- x@point$y[2] * x@point$y[3]
-      out$cols <- x@point$x[2] * x@point$x[3]
+      out$rows <- x@point$y[2]
+      out$cols <- x@point$x[2]
     } else {
       out$rows <- dim(x)[1]
       out$cols <- dim(x)[2]
