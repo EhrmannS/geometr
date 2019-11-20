@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Get the coordinate reference system of a spatial object. — getCRS • geometr</title>
+<title>Get the spatial resolution of a spatial object. — getRes • geometr</title>
 
 
 <!-- jquery -->
@@ -35,8 +35,8 @@
 
 
 
-<meta property="og:title" content="Get the coordinate reference system of a spatial object. — getCRS" />
-<meta property="og:description" content="Get the coordinate reference system of a spatial object." />
+<meta property="og:title" content="Get the spatial resolution of a spatial object. — getRes" />
+<meta property="og:description" content="Get the spatial resolution of a spatial object." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -111,51 +111,45 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Get the coordinate reference system of a spatial object.</h1>
-    <small class="dont-index">Source: <a href='https://github.com/EhrmannS/geometr/blob/master/R/getCRS.R'><code>R/getCRS.R</code></a></small>
-    <div class="hidden name"><code>getCRS.Rd</code></div>
+    <h1>Get the spatial resolution of a spatial object.</h1>
+    <small class="dont-index">Source: <a href='https://github.com/EhrmannS/geometr/blob/master/R/getRes.R'><code>R/getRes.R</code></a></small>
+    <div class="hidden name"><code>getRes.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Get the coordinate reference system of a spatial object.</p>
+    <p>Get the spatial resolution of a spatial object.</p>
     </div>
 
     <pre class="usage"><span class='co'># S4 method for ANY</span>
-<span class='fu'>getCRS</span>(<span class='no'>x</span>)
+<span class='fu'>getRes</span>(<span class='no'>x</span>)
 
 <span class='co'># S4 method for geom</span>
-<span class='fu'>getCRS</span>(<span class='no'>x</span>)
-
-<span class='co'># S4 method for Spatial</span>
-<span class='fu'>getCRS</span>(<span class='no'>x</span>)
-
-<span class='co'># S4 method for sf</span>
-<span class='fu'>getCRS</span>(<span class='no'>x</span>)
-
-<span class='co'># S4 method for ppp</span>
-<span class='fu'>getCRS</span>(<span class='no'>x</span>)
+<span class='fu'>getRes</span>(<span class='no'>x</span>)
 
 <span class='co'># S4 method for Raster</span>
-<span class='fu'>getCRS</span>(<span class='no'>x</span>)</pre>
+<span class='fu'>getRes</span>(<span class='no'>x</span>)
+
+<span class='co'># S4 method for matrix</span>
+<span class='fu'>getRes</span>(<span class='no'>x</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>x</th>
-      <td><p>the object from which to extract the coordinate reference system.</p></td>
+      <td><p>the object from which to derive the resolution.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>The coordinate reference system of <code>x</code> given as proj4string.</p>
+    <p>The resolution of <code>x</code> in x and y dimension.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p>Other getters: <code><a href='getExtent.html'>getExtent</a></code>,
-  <code><a href='getFeatures.html'>getFeatures</a></code>, <code><a href='getGroups.html'>getGroups</a></code>,
-  <code><a href='getHistory.html'>getHistory</a></code>, <code><a href='getPoints.html'>getPoints</a></code>,
-  <code><a href='getRes.html'>getRes</a></code>, <code><a href='getType.html'>getType</a></code>,
+    <div class='dont-index'><p>Other getters: <code><a href='getCRS.html'>getCRS</a></code>,
+  <code><a href='getExtent.html'>getExtent</a></code>, <code><a href='getFeatures.html'>getFeatures</a></code>,
+  <code><a href='getGroups.html'>getGroups</a></code>, <code><a href='getHistory.html'>getHistory</a></code>,
+  <code><a href='getPoints.html'>getPoints</a></code>, <code><a href='getType.html'>getType</a></code>,
   <code><a href='getWindow.html'>getWindow</a></code></p></div>
 
   </div>
