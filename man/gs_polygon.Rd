@@ -101,9 +101,6 @@ gs_polygon(anchor = coords, vertices = 6, window = window,
            regular = TRUE) \%>\%
   visualise(linecol = "green")
 
-# if a plot is already open, vertices are set relative to its' window
-visualise(geom = gs_triangle(anchor = coords), new = FALSE)
-
 # when a geom is used in 'anchor', its properties are passed on
 aGeom <- setWindow(x = aGeom, to = window)
 gs_polygon(anchor = aGeom) \%>\%

@@ -53,9 +53,6 @@ window <- data.frame(x = c(0, 80),
 gs_point(anchor = coords, window = window) \%>\%
   visualise(linecol = "green")
 
-# if a plot is already open, vertices are set relative to its' window
-visualise(geom = gs_point(anchor = coords), new = FALSE)
-
 # when a geom is used in 'anchor', its properties are passed on
 aGeom <- setWindow(x = aGeom, to = window)
 gs_point(anchor = aGeom) \%>\%
@@ -65,7 +62,7 @@ gs_point(anchor = aGeom) \%>\%
 
 # sketch two points by clicking into a template
 gs_point(sketch = gtRasters$continuous, vertices = 2) \%>\%
-  visualise(geom = pts, linecol = "orange", pointsymbol = 5, new = FALSE)
+  visualise(geom = ., linecol = "green", pointsymbol = 5, new = FALSE)
 }
 }
 \seealso{

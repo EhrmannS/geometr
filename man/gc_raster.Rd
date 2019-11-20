@@ -20,7 +20,7 @@ Transform a spatial object to class \code{Raster*}
 \examples{
 rasGeom <- gc_geom(input = gtRasters$categorical)
 
-aRaster <- gc_raster(input = rasGeom)
+gc_raster(input = rasGeom)
 }
 \seealso{
 Other spatial classes: \code{\link{gc_geom}},

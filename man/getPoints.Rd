@@ -30,8 +30,8 @@
 \item{x}{the object from which to derive the attribute table.}
 
 \item{...}{subset based on logical predicates defined in terms of the
-variables in \code{x} or a vector of booleans. Multiple conditions are
-combined with &. Only rows where the condition evaluates to TRUE are kept.}
+columns in \code{x} or a vector of booleans. Multiple conditions are
+combined with \code{&}. Only rows where the condition evaluates to TRUE are kept.}
 }
 \value{
 A table of the point attributes of \code{x} or an object where the
@@ -41,15 +41,7 @@ A table of the point attributes of \code{x} or an object where the
 Get tabular information of the attributes of points (incl. coordinates).
 }
 \examples{
-getPoints(gtGeoms$polygon)
-
-getPoints(gtSP$SpatialPoints)
-
-getPoints(gtSF$multilinestring)
-
-getPoints(gtPPP)
-
-getPoints(gtRasters$categorical)
+getPoints(x = gtGeoms$polygon)
 }
 \seealso{
 Other getters: \code{\link{getCRS}},

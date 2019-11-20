@@ -18,9 +18,11 @@ an object of class \code{Spatial}
 Transform a spatial object to class \code{Spatial}
 }
 \examples{
-(spPoints <- gc_sp(input = gtGeoms$point))
-(spLines <- gc_sp(input = gtGeoms$line))
-(spPolygon <- gc_sp(input = gtGeoms$polygon))
+gc_sp(input = gtGeoms$point)
+
+gc_sp(input = gtGeoms$line)
+
+gc_sp(input = gtGeoms$polygon)
 }
 \seealso{
 Other spatial classes: \code{\link{gc_geom}},

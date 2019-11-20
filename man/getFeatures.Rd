@@ -30,8 +30,8 @@
 \item{x}{the object from which to derive the attribute table.}
 
 \item{...}{subset based on logical predicates defined in terms of the
-variables in \code{x} or a vector of booleans. Multiple conditions are
-combined with &. Only rows where the condition evaluates to TRUE are kept.}
+columns in \code{x} or a vector of booleans. Multiple conditions are
+combined with \code{&}. Only rows where the condition evaluates to TRUE are kept.}
 }
 \value{
 A table of the feature attributes of \code{x} or an object where the
@@ -43,13 +43,9 @@ Get tabular information of the attributes of features.
 \examples{
 getFeatures(x = gtGeoms$polygon)
 
-getFeatures(x = gtSP$SpatialPolygons)
+getFeatures(x = gtSF$multilinestring, a == 1)
 
-getFeatures(gtSF$multiline)
-
-getFeatures(gtPPP)
-
-getFeatures(gtPPP)
+getFeatures(x = gtRasters$continuous)
 }
 \seealso{
 Other getters: \code{\link{getCRS}},

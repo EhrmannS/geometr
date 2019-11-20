@@ -21,8 +21,8 @@
 \item{x}{the object from which to derive the attribute table.}
 
 \item{...}{subset based on logical predicates defined in terms of the
-variables in \code{x} or a vector of booleans. Multiple conditions are
-combined with &. Only rows where the condition evaluates to TRUE are kept.}
+columns in \code{x} or a vector of booleans. Multiple conditions are
+combined with \code{&}. Only rows where the condition evaluates to TRUE are kept.}
 }
 \value{
 A table of the group attributes of \code{x} or an object where the
@@ -34,7 +34,9 @@ Get tabular information of the attributes of groups of features.
 \examples{
 getGroups(x = gtGeoms$polygon)
 
-getGroups(gtRasters$categorical)
+# for gridded objects (raster) groups are likewise unique values,
+# with attributes (raster attribute table)
+getGroups(x = gtRasters$categorical)
 }
 \seealso{
 Other getters: \code{\link{getCRS}},

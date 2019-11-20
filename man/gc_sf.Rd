@@ -22,9 +22,11 @@ If \code{input} is a \code{geom} and has attributes other than
 Transform a spatial object to class \code{sf}
 }
 \examples{
-(sfPoints <- gc_sf(input = gtGeoms$point))
-(sfLines <- gc_sf(input = gtGeoms$line))
-(sfPolygon <- gc_sf(input = gtGeoms$polygon))
+gc_sf(input = gtGeoms$point)
+
+gc_sf(input = gtGeoms$line)
+
+gc_sf(input = gtGeoms$polygon)
 }
 \seealso{
 Other spatial classes: \code{\link{gc_geom}},
