@@ -237,24 +237,10 @@ makeObject <- function(x, window = NULL, image = FALSE, theme = gtTheme, ...){
       } else{
         nrVals <- 256
       }
-
-      if(featureType[2] == "matrix") {
-        allColours <- colorRampPalette(colors = targetColours)(nrVals)
-        breaksTemp <- c(allValues[1]-1, seq(allValues[1], allValues[[length(allValues)]], length.out = nrVals))
-      } else if(grepl(x = featureType[2], pattern = "Raster")){
-        if(as.logical(length(x@legend@colortable))){
-          allColours <- x@legend@colortable[allValues]
-          breaksTemp <- c(allValues[1]-1, allValues)
-        } else if(x@data@isfactor){
-          allColours <- colorRampPalette(colors = targetColours)(nrVals)
-          idPos <- grep("id", colnames(attr), ignore.case = TRUE)
-          breaksTemp <- c(allValues[1]-1, attr[[idPos]])
-        } else {
-          allColours <- colorRampPalette(colors = targetColours)(nrVals)
-          breaksTemp <- c(allValues[1]-1, seq(allValues[1], allValues[[length(allValues)]], length.out = nrVals))
-        }
-      }
-
+      # make palette of all values in the theme, determine breaking points as
+      # values of the raster and "intersect" the palette with them
+      allColours <- colorRampPalette(colors = targetColours)(nrVals)
+      breaksTemp <- c(allValues[1]-1, allValues)
       valCuts <- cut(vals, breaks = breaksTemp, include.lowest = TRUE)
       theColours <- allColours[valCuts]
     }
@@ -290,8 +276,14 @@ makeObject <- function(x, window = NULL, image = FALSE, theme = gtTheme, ...){
     out$extent <- getExtent(x = x)
     out$window <- tibble(x = c(min(theWindow$x), max(theWindow$x)),
                          y = c(min(theWindow$y), max(theWindow$y)))
-    out$rows <- dim(x)[1]
-    out$cols <- dim(x)[2]
+
+    if(all(c("raster", "grid") %in% featureType)){
+      out$rows <- x@point$y[2] * x@point$y[3]
+      out$cols <- x@point$x[2] * x@point$x[3]
+    } else {
+      out$rows <- dim(x)[1]
+      out$cols <- dim(x)[2]
+    }
 
   }
 
