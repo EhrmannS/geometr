@@ -176,7 +176,7 @@ setMethod(f = "gc_geom",
               theInput <- input[[i]]
               theName <- names(input)[i]
 
-              rawVal <- theInput@data@values
+              rawVal <- getFeatures(x = theInput)$values
               rleVal <- rle(rawVal)
               if(object.size(rleVal) > object.size(rawVal)){
                 tempFeatures <- tibble(values = rawVal)
