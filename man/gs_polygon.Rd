@@ -97,8 +97,6 @@ coords <- data.frame(x = c(40, 70, 70, 50),
 library(magrittr)
 window <- data.frame(x = c(0, 80),
                      y = c(0, 80))
-gs_polygon(anchor = coords, vertices = 6, window = window,
-           regular = TRUE) \%>\%
   visualise(linecol = "green")
 
 # when a geom is used in 'anchor', its properties are passed on
