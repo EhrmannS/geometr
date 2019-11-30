@@ -8,6 +8,13 @@
 
 <title>Changelog • geometr</title>
 
+<!-- favicons -->
+<link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
+<link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png" />
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -36,6 +43,8 @@
 
 
 <meta property="og:title" content="Changelog" />
+<meta property="og:image" content="http://EhrmannS.github.io/geometr/logo.png" />
+<meta name="twitter:card" content="summary" />
 
 
 
@@ -139,8 +148,13 @@
 <code><a href="../reference/makeObject.html">makeObject()</a></code> is not a generic anymore but is now a function based on getters. That means that any class that has the respective getters defined, can be plotted with <code><a href="../reference/visualise.html">visualise()</a></code> (which includes now sf and sp objects).</li>
 <li>
 <code>getSubset()</code> has been integrated into the respective getters, i.e., to get a subset of points, use <code><a href="../reference/getPoints.html">getPoints(x, fid == 1)</a></code>, etc.</li>
-<li>new function <code><a href="../reference/gc_raster.html">gc_raster()</a></code> to transform a grid geom to an object of class <code>Raster*</code>.</li>
-<li>new function <code><a href="../reference/getRes.html">getRes()</a></code> to get the resolution of a gridded object.</li>
+</ul>
+<p>The following functions are new:</p>
+<ul>
+<li>
+<code><a href="../reference/gc_raster.html">gc_raster()</a></code> to transform a grid geom to an object of class <code>Raster*</code>.</li>
+<li>
+<code><a href="../reference/getRes.html">getRes()</a></code> to get the resolution of a gridded object.</li>
 </ul>
 </div>
     <div id="geometr-0-1-0" class="section level1">
