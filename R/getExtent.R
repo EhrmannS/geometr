@@ -42,8 +42,8 @@ setMethod(f = "getExtent",
 
             if(x@type == "grid"){
               temp <- x
-              out <- tibble(x = c(temp@point$x[1], temp@point$x[2]),
-                            y = c(temp@point$y[1], temp@point$y[2]))
+              out <- tibble(x = c(temp@point$x[1], temp@point$x[1] + temp@point$x[2]*temp@point$x[3]),
+                            y = c(temp@point$y[1], temp@point$y[1] + temp@point$y[2]*temp@point$y[3]))
             } else {
               thePoints <- getPoints(x = x)
               out <- tibble(x = c(min(thePoints$x), max(thePoints$x)),
