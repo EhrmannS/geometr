@@ -463,10 +463,10 @@ visualise <- function(..., window = NULL, theme = gtTheme, trace = FALSE, image 
                               name = "raster"))
         grid.clip(width = unit(1, "npc"),
                   height = unit(1, "npc"))
-        grid.raster(x = unit(0, "npc") - unit(pnl$xWindowOffset, "npc") * pnl$xFactor,
-                    y = unit(0, "npc") - unit(pnl$yWindowOffset, "npc") * pnl$yFactor,
-                    width = unit(pnl$xFactor, "npc"),
-                    height = unit(pnl$yFactor, "npc"),
+        grid.raster(x = unit(0, "npc"),# - unit(pnl$xWindowOffset, "npc") * pnl$xFactor,
+                    y = unit(0, "npc"),# - unit(pnl$yWindowOffset, "npc") * pnl$yFactor,
+                    # width = unit(pnl$xFactor, "npc"),
+                    # height = unit(pnl$yFactor, "npc"),
                     hjust = 0,
                     vjust = 0,
                     image = matrix(data = obj$values, nrow = obj$rows, ncol = obj$cols, byrow = TRUE),
