@@ -1,0 +1,102 @@
+---
+title: "Benchmarks"
+author: "Steffen Ehrmann"
+date: "`r Sys.Date()`"
+output: 
+  html_document:
+    toc: yes
+    toc_float: true
+    number_sections: true
+    fig_width: 7
+    fig_caption: true
+    theme: spacelab
+    highlight: pygments
+vignette: >
+  %\VignetteIndexEntry{benchmarks}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Introduction
+
+This script compares carries out benchmarks for diferent functions.
+
+```{r}
+# packages for testing
+library(bench)
+library(testthat)
+library(checkmate)
+library(geometr)
+library(raster)
+```
+
+## Objects to test
+
+First I create a couple of objects that will be tested.
+
+```{r, cache=TRUE}
+largeRaster <- getData("worldclim", var = "tmin", res = 10)$tmin1
+smallRaster <- gtRasters$categorical
+
+largeGridGeom <- gc_geom(input = largeRaster)
+smallGridGeom <- gtGeoms$grid$categorical
+```
+
+The objects have the following sizes
+
+```{r}
+getSize <- function(x){
+  temp <- object.size(x)
+  print(temp, units = "KB")
+}
+
+getSize(x = largeRaster)
+getSize(x = largeGridGeom)
+
+getSize(x = smallRaster)
+getSize(x = smallGridGeom)
+```
+
+`largeGridGeom` is the largest file, as it is recently loaded into memory entirely.
+However, `smallGridGeom` is smaller than `smallRaster`, so probably `largeGridGeom` is also smaller than `largeRaster`, once that is loaded into memory for plotting.
+
+# geom vs raster
+
+
+## getters
+
+```{r}
+mark(getCRS(x = largeGridGeom), getCRS(x = largeRaster), check = FALSE)
+
+mark(getExtent(x = largeGridGeom), getExtent(x = largeRaster), check = FALSE)
+
+mark(getFeatures(x = largeGridGeom), getFeatures(x = largeRaster), check = FALSE)
+
+mark(getGroups(x = largeGridGeom), getGroups(x = largeRaster), check = FALSE)
+
+mark(getHistory(x = largeGridGeom), getHistory(x = largeRaster), check = FALSE)
+
+mark(getPoints(x = largeGridGeom), getPoints(x = largeRaster), check = FALSE)
+
+mark(getRes(x = largeGridGeom), getRes(x = largeRaster), check = FALSE)
+
+mark(getType(x = largeGridGeom), getType(x = largeRaster), check = FALSE)
+
+mark(getWindow(x = largeGridGeom), getWindow(x = largeRaster), check = FALSE)
+```
+
+## visualise
+
+```{r, fig.show='hide', warning=FALSE}
+mark(visualise(smallGridGeom), visualise(smallRaster), check = FALSE, iterations = 10)
+mark(visualise(smallRaster), plot(smallRaster), check = FALSE, iterations = 10)
+```
+
+```{r, fig.show='hide', warning=FALSE, cache=TRUE}
+mark(visualise(largeGridGeom), visualise(largeRaster), check = FALSE, iterations = 10)
+mark(visualise(largeRaster), plot(largeRaster), check = FALSE, iterations = 10)
+```
