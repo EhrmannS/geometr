@@ -230,16 +230,16 @@ makeObject <- function(x, window = NULL, image = FALSE, theme = gtTheme, ...){
       nrVals <- length(allValues)
       targetColours <- theme@raster$colours
 
-      # limit values to 256, this is the number of distinct colours that
-      # can be represented
-      if(nrVals < 256){
-        nrVals <- nrVals
-      } else{
-        nrVals <- 256
-      }
+      # # limit values to 256, this is the number of distinct colours that
+      # # can be represented
+      # if(nrVals < 256){
+      #   nrVals <- nrVals
+      # } else{
+      #   nrVals <- 256
+      # }
       # make palette of all values in the theme, determine breaking points as
       # values of the raster and "intersect" the palette with them
-      allColours <- colorRampPalette(colors = targetColours)(nrVals)
+      allColours <- colorRampPalette(colors = targetColours)(length(allValues))
       breaksTemp <- c(allValues[1]-1, allValues)
       valCuts <- cut(vals, breaks = breaksTemp, include.lowest = TRUE)
       theColours <- allColours[valCuts]
