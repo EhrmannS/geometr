@@ -391,9 +391,8 @@ setMethod(f = "getFeatures",
           signature = "matrix",
           definition = function(x){
 
-            temp <- as.vector(x)
+            temp <- as.vector(t(x))
             out <- tibble(fid = seq_along(temp), gid = seq_along(temp), values = temp)
-            return(out)
             return(out)
           }
 )
