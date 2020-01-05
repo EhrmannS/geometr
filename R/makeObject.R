@@ -176,7 +176,7 @@ makeObject <- function(x, window = NULL, image = FALSE, theme = gtTheme, ...){
                          y = c(min(theWindow$y), max(theWindow$y)))
 
   } else if(featureType[1] == "raster"){
-    out <- list("type" = NULL, "extent" = NULL, "window" = NULL, "rows" = NULL, "cols" = NULL, "hasLegend" = NULL, "params" = NULL, "legend" = NULL, "values" = NULL)
+    out <- list("type" = NULL, "name" = NULL, "extent" = NULL, "window" = NULL, "rows" = NULL, "cols" = NULL, "hasLegend" = NULL, "params" = NULL, "legend" = NULL, "values" = NULL)
 
     # set the user-provided window, if given
     if(!is.null(window)){
@@ -209,6 +209,8 @@ makeObject <- function(x, window = NULL, image = FALSE, theme = gtTheme, ...){
         }
       }
       out$hasLegend <- FALSE
+      out$name <- "an image"
+
 
     } else {
 
@@ -224,6 +226,7 @@ makeObject <- function(x, window = NULL, image = FALSE, theme = gtTheme, ...){
       } else {
         out$hasLegend <- FALSE
       }
+      out$name <- names(x)
 
       allValues <- sortUniqueC(vals[!is.na(vals)])
       tickValues <- seq_along(allValues)
@@ -272,7 +275,6 @@ makeObject <- function(x, window = NULL, image = FALSE, theme = gtTheme, ...){
     out$values <- theColours
 
     out$type <- "raster"
-    out$name <- names(x)
     out$extent <- getExtent(x = x)
     out$window <- tibble(x = c(min(theWindow$x), max(theWindow$x)),
                          y = c(min(theWindow$y), max(theWindow$y)))
