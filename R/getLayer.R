@@ -48,7 +48,13 @@ setMethod(f = "getLayer",
             if(theType == "grid"){
 
               theFeatures <- getFeatures(x = x)
+              if(!is.null(dim(theFeatures))){
+                theFeatures <- setNames(list(theFeatures), names(x@feature))
+              }
               theGroups <- getGroups(x = x)
+              if(!is.null(dim(theGroups))){
+                theGroups <- setNames(list(theGroups), names(x@feature))
+              }
               theNames <- names(theFeatures)
               for(i in seq_along(layer)){
 

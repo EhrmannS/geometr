@@ -33,6 +33,7 @@ reference:
       - getFeatures
       - getGroups
       - getHistory
+      - getLayer
       - getPoints
       - getRes
       - getType
