@@ -128,8 +128,8 @@
     <p>Visualise raster and geom objects</p>
     </div>
 
-    <pre class="usage"><span class='fu'>visualise</span>(<span class='no'>...</span>, <span class='kw'>window</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>theme</span> <span class='kw'>=</span> <span class='no'>gtTheme</span>, <span class='kw'>trace</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>image</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>new</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>clip</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
+    <pre class="usage"><span class='fu'>visualise</span>(<span class='no'>...</span>, <span class='kw'>layer</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>window</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>theme</span> <span class='kw'>=</span> <span class='no'>gtTheme</span>,
+  <span class='kw'>trace</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>image</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>new</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>clip</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -139,9 +139,15 @@
       <td><p>objects to plot and optional graphical parameters.</p></td>
     </tr>
     <tr>
+      <th>layer</th>
+      <td><p>[<code>integerish(.)</code> | <code><a href='https://rdrr.io/r/base/character.html'>character(.)</a></code>]<br /> in case the
+objects to plot have several layers, this is the name or index of the
+layer(s) that shall be plotted.</p></td>
+    </tr>
+    <tr>
       <th>window</th>
-      <td><p>[<code><a href='https://rdrr.io/r/base/data.frame.html'>data.frame(1)</a></code>]<br /> two opposing corners of a rectangle to
-which the plot is limited.</p></td>
+      <td><p>[<code><a href='https://rdrr.io/r/base/data.frame.html'>data.frame(1)</a></code>]<br /> two opposing corners of a rectangle
+to which the plot is limited.</p></td>
     </tr>
     <tr>
       <th>theme</th>
