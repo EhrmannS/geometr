@@ -30,7 +30,7 @@ Get the spatial resolution of a spatial object.
 Other getters: \code{\link{getCRS}},
   \code{\link{getExtent}}, \code{\link{getFeatures}},
   \code{\link{getGroups}}, \code{\link{getHistory}},
-  \code{\link{getPoints}}, \code{\link{getType}},
-  \code{\link{getWindow}}
+  \code{\link{getLayer}}, \code{\link{getPoints}},
+  \code{\link{getType}}, \code{\link{getWindow}}
 }
 \concept{getters}

@@ -47,7 +47,7 @@ getPoints(x = gtGeoms$polygon)
 Other getters: \code{\link{getCRS}},
   \code{\link{getExtent}}, \code{\link{getFeatures}},
   \code{\link{getGroups}}, \code{\link{getHistory}},
-  \code{\link{getRes}}, \code{\link{getType}},
-  \code{\link{getWindow}}
+  \code{\link{getLayer}}, \code{\link{getRes}},
+  \code{\link{getType}}, \code{\link{getWindow}}
 }
 \concept{getters}
