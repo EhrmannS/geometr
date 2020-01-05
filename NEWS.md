@@ -17,6 +17,7 @@ The following functions are new:
 
 - `gc_raster()` to transform a grid geom to an object of class `Raster*`.
 - `getRes()` to get the resolution of a gridded object.
+- `getLayer()` to extract layers from an object that has layers.
 
 
 # geometr 0.1.0
