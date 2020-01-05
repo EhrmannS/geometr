@@ -112,7 +112,6 @@ test_that("output the history of a plotted object", {
 test_that("Error if arguments have wrong value", {
   continuous <<- gtRasters$continuous
 
-  output <-
   coords <- data.frame(x = c(40, 70, 70, 50),
                        y = c(40, 40, 60, 70),
                        fid = 1)

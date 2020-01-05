@@ -67,7 +67,7 @@ test_that("make object from a matrix", {
   # a matrix with hexadecimal colour values
   input1 <- matrix(c(rep('#000000', 4)), nrow = 2)
   output <- makeObject(x = input1, window = NULL, image = TRUE, theme = gtTheme)
-  expect_names(x = names(output), permutation.of = c("type", "extent", "window", "rows", "cols", "hasLegend", "params", "legend", "values"))
+  expect_names(x = names(output), permutation.of = c("type", "name", "extent", "window", "rows", "cols", "hasLegend", "params", "legend", "values"))
 
   # an integer value matrix
   input2 <- matrix(c(rep(1, 4)), nrow = 2)
