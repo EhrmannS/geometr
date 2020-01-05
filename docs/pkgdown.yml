@@ -2,7 +2,6 @@ pandoc: 2.3.1
 pkgdown: 1.4.1
 pkgdown_sha: ~
 articles:
-  benchmarks: benchmarks.html
   geometr: geometr.html
 urls:
   reference: http://EhrmannS.github.io/geometr/reference
