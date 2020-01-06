@@ -37,11 +37,7 @@ A table of the lower left and upper right corner of the extent of
 Get the extent (bounding box) of a spatial object.
 }
 \examples{
-<<<<<<< HEAD
-getTable(x = gtGeoms$polygon)
-=======
 getExtent(gtGeoms$polygon)
->>>>>>> grid_geom
 
 getExtent(x = gtSP$SpatialPolygons)
 

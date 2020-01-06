@@ -18,11 +18,7 @@ an object of class \code{ppp}
 Transform a spatial object to class \code{ppp}
 }
 \examples{
-<<<<<<< HEAD
-pppPoints <- gc_ppp(input = gtGeoms$point)
-=======
 gc_ppp(input = gtGeoms$point)
->>>>>>> grid_geom
 }
 \seealso{
 Other spatial classes: \code{\link{gc_geom}},

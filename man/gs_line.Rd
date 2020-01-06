@@ -57,12 +57,6 @@ window <- data.frame(x = c(0, 80),
 gs_line(anchor = coords, window = window) \%>\%
   visualise(linecol = "green")
 
-<<<<<<< HEAD
-# if a plot is already open, vertices are set relative to the plot window
-visualise(geom = gs_line(anchor = coords), new = FALSE)
-
-=======
->>>>>>> grid_geom
 # when a geom is used in 'anchor', its properties are passed on
 aGeom <- setWindow(x = aGeom, to = window)
 gs_line(anchor = aGeom) \%>\%

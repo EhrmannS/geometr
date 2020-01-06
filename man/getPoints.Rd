@@ -41,18 +41,8 @@ A table of the point attributes of \code{x} or an object where the
 Get tabular information of the attributes of points (incl. coordinates).
 }
 \examples{
-<<<<<<< HEAD
-getPoints(gtGeoms$polygon)
-getPoints(x = gtGeoms$point)
-
-getPoints(x = gtSP$SpatialPoints)
-
-getPoints(x = gtSF$multilinestring)
-
-getPoints(x = gtPPP)
-=======
 getPoints(x = gtGeoms$polygon)
->>>>>>> grid_geom
+getPoints(x = gtGeoms$point)
 }
 \seealso{
 Other getters: \code{\link{getCRS}},

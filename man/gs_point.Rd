@@ -60,11 +60,7 @@ gs_point(anchor = aGeom) \%>\%
 \donttest{
 # 2. sketch two points by clicking into a template
 gs_point(sketch = gtRasters$continuous, vertices = 2) \%>\%
-<<<<<<< HEAD
-  visualise(linecol = "orange", pointsymbol = 5, new = FALSE)
-=======
   visualise(geom = ., linecol = "green", pointsymbol = 5, new = FALSE)
->>>>>>> grid_geom
 }
 }
 \seealso{
