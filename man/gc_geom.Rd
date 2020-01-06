@@ -6,6 +6,7 @@
 \alias{gc_geom,Spatial-method}
 \alias{gc_geom,sf-method}
 \alias{gc_geom,ppp-method}
+\alias{gc_geom,Raster-method}
 \title{Transform a spatial object to class \code{geom}}
 \usage{
 \S4method{gc_geom}{Spatial}(input = NULL, ...)
@@ -13,6 +14,8 @@
 \S4method{gc_geom}{sf}(input = NULL, group = FALSE, ...)
 
 \S4method{gc_geom}{ppp}(input = NULL, ...)
+
+\S4method{gc_geom}{Raster}(input = NULL, ...)
 }
 \arguments{
 \item{input}{the object to transform to class \code{geom}.}
@@ -31,13 +34,15 @@ an object of class \code{geom}
 Transform a spatial object to class \code{geom}
 }
 \examples{
-(geomPoints <- gc_geom(input = gtPPP))
-(geomPoly <- gc_geom(input = gtSF$polygon))
-(geomLine <- gc_geom(input = gtSP$SpatialLinesDataFrame))
+gc_geom(input = gtPPP)
+
+gc_geom(input = gtSF$polygon)
+
+gc_geom(input = gtRasters$categorical)
 }
 \seealso{
 Other spatial classes: \code{\link{gc_grob}},
-  \code{\link{gc_ppp}}, \code{\link{gc_sf}},
-  \code{\link{gc_sp}}
+  \code{\link{gc_ppp}}, \code{\link{gc_raster}},
+  \code{\link{gc_sf}}, \code{\link{gc_sp}}
 }
 \concept{spatial classes}

@@ -4,8 +4,7 @@
 #' specifying anchor values or by sketching it.
 #' @param anchor [\code{geom(1)}|\code{data.frame(1)}]\cr Object to derive the
 #'   \code{geom} from. It must include column names \code{x}, \code{y} and
-#'   optionally a custom \code{fid}. To set further attributes, use
-#'   \code{\link{setTable}}.
+#'   optionally a custom \code{fid}.
 #' @param window [\code{data.frame(1)}]\cr in case the reference window deviates
 #'   from the bounding box of \code{anchor} (minimum and maximum values),
 #'   specify this here.
@@ -18,7 +17,8 @@
 #' @param regular [\code{logical(1)}]\cr should the polygon be regular, i.e.
 #'   point symmetric (\code{TRUE}) or should the vertices be selected as
 #'   provided by \code{anchor} (\code{FALSE}, default)?
-#' @param ... [various]\cr additional arguments; see Details.
+#' @param ... [various]\cr graphical parameters to \code{\link{gt_locate}}, in
+#'   case points are sketched; see \code{\link[grid]{gpar}}
 #' @details The arguments \code{anchor} and \code{sketch} indicate how the line
 #'   is created: \itemize{ \item if \code{anchor} is set, the line is created
 #'   parametrically from the given objects' points, \item if an object is set in
@@ -31,10 +31,6 @@
 #'   from all vertices in \code{anchor}, \item if \code{regular = TRUE}, only
 #'   the first two vertices are considered, as center and indicating the
 #'   distance to the (outer) radius.}
-#'
-#'   Possible additional arguments are: \itemize{ \item verbose = TRUE/FALSE
-#'   \item graphical parameters to \code{\link{gt_locate}}, in case points are
-#'   sketched; see \code{\link[grid]{gpar}}}
 #' @return An invisible \code{geom}.
 #' @family geometry shapes
 #' @examples
@@ -45,16 +41,13 @@
 #' # if no window is set, the bounding box will be set as window
 #' (aGeom <- gs_polygon(anchor = coords))
 #'
-#' # the vertices are plottet relative to the window
-#' library(magrittr)
+  #' # the vertices are plottet relative to the window
+  #' library(magrittr)
 #' window <- data.frame(x = c(0, 80),
 #'                      y = c(0, 80))
 #' gs_polygon(anchor = coords, vertices = 6, window = window,
 #'            regular = TRUE) %>%
 #'   visualise(linecol = "green")
-#'
-#' # if a plot is already open, vertices are set relative to its' window
-#' visualise(geom = gs_triangle(anchor = coords), new = FALSE)
 #'
 #' # when a geom is used in 'anchor', its properties are passed on
 #' aGeom <- setWindow(x = aGeom, to = window)
@@ -79,8 +72,8 @@ gs_polygon <- function(anchor = NULL, window = NULL, features = 1, vertices = NU
                        sketch = NULL, regular = FALSE, ...){
 
   # check arguments
-  anchor <- .testAnchor(x = anchor, ...)
-  theWindow <- .testWindow(x = window, ...)
+  anchor <- .testAnchor(x = anchor)
+  theWindow <- .testWindow(x = window)
   assertIntegerish(x = features, len = 1, lower = 1)
   assertIntegerish(x = vertices, min.len = 1, lower = 2, any.missing = FALSE, null.ok = TRUE)
   assertLogical(x = regular)
@@ -91,21 +84,14 @@ gs_polygon <- function(anchor = NULL, window = NULL, features = 1, vertices = NU
   if(!is.null(anchor)){
     if(anchor$type == "geom"){
       hist <- paste0("object was cast to 'polygon' geom.")
-
-      if(anchor$obj@type == "point"){
-        anchor$obj@point$fid <- rep(1, length(anchor$obj@point$fid))
-        anchor$obj@feature <- tibble(fid = 1, gid = 1)
-        anchor$obj@group <- tibble(gid = 1)
-        features <- 1
-      } else {
-        features <- length(unique(anchor$obj@feature$fid))
-      }
+      features <- length(unique(anchor$obj@feature$geometry$fid))
+      projection <- getCRS(x = anchor$obj)
     } else if(anchor$type == "df"){
       hist <- paste0("object was created as 'polygon' geom.")
-
       if("fid" %in% names(anchor$obj)){
         features <- length(unique(anchor$obj$fid))
       }
+      projection <- NA
     }
   }
 
@@ -131,10 +117,12 @@ gs_polygon <- function(anchor = NULL, window = NULL, features = 1, vertices = NU
           theWindow <- anchor$obj@window
         }
         tempAnchor <- anchor$obj@point[anchor$obj@point$fid == i,]
+        if(dim(tempAnchor)[1] < 3){
+          stop(paste0("a polygon geom must have at least 3 points per 'fid'."))
+        }
         openingAngle <- atan((tempAnchor$x[1] - tempAnchor$x[2]) / (tempAnchor$y[1] - tempAnchor$y[2])) * 180 / pi
-        tempFeatures <- anchor$obj@feature[anchor$obj@feature$fid == i,]
-        tempGroups <- anchor$obj@group[anchor$obj@group$gid == i,]
-        projection <- getCRS(x = anchor$obj)
+        tempFeatures <- anchor$obj@feature$geometry[anchor$obj@feature$geometry$fid == i,]
+        tempGroups <- anchor$obj@group$geometry[anchor$obj@group$geometry$gid == i,]
 
       } else if(anchor$type == "df"){
 
@@ -151,7 +139,6 @@ gs_polygon <- function(anchor = NULL, window = NULL, features = 1, vertices = NU
         openingAngle <- atan((tempAnchor$x[1] - tempAnchor$x[2]) / (tempAnchor$y[1] - tempAnchor$y[2])) * 180 / pi
         tempFeatures <- tibble(fid = i, gid = i)
         tempGroups <- tibble(gid = i)
-        projection <- NA
 
       }
 
@@ -179,8 +166,8 @@ gs_polygon <- function(anchor = NULL, window = NULL, features = 1, vertices = NU
     theGeom <- new(Class = "geom",
                    type = "polygon",
                    point = theVertices,
-                   feature = theFeatures,
-                   group = theGroups,
+                   feature = list(geometry = theFeatures),
+                   group = list(geometry = theGroups),
                    window = theWindow,
                    scale = "absolute",
                    crs = as.character(projection),
@@ -242,8 +229,8 @@ gs_rectangle <- function(anchor = NULL, window = NULL, sketch = NULL,
                         ...)
 
   outTable <- NULL
-  for(i in seq_along(theGeom@feature$fid)){
-    geomSubset <- getSubset(theGeom, fid == !!i, slot = "feature")
+  for(i in seq_along(theGeom@feature$geometry$fid)){
+    geomSubset <- getFeatures(theGeom, fid == !!i)
     temp <- getExtent(geomSubset)
     temp <- tibble(x = c(rep(temp$x, each = 2), temp$x[1]),
                    y = c(temp$y, rev(temp$y), temp$y[1]),

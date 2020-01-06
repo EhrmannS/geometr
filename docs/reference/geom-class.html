@@ -8,13 +8,18 @@
 
 <title>Geometry class (S4) and methods — geom-class • geometr</title>
 
-
+<!-- favicons -->
+<link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
+<link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png" />
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous" />
-
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
 
 <!-- Font Awesome icons -->
@@ -34,15 +39,16 @@
 
 
 
-
 <meta property="og:title" content="Geometry class (S4) and methods — geom-class" />
+
 <meta property="og:description" content="A geom stores a table of points, a table of feature to which the
 points are associated and a table of groups, to which features are
 associated. A geom can be spatial, but is not by default. A
 geom can either have absolute or relative values, where relative
 values specify the point position relative to the window slot." />
-<meta name="twitter:card" content="summary" />
 
+<meta property="og:image" content="http://EhrmannS.github.io/geometr/logo.png" />
+<meta name="twitter:card" content="summary" />
 
 
 
@@ -73,7 +79,7 @@ values specify the point position relative to the window slot." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">geometr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0</span>
       </span>
     </div>
 
@@ -89,6 +95,7 @@ values specify the point position relative to the window slot." />
   <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
+      
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="http://www.twitter.com/DerEhrmann">
@@ -121,15 +128,16 @@ values specify the point position relative to the window slot." />
     </div>
 
     <div class="ref-description">
+    
     <p>A <code>geom</code> stores a table of points, a table of feature to which the
 points are associated and a table of groups, to which features are
 associated. A <code>geom</code> can be spatial, but is not by default. A
 <code>geom</code> can either have absolute or relative values, where relative
 values specify the point position relative to the <code>window</code> slot.</p>
+    
     </div>
 
-
-
+        
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>A <code>geom</code> is one of three geometry objects:</p><ul>
@@ -165,13 +173,14 @@ which is thus derived "on the fly" from the points. Instead it has a
 <em>reference window</em>, which is sort of a second extent that may be bigger
 (or smaller) than <code>extent</code> and which determines the relative position of
 the points when plotting.</p>
+    
     <h2 class="hasAnchor" id="slots"><a class="anchor" href="#slots"></a>Slots</h2>
 
     
 
 <dl class='dl-horizontal'>
 <dt><code>type</code></dt><dd><p>[<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>]<br /> the type of feature, either
-<code>"point"</code>, <code>"line"</code> or <code>"polygon"</code>.</p></dd>
+<code>"point"</code>, <code>"line"</code>, <code>"polygon"</code> or <code>"grid"</code>.</p></dd>
 
 <dt><code>point</code></dt><dd><p>[<code><a href='https://rdrr.io/r/base/data.frame.html'>data.frame(1)</a></code>]<br /> the <code>fid</code> (feature ID), <code>x</code>
 and <code>y</code> coordinates per point and optional arbitrary point
@@ -196,14 +205,17 @@ notation.</p></dd>
 <code>geom</code> in focus.</p></dd>
 
 </dl>
+    
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
+      
       <li><a href="#details">Details</a></li>
+
       <li><a href="#slots">Slots</a></li>
-    </ul>
+          </ul>
 
   </div>
 </div>

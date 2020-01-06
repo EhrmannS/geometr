@@ -22,13 +22,21 @@ If \code{input} is a \code{geom} and has attributes other than
 Transform a spatial object to class \code{sf}
 }
 \examples{
+<<<<<<< HEAD
 sfPoints <- gc_sf(input = gtGeoms$point)
 sfLines <- gc_sf(input = gtGeoms$line)
 sfPolygon <- gc_sf(input = gtGeoms$polygon)
+=======
+gc_sf(input = gtGeoms$point)
+
+gc_sf(input = gtGeoms$line)
+
+gc_sf(input = gtGeoms$polygon)
+>>>>>>> grid_geom
 }
 \seealso{
 Other spatial classes: \code{\link{gc_geom}},
   \code{\link{gc_grob}}, \code{\link{gc_ppp}},
-  \code{\link{gc_sp}}
+  \code{\link{gc_raster}}, \code{\link{gc_sp}}
 }
 \concept{spatial classes}

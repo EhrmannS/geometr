@@ -1,8 +1,11 @@
 #' Visualise raster and geom objects
 #'
 #' @param ... objects to plot and optional graphical parameters.
-#' @param window [\code{data.frame(1)}]\cr two opposing corners of a rectangle to
-#'   which the plot is limited.
+#' @param layer [\code{integerish(.)} | \code{character(.)}]\cr in case the
+#'   objects to plot have several layers, this is the name or index of the
+#'   layer(s) that shall be plotted.
+#' @param window [\code{data.frame(1)}]\cr two opposing corners of a rectangle
+#'   to which the plot is limited.
 #' @param theme [\code{list(7)}]\cr visualising options; see
 #'   \code{\link{setTheme}} for details.
 #' @param trace [\code{logical(1)}]\cr Print the raster object's history (i.e.
@@ -59,13 +62,13 @@
 #' @importFrom stats quantile
 #' @export
 
-visualise <- function(..., window = NULL, theme = gtTheme, trace = FALSE, image = FALSE,
+visualise <- function(..., layer = NULL, window = NULL, theme = gtTheme, trace = FALSE, image = FALSE,
                       new = TRUE, clip = TRUE){
 
-  # window = NULL; theme = gtTheme; trace = FALSE; image = FALSE; new = TRUE; clip = TRUE
+  # layer = NULL; window = NULL; theme = gtTheme; trace = FALSE; image = FALSE; new = TRUE; clip = TRUE
 
   # check arguments ----
-  window <- .testWindow(x = window, ...)
+  window <- .testWindow(x = window)
   assertDataFrame(x = window, nrows = 5, min.cols = 2, null.ok = TRUE)
   assertClass(x = theme, classes = "gtTheme", null.ok = TRUE)
   assertLogical(x = trace, len = 1, any.missing = FALSE)
@@ -76,55 +79,23 @@ visualise <- function(..., window = NULL, theme = gtTheme, trace = FALSE, image 
   # derive the objects to plot
   objs <- rlang::enquos(...)
 
-  names <- NULL
   objects <- list()
+  # get objects
   for(i in seq_along(objs)){
-    theObject <- theName <- NULL
+    theName <- names(objs)[i]
 
-    if(is.null(names(objs)[i]) || names(objs)[i] == ""){
-
-      theObject <- eval_tidy(expr = objs[[i]])
-
-      if(is.null(names(theObject))){
-        theName <- NA
-      } else if(image){
-        theName <- "an image"
-      } else {
-        theName <- names(theObject)
-      }
-
-      if((class(theObject) == "RasterBrick" | class(theObject) == "RasterStack") & !image){
-        temp <- lapply(1:dim(theObject)[3], function(x){
-          theObject[[x]]
-        })
-        theObject <- temp
-      } else if(class(theObject) == "matrix"){
-        theObject <- list(theObject)
-      }
-    } else {
-      if(!names(objs)[i] %in% names(theme@vector)){
-        theObject <- eval_tidy(expr = objs[[i]])
-
-        if((class(theObject) == "RasterBrick" | class(theObject) == "RasterStack") & !image){
-          theName <- paste(names(objs)[i], 1:dim(theObject)[3])
-          temp <- lapply(1:dim(theObject)[3], function(x){
-            t <- theObject[[x]]
-            if(length(theObject@history) != 0){
-              t@history <- theObject@history
-            }
-            return(t)
-          })
-          theObject <- temp
-        } else if(class(theObject) == "matrix"){
-          theObject <- list(theObject)
-          theName <- "a matrix"
-        } else {
-          theName <- names(objs)[i]
-        }
+    if(!is.null(theName)){
+      if(theName %in% names(theme@vector)){
+        # exclude theme objects
+        next
       }
     }
+    theObject <- eval_tidy(expr = objs[[i]])
+    if(!image){
+      theObject <- getLayer(x = theObject, layer = layer)
+      if(is.null(theObject)) stop(paste0("'", theName, "' is not an object that can be plotted with 'visualise()'."))
+    }
     objects <- c(objects, theObject)
-    names <- c(names, theName)
   }
 
   # plot already open? ----
@@ -139,7 +110,6 @@ visualise <- function(..., window = NULL, theme = gtTheme, trace = FALSE, image 
     panels <- length(objects)
   }
   objects <- rep(x = objects, length.out = panels)
-  names <- rep(x = names, length.out = panels)
 
   # checkup concerning plot size ----
   if(panels > 15){
@@ -185,12 +155,6 @@ visualise <- function(..., window = NULL, theme = gtTheme, trace = FALSE, image 
     # make panel layout ----
     pnl <- makeLayout(x = obj, theme = theme)
 
-    if(!is.na(names[[i]]) & !is.null(names[[i]])){
-      plotName <- names[[i]]
-    } else {
-      plotName <- obj$name
-    }
-
     # ----
     if(newPlot | (!newPlot & obj$type == "raster")){
 
@@ -200,7 +164,7 @@ visualise <- function(..., window = NULL, theme = gtTheme, trace = FALSE, image 
                             y = (panelPosY[i]/nrow)-(1/nrow/2),
                             width = 1/ncol,
                             height = 1/nrow,
-                            name = plotName))
+                            name = obj$name))
       grid.rect(width = convertX(unit(1, "npc"), "native"),
                 gp = gpar(col = NA, fill = NA), name = "panelGrob")
       grid.rect(height = pnl$yMargin, width = pnl$xMargin,
@@ -212,8 +176,8 @@ visualise <- function(..., window = NULL, theme = gtTheme, trace = FALSE, image 
 
       pushViewport(viewport(x = unit(0.5, "npc") + unit(pnl$xOffset, "points"),
                             y = unit(0.5, "npc") + unit(pnl$yOffset, "points"),
-                            height = min(pnl$gridH, pnl$gridHr),
-                            width = min(pnl$gridW, pnl$gridWr),
+                            height = pnl$gridH,
+                            width = pnl$gridW,
                             name = "plot"))
 
       # the title viewport
@@ -221,7 +185,7 @@ visualise <- function(..., window = NULL, theme = gtTheme, trace = FALSE, image 
         pushViewport(viewport(name = "title"))
         grid.text(just = "top",
                   y = unit(1, "npc") - unit(3, "points") + pnl$titleH,
-                  label = plotName,
+                  label = obj$name,
                   gp = gpar(fontsize = theme@title$fontsize,
                             col = theme@title$colour))
         upViewport() # exit title
@@ -296,7 +260,7 @@ visualise <- function(..., window = NULL, theme = gtTheme, trace = FALSE, image 
           legendName <- names(theLegend[,1])
 
           if(length(theLegend$pos) == 1){
-            maxYScale <- theLegend$pos[length(theLegend$pos)] + 0.00001
+            maxYScale <- unit(as.numeric(theLegend$pos[length(theLegend$pos)]) + 1, "native")
           } else {
             maxYScale <- unit(as.numeric(theLegend$pos[which.max(theLegend$pos)]) + 1, "native")
           }
@@ -465,7 +429,7 @@ visualise <- function(..., window = NULL, theme = gtTheme, trace = FALSE, image 
                     height = unit(pnl$yFactor, "npc"),
                     hjust = 0,
                     vjust = 0,
-                    image = matrix(data = obj$array, nrow = obj$rows, ncol = obj$cols, byrow = TRUE),
+                    image = matrix(data = obj$values, nrow = obj$rows, ncol = obj$cols, byrow = TRUE),
                     name = "theRaster",
                     interpolate = FALSE)
       } else if(obj$type == "vector") {
@@ -482,7 +446,7 @@ visualise <- function(..., window = NULL, theme = gtTheme, trace = FALSE, image 
       }
       upViewport() # exit 'object'
 
-      upViewport(3) # exit the object 'viewport' and 'plot' and 'plotName'
+      upViewport(3) # exit the object 'viewport' and 'plot' and 'obj$name'
 
     } else {
 
@@ -505,35 +469,21 @@ visualise <- function(..., window = NULL, theme = gtTheme, trace = FALSE, image 
       grid.draw(obj$out)
 
       upViewport(4)
-
     }
-  }
-  upViewport() # exit 'geometr'
 
-  if(trace){
-    plotHistory <- FALSE
+    if(trace){
+      theHist <- getHistory(x = objects[[i]])
 
-    for(i in seq_along(objects)){
-
-      hasHistory <- ifelse(!is.null(tryCatch(expr = objects[[i]]@history, error = function(x) NULL)), TRUE, FALSE)
-
-      if(hasHistory){
-
-          theHistory <- unlist(objects[[i]]@history)
-          if(!is.null(theHistory)){
-            histMsg <- paste0("this object has the following history:\n -> ", paste0(theHistory, collapse = "\n -> "))
-            plotHistory <- TRUE
-          }
-
+      if(!is.null(theHist)){
+        histMsg <- paste0("this object has the following history:\n -> ", paste0(theHist, collapse = "\n -> "))
+        message(paste0(histMsg, collapse = "\n"))
+      } else{
+        message(paste0("this object has the following history:\n -> object loaded from memory"))
       }
     }
 
-    if(plotHistory){
-      message(paste0(histMsg, collapse = "\n"))
-    } else{
-      message(paste0("this object has the following history:\n -> object loaded from memory"))
-    }
   }
+  upViewport() # exit 'geometr'
 
   invisible(recordPlot(attach = "geometr"))
 }

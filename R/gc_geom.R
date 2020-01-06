@@ -9,9 +9,11 @@
 #' @return an object of class \code{geom}
 #' @family spatial classes
 #' @examples
-#' (geomPoints <- gc_geom(input = gtPPP))
-#' (geomPoly <- gc_geom(input = gtSF$polygon))
-#' (geomLine <- gc_geom(input = gtSP$SpatialLinesDataFrame))
+#' gc_geom(input = gtPPP)
+#'
+#' gc_geom(input = gtSF$polygon)
+#'
+#' gc_geom(input = gtRasters$categorical)
 #' @name gc_geom
 #' @rdname gc_geom
 NULL
@@ -37,7 +39,7 @@ setMethod(f = "gc_geom",
           definition = function(input = NULL, ...){
 
             theCoords <- getPoints(x = input)
-            theData <- getTable(x = input)
+            theData <- getFeatures(x = input)
             theWindow <- getWindow(x = input)
             theCRS <- getCRS(x = input)
 
@@ -51,13 +53,15 @@ setMethod(f = "gc_geom",
             } else if(sourceClass %in% c("SpatialPolygons", "SpatialPolygonsDataFrame", "SpatialGrid", "SpatialGridDataFrame")){
               type <- "polygon"
             }
-            history <- paste0("geometry was transformed from an object of class '", sourceClass, "'.")
+            theGroups <- tibble(gid = unique(theData$gid))
+
+            history <- paste0("geom was transformed from an object of class '", sourceClass, "'.")
 
             out <- new(Class = "geom",
                        type = type,
                        point = theCoords,
-                       feature = theData,
-                       group = tibble(gid = unique(theData$gid)),
+                       feature = list(geometry = theData),
+                       group = list(geometry = theGroups),
                        window = theWindow,
                        scale = "absolute",
                        crs = theCRS,
@@ -78,7 +82,7 @@ setMethod(f = "gc_geom",
           definition = function(input = NULL, group = FALSE, ...){
 
             theCoords <- getPoints(x = input)
-            theData <- getTable(x = input)
+            theData <- getFeatures(x = input)
             theCRS <- getCRS(x = input)
             theWindow <- getWindow(x = input)
 
@@ -103,13 +107,13 @@ setMethod(f = "gc_geom",
             } else {
               theGroups <- tibble(gid = unique(theData$gid))
             }
-            history <- paste0("geometry was transformed from an sf-object of geometry type '", sourceClass, "'.")
+            history <- paste0("geom was transformed from an sf-object of geometry type '", sourceClass, "'.")
 
             out <- new(Class = "geom",
                        type = type,
                        point = theCoords,
-                       feature = theData,
-                       group = theGroups,
+                       feature = list(geometry = theData),
+                       group = list(geometry = theGroups),
                        window = theWindow,
                        scale = "absolute",
                        crs = theCRS,
@@ -128,21 +132,83 @@ setMethod(f = "gc_geom",
           definition = function(input = NULL, ...){
 
             theCoords <- getPoints(x = input)
-            theData <- getTable(x = input)
+            theData <- getFeatures(x = input)
             theGroups <- tibble(gid = theData$gid)
             theWindow <- getWindow(x = input)
-            history <- paste0("geometry was transformed from an object of class ppp.")
+            history <- paste0("geom was transformed from an object of class ppp.")
             theCRS <- NA_character_
 
             out <- new(Class = "geom",
                        type = "point",
                        point = theCoords,
-                       feature = theData,
-                       group = theGroups,
+                       feature = list(geometry = theData),
+                       group = list(geometry = theGroups),
                        window = theWindow,
                        scale = "absolute",
                        crs = theCRS,
                        history = list(history))
+
+            return(out)
+          }
+)
+
+# Raster ----
+#' @rdname gc_geom
+#' @importFrom tibble tibble
+#' @importFrom raster xres yres
+#' @importFrom utils object.size
+#' @export
+setMethod(f = "gc_geom",
+          signature = "Raster",
+          definition = function(input = NULL, ...){
+
+            theExtent <- getExtent(x = input)
+            theCoords <- tibble(x = c(min(theExtent$x), input@ncols, xres(input)),
+                                y = c(min(theExtent$y), input@nrows, yres(input)))
+
+            theType <- getType(x = input)
+            theWindow <- getWindow(x = input)
+
+            theFeatures <- list()
+            theGroups <- hist <- list()
+            for(i in 1:dim(input)[3]){
+
+              theInput <- input[[i]]
+              theName <- names(input)[i]
+
+              rawVal <- getFeatures(x = theInput)$values
+              rleVal <- rle(rawVal)
+              if(object.size(rleVal) > object.size(rawVal)){
+                tempFeatures <- tibble(values = rawVal)
+              } else {
+                tempFeatures <- tibble(val = rleVal$values,
+                                       len = rleVal$lengths)
+                hist <- c(hist, paste0("layer '", theName, "' is run-length encoded."))
+              }
+              theFeatures <- c(theFeatures, setNames(list(tempFeatures), theName))
+
+              if(length(theInput@data@attributes) != 0){
+                tempGroups <- as_tibble(theInput@data@attributes[[1]])
+                colnames(tempGroups) <- c("gid", colnames(tempGroups)[-1])
+              } else {
+                tempGroups <- tibble(gid = integer())
+              }
+              theGroups <- c(theGroups, setNames(list(tempGroups), theName))
+
+            }
+
+            history <- c(hist, paste0("geom was transformed from an object of class ", theType[2], "."))
+            theCRS <- getCRS(x = input)
+
+            out <- new(Class = "geom",
+                       type = "grid",
+                       point = theCoords,
+                       feature = theFeatures,
+                       group = theGroups,
+                       window = theWindow,
+                       scale = "absolute",
+                       crs = theCRS,
+                       history = c(getHistory(input), list(history)))
 
             return(out)
           }

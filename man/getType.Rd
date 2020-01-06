@@ -8,7 +8,8 @@
 \alias{getType,Spatial-method}
 \alias{getType,sf-method}
 \alias{getType,ppp-method}
-\alias{getType,RasterLayer-method}
+\alias{getType,Raster-method}
+\alias{getType,matrix-method}
 \title{Get the type of a spatial object.}
 \usage{
 \S4method{getType}{ANY}(x)
@@ -21,7 +22,9 @@
 
 \S4method{getType}{ppp}(x)
 
-\S4method{getType}{RasterLayer}(x)
+\S4method{getType}{Raster}(x)
+
+\S4method{getType}{matrix}(x)
 }
 \arguments{
 \item{x}{the object for which to determine the type.}
@@ -46,8 +49,9 @@ getType(x = gtRasters$categorical)
 }
 \seealso{
 Other getters: \code{\link{getCRS}},
-  \code{\link{getExtent}}, \code{\link{getHistory}},
-  \code{\link{getPoints}}, \code{\link{getSubset}},
-  \code{\link{getTable}}, \code{\link{getWindow}}
+  \code{\link{getExtent}}, \code{\link{getFeatures}},
+  \code{\link{getGroups}}, \code{\link{getHistory}},
+  \code{\link{getLayer}}, \code{\link{getPoints}},
+  \code{\link{getRes}}, \code{\link{getWindow}}
 }
 \concept{getters}

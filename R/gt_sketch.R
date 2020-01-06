@@ -52,7 +52,7 @@ gt_sketch <- function(template = NULL, shape = NULL, features = 1, vertices = NU
 
   theCoices <- c("point", "line", "polygon", "triangle", "square", "hexagon", "random")
   # check arguments
-  template <- .testTemplate(x = template, ...)
+  template <- .testTemplate(x = template)
   assertCharacter(x = shape, len = 1)
   assertSubset(x = shape, choices = theCoices)
   assertIntegerish(x = features, len = 1, lower = 1)
@@ -175,8 +175,8 @@ gt_sketch <- function(template = NULL, shape = NULL, features = 1, vertices = NU
   theGeom <- new(Class = "geom",
                  type = type,
                  point = theVertices,
-                 feature = theFeatures,
-                 group = theGroups,
+                 feature = list(geometry = theFeatures),
+                 group = list(geometry = theGroups),
                  window = theWindow,
                  scale = theScale,
                  crs = as.character(projection),

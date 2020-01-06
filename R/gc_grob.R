@@ -41,8 +41,8 @@ setMethod(f = "gc_grob",
             displayArgs <- exprs(...)
             featureType <- getType(x = input)[2]
             thePoints <- getPoints(x = input)
-            theFeatures <- getTable(x = input, slot = "feature")
-            theGroups <- getTable(x = input, slot = "group")
+            theFeatures <- getFeatures(x = input)
+            theGroups <- getGroups(x = input)
 
             if(featureType == "point"){
               attr <- left_join(x = thePoints, y = theFeatures, by = "fid")
@@ -116,9 +116,9 @@ setMethod(f = "gc_grob",
                 # if the argument is a colour argument, construct a color ramp from two or more values
                 if(thisArgName %in% c("linecol", "fillcol")){
 
-                  # test whether 'toEval' is a colour
-                  if(!all(as.character(toRamp) %in% colors()) & !all(grepl(pattern = "\\#(.{6,8})", x = toRamp))){
-                    stop(paste0(toRamp, " was neither found as column in the object to plot, or does not represent valid colour(s)."))
+                  # test whether 'toRamp' is a colour
+                  if(!any(as.character(toRamp) %in% colors()) & !any(grepl(pattern = "\\#(.{6,8})", x = toRamp))){
+                    stop(paste0(toRamp, " was neither found as column in the object to plot, nor is it a valid colour."))
                   }
 
                   if(makeWarning){

@@ -8,13 +8,18 @@
 
 <title>Function reference • geometr</title>
 
-
+<!-- favicons -->
+<link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
+<link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png" />
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous" />
-
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
 
 <!-- Font Awesome icons -->
@@ -34,9 +39,10 @@
 
 
 
-
 <meta property="og:title" content="Function reference" />
 
+<meta property="og:image" content="http://EhrmannS.github.io/geometr/logo.png" />
+<meta name="twitter:card" content="summary" />
 
 
 
@@ -67,7 +73,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">geometr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0</span>
       </span>
     </div>
 
@@ -83,6 +89,7 @@
   <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
+      
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="http://www.twitter.com/DerEhrmann">
@@ -174,7 +181,7 @@
       <tr>
         
         <td>
-          <p><code><a href="gc_geom.html">gc_geom(<i>&lt;Spatial&gt;</i>)</a></code> <code><a href="gc_geom.html">gc_geom(<i>&lt;sf&gt;</i>)</a></code> <code><a href="gc_geom.html">gc_geom(<i>&lt;ppp&gt;</i>)</a></code> </p>
+          <p><code><a href="gc_geom.html">gc_geom(<i>&lt;Spatial&gt;</i>)</a></code> <code><a href="gc_geom.html">gc_geom(<i>&lt;sf&gt;</i>)</a></code> <code><a href="gc_geom.html">gc_geom(<i>&lt;ppp&gt;</i>)</a></code> <code><a href="gc_geom.html">gc_geom(<i>&lt;Raster&gt;</i>)</a></code> </p>
         </td>
         <td><p>Transform a spatial object to class <code>geom</code></p></td>
       </tr><tr>
@@ -192,6 +199,12 @@
       </tr><tr>
         
         <td>
+          <p><code><a href="gc_raster.html">gc_raster(<i>&lt;geom&gt;</i>)</a></code> </p>
+        </td>
+        <td><p>Transform a spatial object to class <code>Raster*</code></p></td>
+      </tr><tr>
+        
+        <td>
           <p><code><a href="gc_sf.html">gc_sf(<i>&lt;geom&gt;</i>)</a></code> </p>
         </td>
         <td><p>Transform a spatial object to class <code>sf</code></p></td>
@@ -200,7 +213,7 @@
         <td>
           <p><code><a href="gc_sp.html">gc_sp(<i>&lt;geom&gt;</i>)</a></code> </p>
         </td>
-        <td><p>Transform a spatial object to class <code>sp</code></p></td>
+        <td><p>Transform a spatial object to class <code>Spatial</code></p></td>
       </tr>
     </tbody><tbody>
       <tr>
@@ -224,33 +237,45 @@
       </tr><tr>
         
         <td>
-          <p><code><a href="getHistory.html">getHistory(<i>&lt;ANY&gt;</i>)</a></code> <code><a href="getHistory.html">getHistory(<i>&lt;geom&gt;</i>)</a></code> <code><a href="getHistory.html">getHistory(<i>&lt;RasterLayer&gt;</i>)</a></code> <code><a href="getHistory.html">getHistory(<i>&lt;RasterBrick&gt;</i>)</a></code> <code><a href="getHistory.html">getHistory(<i>&lt;RasterStack&gt;</i>)</a></code> </p>
+          <p><code><a href="getFeatures.html">getFeatures(<i>&lt;ANY&gt;</i>)</a></code> <code><a href="getFeatures.html">getFeatures(<i>&lt;geom&gt;</i>)</a></code> <code><a href="getFeatures.html">getFeatures(<i>&lt;Spatial&gt;</i>)</a></code> <code><a href="getFeatures.html">getFeatures(<i>&lt;sf&gt;</i>)</a></code> <code><a href="getFeatures.html">getFeatures(<i>&lt;ppp&gt;</i>)</a></code> <code><a href="getFeatures.html">getFeatures(<i>&lt;Raster&gt;</i>)</a></code> <code><a href="getFeatures.html">getFeatures(<i>&lt;matrix&gt;</i>)</a></code> </p>
+        </td>
+        <td><p>Get the table of feature attributes</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="getGroups.html">getGroups(<i>&lt;ANY&gt;</i>)</a></code> <code><a href="getGroups.html">getGroups(<i>&lt;geom&gt;</i>)</a></code> <code><a href="getGroups.html">getGroups(<i>&lt;Raster&gt;</i>)</a></code> <code><a href="getGroups.html">getGroups(<i>&lt;matrix&gt;</i>)</a></code> </p>
+        </td>
+        <td><p>Get the table of group attributes</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="getHistory.html">getHistory(<i>&lt;ANY&gt;</i>)</a></code> <code><a href="getHistory.html">getHistory(<i>&lt;geom&gt;</i>)</a></code> <code><a href="getHistory.html">getHistory(<i>&lt;Raster&gt;</i>)</a></code> </p>
         </td>
         <td><p>Get the history of a spatial object.</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="getSubset.html">getSubset(<i>&lt;ANY&gt;</i>)</a></code> <code><a href="getSubset.html">getSubset(<i>&lt;geom&gt;</i>)</a></code> <code><a href="getSubset.html">getSubset(<i>&lt;Spatial&gt;</i>)</a></code> <code><a href="getSubset.html">getSubset(<i>&lt;sf&gt;</i>)</a></code> </p>
+          <p><code><a href="getLayer.html">getLayer(<i>&lt;ANY&gt;</i>)</a></code> <code><a href="getLayer.html">getLayer(<i>&lt;geom&gt;</i>)</a></code> <code><a href="getLayer.html">getLayer(<i>&lt;Raster&gt;</i>)</a></code> <code><a href="getLayer.html">getLayer(<i>&lt;matrix&gt;</i>)</a></code> </p>
         </td>
-        <td><p>Get the subset of a spatial object.</p></td>
+        <td><p>Get a specific layer of a spatial object.</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="getTable.html">getTable(<i>&lt;ANY&gt;</i>)</a></code> <code><a href="getTable.html">getTable(<i>&lt;geom&gt;</i>)</a></code> <code><a href="getTable.html">getTable(<i>&lt;Spatial&gt;</i>)</a></code> <code><a href="getTable.html">getTable(<i>&lt;sf&gt;</i>)</a></code> <code><a href="getTable.html">getTable(<i>&lt;ppp&gt;</i>)</a></code> <code><a href="getTable.html">getTable(<i>&lt;RasterLayer&gt;</i>)</a></code> <code><a href="getTable.html">getTable(<i>&lt;RasterBrick&gt;</i>)</a></code> <code><a href="getTable.html">getTable(<i>&lt;matrix&gt;</i>)</a></code> </p>
+          <p><code><a href="getPoints.html">getPoints(<i>&lt;ANY&gt;</i>)</a></code> <code><a href="getPoints.html">getPoints(<i>&lt;geom&gt;</i>)</a></code> <code><a href="getPoints.html">getPoints(<i>&lt;Spatial&gt;</i>)</a></code> <code><a href="getPoints.html">getPoints(<i>&lt;sf&gt;</i>)</a></code> <code><a href="getPoints.html">getPoints(<i>&lt;ppp&gt;</i>)</a></code> <code><a href="getPoints.html">getPoints(<i>&lt;Raster&gt;</i>)</a></code> <code><a href="getPoints.html">getPoints(<i>&lt;matrix&gt;</i>)</a></code> </p>
         </td>
-        <td><p>Get the attribute table of a spatial object.</p></td>
+        <td><p>Get the table of point attributes</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="getType.html">getType(<i>&lt;ANY&gt;</i>)</a></code> <code><a href="getType.html">getType(<i>&lt;geom&gt;</i>)</a></code> <code><a href="getType.html">getType(<i>&lt;Spatial&gt;</i>)</a></code> <code><a href="getType.html">getType(<i>&lt;sf&gt;</i>)</a></code> <code><a href="getType.html">getType(<i>&lt;ppp&gt;</i>)</a></code> <code><a href="getType.html">getType(<i>&lt;RasterLayer&gt;</i>)</a></code> </p>
+          <p><code><a href="getRes.html">getRes(<i>&lt;ANY&gt;</i>)</a></code> <code><a href="getRes.html">getRes(<i>&lt;geom&gt;</i>)</a></code> <code><a href="getRes.html">getRes(<i>&lt;Raster&gt;</i>)</a></code> <code><a href="getRes.html">getRes(<i>&lt;matrix&gt;</i>)</a></code> </p>
+        </td>
+        <td><p>Get the spatial resolution of a spatial object.</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="getType.html">getType(<i>&lt;ANY&gt;</i>)</a></code> <code><a href="getType.html">getType(<i>&lt;geom&gt;</i>)</a></code> <code><a href="getType.html">getType(<i>&lt;Spatial&gt;</i>)</a></code> <code><a href="getType.html">getType(<i>&lt;sf&gt;</i>)</a></code> <code><a href="getType.html">getType(<i>&lt;ppp&gt;</i>)</a></code> <code><a href="getType.html">getType(<i>&lt;Raster&gt;</i>)</a></code> <code><a href="getType.html">getType(<i>&lt;matrix&gt;</i>)</a></code> </p>
         </td>
         <td><p>Get the type of a spatial object.</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="getPoints.html">getPoints(<i>&lt;ANY&gt;</i>)</a></code> <code><a href="getPoints.html">getPoints(<i>&lt;geom&gt;</i>)</a></code> <code><a href="getPoints.html">getPoints(<i>&lt;Spatial&gt;</i>)</a></code> <code><a href="getPoints.html">getPoints(<i>&lt;sf&gt;</i>)</a></code> <code><a href="getPoints.html">getPoints(<i>&lt;ppp&gt;</i>)</a></code> </p>
-        </td>
-        <td><p>Get the table of coordinates of a spatial object.</p></td>
       </tr><tr>
         
         <td>
@@ -266,15 +291,27 @@
       </tr><tr>
         
         <td>
-          <p><code><a href="setHistory.html">setHistory(<i>&lt;ANY&gt;</i>)</a></code> <code><a href="setHistory.html">setHistory(<i>&lt;geom&gt;</i>)</a></code> <code><a href="setHistory.html">setHistory(<i>&lt;Raster&gt;</i>)</a></code> </p>
+          <p><code><a href="setFeatures.html">setFeatures(<i>&lt;ANY&gt;</i>)</a></code> <code><a href="setFeatures.html">setFeatures(<i>&lt;geom&gt;</i>)</a></code> <code><a href="setFeatures.html">setFeatures(<i>&lt;Spatial&gt;</i>)</a></code> <code><a href="setFeatures.html">setFeatures(<i>&lt;sf&gt;</i>)</a></code> <code><a href="setFeatures.html">setFeatures(<i>&lt;sfc&gt;</i>)</a></code> <code><a href="setFeatures.html">setFeatures(<i>&lt;ppp&gt;</i>)</a></code> </p>
+        </td>
+        <td><p>Set the table of feature attributes</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="setGroups.html">setGroups(<i>&lt;ANY&gt;</i>)</a></code> <code><a href="setGroups.html">setGroups(<i>&lt;geom&gt;</i>)</a></code> <code><a href="setGroups.html">setGroups(<i>&lt;RasterLayer&gt;</i>)</a></code> </p>
+        </td>
+        <td><p>Set the table of group attributes</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="setHistory.html">setHistory(<i>&lt;ANY&gt;</i>)</a></code> <code><a href="setHistory.html">setHistory(<i>&lt;geom&gt;</i>)</a></code> <code><a href="setHistory.html">setHistory(<i>&lt;RasterLayer&gt;</i>)</a></code> </p>
         </td>
         <td><p>Set additional entries to the history of an object</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="setTable.html">setTable(<i>&lt;ANY&gt;</i>)</a></code> <code><a href="setTable.html">setTable(<i>&lt;geom&gt;</i>)</a></code> <code><a href="setTable.html">setTable(<i>&lt;Spatial&gt;</i>)</a></code> <code><a href="setTable.html">setTable(<i>&lt;sf&gt;</i>)</a></code> <code><a href="setTable.html">setTable(<i>&lt;sfc&gt;</i>)</a></code> <code><a href="setTable.html">setTable(<i>&lt;ppp&gt;</i>)</a></code> <code><a href="setTable.html">setTable(<i>&lt;RasterLayer&gt;</i>)</a></code> </p>
+          <p><code><a href="setPoints.html">setPoints(<i>&lt;ANY&gt;</i>)</a></code> <code><a href="setPoints.html">setPoints(<i>&lt;geom&gt;</i>)</a></code> </p>
         </td>
-        <td><p>Set the attribute table(s) of a spatial object.</p></td>
+        <td><p>Set the table of point attributes</p></td>
       </tr><tr>
         
         <td>

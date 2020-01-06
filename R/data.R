@@ -10,9 +10,10 @@
 
 #' Example \code{geom} objects
 #'
-#' A set of three geometries.
-#' @format The list contains three objects of class geom, a \code{point},
-#'   \code{line} and \code{polygon} object. They are mostly used in the
+#' A set of five geometries.
+#' @format The list contains five objects of class geom, a \code{point},
+#'   \code{line} and \code{polygon} object and two \code{grid} geoms, one with
+#'   categorical data and one with continuous data. They are mostly used in the
 #'   example and test-sections of this package.
 "gtGeoms"
 

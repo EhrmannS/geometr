@@ -74,7 +74,7 @@ makeLayout <- function(x = NULL, theme = gtTheme){
       legendW <- c(legendW, temp)
       legendX <- unit.c(legendX, temp2)
     }
-    legendW <- unit(sum(legendW), "points")
+    legendW <- unit(sum(legendW)+6, "points")
   } else{
     legendW <- unit(0, "points")
     legendX <- unit(0, "points")
@@ -99,8 +99,10 @@ makeLayout <- function(x = NULL, theme = gtTheme){
   # determine dimensions for this plot
   gridH <- unit(1, "grobheight", "panelGrob") - xAxisTitleH - xAxisTicksH - titleH
   gridHr <- unit(1, "grobwidth", "panelGrob")*ratio$y - yAxisTitleW*ratio$y - yAxisTicksW*ratio$y - legendW*ratio$y
+  gridH <- min(gridH, gridHr)
   gridW <- unit(1, "grobwidth", "panelGrob") - yAxisTitleW - yAxisTicksW - legendW
   gridWr <- unit(1, "grobheight", "panelGrob")*ratio$x - xAxisTitleH*ratio$x- xAxisTicksH*ratio$x - titleH*ratio$x
+  gridW <- min(gridW, gridWr)
 
   out <- list(minPlotX = minPlotX, #
               maxPlotX = maxPlotX, #
@@ -117,9 +119,7 @@ makeLayout <- function(x = NULL, theme = gtTheme){
               xFactor = xFactor,
               yFactor = yFactor,
               gridH = gridH, #
-              gridHr = gridHr, #
               gridW = gridW, #
-              gridWr = gridWr, #
               titleH = titleH, #
               yAxisTicksW = yAxisTicksW, #
               xAxisTitleH = xAxisTitleH, #
@@ -473,7 +473,7 @@ makeLayout <- function(x = NULL, theme = gtTheme){
                              invert = FALSE)
       pointsInside <- sum(inside != 0)
       ratio <- pointsInside/nrPoints
-      if(ratio < 1/16){
+      if(ratio <= 1/16){
         recent <- empty
       } else if(ratio > 1/16 & ratio <= 1/8){
         recent <- quarter

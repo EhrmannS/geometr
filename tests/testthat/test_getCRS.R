@@ -43,5 +43,5 @@ test_that("getCRS of a Raster", {
 
 test_that("getCRS of any other object", {
   output <- getCRS("bla")
-  expect_null(object = output)
+  expect_true(object = is.na(output))
 })

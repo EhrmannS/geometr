@@ -32,7 +32,7 @@ if(!isGeneric("setHistory")){
 setMethod(f = "setHistory",
           signature = "ANY",
           definition = function(x){
-            stop("the class is not (yet) supported, or does not have an history slot.")
+            warning(paste0("I can't set a history to an object of class '", paste0(class(x), collapse = ", "), "'."))
           }
 )
 
@@ -58,7 +58,7 @@ setMethod(f = "setHistory",
 #' @rdname setHistory
 #' @export
 setMethod(f = "setHistory",
-          signature = "Raster",
+          signature = "RasterLayer",
           definition = function(x, history = NULL){
 
             if(length(x@history) == 0){

@@ -34,7 +34,7 @@ if(!isGeneric("setCRS")){
 setMethod(f = "setCRS",
           signature = "ANY",
           definition = function(x){
-            stop("the class is not (yet) supported, or does not have a coordinate reference system.")
+            warning(paste0("I can't set a history to an object of class '", paste0(class(x), collapse = ", "), "'."))
           }
 )
 

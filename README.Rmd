@@ -12,7 +12,7 @@ knitr::opts_chunk$set(
   out.width = "100%"
 )
 ```
-# geometr <a href='https://ehrmanns.github.io/geometr/'><img src='man/img/logo.svg' align="right" height="200" /></a>
+# geometr <a href='https://ehrmanns.github.io/geometr/'><img src='man/figures/logo.svg' align="right" height="200" /></a>
 
 [![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/geometr)](https://cran.r-project.org/package=geometr)
 [![Travis-CI Build
@@ -27,10 +27,10 @@ Status](https://img.shields.io/codecov/c/github/EhrmannS/geometr/master.svg)](ht
 
 The `geometr` package provides tools that generate and process easily accessible and tidy geometric shapes (of class `geom`). Moreover, it aims to improve interoperability of spatial and other geometric classes. Spatial
 classes are typically a collection of geometric shapes (or their vertices) that are accompanied by various metadata (such as attributes and a coordinate reference system). Most spatial classes are thus conceptually quite similar, yet a common standard lacks for accessing features, vertices or the metadata. `Geometr` fills this gap by
-providing tools
+providing tools that
 
-  - that produce an identical output for the same metadata of different classes (via so-called getters) and
-  - that use an identical input to write to various classes that originally require different input (via so-called setters).
+  - produce an identical output for the same metadata of different classes (via so-called getters) and
+  - use an identical input to write to various classes that originally require different input (via so-called setters).
 
 ## Installation
 
@@ -81,7 +81,7 @@ getTable(x = nc_sf)
 getTable(x = nc_geom, slot = "feature")
 ```
 
-A `geom` has three attribute tables, one for vertices, one for features and one for groups of features, all of which can be provided with ancillary information ([details on data structure of a `geom`](https://ehrmanns.github.io/geometr/articles/geometr.html#description-of-the-class-geom).
+A `geom` has three attribute tables, one for points, one for features and one for groups of features, all of which can be provided with ancillary information ([details on data structure of a `geom`](https://ehrmanns.github.io/geometr/articles/geometr.html#description-of-the-class-geom)).
 
 ```{r}
 getTable(x = nc_geom, slot = "point")

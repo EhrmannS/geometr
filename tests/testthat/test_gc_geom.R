@@ -20,13 +20,15 @@ test_that("transform from sf to geom", {
   expect_class(output, classes = "geom")
   expect_true(output@type == "point")
   expect_data_frame(output@point, any.missing = FALSE, nrows = 8, ncols = 3)
-  expect_data_frame(output@feature, any.missing = FALSE, nrows = 8, ncols = 3)
+  expect_list(output@feature, any.missing = FALSE, names = "strict")
+  expect_data_frame(output@feature[[1]], any.missing = FALSE, nrows = 8, ncols = 3)
 
   output <- gc_geom(input, group = TRUE)
   expect_class(output, classes = "geom")
   expect_true(output@type == "point")
   expect_data_frame(output@point, any.missing = FALSE, nrows = 8, ncols = 3)
-  expect_data_frame(output@group, any.missing = FALSE, nrows = 2, ncols = 2)
+  expect_list(x = output@group, any.missing = FALSE, len = 1)
+  expect_data_frame(output@group[[1]], any.missing = FALSE, nrows = 2, ncols = 2)
 
   # test LINESTRING
   input <- gtSF$linestring
@@ -90,7 +92,8 @@ test_that("transform from sp to geom", {
   output <- gc_geom(input)
   expect_class(output, "geom")
   expect_true(output@type == "point")
-  expect_data_frame(getTable(output), nrows = 8, ncols = 3)
+  expect_list(output@feature, any.missing = FALSE, names = "strict")
+  expect_data_frame(output@feature[[1]], any.missing = FALSE, nrows = 8, ncols = 3)
 
   # test 'SpatialLines'
   input <- gtSP$SpatialLines
@@ -106,7 +109,8 @@ test_that("transform from sp to geom", {
   output <- gc_geom(input)
   expect_class(output, "geom")
   expect_true(output@type == "line")
-  expect_data_frame(getTable(output), nrows = 2, ncols = 3)
+  expect_list(output@feature, any.missing = FALSE, names = "strict")
+  expect_data_frame(output@feature[[1]], any.missing = FALSE, nrows = 2, ncols = 3)
 
   # test 'SpatialPolygons'
   input = gtSP$SpatialPolygons
@@ -121,7 +125,8 @@ test_that("transform from sp to geom", {
   output <- gc_geom(input)
   expect_class(output, "geom")
   expect_true(output@type == "polygon")
-  expect_data_frame(getTable(output), nrows = 2, ncols = 3)
+  expect_list(output@feature, any.missing = FALSE, names = "strict")
+  expect_data_frame(output@feature[[1]], any.missing = FALSE, nrows = 2, ncols = 3)
 
   # test 'SpatialGrid'
   x = GridTopology(c(0,0), c(1,1), c(5,5))
@@ -153,6 +158,22 @@ test_that("transform from sp to geom", {
   output <- gc_geom(input)
   expect_class(output, "geom")
   expect_true(output@type == "point")
+})
+
+test_that("transform from Raster to geom", {
+  # RasterStack
+  input <- gtRasters
+
+  output <- gc_geom(input)
+  expect_class(output, "geom")
+  expect_true(output@type == "grid")
+
+  # RasterLayer
+  input <- gtRasters$continuous
+
+  output <- gc_geom(input)
+  expect_class(output, "geom")
+  expect_true(output@type == "grid")
 })
 
 test_that("transform from ppp to geom", {

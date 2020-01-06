@@ -32,7 +32,7 @@ if(!isGeneric("setWindow")){
 setMethod(f = "setWindow",
           signature = "ANY",
           definition = function(x){
-            stop("the class is not (yet) supported, or does not have a reference window.")
+            warning(paste0("I can't set a reference window to an object of class '", paste0(class(x), collapse = ", "), "'."))
           }
 )
 

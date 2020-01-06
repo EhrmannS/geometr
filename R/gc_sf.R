@@ -8,9 +8,11 @@
 #'   common, otherwise they are returned as a single simple feature.
 #' @family spatial classes
 #' @examples
-#' sfPoints <- gc_sf(input = gtGeoms$point)
-#' sfLines <- gc_sf(input = gtGeoms$line)
-#' sfPolygon <- gc_sf(input = gtGeoms$polygon)
+#' gc_sf(input = gtGeoms$point)
+#'
+#' gc_sf(input = gtGeoms$line)
+#'
+#' gc_sf(input = gtGeoms$polygon)
 #' @importFrom checkmate assertClass
 #' @importFrom raster crs
 #' @importFrom sf st_multipoint st_point st_multilinestring st_linestring st_sfc
@@ -40,9 +42,8 @@ setMethod(f = "gc_sf",
           definition = function(input = NULL){
 
             theCoords <- getPoints(x = input)
-            theData <- getTable(x = input, slot = "feature")
-            theGroups <- getTable(x = input, slot = "group")
-            theVertices <- getTable(x = input, slot = "point")
+            theData <- getFeatures(x = input)
+            theGroups <- getGroups(x = input)
             theCRS <- getCRS(x = input)
             featureType <- getType(input)[2]
 
@@ -68,13 +69,13 @@ setMethod(f = "gc_sf",
               }
               out <- st_sfc(tempOut)
 
-              attr <- tibble(fid = unique(theVertices$fid))
-              if(!all(names(theVertices) %in% c("x", "y", "fid"))){
-                if(length(out) < dim(theVertices)[1]){
-                  warning("MULTIPOINTS don't support individual attributes per point, ignoring '", names(theVertices)[!names(theVertices) %in% c("x", "y", "fid")] , "'.")
+              attr <- tibble(fid = unique(theCoords$fid))
+              if(!all(names(theCoords) %in% c("x", "y", "fid"))){
+                if(length(out) < dim(theCoords)[1]){
+                  warning("MULTIPOINTS don't support individual attributes per point, ignoring '", names(theCoords)[!names(theCoords) %in% c("x", "y", "fid")] , "'.")
                 } else {
                   makeDF <- TRUE
-                  attr <- theVertices[,!names(theVertices) %in% c("x", "y")]
+                  attr <- theCoords[,!names(theCoords) %in% c("x", "y")]
                 }
               }
 

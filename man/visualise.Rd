@@ -4,14 +4,18 @@
 \alias{visualise}
 \title{Visualise raster and geom objects}
 \usage{
-visualise(..., window = NULL, theme = gtTheme, trace = FALSE,
-  image = FALSE, new = TRUE, clip = TRUE)
+visualise(..., layer = NULL, window = NULL, theme = gtTheme,
+  trace = FALSE, image = FALSE, new = TRUE, clip = TRUE)
 }
 \arguments{
 \item{...}{objects to plot and optional graphical parameters.}
 
-\item{window}{[\code{data.frame(1)}]\cr two opposing corners of a rectangle to
-which the plot is limited.}
+\item{layer}{[\code{integerish(.)} | \code{character(.)}]\cr in case the
+objects to plot have several layers, this is the name or index of the
+layer(s) that shall be plotted.}
+
+\item{window}{[\code{data.frame(1)}]\cr two opposing corners of a rectangle
+to which the plot is limited.}
 
 \item{theme}{[\code{list(7)}]\cr visualising options; see
 \code{\link{setTheme}} for details.}

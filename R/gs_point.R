@@ -4,15 +4,15 @@
 #' anchor values or by sketching it.
 #' @param anchor [\code{geom(1)}|\code{data.frame(1)}]\cr Object to derive the
 #'   \code{geom} from. It must include column names \code{x}, \code{y} and
-#'   optionally a custom \code{fid}. To set further attributes, use
-#'   \code{\link{setTable}}.
+#'   optionally a custom \code{fid}.
 #' @param window [\code{data.frame(1)}]\cr in case the reference window deviates
 #'   from the bounding box of \code{anchor} (minimum and maximum values),
 #'   specify this here.
 #' @param vertices [\code{integer(1)}]\cr number of vertices.
 #' @param sketch [\code{RasterLayer(1)} | \code{matrix(1)}]\cr Gridded object
 #'   that serves as template to sketch points.
-#' @param ... [various]\cr additional arguments; see Details.
+#' @param ... [various]\cr graphical parameters to \code{\link{gt_locate}}, in
+#'   case points are sketched; see \code{\link[grid]{gpar}}
 #' @return An invisible \code{geom}.
 #' @family geometry shapes
 #' @details The arguments \code{anchor} and \code{sketch} indicate how the line
@@ -20,10 +20,6 @@
 #'   parametrically from the given objects' points, \item if an object is set in
 #'   \code{sketch}, this is used to create the \code{geom} interactively, by
 #'   clicking into the plot.}
-#'
-#'   Possible additional arguments are: \itemize{ \item verbose = TRUE/FALSE
-#'   \item graphical parameters to \code{\link{gt_locate}}, in case points are
-#'   sketched; see \code{\link[grid]{gpar}}}
 #' @examples
 #' # 1. create points programmatically
 #' coords <- data.frame(x = c(40, 70, 70, 50),
@@ -39,9 +35,6 @@
 #' gs_point(anchor = coords, window = window) %>%
 #'   visualise(linecol = "green")
 #'
-#' # if a plot is already open, vertices are set relative to its' window
-#' visualise(geom = gs_point(anchor = coords), new = FALSE)
-#'
 #' # when a geom is used in 'anchor', its properties are passed on
 #' aGeom <- setWindow(x = aGeom, to = window)
 #' gs_point(anchor = aGeom) %>%
@@ -49,7 +42,7 @@
 #' \donttest{
 #' # 2. sketch two points by clicking into a template
 #' gs_point(sketch = gtRasters$continuous, vertices = 2) %>%
-#'   visualise(linecol = "orange", pointsymbol = 5, new = FALSE)
+#'   visualise(geom = ., linecol = "green", pointsymbol = 5, new = FALSE)
 #' }
 #' @importFrom checkmate testDataFrame assertNames testNull assert testClass
 #'   assertLogical assertIntegerish
@@ -58,12 +51,12 @@
 #' @importFrom methods new
 #' @export
 
-gs_point <- function(anchor = NULL, window = NULL, vertices = 1,
-                     sketch = NULL, ...){
+gs_point <- function(anchor = NULL, window = NULL, vertices = 1, sketch = NULL,
+                     ...){
 
   # check arguments
-  anchor <- .testAnchor(x = anchor, ...)
-  theWindow <- .testWindow(x = window, ...)
+  anchor <- .testAnchor(x = anchor)
+  theWindow <- .testWindow(x = window)
   assertIntegerish(vertices, min.len = 1, lower = 1, any.missing = FALSE)
 
   # sketch the geometry
@@ -99,10 +92,16 @@ gs_point <- function(anchor = NULL, window = NULL, vertices = 1,
       theVertices <- bind_cols(anchor$obj)
       if(!"fid" %in% names(theVertices)){
         theVertices <- bind_cols(theVertices, fid = seq_along(theVertices$x))
+        vertices <- dim(theVertices)[1]
+        theFeatures <- tibble(fid = 1:vertices, gid = 1:vertices)
+        theGroups <- tibble(gid = 1:vertices)
+      } else {
+        vertices <- unique(theVertices$fid)
+        theFeatures <- tibble(fid = vertices, gid = seq_along(vertices))
+        theGroups <- tibble(gid = seq_along(vertices))
       }
-      vertices <- dim(theVertices)[1]
-      theFeatures = tibble(fid = 1:vertices, gid = 1:vertices)
-      theGroups = tibble(gid = 1:vertices)
+      theFeatures <- list(geometry = theFeatures)
+      theGroups <- list(geometry = theGroups)
       projection <- NA
 
     }

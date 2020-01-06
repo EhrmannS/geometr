@@ -6,15 +6,20 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Get the table of coordinates of a spatial object. — getPoints • geometr</title>
+<title>Get the table of point attributes — getPoints • geometr</title>
 
-
+<!-- favicons -->
+<link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
+<link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png" />
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous" />
-
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
 
 <!-- Font Awesome icons -->
@@ -34,11 +39,12 @@
 
 
 
+<meta property="og:title" content="Get the table of point attributes — getPoints" />
 
-<meta property="og:title" content="Get the table of coordinates of a spatial object. — getPoints" />
-<meta property="og:description" content="Get the table of coordinates of a spatial object." />
+<meta property="og:description" content="Get tabular information of the attributes of points (incl. coordinates)." />
+
+<meta property="og:image" content="http://EhrmannS.github.io/geometr/logo.png" />
 <meta name="twitter:card" content="summary" />
-
 
 
 
@@ -69,7 +75,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">geometr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0</span>
       </span>
     </div>
 
@@ -85,6 +91,7 @@
   <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
+      
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="http://www.twitter.com/DerEhrmann">
@@ -111,20 +118,22 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Get the table of coordinates of a spatial object.</h1>
+    <h1>Get the table of point attributes</h1>
     <small class="dont-index">Source: <a href='https://github.com/EhrmannS/geometr/blob/master/R/getPoints.R'><code>R/getPoints.R</code></a></small>
     <div class="hidden name"><code>getPoints.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Get the table of coordinates of a spatial object.</p>
+    
+    <p>Get tabular information of the attributes of points (incl. coordinates).</p>
+    
     </div>
 
     <pre class="usage"><span class='co'># S4 method for ANY</span>
-<span class='fu'>getPoints</span>(<span class='no'>x</span>)
+<span class='fu'>getPoints</span>(<span class='no'>x</span>, <span class='no'>...</span>)
 
 <span class='co'># S4 method for geom</span>
-<span class='fu'>getPoints</span>(<span class='no'>x</span>)
+<span class='fu'>getPoints</span>(<span class='no'>x</span>, <span class='no'>...</span>)
 
 <span class='co'># S4 method for Spatial</span>
 <span class='fu'>getPoints</span>(<span class='no'>x</span>)
@@ -133,107 +142,55 @@
 <span class='fu'>getPoints</span>(<span class='no'>x</span>)
 
 <span class='co'># S4 method for ppp</span>
-<span class='fu'>getPoints</span>(<span class='no'>x</span>)</pre>
+<span class='fu'>getPoints</span>(<span class='no'>x</span>)
 
+<span class='co'># S4 method for Raster</span>
+<span class='fu'>getPoints</span>(<span class='no'>x</span>)
+
+<span class='co'># S4 method for matrix</span>
+<span class='fu'>getPoints</span>(<span class='no'>x</span>)</pre>
+    
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>x</th>
-      <td><p>the object from which to extract the coordinates</p></td>
+      <td><p>the object from which to derive the attribute table.</p></td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td><p>subset based on logical predicates defined in terms of the
+columns in <code>x</code> or a vector of booleans. Multiple conditions are
+combined with <code>&amp;</code>. Only rows where the condition evaluates to TRUE are kept.</p></td>
     </tr>
     </table>
-
+    
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A table of the coordinates <code>x</code> is made up of.</p>
+    <p>A table of the point attributes of <code>x</code> or an object where the
+  point table has been subsetted.</p>
+    
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>Other getters: <code><a href='getCRS.html'>getCRS</a></code>,
-  <code><a href='getExtent.html'>getExtent</a></code>, <code><a href='getHistory.html'>getHistory</a></code>,
-  <code><a href='getSubset.html'>getSubset</a></code>, <code><a href='getTable.html'>getTable</a></code>,
+  <code><a href='getExtent.html'>getExtent</a></code>, <code><a href='getFeatures.html'>getFeatures</a></code>,
+  <code><a href='getGroups.html'>getGroups</a></code>, <code><a href='getHistory.html'>getHistory</a></code>,
+  <code><a href='getLayer.html'>getLayer</a></code>, <code><a href='getRes.html'>getRes</a></code>,
   <code><a href='getType.html'>getType</a></code>, <code><a href='getWindow.html'>getWindow</a></code></p></div>
+    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>getPoints</span>(<span class='no'>gtGeoms</span>$<span class='no'>polygon</span>)</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 15 x 3</span><span>
-#&gt;        x     y   fid
-#&gt;    </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'> 1</span><span>     0     0     1
-#&gt; </span><span style='color: #BCBCBC;'> 2</span><span>    10     0     1
-#&gt; </span><span style='color: #BCBCBC;'> 3</span><span>    10    10     1
-#&gt; </span><span style='color: #BCBCBC;'> 4</span><span>     0    10     1
-#&gt; </span><span style='color: #BCBCBC;'> 5</span><span>     0     0     1
-#&gt; </span><span style='color: #BCBCBC;'> 6</span><span>     1     1     1
-#&gt; </span><span style='color: #BCBCBC;'> 7</span><span>     1     2     1
-#&gt; </span><span style='color: #BCBCBC;'> 8</span><span>     2     2     1
-#&gt; </span><span style='color: #BCBCBC;'> 9</span><span>     2     1     1
-#&gt; </span><span style='color: #BCBCBC;'>10</span><span>     1     1     1
-#&gt; </span><span style='color: #BCBCBC;'>11</span><span>    11    11     2
-#&gt; </span><span style='color: #BCBCBC;'>12</span><span>    11    12     2
-#&gt; </span><span style='color: #BCBCBC;'>13</span><span>    12    12     2
-#&gt; </span><span style='color: #BCBCBC;'>14</span><span>    12    11     2
-#&gt; </span><span style='color: #BCBCBC;'>15</span><span>    11    11     2</div><div class='input'><span class='fu'>getPoints</span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>gtGeoms</span>$<span class='no'>point</span>)</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 12 x 3</span><span>
-#&gt;        x     y   fid
-#&gt;    </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'> 1</span><span>     0     0     1
-#&gt; </span><span style='color: #BCBCBC;'> 2</span><span>     0    10     2
-#&gt; </span><span style='color: #BCBCBC;'> 3</span><span>    10    10     3
-#&gt; </span><span style='color: #BCBCBC;'> 4</span><span>    10     0     4
-#&gt; </span><span style='color: #BCBCBC;'> 5</span><span>     1     1     5
-#&gt; </span><span style='color: #BCBCBC;'> 6</span><span>     1     2     6
-#&gt; </span><span style='color: #BCBCBC;'> 7</span><span>     2     2     7
-#&gt; </span><span style='color: #BCBCBC;'> 8</span><span>     2     1     8
-#&gt; </span><span style='color: #BCBCBC;'> 9</span><span>    11    11     9
-#&gt; </span><span style='color: #BCBCBC;'>10</span><span>    11    12    10
-#&gt; </span><span style='color: #BCBCBC;'>11</span><span>    12    12    11
-#&gt; </span><span style='color: #BCBCBC;'>12</span><span>    12    11    12</div><div class='input'>
-<span class='fu'>getPoints</span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>gtSP</span>$<span class='no'>SpatialPoints</span>)</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 4 x 3</span><span>
-#&gt;       x     y   fid
-#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'>1</span><span>     0     0     1
-#&gt; </span><span style='color: #BCBCBC;'>2</span><span>    10     0     2
-#&gt; </span><span style='color: #BCBCBC;'>3</span><span>    10    10     3
-#&gt; </span><span style='color: #BCBCBC;'>4</span><span>     0    10     4</div><div class='input'>
-<span class='fu'>getPoints</span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>gtSF</span>$<span class='no'>multilinestring</span>)</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 12 x 3</span><span>
-#&gt;        x     y   fid
-#&gt;    </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'> 1</span><span>     0     0     1
-#&gt; </span><span style='color: #BCBCBC;'> 2</span><span>     0    10     1
-#&gt; </span><span style='color: #BCBCBC;'> 3</span><span>    10    10     1
-#&gt; </span><span style='color: #BCBCBC;'> 4</span><span>    10     0     1
-#&gt; </span><span style='color: #BCBCBC;'> 5</span><span>     1     1     2
-#&gt; </span><span style='color: #BCBCBC;'> 6</span><span>     1     2     2
-#&gt; </span><span style='color: #BCBCBC;'> 7</span><span>     2     2     2
-#&gt; </span><span style='color: #BCBCBC;'> 8</span><span>     2     1     2
-#&gt; </span><span style='color: #BCBCBC;'> 9</span><span>    11    11     3
-#&gt; </span><span style='color: #BCBCBC;'>10</span><span>    11    12     3
-#&gt; </span><span style='color: #BCBCBC;'>11</span><span>    12    12     3
-#&gt; </span><span style='color: #BCBCBC;'>12</span><span>    12    11     3</div><div class='input'>
-<span class='fu'>getPoints</span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>gtPPP</span>)</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 15 x 3</span><span>
-#&gt;        x     y   fid
-#&gt;    </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'> 1</span><span>     0     0     1
-#&gt; </span><span style='color: #BCBCBC;'> 2</span><span>    10     0     2
-#&gt; </span><span style='color: #BCBCBC;'> 3</span><span>    10    10     3
-#&gt; </span><span style='color: #BCBCBC;'> 4</span><span>     0    10     4
-#&gt; </span><span style='color: #BCBCBC;'> 5</span><span>     0     0     5
-#&gt; </span><span style='color: #BCBCBC;'> 6</span><span>     1     1     6
-#&gt; </span><span style='color: #BCBCBC;'> 7</span><span>     1     2     7
-#&gt; </span><span style='color: #BCBCBC;'> 8</span><span>     2     2     8
-#&gt; </span><span style='color: #BCBCBC;'> 9</span><span>     2     1     9
-#&gt; </span><span style='color: #BCBCBC;'>10</span><span>     1     1    10
-#&gt; </span><span style='color: #BCBCBC;'>11</span><span>    11    11    11
-#&gt; </span><span style='color: #BCBCBC;'>12</span><span>    11    12    12
-#&gt; </span><span style='color: #BCBCBC;'>13</span><span>    12    12    13
-#&gt; </span><span style='color: #BCBCBC;'>14</span><span>    12    11    14
-#&gt; </span><span style='color: #BCBCBC;'>15</span><span>    11    11    15</div></span></pre>
+    <pre class="examples"></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
+      
       <li><a href="#value">Value</a></li>
+
       <li><a href="#see-also">See also</a></li>
+      
       <li><a href="#examples">Examples</a></li>
     </ul>
 

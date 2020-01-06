@@ -22,6 +22,7 @@ reference:
       - gc_geom
       - gc_grob
       - gc_ppp
+      - gc_raster
       - gc_sf
       - gc_sp
   - title: getters and setters
@@ -29,15 +30,19 @@ reference:
     contents:
       - getCRS
       - getExtent
+      - getFeatures
+      - getGroups
       - getHistory
-      - getSubset
-      - getTable
-      - getType
+      - getLayer
       - getPoints
+      - getRes
+      - getType
       - getWindow
       - setCRS
+      - setFeatures
+      - setGroups
       - setHistory
-      - setTable
+      - setPoints
       - setWindow
   - title: utility functions
     desc: functions that modify `geom`s

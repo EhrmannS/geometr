@@ -25,7 +25,7 @@ if(!isGeneric("getCRS")){
 setMethod(f = "getCRS",
           signature = "ANY",
           definition = function(x){
-            NULL
+            NA_character_
           }
 )
 

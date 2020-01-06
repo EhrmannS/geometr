@@ -6,8 +6,8 @@ context("helpers")
 test_that("makeLayout when 'window' is given", {
   input <- makeObject(x = gtGeoms$point, window = data.frame(x = c(3, 5), y = c(3, 5)), theme = gtTheme)
   output <- makeLayout(x = input, theme = gtTheme)
-  expect_list(output, len = 24, any.missing = FALSE)
-  expect_names(x = names(output), identical.to = c("minPlotX", "maxPlotX", "minPlotY", "maxPlotY", "xMajGrid", "xMinGrid", "yMajGrid", "yMinGrid", "xMargin", "yMargin", "xOffset", "yOffset", "xFactor", "yFactor", "gridH", "gridHr", "gridW", "gridWr", "titleH", "yAxisTicksW", "xAxisTitleH", "xWindowOffset", "yWindowOffset", "legendX"))
+  expect_list(output, len = 22, any.missing = FALSE)
+  expect_names(x = names(output), identical.to = c("minPlotX", "maxPlotX", "minPlotY", "maxPlotY", "xMajGrid", "xMinGrid", "yMajGrid", "yMinGrid", "xMargin", "yMargin", "xOffset", "yOffset", "xFactor", "yFactor", "gridH", "gridW", "titleH", "yAxisTicksW", "xAxisTitleH", "xWindowOffset", "yWindowOffset", "legendX"))
 })
 
 test_that("makeLayout for deviating theme options", {
@@ -19,8 +19,8 @@ test_that("makeLayout for deviating theme options", {
 
   input <- makeObject(x = gtGeoms$point, window = NULL, theme = myTheme)
   output <- makeLayout(x = input, theme = myTheme)
-  expect_list(output, len = 24, any.missing = FALSE)
-  expect_names(x = names(output), identical.to = c("minPlotX", "maxPlotX", "minPlotY", "maxPlotY", "xMajGrid", "xMinGrid", "yMajGrid", "yMinGrid", "xMargin", "yMargin", "xOffset", "yOffset", "xFactor", "yFactor", "gridH", "gridHr", "gridW", "gridWr", "titleH", "yAxisTicksW", "xAxisTitleH", "xWindowOffset", "yWindowOffset", "legendX"))
+  expect_list(output, len = 22, any.missing = FALSE)
+  expect_names(x = names(output), identical.to = c("minPlotX", "maxPlotX", "minPlotY", "maxPlotY", "xMajGrid", "xMinGrid", "yMajGrid", "yMinGrid", "xMargin", "yMargin", "xOffset", "yOffset", "xFactor", "yFactor", "gridH", "gridW", "titleH", "yAxisTicksW", "xAxisTitleH", "xWindowOffset", "yWindowOffset", "legendX"))
 })
 
 test_that(".getDecimals works", {

@@ -8,13 +8,18 @@
 
 <title>Get the reference window of a spatial object. — getWindow • geometr</title>
 
-
+<!-- favicons -->
+<link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
+<link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png" />
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous" />
-
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
 
 <!-- Font Awesome icons -->
@@ -34,11 +39,12 @@
 
 
 
-
 <meta property="og:title" content="Get the reference window of a spatial object. — getWindow" />
-<meta property="og:description" content="Get the reference window of a spatial object." />
-<meta name="twitter:card" content="summary" />
 
+<meta property="og:description" content="Get the reference window of a spatial object." />
+
+<meta property="og:image" content="http://EhrmannS.github.io/geometr/logo.png" />
+<meta name="twitter:card" content="summary" />
 
 
 
@@ -69,7 +75,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">geometr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0</span>
       </span>
     </div>
 
@@ -85,6 +91,7 @@
   <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
+      
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="http://www.twitter.com/DerEhrmann">
@@ -117,7 +124,9 @@
     </div>
 
     <div class="ref-description">
+    
     <p>Get the reference window of a spatial object.</p>
+    
     </div>
 
     <pre class="usage"><span class='co'># S4 method for ANY</span>
@@ -140,7 +149,7 @@
 
 <span class='co'># S4 method for matrix</span>
 <span class='fu'>getWindow</span>(<span class='no'>x</span>)</pre>
-
+    
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
@@ -149,74 +158,80 @@
       <td><p>the object from which to derive the reference window.</p></td>
     </tr>
     </table>
-
+    
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>A table of the corners of the reference window of <code>x</code>.</p>
+    
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>Other getters: <code><a href='getCRS.html'>getCRS</a></code>,
-  <code><a href='getExtent.html'>getExtent</a></code>, <code><a href='getHistory.html'>getHistory</a></code>,
-  <code><a href='getPoints.html'>getPoints</a></code>, <code><a href='getSubset.html'>getSubset</a></code>,
-  <code><a href='getTable.html'>getTable</a></code>, <code><a href='getType.html'>getType</a></code></p></div>
+  <code><a href='getExtent.html'>getExtent</a></code>, <code><a href='getFeatures.html'>getFeatures</a></code>,
+  <code><a href='getGroups.html'>getGroups</a></code>, <code><a href='getHistory.html'>getHistory</a></code>,
+  <code><a href='getLayer.html'>getLayer</a></code>, <code><a href='getPoints.html'>getPoints</a></code>,
+  <code><a href='getRes.html'>getRes</a></code>, <code><a href='getType.html'>getType</a></code></p></div>
+    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
-<span class='fu'>getWindow</span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>gtGeoms</span>$<span class='no'>line</span>)</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 5 x 2</span><span>
+<span class='fu'>getWindow</span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>gtGeoms</span>$<span class='no'>line</span>)</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 5 x 2</span><span>
 #&gt;       x     y
-#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'>1</span><span>     0     0
-#&gt; </span><span style='color: #BCBCBC;'>2</span><span>    12     0
-#&gt; </span><span style='color: #BCBCBC;'>3</span><span>    12    12
-#&gt; </span><span style='color: #BCBCBC;'>4</span><span>     0    12
-#&gt; </span><span style='color: #BCBCBC;'>5</span><span>     0     0</div><div class='input'>
-<span class='fu'>getWindow</span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>gtSP</span>$<span class='no'>SpatialLines</span>)</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 5 x 2</span><span>
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>1</span><span>     0     0
+#&gt; </span><span style='color: #555555;'>2</span><span>    12     0
+#&gt; </span><span style='color: #555555;'>3</span><span>    12    12
+#&gt; </span><span style='color: #555555;'>4</span><span>     0    12
+#&gt; </span><span style='color: #555555;'>5</span><span>     0     0</div><div class='input'>
+<span class='fu'>getWindow</span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>gtSP</span>$<span class='no'>SpatialLines</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 5 x 2</span><span>
 #&gt;       x     y
-#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'>1</span><span>     0     0
-#&gt; </span><span style='color: #BCBCBC;'>2</span><span>    10     0
-#&gt; </span><span style='color: #BCBCBC;'>3</span><span>    10    10
-#&gt; </span><span style='color: #BCBCBC;'>4</span><span>     0    10
-#&gt; </span><span style='color: #BCBCBC;'>5</span><span>     0     0</div><div class='input'>
-<span class='fu'>getWindow</span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>gtSF</span>$<span class='no'>multilinestring</span>)</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 5 x 2</span><span>
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>1</span><span>     0     0
+#&gt; </span><span style='color: #555555;'>2</span><span>    10     0
+#&gt; </span><span style='color: #555555;'>3</span><span>    10    10
+#&gt; </span><span style='color: #555555;'>4</span><span>     0    10
+#&gt; </span><span style='color: #555555;'>5</span><span>     0     0</div><div class='input'>
+<span class='fu'>getWindow</span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>gtSF</span>$<span class='no'>multilinestring</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 5 x 2</span><span>
 #&gt;       x     y
-#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'>1</span><span>     0     0
-#&gt; </span><span style='color: #BCBCBC;'>2</span><span>    12     0
-#&gt; </span><span style='color: #BCBCBC;'>3</span><span>    12    12
-#&gt; </span><span style='color: #BCBCBC;'>4</span><span>     0    12
-#&gt; </span><span style='color: #BCBCBC;'>5</span><span>     0     0</div><div class='input'>
-<span class='fu'>getWindow</span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>gtPPP</span>)</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 5 x 2</span><span>
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>1</span><span>     0     0
+#&gt; </span><span style='color: #555555;'>2</span><span>    12     0
+#&gt; </span><span style='color: #555555;'>3</span><span>    12    12
+#&gt; </span><span style='color: #555555;'>4</span><span>     0    12
+#&gt; </span><span style='color: #555555;'>5</span><span>     0     0</div><div class='input'>
+<span class='fu'>getWindow</span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>gtPPP</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 5 x 2</span><span>
 #&gt;       x     y
-#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'>1</span><span>     0     0
-#&gt; </span><span style='color: #BCBCBC;'>2</span><span>    12     0
-#&gt; </span><span style='color: #BCBCBC;'>3</span><span>    12    12
-#&gt; </span><span style='color: #BCBCBC;'>4</span><span>     0    12
-#&gt; </span><span style='color: #BCBCBC;'>5</span><span>     0     0</div><div class='input'>
-<span class='fu'>getWindow</span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>gtRasters</span>$<span class='no'>categorical</span>)</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 5 x 2</span><span>
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>1</span><span>     0     0
+#&gt; </span><span style='color: #555555;'>2</span><span>    12     0
+#&gt; </span><span style='color: #555555;'>3</span><span>    12    12
+#&gt; </span><span style='color: #555555;'>4</span><span>     0    12
+#&gt; </span><span style='color: #555555;'>5</span><span>     0     0</div><div class='input'>
+<span class='fu'>getWindow</span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>gtRasters</span>$<span class='no'>categorical</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 5 x 2</span><span>
 #&gt;       x     y
-#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'>1</span><span>     0     0
-#&gt; </span><span style='color: #BCBCBC;'>2</span><span>    60     0
-#&gt; </span><span style='color: #BCBCBC;'>3</span><span>    60    56
-#&gt; </span><span style='color: #BCBCBC;'>4</span><span>     0    56
-#&gt; </span><span style='color: #BCBCBC;'>5</span><span>     0     0</div><div class='input'>
-<span class='fu'>getWindow</span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>matrix</a></span>(<span class='fl'>0</span>, <span class='fl'>3</span>, <span class='fl'>5</span>))</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 5 x 2</span><span>
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>1</span><span>     0     0
+#&gt; </span><span style='color: #555555;'>2</span><span>    60     0
+#&gt; </span><span style='color: #555555;'>3</span><span>    60    56
+#&gt; </span><span style='color: #555555;'>4</span><span>     0    56
+#&gt; </span><span style='color: #555555;'>5</span><span>     0     0</div><div class='input'>
+<span class='fu'>getWindow</span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>matrix</a></span>(<span class='fl'>0</span>, <span class='fl'>3</span>, <span class='fl'>5</span>))</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 5 x 2</span><span>
 #&gt;       x     y
-#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'>1</span><span>     0     0
-#&gt; </span><span style='color: #BCBCBC;'>2</span><span>     5     0
-#&gt; </span><span style='color: #BCBCBC;'>3</span><span>     5     3
-#&gt; </span><span style='color: #BCBCBC;'>4</span><span>     0     3
-#&gt; </span><span style='color: #BCBCBC;'>5</span><span>     0     0</div></span></pre>
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>1</span><span>     0     0
+#&gt; </span><span style='color: #555555;'>2</span><span>     5     0
+#&gt; </span><span style='color: #555555;'>3</span><span>     5     3
+#&gt; </span><span style='color: #555555;'>4</span><span>     0     3
+#&gt; </span><span style='color: #555555;'>5</span><span>     0     0</div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
+      
       <li><a href="#value">Value</a></li>
+
       <li><a href="#see-also">See also</a></li>
+      
       <li><a href="#examples">Examples</a></li>
     </ul>
 

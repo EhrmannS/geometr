@@ -43,31 +43,15 @@ setMethod(f = "getHistory",
 #' @rdname getHistory
 #' @export
 setMethod(f = "getHistory",
-          signature = "RasterLayer",
+          signature = "Raster",
           definition = function(x){
-            x@history
-          }
-)
-
-# RasterBrick ----
-#' @rdname getHistory
-#' @export
-setMethod(f = "getHistory",
-          signature = "RasterBrick",
-          definition = function(x){
-            x@history
-          }
-)
-
-# RasterStack ----
-#' @rdname getHistory
-#' @export
-setMethod(f = "getHistory",
-          signature = "RasterStack",
-          definition = function(x){
-            hist <- list()
-            for(i in 1:dim(x)[3]){
-              hist <- c(hist, x@history)
+            if(class(x)[1] == "RasterStack"){
+              hist <- list()
+              for(i in 1:dim(x)[3]){
+                hist <- c(hist, x@history)
+              }
+            } else {
+              hist <- x@history
             }
             return(hist)
           }

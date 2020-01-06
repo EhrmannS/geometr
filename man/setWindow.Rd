@@ -52,6 +52,7 @@ setWindow(x = gtPPP, to = window)
 }
 \seealso{
 Other setters: \code{\link{setCRS}},
-  \code{\link{setHistory}}, \code{\link{setTable}}
+  \code{\link{setFeatures}}, \code{\link{setGroups}},
+  \code{\link{setHistory}}, \code{\link{setPoints}}
 }
 \concept{setters}

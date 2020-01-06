@@ -5,20 +5,14 @@
 \alias{getHistory}
 \alias{getHistory,ANY-method}
 \alias{getHistory,geom-method}
-\alias{getHistory,RasterLayer-method}
-\alias{getHistory,RasterBrick-method}
-\alias{getHistory,RasterStack-method}
+\alias{getHistory,Raster-method}
 \title{Get the history of a spatial object.}
 \usage{
 \S4method{getHistory}{ANY}(x)
 
 \S4method{getHistory}{geom}(x)
 
-\S4method{getHistory}{RasterLayer}(x)
-
-\S4method{getHistory}{RasterBrick}(x)
-
-\S4method{getHistory}{RasterStack}(x)
+\S4method{getHistory}{Raster}(x)
 }
 \arguments{
 \item{x}{the object from which to derive the history.}
@@ -31,8 +25,9 @@ Get the history of a spatial object.
 }
 \seealso{
 Other getters: \code{\link{getCRS}},
-  \code{\link{getExtent}}, \code{\link{getPoints}},
-  \code{\link{getSubset}}, \code{\link{getTable}},
+  \code{\link{getExtent}}, \code{\link{getFeatures}},
+  \code{\link{getGroups}}, \code{\link{getLayer}},
+  \code{\link{getPoints}}, \code{\link{getRes}},
   \code{\link{getType}}, \code{\link{getWindow}}
 }
 \concept{getters}
