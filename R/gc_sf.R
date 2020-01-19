@@ -185,7 +185,7 @@ setMethod(f = "gc_sf",
               attr <- tibble(gid = unique(theData$gid))
               if(!all(names(theData) %in% c("fid", "gid"))){
                 if(length(out) < dim(theData)[1]){
-                      warning("MULTIPOLYGON doesn't support individual attributes per polygon, ignoring '", names(theData)[!names(theData) %in% c("fid", "gid")] , "'.")
+                  warning("MULTIPOLYGON doesn't support individual attributes per polygon, ignoring '", paste0(names(theData)[!names(theData) %in% c("fid", "gid")], collapse = ", ") , "'.")
                 } else {
                   makeDF <- TRUE
                   attr <- theData[,!names(theData) %in% c("fid")]
