@@ -46,6 +46,7 @@ setMethod(f = "setGroups",
 
             } else {
               theGroups <- getGroups(x = x)
+              theGroups <- theGroups[c("gid")]
 
               if(any(colnames(table) %in% colnames(theGroups))){
                 temp <- merge(theGroups, table, all.x = TRUE)

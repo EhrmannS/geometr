@@ -46,6 +46,7 @@ setMethod(f = "setFeatures",
 
             } else {
               theFeatures <- getFeatures(x = x)
+              theFeatures <- theFeatures[c("fid", "gid")]
 
               if(any(colnames(table) %in% colnames(theFeatures))){
                 temp <- merge(x = theFeatures, y = table, all.x = TRUE)
