@@ -90,16 +90,16 @@ setMethod(f = "gc_grob",
               # the default scale$to parameter
               if(!is.na(as.character(thisArg))){
                 if(as.character(thisArg) %in% colnames(attr)){
-                  toEval <- thisArg
+                  toEval <- as.character(thisArg)
                   toRamp <- params[[which(names(params) %in% thisArgName)]]
                   makeWarning <- TRUE
-                } else{
+                } else {
                   toEval <- as.symbol(params$scale$to)
                   toRamp <- thisArg
                   makeWarning <- FALSE
                 }
 
-                vals <- eval(parse(text = paste0(toEval)), envir = attr)
+                vals <- attr[[toEval]]
                 params$scale$x <- thisArgName
                 params$scale$to <- toEval
 
@@ -107,7 +107,7 @@ setMethod(f = "gc_grob",
                 temp <- suppressWarnings(as.numeric(as.character(vals)))
                 if(!all(is.na(temp))){
                   valsNum <- temp
-                  uniqueValsNum <- unique(temp)
+                  uniqueValsNum <- unique(temp[!is.na(temp)])
                 } else {
                   valsNum <- as.numeric(as.factor(vals))
                   uniqueValsNum <- as.numeric(as.factor(unique(vals)))
@@ -130,9 +130,10 @@ setMethod(f = "gc_grob",
                   }
 
                   uniqueColours <- colorRampPalette(colors = toRamp)(length(uniqueValsNum))
-                  breaks <- c(min(uniqueValsNum)-1, uniqueValsNum)
+                  breaks <- c(min(uniqueValsNum, na.rm = T)-1, uniqueValsNum)
                   valCuts <- cut(valsNum, breaks = breaks, include.lowest = FALSE)
                   tempOut <- uniqueColours[valCuts]
+                  tempOut[is.na(tempOut)] <- theme@vector$missingcol
 
                 } else if(thisArgName %in% c("linewidth", "pointsize")){
 
@@ -191,7 +192,7 @@ setMethod(f = "gc_grob",
 
             ids <- eval(parse(text = "fid"), envir = attr)
 
-            if(input@type %in% "point"){
+            if(featureType %in% "point"){
 
               out <- pointsGrob(x = unit(point$x, "npc"),
                                 y = unit(point$y, "npc"),
@@ -202,7 +203,7 @@ setMethod(f = "gc_grob",
                                   col = params$linecol,
                                   fill = params$fillcol))
 
-            } else if(input@type %in% "line"){
+            } else if(featureType %in% "line"){
 
               out <- polylineGrob(x = unit(point$x, "npc"),
                                   y = unit(point$y, "npc"),
@@ -212,13 +213,39 @@ setMethod(f = "gc_grob",
                                             lty = params$linetype,
                                             lwd = params$linewidth))
 
-            } else if(input@type %in% "polygon"){
+            } else if(featureType %in% "polygon"){
 
-              out <- NULL
+              # start_time <- Sys.time()
+              # out <- vids <- NULL
+              # theID <- unique(attr$fid)
+              # for(i in seq_along(theID)){
+              #   tempIDs <- attr[attr$fid == theID[i], ]
+              #   tempCoords <- point[point$fid %in% tempIDs$fid, ]
+              #   dups <- as.numeric(duplicated(tempCoords[c("x", "y")]))
+              #   dups <- c(0, dups[-length(dups)])
+              #   vids <- c(vids, 1 + cumsum(dups))
+              # }
+
+              # out <- pathGrob(x = point$x,
+              #                 y = point$y,
+              #                 # id = vids,
+              #                 pathId = point$fid,
+              #                 rule = "evenodd",
+              #                 name = ids,
+              #                 gp = gpar(
+              #                   col = params$linecol,
+              #                   fill = params$fillcol,
+              #                   lty = params$linetype,
+              #                   lwd = params$linewidth))
+              # end_time_1 <- Sys.time()
+              # duration_1 <- end_time_1 - start_time
+
+
+              # start_time <- Sys.time()
+              theID <- unique(attr$fid)
               for(i in seq_along(unique(attr$fid))){
 
-                theID <- unique(attr$fid)[i]
-                tempIDs <- attr[attr$fid == theID, ]
+                tempIDs <- attr[attr$fid == theID[i], ]
                 tempCoords <- point[point$fid %in% tempIDs$fid, ]
 
                 # determine subpaths by searching for duplicates. Whenever there is a
@@ -251,6 +278,9 @@ setMethod(f = "gc_grob",
                                           lwd = params$linewidth[i])))
                 }
               }
+              # end_time_2 <- Sys.time()
+              # duration_2 <- end_time_2 - start_time
+
             }
 
             return(out)
