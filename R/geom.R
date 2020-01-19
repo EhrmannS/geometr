@@ -261,8 +261,15 @@ setMethod(f = "show",
                 myFeat <- "layers"
               }
               myUnits <- "cells"
+              geomGroups <- ""
 
             } else {
+              theGrps <- theGroups$gid
+              if(length(unique(theGrps)) == 1){
+                myGrp <- "group"
+              } else {
+                myGrp <- "groups"
+              }
               theFeats <- theFeatures$fid
               if(length(unique(theFeats)) == 1){
                 myFeat <- "feature"
@@ -270,6 +277,7 @@ setMethod(f = "show",
                 myFeat <- "features"
               }
               myUnits <- "points"
+              geomGroups <- paste0(length(unique(theGrps)), " ", myGrp, " | ")
 
               if(!all(names(thePoints) %in% c("x", "y", "fid"))){
                 myAttributes <- c(myAttributes, paste0(" (points) ",
@@ -313,7 +321,7 @@ setMethod(f = "show",
             tinyMap <- .makeTinyMap(geom = object)
 
             cat(yellow(class(object)), "        ", object@type, "\n", sep = "")
-            cat("            ", length(unique(theFeats)), " ", myFeat, " | ", length(thePoints$fid), " ", myUnits, "\n", sep = "")
+            cat("            ", geomGroups, length(unique(theFeats)), " ", myFeat, " | ", length(thePoints$fid), " ", myUnits, "\n", sep = "")
             cat(yellow("crs         "), myCrs, "\n", sep = "")
             cat(yellow("attributes"), myAttributes)
             cat(yellow("tiny map  "), tinyMap)
