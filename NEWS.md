@@ -1,3 +1,11 @@
+# geometr 0.2.1 (development)
+
+- incl. group information in geom show-method
+- implemented more efficient routine for extracting features and points from sf-objects
+- when setting a new features/groups table on a geom, the old respecive table is overwritten from now on.
+- a gtTheme now also supports a "missing colour" that will be assigned to NA-values when a quick-option is used in `visualise()`
+- other minor bug-fixes
+
 # geometr 0.2.0 - grid update (development)
 
 This update introduces the geom type 'grid', which is meant to store raster data. It stores as `@point` slot a compact version that gives (in both x and y dimension) the three values origin, number of cells and cell distance/resolution. It stores values in run-length encoding (rle) (if that is smaller than non-compressed). The `@feature` table of a grid geom can contain any number of columns, which would correspond to layers in a raster. It can store in the `@group` slot an attribute table per layer (column in the feature table).
