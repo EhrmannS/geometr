@@ -65,9 +65,15 @@ setMethod(f = "getPoints",
               theFeatures <- theFeatures[theFeatures$fid %in% thePoints$fid,]
               theGroups <- theGroups[theGroups$gid %in% theFeatures$gid,]
 
-              out@point <- thePoints
-              out@feature <- list(geometry = theFeatures)
-              out@group <- list(geometry = theGroups)
+              out <- new(Class = "geom",
+                         type = theType,
+                         point = thePoints,
+                         feature = list(geometry = theFeatures),
+                         group = list(geometry = theGroups),
+                         window = getWindow(x = x),
+                         scale = "absolute",
+                         crs = getCRS(x = x),
+                         history = getHistory(x = x))
             } else {
               if(theType == "grid"){
                 # rebuild points
@@ -195,15 +201,10 @@ setMethod(f = "getPoints",
 
               } else if(sourceClass %in% c("MULTILINESTRING")){
 
-                vids <- lapply(unique(theCoords[,4]), function(i){
-                  temp <- theCoords[which(theCoords[,4] == i),]
-
-                  lapply(unique(temp[,3]), function(j){
-                    seq_along(which(temp[,3] == j))
-                  })
-                })
-                vids <- unlist(vids, recursive = FALSE)
-                fids <- rep(1:length(vids), lengths(vids))
+                fact <- 10**nchar(max(theCoords[,3]))
+                toSeq <- theCoords[,4]*fact + theCoords[,3]
+                toSeq <- rle(toSeq)
+                fids <- rep(seq_along(toSeq$values), toSeq$lengths)
 
                 theCoords <- tibble(x = theCoords[,1],
                                     y = theCoords[,2],
@@ -217,15 +218,10 @@ setMethod(f = "getPoints",
 
               } else if(sourceClass %in% c("MULTIPOLYGON")){
 
-                vids <- lapply(unique(theCoords[,5]), function(i){
-                  temp <- theCoords[which(theCoords[,5] == i),]
-
-                  lapply(unique(temp[,4]), function(j){
-                    seq_along(which(temp[,4] == j))
-                  })
-                })
-                vids <- unlist(vids, recursive = FALSE)
-                fids <- rep(1:length(vids), lengths(vids))
+                fact <- 10**nchar(max(theCoords[,4]))
+                toSeq <- theCoords[,5]*fact + theCoords[,4]
+                toSeq <- rle(toSeq)
+                fids <- rep(seq_along(toSeq$values), toSeq$lengths)
 
                 theCoords <- tibble(x = theCoords[,1],
                                     y = theCoords[,2],
