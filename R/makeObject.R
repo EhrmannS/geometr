@@ -1,5 +1,6 @@
 #' Make the object to a plot
-#' @param x the object from which to make the plot.
+#' @param x [\code{list(1)}]\cr named list of the object from which to make the
+#'   plot.
 #' @param window [\code{data.frame(1)}] two opposing corners of a rectangle to
 #'   which the plot is limited.
 #' @param image [\code{logical(1)}]\cr whether or not \code{x} is an image
@@ -18,6 +19,8 @@
 makeObject <- function(x, window = NULL, image = FALSE, theme = gtTheme, ...){
 
   window <- .testWindow(x = window)
+  theName <- names(x)
+  x <- x[[1]]
 
   featureType <- getType(x = x)
   theWindow <- getWindow(x = x)
@@ -145,7 +148,8 @@ makeObject <- function(x, window = NULL, image = FALSE, theme = gtTheme, ...){
       if(!theVal %in% names(params)){
         theVal <- "fid"
       }
-      uniqueVal <- unique(eval(parse(text = theVal), envir = params))
+      # uniqueVal <- unique(eval(parse(text = theVal), envir = params))
+      uniqueVal <- unique(params[[as.character(theVal)]])
       legendVals <- sort(uniqueVal)[tempTicks]
 
       tempLegend <- tibble(labels = legendVals,
@@ -171,7 +175,15 @@ makeObject <- function(x, window = NULL, image = FALSE, theme = gtTheme, ...){
     out$legend <- legends
 
     out$type <- "vector"
-    out$name <- "geom"
+    if(!is.null(theName)){
+      if(theName != ""){
+        out$name <- theName
+      } else {
+        out$name <- "geom"
+      }
+    } else {
+      out$name <- "geom"
+    }
     out$window <- tibble(x = c(min(theWindow$x), max(theWindow$x)),
                          y = c(min(theWindow$y), max(theWindow$y)))
 
@@ -209,8 +221,15 @@ makeObject <- function(x, window = NULL, image = FALSE, theme = gtTheme, ...){
         }
       }
       out$hasLegend <- FALSE
-      out$name <- "an image"
-
+      if(!is.null(theName)){
+        if(theName != ""){
+          out$name <- theName
+        } else {
+          out$name <- "an image"
+        }
+      } else {
+        out$name <- "an image"
+      }
 
     } else {
 
@@ -226,20 +245,21 @@ makeObject <- function(x, window = NULL, image = FALSE, theme = gtTheme, ...){
       } else {
         out$hasLegend <- FALSE
       }
-      out$name <- names(x)
+      if(!is.null(theName)){
+        if(theName != ""){
+          out$name <- theName
+        } else {
+          out$name <- names(x)
+        }
+      } else {
+        out$name <- names(x)
+      }
 
       allValues <- sortUniqueC(vals[!is.na(vals)])
       tickValues <- seq_along(allValues)
       nrVals <- length(allValues)
       targetColours <- theme@raster$colours
 
-      # # limit values to 256, this is the number of distinct colours that
-      # # can be represented
-      # if(nrVals < 256){
-      #   nrVals <- nrVals
-      # } else{
-      #   nrVals <- 256
-      # }
       # make palette of all values in the theme, determine breaking points as
       # values of the raster and "intersect" the palette with them
       allColours <- colorRampPalette(colors = targetColours)(length(allValues))
