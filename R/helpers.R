@@ -69,7 +69,12 @@ makeLayout <- function(x = NULL, theme = gtTheme){
       arg <- eval(parse(text = paste0(theAttr)), envir = attr)
       arg <- as.character(arg)
 
-      temp <- ceiling(convertX(unit(1, "strwidth", arg[which.max(nchar(arg))]) + unit(20, "points"), "points"))
+      maxEl <- arg[which.max(nchar(arg))]
+      if(any(is.na(arg)) & nchar(maxEl) < nchar("NA")){
+        temp <- ceiling(convertX(unit(1, "strwidth", "NA") + unit(20, "points"), "points"))
+      } else {
+        temp <- ceiling(convertX(unit(1, "strwidth", maxEl) + unit(20, "points"), "points"))
+      }
       temp2 <- legendX[i] + temp
       legendW <- c(legendW, temp)
       legendX <- unit.c(legendX, temp2)
@@ -81,7 +86,8 @@ makeLayout <- function(x = NULL, theme = gtTheme){
   }
   if(theme@yAxis$plot){
     yAxisTitleW <- unit(theme@yAxis$label$fontsize+6, units = "points")
-    yAxisTicksW <- ceiling(convertX(unit(1, "strwidth", as.character(max(round(axisSteps$y1, theme@yAxis$ticks$digits)))), "points"))
+    digits <- round(axisSteps$y1, theme@yAxis$ticks$digits)
+    yAxisTicksW <- ceiling(convertX(unit(1, "strwidth", as.character(digits[which.max(nchar(digits))])), "points"))
   } else{
     yAxisTitleW <- unit(0, "points")
     yAxisTicksW <- unit(0, "points")
