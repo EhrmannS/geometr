@@ -67,9 +67,15 @@ setMethod(f = "getGroups",
               theFeatures <- theFeatures[theFeatures$gid %in% theGroups$gid,]
               thePoints <- thePoints[thePoints$fid %in% theFeatures$fid,]
 
-              out@point <- thePoints
-              out@feature <- list(geometry = theFeatures)
-              out@group <- list(geometry = theGroups)
+              out <- new(Class = "geom",
+                         type = theType,
+                         point = thePoints,
+                         feature = list(geometry = theFeatures),
+                         group = list(geometry = theGroups),
+                         window = getWindow(x = x),
+                         scale = "absolute",
+                         crs = getCRS(x = x),
+                         history = getHistory(x = x))
             } else {
 
               if(theType == "grid"){
