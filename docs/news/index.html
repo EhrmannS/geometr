@@ -15,11 +15,13 @@
 <link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png" />
 <link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png" />
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png" />
+
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous" />
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
 
 <!-- Font Awesome icons -->
@@ -39,10 +41,11 @@
 
 
 
-<meta property="og:title" content="Changelog" />
 
+<meta property="og:title" content="Changelog" />
 <meta property="og:image" content="http://EhrmannS.github.io/geometr/logo.png" />
 <meta name="twitter:card" content="summary" />
+
 
 
 
@@ -89,7 +92,6 @@
   <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
-      
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="http://www.twitter.com/DerEhrmann">
@@ -120,6 +122,19 @@
       <small>Source: <a href='https://github.com/EhrmannS/geometr/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
     </div>
 
+    <div id="geometr-0-2-1-development" class="section level1">
+<h1 class="page-header">
+<a href="#geometr-0-2-1-development" class="anchor"></a>geometr 0.2.1 (development)<small> Unreleased </small>
+</h1>
+<ul>
+<li>incl. group information in geom show-method</li>
+<li>implemented more efficient routine for extracting features and points from sf-objects</li>
+<li>when setting a new features/groups table on a geom, the old respecive table is overwritten from now on.</li>
+<li>a gtTheme now also supports a “missing colour” that will be assigned to NA-values when a quick-option is used in <code><a href="../reference/visualise.html">visualise()</a></code>
+</li>
+<li>other minor bug-fixes</li>
+</ul>
+</div>
     <div id="geometr-0-2-0---grid-update-development" class="section level1">
 <h1 class="page-header">
 <a href="#geometr-0-2-0---grid-update-development" class="anchor"></a>geometr 0.2.0 - grid update (development)<small> Unreleased </small>
@@ -179,6 +194,7 @@
     <div id="tocnav">
       <h2>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
+        <li><a href="#geometr-0-2-1-development">0.2.1</a></li>
         <li><a href="#geometr-0-2-0---grid-update-development">0.2.0</a></li>
         <li><a href="#geometr-0-1-1">0.1.1</a></li>
         <li><a href="#geometr-0-1-0">0.1.0</a></li>
