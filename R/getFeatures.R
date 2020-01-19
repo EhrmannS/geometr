@@ -51,8 +51,8 @@ setMethod(f = "getFeatures",
             theType <- getType(x = x)[2]
 
             if(length(exprs(...)) > 0){
-              out <- x
-              subset <- enquos(...)
+
+                            subset <- enquos(...)
               isLogical <- tryCatch(is.logical(eval_tidy(expr = subset[[1]])), error = function(e) FALSE)
               thePoints <- getPoints(x = x)
               theFeatures <- getFeatures(x = x)
@@ -67,9 +67,16 @@ setMethod(f = "getFeatures",
               thePoints <- thePoints[thePoints$fid %in% theFeatures$fid,]
               theGroups <- theGroups[theGroups$gid %in% theFeatures$gid,]
 
-              out@point <- thePoints
-              out@feature <- list(geometry = theFeatures)
-              out@group <- list(geometry = theGroups)
+              out <- new(Class = "geom",
+                         type = theType,
+                         point = thePoints,
+                         feature = list(geometry = theFeatures),
+                         group = list(geometry = theGroups),
+                         window = getWindow(x = x),
+                         scale = "absolute",
+                         crs = getCRS(x = x),
+                         history = getHistory(x = x))
+
             } else {
               if(theType == "grid"){
                 theFeatures <- x@feature
@@ -235,6 +242,7 @@ setMethod(f = "getFeatures",
 # sf ----
 #' @rdname getFeatures
 #' @importFrom tibble tibble as_tibble
+#' @importFrom dplyr summarise group_by n_distinct
 #' @importFrom sf st_geometry_type st_coordinates st_geometry<-
 #' @export
 setMethod(f = "getFeatures",
@@ -290,13 +298,16 @@ setMethod(f = "getFeatures",
                   data <- x
                   st_geometry(data) <- NULL
                   dataNames <- names(data)
-                  fids <- lapply(unique(theCoords[,4]), function(i){
-                    temp <- theCoords[which(theCoords[,4] == i),]
-                    unique(temp[,3])
-                  })
-                  new <- tibble(fid = seq_along(unlist(fids)),
-                                gid = rep(seq_along(fids), lengths(fids)))
-                  data <- tibble(rep(data[,1], lengths(fids)))
+
+                  fact <- 10**nchar(max(theCoords[,3]))
+                  toSeq <- theCoords[,4]*fact + theCoords[,3]
+                  toSeq <- rle(toSeq)
+                  fids <- seq_along(toSeq$values)
+                  gids <- summarise(group_by(as_tibble(theCoords), L2), count = n_distinct(L1))
+
+                  new <- tibble(fid = fids,
+                                gid = rep(seq_along(gids$L2), gids$count))
+                  data <- tibble(rep(data[,1], gids$count))
                   out <- bind_cols(new, data)
                   colnames(out) <- c("fid", "gid", dataNames)
 
@@ -315,19 +326,23 @@ setMethod(f = "getFeatures",
                   data <- x
                   st_geometry(data) <- NULL
                   dataNames <- colnames(data)
-                  fids <- lapply(unique(theCoords[,5]), function(i){
-                    temp <- theCoords[which(theCoords[,5] == i),]
-                    unique(temp[,4])
-                  })
-                  new <- tibble(fid = seq_along(unlist(fids)),
-                                gid = rep(seq_along(fids), lengths(fids)))
-                  data <- as.data.frame(data[rep(seq_len(nrow(data)), lengths(fids)),])
+
+                  fact <- 10**nchar(max(theCoords[,4]))
+                  toSeq <- theCoords[,5]*fact + theCoords[,4]
+                  toSeq <- rle(toSeq)
+                  fids <- seq_along(toSeq$values)
+                  gids <- summarise(group_by(as_tibble(theCoords), L3), count = n_distinct(L2))
+
+                  new <- tibble(fid = fids,
+                                gid = rep(seq_along(gids$L3), gids$count))
+                  data <- as.data.frame(data[rep(seq_len(nrow(data)), gids$count),])
                   out <- bind_cols(new, data)
                   colnames(out) <- c("fid", "gid", dataNames)
 
                 }
               } else{
                 # what happens if a sf-object has different feature-types?
+                stop("simple features with multiple feature types are not yet supported.")
               }
 
             }
