@@ -94,7 +94,10 @@ visualise <- function(..., layer = NULL, window = NULL, theme = gtTheme, trace =
     if(!image){
       theObject <- getLayer(x = theObject, layer = layer)
       if(is.null(theObject)) stop(paste0("'", theName, "' is not an object that can be plotted with 'visualise()'."))
+    } else {
+      theObject <- list(theObject)
     }
+    # if(!is.null(theName)) names(theObject) <- rep(theName, length(theObject))
     objects <- c(objects, theObject)
   }
 
@@ -145,8 +148,8 @@ visualise <- function(..., layer = NULL, window = NULL, theme = gtTheme, trace =
                                        y = c(as.numeric(prev$y), as.numeric(prev$y) + as.numeric(prev$height))))
     }
 
-    # make colours from theme for the object ----
-    obj <- makeObject(x = objects[[i]],
+    # make colours from   theme for the object ----
+    obj <- makeObject(x = objects[i],
                       window = window,
                       image = image,
                       theme = theme,
@@ -521,10 +524,10 @@ visualise <- function(..., layer = NULL, window = NULL, theme = gtTheme, trace =
 #'   labels, \cr\cr box [\code{named list(.)}]\cr \code{plot = TRUE/FALSE},
 #'   \code{linetype}, \code{linewidth} and \code{colour} of the legend box.
 #' @param vector [\code{named list(.)}]\cr \code{linecol}, \code{fillcol},
-#'   \code{linetype}, \code{linewidth}, \code{pointsize} and \code{pointsymbol}
-#'   of a vector object, \cr\cr scale [\code{named list(.)}]\cr \code{x =
-#'   'someParameter'} and \code{to = 'someAttribute'} to which to scale
-#'   'someParameter' to.
+#'   \code{missingcol}, \code{linetype}, \code{linewidth}, \code{pointsize} and
+#'   \code{pointsymbol} of a vector object, \cr\cr scale [\code{named
+#'   list(.)}]\cr \code{x = 'someParameter'} and \code{to = 'someAttribute'} to
+#'   which to scale 'someParameter' to.
 #' @param raster [ \code{named list(.)}]\cr \code{scale = 'someAttribute'} and
 #'   at least two \code{colours} to which to scale 'someAttribute' to.
 #' @examples
@@ -668,7 +671,7 @@ setTheme <- function(from = NULL, title = NULL, box = NULL, xAxis = NULL,
 
   assertList(vector, any.missing = FALSE, max.len = 7, null.ok = TRUE)
   if(!is.null(vector)){
-    assertNames(names(vector), subset.of = c("scale", "linecol", "fillcol", "linetype", "linewidth", "pointsize", "pointsymbol"))
+    assertNames(names(vector), subset.of = c("scale", "linecol", "fillcol", "missingcol", "linetype", "linewidth", "pointsize", "pointsymbol"))
     previous <- from@vector
     for(i in seq_along(names(vector))){
       out@vector[which(names(previous) == names(vector)[i])] <- vector[i]
