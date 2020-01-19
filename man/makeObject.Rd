@@ -7,7 +7,8 @@
 makeObject(x, window = NULL, image = FALSE, theme = gtTheme, ...)
 }
 \arguments{
-\item{x}{the object from which to make the plot.}
+\item{x}{[\code{list(1)}]\cr named list of the object from which to make the
+plot.}
 
 \item{window}{[\code{data.frame(1)}] two opposing corners of a rectangle to
 which the plot is limited.}

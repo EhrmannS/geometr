@@ -46,10 +46,10 @@ labels, \cr\cr box [\code{named list(.)}]\cr \code{plot = TRUE/FALSE},
 \code{linetype}, \code{linewidth} and \code{colour} of the legend box.}
 
 \item{vector}{[\code{named list(.)}]\cr \code{linecol}, \code{fillcol},
-\code{linetype}, \code{linewidth}, \code{pointsize} and \code{pointsymbol}
-of a vector object, \cr\cr scale [\code{named list(.)}]\cr \code{x =
-'someParameter'} and \code{to = 'someAttribute'} to which to scale
-'someParameter' to.}
+\code{missingcol}, \code{linetype}, \code{linewidth}, \code{pointsize} and
+\code{pointsymbol} of a vector object, \cr\cr scale [\code{named
+list(.)}]\cr \code{x = 'someParameter'} and \code{to = 'someAttribute'} to
+which to scale 'someParameter' to.}
 
 \item{raster}{[ \code{named list(.)}]\cr \code{scale = 'someAttribute'} and
 at least two \code{colours} to which to scale 'someAttribute' to.}
