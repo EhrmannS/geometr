@@ -22,13 +22,11 @@ test_that("transform from geom to grob", {
   polyGrob <- gc_grob(input = gtGeoms$polygon, theme = gtTheme)
 
   expect_list(polyGrob)
-  expect_names(names(polyGrob[[1]]), permutation.of = c("x", "y", "id", "id.lengths", "pathId", "pathId.lengths", "rule", "name", "gp", "vp"))
-  expect_class(polyGrob, classes = "gList")
-  expect_class(polyGrob[[1]], classes = c("pathgrob", "grob", "gDesc"))
+  expect_names(names(polyGrob), permutation.of = c("x", "y", "id", "id.lengths", "pathId", "pathId.lengths", "rule", "name", "gp", "vp"))
+  expect_class(polyGrob, classes = c("pathgrob", "grob", "gDesc"))
 })
 
 test_that("quick options work", {
-
   aTheme <- setTheme(vector = list(linewidth = c(1, 3),
                                    pointsize = c(1, 3),
                                    pointsymbol = c(0:12),
@@ -37,26 +35,26 @@ test_that("quick options work", {
   # linecol
   polyGrob <- gc_grob(input = gtGeoms$polygon, theme = aTheme, linecol = "fid")
 
-  expect_true(polyGrob[[1]]$gp$col == "#00204D")
-  expect_true(is.na(polyGrob[[1]]$gp$fill))
-  expect_true(polyGrob[[1]]$gp$lty == 1)
-  expect_true(polyGrob[[1]]$gp$lwd == 1)
+  expect_true(polyGrob$gp$col[[1]] == "#00204D")
+  expect_true(is.na(polyGrob$gp$fill[[1]]))
+  expect_true(polyGrob$gp$lty[[1]] == 1)
+  expect_true(polyGrob$gp$lwd[[1]] == 1)
 
   # fillcol
   polyGrob <- gc_grob(input = gtGeoms$polygon, theme = aTheme, fillcol = "fid")
 
-  expect_true(polyGrob[[1]]$gp$col == "#00204DFF")
-  expect_true(polyGrob[[1]]$gp$fill == "#00204D")
-  expect_true(polyGrob[[1]]$gp$lty == 1)
-  expect_true(polyGrob[[1]]$gp$lwd == 1)
+  expect_true(polyGrob$gp$col[[1]] == "#00204DFF")
+  expect_true(polyGrob$gp$fill[[1]] == "#00204D")
+  expect_true(polyGrob$gp$lty[[1]] == 1)
+  expect_true(polyGrob$gp$lwd[[1]] == 1)
 
   # linewidth
   polyGrob <- gc_grob(input = gtGeoms$polygon, theme = aTheme, linewidth = "fid")
 
-  expect_true(polyGrob[[1]]$gp$col == "#00204DFF")
-  expect_true(is.na(polyGrob[[1]]$gp$fill))
-  expect_true(polyGrob[[1]]$gp$lty == 1)
-  expect_true(polyGrob[[1]]$gp$lwd == 1)
+  expect_true(polyGrob$gp$col[[1]] == "#00204DFF")
+  expect_true(is.na(polyGrob$gp$fill[[1]]))
+  expect_true(polyGrob$gp$lty[[1]] == 1)
+  expect_true(polyGrob$gp$lwd[[1]] == 1)
 
   # pointsize
   pointGrob <- gc_grob(input = gtGeoms$point, theme = aTheme, pointsize = "fid")
@@ -77,14 +75,12 @@ test_that("quick options work", {
   # linetype
   polyGrob <- gc_grob(input = gtGeoms$polygon, theme = aTheme, linetype = "fid")
 
-  expect_true(polyGrob[[1]]$gp$col == "#00204DFF")
-  expect_true(is.na(polyGrob[[1]]$gp$fill))
-  expect_true(polyGrob[[1]]$gp$lty == 1)
-  expect_true(polyGrob[[1]]$gp$lwd == 1)
+  expect_true(polyGrob$gp$col[[1]] == "#00204DFF")
+  expect_true(is.na(polyGrob$gp$fill[[1]]))
+  expect_true(polyGrob$gp$lty[[1]] == 1)
+  expect_true(polyGrob$gp$lwd[[1]] == 1)
 
 })
-
-# grid.newpage(); grid.draw(polyGrob)
 
 test_that("correct warnings are printed", {
 

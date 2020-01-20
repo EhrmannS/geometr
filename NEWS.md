@@ -1,3 +1,7 @@
+# geometr 0.2.2 (development)
+
+- included a faster method to determine IDs of paths and sub-paths of grobs when plotting.
+
 # geometr 0.2.1 (development)
 
 - incl. group information in geom show-method

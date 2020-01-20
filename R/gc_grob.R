@@ -31,6 +31,7 @@ if(!isGeneric("gc_grob")){
 #' @importFrom stats setNames
 #' @importFrom tibble as_tibble
 #' @importFrom checkmate assertNames assertSubset assertList
+#' @importFrom dplyr group_by mutate
 #' @importFrom grid gpar unit pointsGrob gList pathGrob polylineGrob clipGrob
 #' @export
 setMethod(f = "gc_grob",
@@ -190,7 +191,7 @@ setMethod(f = "gc_grob",
 
             }
 
-            ids <- eval(parse(text = "fid"), envir = attr)
+            ids <- attr[["fid"]]
 
             if(featureType %in% "point"){
 
@@ -216,68 +217,67 @@ setMethod(f = "gc_grob",
             } else if(featureType %in% "polygon"){
 
               # start_time <- Sys.time()
-              # out <- vids <- NULL
-              # theID <- unique(attr$fid)
-              # for(i in seq_along(theID)){
-              #   tempIDs <- attr[attr$fid == theID[i], ]
-              #   tempCoords <- point[point$fid %in% tempIDs$fid, ]
-              #   dups <- as.numeric(duplicated(tempCoords[c("x", "y")]))
-              #   dups <- c(0, dups[-length(dups)])
-              #   vids <- c(vids, 1 + cumsum(dups))
-              # }
+              dups <- group_by(.data = point, fid, x, y)
+              dups <- mutate(.data = dups,
+                             is_dup = duplicated(x) & duplicated(y),
+                             is_odd = seq_along(fid) %% 2 == 0,
+                             dup = as.integer(is_dup & is_odd))
+              dups <- dups[["dup"]]
+              dups <- c(0, dups[-length(dups)])
+              vids <- 1 + cumsum(dups)
 
-              # out <- pathGrob(x = point$x,
-              #                 y = point$y,
-              #                 # id = vids,
-              #                 pathId = point$fid,
-              #                 rule = "evenodd",
-              #                 name = ids,
-              #                 gp = gpar(
-              #                   col = params$linecol,
-              #                   fill = params$fillcol,
-              #                   lty = params$linetype,
-              #                   lwd = params$linewidth))
+              out <- pathGrob(x = point$x,
+                              y = point$y,
+                              id = vids,
+                              pathId = point$fid,
+                              rule = "evenodd",
+                              name = ids,
+                              gp = gpar(
+                                col = params$linecol,
+                                fill = params$fillcol,
+                                lty = params$linetype,
+                                lwd = params$linewidth))
               # end_time_1 <- Sys.time()
               # duration_1 <- end_time_1 - start_time
 
 
               # start_time <- Sys.time()
-              theID <- unique(attr$fid)
-              for(i in seq_along(unique(attr$fid))){
-
-                tempIDs <- attr[attr$fid == theID[i], ]
-                tempCoords <- point[point$fid %in% tempIDs$fid, ]
-
-                # determine subpaths by searching for duplicates. Whenever there is a
-                # duplicate in the vertices, the next vertex is part of the next subpaths
-                dups <- as.numeric(duplicated(tempCoords[c("x", "y")]))
-                dups <- c(0, dups[-length(dups)])
-                tempCoords$vid <- 1 + cumsum(dups)
-                if(i == 1){
-                  out <- pathGrob(x = tempCoords$x,
-                                  y = tempCoords$y,
-                                  id = as.numeric(as.factor(tempCoords$vid)),
-                                  rule = "evenodd",
-                                  name = ids[i],
-                                  gp = gpar(
-                                    col = params$linecol[i],
-                                    fill = params$fillcol[i],
-                                    lty = params$linetype[i],
-                                    lwd = params$linewidth[i]))
-                } else{
-                  out <- gList(out,
-                               pathGrob(x = tempCoords$x,
-                                        y = tempCoords$y,
-                                        id = as.numeric(as.factor(tempCoords$vid)),
-                                        rule = "evenodd",
-                                        name = ids[i],
-                                        gp = gpar(
-                                          col = params$linecol[i],
-                                          fill = params$fillcol[i],
-                                          lty = params$linetype[i],
-                                          lwd = params$linewidth[i])))
-                }
-              }
+              # theID <- unique(attr$fid)
+              # for(i in seq_along(unique(attr$fid))){
+              #
+              #   tempIDs <- attr[attr$fid == theID[i], ]
+              #   tempCoords <- point[point$fid %in% tempIDs$fid, ]
+              #
+              #   # determine subpaths by searching for duplicates. Whenever there is a
+              #   # duplicate in the vertices, the next vertex is part of the next subpaths
+              #   dups <- as.numeric(duplicated(tempCoords[c("x", "y")]))
+              #   dups <- c(0, dups[-length(dups)])
+              #   tempCoords$vid <- 1 + cumsum(dups)
+              #   if(i == 1){
+              #     out <- pathGrob(x = tempCoords$x,
+              #                     y = tempCoords$y,
+              #                     id = as.numeric(as.factor(tempCoords$vid)),
+              #                     rule = "evenodd",
+              #                     name = ids[i],
+              #                     gp = gpar(
+              #                       col = params$linecol[i],
+              #                       fill = params$fillcol[i],
+              #                       lty = params$linetype[i],
+              #                       lwd = params$linewidth[i]))
+              #   } else {
+              #     out <- gList(out,
+              #                  pathGrob(x = tempCoords$x,
+              #                           y = tempCoords$y,
+              #                           id = as.numeric(as.factor(tempCoords$vid)),
+              #                           rule = "evenodd",
+              #                           name = ids[i],
+              #                           gp = gpar(
+              #                             col = params$linecol[i],
+              #                             fill = params$fillcol[i],
+              #                             lty = params$linetype[i],
+              #                             lwd = params$linewidth[i])))
+              #   }
+              # }
               # end_time_2 <- Sys.time()
               # duration_2 <- end_time_2 - start_time
 
