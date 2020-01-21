@@ -1,8 +1,8 @@
-#' Set the table of point attributes
+#' Set a table of point attributes
 #'
-#' @param x the object to which to assign an attribute table.
-#' @param table [\code{data.frame(.)}]\cr the attribute table.
-#' @return The object \code{x} with an updated attribute table.
+#' @param x the object to which to assign a new point attribute table.
+#' @param table [\code{data.frame(.)}]\cr the new attribute table.
+#' @return The object \code{x} with an updated point attribute table.
 #' @family setters
 #' @name setPoints
 #' @rdname setPoints

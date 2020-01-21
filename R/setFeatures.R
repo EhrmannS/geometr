@@ -1,8 +1,8 @@
-#' Set the table of feature attributes
+#' Set a table of feature attributes
 #'
-#' @param x the object to which to assign an attribute table.
+#' @param x the object to which to assign a new attribute table.
 #' @param table [\code{data.frame(.)}]\cr the attribute table.
-#' @return The object \code{x} with an updated attribute table.
+#' @return The object \code{x} with an updated feature attribute table.
 #' @family setters
 #' @name setFeatures
 #' @rdname setFeatures

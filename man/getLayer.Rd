@@ -5,6 +5,8 @@
 \alias{getLayer}
 \alias{getLayer,ANY-method}
 \alias{getLayer,geom-method}
+\alias{getLayer,Spatial-method}
+\alias{getLayer,sf-method}
 \alias{getLayer,Raster-method}
 \alias{getLayer,matrix-method}
 \title{Get a specific layer of a spatial object.}
@@ -13,6 +15,10 @@
 
 \S4method{getLayer}{geom}(x, layer = NULL)
 
+\S4method{getLayer}{Spatial}(x, layer = NULL)
+
+\S4method{getLayer}{sf}(x, layer = NULL)
+
 \S4method{getLayer}{Raster}(x, layer = NULL)
 
 \S4method{getLayer}{matrix}(x, layer = NULL)
@@ -20,7 +26,7 @@
 \arguments{
 \item{x}{the object from which to get the layer.}
 
-\item{layer}{the layer(s) to get.}
+\item{layer}{[\code{character} | \code{integerish}]\cr the layer(s) to get.}
 }
 \value{
 A list of the requested layers.

@@ -11,8 +11,8 @@
 #' @examples
 #' getGroups(x = gtGeoms$polygon)
 #'
-#' # for gridded objects (raster) groups are likewise unique values,
-#' # with attributes (raster attribute table)
+#' # for raster objects, groups are pixels with the same value and their
+#' # attributes are in the raster attribute table (RAT)
 #' getGroups(x = gtRasters$categorical)
 #' @name getGroups
 #' @rdname getGroups

@@ -17,9 +17,9 @@
 \arguments{
 \item{x}{the object for which to set a new reference window.}
 
-\item{to}{[\code{data.frame(1)}]\cr a datastructure that contains the minimum
-and maximum values in x and y-dimension to which the reference window shall
-be set.}
+\item{to}{any suitable datastructure that contains the minimum and maximum
+values in x and y-dimension to which the reference window shall be set, see
+Details.}
 }
 \value{
 The object \code{x} with an update reference window.
@@ -38,13 +38,13 @@ Possible datastructures are \itemize{ \item an object of class
 coords <- data.frame(x = c(40, 70, 70, 50),
                      y = c(40, 40, 60, 70))
 (aGeom <- gs_polygon(anchor = coords))
-visualise(geom = aGeom)
+visualise(aGeom)
 
 window <- data.frame(x = c(0, 80),
                      y = c(0, 80))
 (aGeom <- setWindow(x = aGeom, to = window))
 
-visualise(geom = aGeom)
+visualise(aGeom)
 
 window <- data.frame(x = c(0, 2),
                      y = c(0, 2))

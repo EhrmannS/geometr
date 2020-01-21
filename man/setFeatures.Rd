@@ -9,7 +9,7 @@
 \alias{setFeatures,sf-method}
 \alias{setFeatures,sfc-method}
 \alias{setFeatures,ppp-method}
-\title{Set the table of feature attributes}
+\title{Set a table of feature attributes}
 \usage{
 \S4method{setFeatures}{ANY}(x)
 
@@ -24,15 +24,15 @@
 \S4method{setFeatures}{ppp}(x, table = NULL)
 }
 \arguments{
-\item{x}{the object to which to assign an attribute table.}
+\item{x}{the object to which to assign a new attribute table.}
 
 \item{table}{[\code{data.frame(.)}]\cr the attribute table.}
 }
 \value{
-The object \code{x} with an updated attribute table.
+The object \code{x} with an updated feature attribute table.
 }
 \description{
-Set the table of feature attributes
+Set a table of feature attributes
 }
 \seealso{
 Other setters: \code{\link{setCRS}},

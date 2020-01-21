@@ -5,22 +5,22 @@
 \alias{setPoints}
 \alias{setPoints,ANY-method}
 \alias{setPoints,geom-method}
-\title{Set the table of point attributes}
+\title{Set a table of point attributes}
 \usage{
 \S4method{setPoints}{ANY}(x, table = NULL)
 
 \S4method{setPoints}{geom}(x, table = NULL)
 }
 \arguments{
-\item{x}{the object to which to assign an attribute table.}
+\item{x}{the object to which to assign a new point attribute table.}
 
-\item{table}{[\code{data.frame(.)}]\cr the attribute table.}
+\item{table}{[\code{data.frame(.)}]\cr the new attribute table.}
 }
 \value{
-The object \code{x} with an updated attribute table.
+The object \code{x} with an updated point attribute table.
 }
 \description{
-Set the table of point attributes
+Set a table of point attributes
 }
 \seealso{
 Other setters: \code{\link{setCRS}},

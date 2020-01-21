@@ -43,8 +43,10 @@ Get tabular information of the attributes of features.
 \examples{
 getFeatures(x = gtGeoms$polygon)
 
+# get a subset of an sf-object
 getFeatures(x = gtSF$multilinestring, a == 1)
 
+# get the values of a RasterLayer
 getFeatures(x = gtRasters$continuous)
 }
 \seealso{

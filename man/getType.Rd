@@ -43,8 +43,6 @@ getType(x = gtSP$SpatialPolygons)
 
 getType(x = gtSF$multiline)
 
-# getType(x = gtPPP$...)
-
 getType(x = gtRasters$categorical)
 }
 \seealso{

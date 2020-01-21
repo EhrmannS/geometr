@@ -9,6 +9,12 @@
 #'   point table has been subsetted.
 #' @examples
 #' getPoints(x = gtGeoms$polygon)
+#'
+#' getPoints(x = gtGeoms$point)
+#'
+#' # for a raster object, the @point slot is extracted from its' compact storage
+#' gtGeoms$grid$continuous@point
+#' getPoints(x = gtGeoms$grid$continuous)
 #' @family getters
 #' @name getPoints
 #' @rdname getPoints
@@ -38,8 +44,6 @@ setMethod(f = "getPoints",
 
 # geom ----
 #' @rdname getPoints
-#' @examples
-#' getPoints(x = gtGeoms$point)
 #' @importFrom tibble as_tibble
 #' @export
 setMethod(f = "getPoints",

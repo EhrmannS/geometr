@@ -6,7 +6,7 @@
 \alias{setGroups,ANY-method}
 \alias{setGroups,geom-method}
 \alias{setGroups,RasterLayer-method}
-\title{Set the table of group attributes}
+\title{Set a table of group attributes}
 \usage{
 \S4method{setGroups}{ANY}(x)
 
@@ -15,15 +15,15 @@
 \S4method{setGroups}{RasterLayer}(x, table = NULL)
 }
 \arguments{
-\item{x}{the object to which to assign an attribute table.}
+\item{x}{the object to which to assign a new attribute table.}
 
-\item{table}{[\code{data.frame(.)}]\cr the attribute table.}
+\item{table}{[\code{data.frame(.)}]\cr the new attribute table.}
 }
 \value{
-The object \code{x} with an updated attribute table.
+The object \code{x} with an updated group attribute table.
 }
 \description{
-Set the table of group attributes
+Set a table of group attributes
 }
 \seealso{
 Other setters: \code{\link{setCRS}},

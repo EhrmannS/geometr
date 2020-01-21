@@ -42,7 +42,12 @@ Get tabular information of the attributes of points (incl. coordinates).
 }
 \examples{
 getPoints(x = gtGeoms$polygon)
+
 getPoints(x = gtGeoms$point)
+
+# for a raster object, the @point slot is extracted from its' compact storage
+gtGeoms$grid$continuous@point
+getPoints(x = gtGeoms$grid$continuous)
 }
 \seealso{
 Other getters: \code{\link{getCRS}},

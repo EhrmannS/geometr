@@ -76,9 +76,6 @@ setMethod(f = "getType",
 
 # ppp ----
 #' @rdname getType
-#' @examples
-#'
-#' # getType(x = gtPPP$...)
 #' @export
 setMethod(f = "getType",
           signature = "ppp",

@@ -1,8 +1,8 @@
-#' Set the table of group attributes
+#' Set a table of group attributes
 #'
-#' @param x the object to which to assign an attribute table.
-#' @param table [\code{data.frame(.)}]\cr the attribute table.
-#' @return The object \code{x} with an updated attribute table.
+#' @param x the object to which to assign a new attribute table.
+#' @param table [\code{data.frame(.)}]\cr the new attribute table.
+#' @return The object \code{x} with an updated group attribute table.
 #' @family setters
 #' @name setGroups
 #' @rdname setGroups
