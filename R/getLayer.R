@@ -1,7 +1,7 @@
 #' Get a specific layer of a spatial object.
 #'
 #' @param x the object from which to get the layer.
-#' @param layer the layer(s) to get.
+#' @param layer [\code{character} | \code{integerish}]\cr the layer(s) to get.
 #' @return A list of the requested layers.
 #' @family getters
 #' @name getLayer
@@ -86,6 +86,33 @@ setMethod(f = "getLayer",
               out <- c(out, setNames(list(x), "geometry"))
             }
 
+            return(out)
+          }
+)
+
+# matrix ----
+#' @rdname getLayer
+#' @export
+setMethod(f = "getLayer",
+          signature = "Spatial",
+          definition = function(x, layer = NULL){
+            out <- setNames(list(x), "a matrix")
+            return(out)
+          }
+)
+
+# matrix ----
+#' @rdname getLayer
+#' @importFrom sf st_drop_geometry
+#' @export
+setMethod(f = "getLayer",
+          signature = "sf",
+          definition = function(x, layer = NULL){
+            allNames <- names(x)
+            noGeom <- names(st_drop_geometry(x))
+            geomName <- allNames[!allNames %in% noGeom]
+
+            out <- setNames(list(x), geomName)
             return(out)
           }
 )
