@@ -1,8 +1,9 @@
-# geometr 0.2.2 (development)
+# geometr 0.2.2
 
 - included a faster method to determine IDs of paths and sub-paths of grobs when plotting.
+- `getLayer()` also for sf and Spatial objects.
 
-# geometr 0.2.1 (development)
+# geometr 0.2.1
 
 - incl. group information in geom show-method
 - implemented more efficient routine for extracting features and points from sf-objects
@@ -10,9 +11,9 @@
 - a gtTheme now also supports a "missing colour" that will be assigned to NA-values when a quick-option is used in `visualise()`
 - other minor bug-fixes
 
-# geometr 0.2.0 - grid update (development)
+# geometr 0.2.0 - grid update
 
-This update introduces the geom type 'grid', which is meant to store raster data. It stores as `@point` slot a compact version that gives (in both x and y dimension) the three values origin, number of cells and cell distance/resolution. It stores values in run-length encoding (rle) (if that is smaller than non-compressed). The `@feature` table of a grid geom can contain any number of columns, which would correspond to layers in a raster. It can store in the `@group` slot an attribute table per layer (column in the feature table).
+This update introduces the geom type 'grid', which is meant to store raster data. It stores as `@point` slot a compact version that gives (in both x and y dimension) the three values origin, number of cells and cell distance/resolution. It stores values in run-length encoding (rle) (if that is smaller than non-compressed). The `@feature` slot of a grid geom can contain any number of tables that would correspond to layers in a raster. It can store in the `@group` slot an attribute table per each of the layers.
 
 The following functions have been modified:
 
