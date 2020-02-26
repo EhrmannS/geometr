@@ -65,7 +65,7 @@
 visualise <- function(..., layer = NULL, window = NULL, theme = gtTheme, trace = FALSE, image = FALSE,
                       new = TRUE, clip = TRUE){
 
-  # layer = NULL; window = NULL; theme = gtTheme; trace = FALSE; image = FALSE; new = TRUE; clip = TRUE
+  # layer = NULL; window = NULL; theme = gtTheme; trace = FALSE; image = FALSE; new = TRUE; clip = TRUE; library(checkmate); library(grid); library(rlang)
 
   # check arguments ----
   window <- .testWindow(x = window)
@@ -97,7 +97,7 @@ visualise <- function(..., layer = NULL, window = NULL, theme = gtTheme, trace =
     } else {
       theObject <- list(theObject)
     }
-    # if(!is.null(theName)) names(theObject) <- rep(theName, length(theObject))
+    if(!is.null(theName)) names(theObject) <- rep(theName, length(theObject))
     objects <- c(objects, theObject)
   }
 
@@ -116,7 +116,7 @@ visualise <- function(..., layer = NULL, window = NULL, theme = gtTheme, trace =
 
   # checkup concerning plot size ----
   if(panels > 15){
-    question <- readline(paste0("  -> this will produce ", panels, " plots, do you wish to continue? [yes/no]: "))
+    question <- readline(paste0("  -> this will produce ", panels, " panels, do you wish to continue? [yes/no]: "))
     question <- match.arg(question, c("yes", "no"))
     if(question == "no"){
       return(invisible(0))
@@ -215,6 +215,7 @@ visualise <- function(..., layer = NULL, window = NULL, theme = gtTheme, trace =
                     just = "right",
                     x = unit(-0.005, "npc"),
                     y = unit(pnl$yMajGrid, "native"),
+                    rot = theme@xAxis$ticks$rotation,
                     name = "ticks",
                     gp = gpar(fontsize = theme@yAxis$ticks$fontsize,
                               col = theme@yAxis$ticks$colour))
@@ -243,6 +244,7 @@ visualise <- function(..., layer = NULL, window = NULL, theme = gtTheme, trace =
                     just = "top",
                     x = unit(pnl$xMajGrid, "native"),
                     y = unit(-0.005, "npc"),
+                    rot = theme@xAxis$ticks$rotation,
                     name = "ticks",
                     gp = gpar(fontsize = theme@xAxis$ticks$fontsize,
                               col = theme@xAxis$ticks$colour))
@@ -281,8 +283,15 @@ visualise <- function(..., layer = NULL, window = NULL, theme = gtTheme, trace =
 
           if(theParam %in% c("linecol", "fillcol")){
 
-            temp <- unlist(obj$params[legendName], use.names = FALSE)
-            theColours <- unique(unlist(obj$params[order(temp),][theParam], use.names = FALSE))
+            # 2. also make sure that the NA colour is always at the bottom (this
+            # seems to be not the case when $range has a value)
+
+            if(!is.null(theme@scale$bins)){
+              theColours <- colorRampPalette(colors = theme@vector[[theParam]])(theme@scale$bins)
+            } else {
+              temp <- unlist(obj$params[legendName], use.names = FALSE)
+              theColours <- unique(unlist(obj$params[order(temp),][theParam], use.names = FALSE))
+            }
             grid.raster(x = unit(1, "npc") + pnl$legendX[j],
                         width = unit(10, "points"),
                         height = unit(1, "npc"),
@@ -368,6 +377,19 @@ visualise <- function(..., layer = NULL, window = NULL, theme = gtTheme, trace =
                             name = "grid"))
       grid.rect(gp = gpar(col = NA, fill = NA), name = "gridGrob")
 
+      # the box viewport
+      if(theme@box$plot){
+        pushViewport(viewport(width = unit(1, "npc") - unit(2*pnl$xMargin, "native"),
+                              height = unit(1, "npc") - unit(2*pnl$yMargin, "native"),
+                              name = "box"))
+        grid.rect(gp = gpar(fill = theme@box$fillcol,
+                            col = theme@box$linecol,
+                            lwd = theme@box$linewidth,
+                            lty = theme@box$linetype),
+                  name = "theBox")
+        upViewport() # exit box
+      }
+
       # the grid viewport
       if(theme@grid$plot){
 
@@ -396,19 +418,6 @@ visualise <- function(..., layer = NULL, window = NULL, theme = gtTheme, trace =
                                lty = theme@grid$linetype))
           upViewport() # exit minorGrid
         }
-      }
-
-      # the box viewport
-      if(theme@box$plot){
-        pushViewport(viewport(width = unit(1, "npc") - unit(2*pnl$xMargin, "native"),
-                              height = unit(1, "npc") - unit(2*pnl$yMargin, "native"),
-                              name = "box"))
-        grid.rect(gp = gpar(fill = NA,
-                            col = theme@box$colour,
-                            lwd = theme@box$linewidth,
-                            lty = theme@box$linetype),
-                  name = "theBox")
-        upViewport() # exit box
       }
       upViewport() # exit grid
 
@@ -523,13 +532,14 @@ visualise <- function(..., layer = NULL, window = NULL, theme = gtTheme, trace =
 #'   \code{plot = TRUE/FALSE}, \code{fontsize} and \code{colour} of the legend
 #'   labels, \cr\cr box [\code{named list(.)}]\cr \code{plot = TRUE/FALSE},
 #'   \code{linetype}, \code{linewidth} and \code{colour} of the legend box.
+#' @param scale [\code{named list(.)}]\cr \code{param = 'someParameter'} and
+#'   \code{to = 'someAttribute'} to which to scale 'someParameter' to. Whether
+#'   or not to use the values' \code{identity}, the value \code{range} that
+#'   shall be represented by the scale and the number of \code{bins}.
 #' @param vector [\code{named list(.)}]\cr \code{linecol}, \code{fillcol},
 #'   \code{missingcol}, \code{linetype}, \code{linewidth}, \code{pointsize} and
-#'   \code{pointsymbol} of a vector object, \cr\cr scale [\code{named
-#'   list(.)}]\cr \code{x = 'someParameter'} and \code{to = 'someAttribute'} to
-#'   which to scale 'someParameter' to.
-#' @param raster [ \code{named list(.)}]\cr \code{scale = 'someAttribute'} and
-#'   at least two \code{colours} to which to scale 'someAttribute' to.
+#'   \code{pointsymbol} of a vector object.
+#' @param raster [ \code{named list(.)}]\cr \code{fillcol} of a raster object.
 #' @examples
 #' input <- gtRasters$continuous
 #' (myTheme <- setTheme(title = list(plot = FALSE)))
@@ -539,8 +549,8 @@ visualise <- function(..., layer = NULL, window = NULL, theme = gtTheme, trace =
 #' @export
 
 setTheme <- function(from = NULL, title = NULL, box = NULL, xAxis = NULL,
-                     yAxis = NULL, grid = NULL, legend = NULL, vector = NULL,
-                     raster = NULL){
+                     yAxis = NULL, grid = NULL, legend = NULL, scale = NULL,
+                     vector = NULL, raster = NULL){
 
   assertClass(x = from, classes = "gtTheme", null.ok = TRUE)
   if(is.null(from)){
@@ -559,7 +569,7 @@ setTheme <- function(from = NULL, title = NULL, box = NULL, xAxis = NULL,
 
   assertList(box, any.missing = FALSE, max.len = 4, null.ok = TRUE)
   if(!is.null(box)){
-    assertNames(names(box), subset.of = c("plot", "linewidth", "linetype", "colour"))
+    assertNames(names(box), subset.of = c("plot", "fillcol", "linewidth", "linetype", "linecol"))
     previous <- from@box
     for(i in seq_along(names(box))){
       out@box[which(names(previous) == names(box)[i])] <- box[i]
@@ -585,8 +595,8 @@ setTheme <- function(from = NULL, title = NULL, box = NULL, xAxis = NULL,
         }
       }
       if(names(xAxis)[i] == "ticks"){
-        assertList(xAxis$ticks, any.missing = FALSE, max.len = 4)
-        assertNames(names(xAxis$ticks), subset.of = c("plot", "fontsize", "colour", "digits"))
+        assertList(xAxis$ticks, any.missing = FALSE, max.len = 5)
+        assertNames(names(xAxis$ticks), subset.of = c("plot", "fontsize", "colour", "rotation", "digits"))
         previous <- from@xAxis$ticks
         for(i in seq_along(names(xAxis$ticks))){
           out@xAxis$ticks[which(names(previous) == names(xAxis$ticks)[i])] <- xAxis$ticks[i]
@@ -618,8 +628,8 @@ setTheme <- function(from = NULL, title = NULL, box = NULL, xAxis = NULL,
         }
       }
       if(names(yAxis)[i] == "ticks"){
-        assertList(yAxis$ticks, any.missing = FALSE, max.len = 4)
-        assertNames(names(yAxis$ticks), subset.of = c("plot", "fontsize", "colour", "digits"))
+        assertList(yAxis$ticks, any.missing = FALSE, max.len = 5)
+        assertNames(names(yAxis$ticks), subset.of = c("plot", "fontsize", "colour", "rotation", "digits"))
         previous <- from@yAxis$ticks
         for(i in seq_along(names(yAxis$ticks))){
           out@yAxis$ticks[which(names(previous) == names(yAxis$ticks)[i])] <- yAxis$ticks[i]
@@ -669,9 +679,18 @@ setTheme <- function(from = NULL, title = NULL, box = NULL, xAxis = NULL,
     }
   }
 
+  assertList(scale, any.missing = FALSE, max.len = 5, null.ok = TRUE)
+  if(!is.null(scale)){
+    assertNames(names(scale), subset.of = c("param", "to", "identity", "range", "bins"))
+    previous <- from@scale
+    for(i in seq_along(names(scale))){
+      out@scale[which(names(previous) == names(scale)[i])] <- scale[i]
+    }
+  }
+
   assertList(vector, any.missing = FALSE, max.len = 7, null.ok = TRUE)
   if(!is.null(vector)){
-    assertNames(names(vector), subset.of = c("scale", "linecol", "fillcol", "missingcol", "linetype", "linewidth", "pointsize", "pointsymbol"))
+    assertNames(names(vector), subset.of = c("linecol", "fillcol", "missingcol", "linetype", "linewidth", "pointsize", "pointsymbol"))
     previous <- from@vector
     for(i in seq_along(names(vector))){
       out@vector[which(names(previous) == names(vector)[i])] <- vector[i]
@@ -680,7 +699,7 @@ setTheme <- function(from = NULL, title = NULL, box = NULL, xAxis = NULL,
 
   assertList(raster, any.missing = FALSE, max.len = 2, null.ok = TRUE)
   if(!is.null(raster)){
-    assertNames(names(raster), subset.of = c("scale", "colours"))
+    assertNames(names(raster), subset.of = c("fillcol"))
     previous <- from@raster
     for(i in seq_along(names(raster))){
       out@raster[which(names(previous) == names(raster)[i])] <- raster[i]
