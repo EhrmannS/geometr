@@ -105,7 +105,7 @@ test_that("Error if arguments have wrong value", {
   notAGeom <- data.frame(x = c(25, 40, 70, 60, 30),
                          y = c(15, 25, 20, 40, 45))
 
-  invalidTheme <- setTheme(vector = list(scale = list(x = "linecol", to = NA)))
+  invalidTheme <- setTheme(scale = list(param = "linecol", to = NA))
 
   expect_error(gc_grob(input = notAGeom, theme = gtTheme))
   expect_error(gc_grob(input = gtGeoms$polygon, theme = invalidTheme))
