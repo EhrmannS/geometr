@@ -39,7 +39,7 @@ test_that("modifying box works", {
   myTheme <- setTheme(box = list(plot  = TRUE,
                                  linewidth = 5,
                                  linetype = "dashed",
-                                 colour = "black"))
+                                 linecol = "black"))
 
   output <- visualise(raster = continuous, theme = myTheme)
   expect_class(output, "recordedplot")
@@ -137,8 +137,8 @@ test_that("modifying geom works", {
   window <- data.frame(x = c(0, 80),
                        y = c(0, 80))
   aGeom <<- gs_polygon(anchor = coords, window = window)
-  myTheme <- setTheme(vector = list(scale = list(x = "fillcol", to = "fid"),
-                                    linecol = "grey",
+  myTheme <- setTheme(scale = list(param = "fillcol", to = "fid"),
+                      vector = list(linecol = "grey",
                                     fillcol = c("#00204DFF", "#FFEA46FF"),
                                     linetype = "dashed",
                                     linewidth = 1,
@@ -151,7 +151,7 @@ test_that("modifying geom works", {
 test_that("modifying raster works", {
   continuous <<- gtRasters$continuous
 
-  myTheme <- setTheme(raster = list(colours = terrain.colors(10)))
+  myTheme <- setTheme(raster = list(fillcol = terrain.colors(10)))
   output <- visualise(raster = continuous, theme = myTheme)
   expect_class(output, "recordedplot")
 })

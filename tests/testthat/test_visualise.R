@@ -56,11 +56,11 @@ test_that("quick options produce output", {
   expect_class(output, "recordedplot")
 
   # pointsize
-  output <- visualise(geom = gtGeoms$polygon, pointsize = "fid")
+  output <- visualise(geom = gtGeoms$polygon, pointsize = "fid", theme = aTheme)
   expect_class(output, "recordedplot")
 
   # pointsymbol
-  output <- visualise(geom = gtGeoms$polygon, pointsymbol = "fid")
+  output <- visualise(geom = gtGeoms$polygon, pointsymbol = "fid", theme = aTheme)
   expect_class(output, "recordedplot")
 
   # linewidth
