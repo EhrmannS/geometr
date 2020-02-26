@@ -130,7 +130,7 @@ coords <- tibble(x = c(40, 70, 70, 50),
 
 `nc_geom` is made up of 108 polygon features (with 2529 points), has a coordinate reference system (crs) and a set of (feature) attributes.
 The attributes' values are not shown by the print method of a `geom`, which is a more compact visualisation of the important information.
-Moreover, there is a "tiny map" that shows where the points of the respective `geom` are concentrated, which gives a rough but quick overview of the shape of the object.
+Moreover, there is a "tiny map" that shows where the points of the respective `geom` are concentrated.
 If there is less than 1/16th of all points in a section of the map, a `r '\u25CC'` is shown, for more than 1/16th but less than 1/8th this is `r '\u25CB'`, for more than 1/8th but less than 1/4th `r '\u25CE'` and for sections with more than 1/4th of points, this is `r '\u25C9'`.
 
 `aPoly` is only made up of one feature with 5 points and a cartesian coordinate system. 

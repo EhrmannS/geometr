@@ -45,7 +45,7 @@ setMethod(f = "getHistory",
 setMethod(f = "getHistory",
           signature = "Raster",
           definition = function(x){
-            if(class(x)[1] == "RasterStack"){
+            if(inherits(x, "RasterStack")){
               hist <- list()
               for(i in 1:dim(x)[3]){
                 hist <- c(hist, x@history)

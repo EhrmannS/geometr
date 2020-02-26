@@ -80,7 +80,7 @@ setMethod(f = "setFeatures",
           definition = function(x, table = NULL){
             assertDataFrame(x = table)
 
-            if(grepl("DataFrame", class(x))){
+            if(inherits(x, "DataFrame")){
               if(any(colnames(table) %in% colnames(x@data))){
                 x@data <- merge(x@data, table, all.x = TRUE)
               } else{
@@ -88,15 +88,15 @@ setMethod(f = "setFeatures",
               }
               out <- x
             } else{
-              if(class(x) == "SpatialPoints"){
+              if(inherits(x, "SpatialPoints")){
                 out <- SpatialPointsDataFrame(coords = x, data = table)
-              } else if(class(x) == "SpatialPixels"){
+              } else if(inherits(x, "SpatialPixels")){
                 out <- SpatialPixelsDataFrame(points = x, data = table)
-              } else if(class(x) == "SpatialMultiPoints"){
+              } else if(inherits(x, "SpatialMultiPoints")){
                 out <- SpatialMultiPointsDataFrame(coords = x, data = table)
-              } else if(class(x) == "SpatialLines"){
+              } else if(inherits(x, "SpatialLines")){
                 out <- SpatialLinesDataFrame(sl = x, data = table, match.ID = FALSE)
-              } else if(class(x) == "SpatialPolygons"){
+              } else if(inherits(x, "SpatialPolygons")){
                 out <- SpatialPolygonsDataFrame(Sr = x, data = table)
               }
             }

@@ -1,6 +1,6 @@
 # geometr 0.2.3
 
-- `gtTheme` now contains a seperate slot for all information that relate to the colour scale of values and the legend.
+- `gtTheme` now contains a separate slot for all information that relate to the colour scale of values and the legend.
 - accordingly, all functions that deal with that information were adapted.
 - other minor bug-fixes
 
@@ -13,7 +13,7 @@
 
 - incl. group information in geom show-method
 - implemented more efficient routine for extracting features and points from sf-objects
-- when setting a new features/groups table on a geom, the old respecive table is overwritten from now on.
+- when setting a new features/groups table on a geom, the old respective table is overwritten from now on.
 - a gtTheme now also supports a "missing colour" that will be assigned to NA-values when a quick-option is used in `visualise()`
 - other minor bug-fixes
 
@@ -44,4 +44,4 @@ The following functions are new:
 
 # geometr 0.1.0
 
-- initial realease
+- initial release
