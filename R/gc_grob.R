@@ -6,7 +6,6 @@
 #'   determine specific graphic parameters (see \code{\link{gpar}}) separately;
 #'   see \code{\link{setTheme}} for details.
 #' @return Depending on the provided geometry either a \code{\link{pointsGrob}},
-#'   \code{\link{polylineGrob}} or a \code{\link{pathGrob}}.
 #' @family spatial classes
 #' @name gc_grob
 #' @rdname gc_grob
@@ -60,11 +59,12 @@ setMethod(f = "gc_grob",
 
             point <- getPoints(x = outGeom)
             params <- theme@vector
+            scale <- theme@scale
 
             # select only displayArgs that are part of the valid parameters.
             tempArgs <- displayArgs[names(displayArgs) %in% names(params)]
             if(length(tempArgs) == 0){
-              tempArgs <- setNames(list(params$scale$to), params$scale$x)
+              tempArgs <- setNames(list(scale$to), scale$param)
             }
             if(!any(names(tempArgs) == "fillcol")){
               tempArgs <- c(tempArgs, setNames(list(NA_character_), "fillcol"))
@@ -95,23 +95,23 @@ setMethod(f = "gc_grob",
                   toRamp <- params[[which(names(params) %in% thisArgName)]]
                   makeWarning <- TRUE
                 } else {
-                  toEval <- as.symbol(params$scale$to)
+                  toEval <- as.symbol(scale$to)
                   toRamp <- thisArg
                   makeWarning <- FALSE
                 }
 
                 vals <- attr[[toEval]]
-                params$scale$x <- thisArgName
-                params$scale$to <- toEval
+                scale$to <- thisArgName
+                scale$to <- toEval
 
                 # figure out numeric representations of 'vals'
                 temp <- suppressWarnings(as.numeric(as.character(vals)))
                 if(!all(is.na(temp))){
                   valsNum <- temp
-                  uniqueValsNum <- unique(temp[!is.na(temp)])
+                  uniqueValsNum <- sort(unique(temp[!is.na(temp)]))
                 } else {
                   valsNum <- as.numeric(as.factor(vals))
-                  uniqueValsNum <- as.numeric(as.factor(unique(vals)))
+                  uniqueValsNum <- sort(as.numeric(as.factor(unique(vals))))
                 }
 
                 # if the argument is a colour argument, construct a color ramp from two or more values
@@ -130,11 +130,42 @@ setMethod(f = "gc_grob",
                     }
                   }
 
-                  uniqueColours <- colorRampPalette(colors = toRamp)(length(uniqueValsNum))
-                  breaks <- c(min(uniqueValsNum, na.rm = T)-1, uniqueValsNum)
-                  valCuts <- cut(valsNum, breaks = breaks, include.lowest = FALSE)
-                  tempOut <- uniqueColours[valCuts]
-                  tempOut[is.na(tempOut)] <- theme@vector$missingcol
+                  if(scale$identity){
+                    scale$bins <- NULL
+                  }
+
+                  if(is.null(scale$range)){
+                    if(is.null(scale$bins)){
+                      nColours <- length(uniqueValsNum)
+                      breaks <- c(min(uniqueValsNum, na.rm = T)-1, uniqueValsNum)
+                    } else {
+                      nColours <- scale$bins
+                      breaks <- seq(from = min(uniqueValsNum), to = max(uniqueValsNum), length.out = scale$bins+1)
+                    }
+                  } else {
+                    if(is.null(scale$bins)){
+                      nColours <- length(uniqueValsNum)
+                      breaks <- seq(from = scale$range[1], to = scale$range[2], length.out = length(uniqueValsNum)+1)
+                    } else {
+                      nColours <- scale$bins
+                      breaks <- seq(from = scale$range[1], to = scale$range[2], length.out = scale$bins+1)
+                    }
+                  }
+                  plotColours <- colorRampPalette(colors = toRamp)(nColours)
+
+                  if(scale$identity){
+                    if(length(unique(plotColours)) < length(unique(uniqueValsNum))){
+                      stop(paste0("the property '", thisArgName, "' (", paste0(toRamp, collapse = ", "), ") does not allow a palette of ", length(unique(uniqueValsNum)), " unique colours."))
+                    }
+                  } else {
+
+                  }
+
+                  valCuts <- cut(valsNum, breaks = breaks, include.lowest = FALSE, labels = FALSE)
+                  tempOut <- plotColours[valCuts]
+                  if(!is.null(theme@vector$missingcol)){
+                    tempOut[is.na(tempOut)] <- theme@vector$missingcol
+                  }
 
                 } else if(thisArgName %in% c("linewidth", "pointsize")){
 
@@ -163,7 +194,7 @@ setMethod(f = "gc_grob",
                     }
                   }
 
-                  uniquItems <- toRamp
+                  uniquItems <- rep(toRamp, times = length(uniqueValsNum))
                   breaks <- c(0, uniqueValsNum[order(uniqueValsNum)])
                   valCuts <- cut(valsNum, breaks = breaks, include.lowest = FALSE)
                   tempOut <- uniquItems[valCuts]
@@ -179,7 +210,6 @@ setMethod(f = "gc_grob",
 
             # process parameters that are default
             for(i in seq_along(defaultArgs)){
-              if(i == 1) next
 
               # determine value and name of the i-th display argument
               thisArg <- defaultArgs[[i]][[1]]
