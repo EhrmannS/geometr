@@ -23,6 +23,7 @@ themeClass <- setClass(Class = "gtTheme",
                                  yAxis = "list",
                                  grid = "list",
                                  legend = "list",
+                                 scale = "list",
                                  vector = "list",
                                  raster = "list"
                        )
