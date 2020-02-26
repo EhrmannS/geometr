@@ -116,7 +116,7 @@ setMethod(f = "getFeatures",
 # Spatial ----
 #' @rdname getFeatures
 #' @importFrom methods as
-#' @importFrom tibble tibble as_tibble
+#' @importFrom tibble tibble enframe
 #' @importFrom dplyr bind_cols
 #' @export
 setMethod(f = "getFeatures",
@@ -215,7 +215,7 @@ setMethod(f = "getFeatures",
                   thePolys <- x@polygons[[i]]
 
                   if(sourceClass %in% "SpatialPolygonsDataFrame"){
-                    tempData <- tibble(x@data[i,])
+                    tempData <- enframe(x@data[i,], name = NULL)
                     otherNames <- colnames(x@data)
                   } else{
                     tempData <- NULL
