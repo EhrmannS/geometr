@@ -15,11 +15,13 @@
 <link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png" />
 <link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png" />
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png" />
+
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous" />
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
 
 <!-- Font Awesome icons -->
@@ -39,10 +41,11 @@
 
 
 
-<meta property="og:title" content="Changelog" />
 
+<meta property="og:title" content="Changelog" />
 <meta property="og:image" content="http://EhrmannS.github.io/geometr/logo.png" />
 <meta name="twitter:card" content="summary" />
+
 
 
 
@@ -89,7 +92,6 @@
   <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
-      
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="http://www.twitter.com/DerEhrmann">
@@ -120,20 +122,20 @@
       <small>Source: <a href='https://github.com/EhrmannS/geometr/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
     </div>
 
-    <div id="geometr-023" class="section level1">
+    <div id="geometr-0-2-3" class="section level1">
 <h1 class="page-header">
-<a href="#geometr-023" class="anchor"></a>geometr 0.2.3<small> Unreleased </small>
+<a href="#geometr-0-2-3" class="anchor"></a>geometr 0.2.3<small> Unreleased </small>
 </h1>
 <ul>
 <li>
-<code>gtTheme</code> now contains a seperate slot for all information that relate to the colour scale of values and the legend.</li>
+<code>gtTheme</code> now contains a separate slot for all information that relate to the colour scale of values and the legend.</li>
 <li>accordingly, all functions that deal with that information were adapted.</li>
 <li>other minor bug-fixes</li>
 </ul>
 </div>
-    <div id="geometr-022" class="section level1">
+    <div id="geometr-0-2-2" class="section level1">
 <h1 class="page-header">
-<a href="#geometr-022" class="anchor"></a>geometr 0.2.2<small> Unreleased </small>
+<a href="#geometr-0-2-2" class="anchor"></a>geometr 0.2.2<small> Unreleased </small>
 </h1>
 <ul>
 <li>included a faster method to determine IDs of paths and sub-paths of grobs when plotting.</li>
@@ -141,22 +143,22 @@
 <code><a href="../reference/getLayer.html">getLayer()</a></code> also for sf and Spatial objects.</li>
 </ul>
 </div>
-    <div id="geometr-021" class="section level1">
+    <div id="geometr-0-2-1" class="section level1">
 <h1 class="page-header">
-<a href="#geometr-021" class="anchor"></a>geometr 0.2.1<small> Unreleased </small>
+<a href="#geometr-0-2-1" class="anchor"></a>geometr 0.2.1<small> Unreleased </small>
 </h1>
 <ul>
-<li>incl. group information in geom show-method</li>
+<li>incl. group information in geom show-method</li>
 <li>implemented more efficient routine for extracting features and points from sf-objects</li>
-<li>when setting a new features/groups table on a geom, the old respecive table is overwritten from now on.</li>
+<li>when setting a new features/groups table on a geom, the old respective table is overwritten from now on.</li>
 <li>a gtTheme now also supports a “missing colour” that will be assigned to NA-values when a quick-option is used in <code><a href="../reference/visualise.html">visualise()</a></code>
 </li>
 <li>other minor bug-fixes</li>
 </ul>
 </div>
-    <div id="geometr-020---grid-update" class="section level1">
+    <div id="geometr-0-2-0---grid-update" class="section level1">
 <h1 class="page-header">
-<a href="#geometr-020---grid-update" class="anchor"></a>geometr 0.2.0 - grid update<small> Unreleased </small>
+<a href="#geometr-0-2-0---grid-update" class="anchor"></a>geometr 0.2.0 - grid update<small> Unreleased </small>
 </h1>
 <p>This update introduces the geom type ‘grid’, which is meant to store raster data. It stores as <code>@point</code> slot a compact version that gives (in both x and y dimension) the three values origin, number of cells and cell distance/resolution. It stores values in run-length encoding (rle) (if that is smaller than non-compressed). The <code>@feature</code> slot of a grid geom can contain any number of tables that would correspond to layers in a raster. It can store in the <code>@group</code> slot an attribute table per each of the layers.</p>
 <p>The following functions have been modified:</p>
@@ -191,20 +193,20 @@
 <code><a href="../reference/getLayer.html">getLayer()</a></code> to extract layers from an object that has layers.</li>
 </ul>
 </div>
-    <div id="geometr-011" class="section level1">
+    <div id="geometr-0-1-1" class="section level1">
 <h1 class="page-header">
-<a href="#geometr-011" class="anchor"></a>geometr 0.1.1<small> 2019-10-16 </small>
+<a href="#geometr-0-1-1" class="anchor"></a>geometr 0.1.1<small> 2019-10-16 </small>
 </h1>
 <ul>
 <li>fix vertex checks also for polygons when they are created via <code>gs_sketch()</code>.</li>
 </ul>
 </div>
-    <div id="geometr-010" class="section level1">
+    <div id="geometr-0-1-0" class="section level1">
 <h1 class="page-header">
-<a href="#geometr-010" class="anchor"></a>geometr 0.1.0<small> Unreleased </small>
+<a href="#geometr-0-1-0" class="anchor"></a>geometr 0.1.0<small> Unreleased </small>
 </h1>
 <ul>
-<li>initial realease</li>
+<li>initial release</li>
 </ul>
 </div>
   </div>
@@ -213,12 +215,12 @@
     <div id="tocnav">
       <h2>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
-        <li><a href="#geometr-023">0.2.3</a></li>
-        <li><a href="#geometr-022">0.2.2</a></li>
-        <li><a href="#geometr-021">0.2.1</a></li>
-        <li><a href="#geometr-020---grid-update">0.2.0</a></li>
-        <li><a href="#geometr-011">0.1.1</a></li>
-        <li><a href="#geometr-010">0.1.0</a></li>
+        <li><a href="#geometr-0-2-3">0.2.3</a></li>
+        <li><a href="#geometr-0-2-2">0.2.2</a></li>
+        <li><a href="#geometr-0-2-1">0.2.1</a></li>
+        <li><a href="#geometr-0-2-0---grid-update">0.2.0</a></li>
+        <li><a href="#geometr-0-1-1">0.1.1</a></li>
+        <li><a href="#geometr-0-1-0">0.1.0</a></li>
       </ul>
     </div>
   </div>
