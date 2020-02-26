@@ -5,8 +5,8 @@
 \title{Create a new theme}
 \usage{
 setTheme(from = NULL, title = NULL, box = NULL, xAxis = NULL,
-  yAxis = NULL, grid = NULL, legend = NULL, vector = NULL,
-  raster = NULL)
+  yAxis = NULL, grid = NULL, legend = NULL, scale = NULL,
+  vector = NULL, raster = NULL)
 }
 \arguments{
 \item{from}{[\code{gtTheme}]\cr an gtTheme object.}

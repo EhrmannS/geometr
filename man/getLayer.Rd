@@ -26,7 +26,7 @@
 \arguments{
 \item{x}{the object from which to get the layer.}
 
-\item{layer}{[\code{character} | \code{integerish}]\cr the layer(s) to get.}
+\item{layer}{[\code{character(.)} | \code{integerish(.)}]\cr the layer(s) to get.}
 }
 \value{
 A list of the requested layers.

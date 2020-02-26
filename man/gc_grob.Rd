@@ -19,7 +19,6 @@ see \code{\link{setTheme}} for details.}
 }
 \value{
 Depending on the provided geometry either a \code{\link{pointsGrob}},
-  \code{\link{polylineGrob}} or a \code{\link{pathGrob}}.
 }
 \description{
 Transform a spatial object to a grob
