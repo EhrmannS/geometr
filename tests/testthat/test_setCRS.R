@@ -23,7 +23,7 @@ test_that("setCRS of a geom", {
   expect_character(getCRS(output), any.missing = FALSE, pattern = "+proj=laea", len = 1)
 })
 
-test_that("getExtent of a Spatial object", {
+test_that("setCRS of a Spatial object", {
   x = c(1, 2, 3, 4, 5)
   y = c(3, 2, 5, 1, 4)
   aSpatial <- SpatialPoints(cbind(x, y))
@@ -39,7 +39,7 @@ test_that("getExtent of a Spatial object", {
   expect_character(proj4string(output), any.missing = FALSE, pattern = "+proj=longlat", len = 1)
 })
 
-test_that("getExtent of an sf object", {
+test_that("setCRS of an sf object", {
   input <- gtSF$polygon
 
   # setting a CRS on a sf that hasn't had one before
@@ -53,7 +53,7 @@ test_that("getExtent of an sf object", {
   expect_character(st_crs(output)$proj4string, any.missing = FALSE, pattern = "+proj=longlat", len = 1)
 })
 
-test_that("getExtent of a Raster", {
+test_that("setCRS of a Raster", {
   aRaster <- raster(xmn=-110, xmx=-90, ymn=40, ymx=60, ncols=40, nrows=40)
   aRaster[] <- 1:ncell(aRaster)
   theCRS <- projection(aRaster)
