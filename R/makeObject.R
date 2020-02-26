@@ -35,13 +35,9 @@ makeObject <- function(x, window = NULL, image = FALSE, theme = gtTheme, ...){
     theFeatures <- getFeatures(x = x)
     theGroups <- getGroups(x = x)
 
-    if(!is.null(window)){
-      x <- setWindow(x = x, to = window)
-    }
-
     tempArgs <- displayArgs[names(displayArgs) %in% names(theme@vector)]
     if(length(tempArgs) == 0){
-      tempArgs <- setNames(list(theme@vector$scale$to), theme@vector$scale$x)
+      tempArgs <- setNames(list(theme@scale$to), theme@scale$param)
     }
 
     # make a table of relevant features
@@ -68,6 +64,12 @@ makeObject <- function(x, window = NULL, image = FALSE, theme = gtTheme, ...){
     if(!class(x)[1] %in% "geom"){
       x <- gc_geom(input = x)
     }
+
+    if(!is.null(window)){
+      x <- setWindow(x = x, to = window)
+      theWindow <- window
+    }
+
     aGrob <- gc_grob(input = x, theme = theme, ...)
     if(is(aGrob) != "gList"){
       aGrob <- gList(aGrob)
@@ -137,20 +139,36 @@ makeObject <- function(x, window = NULL, image = FALSE, theme = gtTheme, ...){
       theVal <- as.character(tempArgs[[i]])
 
       # ... construct the indices for selecting attributes
-      uniqueArg <- unique(eval(parse(text = theArg), envir = params))
-      if(length(uniqueArg) > theme@legend$bins){
-        tempTicks <- quantile(seq_along(uniqueArg), probs = seq(0, 1, length.out = theme@legend$bins), type = 1, names = FALSE)
+      if(is.null(theme@scale$range)){
+        if(theVal %in% colnames(params)){
+          uniqueVal <- params[[as.character(theVal)]][!duplicated(params[[as.character(theVal)]])]
+          if(any(is.na(params[[theArg]]))){
+            uniqueArg <- params[[theArg]][!duplicated(params[[as.character(theVal)]])][order(uniqueVal)][-length(uniqueVal)]
+          } else {
+            uniqueArg <- params[[theArg]][!duplicated(params[[as.character(theVal)]])][order(uniqueVal)]
+          }
+        } else {
+          next
+          # uniqueVal <- NA_character_#params[[as.character(theVal)]][!duplicated(params[[as.character(theVal)]])]
+          # uniqueArg <- theVal
+        }
+        uniqueVal <- sort(uniqueVal)
+        if(length(uniqueArg) > theme@legend$bins){
+          tempTicks <- quantile(seq_along(uniqueArg), probs = seq(0, 1, length.out = theme@legend$bins), type = 1, names = FALSE)
+        } else {
+          tempTicks <- seq_along(uniqueArg)
+        }
+        legendVals <- uniqueVal[tempTicks]
       } else {
-        tempTicks <- seq_along(uniqueArg)
+        uniqueVal <- seq(theme@scale$range[1], theme@scale$range[2])
+        tempTicks <- quantile(uniqueVal, probs = seq(0, 1, length.out = theme@legend$bins), type = 1, names = FALSE)
+        legendVals <- uniqueVal[tempTicks+1]
       }
 
-      # ... and select the attributes
-      if(!theVal %in% names(params)){
-        theVal <- "fid"
-      }
-      # uniqueVal <- unique(eval(parse(text = theVal), envir = params))
-      uniqueVal <- unique(params[[as.character(theVal)]])
-      legendVals <- sort(uniqueVal)[tempTicks]
+      # # ... and select the attributes
+      # if(!theVal %in% names(params)){
+      #   theVal <- "fid"
+      # }
 
       tempLegend <- tibble(labels = legendVals,
                            pos = as.numeric(unit(tempTicks, "native")))
@@ -258,7 +276,7 @@ makeObject <- function(x, window = NULL, image = FALSE, theme = gtTheme, ...){
       allValues <- sortUniqueC(vals[!is.na(vals)])
       tickValues <- seq_along(allValues)
       nrVals <- length(allValues)
-      targetColours <- theme@raster$colours
+      targetColours <- theme@raster$fillcol
 
       # make palette of all values in the theme, determine breaking points as
       # values of the raster and "intersect" the palette with them
