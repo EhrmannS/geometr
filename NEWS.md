@@ -1,3 +1,9 @@
+# geometr 0.2.3
+
+- `gtTheme` now contains a seperate slot for all information that relate to the colour scale of values and the legend.
+- accordingly, all functions that deal with that information were adapted.
+- other minor bug-fixes
+
 # geometr 0.2.2
 
 - included a faster method to determine IDs of paths and sub-paths of grobs when plotting.
