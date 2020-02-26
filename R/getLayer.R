@@ -1,7 +1,7 @@
 #' Get a specific layer of a spatial object.
 #'
 #' @param x the object from which to get the layer.
-#' @param layer [\code{character} | \code{integerish}]\cr the layer(s) to get.
+#' @param layer [\code{character(.)} | \code{integerish(.)}]\cr the layer(s) to get.
 #' @return A list of the requested layers.
 #' @family getters
 #' @name getLayer
