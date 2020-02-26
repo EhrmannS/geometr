@@ -507,7 +507,7 @@ visualise <- function(..., layer = NULL, window = NULL, theme = gtTheme, trace =
 #' @param title [\code{named list(.)}]\cr \code{plot = TRUE/FALSE},
 #'   \code{fontsize} and \code{colour} of the title.
 #' @param box [\code{named list(.)}]\cr \code{plot = TRUE/FALSE},
-#'   \code{linewidth}, \code{linetype} and \code{colour} of the bounding box
+#'   \code{linewidth}, \code{linetype} and \code{linecol} of the bounding box
 #'   (not supported recently).
 #' @param xAxis [\code{named list(.)}]\cr \code{plot = TRUE/FALSE}, number of
 #'   \code{bins} and \code{margin} of the x-axis,\cr\cr label [\code{named
