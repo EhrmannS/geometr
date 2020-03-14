@@ -30,14 +30,14 @@ Imports: checkmate,
     methods,
     rgdal,
     rlang,
-    tibble
+    tibble,
+    readr
 Suggests: testthat,
     rmarkdown,
     bookdown,
     magrittr,
     covr,
-    knitr,
-    readr
+    knitr
 LinkingTo: Rcpp
 RoxygenNote: 6.1.1
 SystemRequirements: C++11
