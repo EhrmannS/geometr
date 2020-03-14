@@ -123,11 +123,13 @@ setMethod(f = "gc_sf",
 
               attr <- tibble(gid = unique(theData$gid))
               if(!all(names(theData) %in% c("fid", "gid"))){
-                if(length(out) < dim(theData)[1]){
+                uniqueData <- theData[,!names(theData) %in% c("fid")]
+                uniqueData <- uniqueData[!duplicated(uniqueData),]
+                if(length(out) != dim(uniqueData)[1]){
                   warning("MULTILINESTRING doesn't support individual attributes per line, ignoring '", names(theData)[!names(theData) %in% c("fid", "gid")] , "'.")
                 } else {
                   makeDF <- TRUE
-                  attr <- theData[,!names(theData) %in% c("fid")]
+                  attr <- uniqueData
                 }
               }
 
@@ -184,11 +186,13 @@ setMethod(f = "gc_sf",
 
               attr <- tibble(gid = unique(theData$gid))
               if(!all(names(theData) %in% c("fid", "gid"))){
-                if(length(out) < dim(theData)[1]){
+                uniqueData <- theData[,!names(theData) %in% c("fid")]
+                uniqueData <- uniqueData[!duplicated(uniqueData),]
+                if(length(out) != dim(uniqueData)[1]){
                   warning("MULTIPOLYGON doesn't support individual attributes per polygon, ignoring '", paste0(names(theData)[!names(theData) %in% c("fid", "gid")], collapse = ", ") , "'.")
                 } else {
                   makeDF <- TRUE
-                  attr <- theData[,!names(theData) %in% c("fid")]
+                  attr <- uniqueData
                 }
               }
 
