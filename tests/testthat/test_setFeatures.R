@@ -20,7 +20,7 @@ test_that("setFeatures of a 'geom'", {
   expect_names(names(output@feature$geometry), must.include = c("fid", "gid", "data"))
 
   # set table with only unknown variables
-  output <- setFeatures(x = input, table = data.frame(data = "B"))
+  output <- setFeatures(x = input, table = data.frame(fid = 1, data = "B"))
   expect_class(output, "geom")
   expect_list(output@feature, len = 1)
   expect_names(names(output@feature$geometry), must.include = c("fid", "gid", "data"))

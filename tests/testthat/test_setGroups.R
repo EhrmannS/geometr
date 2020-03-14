@@ -20,7 +20,7 @@ test_that("setGroups of a 'geom'", {
   expect_names(names(output@group$geometry), must.include = c("gid", "data"))
 
   # set table with only unknown variables
-  output <- setGroups(x = input, table = data.frame(data = "B"))
+  output <- setGroups(x = input, table = data.frame(gid = 1, data = "B"))
   expect_class(output, "geom")
   expect_list(output@feature, len = 1)
   expect_names(names(output@group$geometry), must.include = c("gid", "data"))

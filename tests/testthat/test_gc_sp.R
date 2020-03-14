@@ -17,12 +17,12 @@ test_that("transform from geom to sp", {
 
 test_that("make a Spatial*DataFrame object", {
   # test type == 'point'
-  input <- setPoints(x = gtGeoms$point, table = data.frame(attr = letters[1:12]))
+  input <- setPoints(x = gtGeoms$point, table = data.frame(fid = 1, attr = letters[1:12]))
   spPoints <- gc_sp(input)
   expect_class(spPoints, "SpatialPointsDataFrame")
   expect_names(x = names(spPoints), identical.to = c("attr"))
 
-  input <- setFeatures(x = gtGeoms$point, table = data.frame(gid = c(1:3), attr = letters[1:3]))
+  input <- setFeatures(x = gtGeoms$point, table = data.frame(fid = c(1:3), attr = letters[1:3]))
   spPoints <- gc_sp(input)
   expect_class(spPoints, "SpatialPointsDataFrame")
   expect_names(x = names(spPoints), identical.to = c("attr"))
@@ -33,7 +33,7 @@ test_that("make a Spatial*DataFrame object", {
   expect_names(x = names(spPoints), identical.to = c("attr"))
 
   # test type == 'line'
-  input <- setFeatures(x = gtGeoms$line, table = data.frame(gid = c(1:3), attr = letters[1:3]))
+  input <- setFeatures(x = gtGeoms$line, table = data.frame(fid = c(1:3), attr = letters[1:3]))
   spPoints <- gc_sp(input)
   expect_class(spPoints, "SpatialLinesDataFrame")
   expect_names(x = names(spPoints), identical.to = c("attr"))

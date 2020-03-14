@@ -11,26 +11,26 @@ test_that("geom with less than 9 attributes", {
 })
 
 test_that("geom with all attribute tables", {
-  input <- setFeatures(x = gtGeoms$polygon, table = data.frame(bla = c(1:2)))
-  input <- setPoints(x = input, table = data.frame(wat = c(1:15)))
-  input <- setGroups(x = input, table = data.frame(blubb = c(1:2)))
+  input <- setPoints(x = gtGeoms$polygon, table = data.frame(fid = c(1, 2), wat = c("bla", "blubb")))
+  input <- setFeatures(x = input, table = data.frame(fid = c(1, 2), bla = c(1:2)))
+  input <- setGroups(x = input, table = data.frame(gid = c(1, 2), blubb = c(1:2)))
   output <- capture.output(input)
   expect_character(x = output, len = 12)
   expect_true(output[2] == "            2 groups | 2 features | 15 points")
 })
 
 test_that("geom with single attribute tables", {
-  input <- setFeatures(x = gtGeoms$polygon, table = data.frame(bla = c(1:2)))
+  input <- setFeatures(x = gtGeoms$polygon, table = data.frame(fid = c(1, 2), bla = c(1:2)))
   output <- capture.output(input)
   expect_character(x = output, len = 10)
   expect_true(output[2] == "            2 groups | 2 features | 15 points")
 
-  input <- setPoints(x = gtGeoms$polygon, table = data.frame(wat = c(1:15)))
+  input <- setPoints(x = gtGeoms$polygon, table = data.frame(fid = c(1, 2), wat = c("bla", "blubb")))
   output <- capture.output(input)
   expect_character(x = output, len = 10)
   expect_true(output[2] == "            2 groups | 2 features | 15 points")
 
-  input <- setGroups(x = gtGeoms$polygon, table = data.frame(blubb = c(1:2)))
+  input <- setGroups(x = gtGeoms$polygon, table = data.frame(gid = c(1, 2), blubb = c(1:2)))
   output <- capture.output(input)
   expect_character(x = output, len = 10)
   expect_true(output[2] == "            2 groups | 2 features | 15 points")
