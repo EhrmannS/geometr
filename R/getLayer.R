@@ -96,7 +96,7 @@ setMethod(f = "getLayer",
 setMethod(f = "getLayer",
           signature = "Spatial",
           definition = function(x, layer = NULL){
-            out <- setNames(list(x), "a matrix")
+            out <- setNames(list(x), "a spatial object")
             return(out)
           }
 )
