@@ -54,7 +54,7 @@ setMethod(f = "getFeatures",
 
             if(length(exprs(...)) > 0){
 
-                            subset <- enquos(...)
+              subset <- enquos(...)
               isLogical <- tryCatch(is.logical(eval_tidy(expr = subset[[1]])), error = function(e) FALSE)
               thePoints <- getPoints(x = x)
               theFeatures <- getFeatures(x = x)
@@ -92,9 +92,10 @@ setMethod(f = "getFeatures",
                                  values = theInput$val)
                     attr(temp, "class") <- "rle"
                     temp <- inverse.rle(temp)
-                    tempFeatures <- tibble(fid = seq_along(temp), gid = seq_along(temp), values = temp)
+                    tempFeatures <- tibble(fid = seq_along(temp), gid = temp, values = temp)
                   } else {
-                    tempFeatures <- as_tibble(cbind(fid = 1:dim(theInput)[1], gid = 1:dim(theInput)[1], theInput))
+                    theInput <- unlist(theInput, use.names = FALSE)
+                    tempFeatures <- tibble(fid = 1:length(theInput), gid = theInput, values = theInput)
                   }
 
                   if(length(theFeatures) > 1){
