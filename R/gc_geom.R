@@ -172,6 +172,7 @@ setMethod(f = "gc_geom",
             theFeatures <- list()
             theGroups <- hist <- list()
             for(i in 1:dim(input)[3]){
+              hist <- c(hist, paste0("geom was transformed from an object of class ", theType[2], "."))
 
               theInput <- input[[i]]
               theName <- names(input)[i]
@@ -197,7 +198,6 @@ setMethod(f = "gc_geom",
 
             }
 
-            history <- c(hist, paste0("geom was transformed from an object of class ", theType[2], "."))
             theCRS <- getCRS(x = input)
 
             out <- new(Class = "geom",
@@ -208,7 +208,7 @@ setMethod(f = "gc_geom",
                        window = theWindow,
                        scale = "absolute",
                        crs = theCRS,
-                       history = c(getHistory(input), list(history)))
+                       history = c(getHistory(input), list(hist)))
 
             return(out)
           }
