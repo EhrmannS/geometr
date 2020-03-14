@@ -61,7 +61,7 @@ makeObject <- function(x, window = NULL, image = FALSE, theme = gtTheme, ...){
       warning("some vertices are not within the plotting window.", immediate. = TRUE)
     }
 
-    if(!inherits(x, "geom")){
+    if(!class(x)[1] %in% "geom"){
       x <- gc_geom(input = x)
     }
 
