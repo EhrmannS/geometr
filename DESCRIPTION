@@ -33,6 +33,7 @@ Imports: checkmate,
     tibble
 Suggests: testthat,
     rmarkdown,
+    bookdown,
     magrittr,
     covr,
     knitr,

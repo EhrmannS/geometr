@@ -140,7 +140,7 @@ The exact values stored in those tables are explained in Tab. \@ref(tab:slots), 
 | `point` | `tibble` | the coordinates in x and y dimension and the ID of the feature the point is part of (`fid`). Any other attributes that are valid for each individual point can be joined to this table. |
 | `feature` | `list` of `tibble`s | the feature ID (`fid`) and the ID of the group the feature is part of (`gid`). Any other attributes that are valid for each individual feature can be joined to this table. |
 | `group` | `list` of `tibble`s | the group ID (`gid`) and any attributes that are valid for an overall group. |
-| `window` | `tibble` | the coordinates of a rectangular polygon that outlines the \"enclosing area\" of the `geom`. This is not to be confused with the extent, which is the minimum and maximum values of all dimentions of the `geom` and which is not recorded in a slot but derived from the coordinates. |
+| `window` | `tibble` | the coordinates of a rectangular polygon that outlines the \"enclosing area\" of the `geom`. This is not to be confused with the extent, which is the minimum and maximum values of all dimensions of the `geom` and which is not recorded in a slot but derived from the coordinates. |
 | `scale` | `character` | depending on crs and usecase, the coordinates of points can be documented as `absolute` or `relative` values |
 | `crs` | `character` | the coordinate reference system, currently in proj4 notation. In case no crs has been set, this is shown as \'cartesian\'. |
 | `history` | `list` | all of the functions of `geometr` produce an entry in this list to document [provenance](https://en.wikipedia.org/wiki/Provenance#Data_provenance). |
@@ -172,18 +172,18 @@ gtGeoms$grid$categorical@feature
 getFeatures(x = gtGeoms$grid$categorical)
 ```
 
-For raster objects it is intuitively clear that attributes are contained in seperate tables, where unique values of the raster cells are related to attribute values. 
+For raster objects it is intuitively clear that attributes are contained in separate tables, where unique values of the raster cells are related to attribute values. 
 For vector objects this also seems apparent, however, when digging below the surface there are some difference in interpretation.
 The attribute table for vector objects is typically seen as a table that contains attributes per feature, not per group (of unique features).
 When storing vector data in a simple feature data structure, each feature is an actually not so simple object that can be made up of one or more points or lines, or of a wide range of nested and neighbouring polygons, such as in a `MULTIPOLYGON` or even a mix of all of those in a `GEOMETRYCOLLECTION`.
 
-In `geometr`, in contrast, a feature is a single point, one sequence of points that form a line or a [single polygon](#how-are-polygons-handled), i.e., only a single object of each tpye.
+In `geometr`, in contrast, a feature is a single point, one sequence of points that form a line or a [single polygon](#how-are-polygons-handled), i.e., only a single object of each type.
 Any closed path that is not fully enclosed by another closed path, or that is not part of the same line (or the same point...), is thus a distinct feature.
 Obviously, it must be possible to relate features to one another beyond their physical connectedness as closed path, for examples several islands that form a nation.
 In `geometr`, this connectedness is represented by a group ID (`gid`), which relates all features of that group to the group specific attributes in the `@group` slot.
 This has two advantages over simple features:
 
-1. each feature can have both, ancillary information at the feature leve and at the group level (i.e., a feature in the \"simple feature\" sense).
+1. each feature can have both, ancillary information at the feature level and at the group level (i.e., a feature in the \"simple feature\" sense).
 2. this interpretation allows also raster objects to be captured in the exact same data structure, when regarding the cell values as features and the raster attribute tables as relating groups of unique values/features to group specific attributes.
 
 ```{r}
