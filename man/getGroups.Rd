@@ -42,7 +42,8 @@ getGroups(x = gtRasters$categorical)
 Other getters: \code{\link{getCRS}},
   \code{\link{getExtent}}, \code{\link{getFeatures}},
   \code{\link{getHistory}}, \code{\link{getLayer}},
-  \code{\link{getPoints}}, \code{\link{getRes}},
-  \code{\link{getType}}, \code{\link{getWindow}}
+  \code{\link{getName}}, \code{\link{getPoints}},
+  \code{\link{getRes}}, \code{\link{getType}},
+  \code{\link{getWindow}}
 }
 \concept{getters}

@@ -53,7 +53,8 @@ getWindow(x = matrix(0, 3, 5))
 Other getters: \code{\link{getCRS}},
   \code{\link{getExtent}}, \code{\link{getFeatures}},
   \code{\link{getGroups}}, \code{\link{getHistory}},
-  \code{\link{getLayer}}, \code{\link{getPoints}},
-  \code{\link{getRes}}, \code{\link{getType}}
+  \code{\link{getLayer}}, \code{\link{getName}},
+  \code{\link{getPoints}}, \code{\link{getRes}},
+  \code{\link{getType}}
 }
 \concept{getters}
