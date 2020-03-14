@@ -82,10 +82,10 @@ visualise <- function(..., layer = NULL, window = NULL, theme = gtTheme, trace =
   objects <- list()
   # get objects
   for(i in seq_along(objs)){
-    theName <- names(objs)[i]
+    argName <- names(objs)[i]
 
-    if(!is.null(theName)){
-      if(theName %in% names(theme@vector)){
+    if(!is.null(argName)){
+      if(argName %in% names(theme@vector)){
         # exclude theme objects
         next
       }
@@ -93,11 +93,17 @@ visualise <- function(..., layer = NULL, window = NULL, theme = gtTheme, trace =
     theObject <- eval_tidy(expr = objs[[i]])
     if(!image){
       theObject <- getLayer(x = theObject, layer = layer)
-      if(is.null(theObject)) stop(paste0("'", theName, "' is not an object that can be plotted with 'visualise()'."))
+      objName <- getName(x = theObject)
+      if(is.null(theObject)) stop(paste0("'", argName, "' is not an object that can be plotted with 'visualise()'."))
     } else {
       theObject <- list(theObject)
+      objName <- argName
     }
-    if(!is.null(theName)) names(theObject) <- rep(theName, length(theObject))
+    if(!is.null(argName)){
+      names(theObject) <- rep(argName, length(theObject))
+    } else {
+      names(theObject) <- rep(objName, length(theObject))
+    }
     objects <- c(objects, theObject)
   }
 
