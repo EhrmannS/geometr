@@ -38,9 +38,7 @@ setMethod(f = "setPoints",
           signature = "geom",
           definition = function(x, table = NULL){
             if(!any(names(table) %in% "fid")){
-              if(dim(table)[1] != dim(x@point)[1]){
-                stop("'table' must either contain the column 'fid' or be of the same length as 'x'.")
-              }
+                stop("'table' must contain the column 'fid'.")
             }
             if(any(c("x", "y") %in% names(table))){
               stop("recently new points can't be defined with this function.")
@@ -49,14 +47,23 @@ setMethod(f = "setPoints",
 
             } else {
               thePoints <- getPoints(x = x)
+              theFeatures <- getFeatures(x = x)
 
-              if(any(colnames(table) %in% colnames(x@point))){
-                temp <- merge(thePoints, table, all.x = TRUE)
-                temp <- .updateOrder(input = temp)
-              } else{
-                temp <- cbind(thePoints, table)
+              outPoints <- merge(thePoints, table, all.x = TRUE)
+              outPoints <- .updateOrder(input = outPoints)
+              if(any(colnames(table) %in% "gid")){
+                outFeatures <- tibble(fid = outPoints$fid,
+                                      gid = outPoints$gid)
+              } else {
+                outFeatures <- tibble(fid = outPoints$fid,
+                                      gid = seq_along(outPoints$fid))
               }
-              x@point <- as_tibble(temp)
+              if(any(colnames(outPoints) == "gid")){
+                outPoints <- outPoints[,-which(colnames(outPoints) == "gid")]
+              }
+
+              x@point <- as_tibble(outPoints)
+              x@feature <- list(geometry = outFeatures)
             }
 
             cln <- colnames(table)

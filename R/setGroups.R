@@ -38,9 +38,7 @@ setMethod(f = "setGroups",
           signature = "geom",
           definition = function(x, table = NULL){
             if(!any(names(table) %in% c("gid"))){
-              if(dim(table)[1] != dim(x@group$geometry)[1]){
-                stop("'table' must either contain the column 'gid' or be of the same length as 'x'.")
-              }
+              stop("'table' must contain the column 'gid'.")
             }
             if(x@type == "grid"){
 
@@ -48,13 +46,10 @@ setMethod(f = "setGroups",
               theGroups <- getGroups(x = x)
               theGroups <- theGroups[c("gid")]
 
-              if(any(colnames(table) %in% colnames(theGroups))){
-                temp <- merge(theGroups, table, all.x = TRUE)
-                temp <- .updateOrder(input = temp)
-              } else{
-                temp <- cbind(theGroups, table)
-              }
-              x@group <- list(geometry = as_tibble(temp))
+              outGroups <- merge(theGroups, table, all.y = TRUE)
+              outGroups <- .updateOrder(input = outGroups)
+
+              x@group <- list(geometry = as_tibble(outGroups))
             }
 
             cln <- colnames(table)

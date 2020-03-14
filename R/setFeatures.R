@@ -37,24 +37,24 @@ setMethod(f = "setFeatures",
 setMethod(f = "setFeatures",
           signature = "geom",
           definition = function(x, table = NULL){
-            if(!any(names(table) %in% c("fid", "gid"))){
-              if(dim(table)[1] != dim(x@feature$geometry)[1]){
-                stop("'table' must either contain the columns 'fid' or 'gid' or be of the same length as 'x'.")
-              }
+            if(!any(colnames(table) %in% "fid")){
+              stop("'table' must contain the column 'fid'.")
+
             }
             if(x@type == "grid"){
 
             } else {
               theFeatures <- getFeatures(x = x)
-              theFeatures <- theFeatures[c("fid", "gid")]
-
-              if(any(colnames(table) %in% colnames(theFeatures))){
-                temp <- merge(x = theFeatures, y = table, all.x = TRUE)
-                temp <- .updateOrder(input = temp)
-              } else{
-                temp <- cbind(theFeatures, table)
+              theGroups <- getGroups(x = x)
+              if(any(colnames(table) %in% "gid")){
+                theFeatures <- theFeatures[,-which(colnames(theFeatures) == "gid")]
               }
-              x@feature <- list(geometry = as_tibble(temp))
+              outFeatures <- merge(x = theFeatures, y = table, all.x = TRUE)
+              outFeatures <- .updateOrder(input = outFeatures)
+              outGroups <- tibble(gid = sort(unique(outFeatures$gid)))
+
+              x@feature <- list(geometry = as_tibble(outFeatures))
+              x@group <- list(geometry = outGroups)
             }
 
             cln <- colnames(table)
