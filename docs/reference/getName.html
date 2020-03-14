@@ -6,8 +6,15 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Get the subset of a spatial object. — getSubset • geometr</title>
+<title>Get the name(s) of a spatial object. — getName • geometr</title>
 
+<!-- favicons -->
+<link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
+<link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png" />
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -35,8 +42,9 @@
 
 
 
-<meta property="og:title" content="Get the subset of a spatial object. — getSubset" />
-<meta property="og:description" content="Get the subset of a spatial object." />
+<meta property="og:title" content="Get the name(s) of a spatial object. — getName" />
+<meta property="og:description" content="Get the name(s) of a spatial object." />
+<meta property="og:image" content="http://EhrmannS.github.io/geometr/logo.png" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -69,7 +77,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">geometr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.3</span>
       </span>
     </div>
 
@@ -111,91 +119,48 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Get the subset of a spatial object.</h1>
-    <small class="dont-index">Source: <a href='https://github.com/EhrmannS/geometr/blob/master/R/getSubset.R'><code>R/getSubset.R</code></a></small>
-    <div class="hidden name"><code>getSubset.Rd</code></div>
+    <h1>Get the name(s) of a spatial object.</h1>
+    <small class="dont-index">Source: <a href='https://github.com/EhrmannS/geometr/blob/master/R/getName.R'><code>R/getName.R</code></a></small>
+    <div class="hidden name"><code>getName.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Get the subset of a spatial object.</p>
+    <p>Get the name(s) of a spatial object.</p>
     </div>
 
     <pre class="usage"><span class='co'># S4 method for ANY</span>
-<span class='fu'>getSubset</span>(<span class='no'>x</span>)
+<span class='fu'>getName</span>(<span class='no'>x</span>)
 
 <span class='co'># S4 method for geom</span>
-<span class='fu'>getSubset</span>(<span class='no'>x</span>, <span class='no'>...</span>, <span class='kw'>slot</span> <span class='kw'>=</span> <span class='st'>"feature"</span>)
-
-<span class='co'># S4 method for Spatial</span>
-<span class='fu'>getSubset</span>(<span class='no'>x</span>, <span class='no'>...</span>)
+<span class='fu'>getName</span>(<span class='no'>x</span>)
 
 <span class='co'># S4 method for sf</span>
-<span class='fu'>getSubset</span>(<span class='no'>x</span>, <span class='no'>...</span>)</pre>
+<span class='fu'>getName</span>(<span class='no'>x</span>)
+
+<span class='co'># S4 method for Raster</span>
+<span class='fu'>getName</span>(<span class='no'>x</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>x</th>
-      <td><p>object to <code>subset</code>.</p></td>
-    </tr>
-    <tr>
-      <th>...</th>
-      <td><p>Logical predicates defined in terms of the variables in <code>x</code>
-or a vector of booleans. Multiple conditions are combined with &amp;. Only rows
-where the condition evaluates to TRUE are kept.</p></td>
-    </tr>
-    <tr>
-      <th>slot</th>
-      <td><p>[<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>]<br /> the slot in which to determine a subset,
-either <code>"point"</code> for vertices, <code>"feature"</code> for features or
-<code>"group"</code> for group tables.</p></td>
+      <td><p>the object from which to get the name.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A subset of <code>x</code> in its original class.</p>
+    <p>A vector of the requested names.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>Other getters: <code><a href='getCRS.html'>getCRS</a></code>,
-  <code><a href='getExtent.html'>getExtent</a></code>, <code><a href='getHistory.html'>getHistory</a></code>,
-  <code><a href='getPoints.html'>getPoints</a></code>, <code><a href='getTable.html'>getTable</a></code>,
-  <code><a href='getType.html'>getType</a></code>, <code><a href='getWindow.html'>getWindow</a></code></p></div>
+  <code><a href='getExtent.html'>getExtent</a></code>, <code><a href='getFeatures.html'>getFeatures</a></code>,
+  <code><a href='getGroups.html'>getGroups</a></code>, <code><a href='getHistory.html'>getHistory</a></code>,
+  <code><a href='getLayer.html'>getLayer</a></code>, <code><a href='getPoints.html'>getPoints</a></code>,
+  <code><a href='getRes.html'>getRes</a></code>, <code><a href='getType.html'>getType</a></code>,
+  <code><a href='getWindow.html'>getWindow</a></code></p></div>
 
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># get the subset of a geom</span>
-<span class='no'>obj</span> <span class='kw'>&lt;-</span> <span class='no'>gtGeoms</span>$<span class='no'>point</span>
-
-<span class='co'># the first feature</span>
-<span class='fu'>getSubset</span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>gtGeoms</span>$<span class='no'>line</span>, <span class='no'>fid</span> <span class='kw'>==</span> <span class='fl'>1</span>)</div><div class='output co'>#&gt; <span style='color: #BBBB00;'>geom</span><span>        line
-#&gt;             1 feature | 4 points
-#&gt; </span><span style='color: #BBBB00;'>crs         </span><span>cartesian
-#&gt; </span><span style='color: #BBBB00;'>attributes</span><span>  --
-#&gt; </span><span style='color: #BBBB00;'>tiny map  </span><span>    12 
-#&gt;               ◎ ◌ ◌ ◎    
-#&gt;               ◌ ◌ ◌ ◌    
-#&gt;               ◌ ◌ ◌ ◌    
-#&gt;             0 ◎ ◌ ◌ ◎ 12 
-#&gt;               0 </div><div class='input'>
-<span class='co'># get the subset of a Spatial object</span>
-<span class='fu'>getSubset</span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>gtSP</span>$<span class='no'>SpatialPolygonsDataFrame</span>,
-          <span class='no'>a</span> <span class='kw'>==</span> <span class='fl'>2</span>)</div><div class='output co'>#&gt; class       : SpatialPolygonsDataFrame 
-#&gt; features    : 1 
-#&gt; extent      : 11, 12, 11, 12  (xmin, xmax, ymin, ymax)
-#&gt; crs         : NA 
-#&gt; variables   : 1
-#&gt; names       : a 
-#&gt; value       : 2 </div><div class='input'>
-<span class='co'># get the subset of an sf object</span>
-<span class='fu'>getSubset</span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>gtSF</span>$<span class='no'>polygon</span>, <span class='no'>a</span> <span class='kw'>==</span> <span class='fl'>1</span>)</div><div class='output co'>#&gt; Simple feature collection with 1 feature and 1 field
-#&gt; geometry type:  POLYGON
-#&gt; dimension:      XY
-#&gt; bbox:           xmin: 0 ymin: 0 xmax: 10 ymax: 10
-#&gt; epsg (SRID):    NA
-#&gt; proj4string:    NA
-#&gt;   a                       geometry
-#&gt; 1 1 POLYGON ((0 0, 10 0, 10 10,...</div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -203,7 +168,6 @@ either <code>"point"</code> for vertices, <code>"feature"</code> for features or
       <li><a href="#arguments">Arguments</a></li>
       <li><a href="#value">Value</a></li>
       <li><a href="#see-also">See also</a></li>
-      <li><a href="#examples">Examples</a></li>
     </ul>
 
   </div>
