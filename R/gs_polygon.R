@@ -12,8 +12,8 @@
 #' @param vertices [\code{integerish(.)}]\cr number of vertices per polygon;
 #'   will be recycled if it does not have as many elements as specified in
 #'   \code{features}.
-#' @param sketch [\code{RasterLayer(1)}|\code{matrix(1)}]\cr Gridded object that
-#'   serves as template to sketch polygons.
+#' @param sketch [\code{raster(1)}]\cr raster object that serves as template to
+#'   sketch polygons.
 #' @param regular [\code{logical(1)}]\cr should the polygon be regular, i.e.
 #'   point symmetric (\code{TRUE}) or should the vertices be selected as
 #'   provided by \code{anchor} (\code{FALSE}, default)?
@@ -41,8 +41,8 @@
 #' # if no window is set, the bounding box will be set as window
 #' (aGeom <- gs_polygon(anchor = coords))
 #'
-  #' # the vertices are plottet relative to the window
-  #' library(magrittr)
+#' # the vertices are plottet relative to the window
+#' library(magrittr)
 #' window <- data.frame(x = c(0, 80),
 #'                      y = c(0, 80))
 #' gs_polygon(anchor = coords, vertices = 6, window = window,
@@ -184,13 +184,7 @@ gs_polygon <- function(anchor = NULL, window = NULL, features = 1, vertices = NU
 gs_triangle <- function(anchor = NULL, window = NULL, sketch = NULL,
                         features = 1, ...){
 
-  theGeom <- gs_polygon(anchor = anchor,
-                        window = window,
-                        sketch = sketch,
-                        features = features,
-                        vertices = 3,
-                        regular = TRUE,
-                        ...)
+  theGeom <- gs_polygon(anchor = anchor, window = window, sketch = sketch, features = features, vertices = 3, regular = TRUE, ...)
 
   invisible(theGeom)
 }
@@ -202,13 +196,7 @@ gs_triangle <- function(anchor = NULL, window = NULL, sketch = NULL,
 gs_square <- function(anchor = NULL, window = NULL, sketch = NULL,
                       features = 1, ...){
 
-  theGeom <- gs_polygon(anchor = anchor,
-                        window = window,
-                        sketch = sketch,
-                        features = features,
-                        vertices = 4,
-                        regular = TRUE,
-                        ...)
+  theGeom <- gs_polygon(anchor = anchor, window = window, sketch = sketch, features = features, vertices = 4, regular = TRUE, ...)
 
   invisible(theGeom)
 }
@@ -221,12 +209,7 @@ gs_square <- function(anchor = NULL, window = NULL, sketch = NULL,
 gs_rectangle <- function(anchor = NULL, window = NULL, sketch = NULL,
                          features = 1, ...){
 
-  theGeom <- gs_polygon(anchor = anchor,
-                        window = window,
-                        sketch = sketch,
-                        features = features,
-                        vertices = 2,
-                        ...)
+  theGeom <- gs_polygon(anchor = anchor, window = window, sketch = sketch, features = features, vertices = 2, ...)
 
   outTable <- NULL
   for(i in seq_along(theGeom@feature$geometry$fid)){
@@ -250,13 +233,7 @@ gs_rectangle <- function(anchor = NULL, window = NULL, sketch = NULL,
 gs_hexagon <- function(anchor = NULL, window = NULL, sketch = NULL,
                        features = 1, ...){
 
-  theGeom <- gs_polygon(anchor = anchor,
-                        window = window,
-                        sketch = sketch,
-                        features = features,
-                        vertices = 6,
-                        regular = TRUE,
-                        ...)
+  theGeom <- gs_polygon(anchor = anchor, window = window, sketch = sketch, features = features, vertices = 6, regular = TRUE, ...)
 
   invisible(theGeom)
 }

@@ -9,8 +9,8 @@
 #'   from the bounding box of \code{anchor} (minimum and maximum values),
 #'   specify this here.
 #' @param vertices [\code{integer(1)}]\cr number of vertices.
-#' @param sketch [\code{RasterLayer(1)} | \code{matrix(1)}]\cr Gridded object
-#'   that serves as template to sketch points.
+#' @param sketch [\code{raster(1)}]\cr raster object that serves as template to
+#'   sketch polygons.
 #' @param ... [various]\cr graphical parameters to \code{\link{gt_locate}}, in
 #'   case points are sketched; see \code{\link[grid]{gpar}}
 #' @return An invisible \code{geom}.

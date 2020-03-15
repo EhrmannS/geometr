@@ -17,8 +17,8 @@ specify this here.}
 
 \item{vertices}{[\code{integer(1)}]\cr number of vertices.}
 
-\item{sketch}{[\code{RasterLayer(1)} | \code{matrix(1)}]\cr Gridded object
-that serves as template to sketch points.}
+\item{sketch}{[\code{raster(1)}]\cr raster object that serves as template to
+sketch polygons.}
 
 \item{...}{[various]\cr graphical parameters to \code{\link{gt_locate}}, in
 case points are sketched; see \code{\link[grid]{gpar}}}

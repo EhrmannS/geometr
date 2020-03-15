@@ -28,8 +28,8 @@ specify this here.}
 be recycled if it does not have as many elements as specified in
 \code{features}.}
 
-\item{sketch}{[\code{RasterLayer(1)} | \code{matrix(1)}]\cr Gridded object
-that serves as template to sketch line(s).}
+\item{sketch}{[\code{raster(1)}]\cr raster object that serves as template to
+sketch polygons.}
 
 \item{...}{[various]\cr graphical parameters to \code{\link{gt_locate}}, in
 case points are sketched; see \code{\link[grid]{gpar}}}

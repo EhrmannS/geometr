@@ -41,8 +41,8 @@ specify this here.}
 will be recycled if it does not have as many elements as specified in
 \code{features}.}
 
-\item{sketch}{[\code{RasterLayer(1)}|\code{matrix(1)}]\cr Gridded object that
-serves as template to sketch polygons.}
+\item{sketch}{[\code{raster(1)}]\cr raster object that serves as template to
+sketch polygons.}
 
 \item{regular}{[\code{logical(1)}]\cr should the polygon be regular, i.e.
 point symmetric (\code{TRUE}) or should the vertices be selected as

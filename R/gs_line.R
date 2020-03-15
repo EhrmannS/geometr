@@ -8,8 +8,8 @@
 #' @param window [\code{data.frame(1)}]\cr in case the reference window deviates
 #'   from the bounding box of \code{anchor} (minimum and maximum values),
 #'   specify this here.
-#' @param sketch [\code{RasterLayer(1)} | \code{matrix(1)}]\cr Gridded object
-#'   that serves as template to sketch line(s).
+#' @param sketch [\code{raster(1)}]\cr raster object that serves as template to
+#'   sketch polygons.
 #' @param features [\code{integerish(1)}]\cr number of lines to create.
 #' @param vertices [\code{integerish(.)}]\cr number of vertices per line; will
 #'   be recycled if it does not have as many elements as specified in
