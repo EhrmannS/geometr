@@ -4,10 +4,12 @@
 \name{gtSF}
 \alias{gtSF}
 \title{Example \code{sf} objects}
-\format{The list contains six objects of class \code{sf}, a \code{POINT}, a
+\format{
+The list contains six objects of class \code{sf}, a \code{POINT}, a
   \code{MULTIPOINT}, a \code{LINESTRING}, a \code{MULTILINESTRING}, a
   \code{POLYGON}, and a \code{MULTIPOLYGON} object. They are mostly used in
-  the example and test-sections of this package.}
+  the example and test-sections of this package.
+}
 \usage{
 gtSF
 }

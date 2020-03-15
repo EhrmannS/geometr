@@ -4,8 +4,16 @@
 \alias{visualise}
 \title{Visualise raster and geom objects}
 \usage{
-visualise(..., layer = NULL, window = NULL, theme = gtTheme,
-  trace = FALSE, image = FALSE, new = TRUE, clip = TRUE)
+visualise(
+  ...,
+  layer = NULL,
+  window = NULL,
+  theme = gtTheme,
+  trace = FALSE,
+  image = FALSE,
+  new = TRUE,
+  clip = TRUE
+)
 }
 \arguments{
 \item{...}{objects to plot and optional graphical parameters.}

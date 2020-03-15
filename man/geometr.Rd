@@ -3,7 +3,6 @@
 \docType{package}
 \name{geometr}
 \alias{geometr}
-\alias{geometr-package}
 \title{geometr: Generate and Modify Interoperable Geometric Shapes}
 \description{
 The geometr package provides tools that generate and process easily

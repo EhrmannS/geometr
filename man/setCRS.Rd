@@ -41,8 +41,11 @@ In case an object does not yet have a coordinate reference system
   \code{rgdal} package.
 }
 \seealso{
-Other setters: \code{\link{setFeatures}},
-  \code{\link{setGroups}}, \code{\link{setHistory}},
-  \code{\link{setPoints}}, \code{\link{setWindow}}
+Other setters: 
+\code{\link{setFeatures}()},
+\code{\link{setGroups}()},
+\code{\link{setHistory}()},
+\code{\link{setPoints}()},
+\code{\link{setWindow}()}
 }
 \concept{setters}

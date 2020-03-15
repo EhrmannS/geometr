@@ -40,7 +40,9 @@ gs_random(template = input) \%>\%
   visualise(geom = ., new = FALSE, linecol = "red")
 }
 \seealso{
-Other geometry shapes: \code{\link{gs_line}},
-  \code{\link{gs_point}}, \code{\link{gs_polygon}}
+Other geometry shapes: 
+\code{\link{gs_line}()},
+\code{\link{gs_point}()},
+\code{\link{gs_polygon}()}
 }
 \concept{geometry shapes}

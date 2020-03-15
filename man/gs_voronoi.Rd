@@ -4,8 +4,7 @@
 \alias{gs_voronoi}
 \title{Create a voronoi tiling \code{geom}}
 \usage{
-gs_voronoi(anchor = NULL, window = NULL, features = 3,
-  sketch = NULL, ...)
+gs_voronoi(anchor = NULL, window = NULL, features = 3, sketch = NULL, ...)
 }
 \arguments{
 \item{anchor}{[\code{geom(1)}|\code{data.frame(1)}]\cr Object to derive the
@@ -48,6 +47,7 @@ gs_voronoi(sketch = gtRasters$continuous) \%>\%
 }
 }
 \seealso{
-Other tilings: \code{\link{gs_tiles}}
+Other tilings: 
+\code{\link{gs_tiles}()}
 }
 \concept{tilings}

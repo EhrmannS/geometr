@@ -4,9 +4,16 @@
 \alias{gt_sketch}
 \title{Sketch \code{geom}s}
 \usage{
-gt_sketch(template = NULL, shape = NULL, features = 1,
-  vertices = NULL, regular = FALSE, fixed = FALSE, show = FALSE,
-  ...)
+gt_sketch(
+  template = NULL,
+  shape = NULL,
+  features = 1,
+  vertices = NULL,
+  regular = FALSE,
+  fixed = FALSE,
+  show = FALSE,
+  ...
+)
 }
 \arguments{
 \item{template}{[\code{RasterLayer(1)} | \code{matrix(1)}]\cr Gridded object
@@ -62,9 +69,12 @@ gt_sketch(template = gtRasters$continuous, shape = "hexagon") \%>\%
 }
 }
 \seealso{
-Other geometry tools: \code{\link{gt_reflect}},
-  \code{\link{gt_rotate}}, \code{\link{gt_scale}},
-  \code{\link{gt_skew}}, \code{\link{gt_stretch}},
-  \code{\link{gt_translate}}
+Other geometry tools: 
+\code{\link{gt_reflect}()},
+\code{\link{gt_rotate}()},
+\code{\link{gt_scale}()},
+\code{\link{gt_skew}()},
+\code{\link{gt_stretch}()},
+\code{\link{gt_translate}()}
 }
 \concept{geometry tools}

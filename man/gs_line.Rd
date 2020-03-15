@@ -4,8 +4,14 @@
 \alias{gs_line}
 \title{Create a line \code{geom}}
 \usage{
-gs_line(anchor = NULL, window = NULL, features = 1,
-  vertices = NULL, sketch = NULL, ...)
+gs_line(
+  anchor = NULL,
+  window = NULL,
+  features = 1,
+  vertices = NULL,
+  sketch = NULL,
+  ...
+)
 }
 \arguments{
 \item{anchor}{[\code{geom(1)}|\code{data.frame(1)}]\cr Object to derive the
@@ -68,7 +74,9 @@ gs_line(sketch = gtRasters$continuous, vertices = 4) \%>\%
 }
 }
 \seealso{
-Other geometry shapes: \code{\link{gs_point}},
-  \code{\link{gs_polygon}}, \code{\link{gs_random}}
+Other geometry shapes: 
+\code{\link{gs_point}()},
+\code{\link{gs_polygon}()},
+\code{\link{gs_random}()}
 }
 \concept{geometry shapes}

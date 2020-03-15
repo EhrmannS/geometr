@@ -4,7 +4,9 @@
 \name{gtTheme}
 \alias{gtTheme}
 \title{Default visualising theme}
-\format{An object of class \code{gtTheme} of length 1.}
+\format{
+An object of class \code{gtTheme} of length 1.
+}
 \usage{
 gtTheme
 }

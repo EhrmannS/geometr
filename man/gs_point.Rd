@@ -4,8 +4,7 @@
 \alias{gs_point}
 \title{Create a point \code{geom}}
 \usage{
-gs_point(anchor = NULL, window = NULL, vertices = 1, sketch = NULL,
-  ...)
+gs_point(anchor = NULL, window = NULL, vertices = 1, sketch = NULL, ...)
 }
 \arguments{
 \item{anchor}{[\code{geom(1)}|\code{data.frame(1)}]\cr Object to derive the
@@ -64,7 +63,9 @@ gs_point(sketch = gtRasters$continuous, vertices = 2) \%>\%
 }
 }
 \seealso{
-Other geometry shapes: \code{\link{gs_line}},
-  \code{\link{gs_polygon}}, \code{\link{gs_random}}
+Other geometry shapes: 
+\code{\link{gs_line}()},
+\code{\link{gs_polygon}()},
+\code{\link{gs_random}()}
 }
 \concept{geometry shapes}

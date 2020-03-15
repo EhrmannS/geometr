@@ -33,8 +33,11 @@ Both, objects of class \code{geom} and \code{Raster*} have the slot
   all geometry operations that come with \code{geometr}.
 }
 \seealso{
-Other setters: \code{\link{setCRS}},
-  \code{\link{setFeatures}}, \code{\link{setGroups}},
-  \code{\link{setPoints}}, \code{\link{setWindow}}
+Other setters: 
+\code{\link{setCRS}()},
+\code{\link{setFeatures}()},
+\code{\link{setGroups}()},
+\code{\link{setPoints}()},
+\code{\link{setWindow}()}
 }
 \concept{setters}

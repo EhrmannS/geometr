@@ -4,8 +4,13 @@
 \alias{gt_rotate}
 \title{Rotate \code{geom}s}
 \usage{
-gt_rotate(geom = NULL, angle = NULL, about = c(0, 0), fid = NULL,
-  update = TRUE)
+gt_rotate(
+  geom = NULL,
+  angle = NULL,
+  about = c(0, 0),
+  fid = NULL,
+  update = TRUE
+)
 }
 \arguments{
 \item{geom}{[\code{geom(.)}]\cr the object to rotate.}
@@ -53,9 +58,12 @@ rotateMore <- gt_rotate(geom = aGeom,
 visualise(geom = rotateMore)
 }
 \seealso{
-Other geometry tools: \code{\link{gt_reflect}},
-  \code{\link{gt_scale}}, \code{\link{gt_sketch}},
-  \code{\link{gt_skew}}, \code{\link{gt_stretch}},
-  \code{\link{gt_translate}}
+Other geometry tools: 
+\code{\link{gt_reflect}()},
+\code{\link{gt_scale}()},
+\code{\link{gt_sketch}()},
+\code{\link{gt_skew}()},
+\code{\link{gt_stretch}()},
+\code{\link{gt_translate}()}
 }
 \concept{geometry tools}

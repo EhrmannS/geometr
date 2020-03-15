@@ -4,8 +4,7 @@
 \alias{gt_translate}
 \title{Translate \code{geom}s}
 \usage{
-gt_translate(geom = NULL, x = NULL, y = NULL, fid = NULL,
-  update = TRUE)
+gt_translate(geom = NULL, x = NULL, y = NULL, fid = NULL, update = TRUE)
 }
 \arguments{
 \item{geom}{[\code{geom(.)}]\cr the object to translate.}
@@ -44,9 +43,12 @@ visualise(geom = gt_translate(geom = aGeom, x = 5, y = list(-10, 5)))
 visualise(geom = gt_translate(geom = aGeom, x = 5, fid = 1))
 }
 \seealso{
-Other geometry tools: \code{\link{gt_reflect}},
-  \code{\link{gt_rotate}}, \code{\link{gt_scale}},
-  \code{\link{gt_sketch}}, \code{\link{gt_skew}},
-  \code{\link{gt_stretch}}
+Other geometry tools: 
+\code{\link{gt_reflect}()},
+\code{\link{gt_rotate}()},
+\code{\link{gt_scale}()},
+\code{\link{gt_sketch}()},
+\code{\link{gt_skew}()},
+\code{\link{gt_stretch}()}
 }
 \concept{geometry tools}

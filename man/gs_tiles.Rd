@@ -4,8 +4,13 @@
 \alias{gs_tiles}
 \title{Create a regular tiling \code{geom}}
 \usage{
-gs_tiles(anchor = NULL, width = NULL, pattern = "squared",
-  centroids = FALSE, ...)
+gs_tiles(
+  anchor = NULL,
+  width = NULL,
+  pattern = "squared",
+  centroids = FALSE,
+  ...
+)
 }
 \arguments{
 \item{anchor}{[\code{geom(1)}|\code{data.frame(1)}]\cr Object to derive the
@@ -63,6 +68,7 @@ gs_tiles(anchor = aGeom, width = 8, pattern = "hexagonal") \%>\%
   visualise(., linecol = "deeppink", new = FALSE)
 }
 \seealso{
-Other tilings: \code{\link{gs_voronoi}}
+Other tilings: 
+\code{\link{gs_voronoi}()}
 }
 \concept{tilings}

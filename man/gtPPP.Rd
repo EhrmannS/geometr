@@ -4,9 +4,11 @@
 \name{gtPPP}
 \alias{gtPPP}
 \title{Example \code{ppp} object}
-\format{The object contains an object of class \code{ppp}. It consists of 15
+\format{
+The object contains an object of class \code{ppp}. It consists of 15
   points without an attribute table. It is mostly used in the example and
-  test-sections of this package.}
+  test-sections of this package.
+}
 \usage{
 gtPPP
 }

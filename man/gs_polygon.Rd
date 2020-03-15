@@ -8,20 +8,23 @@
 \alias{gs_hexagon}
 \title{Create a polygon \code{geom}}
 \usage{
-gs_polygon(anchor = NULL, window = NULL, features = 1,
-  vertices = NULL, sketch = NULL, regular = FALSE, ...)
+gs_polygon(
+  anchor = NULL,
+  window = NULL,
+  features = 1,
+  vertices = NULL,
+  sketch = NULL,
+  regular = FALSE,
+  ...
+)
 
-gs_triangle(anchor = NULL, window = NULL, sketch = NULL,
-  features = 1, ...)
+gs_triangle(anchor = NULL, window = NULL, sketch = NULL, features = 1, ...)
 
-gs_square(anchor = NULL, window = NULL, sketch = NULL,
-  features = 1, ...)
+gs_square(anchor = NULL, window = NULL, sketch = NULL, features = 1, ...)
 
-gs_rectangle(anchor = NULL, window = NULL, sketch = NULL,
-  features = 1, ...)
+gs_rectangle(anchor = NULL, window = NULL, sketch = NULL, features = 1, ...)
 
-gs_hexagon(anchor = NULL, window = NULL, sketch = NULL,
-  features = 1, ...)
+gs_hexagon(anchor = NULL, window = NULL, sketch = NULL, features = 1, ...)
 }
 \arguments{
 \item{anchor}{[\code{geom(1)}|\code{data.frame(1)}]\cr Object to derive the
@@ -114,7 +117,9 @@ gs_hexagon(sketch = gtRasters$continuous) \%>\%
 }
 }
 \seealso{
-Other geometry shapes: \code{\link{gs_line}},
-  \code{\link{gs_point}}, \code{\link{gs_random}}
+Other geometry shapes: 
+\code{\link{gs_line}()},
+\code{\link{gs_point}()},
+\code{\link{gs_random}()}
 }
 \concept{geometry shapes}

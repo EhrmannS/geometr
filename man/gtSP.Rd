@@ -4,10 +4,12 @@
 \name{gtSP}
 \alias{gtSP}
 \title{Example \code{Spatial} objects}
-\format{The list contains four objects of class \code{Spatial}, a
+\format{
+The list contains four objects of class \code{Spatial}, a
   \code{SpatialPoints}, a \code{SpatialMultiPoints}, a, \code{SpatialLines}
   and a \code{SpatialPolygons} object. They are mostly used in the example
-  and test-sections of this package.}
+  and test-sections of this package.
+}
 \usage{
 gtSP
 }
