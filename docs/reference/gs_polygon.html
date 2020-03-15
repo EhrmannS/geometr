@@ -78,7 +78,7 @@ specifying anchor values or by sketching it." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">geometr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.4</span>
       </span>
     </div>
 
@@ -130,20 +130,23 @@ specifying anchor values or by sketching it." />
 specifying anchor values or by sketching it.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>gs_polygon</span>(<span class='kw'>anchor</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>window</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>features</span> <span class='kw'>=</span> <span class='fl'>1</span>,
-  <span class='kw'>vertices</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>sketch</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>regular</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='no'>...</span>)
+    <pre class="usage"><span class='fu'>gs_polygon</span>(
+  <span class='kw'>anchor</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>window</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>features</span> <span class='kw'>=</span> <span class='fl'>1</span>,
+  <span class='kw'>vertices</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>sketch</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>regular</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='no'>...</span>
+)
 
-<span class='fu'>gs_triangle</span>(<span class='kw'>anchor</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>window</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>sketch</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>features</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='no'>...</span>)
+<span class='fu'>gs_triangle</span>(<span class='kw'>anchor</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>window</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>sketch</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>features</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='no'>...</span>)
 
-<span class='fu'>gs_square</span>(<span class='kw'>anchor</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>window</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>sketch</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>features</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='no'>...</span>)
+<span class='fu'>gs_square</span>(<span class='kw'>anchor</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>window</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>sketch</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>features</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='no'>...</span>)
 
-<span class='fu'>gs_rectangle</span>(<span class='kw'>anchor</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>window</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>sketch</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>features</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='no'>...</span>)
+<span class='fu'>gs_rectangle</span>(<span class='kw'>anchor</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>window</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>sketch</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>features</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='no'>...</span>)
 
-<span class='fu'>gs_hexagon</span>(<span class='kw'>anchor</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>window</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>sketch</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>features</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='no'>...</span>)</pre>
+<span class='fu'>gs_hexagon</span>(<span class='kw'>anchor</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>window</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>sketch</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>features</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='no'>...</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -227,8 +230,10 @@ the two given opposing corners.</p></li>
 </ul>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p>Other geometry shapes: <code><a href='gs_line.html'>gs_line</a></code>,
-  <code><a href='gs_point.html'>gs_point</a></code>, <code><a href='gs_random.html'>gs_random</a></code></p></div>
+    <div class='dont-index'><p>Other geometry shapes: 
+<code><a href='gs_line.html'>gs_line</a>()</code>,
+<code><a href='gs_point.html'>gs_point</a>()</code>,
+<code><a href='gs_random.html'>gs_random</a>()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># 1. create a polygon programmatically</span>

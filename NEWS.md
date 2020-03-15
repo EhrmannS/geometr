@@ -1,3 +1,8 @@
+# geometr 0.2.4
+
+- rewrite `setPoints()`, `setFeatures()` and `setGroups()` so that new tables can only be set via joining by the primary key (`fid`, `fid` and  `gid` respectively).
+
+
 # geometr 0.2.3
 
 - `gtTheme` now contains a separate slot for all information that relate to the colour scale of values and the legend.

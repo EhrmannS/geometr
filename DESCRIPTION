@@ -1,6 +1,6 @@
 Package: geometr
 Title: Generate and Modify Interoperable Geometric Shapes
-Version: 0.2.3
+Version: 0.2.4
 Authors@R: c(
     person("Steffen", "Ehrmann", role = c("aut", "cre"), email = "steffen@funroll-loops.de", comment = c(ORCID = "0000-0002-2958-0796")),
     person("Dan", "Sunday", role = c("cph"), comment = "fast point-in-polygon algorithm.")
@@ -39,6 +39,6 @@ Suggests: testthat,
     covr,
     knitr
 LinkingTo: Rcpp
-RoxygenNote: 6.1.1
+RoxygenNote: 7.1.0
 SystemRequirements: C++11
 VignetteBuilder: knitr

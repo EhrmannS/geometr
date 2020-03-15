@@ -77,7 +77,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">geometr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.4</span>
       </span>
     </div>
 
@@ -128,9 +128,16 @@
     <p>Sketch <code>geom</code>s by clicking into a plot.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>gt_sketch</span>(<span class='kw'>template</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>shape</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>features</span> <span class='kw'>=</span> <span class='fl'>1</span>,
-  <span class='kw'>vertices</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>regular</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>fixed</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>show</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>gt_sketch</span>(
+  <span class='kw'>template</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>shape</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>features</span> <span class='kw'>=</span> <span class='fl'>1</span>,
+  <span class='kw'>vertices</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>regular</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>fixed</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>show</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='no'>...</span>
+)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -189,10 +196,13 @@ plot (<code>TRUE</code>), or should the geom merely be returned in the console
     <p>An invisible <code>geom</code>.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p>Other geometry tools: <code><a href='gt_reflect.html'>gt_reflect</a></code>,
-  <code><a href='gt_rotate.html'>gt_rotate</a></code>, <code><a href='gt_scale.html'>gt_scale</a></code>,
-  <code><a href='gt_skew.html'>gt_skew</a></code>, <code><a href='gt_stretch.html'>gt_stretch</a></code>,
-  <code><a href='gt_translate.html'>gt_translate</a></code></p></div>
+    <div class='dont-index'><p>Other geometry tools: 
+<code><a href='gt_reflect.html'>gt_reflect</a>()</code>,
+<code><a href='gt_rotate.html'>gt_rotate</a>()</code>,
+<code><a href='gt_scale.html'>gt_scale</a>()</code>,
+<code><a href='gt_skew.html'>gt_skew</a>()</code>,
+<code><a href='gt_stretch.html'>gt_stretch</a>()</code>,
+<code><a href='gt_translate.html'>gt_translate</a>()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
