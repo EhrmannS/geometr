@@ -137,7 +137,7 @@ The exact values stored in those tables are explained in Tab. \@ref(tab:slots), 
 | slot | class | description |
 | :---- | :---- | :------------ |
 | `type` | `character` | the type of how the `geom` is processed and visualised. Either `point`, `line`, `polygon` or `grid`. |
-| `point` | `tibble` | the coordinates in x and y dimension and the ID of the feature the point is part of (`fid`). Any other attributes that are valid for each individual point can be joined to this table. |
+| `point` | `tibble` | the coordinates in x and y dimension and the ID of the feature the point is part of (`fid`). |
 | `feature` | `list` of `tibble`s | the feature ID (`fid`) and the ID of the group the feature is part of (`gid`). Any other attributes that are valid for each individual feature can be joined to this table. |
 | `group` | `list` of `tibble`s | the group ID (`gid`) and any attributes that are valid for an overall group. |
 | `window` | `tibble` | the coordinates of a rectangular polygon that outlines the \"enclosing area\" of the `geom`. This is not to be confused with the extent, which is the minimum and maximum values of all dimensions of the `geom` and which is not recorded in a slot but derived from the coordinates. |
@@ -289,9 +289,8 @@ species <- tibble(gid = unique(clg_dat$Species)) %>%
 # set these as attribute tables and select only trees with a height value
 trees <- locations %>%
   gs_point(anchor = .) %>%
-  setPoints(table = prop) %>%
-  setGroups(table = species)  %>%
-  getPoints(!is.na(height))
+  setFeatures(table = prop) %>%
+  setGroups(table = species)
 
 # make the title
 validpoints <- getPoints(x = trees)
@@ -321,8 +320,8 @@ visualise(reflPoly, linecol = "deeppink", new = FALSE, trace = TRUE)
 # Casting
 
 It is quite straightforward to cast from one feature type to another with `geometr`.
-As already mentioned above, all feature types (point, line and polygon) have the same arrangement and differ only in the slot `@type`. 
-This means that the only element that needs to be changed to cast a any `geom` to another `geom` is the feature type.
+As already mentioned above, the feature types point, line and polygon have the same arrangement and differ only in the slot `@type`. 
+This means that the only element that needs to be changed is the feature type.
 All `gs_*()` functions contain the argument `anchor = `, this is where location information for creating the output are provided.
 If what is provided here is already a `geom`, most of the location information and other properties can be (and in fact are) simply copied into the new object.
 
@@ -336,7 +335,7 @@ Consequently, those duplicates have to be handled, for example by removing dupli
 (somePoints <- gs_point(anchor = aPoly) %>%
   getPoints(!(duplicated(x) & duplicated(y))))
 
-# ... and recreate (the same) polygon from that
+# ... and recreate a polygon from that
 (aPoly <- gs_polygon(anchor = somePoints))
 ```
 
@@ -351,7 +350,7 @@ In case several objects are provided to `visualise()` at the same time, they are
 Moreover, it is possible to set the plot title by providing a name to the object that shall be plotted, for example via `'plot name' = plotObject`.
 In case a title is not provided in that way, the title is either extracted from the object name (for example, the raster in the following example is part of a `RasterStack` with the name `continuous`) or a default value is used.
 
-```{r}
+```{r, fig.height=3.5}
 visualise('I made a polygon!' = aPoly, gtRasters$continuous)
 ```
 
@@ -359,7 +358,7 @@ In case a `geom` is provided with a relative scale, the values are scaled betwee
 This allows, for example, to observe always the same region in a set of images, in which some signal changes, and eventually to extract the values.
 To this end, a `geom` would be provided with a reference window from which the relative values shall be derived and its' coordinates are scaled to those values.
 
-```{r}
+```{r, fig.height=3.5}
 relPoly <- gs_rectangle(anchor = aPoly) %>% 
   setWindow(to = tibble(x = c(0, 100), y = c(0, 100))) %>%
   gt_scale(to = "relative")
