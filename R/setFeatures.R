@@ -48,13 +48,14 @@ setMethod(f = "setFeatures",
               theGroups <- getGroups(x = x)
               if(any(colnames(table) %in% "gid")){
                 theFeatures <- theFeatures[,-which(colnames(theFeatures) == "gid")]
+
+                outGroups <- theGroups[theGroups$gid %in% table$gid,]
+                x@group <- list(geometry = outGroups)
               }
               outFeatures <- merge(x = theFeatures, y = table, all.x = TRUE)
               outFeatures <- .updateOrder(input = outFeatures)
-              outGroups <- tibble(gid = sort(unique(outFeatures$gid)))
 
               x@feature <- list(geometry = as_tibble(outFeatures))
-              x@group <- list(geometry = outGroups)
             }
 
             cln <- colnames(table)
