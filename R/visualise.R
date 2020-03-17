@@ -93,16 +93,12 @@ visualise <- function(..., layer = NULL, window = NULL, theme = gtTheme, trace =
     theObject <- eval_tidy(expr = objs[[i]])
     if(!image){
       theObject <- getLayer(x = theObject, layer = layer)
-      objName <- getName(x = theObject)
       if(is.null(theObject)) stop(paste0("'", argName, "' is not an object that can be plotted with 'visualise()'."))
     } else {
       theObject <- list(theObject)
-      objName <- argName
     }
-    if(!is.null(argName)){
+    if(argName != ""){
       names(theObject) <- rep(argName, length(theObject))
-    } else {
-      names(theObject) <- rep(objName, length(theObject))
     }
     objects <- c(objects, theObject)
   }
