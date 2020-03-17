@@ -39,42 +39,42 @@ setMethod(f = "show",
           signature = "gtTheme",
           definition = function(object){
             cat(ifelse(object@title$plot,
-                       paste0(green('\u2714'), yellow(" title    "), " in ", object@title$colour, " with fontsize ", object@title$fontsize),
+                       paste0(green('\u2714'), yellow(" title    "), " in ", cyan(object@title$colour), " with fontsize ", cyan(object@title$fontsize)),
                        paste0(red('\u2716'), yellow(" title    "))), "\n")
             cat(ifelse(object@box$plot,
-                       paste0(green('\u2714'), yellow(" box      "), " in ", object@box$colour, " with ", object@box$linewidth, " wide ", object@box$linetype, " lines"),
+                       paste0(green('\u2714'), yellow(" box      "), " in ", cyan(object@box$linecol), " with ", cyan(object@box$linewidth), " wide ", cyan(object@box$linetype), " lines"),
                        paste0(red('\u2716'), yellow(" box      "))),"\n")
             cat(ifelse(object@xAxis$plot,
-                       paste0(green('\u2714'), yellow(" xAxis    "), " with ", object@xAxis$bins, " bins and a margin of ", object@xAxis$margin*100, "%\n",
+                       paste0(green('\u2714'), yellow(" xAxis    "), " with ", cyan(object@xAxis$bins), " bins and a margin of ", cyan(object@xAxis$margin*100), "%\n",
                               ifelse(object@xAxis$label$plot,
-                                     paste0(green('\u2714'), yellow("  - label  "), "'", object@xAxis$label$title, "' in ", object@xAxis$label$colour, " with fontsize ", object@xAxis$label$fontsize, ifelse(object@xAxis$label$rotation != 0, paste0(" and a rotation of ", object@xAxis$label$rotation, "\uB0"), "")),
+                                     paste0(green('\u2714'), yellow("  - label  "), cyan(object@xAxis$label$title), " in ", cyan(object@xAxis$label$colour), " with fontsize ", cyan(object@xAxis$label$fontsize), ifelse(object@xAxis$label$rotation != 0, paste0(" and a rotation of ", cyan(object@xAxis$label$rotation), "\uB0"), "")),
                                      paste0(red('\u2716'), yellow("  - label  "))), "\n",
                               ifelse(object@xAxis$ticks$plot,
-                                     paste0(green('\u2714'), yellow("  - ticks  "), "in ", object@xAxis$ticks$colour, " with fontsize ", object@xAxis$ticks$fontsize, " rounded to ", object@xAxis$ticks$digits, ifelse(object@xAxis$ticks$digits == 1, " digit", " digits")),
+                                     paste0(green('\u2714'), yellow("  - ticks  "), "in ", cyan(object@xAxis$ticks$colour), " with fontsize ", cyan(object@xAxis$ticks$fontsize), " rounded to ", cyan(object@xAxis$ticks$digits), ifelse(object@xAxis$ticks$digits == 1, " digit", " digits")),
                                      paste0(red('\u2716'), yellow("  - ticks  ")))),
                        paste0(red('\u2716'), yellow(" xAxis    "))), "\n")
             cat(ifelse(object@yAxis$plot,
-                       paste0(green('\u2714'), yellow(" yAxis    "), " with ", object@yAxis$bins, " bins and a margin of ", object@yAxis$margin*100, "%\n",
+                       paste0(green('\u2714'), yellow(" yAxis    "), " with ", cyan(object@yAxis$bins), " bins and a margin of ", cyan(object@yAxis$margin*100), "%\n",
                               ifelse(object@yAxis$label$plot,
-                                     paste0(green('\u2714'), yellow("  - label  "), "'", object@yAxis$label$title, "' in ", object@yAxis$label$colour, " with fontsize ", object@yAxis$label$fontsize, ifelse(object@yAxis$label$rotation != 0, paste0(" and a rotation of ", object@yAxis$label$rotation, "\uB0"), "")),
+                                     paste0(green('\u2714'), yellow("  - label  "), cyan(object@yAxis$label$title), " in ", cyan(object@yAxis$label$colour), " with fontsize ", cyan(object@yAxis$label$fontsize), ifelse(object@yAxis$label$rotation != 0, paste0(" and a rotation of ", cyan(object@yAxis$label$rotation), "\uB0"), "")),
                                      paste0(red('\u2716'), yellow("  - label  "))), "\n",
                               ifelse(object@yAxis$ticks$plot,
-                                     paste0(green('\u2714'), yellow("  - ticks  "), "in ", object@yAxis$ticks$colour, " with fontsize ", object@yAxis$ticks$fontsize, " rounded to ", object@yAxis$ticks$digits, ifelse(object@yAxis$ticks$digits == 1, " digit", " digits")),
+                                     paste0(green('\u2714'), yellow("  - ticks  "), "in ", cyan(object@yAxis$ticks$colour), " with fontsize ", cyan(object@yAxis$ticks$fontsize), " rounded to ", cyan(object@yAxis$ticks$digits), ifelse(object@yAxis$ticks$digits == 1, " digit", " digits")),
                                      paste0(red('\u2716'), yellow("  - ticks  ")))),
                        paste0(red('\u2716'), yellow(" yAxis    "))), "\n")
             cat(ifelse(object@grid$plot,
-                       paste0(green('\u2714'), yellow(" grid     "), " in ", object@grid$colour, " with ", object@grid$linewidth, " wide ", object@grid$linetype, " lines"),
+                       paste0(green('\u2714'), yellow(" grid     "), " in ", cyan(object@grid$colour), " with ", cyan(object@grid$linewidth), " wide ", cyan(object@grid$linetype), " lines"),
                        paste0(red('\u2716'), yellow(" grid     "))), "\n")
             cat(ifelse(object@legend$plot,
-                       paste0(green('\u2714'), yellow(" legend   "), " with values ordered ", ifelse(object@legend$ascending, "ascending", "descending"), " in ", object@legend$bins, " bins and a relative height of ", object@legend$sizeRatio, "\n",
+                       paste0(green('\u2714'), yellow(" legend   "), " with values ordered ", cyan(ifelse(object@legend$ascending, "ascending", "descending")), " in ", cyan(object@legend$bins), " bins and a relative height of ", cyan(object@legend$sizeRatio), "\n",
                               ifelse(object@legend$label$plot,
-                                     paste0(green('\u2714'), yellow("  - label  "), "in ", object@legend$label$colour, " with fontsize ", object@legend$label$fontsize),
+                                     paste0(green('\u2714'), yellow("  - label  "), "in ", cyan(object@legend$label$colour), " with fontsize ", cyan(object@legend$label$fontsize)),
                                      paste0(red('\u2716'), yellow("  - label  "))), "\n",
                               ifelse(object@legend$box$plot,
-                                     paste0(green('\u2714'), yellow("  - box    "), "in ", object@legend$box$colour, " with ", object@legend$box$linewidth, " wide ", object@legend$box$linetype, " lines"),
+                                     paste0(green('\u2714'), yellow("  - box    "), "in ", cyan(object@legend$box$colour), " with ", cyan(object@legend$box$linewidth), " wide ", cyan(object@legend$box$linetype), " lines"),
                                      paste0(red('\u2716'), yellow("  - box    ")))),
                        paste0(red('\u2716'), yellow(" legend    "))), "\n")
-            cat(paste0(green('\u2714'), yellow(" vector   "), " with '", object@vector$scale$x, "' scaled to ", cyan(object@vector$scale$to), ", ", object@vector$linewidth, " wide ", object@vector$linetype, " lines or points with size ", object@vector$pointsize, " of type ", object@vector$pointsymbol, "\n"))
-            cat(paste0(green('\u2714'), yellow(" raster   "), " with colours scaled to ", cyan(object@raster$scale)))
+            cat(paste0(green('\u2714'), yellow(" scale    "), " with ", cyan(object@scale$param), " scaled to ", cyan(object@scale$to), "\n"))
+            cat(paste0(green('\u2714'), yellow(" objects  "), " of ", cyan(object@vector$linewidth), " wide ", cyan(object@vector$linetype), " lines or ", cyan(object@vector$pointsize), " wide points of type ", cyan(object@vector$pointsymbol), "\n"))
           }
 )
