@@ -48,6 +48,9 @@ setMethod(f = "setGroups",
 
               outGroups <- merge(theGroups, table, all.y = TRUE)
               outGroups <- .updateOrder(input = outGroups)
+              if(any(colnames(outGroups) == "fid")){
+                outGroups <- outGroups[,-which(colnames(outGroups) == "fid")]
+              }
 
               x@group <- list(geometry = as_tibble(outGroups))
             }
