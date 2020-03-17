@@ -42,7 +42,6 @@ reference:
       - setFeatures
       - setGroups
       - setHistory
-      - setPoints
       - setWindow
   - title: utility functions
     desc: functions that modify `geom`s
