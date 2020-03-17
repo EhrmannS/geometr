@@ -29,7 +29,6 @@ Other setters:
 \code{\link{setCRS}()},
 \code{\link{setFeatures}()},
 \code{\link{setHistory}()},
-\code{\link{setPoints}()},
 \code{\link{setWindow}()}
 }
 \concept{setters}

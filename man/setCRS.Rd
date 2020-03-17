@@ -45,7 +45,6 @@ Other setters:
 \code{\link{setFeatures}()},
 \code{\link{setGroups}()},
 \code{\link{setHistory}()},
-\code{\link{setPoints}()},
 \code{\link{setWindow}()}
 }
 \concept{setters}

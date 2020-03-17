@@ -37,7 +37,6 @@ Other setters:
 \code{\link{setCRS}()},
 \code{\link{setFeatures}()},
 \code{\link{setGroups}()},
-\code{\link{setPoints}()},
 \code{\link{setWindow}()}
 }
 \concept{setters}
