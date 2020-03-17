@@ -14,26 +14,18 @@ test_that("transform geom to POINT sf", {
   expect_true(st_geometry_type(output) == "POINT")
   expect_names(x = names(output), identical.to = "geom")
 
-  # test with point attributes
-  pointGeomV <- setPoints(x = pointGeom, table = data.frame(fid = 1, vertex = "first"))
-
-  output <- gc_sf(input = pointGeomV)
-  expect_class(x = output, classes = "sf")
-  expect_true(st_geometry_type(output) == "POINT")
-  expect_names(x = names(output), identical.to = c("vertex", "geom"))
-
-  # test with feature attributes
+ # test with feature attributes
   pointGeomF <- setFeatures(x = pointGeom, table = data.frame(fid = 1, feature = "a"))
   output <- gc_sf(input = pointGeomF)
   expect_class(x = output, classes = "sf")
   expect_true(st_geometry_type(output) == "POINT")
   expect_names(x = names(output), identical.to = c("feature", "geom"))
 
-  pointGeomVF <- setFeatures(x = pointGeomV, table = data.frame(fid = 1, feature = "a"))
+  pointGeomVF <- setFeatures(x = pointGeom, table = data.frame(fid = 1, feature = "a"))
   output <- gc_sf(input = pointGeomVF)
   expect_class(x = output, classes = "sf")
   expect_true(st_geometry_type(output) == "POINT")
-  expect_names(x = names(output), identical.to = c("vertex", "feature", "geom"))
+  expect_names(x = names(output), identical.to = c("feature", "geom"))
 
   # test with group attributes
   pointGeomFG <- setGroups(x = pointGeomF, table = data.frame(gid = 1, group = "red"))
@@ -46,7 +38,7 @@ test_that("transform geom to POINT sf", {
   output <- gc_sf(input = pointGeomVFG)
   expect_class(x = output, classes = "sf")
   expect_true(st_geometry_type(output) == "POINT")
-  expect_names(x = names(output), identical.to = c("vertex", "feature", "group", "geom"))
+  expect_names(x = names(output), identical.to = c("feature", "group", "geom"))
 
   pointGeomG <- setGroups(x = pointGeom, table = data.frame(gid = 1, group = "red"))
   output <- gc_sf(input = pointGeomG)
@@ -54,11 +46,11 @@ test_that("transform geom to POINT sf", {
   expect_true(st_geometry_type(output) == "POINT")
   expect_names(x = names(output), identical.to = c("group", "geom"))
 
-  pointGeomVG <- setGroups(x = pointGeomV, table = data.frame(gid = 1, group = "red"))
+  pointGeomVG <- setGroups(x = pointGeom, table = data.frame(gid = 1, group = "red"))
   output <- gc_sf(input = pointGeomVG)
   expect_class(x = output, classes = "sf")
   expect_true(st_geometry_type(output) == "POINT")
-  expect_names(x = names(output), identical.to = c("vertex", "group", "geom"))
+  expect_names(x = names(output), identical.to = c("group", "geom"))
 })
 
 test_that("transform geom to MULTIPOINT sf", {

@@ -11,11 +11,10 @@ test_that("geom with less than 9 attributes", {
 })
 
 test_that("geom with all attribute tables", {
-  input <- setPoints(x = gtGeoms$polygon, table = data.frame(fid = c(1, 2), wat = c("bla", "blubb")))
-  input <- setFeatures(x = input, table = data.frame(fid = c(1, 2), bla = c(1:2)))
+  input <- setFeatures(x = gtGeoms$polygon, table = data.frame(fid = c(1, 2), wat = c("bla", "blubb")))
   input <- setGroups(x = input, table = data.frame(gid = c(1, 2), blubb = c(1:2)))
   output <- capture.output(input)
-  expect_character(x = output, len = 12)
+  expect_character(x = output, len = 11)
   expect_true(output[2] == "            2 groups | 2 features | 15 points")
 })
 
@@ -25,7 +24,7 @@ test_that("geom with single attribute tables", {
   expect_character(x = output, len = 10)
   expect_true(output[2] == "            2 groups | 2 features | 15 points")
 
-  input <- setPoints(x = gtGeoms$polygon, table = data.frame(fid = c(1, 2), wat = c("bla", "blubb")))
+  input <- setFeatures(x = gtGeoms$polygon, table = data.frame(fid = c(1, 2), wat = c("bla", "blubb")))
   output <- capture.output(input)
   expect_character(x = output, len = 10)
   expect_true(output[2] == "            2 groups | 2 features | 15 points")
