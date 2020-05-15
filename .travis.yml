@@ -4,7 +4,6 @@ language: R
 sudo: required
 cache: packages
 warnings_are_errors: true
-dist: trusty
 r:
   - release
   - devel
