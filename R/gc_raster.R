@@ -17,7 +17,7 @@ NULL
 #' @export
 if(!isGeneric("gc_raster")){
   setGeneric(name = "gc_raster",
-             def = function(input, ...){
+             def = function(input){
                standardGeneric("gc_raster")
              }
   )
@@ -50,11 +50,14 @@ setMethod(f = "gc_raster",
                 theRasters <- list()
                 for(i in seq_along(theFeatures)){
 
-                  mat <- matrix(data = theFeatures[[i]]$values, nrow = input@point$y[2], ncol = input@point$x[2], byrow = TRUE)
-                  out <- raster(x = mat, xmn = input@point$x[1], xmx = input@point$x[2],
-                                ymn = input@point$y[1], ymx = input@point$y[2], crs = theCRS)
+                  mat <- matrix(data = theFeatures[[i]]$values,
+                                nrow = input@point$y[2],
+                                ncol = input@point$x[2], byrow = TRUE)
+                  out <- raster(x = mat, crs = theCRS,
+                                xmn = input@point$x[1], xmx = input@point$x[1] + input@point$x[2]*input@point$x[3],
+                                ymn = input@point$y[1], ymx = input@point$y[1] + input@point$y[2]*input@point$y[3])
 
-                  if(dim(theGroups[[i]])[1] != 0){
+                  if(dim(theGroups)[1] != 0){
                     out <- ratify(out)
                     out@data@attributes <- list(as.data.frame(theGroups[[i]]))
                   }
@@ -65,11 +68,14 @@ setMethod(f = "gc_raster",
                 out <- stack(theRasters)
 
               } else {
-                mat <- matrix(data = theFeatures$values, nrow = input@point$y[2], ncol = input@point$x[2], byrow = TRUE)
-                out <- raster(x = mat, xmn = input@point$x[1], xmx = input@point$x[2],
-                              ymn = input@point$y[1], ymx = input@point$y[2], crs = theCRS)
+                mat <- matrix(data = theFeatures$values,
+                              nrow = input@point$y[2],
+                              ncol = input@point$x[2], byrow = TRUE)
+                out <- raster(x = mat, crs = theCRS,
+                              xmn = input@point$x[1], xmx = input@point$x[1] + input@point$x[2]*input@point$x[3],
+                              ymn = input@point$y[1], ymx = input@point$y[1] + input@point$y[2]*input@point$y[3])
 
-                if(!is.null(theGroups)){
+                if(dim(theGroups)[1] != 0){
                   out <- ratify(out)
                   out@data@attributes <- list(as.data.frame(theGroups))
                 }
