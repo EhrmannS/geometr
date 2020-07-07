@@ -267,49 +267,6 @@ setMethod(f = "gc_grob",
                                 fill = params$fillcol,
                                 lty = params$linetype,
                                 lwd = params$linewidth))
-              # end_time_1 <- Sys.time()
-              # duration_1 <- end_time_1 - start_time
-
-
-              # start_time <- Sys.time()
-              # theID <- unique(attr$fid)
-              # for(i in seq_along(unique(attr$fid))){
-              #
-              #   tempIDs <- attr[attr$fid == theID[i], ]
-              #   tempCoords <- point[point$fid %in% tempIDs$fid, ]
-              #
-              #   # determine subpaths by searching for duplicates. Whenever there is a
-              #   # duplicate in the vertices, the next vertex is part of the next subpaths
-              #   dups <- as.numeric(duplicated(tempCoords[c("x", "y")]))
-              #   dups <- c(0, dups[-length(dups)])
-              #   tempCoords$vid <- 1 + cumsum(dups)
-              #   if(i == 1){
-              #     out <- pathGrob(x = tempCoords$x,
-              #                     y = tempCoords$y,
-              #                     id = as.numeric(as.factor(tempCoords$vid)),
-              #                     rule = "evenodd",
-              #                     name = ids[i],
-              #                     gp = gpar(
-              #                       col = params$linecol[i],
-              #                       fill = params$fillcol[i],
-              #                       lty = params$linetype[i],
-              #                       lwd = params$linewidth[i]))
-              #   } else {
-              #     out <- gList(out,
-              #                  pathGrob(x = tempCoords$x,
-              #                           y = tempCoords$y,
-              #                           id = as.numeric(as.factor(tempCoords$vid)),
-              #                           rule = "evenodd",
-              #                           name = ids[i],
-              #                           gp = gpar(
-              #                             col = params$linecol[i],
-              #                             fill = params$fillcol[i],
-              #                             lty = params$linetype[i],
-              #                             lwd = params$linewidth[i])))
-              #   }
-              # }
-              # end_time_2 <- Sys.time()
-              # duration_2 <- end_time_2 - start_time
 
             }
 

@@ -1,10 +1,10 @@
 #' Set the reference window of a spatial object.
 #'
 #' @param x the object for which to set a new reference window.
-#' @param to any suitable datastructure that contains the minimum and maximum
+#' @param to any suitable data-structure that contains the minimum and maximum
 #'   values in x and y-dimension to which the reference window shall be set, see
 #'   Details.
-#' @details Possible datastructures are \itemize{ \item an object of class
+#' @details Possible data-structures are \itemize{ \item an object of class
 #'   \code{Extent}, \item an object of class \code{bbox}, \item a table with two
 #'   columns (named x and y) containing the minimum and maximum values for each
 #'   dimension.}
