@@ -317,13 +317,20 @@ setMethod(f = "show",
               myAttributes <- " --\n"
             }
 
-            # make a tiny map
-            tinyMap <- .makeTinyMap(geom = object)
 
             cat(yellow(class(object)), "        ", object@type, "\n", sep = "")
             cat("            ", geomGroups, length(unique(theFeats)), " ", myFeat, " | ", length(thePoints$fid), " ", myUnits, "\n", sep = "")
             cat(yellow("crs         "), myCrs, "\n", sep = "")
-            cat(yellow("attributes"), myAttributes)
-            cat(yellow("tiny map  "), tinyMap)
+            cat(yellow("attributes "), myAttributes, sep = "")
+            if(!theType == "grid"){
+              # make a tiny map
+              tinyMap <- .makeTinyMap(geom = object)
+              cat(yellow("tiny map  "), tinyMap)
+            } else {
+              theRes <- getRes(object)
+              theExt <- getExtent(object)
+              cat(yellow("resolution "), as.numeric(theRes), "(x, y)\n")
+              cat(yellow("extent     "), c(theExt$x, theExt$y), "(xmin, xmax, ymin, ymax)")
+            }
           }
 )
