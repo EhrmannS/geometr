@@ -1,6 +1,6 @@
 Package: geometr
 Title: Generate and Modify Interoperable Geometric Shapes
-Version: 0.2.4
+Version: 0.2.5
 Authors@R: c(
     person("Steffen", "Ehrmann", role = c("aut", "cre"), email = "steffen.science@funroll-loops.de", comment = c(ORCID = "0000-0002-2958-0796")),
     person("Dan", "Sunday", role = c("cph"), comment = "fast point-in-polygon algorithm.")

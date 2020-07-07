@@ -1,3 +1,8 @@
+# geometr 0.2.5
+
+- remove 'tiny map' from print method of grid geom
+- allow specification of 'precision' for getRes()
+
 # geometr 0.2.4
 
 - rewrite `setPoints()`, `setFeatures()` and `setGroups()` so that new tables can only be set via joining by the primary key (`fid`, `fid` and  `gid` respectively).
