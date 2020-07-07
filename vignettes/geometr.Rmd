@@ -36,7 +36,7 @@ getExtent(x = st_read(system.file("shape/nc.shp", package="sf")))
 
 # Introduction
   
-The `geometr` generalises the way to interact with spatial and other geometric objects by providing functions that access and modify data components in the same manner across classes.
+The `geometr` package generalises the way to interact with spatial and other geometric objects by providing functions that access and modify data components in the same manner across classes.
 Moreover, `geometr` provides a data structure (of class `geom`) that represents the different data components in a truly [tidy](https://tidyr.tidyverse.org/) manner, allowing to generate geometric objects that are easily accessible and play well with other tidy tools.
 
 One could argue that spatial objects are merely a special case of geometric objects, where the coordinates of points refer to real locations on the surface of the earth instead of some virtual (cartesian) coordinate system.
@@ -47,7 +47,7 @@ Consequently, a `geom` is primarily made up of three tables that contain informa
 The tables are related with feature and group IDs (`fid` and `gid` respectively) and can be provided with additional attributes (more on this in the chapter [\"Attributes of a `geom`\"](#attributes-of-a-geom)).
 
 
-This vignette outlines in detail first how `geometr` improves interoperability, then it describes the datastructure of a `geom`, how different feature types are cast into one another, shows how to visualise geometric objects and eventually gives a short introduction of the tools that come with `geometr`.
+This vignette outlines in detail first how `geometr` improves interoperability, then it describes the data-structure of a `geom`, how different feature types are cast into one another and shows how to visualise geometric objects with `geometr`.
 
 ```{r, eval=FALSE}
 library(sf)
@@ -88,7 +88,7 @@ extent(ras)
 `st_bbox()` provides the information as a named vector and presents first minimum and then maximum values of both dimensions, `bbox()` provides a table with minimum and maximum values in columns and `extent()` provides the information in an S4 object that presents first the x and then the y values.
 Neither data structures, nor names or positions of the information are identical.
 
-For a human user the structure of those information might not matter because we recognise, in most cases intuitively, where which information is to be found in such a simple datastructure.
+For a human user the structure of those information might not matter because we recognise, in most cases intuitively, where which information is to be found in such a simple data-structure.
 In the above case it is easy to recognise how the combination of column and rownames (of `bbox()`) refers to the already combined names (of `st_bbox()` or `extent()`).
 However, this capacity of humans to recognise information relative to the context needs to be programmed into software, for it to have that ability.
 Think, for example, of a new custom function that is designed to extract and process information from an arbitrary spatial input, i.e., without knowing in advance what spatial class the user will provide. 
@@ -128,7 +128,7 @@ This interoperability is true for objects representing point (and grid), line or
 A `geom` contains, moreover, only direct information, i.e., such information that can't be derived from other of its information, such as the extent (which is in fact only the minimum and maximum coordinates that make up the geometry).
 
 
-## The datastructure of a `geom`
+## The data-structure of a `geom`
 
 A `geom` contains as its backbone the three slots `@point`, `@feature` and `@group`.
 Each of those slots are a named list that contains as many tables as there are layers in the `geom`.
@@ -226,7 +226,7 @@ The function `gs_polygon()` ensures that a polygon fulfills the formal criteria 
 
 Moreover, polygons may have holes (and islands therein), for example a park with a pond that has a little island in the middle.
 When defining polygon `geom`s with nested closed paths (holes), the only thing to consider is that the outer path must be given as first ring and that this outer ring must fully enclose all interior rings.
-All paths that are supposed to be nested within this paths must themselves be closed, but their order does not matter.
+All paths that are supposed to be nested within this path must themselves be closed, but their order does not matter.
 Also, when building a polygon with hole in `geometr`, the rotation direction described by the sequence of the points does not matter, in contrast to other spatial classes to date.
 The correct treatment and visualisation of polygons with interior rings is determined by the code-logic of the functions processing polygons.
 
@@ -263,7 +263,7 @@ getGroups(x = new_geom)
 ```
 
 It becomes clear that this approach to attribute tables makes the class `geom` quite flexible.
-One could for example assign some point specific measurements (such as [Arne Pommerening's](http://www.pommerening.org) Clocaenog 6 sample data) to the point attribute table, and at the same time set group specific attributes to the group attribute table of a point `geom`.
+One could for example assign some point specific measurements (such as [Arne Pommerening's](http://www.pommerening.org) Clocaenog 6 sample data) to the feature attribute table, and at the same time set group specific attributes to the group attribute table of a point `geom`.
 
 ```{r}
 clg_dat <- read_delim(file = "http://www.pommerening.org/wiki/images/d/dc/Clg6.txt", 
@@ -328,7 +328,7 @@ If what is provided here is already a `geom`, most of the location information a
 The following code chunk shows casting in `geometr`.
 When casting to polygons, vertex checks are carried out that make sure the output is a valid polygon. 
 This results, as also described above, in the first/last point becoming duplicated to form a closed path. 
-Consequently, those duplicates have to be handled, for example by removing duplicates.
+When casting from a polygon to another type, those duplicates have to be handled, for example by removing duplicates.
 
 ```{r}
 # make points and discard duplicates ...
