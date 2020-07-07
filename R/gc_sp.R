@@ -29,6 +29,7 @@ if(!isGeneric("gc_sp")){
 #' @rdname gc_sp
 #' @importFrom tibble as_tibble
 #' @importFrom checkmate assertClass
+#' @importFrom dplyr left_join
 #' @importFrom sp SpatialPoints SpatialPointsDataFrame Line Lines SpatialLines
 #'   SpatialLinesDataFrame Polygon Polygons SpatialPolygons
 #'   SpatialPolygonsDataFrame proj4string<- CRS
