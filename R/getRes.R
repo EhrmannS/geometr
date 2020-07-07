@@ -1,6 +1,7 @@
 #' Get the spatial resolution of a spatial object.
 #'
 #' @param x the object from which to derive the resolution.
+#' @param precision the number of digits to which to round the values.
 #' @return The resolution of \code{x} in x and y dimension.
 #' @family getters
 #' @name getRes
@@ -35,11 +36,12 @@ setMethod(f = "getRes",
 #' @export
 setMethod(f = "getRes",
           signature = "geom",
-          definition = function(x){
+          definition = function(x, precision = getOption("digits")){
 
             temp <- x
             if(temp@type == "grid"){
               out <- tibble(x = c(temp@point$x[3]), y = c(temp@point$y[3]))
+              out <- round(out, precision)
             } else {
               out <- NULL
             }
@@ -55,8 +57,9 @@ setMethod(f = "getRes",
 #' @export
 setMethod(f = "getRes",
           signature = "Raster",
-          definition = function(x){
+          definition = function(x, precision = getOption("digits")){
             temp <- res(x)
+            temp <- round(temp, precision)
             out <- tibble(x = temp[1], y = temp[2])
             return(out)
           }
