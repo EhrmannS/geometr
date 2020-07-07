@@ -142,7 +142,7 @@ make up a `MULTIPOLYGON` with attributes that are valid for the overall
 group only. Likewise, the polygons could be stored at the level of
 individual "closed paths" as `POLYGON`, with specific attributes per
 polygon. Both sets of attributes can only exists either as duplicates
-for all group specific attribtues in a `POLYGON`, or even more
+for all group specific attributes in a `POLYGON`, or even more
 complicated nested attribute tables at the `MULTIPOLYGON` level.
 
 The backbone of a `geom` are three attribute tables, one for points,
@@ -150,7 +150,7 @@ features and groups of features, the latter two of which can be provided
 with ancillary information. Each feature is stored as a single unit, all
 of which are related to other features by a group ID, which relates the
 features to attributes for an overall group. Eventually this results in
-a tidier datastructure with easier access than `Spatial*` of `sf`
+a tidier data-structure with easier access than `Spatial*` of `sf`
 objects and with higher
 versatility.
 
@@ -183,7 +183,7 @@ newTable <- data.frame(fid = c(1:108),
 #>             100 groups | 108 features | 2529 points
 #> crs         +proj=longlat +datum=NAD27 +no_defs
 #> attributes  (features) attrib
-#>             (groups) AREA, PERIMETER, CNTY_, CNTY_ID, NAME, FIPS, FIPSNO, CRESS_ID, BIR74, ...
+#>            (groups) AREA, PERIMETER, CNTY_, CNTY_ID, NAME, FIPS, FIPSNO, CRESS_ID, BIR74, ...
 #> tiny map           36.59 
 #>                    ◌ ○ ◌ ○        
 #>                    ○ ○ ○ ○        
@@ -192,7 +192,7 @@ newTable <- data.frame(fid = c(1:108),
 #>                    33.88
 ```
 
-`geometr` comes with the `visualise`, which makes nice-looking
+`geometr` comes with the `visualise` function, which makes nice-looking
 diagnostic spatial plots, that show explicit values whenever possible.
 For example, it does not create artificial bins for the values scale,
 but shows the explicit range of values. Moreover, you can easily set
@@ -204,18 +204,20 @@ visualise(`North Carolina` = nc_geom)
 
 <img src="man/figures/README-unnamed-chunk-7-1.png" width="100%" />
 
-You can use quick options to modify what of a given object should be
-shown in the plot, for example to scale the `fillcol`our to the
-attribute `NWBIR74`.
+By default, `visualise` uses the feature ID as fillcolour. You can use
+quick options to modify which aspect given object should be shown in the
+plot, for example to scale the `fillcol`our to the attribute `NWBIR74`.
 
 ``` r
-visualise(`NC - NWBIR74` = nc_geom, fillcol = NWBIR74)
+myAttr <- "NWBIR74"
+visualise(!!paste0("NC - ", myAttr) := nc_geom, fillcol = !!myAttr)
 ```
 
 <img src="man/figures/README-unnamed-chunk-8-1.png" width="100%" />
 
-A `geom` has the slot `@window`, which contains a reference window. This
-reference window can be used or modified in many functions of `geometr`
+Each `geom` has the slot `@window`, which contains a reference window.
+This reference window can be used or modified in many functions of
+`geometr`
 
 ``` r
 visualise(`Currituck` = currituck, window = getExtent(currituck))
@@ -230,7 +232,7 @@ Finally, cast a `geom` to another type simply by providing it in
 library(magrittr)
 boundPoints <- gs_point(anchor = currituck) %>% 
    setWindow(to = getExtent(.))
-visualise(`Currituck - boundary vertices`= boundPoints)
+visualise(`Currituck - boundary vertices`= boundPoints, linecol = fid)
 ```
 
 <img src="man/figures/README-unnamed-chunk-10-1.png" width="100%" />

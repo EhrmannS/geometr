@@ -2,14 +2,14 @@ Package: geometr
 Title: Generate and Modify Interoperable Geometric Shapes
 Version: 0.2.4
 Authors@R: c(
-    person("Steffen", "Ehrmann", role = c("aut", "cre"), email = "steffen@funroll-loops.de", comment = c(ORCID = "0000-0002-2958-0796")),
+    person("Steffen", "Ehrmann", role = c("aut", "cre"), email = "steffen.science@funroll-loops.de", comment = c(ORCID = "0000-0002-2958-0796")),
     person("Dan", "Sunday", role = c("cph"), comment = "fast point-in-polygon algorithm.")
     )
 Description: Provides tools that generate and process fully accessible and tidy
     geometric shapes. The package improves interoperability of spatial and 
     other geometric classes by providing getters and setters that produce 
     identical output from various classes.
-URL: https://github.com/EhrmannS/geometr
+URL: https://ehrmanns.github.io/geometr/
 BugReports: https://github.com/EhrmannS/geometr/issues
 Depends:
     R (>= 2.10)
@@ -17,21 +17,23 @@ Language: en-gb
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
-Imports: checkmate,
-    sf,
-    sp,
-    spatstat,
-    raster,
+Imports: 
+    checkmate,
     crayon,
     deldir,
     dplyr,
     grDevices,
     grid,
     methods,
+    raster,
+    readr,
     rgdal,
     rlang,
+    sf,
+    sp,
+    spatstat,
     tibble,
-    readr
+    Rcpp
 Suggests: testthat,
     rmarkdown,
     bookdown,
