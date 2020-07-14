@@ -115,6 +115,7 @@ visualise <- function(..., layer = NULL, window = NULL, theme = gtTheme, trace =
     panels <- length(objects)
   }
   objects <- rep(x = objects, length.out = panels)
+  # return(objects)
 
   # checkup concerning plot size ----
   if(panels > 15){
@@ -486,6 +487,7 @@ visualise <- function(..., layer = NULL, window = NULL, theme = gtTheme, trace =
     }
 
     if(trace){
+
       theHist <- getHistory(x = objects[[i]])
 
       if(!is.null(theHist)){
