@@ -35,7 +35,8 @@ setMethod(f = "getHistory",
 setMethod(f = "getHistory",
           signature = "geom",
           definition = function(x){
-            x@history
+            hist <- x@history
+            return(hist)
           }
 )
 
