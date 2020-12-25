@@ -1,0 +1,68 @@
+#' Get the number of columns of a spatial object.
+#'
+#' @param x the object from which to get the number of columns.
+#' @return An integer of the number of columns.
+#' @family getters
+#' @name getCols
+#' @rdname getCols
+NULL
+
+# generic ----
+#' @rdname getCols
+#' @name getCols
+#' @export
+if(!isGeneric("getCols")){
+  setGeneric(name = "getCols",
+             def = function(x, ...){
+               standardGeneric("getCols")
+             }
+  )
+}
+
+# any ----
+#' @rdname getCols
+#' @export
+setMethod(f = "getCols",
+          signature = "ANY",
+          definition = function(x){
+            NULL
+          }
+)
+
+# geom ----
+#' @rdname getCols
+#' @export
+setMethod(f = "getCols",
+          signature = "geom",
+          definition = function(x){
+            if(x@type == "grid"){
+              out <- x@point$x[2]
+            } else {
+              out <- NULL
+            }
+            return(out)
+          }
+)
+
+# RasterLayer ----
+#' @rdname getCols
+#' @importFrom raster ncol
+#' @export
+setMethod(f = "getCols",
+          signature = "Raster",
+          definition = function(x){
+            out <- ncol(x)
+            return(out)
+          }
+)
+
+# matrix ----
+#' @rdname getCols
+#' @export
+setMethod(f = "getCols",
+          signature = "matrix",
+          definition = function(x){
+            out <- ncol(x)
+            return(out)
+          }
+)
