@@ -11,10 +11,10 @@ test_that("output is valid geometry", {
                        y = c(0, 80))
   rectGeom <- gs_polygon(anchor = coords, window = window)
   spRectGeom <- setCRS(rectGeom, crs = "+proj=laea +lat_0=52 +lon_0=10 +x_0=4321000 +y_0=3210000 +ellps=GRS80 +units=m +no_defs")
-  rectGeomRel <- gt_scale(geom = rectGeom, to = "relative")
-  spRectGeomRel <- gt_scale(geom = spRectGeom, to = "relative")
-  rectGeomAbs <- gt_scale(geom = rectGeomRel, to = "absolute")
-  rectRescaled <- gt_scale(geom = rectGeom, range = list(x = c(0, 100), y = c(10, 90)))
+  rectGeomRel <- gt_scale(x = rectGeom, range = tibble(x = c(0, 1), y = c(0, 1)))
+  spRectGeomRel <- gt_scale(x = spRectGeom, range = tibble(x = c(0, 1), y = c(0, 1)))
+  rectGeomAbs <- gt_scale(x = rectGeomRel, range = window)
+  rectRescaled <- gt_scale(x = rectGeom, range = tibble(x = c(0, 100), y = c(10, 90)))
 
   expect_class(rectGeomRel, classes = "geom")
   expect_class(rectGeomAbs, classes = "geom")
@@ -30,10 +30,10 @@ test_that("output has correctly scaled values (only 'relative')", {
   extent <- data.frame(x = c(0, 80),
                        y = c(0, 80))
   rectGeom <- gs_polygon(anchor = coords, window = extent)
-  rectGeomRel <- gt_scale(geom = rectGeom, to = "relative")
+  rectGeomRel <- gt_scale(x = rectGeom, range = tibble(x = c(0, 1), y = c(0, 1)))
 
   expect_true(all(rectGeomRel@point[c("x", "y")] <= 1))
-  expect_true(rectGeomRel@scale == "relative")
+  # expect_true(rectGeomRel@scale == "relative")
 })
 
 test_that("Error if arguments have wrong value", {
@@ -48,9 +48,9 @@ test_that("Error if arguments have wrong value", {
   rectGeom2 <- gs_polygon(anchor = coords, window = window2)
   rectGeom3 <- gs_polygon(anchor = coords, window = window3)
 
-  expect_error(gt_scale(geom = rectGeom, to = "bla"))
-  expect_error(gt_scale(geom = rectGeom, range = c(0, 100)))
-  expect_error(gt_scale(geom = rectGeom2))
-  expect_error(gt_scale(geom = rectGeom3))
-  expect_error(gt_scale(geom = "bla"))
+  expect_error(gt_scale(x = rectGeom, range = "bla"))
+  expect_error(gt_scale(x = rectGeom, range = c(0, 100)))
+  expect_error(gt_scale(x = rectGeom2))
+  expect_error(gt_scale(x = rectGeom3))
+  expect_error(gt_scale(x = "bla"))
 })

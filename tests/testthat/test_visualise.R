@@ -4,11 +4,12 @@ library(raster)
 context("visualise")
 
 
-test_that("visualise a Raster* object", {
-
+test_that("visualise a RasterLayer object", {
   output <- visualise(raster = gtRasters$continuous)
   expect_class(output, "recordedplot")
+})
 
+test_that("visualise a RasterBrick object", {
   input <- brick(system.file("external/rlogo.grd", package="raster"))
   output <- visualise(raster = input)
   expect_class(output, "recordedplot")
@@ -22,9 +23,7 @@ test_that("visualise a matrix", {
 })
 
 test_that("visualise an image", {
-  continuous <- gtRasters$categorical
   input <<- brick(system.file("external/rlogo.grd", package="raster"))
-
   output <- visualise(raster = input, image = TRUE)
   expect_class(output, "recordedplot")
 })
@@ -41,10 +40,10 @@ test_that("visualise a geom", {
 
 test_that("quick options produce output", {
 
-  aTheme <- setTheme(vector = list(linewidth = c(1, 3),
-                                   pointsize = c(1, 3),
-                                   pointsymbol = c(0:12),
-                                   linetype = c(1, 2)))
+  aTheme <- setTheme(parameters = list(linewidth = c(1, 3),
+                                       pointsize = c(1, 3),
+                                       pointsymbol = c(0:12),
+                                       linetype = c(1, 2)))
 
   # linecol
   output <- visualise(geom = gtGeoms$polygon, linecol = "fid")
@@ -107,7 +106,7 @@ test_that("output the history of a plotted object", {
   expect_class(output, "simpleMessage")
 })
 
-test_that("Error if arguments have wrong value", {
+test_that("Error/warning if arguments have wrong value", {
   continuous <<- gtRasters$continuous
 
   coords <- data.frame(x = c(40, 70, 70, 50),
@@ -118,9 +117,8 @@ test_that("Error if arguments have wrong value", {
   aGeom <- gs_polygon(anchor = coords)
   # anImage <- system.file()
 
-  expect_error(visualise())
-  expect_error(visualise(raster = "bla"))
-  expect_error(visualise(raster = continuous, geom = "bla"))
+  expect_warning(visualise(raster = "bla"))
+  expect_warning(visualise(raster = continuous, geom = "bla"))
   expect_error(visualise(raster = continuous, theme = "bla"))
   expect_error(visualise(raster = continuous, trace = 1))
   expect_error(visualise(raster = continuous, image = 0))

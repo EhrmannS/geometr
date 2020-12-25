@@ -138,7 +138,7 @@ test_that("modifying geom works", {
                        y = c(0, 80))
   aGeom <<- gs_polygon(anchor = coords, window = window)
   myTheme <- setTheme(scale = list(param = "fillcol", to = "fid"),
-                      vector = list(linecol = "grey",
+                      parameters = list(linecol = "grey",
                                     fillcol = c("#00204DFF", "#FFEA46FF"),
                                     linetype = "dashed",
                                     linewidth = 1,
@@ -151,7 +151,7 @@ test_that("modifying geom works", {
 test_that("modifying raster works", {
   continuous <<- gtRasters$continuous
 
-  myTheme <- setTheme(raster = list(fillcol = terrain.colors(10)))
+  myTheme <- setTheme(parameters = list(fillcol = terrain.colors(10)))
   output <- visualise(raster = continuous, theme = myTheme)
   expect_class(output, "recordedplot")
 })
