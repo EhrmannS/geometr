@@ -69,8 +69,8 @@ gt_locate <- function(samples = 1, panel = NULL, identify = FALSE, snap = FALSE,
   }
 
   isLegendInPlot <- !identical(grid.grep("legend", grobs = FALSE, viewports = TRUE, grep = TRUE), character(0))
-  isRasterInPlot <- !identical(grid.grep("::plot::object::raster", grobs = FALSE, viewports = TRUE, grep = TRUE), character(0))
-  isVectorInPlot <- !identical(grid.grep("::plot::object::vector", grobs = FALSE, viewports = TRUE, grep = TRUE), character(0))
+  isRasterInPlot <- !identical(grid.grep("grid", grobs = FALSE, viewports = TRUE, grep = TRUE), character(0))
+  isVectorInPlot <- !identical(grid.grep("point|line|polygon", grobs = FALSE, viewports = TRUE, grep = TRUE), character(0))
 
   # get the panel in which locations should be determined
   if(is.null(panel)){
@@ -88,7 +88,7 @@ gt_locate <- function(samples = 1, panel = NULL, identify = FALSE, snap = FALSE,
 
   # find the correct viewport to limit actions to this area of the plot
   if(isRasterInPlot){
-    rasterVpPath <- grid.grep(paste0(panel, "::plot::object::raster"), grobs = FALSE, viewports = TRUE, grep = TRUE)
+    rasterVpPath <- grid.grep(paste0(panel, "::theLayout::grid"), grobs = FALSE, viewports = TRUE, grep = TRUE)
     seekViewport(rasterVpPath)
 
     metaRaster <- grid.get(gPath("theRaster"), global = TRUE)
@@ -102,7 +102,7 @@ gt_locate <- function(samples = 1, panel = NULL, identify = FALSE, snap = FALSE,
     snap <- FALSE
   }
   if(isVectorInPlot){
-    vectorVpPath <- grid.grep(paste0(panel, "::plot::object::vector"), grobs = FALSE, viewports = TRUE, grep = TRUE)
+    vectorVpPath <- grid.grep(paste0(panel, "::theLayout::point|line|polygon"), grobs = FALSE, viewports = TRUE, grep = TRUE)
     seekViewport(vectorVpPath)
   }
 
@@ -224,7 +224,7 @@ gt_locate <- function(samples = 1, panel = NULL, identify = FALSE, snap = FALSE,
     out <- bind_rows(out, temp)
 
   }
-  upViewport(5)
+  upViewport(4)
 
   return(out)
 }
