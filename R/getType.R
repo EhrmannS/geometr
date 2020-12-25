@@ -38,11 +38,7 @@ setMethod(f = "getType",
 setMethod(f = "getType",
           signature = "geom",
           definition = function(x){
-            if(x@type == "grid"){
-              c("raster", x@type)
-            } else {
-              c("vector", x@type)
-            }
+            c(x@type, x@type)
           }
 )
 
@@ -55,8 +51,15 @@ setMethod(f = "getType",
 setMethod(f = "getType",
           signature = signature("Spatial"),
           definition = function(x){
-            c("vector", class(x)[1])
-
+            theType <- class(x)[1]
+            if(theType %in% c("SpatialMultiPoints", "SpatialMultiPointsDataFrame", "SpatialPixels", "SpatialPixelsDataFrame")){
+              geomType <- "point"
+            } else if(theType %in% c("SpatialPolygons", "SpatialPolygonsDataFrame", "SpatialGrid", "SpatialGridDataFrame")){
+              geomType <- "polygon"
+            } else if(theType %in% c("SpatialLines", "SpatialLinesDataFrame")){
+              geomType <- "line"
+            }
+            c(geomType, theType)
           }
 )
 
@@ -70,7 +73,15 @@ setMethod(f = "getType",
 setMethod(f = "getType",
           signature = "sf",
           definition = function(x){
-            c("vector", unique(as.character(st_geometry_type(x))))
+            theType <- unique(as.character(st_geometry_type(x)))
+            if(theType %in% c("POINT", "MULTIPOINT")){
+              geomType <- "point"
+            } else if(theType %in% c("POLYGON", "MULTIPOLYGON")){
+              geomType <- "polygon"
+            } else if(theType %in% c("LINESTRING", "MULTILINESTRING")){
+              geomType <- "line"
+            }
+            c(geomType, theType)
           }
 )
 
@@ -80,7 +91,7 @@ setMethod(f = "getType",
 setMethod(f = "getType",
           signature = "ppp",
           definition = function(x){
-            c("vector", class(x)[1])
+            c("point", class(x)[1])
           }
 )
 
@@ -93,7 +104,7 @@ setMethod(f = "getType",
 setMethod(f = "getType",
           signature = "Raster",
           definition = function(x){
-            c("raster", class(x)[1])
+            c("grid", class(x)[1])
           }
 )
 
@@ -103,6 +114,6 @@ setMethod(f = "getType",
 setMethod(f = "getType",
           signature = "matrix",
           definition = function(x){
-            c("raster", "matrix")
+            c("grid", "matrix")
           }
 )
