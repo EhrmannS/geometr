@@ -208,7 +208,7 @@ setMethod(f = "gc_geom",
                        window = theWindow,
                        scale = "absolute",
                        crs = theCRS,
-                       history = c(getHistory(input), list(hist)))
+                       history = c(getHistory(input), hist))
 
             return(out)
           }
