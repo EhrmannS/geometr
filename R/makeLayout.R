@@ -1,0 +1,129 @@
+#' Make the layout of a plot
+#'
+#' @param x [\code{list(.)}]\cr the object, output from \code{makeObject}, from
+#'   which to make the plot.
+#' @param theme [\code{gtTheme(1)}]\cr the theme from which to take graphical
+#'   parameters.
+
+.makeLayout <- function(legend = NULL,
+                        window = NULL,
+                        # extent = NULL,
+                        theme = gtTheme){
+
+  maxWinX <- max(window$x)
+  minWinX <- min(window$x)
+  maxWinY <- max(window$y)
+  minWinY <- min(window$y)
+
+  xBins <- theme@xAxis$bins
+  yBins <- theme@yAxis$bins
+
+  ratio <- list(x = (maxWinX - minWinX)/(maxWinY - minWinY),
+                y = (maxWinY - minWinY)/(maxWinX - minWinX))
+  xBinSize <- (maxWinX - minWinX)/xBins
+  yBinSize <- (maxWinY - minWinY)/yBins
+  axisSteps <- list(x1 = seq(from = minWinX,
+                             to = maxWinX,
+                             by = (maxWinX - minWinX)/xBins),
+                    x2 = seq(from = minWinX + (xBinSize/2),
+                             to = maxWinX,
+                             by = (maxWinX - minWinX)/xBins),
+                    y1 = seq(from = minWinY,
+                             to = maxWinY,
+                             by = (maxWinY - minWinY)/yBins),
+                    y2 = seq(from = minWinY + (yBinSize/2),
+                             to = maxWinY,
+                             by = (maxWinY - minWinY)/yBins))
+  margin <- list(x = (maxWinX-minWinX)*theme@yAxis$margin,
+                 y = (maxWinY-minWinY)*theme@xAxis$margin)
+
+  if(theme@title$plot){
+    titleH <- theme@title$fontsize+6
+  } else{
+    titleH <- 0
+  }
+
+  if(theme@legend$plot){
+
+    if(theme@legend$position == "right"){
+      labels <- legend$obj$children$legend_labels$label
+      maxLbl <- labels[which.max(nchar(labels))]
+      legendH <- 0
+      legendW <- ceiling(convertX(unit(1, "strwidth", maxLbl) + unit(25, "points"), "points"))
+    } else {
+      legendH <- 0
+      legendW <- 0
+    }
+
+  #   legendW <- NULL
+  #   legendX <- 10
+  #   for(i in seq_along(x$legend)){
+  #
+  #     theAttr <- names(x$legend[[i]])[1]
+  #     arg <- eval(parse(text = paste0(theAttr)), envir = attr)
+  #     arg <- as.character(arg)
+  #
+  #     maxEl <- arg[which.max(nchar(arg))]
+  #     if(any(is.na(arg)) & nchar(maxEl) < nchar("NA")){
+  #       temp <- ceiling(convertX(unit(1, "strwidth", "NA") + unit(20, "points"), "points"))
+  #     } else {
+  #       temp <- ceiling(convertX(unit(1, "strwidth", maxEl) + unit(20, "points"), "points"))
+  #     }
+  #     temp2 <- legendX[i] + temp
+  #     legendW <- c(legendW, temp)
+  #     legendX <- unit.c(legendX, temp2)
+  #   }
+  #   legendW <- unit(sum(legendW)+6, "points")
+  } else{
+    legendW <- unit(0, "points")
+    legendH <- unit(0, "points")
+  }
+  if(theme@yAxis$plot){
+    yAxisTitleW <- theme@yAxis$label$fontsize
+    digits <- round(axisSteps$y1, theme@yAxis$ticks$digits)
+    yAxisTicksW <- ceiling(convertX(unit(1, "strwidth", as.character(digits[which.max(nchar(digits))])), "points"))
+    yAxisTicksW <- as.numeric(yAxisTicksW)
+  } else{
+    yAxisTitleW <- 0
+    yAxisTicksW <- 0
+  }
+  if(theme@xAxis$plot){
+    xAxisTitleH <- theme@xAxis$label$fontsize+2
+    xAxisTicksH <- theme@xAxis$ticks$fontsize
+  } else{
+    xAxisTitleH <- 0
+    xAxisTicksH <- 0
+  }
+
+  # determine dimensions for the plot
+  gridH <- unit(1, "grobheight", "panelGrob") - unit(xAxisTitleH, "points") - unit(xAxisTicksH, "points") - unit(titleH, "points")
+  gridW <- unit(1, "grobwidth", "panelGrob") - unit(yAxisTitleW, "points") - unit(yAxisTicksW, "points") - unit(legendW, "points")
+  gridHr <- gridW*ratio$y
+  gridWr <- gridH*ratio$x
+  gridH <- min(gridH, gridHr) # keeping gridH and gridW as those "min" values allows the plot to change in size, when the plot window is changed in size
+  gridW <- min(gridW, gridWr)
+
+  out <- list(dim = list(x1 = yAxisTitleW+yAxisTicksW, x2 = gridW, x3 = legendW,
+                         y1 = titleH, y2 = gridH, y3 = xAxisTitleH+xAxisTicksH, y4 = legendH), #y4 will be the legend height in case the position at the bottom is chosen
+              margin = list(x = margin$x,
+                            y = margin$y),
+              window = list(xmin = minWinX,
+                            xmax = maxWinX,
+                            ymin = minWinY,
+                            ymax = maxWinY),
+              labels = list(titleH = titleH,
+                            yAxisTicksW = yAxisTicksW,
+                            xAxisTicksH = xAxisTicksH),
+              scale = list(xmin = minWinX - margin$x,
+                           xmax = maxWinX + margin$x,
+                           ymin = minWinY - margin$y,
+                           ymax = maxWinY + margin$y,
+                           legend = legend$maxVal),
+              grid = list(xMaj = round(axisSteps$x1, theme@yAxis$ticks$digits),
+                          xMin = round(axisSteps$x2, theme@yAxis$ticks$digits),
+                          yMaj = round(axisSteps$y1, theme@yAxis$ticks$digits),
+                          yMin = round(axisSteps$y2, theme@yAxis$ticks$digits))
+              )
+
+  return(out)
+}
