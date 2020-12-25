@@ -13,8 +13,7 @@
 #' @slot grid [\code{named list(5)}]\cr properties of the major and minor grid.
 #' @slot legend [\code{named list(10)}]\cr properties of the legend, its title,
 #'   labels, ticks and bounding box.
-#' @slot vector [\code{named list(7)}]\cr properties of a vector object.
-#' @slot raster [\code{named list(2)}]\cr properties of a raster object.
+#' @slot parameters [\code{named list(7)}]\cr properties of the plot object.
 
 themeClass <- setClass(Class = "gtTheme",
                        slots = c(title = "list",
@@ -24,8 +23,7 @@ themeClass <- setClass(Class = "gtTheme",
                                  grid = "list",
                                  legend = "list",
                                  scale = "list",
-                                 vector = "list",
-                                 raster = "list"
+                                 parameters = "list"
                        )
 )
 
@@ -75,6 +73,6 @@ setMethod(f = "show",
                                      paste0(red('\u2716'), yellow("  - box    ")))),
                        paste0(red('\u2716'), yellow(" legend    "))), "\n")
             cat(paste0(green('\u2714'), yellow(" scale    "), " with ", cyan(object@scale$param), " scaled to ", cyan(object@scale$to), "\n"))
-            cat(paste0(green('\u2714'), yellow(" objects  "), " of ", cyan(object@vector$linewidth), " wide ", cyan(object@vector$linetype), " lines or ", cyan(object@vector$pointsize), " wide points of type ", cyan(object@vector$pointsymbol), "\n"))
+            cat(paste0(green('\u2714'), yellow(" objects  "), " of ", cyan(object@parameters$linewidth), " wide ", cyan(object@parameters$linetype), " lines or ", cyan(object@parameters$pointsize), " wide points of type ", cyan(object@parameters$pointsymbol), "\n"))
           }
 )
