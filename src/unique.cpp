@@ -6,7 +6,7 @@ using namespace Rcpp;
 
 // [[Rcpp::export]]
 NumericVector sortUniqueC(NumericVector x) {
-  std::unordered_set<int> seen;
+  std::unordered_set<double> seen;
   int n = x.size();
   std::vector<double> out;
 
