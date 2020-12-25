@@ -1,10 +1,13 @@
 #' Get the table of group attributes
 #'
-#' Get tabular information of the attributes of groups of features.
 #' @param x the object from which to derive the attribute table.
-#' @param ... subset based on logical predicates defined in terms of the
-#'   columns in \code{x} or a vector of booleans. Multiple conditions are
-#'   combined with \code{&}. Only rows where the condition evaluates to TRUE are kept.
+#' @param ... subset based on logical predicates defined in terms of the columns
+#'   in \code{x} or a vector of booleans. Multiple conditions are combined with
+#'   \code{&}. Only rows where the condition evaluates to TRUE are kept.
+#' @details When this function is called on "ANY" object, it is first tested
+#'   whether that object has features (\code{\link{getFeatures}}), from which
+#'   the groups can be reconstructed. If this is not the case, \code{NULL} is
+#'   returned.
 #' @return A table of the group attributes of \code{x} or an object where the
 #'   groups table has been subsetted.
 #' @family getters
@@ -36,7 +39,12 @@ if(!isGeneric("getGroups")){
 setMethod(f = "getGroups",
           signature = "ANY",
           definition = function(x, ...){
-            NULL
+            theFeatures <- getFeatures(x = x)
+            if(!is.null(theFeatures)){
+              tibble(gid = unique(theFeatures$gid))
+            } else {
+              theFeatures
+            }
           }
 )
 
