@@ -31,7 +31,6 @@ setMethod(f = "getName",
 
 # geom ----
 #' @rdname getName
-#' @importFrom checkmate testNumeric assertIntegerish testCharacter assertSubset
 #' @export
 setMethod(f = "getName",
           signature = "geom",
