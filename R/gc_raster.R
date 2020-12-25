@@ -35,7 +35,7 @@ setMethod(f = "gc_raster",
 
             featureType <- getType(input)
 
-            if(!all(featureType %in% c("raster", "grid"))){
+            if(!all(featureType %in% c("grid"))){
               stop("Only objects of class 'geom' and type 'grid' can be transformed to a Raster*")
             } else {
 
