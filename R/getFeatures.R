@@ -396,7 +396,15 @@ setMethod(f = "getFeatures",
           definition = function(x){
 
             temp <- getValues(x)
-            out <- tibble(fid = seq_along(temp), gid = seq_along(temp), values = temp)
+            if(is.matrix(temp)){
+              out <- list()
+              for(i in 1:dim(temp)[2]){
+                out[[i]] <- tibble(fid = seq_along(temp[,i]), gid = temp[,i], values = temp[,i])
+              }
+              names(out) <- colnames(temp)
+            } else {
+              out <- tibble(fid = seq_along(temp), gid = temp, values = temp)
+            }
             return(out)
           }
 )
