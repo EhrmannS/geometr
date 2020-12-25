@@ -29,8 +29,6 @@ and ticks.}
 \item{\code{legend}}{[\code{named list(10)}]\cr properties of the legend, its title,
 labels, ticks and bounding box.}
 
-\item{\code{vector}}{[\code{named list(7)}]\cr properties of a vector object.}
-
-\item{\code{raster}}{[\code{named list(2)}]\cr properties of a raster object.}
+\item{\code{parameters}}{[\code{named list(7)}]\cr properties of the plot object.}
 }}
 

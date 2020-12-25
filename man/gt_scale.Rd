@@ -4,17 +4,13 @@
 \alias{gt_scale}
 \title{Scale \code{geom}s}
 \usage{
-gt_scale(geom, range = NULL, to = "relative")
+gt_scale(x, range = NULL)
 }
 \arguments{
-\item{geom}{[\code{geom(.)}]\cr the object to be scaled.}
+\item{x}{[\code{geometric object(1)}]\cr the object to be scaled.}
 
 \item{range}{[\code{list(2)}]\cr vector of length two for both of the
 \code{x} and \code{y} dimension to which the values should be scaled.}
-
-\item{to}{[\code{character(1)}]\cr the scale to which the coordinates should
-be transformed; possible are \code{"relative"} and \code{"absolute"};
-ignored in case \code{range != NULL}.}
 }
 \value{
 Scaled \code{geom}.
@@ -32,11 +28,11 @@ window <- data.frame(x = c(0, 80),
 aGeom <- gs_polygon(anchor = coords, window = window)
 
 # change to relative scale and back to absolute
-(relCoords <- gt_scale(geom = aGeom, to = "relative"))
-gt_scale(geom = relCoords, to = "absolute")
+(relCoords <- gt_scale(geom = aGeom, range = data.frame(x = c(0, 1), y = c(0, 1))))
+gt_scale(geom = relCoords, range = window)
 
 # scale to another range
-gt_scale(geom = aGeom, range = list(x = c(0, 100), y = c(10, 90)))
+gt_scale(geom = aGeom, range = tibble(x = c(0, 100), y = c(10, 90)))
 
 }
 \seealso{

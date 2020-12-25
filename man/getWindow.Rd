@@ -51,6 +51,7 @@ getWindow(x = matrix(0, 3, 5))
 \seealso{
 Other getters: 
 \code{\link{getCRS}()},
+\code{\link{getCols}()},
 \code{\link{getExtent}()},
 \code{\link{getFeatures}()},
 \code{\link{getGroups}()},
@@ -59,6 +60,7 @@ Other getters:
 \code{\link{getName}()},
 \code{\link{getPoints}()},
 \code{\link{getRes}()},
+\code{\link{getRows}()},
 \code{\link{getType}()}
 }
 \concept{getters}

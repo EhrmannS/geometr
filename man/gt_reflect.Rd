@@ -4,10 +4,10 @@
 \alias{gt_reflect}
 \title{Reflect \code{geom}s}
 \usage{
-gt_reflect(geom = NULL, angle = NULL, fid = NULL, update = TRUE)
+gt_reflect(x = NULL, angle = NULL, fid = NULL, update = TRUE)
 }
 \arguments{
-\item{geom}{[\code{geom(.)}]\cr the object to reflect.}
+\item{x}{[\code{geometric object(1)}]\cr the object to reflect.}
 
 \item{angle}{[\code{numeric(1)}]\cr the counter-clockwise angle by which the
 reflection axis shall be rotated (can be negative to rotate clockwise).}

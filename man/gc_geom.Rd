@@ -41,7 +41,6 @@ gc_geom(input = gtRasters$categorical)
 }
 \seealso{
 Other spatial classes: 
-\code{\link{gc_grob}()},
 \code{\link{gc_ppp}()},
 \code{\link{gc_raster}()},
 \code{\link{gc_sf}()},

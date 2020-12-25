@@ -22,7 +22,6 @@ gc_ppp(input = gtGeoms$point)
 \seealso{
 Other spatial classes: 
 \code{\link{gc_geom}()},
-\code{\link{gc_grob}()},
 \code{\link{gc_raster}()},
 \code{\link{gc_sf}()},
 \code{\link{gc_sp}()}

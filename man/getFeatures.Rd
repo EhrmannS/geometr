@@ -51,6 +51,7 @@ getFeatures(x = gtRasters$continuous)
 \seealso{
 Other getters: 
 \code{\link{getCRS}()},
+\code{\link{getCols}()},
 \code{\link{getExtent}()},
 \code{\link{getGroups}()},
 \code{\link{getHistory}()},
@@ -58,6 +59,7 @@ Other getters:
 \code{\link{getName}()},
 \code{\link{getPoints}()},
 \code{\link{getRes}()},
+\code{\link{getRows}()},
 \code{\link{getType}()},
 \code{\link{getWindow}()}
 }
