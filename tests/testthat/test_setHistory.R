@@ -10,8 +10,8 @@ test_that("set history of a geom", {
 
   output <- setHistory(x = gtGeoms$polygon, history = theHistory)
   expect_class(x = output, classes = "geom")
-  expect_list(x = output@history, len = 2, types = "character")
-  expect_true(object = output@history[[2]] == "geom has been modified")
+  expect_list(x = output@history, len = 3, types = "character")
+  expect_true(object = output@history[[3]] == "geom has been modified")
 
   # ... without history
   temp <- gtGeoms$polygon
@@ -19,8 +19,8 @@ test_that("set history of a geom", {
 
   output <- setHistory(x = gtGeoms$polygon, history = theHistory)
   expect_class(x = output, classes = "geom")
-  expect_list(x = output@history, len = 2, types = "character")
-  expect_true(object = output@history[[2]] == "geom has been modified")
+  expect_list(x = output@history, len = 3, types = "character")
+  expect_true(object = output@history[[3]] == "geom has been modified")
 })
 
 test_that("set history of a Raster", {

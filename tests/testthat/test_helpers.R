@@ -24,10 +24,10 @@ test_that(".updateWindow works", {
   output <- .updateWindow(input = gtGeoms$polygon@point,
                           window = aWindow)
   expect_data_frame(x = output, nrows = 5, ncols = 2)
-  expect_true(max(gtGeoms$polygon@window$x) == max(output$x))
-  expect_true(min(gtGeoms$polygon@window$x) == min(output$x))
-  expect_true(max(gtGeoms$polygon@window$y) == max(output$y))
-  expect_true(min(gtGeoms$polygon@window$y) == min(output$y))
+  expect_true(max(gtGeoms$polygon@point$x) == max(output$x))
+  expect_true(min(gtGeoms$polygon@point$x) == min(output$x))
+  expect_true(max(gtGeoms$polygon@point$y) == max(output$y))
+  expect_true(min(gtGeoms$polygon@point$y) == min(output$y))
 })
 
 test_that(".testAnchor works", {
