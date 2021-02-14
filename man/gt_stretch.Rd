@@ -2,16 +2,16 @@
 % Please edit documentation in R/gt_stretch.R
 \name{gt_stretch}
 \alias{gt_stretch}
-\title{Stretch \code{geom}s}
+\title{Stretch geometric objects}
 \usage{
-gt_stretch(geom, x = NULL, y = NULL, fid = NULL, update = TRUE)
+gt_stretch(obj, x = NULL, y = NULL, fid = NULL, update = TRUE)
 }
 \arguments{
-\item{geom}{[\code{geom(.)}]\cr the object to stretch.}
+\item{obj}{[\code{geometric object(1)}]\cr the object to stretch.}
 
-\item{x}{[\code{numeric(1)}]\cr the scale factor in x-dimension.}
+\item{x}{[\code{numeric(1)}]\cr the scale factor in x dimension.}
 
-\item{y}{[\code{numeric(1)}]\cr the scale factor in y-dimension.}
+\item{y}{[\code{numeric(1)}]\cr the scale factor in y dimension.}
 
 \item{fid}{[\code{integerish(.)}]\cr if only a subset of features shall be
 stretched, specify that here.}
@@ -20,33 +20,40 @@ stretched, specify that here.}
 after stretching.}
 }
 \value{
-Stretched \code{geom}.
+\code{geom} of the stretched \code{obj}.
 }
 \description{
-Stretch \code{geom}s by a scale factor in x and y-dimension.
+Stretch geometric objects by a scale factor in x and y dimension.
 }
 \examples{
-# the original object
-coords <- data.frame(x = c(30, 60, 60, 40, 10, 40, 20),
-                     y = c(40, 40, 60, 70, 10, 20, 40),
-                     fid = c(1, 1, 1, 1, 2, 2, 2))
-window <- data.frame(x = c(0, 80),
-                     y = c(0, 80))
-aGeom <- gs_polygon(anchor = coords, window = window)
-
 # stretch several geoms
-visualise(geom = gt_stretch(geom = aGeom, x = list(0.5), y = list(1, 0.2)))
+visualise(gtGeoms$polygon, linewidth = 3)
+newPoly <- gt_stretch(obj = gtGeoms$polygon, x = 0.5, y = 0.2,
+                      update = FALSE)
+visualise(geom = newPoly, linecol = "green", new = FALSE)
 
 # stretch single geom
-visualise(geom = gt_stretch(geom = aGeom, x = 0.5, fid = 1))
+visualise(gtGeoms$polygon, linewidth = 3)
+newPoly <- gt_stretch(obj = gtGeoms$polygon, x = 0.5, fid = 2, update = FALSE)
+visualise(geom = newPoly, linecol = "green", new = FALSE)
+
+# stretch geoms separately
+visualise(gtGeoms$polygon, linewidth = 3)
+newPoly <- gt_stretch(obj = gtGeoms$polygon,
+                      x = c(0.2, 1),
+                      y = c(1, 0.2),
+                      update = FALSE)
+visualise(geom = newPoly, linecol = "green", new = FALSE)
 }
 \seealso{
 Other geometry tools: 
+\code{\link{gt_locate}()},
 \code{\link{gt_reflect}()},
 \code{\link{gt_rotate}()},
 \code{\link{gt_scale}()},
 \code{\link{gt_sketch}()},
 \code{\link{gt_skew}()},
+\code{\link{gt_subset}()},
 \code{\link{gt_translate}()}
 }
 \concept{geometry tools}

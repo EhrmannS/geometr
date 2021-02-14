@@ -10,7 +10,7 @@
 \usage{
 \S4method{getGroups}{ANY}(x, ...)
 
-\S4method{getGroups}{geom}(x, ...)
+\S4method{getGroups}{geom}(x)
 
 \S4method{getGroups}{Raster}(x)
 
@@ -19,13 +19,10 @@
 \arguments{
 \item{x}{the object from which to derive the attribute table.}
 
-\item{...}{subset based on logical predicates defined in terms of the columns
-in \code{x} or a vector of booleans. Multiple conditions are combined with
-\code{&}. Only rows where the condition evaluates to TRUE are kept.}
+\item{...}{additional arguments.}
 }
 \value{
-A table of the group attributes of \code{x} or an object where the
-  groups table has been subsetted.
+A table of the group attributes of \code{x}.
 }
 \description{
 Get the table of group attributes

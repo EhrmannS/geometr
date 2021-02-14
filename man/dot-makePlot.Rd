@@ -4,7 +4,7 @@
 \alias{.makePlot}
 \title{Make the object to a plot}
 \usage{
-.makePlot(x, window = NULL, image = FALSE, theme = gtTheme, ...)
+.makePlot(x, window, image, theme = gtTheme, ...)
 }
 \arguments{
 \item{x}{[\code{list(1)}]\cr named list of the object from which to make the

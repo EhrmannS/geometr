@@ -4,7 +4,7 @@
 \alias{.updateTheme}
 \title{Update the theme according to disply arguments}
 \usage{
-.updateTheme(x = NULL, newParams = NULL, theme = gtTheme)
+.updateTheme(x, newParams, theme = gtTheme)
 }
 \arguments{
 \item{x}{[\code{list(1)}]\cr any spatial object to plot.}

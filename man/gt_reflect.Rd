@@ -2,12 +2,12 @@
 % Please edit documentation in R/gt_reflect.R
 \name{gt_reflect}
 \alias{gt_reflect}
-\title{Reflect \code{geom}s}
+\title{Reflect geometric objects}
 \usage{
-gt_reflect(x = NULL, angle = NULL, fid = NULL, update = TRUE)
+gt_reflect(obj, angle, fid = NULL, update = TRUE)
 }
 \arguments{
-\item{x}{[\code{geometric object(1)}]\cr the object to reflect.}
+\item{obj}{[\code{geometric object(1)}]\cr the object to reflect.}
 
 \item{angle}{[\code{numeric(1)}]\cr the counter-clockwise angle by which the
 reflection axis shall be rotated (can be negative to rotate clockwise).}
@@ -19,10 +19,10 @@ rotated, specify that here.}
 after rotation.}
 }
 \value{
-Reflected \code{geom}.
+\code{geom} of the reflected \code{obj}.
 }
 \description{
-Reflect \code{geom}s across a reflection axis.
+Reflect geometric objects across a reflection axis.
 }
 \details{
 The reflection axis is a straight line that goes through the plot
@@ -30,27 +30,27 @@ The reflection axis is a straight line that goes through the plot
   positive y-axis and negative angles open up towards the negative y-axis.
 }
 \examples{
-# the original object
-coords <- data.frame(x = c(30, 60, 60, 40, 10, 40, 20),
-                     y = c(40, 40, 60, 70, 10, 20, 40),
-                     fid = c(1, 1, 1, 1, 2, 2, 2))
-window <- data.frame(x = c(-80, 80),
-                     y = c(-80, 80))
-aGeom <- gs_polygon(anchor = coords, window = window)
-
 # reflect several geoms
-visualise(geom = gt_reflect(geom = aGeom, angle = 30))
+visualise(gtGeoms$polygon, linewidth = 3)
+newPoly <- gt_reflect(obj = gtGeoms$polygon, angle = 45,
+                      update = FALSE)
+visualise(newPoly, linecol = "green", new = FALSE)
 
 # reflect a single geom
-visualise(geom = gt_reflect(geom = aGeom, angle = -45, fid = 1))
+visualise(gtGeoms$polygon, linewidth = 3)
+newPoly <- gt_reflect(obj = gtGeoms$polygon, angle = 90, fid = 2,
+                      update = FALSE)
+visualise(newPoly, linecol = "green", new = FALSE)
 }
 \seealso{
 Other geometry tools: 
+\code{\link{gt_locate}()},
 \code{\link{gt_rotate}()},
 \code{\link{gt_scale}()},
 \code{\link{gt_sketch}()},
 \code{\link{gt_skew}()},
 \code{\link{gt_stretch}()},
+\code{\link{gt_subset}()},
 \code{\link{gt_translate}()}
 }
 \concept{geometry tools}

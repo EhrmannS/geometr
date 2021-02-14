@@ -13,18 +13,18 @@ gs_polygon(
   window = NULL,
   features = 1,
   vertices = NULL,
-  sketch = NULL,
+  template = NULL,
   regular = FALSE,
   ...
 )
 
-gs_triangle(anchor = NULL, window = NULL, sketch = NULL, features = 1, ...)
+gs_triangle(anchor = NULL, window = NULL, template = NULL, features = 1, ...)
 
-gs_square(anchor = NULL, window = NULL, sketch = NULL, features = 1, ...)
+gs_square(anchor = NULL, window = NULL, template = NULL, features = 1, ...)
 
-gs_rectangle(anchor = NULL, window = NULL, sketch = NULL, features = 1, ...)
+gs_rectangle(anchor = NULL, window = NULL, template = NULL, features = 1, ...)
 
-gs_hexagon(anchor = NULL, window = NULL, sketch = NULL, features = 1, ...)
+gs_hexagon(anchor = NULL, window = NULL, template = NULL, features = 1, ...)
 }
 \arguments{
 \item{anchor}{[\code{geom(1)}|\code{data.frame(1)}]\cr Object to derive the
@@ -41,8 +41,8 @@ specify this here.}
 will be recycled if it does not have as many elements as specified in
 \code{features}.}
 
-\item{sketch}{[\code{raster(1)}]\cr raster object that serves as template to
-sketch polygons.}
+\item{template}{[\code{gridded object(1)}]\cr Gridded object that serves as
+template to sketch the tiling.}
 
 \item{regular}{[\code{logical(1)}]\cr should the polygon be regular, i.e.
 point symmetric (\code{TRUE}) or should the vertices be selected as
@@ -59,14 +59,14 @@ Create any (regular) polygon geometry (of class \code{\link{geom}}) either by
 specifying anchor values or by sketching it.
 }
 \details{
-The arguments \code{anchor} and \code{sketch} indicate how the line
+The arguments \code{anchor} and \code{template} indicate how the line
   is created: \itemize{ \item if \code{anchor} is set, the line is created
   parametrically from the given objects' points, \item if an object is set in
-  \code{sketch}, this is used to create the \code{geom} interactively, by
+  \code{template}, this is used to create the \code{geom} interactively, by
   clicking into the plot.}
 
   The argument \code{regular} determines how the vertices provided in
-  \code{anchor} or via \code{sketch} are transformed into a polygon:
+  \code{anchor} or via \code{template} are transformed into a polygon:
   \itemize{ \item if \code{regular = FALSE} the resulting polygon is created
   from all vertices in \code{anchor}, \item if \code{regular = TRUE}, only
   the first two vertices are considered, as center and indicating the
@@ -90,30 +90,30 @@ the two given opposing corners.
 
 \examples{
 # 1. create a polygon programmatically
-coords <- data.frame(x = c(40, 70, 70, 50),
-                     y = c(40, 40, 60, 70))
+coords <- data.frame(x = c(0, 40, 40, 0),
+                     y = c(0, 0, 40, 40))
 
 # if no window is set, the bounding box will be set as window
-(aGeom <- gs_polygon(anchor = coords))
+aGeom <- gs_polygon(anchor = coords)
+visualise(aGeom)
+
+# derive a regular polygon from the coordinates
+aPolygon <- gs_polygon(anchor = coords, vertices = 6, regular = TRUE)
+visualise(aPolygon, linecol = "green")
 
 # the vertices are plottet relative to the window
-library(magrittr)
-window <- data.frame(x = c(0, 80),
-                     y = c(0, 80))
-gs_polygon(anchor = coords, vertices = 6, window = window,
-           regular = TRUE) \%>\%
-  visualise(linecol = "green")
+window <- data.frame(x = c(-50, 50),
+                     y = c(-50, 50))
+aPolygon <- setWindow(x = aPolygon, to = window)
+visualise(aPolygon, fillcol = "deeppink")
 
-# when a geom is used in 'anchor', its properties are passed on
-aGeom <- setWindow(x = aGeom, to = window)
-gs_polygon(anchor = aGeom) \%>\%
-  visualise(geom = ., fillcol = "deeppink")
-gs_rectangle(anchor = aGeom) \%>\%
-  visualise(geom = ., new = FALSE)
+# using a geom as anchor retains its properties (such as the window)
+aRectangle <- gs_rectangle(anchor = aPolygon)
+visualise(aRectangle, new = FALSE)
 \donttest{
 # 2. sketch a hexagon by clicking into a template
-gs_hexagon(sketch = gtRasters$continuous) \%>\%
-  visualise(geom = ., linecol = "deeppink", linetype = 2, new = FALSE)
+aHexagon <- gs_hexagon(template = gtRasters$continuous)
+visualise(aHexagon, linecol = "deeppink", linetype = 2, new = FALSE)
 }
 }
 \seealso{

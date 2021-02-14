@@ -17,8 +17,8 @@ specify this here.}
 
 \item{features}{[\code{integerish(1)}]\cr number of tiles to sketch.}
 
-\item{sketch}{[\code{RasterLayer(1)} | \code{matrix(1)}]\cr Gridded object
-that serves as template to sketch the tiling.}
+\item{sketch}{[\code{gridded object(1)}]\cr Gridded object that serves as
+template to sketch the tiling.}
 
 \item{...}{[various]\cr graphical parameters to \code{\link{gt_locate}}, in
 case the tiling is sketched; see \code{\link{gpar}}.}
@@ -42,8 +42,8 @@ tiles <- gs_voronoi(anchor = aGeom)
 visualise(tiles, new = FALSE)
 \donttest{
 # 2. sketch a voronoi polygon by clicking into a template
-gs_voronoi(sketch = gtRasters$continuous) \%>\%
-  visualise(tiles = ., new = FALSE)
+tiles <- gs_voronoi(sketch = gtRasters$continuous)
+visualise(tiles, new = FALSE)
 }
 }
 \seealso{

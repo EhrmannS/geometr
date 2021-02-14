@@ -8,11 +8,11 @@ visualise(
   ...,
   layer = NULL,
   window = NULL,
-  theme = gtTheme,
   trace = FALSE,
   image = FALSE,
   new = TRUE,
-  clip = TRUE
+  clip = TRUE,
+  theme = gtTheme
 )
 }
 \arguments{
@@ -25,9 +25,6 @@ layer(s) that shall be plotted.}
 \item{window}{[\code{data.frame(1)}]\cr two opposing corners of a rectangle
 to which the plot is limited.}
 
-\item{theme}{[\code{list(7)}]\cr visualising options; see
-\code{\link{setTheme}} for details.}
-
 \item{trace}{[\code{logical(1)}]\cr Print the raster object's history (i.e.
 the process according to which it has been created) (\code{TRUE}), or
 simply plot the object (\code{FALSE}, default).}
@@ -39,6 +36,9 @@ is actually an image; see Details.}
 
 \item{clip}{[\code{logical(1)}]\cr clip the plot by the plot box
 (\code{TRUE}, default), or plot all of the objects.}
+
+\item{theme}{[\code{list(7)}]\cr visualising options; see
+\code{\link{setTheme}} for details.}
 }
 \value{
 Returns invisibly an object of class \code{recordedplot}, see

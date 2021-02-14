@@ -4,13 +4,13 @@
 \alias{.makeLegend}
 \title{Make the legend of a plot}
 \usage{
-.makeLegend(x = NULL, theme = NULL)
+.makeLegend(x, theme)
 }
 \arguments{
-\item{x}{[\code{list(.)}]\cr the theme from which to build the legend.}
+\item{x}{[\code{list(1)}]\cr any spatial object to plot.}
 
-\item{type}{[\code{character(1)}]\cr whether it is a \code{"raster"} or a
-\code{"vector"} legend.}
+\item{theme}{[\code{character(1)}]\cr the theme from which to take graphical
+parameters.}
 }
 \description{
 Make the legend of a plot

@@ -4,7 +4,7 @@
 \alias{.makeGrob}
 \title{Make the grob of a plot}
 \usage{
-.makeGrob(x = NULL, theme = gtTheme)
+.makeGrob(x, theme = gtTheme)
 }
 \arguments{
 \item{x}{the object to transform to class \code{grob}.}

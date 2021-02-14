@@ -2,16 +2,16 @@
 % Please edit documentation in R/gt_skew.R
 \name{gt_skew}
 \alias{gt_skew}
-\title{Skew \code{geom}s}
+\title{Skew geometric objects}
 \usage{
-gt_skew(geom, x = NULL, y = NULL, fid = NULL, update = TRUE)
+gt_skew(obj, x = NULL, y = NULL, fid = NULL, update = TRUE)
 }
 \arguments{
-\item{geom}{[\code{geom(.)}]\cr the object to skew.}
+\item{obj}{[\code{geometric object(1)}]\cr the object to skew.}
 
-\item{x}{[\code{numeric(1)}]\cr the shear factor in x-dimension.}
+\item{x}{[\code{numeric(1)}]\cr the shear factor in x dimension.}
 
-\item{y}{[\code{numeric(1)}]\cr the shear factor in y-dimension.}
+\item{y}{[\code{numeric(1)}]\cr the shear factor in y dimension.}
 
 \item{fid}{[\code{integerish(.)}]\cr if only a subset of features shall be
 skewed, specify that here.}
@@ -20,33 +20,32 @@ skewed, specify that here.}
 after skewing.}
 }
 \value{
-Skewed \code{geom}.
+\code{geom} of the skewed \code{obj}.
 }
 \description{
-Skew \code{geom}s by a shear factor in x and y-dimension.
+Skew geometric objects by a shear factor in x and y dimension.
 }
 \examples{
-# the original object
-coords <- data.frame(x = c(30, 60, 60, 40, 10, 40, 20),
-                     y = c(40, 40, 60, 70, 10, 20, 40),
-                     fid = c(1, 1, 1, 1, 2, 2, 2))
-window <- data.frame(x = c(0, 80),
-                     y = c(0, 80))
-aGeom <- gs_polygon(anchor = coords, window = window)
-
 # skew several geoms
-visualise(geom = gt_skew(geom = aGeom, x = list(0.5), y = list(0, 0.2)))
+visualise(gtGeoms$polygon, linewidth = 3)
+newPoly <- gt_skew(obj = gtGeoms$polygon, x = 0.5, update = FALSE)
+visualise(geom = newPoly, linecol = "green", new = FALSE)
 
 # skew single geom
-visualise(geom = gt_skew(geom = aGeom, x = 0.5, fid = 1))
+visualise(gtGeoms$polygon, linewidth = 3)
+newPoly <- gt_skew(obj = gtGeoms$polygon, x = 0.5, y = .7, fid = 2,
+                   update = FALSE)
+visualise(newPoly, linecol = "green", new = FALSE)
 }
 \seealso{
 Other geometry tools: 
+\code{\link{gt_locate}()},
 \code{\link{gt_reflect}()},
 \code{\link{gt_rotate}()},
 \code{\link{gt_scale}()},
 \code{\link{gt_sketch}()},
 \code{\link{gt_stretch}()},
+\code{\link{gt_subset}()},
 \code{\link{gt_translate}()}
 }
 \concept{geometry tools}

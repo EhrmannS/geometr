@@ -13,13 +13,13 @@
 \usage{
 \S4method{getFeatures}{ANY}(x, ...)
 
-\S4method{getFeatures}{geom}(x, ...)
+\S4method{getFeatures}{geom}(x)
 
-\S4method{getFeatures}{Spatial}(x, ...)
+\S4method{getFeatures}{Spatial}(x)
 
-\S4method{getFeatures}{sf}(x, ...)
+\S4method{getFeatures}{sf}(x)
 
-\S4method{getFeatures}{ppp}(x, ...)
+\S4method{getFeatures}{ppp}(x)
 
 \S4method{getFeatures}{Raster}(x)
 
@@ -28,22 +28,16 @@
 \arguments{
 \item{x}{the object from which to derive the attribute table.}
 
-\item{...}{subset based on logical predicates defined in terms of the
-columns in \code{x} or a vector of booleans. Multiple conditions are
-combined with \code{&}. Only rows where the condition evaluates to TRUE are kept.}
+\item{...}{additional arguments.}
 }
 \value{
-A table of the feature attributes of \code{x} or an object where the
-  features table has been subsetted.
+A table of the feature attributes of \code{x}.
 }
 \description{
 Get tabular information of the attributes of features.
 }
 \examples{
 getFeatures(x = gtGeoms$polygon)
-
-# get a subset of an sf-object
-getFeatures(x = gtSF$multilinestring, a == 1)
 
 # get the values of a RasterLayer
 getFeatures(x = gtRasters$continuous)

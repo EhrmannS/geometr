@@ -2,53 +2,53 @@
 % Please edit documentation in R/gt_translate.R
 \name{gt_translate}
 \alias{gt_translate}
-\title{Translate \code{geom}s}
+\title{Translate geometric objects}
 \usage{
-gt_translate(geom = NULL, x = NULL, y = NULL, fid = NULL, update = TRUE)
+gt_translate(obj, x = NULL, y = NULL, fid = NULL, update = TRUE)
 }
 \arguments{
-\item{geom}{[\code{geom(.)}]\cr the object to translate.}
+\item{obj}{[\code{geometric object(1)}]\cr the object to translate.}
 
 \item{x}{[\code{numeric(1)}]\cr the translation constant (offset) in
-x-dimension.}
+x dimension.}
 
 \item{y}{[\code{numeric(1)}]\cr the translation constant (offset) in
-y-dimension.}
+y dimension.}
 
 \item{fid}{[\code{integerish(.)}]\cr if only a subset of features shall be
-rotated, specify that here.}
+translated, specify that here.}
 
 \item{update}{[\code{logical(1)}]\cr whether or not to update the window slot
-after rotation.}
+after translation.}
 }
 \value{
-Mathematically translated \code{geom}.
+\code{geom} of the mathematically translated \code{obj}.
 }
 \description{
-Translate \code{geom}s by adding a constant in x and y-dimension.
+Translate geometric objects by adding a constant in x and y dimension.
 }
 \examples{
-# the original object
-coords <- data.frame(x = c(30, 60, 60, 40, 10, 40, 20),
-                     y = c(40, 40, 60, 70, 10, 20, 40),
-                     fid = c(1, 1, 1, 1, 2, 2, 2))
-window <- data.frame(x = c(0, 80),
-                     y = c(0, 80))
-aGeom <- gs_polygon(anchor = coords, window = window)
-
 # translate several geoms
-visualise(geom = gt_translate(geom = aGeom, x = 5, y = list(-10, 5)))
+visualise(gtGeoms$polygon, linewidth = 3)
+newPoly <- gt_translate(obj = gtGeoms$polygon, x = 5, y = c(-10, 5),
+                        update = FALSE)
+visualise(geom = newPoly, linecol = "green", new = FALSE)
 
 # translate a single geom
-visualise(geom = gt_translate(geom = aGeom, x = 5, fid = 1))
+visualise(gtGeoms$polygon, linewidth = 3)
+newPoly <- gt_translate(obj = gtGeoms$polygon, x = 5, fid = 2,
+                        update = FALSE)
+visualise(geom = newPoly, linecol = "green", new = FALSE)
 }
 \seealso{
 Other geometry tools: 
+\code{\link{gt_locate}()},
 \code{\link{gt_reflect}()},
 \code{\link{gt_rotate}()},
 \code{\link{gt_scale}()},
 \code{\link{gt_sketch}()},
 \code{\link{gt_skew}()},
-\code{\link{gt_stretch}()}
+\code{\link{gt_stretch}()},
+\code{\link{gt_subset}()}
 }
 \concept{geometry tools}

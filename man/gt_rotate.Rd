@@ -2,24 +2,19 @@
 % Please edit documentation in R/gt_rotate.R
 \name{gt_rotate}
 \alias{gt_rotate}
-\title{Rotate \code{geom}s}
+\title{Rotate geometric objects}
 \usage{
-gt_rotate(
-  geom = NULL,
-  angle = NULL,
-  about = c(0, 0),
-  fid = NULL,
-  update = TRUE
-)
+gt_rotate(obj, x = NULL, y = NULL, angle = NULL, fid = NULL, update = TRUE)
 }
 \arguments{
-\item{geom}{[\code{geom(.)}]\cr the object to rotate.}
+\item{obj}{[\code{geometric object(1)}]\cr the object to rotate.}
+
+\item{x}{[\code{numeric(1)}]\cr the x position(s) to rotate about.}
+
+\item{y}{[\code{numeric(1)}]\cr the y position(s) to rotate about.}
 
 \item{angle}{[\code{numeric(1)}]\cr the counter-clockwise angle by which
 \code{geom} shall be rotated (can be negative to rotate clockwise).}
-
-\item{about}{[\code{numeric(2)}]\cr the point about which \code{geom} shall
-be rotated.}
 
 \item{fid}{[\code{integerish(.)}]\cr if only a subset of features shall be
 rotated, specify that here.}
@@ -28,42 +23,42 @@ rotated, specify that here.}
 after rotation.}
 }
 \value{
-Rotated \code{geom}.
+\code{geom} of the rotated \code{obj}.
 }
 \description{
-Rotate \code{geom}s by a certain angle about a center
+Rotate geometric objects by a certain angle about center coordinates
 }
 \examples{
-# the original object
-coords <- data.frame(x = c(30, 60, 60, 40, 10, 40, 20),
-                     y = c(40, 40, 60, 70, 10, 20, 40),
-                     fid = c(1, 1, 1, 1, 2, 2, 2))
-window <- data.frame(x = c(0, 80),
-                     y = c(0, 80))
-aGeom <- gs_polygon(anchor = coords, window = window)
-visualise(geom = aGeom)
-
 # rotate all geoms
-rotatedGeom <- gt_rotate(geom = aGeom, angle = 90, about = c(40, 40))
-visualise(geom = rotatedGeom)
+visualise(gtGeoms$polygon, linewidth = 3)
+newPoly <- gt_rotate(obj = gtGeoms$polygon, x = 0, y = 0, angle = 135,
+                     update = FALSE)
+visualise(geom = newPoly, linecol = "green", new = FALSE)
 
 # rotate a single geom
-rotTri <- gt_rotate(geom = aGeom, angle = -180, about = c(30, 40), fid = 2)
-visualise(geom = rotTri)
+visualise(gtGeoms$polygon, linewidth = 3)
+newPoly <- gt_rotate(obj = gtGeoms$polygon, x = -10, y = 0, angle = -180,
+                     update = FALSE, fid = 2)
+visualise(geom = newPoly, linecol = "green", new = FALSE)
 
 # rotate different geoms about different centers by different angles
-rotateMore <- gt_rotate(geom = aGeom,
-                        angle = list(90, -180),
-                        about = list(c(40, 40), c(30, 40)))
-visualise(geom = rotateMore)
+visualise(gtGeoms$polygon, linewidth = 3)
+newPoly <- gt_rotate(obj = gtGeoms$polygon,
+                     x = c(0, -10),
+                     y = c(-10, 0),
+                     angle = c(75, -135),
+                     update = FALSE)
+visualise(geom = newPoly, linecol = "green", new = FALSE)
 }
 \seealso{
 Other geometry tools: 
+\code{\link{gt_locate}()},
 \code{\link{gt_reflect}()},
 \code{\link{gt_scale}()},
 \code{\link{gt_sketch}()},
 \code{\link{gt_skew}()},
 \code{\link{gt_stretch}()},
+\code{\link{gt_subset}()},
 \code{\link{gt_translate}()}
 }
 \concept{geometry tools}

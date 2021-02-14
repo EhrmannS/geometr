@@ -9,7 +9,7 @@ gs_line(
   window = NULL,
   features = 1,
   vertices = NULL,
-  sketch = NULL,
+  template = NULL,
   ...
 )
 }
@@ -28,8 +28,8 @@ specify this here.}
 be recycled if it does not have as many elements as specified in
 \code{features}.}
 
-\item{sketch}{[\code{raster(1)}]\cr raster object that serves as template to
-sketch polygons.}
+\item{template}{[\code{gridded object(1)}]\cr Gridded object that serves as
+template to sketch the tiling.}
 
 \item{...}{[various]\cr graphical parameters to \code{\link{gt_locate}}, in
 case points are sketched; see \code{\link[grid]{gpar}}}
@@ -42,10 +42,10 @@ Create a line geometry (of class \code{\link{geom}}) either by specifying
 anchor values or by sketching it.
 }
 \details{
-The arguments \code{anchor} and \code{sketch} indicate how the line
+The arguments \code{anchor} and \code{template} indicate how the line
   is created: \itemize{ \item if \code{anchor} is set, the line is created
   parametrically from the given objects' points, \item if an object is set in
-  \code{sketch}, this is used to create the \code{geom} interactively, by
+  \code{template}, this is used to create the \code{geom} interactively, by
   clicking into the plot.}
 }
 \examples{
@@ -57,20 +57,19 @@ coords <- data.frame(x = c(40, 70, 70, 50),
 (aGeom <- gs_line(anchor = coords))
 
 # the vertices are plottet relative to the window
-library(magrittr)
 window <- data.frame(x = c(0, 80),
                      y = c(0, 80))
-gs_line(anchor = coords, window = window) \%>\%
-  visualise(linecol = "green")
+aLine <- gs_line(anchor = coords, window = window)
+visualise(aLine, linecol = "green")
 
 # when a geom is used in 'anchor', its properties are passed on
 aGeom <- setWindow(x = aGeom, to = window)
-gs_line(anchor = aGeom) \%>\%
-  visualise(linecol = "deeppink")
+aLine <- gs_line(anchor = aGeom)
+visualise(aLine, linecol = "deeppink")
 \donttest{
 # 2. sketch a line by clicking into a template
-gs_line(sketch = gtRasters$continuous, vertices = 4) \%>\%
-  visualise(linecol = "orange", linewidth = 5, new = FALSE)
+aLine <- gs_line(template = gtRasters$continuous, vertices = 4)
+visualise(aLine, linecol = "orange", linewidth = 5, new = FALSE)
 }
 }
 \seealso{

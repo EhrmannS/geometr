@@ -4,14 +4,17 @@
 \alias{.makeLayout}
 \title{Make the layout of a plot}
 \usage{
-.makeLayout(legend = NULL, window = NULL, theme = gtTheme)
+.makeLayout(legend, window, theme = gtTheme)
 }
 \arguments{
+\item{legend}{[\code{list(.)}]\cr the legend object built with
+\code{\link{.makeLegend}}.}
+
+\item{window}{[\code{data.frame(1)}] two opposing corners of a rectangle to
+which the plot is limited.}
+
 \item{theme}{[\code{gtTheme(1)}]\cr the theme from which to take graphical
 parameters.}
-
-\item{x}{[\code{list(.)}]\cr the object, output from \code{makeObject}, from
-which to make the plot.}
 }
 \description{
 Make the layout of a plot

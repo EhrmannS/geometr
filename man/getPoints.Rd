@@ -13,7 +13,7 @@
 \usage{
 \S4method{getPoints}{ANY}(x, ...)
 
-\S4method{getPoints}{geom}(x, ...)
+\S4method{getPoints}{geom}(x)
 
 \S4method{getPoints}{Spatial}(x)
 
@@ -28,13 +28,10 @@
 \arguments{
 \item{x}{the object from which to derive the attribute table.}
 
-\item{...}{subset based on logical predicates defined in terms of the
-columns in \code{x} or a vector of booleans. Multiple conditions are
-combined with \code{&}. Only rows where the condition evaluates to TRUE are kept.}
+\item{...}{additional arguments.}
 }
 \value{
-A table of the point attributes of \code{x} or an object where the
-  point table has been subsetted.
+A table of the point attributes of \code{x}.
 }
 \description{
 Get tabular information of the attributes of points (incl. coordinates).

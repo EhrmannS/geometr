@@ -2,46 +2,41 @@
 % Please edit documentation in R/gt_scale.R
 \name{gt_scale}
 \alias{gt_scale}
-\title{Scale \code{geom}s}
+\title{Scale geometric objects}
 \usage{
-gt_scale(x, range = NULL)
+gt_scale(obj, range = NULL, update = TRUE)
 }
 \arguments{
-\item{x}{[\code{geometric object(1)}]\cr the object to be scaled.}
+\item{obj}{[\code{geometric object(1)}]\cr the object to be scaled.}
 
-\item{range}{[\code{list(2)}]\cr vector of length two for both of the
+\item{range}{[\code{data.frame(2)}]\cr vector of length two for both of the
 \code{x} and \code{y} dimension to which the values should be scaled.}
+
+\item{update}{[\code{logical(1)}]\cr whether or not to update the window slot
+after scaling.}
 }
 \value{
-Scaled \code{geom}.
+\code{geom} of the scaled \code{obj}.
 }
 \description{
-Scale the vertex values of \code{geom}s to a values range or so that they are
-either relative to the \code{@window} slot, or absolute values.
+Scale the vertex values of geometric objects to a values range.
 }
 \examples{
-coords <- data.frame(x = c(40, 70, 70, 50, 40),
-                     y = c(40, 40, 60, 70, 40),
-                     fid = 1)
-window <- data.frame(x = c(0, 80),
-                     y = c(0, 80))
-aGeom <- gs_polygon(anchor = coords, window = window)
-
-# change to relative scale and back to absolute
-(relCoords <- gt_scale(geom = aGeom, range = data.frame(x = c(0, 1), y = c(0, 1))))
-gt_scale(geom = relCoords, range = window)
-
-# scale to another range
-gt_scale(geom = aGeom, range = tibble(x = c(0, 100), y = c(10, 90)))
-
+# rescale to values between -10 and 10
+visualise(gtGeoms$polygon, linewidth = 3)
+newPoly <- gt_scale(obj = gtGeoms$polygon, update = FALSE,
+                    range = data.frame(x = c(-10, 10), y = c(-10, 10)))
+visualise(geom = newPoly, linecol = "green", new = FALSE)
 }
 \seealso{
 Other geometry tools: 
+\code{\link{gt_locate}()},
 \code{\link{gt_reflect}()},
 \code{\link{gt_rotate}()},
 \code{\link{gt_sketch}()},
 \code{\link{gt_skew}()},
 \code{\link{gt_stretch}()},
+\code{\link{gt_subset}()},
 \code{\link{gt_translate}()}
 }
 \concept{geometry tools}

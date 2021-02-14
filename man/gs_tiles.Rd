@@ -51,11 +51,10 @@ When deriving a regular tiling for a prescribed window, there is
 }
 \examples{
 # create a squared tiling
-library(magrittr)
 aWindow <- data.frame(x = c(-180, 180),
                       y = c(-60, 80))
-gs_tiles(anchor = aWindow, width = 10) \%>\%
-  visualise(`10° world tiles` = .)
+tiles <- gs_tiles(anchor = aWindow, width = 10)
+visualise(`10° world tiles` = tiles)
 
 # create a hexagonal tiling on top of a geom
 coords <- data.frame(x = c(40, 70, 70, 50),
@@ -64,8 +63,8 @@ window <- data.frame(x = c(0, 80),
                      y = c(0, 80))
 aGeom <- gs_polygon(anchor = coords, window = window)
 visualise(`honeycomb background` = aGeom)
-gs_tiles(anchor = aGeom, width = 8, pattern = "hexagonal") \%>\%
-  visualise(., linecol = "deeppink", new = FALSE)
+hex <- gs_tiles(anchor = aGeom, width = 8, pattern = "hexagonal")
+visualise(hex, linecol = "deeppink", new = FALSE)
 }
 \seealso{
 Other tilings: 
