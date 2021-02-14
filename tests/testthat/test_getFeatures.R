@@ -38,27 +38,6 @@ test_that("getFeatures of a 'geom'", {
   expect_names(x = names(output), permutation.of = c("fid", "gid", "values"))
 })
 
-test_that("getFeatures with subset of a 'geom'", {
-  coords <- data.frame(x = c(40, 70, 70, 50),
-                       y = c(40, 40, 60, 70),
-                       fid = c(1, 1, 2, 2))
-  input <- gs_polygon(anchor = coords)
-
-  # based on a condition
-  input <- setFeatures(x = input, table = data.frame(fid = c(1, 2), attr = c("a", "b")))
-  output <- getFeatures(x = input, attr == 'b')
-  expect_class(output, "geom")
-  expect_true(dim(output@feature$geometry)[1] == 1)
-  expect_true(dim(output@feature$geometry)[1] < dim(input@group$geometry)[1])
-
-  # based on a logical
-  subset <- c(TRUE, FALSE)
-  output <- getFeatures(x = input, subset)
-  expect_class(output, "geom")
-  expect_true(dim(output@feature$geometry)[1] == 1)
-  expect_true(dim(output@feature$geometry)[1] < dim(input@group$geometry)[1])
-})
-
 test_that("getFeatures of a Spatial* object", {
   input <- gtSP$SpatialPolygons
 
@@ -67,44 +46,12 @@ test_that("getFeatures of a Spatial* object", {
   expect_names(names(output), identical.to = c("fid", "gid"))
 })
 
-test_that("getFeatures with subset of a Spatial* object", {
-  input <- gtSP$SpatialPointsDataFrame
-
-  # based on a condition
-  output <- getFeatures(x = input, a == 2)
-  expect_class(output, "SpatialPointsDataFrame")
-  expect_true(length(output) == 1)
-  expect_true(length(output) < length(input))
-
-  # based on a logical
-  subset <- c(TRUE, FALSE, TRUE, FALSE)
-  output <- getFeatures(x = input, subset)
-  expect_class(output, "SpatialPointsDataFrame")
-  expect_true(length(output) == 2)
-  expect_true(length(output) < length(input))
-})
-
 test_that("getFeatures of a sf object", {
   input <- gtSF$polygon
 
   output <- getFeatures(input)
   expect_data_frame(output, any.missing = FALSE, nrows = 2, ncols = 3)
   expect_names(names(output), identical.to = c("fid", "gid", "a"))
-})
-
-test_that("getFeatures with subset of a sf object", {
-  input <- gtSF$point
-
-  # based on a condition
-  output <- getFeatures(x = input, a == 2)
-  expect_class(output, "sf")
-  expect_data_frame(output, any.missing = FALSE, nrows = 1, ncols = 2)
-
-  # based on a logical
-  subset <- c(TRUE, FALSE)
-  output <- getFeatures(x = input, subset)
-  expect_class(output, "sf")
-  expect_data_frame(output, any.missing = FALSE, nrows = 1, ncols = 2)
 })
 
 test_that("getFeatures of a ppp object", {

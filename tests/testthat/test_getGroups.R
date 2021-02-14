@@ -28,27 +28,6 @@ test_that("getGroups of a 'geom'", {
   expect_names(x = names(output), permutation.of = c("gid"))
 })
 
-test_that("getGroups with subset of a 'geom'", {
-  coords <- data.frame(x = c(40, 70, 70, 50),
-                       y = c(40, 40, 60, 70),
-                       fid = c(1, 1, 2, 2))
-  input <- gs_polygon(anchor = coords)
-
-  # based on a condition
-  input <- setGroups(x = input, table = data.frame(gid = c(1, 2), attr = c("A", "B")))
-  output <- getGroups(x = input, attr == 'B')
-  expect_class(output, "geom")
-  expect_true(dim(output@group$geometry)[1] == 1)
-  expect_true(dim(output@group$geometry)[1] < dim(input@group$geometry)[1])
-
-  # based on a logical
-  subset <- c(TRUE, FALSE)
-  output <- getGroups(x = input, subset)
-  expect_class(output, "geom")
-  expect_true(dim(output@group$geometry)[1] == 1)
-  expect_true(dim(output@group$geometry)[1] < dim(input@group$geometry)[1])
-})
-
 test_that("getGroups of a Raster* object", {
 
   # test RasterLayer without attribute table

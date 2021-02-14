@@ -1,15 +1,12 @@
 #' Get the table of group attributes
 #'
 #' @param x the object from which to derive the attribute table.
-#' @param ... subset based on logical predicates defined in terms of the columns
-#'   in \code{x} or a vector of booleans. Multiple conditions are combined with
-#'   \code{&}. Only rows where the condition evaluates to TRUE are kept.
+#' @param ... additional arguments.
 #' @details When this function is called on "ANY" object, it is first tested
 #'   whether that object has features (\code{\link{getFeatures}}), from which
 #'   the groups can be reconstructed. If this is not the case, \code{NULL} is
 #'   returned.
-#' @return A table of the group attributes of \code{x} or an object where the
-#'   groups table has been subsetted.
+#' @return A table of the group attributes of \code{x}.
 #' @family getters
 #' @examples
 #' getGroups(x = gtGeoms$polygon)
@@ -54,57 +51,28 @@ setMethod(f = "getGroups",
 #' @export
 setMethod(f = "getGroups",
           signature = "geom",
-          definition = function(x, ...){
+          definition = function(x){
 
-            theType <- getType(x = x)[2]
+            theType <- getType(x = x)[1]
 
-            if(length(exprs(...)) > 0){
-              out <- x
-              subset <- enquos(...)
-              isLogical <- tryCatch(is.logical(eval_tidy(expr = subset[[1]])), error = function(e) FALSE)
-              thePoints <- getPoints(x = x)
-              theFeatures <- getFeatures(x = x)
-              theGroups <- getGroups(x = x)
-              if(isLogical){
-                matches <- eval_tidy(expr = subset[[1]])
-              } else {
-                subset <- exprs(...)
-                matches <- eval(parse(text = subset), envir = theGroups)
-              }
-              theGroups <- theGroups[matches,]
-              theFeatures <- theFeatures[theFeatures$gid %in% theGroups$gid,]
-              thePoints <- thePoints[thePoints$fid %in% theFeatures$fid,]
-
-              out <- new(Class = "geom",
-                         type = theType,
-                         point = thePoints,
-                         feature = list(geometry = theFeatures),
-                         group = list(geometry = theGroups),
-                         window = getWindow(x = x),
-                         scale = "absolute",
-                         crs = getCRS(x = x),
-                         history = getHistory(x = x))
-            } else {
-
-              if(theType == "grid"){
-                theGroups <- x@group
-                out <- list()
-                for(i in seq_along(theGroups)){
-                  theInput <- theGroups[[i]]
-                  theName <- names(theGroups)[i]
-                  if(length(theGroups) > 1){
-                    out <- c(out, setNames(list(theInput), theName))
+            if(theType == "grid"){
+              theGroups <- x@group
+              out <- list()
+              for(i in seq_along(theGroups)){
+                theInput <- theGroups[[i]]
+                theName <- names(theGroups)[i]
+                if(length(theGroups) > 1){
+                  out <- c(out, setNames(list(theInput), theName))
+                } else {
+                  if(dim(theInput)[1] == 0){
+                    out <- theGroups[[1]]
                   } else {
-                    if(dim(theInput)[1] == 0){
-                      out <- theGroups[[1]]
-                    } else {
-                      out <- theInput
-                    }
+                    out <- theInput
                   }
                 }
-              } else {
-                out <- x@group$geometry
               }
+            } else {
+              out <- x@group$geometry
             }
 
             return(out)

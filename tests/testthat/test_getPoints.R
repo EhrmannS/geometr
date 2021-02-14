@@ -17,26 +17,6 @@ test_that("getPoints of a 'geom'", {
   expect_names(names(output), identical.to = c("x", "y", "fid"))
 })
 
-test_that("getPoints with subset of a 'geom'", {
-  coords <- data.frame(x = c(40, 70, 70, 50),
-                       y = c(40, 40, 60, 70),
-                       fid = c(1, 1, 2, 2))
-  input <- gs_polygon(anchor = coords)
-
-  # based on a condition
-  output <- getPoints(x = input, fid == 2)
-  expect_class(output, "geom")
-  expect_true(dim(output@point)[1] == 3)
-  expect_true(dim(output@point)[1] < dim(input@point)[1])
-
-  # based on a logical
-  subset <- c(TRUE, TRUE, FALSE, TRUE, TRUE, FALSE)
-  output <- getPoints(x = input, subset)
-  expect_class(output, "geom")
-  expect_true(dim(output@point)[1] == 4)
-  expect_true(dim(output@point)[1] < dim(input@point)[1])
-})
-
 test_that("getPoints of a Spatial* object", {
   input1 <- gtSP$SpatialPoints
   input2 <- gtSP$SpatialPolygons
