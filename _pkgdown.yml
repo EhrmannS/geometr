@@ -8,7 +8,7 @@ development:
 
 reference:
   - title: geometries
-    desc: functions to paramatrise or sketch geometries
+    desc: functions to create geometric objects parametrically or by sketching them
     contents:
       - gs_point
       - gs_line
@@ -16,8 +16,8 @@ reference:
       - gs_random
       - gs_tiles
       - gs_voronoi
-  - title: transform spatial classes
-    desc: functions that transform between geometric/spatial classes
+  - title: transform geometry classes
+    desc: functions that transform between geometric classes
     contents:
       - gc_geom
       - gc_grob
@@ -26,10 +26,12 @@ reference:
       - gc_sf
       - gc_sp
   - title: getters and setters
-    desc: methods that standardise dealing with geometric/spatial objects
+    desc: methods that standardise dealing with geometric objects
     contents:
       - getCRS
       - getExtent
+      - getCols
+      - getRows
       - getFeatures
       - getGroups
       - getHistory
@@ -43,10 +45,9 @@ reference:
       - setGroups
       - setHistory
       - setWindow
-  - title: utility functions
-    desc: functions that modify `geom`s
+  - title: standardised tools
+    desc: functions that modify geometric objects of all supported classes
     contents:
-      - gt_locate
       - gt_rotate
       - gt_reflect
       - gt_scale
@@ -54,8 +55,10 @@ reference:
       - gt_skew
       - gt_stretch
       - gt_translate
+      - gt_subset
+      - gt_locate
   - title: visualise
-    desc: plot geometric/spatial objects
+    desc: plot geometric objects
     contents:
       - visualise
       - setTheme
