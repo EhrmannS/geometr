@@ -1,48 +1,51 @@
-#' Stretch \code{geom}s
+#' Stretch geometric objects
 #'
-#' Stretch \code{geom}s by a scale factor in x and y-dimension.
-#' @param geom [\code{geom(.)}]\cr the object to stretch.
-#' @param x [\code{numeric(1)}]\cr the scale factor in x-dimension.
-#' @param y [\code{numeric(1)}]\cr the scale factor in y-dimension.
+#' Stretch geometric objects by a scale factor in x and y dimension.
+#' @param obj [\code{geometric object(1)}]\cr the object to stretch.
+#' @param x [\code{numeric(1)}]\cr the scale factor in x dimension.
+#' @param y [\code{numeric(1)}]\cr the scale factor in y dimension.
 #' @param fid [\code{integerish(.)}]\cr if only a subset of features shall be
 #'   stretched, specify that here.
 #' @param update [\code{logical(1)}]\cr whether or not to update the window slot
 #'   after stretching.
-#' @return Stretched \code{geom}.
+#' @return \code{geom} of the stretched \code{obj}.
 #' @family geometry tools
 #' @examples
-#' # the original object
-#' coords <- data.frame(x = c(30, 60, 60, 40, 10, 40, 20),
-#'                      y = c(40, 40, 60, 70, 10, 20, 40),
-#'                      fid = c(1, 1, 1, 1, 2, 2, 2))
-#' window <- data.frame(x = c(0, 80),
-#'                      y = c(0, 80))
-#' aGeom <- gs_polygon(anchor = coords, window = window)
-#'
 #' # stretch several geoms
-#' visualise(geom = gt_stretch(geom = aGeom, x = list(0.5), y = list(1, 0.2)))
+#' visualise(gtGeoms$polygon, linewidth = 3)
+#' newPoly <- gt_stretch(obj = gtGeoms$polygon, x = 0.5, y = 0.2,
+#'                       update = FALSE)
+#' visualise(geom = newPoly, linecol = "green", new = FALSE)
 #'
 #' # stretch single geom
-#' visualise(geom = gt_stretch(geom = aGeom, x = 0.5, fid = 1))
-#' @importFrom checkmate assertClass testList testNumeric assert
+#' visualise(gtGeoms$polygon, linewidth = 3)
+#' newPoly <- gt_stretch(obj = gtGeoms$polygon, x = 0.5, fid = 2, update = FALSE)
+#' visualise(geom = newPoly, linecol = "green", new = FALSE)
+#'
+#' # stretch geoms separately
+#' visualise(gtGeoms$polygon, linewidth = 3)
+#' newPoly <- gt_stretch(obj = gtGeoms$polygon,
+#'                       x = c(0.2, 1),
+#'                       y = c(1, 0.2),
+#'                       update = FALSE)
+#' visualise(geom = newPoly, linecol = "green", new = FALSE)
+
+#' @importFrom checkmate assertNumeric assertIntegerish assertLogical
 #' @importFrom tibble tibble as_tibble
 #' @importFrom methods new
 #' @export
 
-gt_stretch <- function(geom, x = NULL, y = NULL, fid = NULL, update = TRUE){
+gt_stretch <- function(obj, x = NULL, y = NULL, fid = NULL, update = TRUE){
 
-  assertClass(geom, classes = "geom")
-  xIsList <- testList(x, types = "numeric", any.missing = FALSE)
-  xIsNumeric <- testNumeric(x, any.missing = FALSE, len = 1, null.ok = TRUE)
-  yIsList <- testList(y, types = "numeric", any.missing = FALSE)
-  yIsNumeric <- testNumeric(y, any.missing = FALSE, len = 1, null.ok = TRUE)
-  assert(xIsList, xIsNumeric)
-  assert(yIsList, yIsNumeric)
+  assertNumeric(x, any.missing = FALSE, min.len = 1, null.ok = TRUE)
+  assertNumeric(y, any.missing = FALSE, min.len = 1, null.ok = TRUE)
   assertIntegerish(x = fid, any.missing = FALSE, null.ok = TRUE)
   assertLogical(x = update, len = 1, any.missing = FALSE)
 
-  theFeatures <- getFeatures(x = geom)
-  theGroups <- getGroups(x = geom)
+  theFeatures <- getFeatures(x = obj)
+  theGroups <- getGroups(x = obj)
+  verts <- getPoints(x = obj)
+  thewindow <- getWindow(x = obj)
 
   # set default values
   if(is.null(x)){
@@ -52,16 +55,6 @@ gt_stretch <- function(geom, x = NULL, y = NULL, fid = NULL, update = TRUE){
     y <- 1
   }
 
-  # make list, if it is not yet
-  if(xIsNumeric){
-    x <- list(x)
-  }
-  if(yIsNumeric){
-    y <- list(y)
-  }
-
-  verts <- getPoints(x = geom)
-  thewindow <- getWindow(x = geom)
   ids <- unique(verts$fid)
 
   # identify fids to modify
@@ -87,12 +80,14 @@ gt_stretch <- function(geom, x = NULL, y = NULL, fid = NULL, update = TRUE){
     newCoords <- tempCoords
 
     if(doStretch[i]){
-      centroid <- tibble(x = mean(x = tempCoords$x), y = mean(x = tempCoords$y))
+      centCoords <- tempCoords[!duplicated(tempCoords),]
+      centroid <- tibble(x = mean(x = centCoords$x), y = mean(x = centCoords$y))
 
       newCoords$x <- x[[i]] * tempCoords$x
       newCoords$y <- y[[i]] * tempCoords$y
 
-      newCentroid <- tibble(x = mean(x = newCoords$x), y = mean(x = newCoords$y))
+      centCoords <- newCoords[!duplicated(newCoords),]
+      newCentroid <- tibble(x = mean(x = centCoords$x), y = mean(x = centCoords$y))
       offset <- newCentroid - centroid
 
       newCoords$x <- newCoords$x - offset$x
@@ -117,14 +112,13 @@ gt_stretch <- function(geom, x = NULL, y = NULL, fid = NULL, update = TRUE){
 
   # make new geom
   out <- new(Class = "geom",
-             type = getType(x = geom)[2],
+             type = getType(x = obj)[1],
              point = as_tibble(temp),
              feature = list(geometry = theFeatures),
              group = list(geometry = theGroups),
              window = window,
-             scale = geom@scale,
-             crs = getCRS(x = geom),
-             history = c(getHistory(x = geom), list(hist)))
+             crs = getCRS(x = obj),
+             history = c(getHistory(x = obj), list(hist)))
 
   return(out)
 }

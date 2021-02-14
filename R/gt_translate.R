@@ -1,52 +1,46 @@
-#' Translate \code{geom}s
+#' Translate geometric objects
 #'
-#' Translate \code{geom}s by adding a constant in x and y-dimension.
-#' @param geom [\code{geom(.)}]\cr the object to translate.
+#' Translate geometric objects by adding a constant in x and y dimension.
+#' @param obj [\code{geometric object(1)}]\cr the object to translate.
 #' @param x [\code{numeric(1)}]\cr the translation constant (offset) in
-#'   x-dimension.
+#'   x dimension.
 #' @param y [\code{numeric(1)}]\cr the translation constant (offset) in
-#'   y-dimension.
+#'   y dimension.
 #' @param fid [\code{integerish(.)}]\cr if only a subset of features shall be
-#'   rotated, specify that here.
+#'   translated, specify that here.
 #' @param update [\code{logical(1)}]\cr whether or not to update the window slot
-#'   after rotation.
-#' @return Mathematically translated \code{geom}.
+#'   after translation.
+#' @return \code{geom} of the mathematically translated \code{obj}.
 #' @family geometry tools
 #' @examples
-#' # the original object
-#' coords <- data.frame(x = c(30, 60, 60, 40, 10, 40, 20),
-#'                      y = c(40, 40, 60, 70, 10, 20, 40),
-#'                      fid = c(1, 1, 1, 1, 2, 2, 2))
-#' window <- data.frame(x = c(0, 80),
-#'                      y = c(0, 80))
-#' aGeom <- gs_polygon(anchor = coords, window = window)
-#'
 #' # translate several geoms
-#' visualise(geom = gt_translate(geom = aGeom, x = 5, y = list(-10, 5)))
+#' visualise(gtGeoms$polygon, linewidth = 3)
+#' newPoly <- gt_translate(obj = gtGeoms$polygon, x = 5, y = c(-10, 5),
+#'                         update = FALSE)
+#' visualise(geom = newPoly, linecol = "green", new = FALSE)
 #'
 #' # translate a single geom
-#' visualise(geom = gt_translate(geom = aGeom, x = 5, fid = 1))
-#' @importFrom checkmate assertClass testList testNumeric assert
-#'   assertIntegerish assertLogical
+#' visualise(gtGeoms$polygon, linewidth = 3)
+#' newPoly <- gt_translate(obj = gtGeoms$polygon, x = 5, fid = 2,
+#'                         update = FALSE)
+#' visualise(geom = newPoly, linecol = "green", new = FALSE)
+#' @importFrom checkmate assertClass assertNumeric assertIntegerish
+#'   assertLogical
 #' @importFrom tibble as_tibble
 #' @importFrom methods new
 #' @export
 
-gt_translate <- function(geom = NULL, x = NULL, y = NULL, fid = NULL,
-                         update = TRUE){
+gt_translate <- function(obj, x = NULL, y = NULL, fid = NULL, update = TRUE){
 
-  assertClass(geom, classes = "geom")
-  xIsList <- testList(x, types = "numeric", any.missing = FALSE)
-  xIsNumeric <- testNumeric(x, any.missing = FALSE, len = 1, null.ok = TRUE)
-  yIsList <- testList(y, types = "numeric", any.missing = FALSE)
-  yIsNumeric <- testNumeric(y, any.missing = FALSE, len = 1, null.ok = TRUE)
-  assert(xIsList, xIsNumeric)
-  assert(yIsList, yIsNumeric)
+  assertNumeric(x, any.missing = FALSE, min.len = 1, null.ok = TRUE)
+  assertNumeric(y, any.missing = FALSE, min.len = 1, null.ok = TRUE)
   assertIntegerish(x = fid, any.missing = FALSE, null.ok = TRUE)
   assertLogical(x = update, len = 1, any.missing = FALSE)
 
-  theFeatures <- getFeatures(x = geom)
-  theGroups <- getGroups(x = geom)
+  theFeatures <- getFeatures(x = obj)
+  theGroups <- getGroups(x = obj)
+  thePoints <- getPoints(x = obj)
+  thewindow <- getWindow(x = obj)
 
   # set default values
   if(is.null(x)){
@@ -55,18 +49,7 @@ gt_translate <- function(geom = NULL, x = NULL, y = NULL, fid = NULL,
   if(is.null(y)){
     y <- 0
   }
-
-  # make list, if it is not yet
-  if(xIsNumeric){
-    x <- list(x)
-  }
-  if(yIsNumeric){
-    y <- list(y)
-  }
-
-  verts <- getPoints(x = geom)
-  thewindow <- getWindow(x = geom)
-  ids <- unique(verts$fid)
+  ids <- unique(thePoints$fid)
 
   # identify fids to modify
   existsID <- !is.null(fid)
@@ -87,7 +70,7 @@ gt_translate <- function(geom = NULL, x = NULL, y = NULL, fid = NULL,
   # modify vertices
   temp <- NULL
   for(i in seq_along(ids)){
-    tempCoords <- verts[verts$fid == ids[i],]
+    tempCoords <- thePoints[thePoints$fid == ids[i],]
     newCoords <- tempCoords
 
     if(doTranslate[i]){
@@ -113,14 +96,13 @@ gt_translate <- function(geom = NULL, x = NULL, y = NULL, fid = NULL,
 
   # make new geom
   out <- new(Class = "geom",
-             type = getType(x = geom)[2],
+             type = getType(x = obj)[1],
              point = as_tibble(temp),
              feature = list(geometry = theFeatures),
              group = list(geometry = theGroups),
              window = window,
-             scale = geom@scale,
-             crs = getCRS(x = geom),
-             history = c(getHistory(x = geom), list(hist)))
+             crs = getCRS(x = obj),
+             history = c(getHistory(x = obj), list(hist)))
 
   return(out)
 }

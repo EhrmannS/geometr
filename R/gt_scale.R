@@ -1,44 +1,38 @@
-#' Scale \code{geom}s
+#' Scale geometric objects
 #'
-#' Scale the vertex values of \code{geom}s to a values range or so that they are
-#' either relative to the \code{@window} slot, or absolute values.
-#' @param x [\code{geometric object(1)}]\cr the object to be scaled.
-#' @param range [\code{list(2)}]\cr vector of length two for both of the
+#' Scale the vertex values of geometric objects to a values range.
+#' @param obj [\code{geometric object(1)}]\cr the object to be scaled.
+#' @param range [\code{data.frame(2)}]\cr vector of length two for both of the
 #'   \code{x} and \code{y} dimension to which the values should be scaled.
-#' @return Scaled \code{geom}.
+#' @param update [\code{logical(1)}]\cr whether or not to update the window slot
+#'   after scaling.
+#' @return \code{geom} of the scaled \code{obj}.
 #' @family geometry tools
 #' @examples
-#' coords <- data.frame(x = c(40, 70, 70, 50, 40),
-#'                      y = c(40, 40, 60, 70, 40),
-#'                      fid = 1)
-#' window <- data.frame(x = c(0, 80),
-#'                      y = c(0, 80))
-#' aGeom <- gs_polygon(anchor = coords, window = window)
-#'
-#' # change to relative scale and back to absolute
-#' (relCoords <- gt_scale(geom = aGeom, range = data.frame(x = c(0, 1), y = c(0, 1))))
-#' gt_scale(geom = relCoords, range = window)
-#'
-#' # scale to another range
-#' gt_scale(geom = aGeom, range = tibble(x = c(0, 100), y = c(10, 90)))
-#'
+#' # rescale to values between -10 and 10
+#' visualise(gtGeoms$polygon, linewidth = 3)
+#' newPoly <- gt_scale(obj = gtGeoms$polygon, update = FALSE,
+#'                     range = data.frame(x = c(-10, 10), y = c(-10, 10)))
+#' visualise(geom = newPoly, linecol = "green", new = FALSE)
 #' @importFrom checkmate testList assertNames assertChoice
 #' @importFrom tibble as_tibble
 #' @importFrom methods new
 #' @export
 
-gt_scale <- function(x, range = NULL){
+gt_scale <- function(obj, range = NULL, update = TRUE){
 
   assertDataFrame(x = range, types = "numeric", any.missing = FALSE, ncols = 2)
   assertNames(names(range), permutation.of = c("x", "y"))
+  assertLogical(x = update, len = 1, any.missing = FALSE)
 
-  thePoints <- getPoints(x = x)
-  theType <- getType(x = x)[1]
+  thePoints <- getPoints(x = obj)
+  theType <- getType(x = obj)[1]
+  theWindow <- getWindow(x = obj)
 
-  minX <- min(thePoints$x)
-  maxX <- max(thePoints$x)
-  minY <- min(thePoints$y)
-  maxY <- max(thePoints$y)
+  minX <- min(theWindow$x)
+  maxX <- max(theWindow$x)
+  minY <- min(theWindow$y)
+  maxY <- max(theWindow$y)
 
   if(minX == maxX){
     stop("I can't scale a 'geom' that has equal minimum and maximum x values of the window.")
@@ -54,15 +48,22 @@ gt_scale <- function(x, range = NULL){
   }
 
   if(theType == "grid"){
-    theFeatures <- getFeatures(x = x)
-    theGroups <- getGroups(x = x)
+    theFeatures <- getFeatures(x = obj)
+    theGroups <- getGroups(x = obj)
   } else {
-    theFeatures <- list(geometry = getFeatures(x = x))
-    theGroups <- list(geometry = getGroups(x = x))
+    theFeatures <- list(geometry = getFeatures(x = obj))
+    theGroups <- list(geometry = getGroups(x = obj))
+  }
+
+  # update window
+  if(update){
+    window <- .updateWindow(input = thePoints, window = theWindow)
+  } else {
+    window <- theWindow
   }
 
   # make history
-  hist <- paste0("coordinate values were rescaled between [", paste0(range$x, collapse = " "), "] (x) and [",  paste0(range$y, collapse = " "), "] (y)")
+  hist <- paste0("coordinate values were rescaled between x[", paste0(range$x, collapse = " "), "] and y[",  paste0(range$y, collapse = " "), "]")
 
   # make new geom
   out <- new(Class = "geom",
@@ -70,10 +71,9 @@ gt_scale <- function(x, range = NULL){
              point = thePoints,
              feature = theFeatures,
              group = theGroups,
-             window = getWindow(x = x),
-             scale = "absolute",
-             crs = getCRS(x = x),
-             history =c(getHistory(x = x), list(hist)))
+             window = window,
+             crs = getCRS(x = obj),
+             history =c(getHistory(x = obj), list(hist)))
 
   return(out)
 }
