@@ -12,21 +12,21 @@
 #' @param vertices [\code{integerish(.)}]\cr number of vertices per polygon;
 #'   will be recycled if it does not have as many elements as specified in
 #'   \code{features}.
-#' @param sketch [\code{raster(1)}]\cr raster object that serves as template to
-#'   sketch polygons.
+#' @param template [\code{gridded object(1)}]\cr Gridded object that serves as
+#'   template to sketch the tiling.
 #' @param regular [\code{logical(1)}]\cr should the polygon be regular, i.e.
 #'   point symmetric (\code{TRUE}) or should the vertices be selected as
 #'   provided by \code{anchor} (\code{FALSE}, default)?
 #' @param ... [various]\cr graphical parameters to \code{\link{gt_locate}}, in
 #'   case points are sketched; see \code{\link[grid]{gpar}}
-#' @details The arguments \code{anchor} and \code{sketch} indicate how the line
+#' @details The arguments \code{anchor} and \code{template} indicate how the line
 #'   is created: \itemize{ \item if \code{anchor} is set, the line is created
 #'   parametrically from the given objects' points, \item if an object is set in
-#'   \code{sketch}, this is used to create the \code{geom} interactively, by
+#'   \code{template}, this is used to create the \code{geom} interactively, by
 #'   clicking into the plot.}
 #'
 #'   The argument \code{regular} determines how the vertices provided in
-#'   \code{anchor} or via \code{sketch} are transformed into a polygon:
+#'   \code{anchor} or via \code{template} are transformed into a polygon:
 #'   \itemize{ \item if \code{regular = FALSE} the resulting polygon is created
 #'   from all vertices in \code{anchor}, \item if \code{regular = TRUE}, only
 #'   the first two vertices are considered, as center and indicating the
@@ -35,30 +35,30 @@
 #' @family geometry shapes
 #' @examples
 #' # 1. create a polygon programmatically
-#' coords <- data.frame(x = c(40, 70, 70, 50),
-#'                      y = c(40, 40, 60, 70))
+#' coords <- data.frame(x = c(0, 40, 40, 0),
+#'                      y = c(0, 0, 40, 40))
 #'
 #' # if no window is set, the bounding box will be set as window
-#' (aGeom <- gs_polygon(anchor = coords))
+#' aGeom <- gs_polygon(anchor = coords)
+#' visualise(aGeom)
+#'
+#' # derive a regular polygon from the coordinates
+#' aPolygon <- gs_polygon(anchor = coords, vertices = 6, regular = TRUE)
+#' visualise(aPolygon, linecol = "green")
 #'
 #' # the vertices are plottet relative to the window
-#' library(magrittr)
-#' window <- data.frame(x = c(0, 80),
-#'                      y = c(0, 80))
-#' gs_polygon(anchor = coords, vertices = 6, window = window,
-#'            regular = TRUE) %>%
-#'   visualise(linecol = "green")
+#' window <- data.frame(x = c(-50, 50),
+#'                      y = c(-50, 50))
+#' aPolygon <- setWindow(x = aPolygon, to = window)
+#' visualise(aPolygon, fillcol = "deeppink")
 #'
-#' # when a geom is used in 'anchor', its properties are passed on
-#' aGeom <- setWindow(x = aGeom, to = window)
-#' gs_polygon(anchor = aGeom) %>%
-#'   visualise(geom = ., fillcol = "deeppink")
-#' gs_rectangle(anchor = aGeom) %>%
-#'   visualise(geom = ., new = FALSE)
+#' # using a geom as anchor retains its properties (such as the window)
+#' aRectangle <- gs_rectangle(anchor = aPolygon)
+#' visualise(aRectangle, new = FALSE)
 #' \donttest{
 #' # 2. sketch a hexagon by clicking into a template
-#' gs_hexagon(sketch = gtRasters$continuous) %>%
-#'   visualise(geom = ., linecol = "deeppink", linetype = 2, new = FALSE)
+#' aHexagon <- gs_hexagon(template = gtRasters$continuous)
+#' visualise(aHexagon, linecol = "deeppink", linetype = 2, new = FALSE)
 #' }
 #' @importFrom stats dist
 #' @importFrom checkmate testDataFrame assertNames testClass assertDataFrame
@@ -69,7 +69,7 @@
 #' @export
 
 gs_polygon <- function(anchor = NULL, window = NULL, features = 1, vertices = NULL,
-                       sketch = NULL, regular = FALSE, ...){
+                       template = NULL, regular = FALSE, ...){
 
   # check arguments
   anchor <- .testAnchor(x = anchor)
@@ -78,7 +78,7 @@ gs_polygon <- function(anchor = NULL, window = NULL, features = 1, vertices = NU
   assertIntegerish(x = vertices, min.len = 1, lower = 2, any.missing = FALSE, null.ok = TRUE)
   assertLogical(x = regular)
 
-  if(is.null(anchor) & is.null(sketch)){
+  if(is.null(anchor) & is.null(template)){
     stop("please provide anchor values.")
   }
   if(!is.null(anchor)){
@@ -96,10 +96,10 @@ gs_polygon <- function(anchor = NULL, window = NULL, features = 1, vertices = NU
   }
 
   # sketch the geometry
-  if(!is.null(sketch)){
+  if(!is.null(template)){
     hist <- paste0("object was sketched as 'polygon' geom.")
 
-    template <- .testTemplate(x = sketch, ...)
+    template <- .testTemplate(x = template, ...)
     theGeom <- gt_sketch(template = template$obj,
                          shape = "polygon",
                          features = features,
@@ -169,7 +169,7 @@ gs_polygon <- function(anchor = NULL, window = NULL, features = 1, vertices = NU
                    feature = list(geometry = theFeatures),
                    group = list(geometry = theGroups),
                    window = theWindow,
-                   scale = "absolute",
+                   # scale = "absolute",
                    crs = as.character(projection),
                    history = c(getHistory(x = anchor$obj), list(hist)))
   }
@@ -181,10 +181,10 @@ gs_polygon <- function(anchor = NULL, window = NULL, features = 1, vertices = NU
 #'   \code{regular = TRUE}.
 #' @export
 
-gs_triangle <- function(anchor = NULL, window = NULL, sketch = NULL,
+gs_triangle <- function(anchor = NULL, window = NULL, template = NULL,
                         features = 1, ...){
 
-  theGeom <- gs_polygon(anchor = anchor, window = window, sketch = sketch, features = features, vertices = 3, regular = TRUE, ...)
+  theGeom <- gs_polygon(anchor = anchor, window = window, template = template, features = features, vertices = 3, regular = TRUE, ...)
 
   invisible(theGeom)
 }
@@ -193,10 +193,10 @@ gs_triangle <- function(anchor = NULL, window = NULL, sketch = NULL,
 #'   \code{regular = TRUE}.
 #' @export
 
-gs_square <- function(anchor = NULL, window = NULL, sketch = NULL,
+gs_square <- function(anchor = NULL, window = NULL, template = NULL,
                       features = 1, ...){
 
-  theGeom <- gs_polygon(anchor = anchor, window = window, sketch = sketch, features = features, vertices = 4, regular = TRUE, ...)
+  theGeom <- gs_polygon(anchor = anchor, window = window, template = template, features = features, vertices = 4, regular = TRUE, ...)
 
   invisible(theGeom)
 }
@@ -206,14 +206,14 @@ gs_square <- function(anchor = NULL, window = NULL, sketch = NULL,
 #'   the two given opposing corners.
 #' @export
 
-gs_rectangle <- function(anchor = NULL, window = NULL, sketch = NULL,
+gs_rectangle <- function(anchor = NULL, window = NULL, template = NULL,
                          features = 1, ...){
 
-  theGeom <- gs_polygon(anchor = anchor, window = window, sketch = sketch, features = features, vertices = 2, ...)
+  theGeom <- gs_polygon(anchor = anchor, window = window, template = template, features = features, vertices = 2, ...)
 
   outTable <- NULL
   for(i in seq_along(theGeom@feature$geometry$fid)){
-    geomSubset <- getFeatures(theGeom, fid == !!i)
+    geomSubset <- gt_subset(theGeom, fid == !!i)
     temp <- getExtent(geomSubset)
     temp <- tibble(x = c(rep(temp$x, each = 2), temp$x[1]),
                    y = c(temp$y, rev(temp$y), temp$y[1]),
@@ -230,10 +230,10 @@ gs_rectangle <- function(anchor = NULL, window = NULL, sketch = NULL,
 #'   \code{regular = TRUE}.
 #' @export
 
-gs_hexagon <- function(anchor = NULL, window = NULL, sketch = NULL,
+gs_hexagon <- function(anchor = NULL, window = NULL, template = NULL,
                        features = 1, ...){
 
-  theGeom <- gs_polygon(anchor = anchor, window = window, sketch = sketch, features = features, vertices = 6, regular = TRUE, ...)
+  theGeom <- gs_polygon(anchor = anchor, window = window, template = template, features = features, vertices = 6, regular = TRUE, ...)
 
   invisible(theGeom)
 }

@@ -28,11 +28,10 @@
 #' @family tilings
 #' @examples
 #' # create a squared tiling
-#' library(magrittr)
 #' aWindow <- data.frame(x = c(-180, 180),
 #'                       y = c(-60, 80))
-#' gs_tiles(anchor = aWindow, width = 10) %>%
-#'   visualise(`10° world tiles` = .)
+#' tiles <- gs_tiles(anchor = aWindow, width = 10)
+#' visualise(`10° world tiles` = tiles)
 #'
 #' # create a hexagonal tiling on top of a geom
 #' coords <- data.frame(x = c(40, 70, 70, 50),
@@ -41,8 +40,8 @@
 #'                      y = c(0, 80))
 #' aGeom <- gs_polygon(anchor = coords, window = window)
 #' visualise(`honeycomb background` = aGeom)
-#' gs_tiles(anchor = aGeom, width = 8, pattern = "hexagonal") %>%
-#'   visualise(., linecol = "deeppink", new = FALSE)
+#' hex <- gs_tiles(anchor = aGeom, width = 8, pattern = "hexagonal")
+#' visualise(hex, linecol = "deeppink", new = FALSE)
 #' @importFrom checkmate testDataFrame assertNames testClass testIntegerish
 #'   assertDataFrame assertNames assertCharacter assertSubset assertLogical
 #' @importFrom tibble tibble
@@ -167,7 +166,7 @@ gs_tiles <- function(anchor = NULL, width = NULL, pattern = "squared",
                   feature = list(geometry = theFeatures),
                   group = list(geometry = theGroups),
                   window = anchor@window,
-                  scale = "absolute",
+                  # scale = "absolute",
                   crs = NA_character_,
                   history = list(paste0("tiled geometry of type '", theType, "' was created.")))
 

@@ -8,8 +8,8 @@
 #' @param window [\code{data.frame(1)}]\cr in case the reference window deviates
 #'   from the bounding box of \code{anchor} (minimum and maximum values),
 #'   specify this here.
-#' @param sketch [\code{raster(1)}]\cr raster object that serves as template to
-#'   sketch polygons.
+#' @param template [\code{gridded object(1)}]\cr Gridded object that serves as
+#'   template to sketch the tiling.
 #' @param features [\code{integerish(1)}]\cr number of lines to create.
 #' @param vertices [\code{integerish(.)}]\cr number of vertices per line; will
 #'   be recycled if it does not have as many elements as specified in
@@ -18,10 +18,10 @@
 #'   case points are sketched; see \code{\link[grid]{gpar}}
 #' @return An invisible \code{geom}.
 #' @family geometry shapes
-#' @details The arguments \code{anchor} and \code{sketch} indicate how the line
+#' @details The arguments \code{anchor} and \code{template} indicate how the line
 #'   is created: \itemize{ \item if \code{anchor} is set, the line is created
 #'   parametrically from the given objects' points, \item if an object is set in
-#'   \code{sketch}, this is used to create the \code{geom} interactively, by
+#'   \code{template}, this is used to create the \code{geom} interactively, by
 #'   clicking into the plot.}
 #' @examples
 #' # 1. create a line programmatically
@@ -32,20 +32,19 @@
 #' (aGeom <- gs_line(anchor = coords))
 #'
 #' # the vertices are plottet relative to the window
-#' library(magrittr)
 #' window <- data.frame(x = c(0, 80),
 #'                      y = c(0, 80))
-#' gs_line(anchor = coords, window = window) %>%
-#'   visualise(linecol = "green")
+#' aLine <- gs_line(anchor = coords, window = window)
+#' visualise(aLine, linecol = "green")
 #'
 #' # when a geom is used in 'anchor', its properties are passed on
 #' aGeom <- setWindow(x = aGeom, to = window)
-#' gs_line(anchor = aGeom) %>%
-#'   visualise(linecol = "deeppink")
+#' aLine <- gs_line(anchor = aGeom)
+#' visualise(aLine, linecol = "deeppink")
 #' \donttest{
 #' # 2. sketch a line by clicking into a template
-#' gs_line(sketch = gtRasters$continuous, vertices = 4) %>%
-#'   visualise(linecol = "orange", linewidth = 5, new = FALSE)
+#' aLine <- gs_line(template = gtRasters$continuous, vertices = 4)
+#' visualise(aLine, linecol = "orange", linewidth = 5, new = FALSE)
 #' }
 #' @importFrom checkmate testDataFrame assertNames testClass testNull
 #'   assertDataFrame assert assertIntegerish
@@ -54,7 +53,7 @@
 #' @export
 
 gs_line <- function(anchor = NULL, window = NULL, features = 1, vertices = NULL,
-                    sketch = NULL, ...){
+                    template = NULL, ...){
 
   # check arguments
   anchor <- .testAnchor(x = anchor)
@@ -62,7 +61,7 @@ gs_line <- function(anchor = NULL, window = NULL, features = 1, vertices = NULL,
   assertIntegerish(features, len = 1, lower = 1)
   assertIntegerish(vertices, min.len = 1, lower = 2, any.missing = FALSE, null.ok = TRUE)
 
-  if(is.null(anchor) & is.null(sketch)){
+  if(is.null(anchor) & is.null(template)){
     stop("please provide anchor values.")
   }
   if(!is.null(anchor)){
@@ -80,10 +79,10 @@ gs_line <- function(anchor = NULL, window = NULL, features = 1, vertices = NULL,
   }
 
   # sketch the geometry
-  if(!is.null(sketch)){
+  if(!is.null(template)){
     hist <- paste0("object was sketched as 'line' geom.")
 
-    template <- .testTemplate(x = sketch, ...)
+    template <- .testTemplate(x = template, ...)
     theGeom <- gt_sketch(template = template$obj,
                          shape = "line",
                          features = features,
@@ -132,7 +131,7 @@ gs_line <- function(anchor = NULL, window = NULL, features = 1, vertices = NULL,
                    feature = list(geometry = theFeatures),
                    group = list(geometry = theGroups),
                    window = theWindow,
-                   scale = "absolute",
+                   # scale = "absolute",
                    crs = as.character(projection),
                    history = c(getHistory(x = anchor$obj), list(hist)))
   }

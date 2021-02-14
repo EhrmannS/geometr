@@ -9,16 +9,16 @@
 #'   from the bounding box of \code{anchor} (minimum and maximum values),
 #'   specify this here.
 #' @param vertices [\code{integer(1)}]\cr number of vertices.
-#' @param sketch [\code{raster(1)}]\cr raster object that serves as template to
-#'   sketch polygons.
+#' @param template [\code{gridded object(1)}]\cr Gridded object that serves as
+#'   template to sketch the tiling.
 #' @param ... [various]\cr graphical parameters to \code{\link{gt_locate}}, in
 #'   case points are sketched; see \code{\link[grid]{gpar}}
 #' @return An invisible \code{geom}.
 #' @family geometry shapes
-#' @details The arguments \code{anchor} and \code{sketch} indicate how the line
+#' @details The arguments \code{anchor} and \code{template} indicate how the line
 #'   is created: \itemize{ \item if \code{anchor} is set, the line is created
 #'   parametrically from the given objects' points, \item if an object is set in
-#'   \code{sketch}, this is used to create the \code{geom} interactively, by
+#'   \code{template}, this is used to create the \code{geom} interactively, by
 #'   clicking into the plot.}
 #' @examples
 #' # 1. create points programmatically
@@ -29,20 +29,19 @@
 #' (aGeom <- gs_point(anchor = coords))
 #'
 #' # the vertices are plottet relative to the window
-#' library(magrittr)
 #' window <- data.frame(x = c(0, 80),
 #'                      y = c(0, 80))
-#' gs_point(anchor = coords, window = window) %>%
-#'   visualise(linecol = "green")
+#' points <- gs_point(anchor = coords, window = window)
+#' visualise(points, linecol = "green")
 #'
 #' # when a geom is used in 'anchor', its properties are passed on
 #' aGeom <- setWindow(x = aGeom, to = window)
-#' gs_point(anchor = aGeom) %>%
-#'   visualise(geom = .)
+#' points <- gs_point(anchor = aGeom)
+#' visualise(points)
 #' \donttest{
 #' # 2. sketch two points by clicking into a template
-#' gs_point(sketch = gtRasters$continuous, vertices = 2) %>%
-#'   visualise(geom = ., linecol = "green", pointsymbol = 5, new = FALSE)
+#' points <- gs_point(template = gtRasters$continuous, vertices = 2)
+#' visualise(points, linecol = "green", pointsymbol = 5, new = FALSE)
 #' }
 #' @importFrom checkmate testDataFrame assertNames testNull assert testClass
 #'   assertLogical assertIntegerish
@@ -51,7 +50,7 @@
 #' @importFrom methods new
 #' @export
 
-gs_point <- function(anchor = NULL, window = NULL, vertices = 1, sketch = NULL,
+gs_point <- function(anchor = NULL, window = NULL, vertices = 1, template = NULL,
                      ...){
 
   # check arguments
@@ -60,10 +59,10 @@ gs_point <- function(anchor = NULL, window = NULL, vertices = 1, sketch = NULL,
   assertIntegerish(vertices, min.len = 1, lower = 1, any.missing = FALSE)
 
   # sketch the geometry
-  if(!is.null(sketch)){
+  if(!is.null(template)){
     hist <- paste0("object was sketched as 'point' geom.")
 
-    template <- .testTemplate(x = sketch, ...)
+    template <- .testTemplate(x = template, ...)
     theGeom <- gt_sketch(template = template$obj,
                          shape = "point",
                          features = vertices,
@@ -112,7 +111,7 @@ gs_point <- function(anchor = NULL, window = NULL, vertices = 1, sketch = NULL,
                    feature = theFeatures,
                    group = theGroups,
                    window = theWindow,
-                   scale = "absolute",
+                   # scale = "absolute",
                    crs = as.character(projection),
                    history = c(getHistory(x = anchor$obj), list(hist)))
   }

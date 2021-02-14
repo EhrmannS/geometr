@@ -23,9 +23,7 @@
 #' visualise(geom = someGeom)
 #'
 #' # in case template is given, this serves as source for the window extent
-#' library(magrittr)
-#' gs_random(template = input) %>%
-#'   visualise(geom = ., new = FALSE, linecol = "red")
+#' visualise(geom = gs_random(template = input), new = FALSE, linecol = "red")
 #' @importFrom stats runif
 #' @export
 
@@ -86,7 +84,7 @@ gs_random <- function(type = "point", window = NULL, vertices = NULL, ...){
                  feature = list(geometry = theFeatures),
                  group = list(geometry = theGroups),
                  window = theWindow,
-                 scale = "relative",
+                 # scale = "relative",
                  crs = as.character(NA),
                  history = list(paste0("geometry was created randomly")))
 
