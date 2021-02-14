@@ -6,8 +6,8 @@
 #' @param window [\code{data.frame(1)}]\cr in case the reference window deviates
 #'   from the bounding box of \code{anchor} (minimum and maximum values),
 #'   specify this here.
-#' @param sketch [\code{RasterLayer(1)} | \code{matrix(1)}]\cr Gridded object
-#'   that serves as template to sketch the tiling.
+#' @param template [\code{gridded object(1)}]\cr Gridded object that serves as
+#'   template to sketch the tiling.
 #' @param features [\code{integerish(1)}]\cr number of tiles to sketch.
 #' @param ... [various]\cr graphical parameters to \code{\link{gt_locate}}, in
 #'   case the tiling is sketched; see \code{\link{gpar}}.
@@ -26,8 +26,8 @@
 #' visualise(tiles, new = FALSE)
 #' \donttest{
 #' # 2. sketch a voronoi polygon by clicking into a template
-#' gs_voronoi(sketch = gtRasters$continuous) %>%
-#'   visualise(tiles = ., new = FALSE)
+#' tiles <- gs_voronoi(template = gtRasters$continuous)
+#' visualise(tiles, new = FALSE)
 #' }
 #' @importFrom checkmate testDataFrame assertNames testClass testNull
 #'   assertDataFrame assert assertIntegerish
@@ -36,7 +36,7 @@
 #' @importFrom deldir deldir tile.list
 #' @export
 
-gs_voronoi <- function(anchor = NULL, window = NULL, features = 3, sketch = NULL,
+gs_voronoi <- function(anchor = NULL, window = NULL, features = 3, template = NULL,
                        ...){
 
   # check arguments
@@ -44,7 +44,7 @@ gs_voronoi <- function(anchor = NULL, window = NULL, features = 3, sketch = NULL
   theWindow <- .testWindow(x = window)
   assertIntegerish(features, len = 1, lower = 1)
 
-  if(is.null(anchor) & is.null(sketch)){
+  if(is.null(anchor) & is.null(template)){
     stop("please provide anchor values.")
   }
   if(!is.null(anchor)){
@@ -62,9 +62,9 @@ gs_voronoi <- function(anchor = NULL, window = NULL, features = 3, sketch = NULL
   }
 
   # sketch the geometry
-  if(!is.null(sketch)){
+  if(!is.null(template)){
 
-    template <- .testTemplate(x = sketch, ...)
+    template <- .testTemplate(x = template, ...)
     theGeom <- gt_sketch(template = template$obj,
                          shape = "point",
                          features = features,
@@ -121,7 +121,7 @@ gs_voronoi <- function(anchor = NULL, window = NULL, features = 3, sketch = NULL
                  feature = list(geometry = theFeatures),
                  group = list(geometry = theGroups),
                  window = theWindow,
-                 scale = "absolute",
+                 # scale = "absolute",
                  crs = as.character(projection),
                  history = c(getHistory(x = anchor$obj), list(hist)))
 
