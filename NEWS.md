@@ -1,3 +1,14 @@
+# geometr 0.2.6
+
+- subsetting has been moved out of the respective getters into `gt_subset()`, it also includes subsetting x and y values of the 
+vertices.
+- new getters `getCol()`, `getRow()` and `getName()`.
+- removed the `@scale`-slot from from the geom class, because it is no longer needed.
+- included the `@extent`-slot for faster processing of large objects where it takes long to find min/max values of coordinates.
+- `visualise()` has been revised so that it fully supports plotting all geometric classes that have getters defined.
+- all previously existing `gt_*()` functions were revised so that they too support all geometric classes that have getters defined.
+- some code adaptions that come with those changes.
+
 # geometr 0.2.5
 
 - remove 'tiny map' from print method of grid geom
