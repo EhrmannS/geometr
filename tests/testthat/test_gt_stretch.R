@@ -10,7 +10,7 @@ test_that("output is valid geometry", {
   window <- data.frame(x = c(0, 80),
                        y = c(0, 80))
   input <- gs_polygon(anchor = coords, window = window)
-  output <- gt_stretch(geom = input)
+  output <- gt_stretch(obj = input)
   expect_class(output, classes = "geom")
   expect_true(output@type == "polygon")
   expect_data_frame(output@point, any.missing = FALSE, nrows = 5, ncols = 3)
@@ -22,7 +22,7 @@ test_that("output is valid geometry", {
   window <- data.frame(x = c(0, 80),
                        y = c(0, 80))
   input <- gs_polygon(anchor = coords, window = window)
-  output <- gt_stretch(geom = input,
+  output <- gt_stretch(obj = input,
                        x = 0.5,
                        y = 0.2,
                        fid = 2)
@@ -37,9 +37,9 @@ test_that("output is valid geometry", {
   window <- data.frame(x = c(0, 80),
                        y = c(0, 80))
   input <- gs_polygon(anchor = coords, window = window)
-  output <- gt_stretch(geom = input,
-                       x = list(0.5, 0.8),
-                       y = list(1, 0.2))
+  output <- gt_stretch(obj = input,
+                       x = c(0.5, 0.8),
+                       y = c(1, 0.2))
   expect_class(output, classes = "geom")
   expect_true(output@type == "polygon")
   expect_data_frame(output@point, any.missing = FALSE, nrows = 9, ncols = 3)
@@ -52,7 +52,7 @@ test_that("output has different coordinates than input", {
   window <- data.frame(x = c(0, 80),
                        y = c(0, 80))
   input <- gs_polygon(anchor = coords, window = window)
-  output <- gt_stretch(geom = input, x = list(0.5), y = list(1, 0.2))
+  output <- gt_stretch(obj = input, x = c(0.5), y = c(1, 0.2))
 
   expect_false(all(getPoints(output)[c(1, 2)] == getPoints(input)[c(1, 2)]))
 })
@@ -67,9 +67,9 @@ test_that("Error if arguments have wrong value", {
                        y = c(0, 80))
   input <- gs_polygon(anchor = coords, window = window)
 
-  expect_error(gt_stretch(geom = "bla"))
-  expect_error(gt_stretch(geom = input, x = "bla"))
-  expect_error(gt_stretch(geom = input, y = "bla"))
-  expect_error(gt_stretch(geom = input, fid = "bla"))
-  expect_error(gt_stretch(geom = notAGeom))
+  expect_error(gt_stretch(obj = "bla"))
+  expect_error(gt_stretch(obj = input, x = "bla"))
+  expect_error(gt_stretch(obj = input, y = "bla"))
+  expect_error(gt_stretch(obj = input, fid = "bla"))
+  expect_error(gt_stretch(obj = notAGeom))
 })
