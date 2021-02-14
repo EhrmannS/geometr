@@ -52,14 +52,14 @@ test_that("make a Spatial*DataFrame object", {
 
 test_that("output has correct length", {
   spPolygon <- gc_sp(input = gtGeoms$point)
-  expect_equal(length(spPolygon), 12)
+  expect_equal(length(spPolygon), 9)
 })
 
 test_that("also objects with CRS are properly handled", {
   input <- setCRS(x = gtGeoms$point, crs = "+proj=longlat +ellps=sphere +no_defs")
 
   output <- gc_sp(input = input)
-  expect_equal(length(output), 12)
+  expect_equal(length(output), 9)
 })
 
 test_that("Error if arguments have wrong value", {
