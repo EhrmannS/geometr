@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Rotate <code>geom</code>s — gt_rotate • geometr</title>
+<title>Rotate geometric objects — gt_rotate • geometr</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -15,11 +15,13 @@
 <link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png" />
 <link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png" />
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png" />
+
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous" />
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
 
 <!-- bootstrap-toc -->
@@ -43,12 +45,10 @@
 
 
 
-<meta property="og:title" content="Rotate <code>geom</code>s — gt_rotate" />
 
-<meta property="og:description" content="Rotate geoms by a certain angle about a center" />
-
+<meta property="og:title" content="Rotate geometric objects — gt_rotate" />
+<meta property="og:description" content="Rotate geometric objects by a certain angle about center coordinates" />
 <meta property="og:image" content="http://EhrmannS.github.io/geometr/logo.svg" />
-
 
 
 
@@ -80,7 +80,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">geometr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.6</span>
       </span>
     </div>
 
@@ -96,7 +96,6 @@
   <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
-      
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="http://www.twitter.com/DerEhrmann">
@@ -123,41 +122,36 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Rotate <code>geom</code>s</h1>
+    <h1>Rotate geometric objects</h1>
     <small class="dont-index">Source: <a href='https://github.com/EhrmannS/geometr/blob/master/R/gt_rotate.R'><code>R/gt_rotate.R</code></a></small>
     <div class="hidden name"><code>gt_rotate.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    
-    <p>Rotate <code>geom</code>s by a certain angle about a center</p>
-    
+    <p>Rotate geometric objects by a certain angle about center coordinates</p>
     </div>
 
-    <pre class="usage"><span class='fu'>gt_rotate</span>(
-  <span class='kw'>geom</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>angle</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>about</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0</span>, <span class='fl'>0</span>),
-  <span class='kw'>fid</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>update</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>
-)</pre>
-    
+    <pre class="usage"><span class='fu'>gt_rotate</span><span class='op'>(</span><span class='va'>obj</span>, x <span class='op'>=</span> <span class='cn'>NULL</span>, y <span class='op'>=</span> <span class='cn'>NULL</span>, angle <span class='op'>=</span> <span class='cn'>NULL</span>, fid <span class='op'>=</span> <span class='cn'>NULL</span>, update <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></pre>
+
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>geom</th>
-      <td><p>[<code><a href='geom-class.html'>geom(.)</a></code>]<br /> the object to rotate.</p></td>
+      <th>obj</th>
+      <td><p>[<code>geometric object(1)</code>]<br /> the object to rotate.</p></td>
+    </tr>
+    <tr>
+      <th>x</th>
+      <td><p>[<code><a href='https://rdrr.io/r/base/numeric.html'>numeric(1)</a></code>]<br /> the x position(s) to rotate about.</p></td>
+    </tr>
+    <tr>
+      <th>y</th>
+      <td><p>[<code><a href='https://rdrr.io/r/base/numeric.html'>numeric(1)</a></code>]<br /> the y position(s) to rotate about.</p></td>
     </tr>
     <tr>
       <th>angle</th>
       <td><p>[<code><a href='https://rdrr.io/r/base/numeric.html'>numeric(1)</a></code>]<br /> the counter-clockwise angle by which
 <code>geom</code> shall be rotated (can be negative to rotate clockwise).</p></td>
-    </tr>
-    <tr>
-      <th>about</th>
-      <td><p>[<code><a href='https://rdrr.io/r/base/numeric.html'>numeric(2)</a></code>]<br /> the point about which <code>geom</code> shall
-be rotated.</p></td>
     </tr>
     <tr>
       <th>fid</th>
@@ -170,42 +164,44 @@ rotated, specify that here.</p></td>
 after rotation.</p></td>
     </tr>
     </table>
-    
+
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>Rotated <code>geom</code>.</p>
-    
+    <p><code>geom</code> of the rotated <code>obj</code>.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>Other geometry tools: 
+<code><a href='gt_locate.html'>gt_locate</a>()</code>,
 <code><a href='gt_reflect.html'>gt_reflect</a>()</code>,
 <code><a href='gt_scale.html'>gt_scale</a>()</code>,
 <code><a href='gt_sketch.html'>gt_sketch</a>()</code>,
 <code><a href='gt_skew.html'>gt_skew</a>()</code>,
 <code><a href='gt_stretch.html'>gt_stretch</a>()</code>,
+<code><a href='gt_subset.html'>gt_subset</a>()</code>,
 <code><a href='gt_translate.html'>gt_translate</a>()</code></p></div>
-    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># the original object</span>
-<span class='no'>coords</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>30</span>, <span class='fl'>60</span>, <span class='fl'>60</span>, <span class='fl'>40</span>, <span class='fl'>10</span>, <span class='fl'>40</span>, <span class='fl'>20</span>),
-                     <span class='kw'>y</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>40</span>, <span class='fl'>40</span>, <span class='fl'>60</span>, <span class='fl'>70</span>, <span class='fl'>10</span>, <span class='fl'>20</span>, <span class='fl'>40</span>),
-                     <span class='kw'>fid</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>, <span class='fl'>1</span>, <span class='fl'>1</span>, <span class='fl'>1</span>, <span class='fl'>2</span>, <span class='fl'>2</span>, <span class='fl'>2</span>))
-<span class='no'>window</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0</span>, <span class='fl'>80</span>),
-                     <span class='kw'>y</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0</span>, <span class='fl'>80</span>))
-<span class='no'>aGeom</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='gs_polygon.html'>gs_polygon</a></span>(<span class='kw'>anchor</span> <span class='kw'>=</span> <span class='no'>coords</span>, <span class='kw'>window</span> <span class='kw'>=</span> <span class='no'>window</span>)
-<span class='fu'><a href='visualise.html'>visualise</a></span>(<span class='kw'>geom</span> <span class='kw'>=</span> <span class='no'>aGeom</span>)</div><div class='img'><img src='gt_rotate-1.png' alt='' width='700' height='433' /></div><div class='input'>
-<span class='co'># rotate all geoms</span>
-<span class='no'>rotatedGeom</span> <span class='kw'>&lt;-</span> <span class='fu'>gt_rotate</span>(<span class='kw'>geom</span> <span class='kw'>=</span> <span class='no'>aGeom</span>, <span class='kw'>angle</span> <span class='kw'>=</span> <span class='fl'>90</span>, <span class='kw'>about</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>40</span>, <span class='fl'>40</span>))
-<span class='fu'><a href='visualise.html'>visualise</a></span>(<span class='kw'>geom</span> <span class='kw'>=</span> <span class='no'>rotatedGeom</span>)</div><div class='img'><img src='gt_rotate-2.png' alt='' width='700' height='433' /></div><div class='input'>
+    <pre class="examples"><div class='input'><span class='co'># rotate all geoms</span>
+<span class='fu'><a href='visualise.html'>visualise</a></span><span class='op'>(</span><span class='va'>gtGeoms</span><span class='op'>$</span><span class='va'>polygon</span>, linewidth <span class='op'>=</span> <span class='fl'>3</span><span class='op'>)</span>
+</div><div class='input'><span class='va'>newPoly</span> <span class='op'>&lt;-</span> <span class='fu'>gt_rotate</span><span class='op'>(</span>obj <span class='op'>=</span> <span class='va'>gtGeoms</span><span class='op'>$</span><span class='va'>polygon</span>, x <span class='op'>=</span> <span class='fl'>0</span>, y <span class='op'>=</span> <span class='fl'>0</span>, angle <span class='op'>=</span> <span class='fl'>135</span>,
+                     update <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
+<span class='fu'><a href='visualise.html'>visualise</a></span><span class='op'>(</span>geom <span class='op'>=</span> <span class='va'>newPoly</span>, linecol <span class='op'>=</span> <span class='st'>"green"</span>, new <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
+</div><div class='img'><img src='gt_rotate-1.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># rotate a single geom</span>
-<span class='no'>rotTri</span> <span class='kw'>&lt;-</span> <span class='fu'>gt_rotate</span>(<span class='kw'>geom</span> <span class='kw'>=</span> <span class='no'>aGeom</span>, <span class='kw'>angle</span> <span class='kw'>=</span> -<span class='fl'>180</span>, <span class='kw'>about</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>30</span>, <span class='fl'>40</span>), <span class='kw'>fid</span> <span class='kw'>=</span> <span class='fl'>2</span>)
-<span class='fu'><a href='visualise.html'>visualise</a></span>(<span class='kw'>geom</span> <span class='kw'>=</span> <span class='no'>rotTri</span>)</div><div class='img'><img src='gt_rotate-3.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='fu'><a href='visualise.html'>visualise</a></span><span class='op'>(</span><span class='va'>gtGeoms</span><span class='op'>$</span><span class='va'>polygon</span>, linewidth <span class='op'>=</span> <span class='fl'>3</span><span class='op'>)</span>
+</div><div class='input'><span class='va'>newPoly</span> <span class='op'>&lt;-</span> <span class='fu'>gt_rotate</span><span class='op'>(</span>obj <span class='op'>=</span> <span class='va'>gtGeoms</span><span class='op'>$</span><span class='va'>polygon</span>, x <span class='op'>=</span> <span class='op'>-</span><span class='fl'>10</span>, y <span class='op'>=</span> <span class='fl'>0</span>, angle <span class='op'>=</span> <span class='op'>-</span><span class='fl'>180</span>,
+                     update <span class='op'>=</span> <span class='cn'>FALSE</span>, fid <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span>
+<span class='fu'><a href='visualise.html'>visualise</a></span><span class='op'>(</span>geom <span class='op'>=</span> <span class='va'>newPoly</span>, linecol <span class='op'>=</span> <span class='st'>"green"</span>, new <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
+</div><div class='img'><img src='gt_rotate-2.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># rotate different geoms about different centers by different angles</span>
-<span class='no'>rotateMore</span> <span class='kw'>&lt;-</span> <span class='fu'>gt_rotate</span>(<span class='kw'>geom</span> <span class='kw'>=</span> <span class='no'>aGeom</span>,
-                        <span class='kw'>angle</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='fl'>90</span>, -<span class='fl'>180</span>),
-                        <span class='kw'>about</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>40</span>, <span class='fl'>40</span>), <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>30</span>, <span class='fl'>40</span>)))
-<span class='fu'><a href='visualise.html'>visualise</a></span>(<span class='kw'>geom</span> <span class='kw'>=</span> <span class='no'>rotateMore</span>)</div><div class='img'><img src='gt_rotate-4.png' alt='' width='700' height='433' /></div></pre>
+<span class='fu'><a href='visualise.html'>visualise</a></span><span class='op'>(</span><span class='va'>gtGeoms</span><span class='op'>$</span><span class='va'>polygon</span>, linewidth <span class='op'>=</span> <span class='fl'>3</span><span class='op'>)</span>
+</div><div class='input'><span class='va'>newPoly</span> <span class='op'>&lt;-</span> <span class='fu'>gt_rotate</span><span class='op'>(</span>obj <span class='op'>=</span> <span class='va'>gtGeoms</span><span class='op'>$</span><span class='va'>polygon</span>,
+                     x <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='op'>-</span><span class='fl'>10</span><span class='op'>)</span>,
+                     y <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='op'>-</span><span class='fl'>10</span>, <span class='fl'>0</span><span class='op'>)</span>,
+                     angle <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>75</span>, <span class='op'>-</span><span class='fl'>135</span><span class='op'>)</span>,
+                     update <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
+<span class='fu'><a href='visualise.html'>visualise</a></span><span class='op'>(</span>geom <span class='op'>=</span> <span class='va'>newPoly</span>, linecol <span class='op'>=</span> <span class='st'>"green"</span>, new <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
+</div><div class='img'><img src='gt_rotate-3.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -221,7 +217,7 @@ after rotation.</p></td>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

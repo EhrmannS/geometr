@@ -15,11 +15,13 @@
 <link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png" />
 <link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png" />
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png" />
+
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous" />
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
 
 <!-- bootstrap-toc -->
@@ -43,15 +45,13 @@
 
 
 
-<meta property="og:title" content="Theme class (S4) and methods — gtTheme-class" />
 
+<meta property="og:title" content="Theme class (S4) and methods — gtTheme-class" />
 <meta property="og:description" content="An gtTheme stores a theme to visualise vector and raster
 objects. It is recommended to use setTheme to modify a
 gtTheme, because it carries out all the checks and makes sure that
 names of the parameters are properly matched." />
-
 <meta property="og:image" content="http://EhrmannS.github.io/geometr/logo.svg" />
-
 
 
 
@@ -83,7 +83,7 @@ names of the parameters are properly matched." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">geometr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.6</span>
       </span>
     </div>
 
@@ -99,7 +99,6 @@ names of the parameters are properly matched." />
   <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
-      
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="http://www.twitter.com/DerEhrmann">
@@ -132,20 +131,19 @@ names of the parameters are properly matched." />
     </div>
 
     <div class="ref-description">
-    
     <p>An <code>gtTheme</code> stores a theme to <code><a href='visualise.html'>visualise</a></code> vector and raster
 objects. It is recommended to use <code><a href='setTheme.html'>setTheme</a></code> to modify a
 <code>gtTheme</code>, because it carries out all the checks and makes sure that
 names of the parameters are properly matched.</p>
-    
     </div>
 
-        
+
+
     <h2 class="hasAnchor" id="slots"><a class="anchor" href="#slots"></a>Slots</h2>
 
     
 
-<dl'>
+<dl>
 <dt><code>title</code></dt><dd><p>[<code>named list(3)</code>]<br /> properties of the title.</p></dd>
 
 <dt><code>box</code></dt><dd><p>[<code>named list(4)</code>]<br /> properties of the bounding box.</p></dd>
@@ -161,12 +159,9 @@ and ticks.</p></dd>
 <dt><code>legend</code></dt><dd><p>[<code>named list(10)</code>]<br /> properties of the legend, its title,
 labels, ticks and bounding box.</p></dd>
 
-<dt><code>vector</code></dt><dd><p>[<code>named list(7)</code>]<br /> properties of a vector object.</p></dd>
-
-<dt><code>raster</code></dt><dd><p>[<code>named list(2)</code>]<br /> properties of a raster object.</p></dd>
+<dt><code>parameters</code></dt><dd><p>[<code>named list(7)</code>]<br /> properties of the plot object.</p></dd>
 
 </dl>
-    
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
@@ -183,7 +178,7 @@ labels, ticks and bounding box.</p></dd>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

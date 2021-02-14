@@ -15,11 +15,13 @@
 <link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png" />
 <link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png" />
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png" />
+
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous" />
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
 
 <!-- bootstrap-toc -->
@@ -43,10 +45,9 @@
 
 
 
+
 <meta property="og:title" content="Function reference" />
-
 <meta property="og:image" content="http://EhrmannS.github.io/geometr/logo.svg" />
-
 
 
 
@@ -78,7 +79,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">geometr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.6</span>
       </span>
     </div>
 
@@ -94,7 +95,6 @@
   <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
-      
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="http://www.twitter.com/DerEhrmann">
@@ -136,7 +136,7 @@
       <tr>
         <th colspan="2">
           <h2 id="section-geometries" class="hasAnchor"><a href="#section-geometries" class="anchor"></a>geometries</h2>
-          <p class="section-desc"><p>functions to paramatrise or sketch geometries</p></p>
+          <p class="section-desc"><p>functions to create geometric objects parametrically or by sketching them</p></p>
         </th>
       </tr>
       
@@ -184,8 +184,8 @@
     </tbody><tbody>
       <tr>
         <th colspan="2">
-          <h2 id="section-transform-spatial-classes" class="hasAnchor"><a href="#section-transform-spatial-classes" class="anchor"></a>transform spatial classes</h2>
-          <p class="section-desc"><p>functions that transform between geometric/spatial classes</p></p>
+          <h2 id="section-transform-geometry-classes" class="hasAnchor"><a href="#section-transform-geometry-classes" class="anchor"></a>transform geometry classes</h2>
+          <p class="section-desc"><p>functions that transform between geometric classes</p></p>
         </th>
       </tr>
       
@@ -199,12 +199,6 @@
           <p><code><a href="gc_geom.html">gc_geom(<i>&lt;Spatial&gt;</i>)</a></code> <code><a href="gc_geom.html">gc_geom(<i>&lt;sf&gt;</i>)</a></code> <code><a href="gc_geom.html">gc_geom(<i>&lt;ppp&gt;</i>)</a></code> <code><a href="gc_geom.html">gc_geom(<i>&lt;Raster&gt;</i>)</a></code> </p>
         </td>
         <td><p>Transform a spatial object to class <code>geom</code></p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="gc_grob.html">gc_grob(<i>&lt;geom&gt;</i>)</a></code> </p>
-        </td>
-        <td><p>Transform a spatial object to a grob</p></td>
       </tr><tr>
         
         <td>
@@ -234,7 +228,7 @@
       <tr>
         <th colspan="2">
           <h2 id="section-getters-and-setters" class="hasAnchor"><a href="#section-getters-and-setters" class="anchor"></a>getters and setters</h2>
-          <p class="section-desc"><p>methods that standardise dealing with geometric/spatial objects</p></p>
+          <p class="section-desc"><p>methods that standardise dealing with geometric objects</p></p>
         </th>
       </tr>
       
@@ -254,6 +248,18 @@
           <p><code><a href="getExtent.html">getExtent(<i>&lt;ANY&gt;</i>)</a></code> <code><a href="getExtent.html">getExtent(<i>&lt;geom&gt;</i>)</a></code> <code><a href="getExtent.html">getExtent(<i>&lt;Spatial&gt;</i>)</a></code> <code><a href="getExtent.html">getExtent(<i>&lt;sf&gt;</i>)</a></code> <code><a href="getExtent.html">getExtent(<i>&lt;ppp&gt;</i>)</a></code> <code><a href="getExtent.html">getExtent(<i>&lt;Raster&gt;</i>)</a></code> <code><a href="getExtent.html">getExtent(<i>&lt;matrix&gt;</i>)</a></code> </p>
         </td>
         <td><p>Get the extent (bounding box) of a spatial object.</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="getCols.html">getCols(<i>&lt;ANY&gt;</i>)</a></code> <code><a href="getCols.html">getCols(<i>&lt;geom&gt;</i>)</a></code> <code><a href="getCols.html">getCols(<i>&lt;Raster&gt;</i>)</a></code> <code><a href="getCols.html">getCols(<i>&lt;matrix&gt;</i>)</a></code> </p>
+        </td>
+        <td><p>Get the number of columns of a spatial object.</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="getRows.html">getRows(<i>&lt;ANY&gt;</i>)</a></code> <code><a href="getRows.html">getRows(<i>&lt;geom&gt;</i>)</a></code> <code><a href="getRows.html">getRows(<i>&lt;Raster&gt;</i>)</a></code> <code><a href="getRows.html">getRows(<i>&lt;matrix&gt;</i>)</a></code> </p>
+        </td>
+        <td><p>Get the number of rows of a spatial object.</p></td>
       </tr><tr>
         
         <td>
@@ -336,8 +342,8 @@
     </tbody><tbody>
       <tr>
         <th colspan="2">
-          <h2 id="section-utility-functions" class="hasAnchor"><a href="#section-utility-functions" class="anchor"></a>utility functions</h2>
-          <p class="section-desc"><p>functions that modify <code>geom</code>s</p></p>
+          <h2 id="section-standardised-tools" class="hasAnchor"><a href="#section-standardised-tools" class="anchor"></a>standardised tools</h2>
+          <p class="section-desc"><p>functions that modify geometric objects of all supported classes</p></p>
         </th>
       </tr>
       
@@ -348,27 +354,21 @@
       <tr>
         
         <td>
-          <p><code><a href="gt_locate.html">gt_locate()</a></code> </p>
-        </td>
-        <td><p>Locate (and identify) clicks</p></td>
-      </tr><tr>
-        
-        <td>
           <p><code><a href="gt_rotate.html">gt_rotate()</a></code> </p>
         </td>
-        <td><p>Rotate <code>geom</code>s</p></td>
+        <td><p>Rotate geometric objects</p></td>
       </tr><tr>
         
         <td>
           <p><code><a href="gt_reflect.html">gt_reflect()</a></code> </p>
         </td>
-        <td><p>Reflect <code>geom</code>s</p></td>
+        <td><p>Reflect geometric objects</p></td>
       </tr><tr>
         
         <td>
           <p><code><a href="gt_scale.html">gt_scale()</a></code> </p>
         </td>
-        <td><p>Scale <code>geom</code>s</p></td>
+        <td><p>Scale geometric objects</p></td>
       </tr><tr>
         
         <td>
@@ -380,25 +380,37 @@
         <td>
           <p><code><a href="gt_skew.html">gt_skew()</a></code> </p>
         </td>
-        <td><p>Skew <code>geom</code>s</p></td>
+        <td><p>Skew geometric objects</p></td>
       </tr><tr>
         
         <td>
           <p><code><a href="gt_stretch.html">gt_stretch()</a></code> </p>
         </td>
-        <td><p>Stretch <code>geom</code>s</p></td>
+        <td><p>Stretch geometric objects</p></td>
       </tr><tr>
         
         <td>
           <p><code><a href="gt_translate.html">gt_translate()</a></code> </p>
         </td>
-        <td><p>Translate <code>geom</code>s</p></td>
+        <td><p>Translate geometric objects</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="gt_subset.html">gt_subset()</a></code> </p>
+        </td>
+        <td><p>Derive the subset of a geometric object</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="gt_locate.html">gt_locate()</a></code> </p>
+        </td>
+        <td><p>Locate (and identify) clicks</p></td>
       </tr>
     </tbody><tbody>
       <tr>
         <th colspan="2">
           <h2 id="section-visualise" class="hasAnchor"><a href="#section-visualise" class="anchor"></a>visualise</h2>
-          <p class="section-desc"><p>plot geometric/spatial objects</p></p>
+          <p class="section-desc"><p>plot geometric objects</p></p>
         </th>
       </tr>
       
@@ -480,7 +492,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

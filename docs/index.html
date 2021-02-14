@@ -41,7 +41,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">geometr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.6</span>
       </span>
     </div>
 
@@ -101,9 +101,11 @@
 <a href="#installation" class="anchor"></a>Installation</h2>
 <p>1) Install the official version from CRAN:</p>
 <!-- end list -->
-<div class="sourceCode" id="cb1"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span>(<span class="st">"geometr"</span>)</pre></div>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"geometr"</span><span class="op">)</span></code></pre></div>
 <p>or the latest development version from github:</p>
-<div class="sourceCode" id="cb2"><pre class="r"><span class="kw pkg">devtools</span><span class="kw ns">::</span><span class="fu"><a href="https://devtools.r-lib.org//reference/remote-reexports.html">install_github</a></span>(<span class="st">"EhrmannS/geometr"</span>)</pre></div>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org//reference/remote-reexports.html">install_github</a></span><span class="op">(</span><span class="st">"EhrmannS/geometr"</span><span class="op">)</span></code></pre></div>
 <p>2) The <a href="https://ehrmanns.github.io/geometr/articles/geometr.html">vignette</a> gives an in depth introduction, explains the take on interoperability and discusses the spatial class <code>geom</code> that comes with <code>geometr</code>.</p>
 <p>3) Have fun being a <a href="https://en.wikipedia.org/wiki/List_of_geometers">geometer</a>!</p>
 </div>
@@ -111,24 +113,25 @@
 <h2 class="hasAnchor">
 <a href="#examples" class="anchor"></a>Examples</h2>
 <p>Create a <code>geom</code></p>
-<div class="sourceCode" id="cb3"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">geometr</span>)
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://ehrmanns.github.io/geometr/">geometr</a></span><span class="op">)</span>
 
 <span class="co"># ... from other classes</span>
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">sf</span>)
-<span class="co">#&gt; Linking to GEOS 3.5.1, GDAL 2.2.2, PROJ 4.9.2</span>
-<span class="no">nc_sf</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/sf/man/st_read.html">st_read</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span>(<span class="st">"shape/nc.shp"</span>, <span class="kw">package</span><span class="kw">=</span><span class="st">"sf"</span>), <span class="kw">quiet</span> <span class="kw">=</span> <span class="fl">TRUE</span>)
-<span class="no">nc_geom</span> <span class="kw">&lt;-</span> <span class="fu"><a href="reference/gc_geom.html">gc_geom</a></span>(<span class="kw">input</span> <span class="kw">=</span> <span class="no">nc_sf</span>)
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://r-spatial.github.io/sf/">sf</a></span><span class="op">)</span>
+<span class="co">#&gt; Linking to GEOS 3.8.0, GDAL 3.0.4, PROJ 7.0.0</span>
+<span class="va">nc_sf</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_read.html">st_read</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span><span class="op">(</span><span class="st">"shape/nc.shp"</span>, package<span class="op">=</span><span class="st">"sf"</span><span class="op">)</span>, quiet <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
+<span class="va">nc_geom</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/gc_geom.html">gc_geom</a></span><span class="op">(</span>input <span class="op">=</span> <span class="va">nc_sf</span><span class="op">)</span>
 
 <span class="co"># ... or by hand.</span>
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">tibble</span>)
-<span class="no">coords</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/sf/man/tibble.html">tibble</a></span>(<span class="kw">x</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">40</span>, <span class="fl">70</span>, <span class="fl">70</span>, <span class="fl">50</span>),
-                 <span class="kw">y</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">40</span>, <span class="fl">40</span>, <span class="fl">60</span>, <span class="fl">70</span>))
-<span class="no">window</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/sf/man/tibble.html">tibble</a></span>(<span class="kw">x</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">0</span>, <span class="fl">80</span>),
-                 <span class="kw">y</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">0</span>, <span class="fl">80</span>))
-<span class="no">aGeom</span> <span class="kw">&lt;-</span> <span class="fu"><a href="reference/gs_polygon.html">gs_polygon</a></span>(<span class="kw">anchor</span> <span class="kw">=</span> <span class="no">coords</span>, <span class="kw">window</span> <span class="kw">=</span> <span class="no">window</span>)
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tibble.tidyverse.org/">tibble</a></span><span class="op">)</span>
+<span class="va">coords</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/tibble.html">tibble</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">40</span>, <span class="fl">70</span>, <span class="fl">70</span>, <span class="fl">50</span><span class="op">)</span>,
+                 y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">40</span>, <span class="fl">40</span>, <span class="fl">60</span>, <span class="fl">70</span><span class="op">)</span><span class="op">)</span>
+<span class="va">window</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/tibble.html">tibble</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">80</span><span class="op">)</span>,
+                 y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">80</span><span class="op">)</span><span class="op">)</span>
+<span class="va">aGeom</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/gs_polygon.html">gs_polygon</a></span><span class="op">(</span>anchor <span class="op">=</span> <span class="va">coords</span>, window <span class="op">=</span> <span class="va">window</span><span class="op">)</span>
 
 <span class="co"># The "tiny map" shows where the vertices are concentrated.</span>
-<span class="no">nc_geom</span>
+<span class="va">nc_geom</span>
 <span class="co">#&gt; geom        polygon</span>
 <span class="co">#&gt;             100 groups | 108 features | 2529 points</span>
 <span class="co">#&gt; crs         +proj=longlat +datum=NAD27 +no_defs</span>
@@ -138,15 +141,16 @@
 <span class="co">#&gt;                    ○ ○ ○ ○        </span>
 <span class="co">#&gt;                    ◌ ◌ ○ ◌        </span>
 <span class="co">#&gt;             -84.32 ◌ ◌ ◌ ◌ -75.46 </span>
-<span class="co">#&gt;                    33.88</span></pre></div>
+<span class="co">#&gt;                    33.88</span></code></pre></div>
 <p>Metadata of different classes can be extracted in interoperable quality (i.e. the same metadata in different objects/classes have the same name and the same arrangement).</p>
-<div class="sourceCode" id="cb4"><pre class="r"><span class="fu"><a href="reference/getFeatures.html">getFeatures</a></span>(<span class="kw">x</span> <span class="kw">=</span> <span class="no">nc_sf</span>)
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="reference/getFeatures.html">getFeatures</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">nc_sf</span><span class="op">)</span>
 <span class="co">#&gt; Registered S3 method overwritten by 'cli':</span>
 <span class="co">#&gt;   method     from    </span>
 <span class="co">#&gt;   print.boxx spatstat</span>
 <span class="co">#&gt; # A tibble: 108 x 16</span>
 <span class="co">#&gt;      fid   gid  AREA PERIMETER CNTY_ CNTY_ID NAME  FIPS  FIPSNO CRESS_ID BIR74</span>
-<span class="co">#&gt;    &lt;int&gt; &lt;int&gt; &lt;dbl&gt;     &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt; &lt;fct&gt; &lt;fct&gt;  &lt;dbl&gt;    &lt;int&gt; &lt;dbl&gt;</span>
+<span class="co">#&gt;  * &lt;int&gt; &lt;int&gt; &lt;dbl&gt;     &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt; &lt;fct&gt; &lt;fct&gt;  &lt;dbl&gt;    &lt;int&gt; &lt;dbl&gt;</span>
 <span class="co">#&gt;  1     1     1 0.114      1.44  1825    1825 Ashe  37009  37009        5  1091</span>
 <span class="co">#&gt;  2     2     2 0.061      1.23  1827    1827 Alle… 37005  37005        3   487</span>
 <span class="co">#&gt;  3     3     3 0.143      1.63  1828    1828 Surry 37171  37171       86  3188</span>
@@ -159,10 +163,10 @@
 <span class="co">#&gt; 10    10     8 0.091      1.28  1835    1835 Gates 37073  37073       37   420</span>
 <span class="co">#&gt; # … with 98 more rows, and 5 more variables: SID74 &lt;dbl&gt;, NWBIR74 &lt;dbl&gt;,</span>
 <span class="co">#&gt; #   BIR79 &lt;dbl&gt;, SID79 &lt;dbl&gt;, NWBIR79 &lt;dbl&gt;</span>
-<span class="fu"><a href="reference/getFeatures.html">getFeatures</a></span>(<span class="kw">x</span> <span class="kw">=</span> <span class="no">nc_geom</span>)
+<span class="fu"><a href="reference/getFeatures.html">getFeatures</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">nc_geom</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 108 x 16</span>
 <span class="co">#&gt;      fid   gid  AREA PERIMETER CNTY_ CNTY_ID NAME  FIPS  FIPSNO CRESS_ID BIR74</span>
-<span class="co">#&gt;    &lt;int&gt; &lt;int&gt; &lt;dbl&gt;     &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt; &lt;fct&gt; &lt;fct&gt;  &lt;dbl&gt;    &lt;int&gt; &lt;dbl&gt;</span>
+<span class="co">#&gt;  * &lt;int&gt; &lt;int&gt; &lt;dbl&gt;     &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt; &lt;fct&gt; &lt;fct&gt;  &lt;dbl&gt;    &lt;int&gt; &lt;dbl&gt;</span>
 <span class="co">#&gt;  1     1     1 0.114      1.44  1825    1825 Ashe  37009  37009        5  1091</span>
 <span class="co">#&gt;  2     2     2 0.061      1.23  1827    1827 Alle… 37005  37005        3   487</span>
 <span class="co">#&gt;  3     3     3 0.143      1.63  1828    1828 Surry 37171  37171       86  3188</span>
@@ -174,22 +178,23 @@
 <span class="co">#&gt;  9     9     7 0.062      1.55  1834    1834 Camd… 37029  37029       15   286</span>
 <span class="co">#&gt; 10    10     8 0.091      1.28  1835    1835 Gates 37073  37073       37   420</span>
 <span class="co">#&gt; # … with 98 more rows, and 5 more variables: SID74 &lt;dbl&gt;, NWBIR74 &lt;dbl&gt;,</span>
-<span class="co">#&gt; #   BIR79 &lt;dbl&gt;, SID79 &lt;dbl&gt;, NWBIR79 &lt;dbl&gt;</span></pre></div>
+<span class="co">#&gt; #   BIR79 &lt;dbl&gt;, SID79 &lt;dbl&gt;, NWBIR79 &lt;dbl&gt;</span></code></pre></div>
 <p><code>geometr</code> only knows the feature types <code>point</code>, <code>line</code>, <code>polygon</code> and <code>grid</code> (a systematic lattice of points). In contrast to the simple features standard, there are no <em>MULTI*</em> features. The way simple features have been implemented in R means that the same information can be stored in several different ways, which are only interoperable after a range of tests and corrections. For example, a group of polygons can make up a <code>MULTIPOLYGON</code> with attributes that are valid for the overall group only. Likewise, the polygons could be stored at the level of individual “closed paths” as <code>POLYGON</code>, with specific attributes per polygon. Both sets of attributes can only exists either as duplicates for all group specific attributes in a <code>POLYGON</code>, or even more complicated nested attribute tables at the <code>MULTIPOLYGON</code> level.</p>
 <p>The backbone of a <code>geom</code> are three attribute tables, one for points, features and groups of features, the latter two of which can be provided with ancillary information. Each feature is stored as a single unit, all of which are related to other features by a group ID, which relates the features to attributes for an overall group. Eventually this results in a tidier data-structure with easier access than <code>Spatial*</code> of <code>sf</code> objects and with higher versatility.</p>
-<div class="sourceCode" id="cb5"><pre class="r"><span class="co"># when using the group = TRUE argument, the attributes of MULTI*-feature are</span>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># when using the group = TRUE argument, the attributes of MULTI*-feature are</span>
 <span class="co"># stored in the group attribute table of a geom</span>
-<span class="no">nc_geom</span> <span class="kw">&lt;-</span> <span class="fu"><a href="reference/gc_geom.html">gc_geom</a></span>(<span class="kw">input</span> <span class="kw">=</span> <span class="no">nc_sf</span>, <span class="kw">group</span> <span class="kw">=</span> <span class="fl">TRUE</span>)
-<span class="no">currituck</span> <span class="kw">&lt;-</span> <span class="fu"><a href="reference/getFeatures.html">getFeatures</a></span>(<span class="kw">x</span> <span class="kw">=</span> <span class="no">nc_geom</span>, <span class="no">gid</span> <span class="kw">==</span> <span class="fl">4</span>)
+<span class="va">nc_geom</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/gc_geom.html">gc_geom</a></span><span class="op">(</span>input <span class="op">=</span> <span class="va">nc_sf</span>, group <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
+<span class="va">currituck</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/gt_subset.html">gt_subset</a></span><span class="op">(</span>obj <span class="op">=</span> <span class="va">nc_geom</span>, <span class="va">gid</span> <span class="op">==</span> <span class="fl">4</span><span class="op">)</span>
 
-<span class="fu"><a href="reference/getFeatures.html">getFeatures</a></span>(<span class="kw">x</span> <span class="kw">=</span> <span class="no">currituck</span>)
+<span class="fu"><a href="reference/getFeatures.html">getFeatures</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">currituck</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 3 x 2</span>
 <span class="co">#&gt;     fid   gid</span>
 <span class="co">#&gt;   &lt;int&gt; &lt;int&gt;</span>
 <span class="co">#&gt; 1     4     4</span>
 <span class="co">#&gt; 2     5     4</span>
 <span class="co">#&gt; 3     6     4</span>
-<span class="fu"><a href="reference/getGroups.html">getGroups</a></span>(<span class="kw">x</span> <span class="kw">=</span> <span class="no">currituck</span>)
+<span class="fu"><a href="reference/getGroups.html">getGroups</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">currituck</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 1 x 15</span>
 <span class="co">#&gt;     gid  AREA PERIMETER CNTY_ CNTY_ID NAME  FIPS  FIPSNO CRESS_ID BIR74 SID74</span>
 <span class="co">#&gt;   &lt;int&gt; &lt;dbl&gt;     &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt; &lt;fct&gt; &lt;fct&gt;  &lt;dbl&gt;    &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt;</span>
@@ -198,9 +203,9 @@
 <span class="co">#&gt; #   NWBIR79 &lt;dbl&gt;</span>
 
 <span class="co"># and new attributes can be set easily, </span>
-<span class="no">newTable</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span>(<span class="kw">fid</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">1</span>:<span class="fl">108</span>),
-                       <span class="kw">attrib</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span>(<span class="fl">108</span>))
-(<span class="no">nc_geom</span> <span class="kw">&lt;-</span> <span class="fu"><a href="reference/setFeatures.html">setFeatures</a></span>(<span class="kw">x</span> <span class="kw">=</span> <span class="no">nc_geom</span>, <span class="kw">table</span> <span class="kw">=</span> <span class="no">newTable</span>))
+<span class="va">newTable</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>fid <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">108</span><span class="op">)</span>, 
+                       attrib <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="fl">108</span><span class="op">)</span><span class="op">)</span>
+<span class="op">(</span><span class="va">nc_geom</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/setFeatures.html">setFeatures</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">nc_geom</span>, table <span class="op">=</span> <span class="va">newTable</span><span class="op">)</span><span class="op">)</span>
 <span class="co">#&gt; geom        polygon</span>
 <span class="co">#&gt;             100 groups | 108 features | 2529 points</span>
 <span class="co">#&gt; crs         +proj=longlat +datum=NAD27 +no_defs</span>
@@ -211,22 +216,26 @@
 <span class="co">#&gt;                    ○ ○ ○ ○        </span>
 <span class="co">#&gt;                    ◌ ◌ ○ ◌        </span>
 <span class="co">#&gt;             -84.32 ◌ ◌ ◌ ◌ -75.46 </span>
-<span class="co">#&gt;                    33.88</span></pre></div>
+<span class="co">#&gt;                    33.88</span></code></pre></div>
 <p><code>geometr</code> comes with the <code>visualise</code> function, which makes nice-looking diagnostic spatial plots, that show explicit values whenever possible. For example, it does not create artificial bins for the values scale, but shows the explicit range of values. Moreover, you can easily set plot titles without much effort.</p>
-<div class="sourceCode" id="cb6"><pre class="r"><span class="fu"><a href="reference/visualise.html">visualise</a></span>(<span class="kw">`North Carolina`</span> <span class="kw">=</span> <span class="no">nc_geom</span>)</pre></div>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="reference/visualise.html">visualise</a></span><span class="op">(</span>`North Carolina` <span class="op">=</span> <span class="va">nc_geom</span><span class="op">)</span></code></pre></div>
 <p><img src="reference/figures/README-unnamed-chunk-7-1.png" width="100%"></p>
 <p>By default, <code>visualise</code> uses the feature ID as fillcolour. You can use quick options to modify which aspect given object should be shown in the plot, for example to scale the <code>fillcol</code>our to the attribute <code>NWBIR74</code>.</p>
-<div class="sourceCode" id="cb7"><pre class="r"><span class="no">myAttr</span> <span class="kw">&lt;-</span> <span class="st">"NWBIR74"</span>
-<span class="fu"><a href="reference/visualise.html">visualise</a></span>(!!<span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span>(<span class="st">"NC - "</span>, <span class="no">myAttr</span>) <span class="kw">:=</span> <span class="no">nc_geom</span>, <span class="kw">fillcol</span> <span class="kw">=</span> !!<span class="no">myAttr</span>)</pre></div>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">myAttr</span> <span class="op">&lt;-</span> <span class="st">"NWBIR74"</span>
+<span class="fu"><a href="reference/visualise.html">visualise</a></span><span class="op">(</span><span class="op">!</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"NC - "</span>, <span class="va">myAttr</span><span class="op">)</span> <span class="op">:=</span> <span class="va">nc_geom</span>, fillcol <span class="op">=</span> <span class="op">!</span><span class="op">!</span><span class="va">myAttr</span><span class="op">)</span></code></pre></div>
 <p><img src="reference/figures/README-unnamed-chunk-8-1.png" width="100%"></p>
 <p>Each <code>geom</code> has the slot <code>@window</code>, which contains a reference window. This reference window can be used or modified in many functions of <code>geometr</code></p>
-<div class="sourceCode" id="cb8"><pre class="r"><span class="fu"><a href="reference/visualise.html">visualise</a></span>(<span class="kw">`Currituck`</span> <span class="kw">=</span> <span class="no">currituck</span>, <span class="kw">window</span> <span class="kw">=</span> <span class="fu"><a href="reference/getExtent.html">getExtent</a></span>(<span class="no">currituck</span>))</pre></div>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="reference/visualise.html">visualise</a></span><span class="op">(</span>`Currituck` <span class="op">=</span> <span class="va">currituck</span>, window <span class="op">=</span> <span class="fu"><a href="reference/getExtent.html">getExtent</a></span><span class="op">(</span><span class="va">currituck</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <p><img src="reference/figures/README-unnamed-chunk-9-1.png" width="100%"></p>
 <p>Finally, cast a <code>geom</code> to another type simply by providing it in <code>anchor</code> of the respective type</p>
-<div class="sourceCode" id="cb9"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">magrittr</span>)
-<span class="no">boundPoints</span> <span class="kw">&lt;-</span> <span class="fu"><a href="reference/gs_point.html">gs_point</a></span>(<span class="kw">anchor</span> <span class="kw">=</span> <span class="no">currituck</span>) <span class="kw">%&gt;%</span>
-   <span class="fu"><a href="reference/setWindow.html">setWindow</a></span>(<span class="kw">to</span> <span class="kw">=</span> <span class="fu"><a href="reference/getExtent.html">getExtent</a></span>(<span class="no">.</span>))
-<span class="fu"><a href="reference/visualise.html">visualise</a></span>(<span class="kw">`Currituck - boundary vertices`</span><span class="kw">=</span> <span class="no">boundPoints</span>, <span class="kw">linecol</span> <span class="kw">=</span> <span class="no">fid</span>)</pre></div>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://magrittr.tidyverse.org">magrittr</a></span><span class="op">)</span>
+<span class="va">boundPoints</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/gs_point.html">gs_point</a></span><span class="op">(</span>anchor <span class="op">=</span> <span class="va">currituck</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+   <span class="fu"><a href="reference/setWindow.html">setWindow</a></span><span class="op">(</span>to <span class="op">=</span> <span class="fu"><a href="reference/getExtent.html">getExtent</a></span><span class="op">(</span><span class="va">.</span><span class="op">)</span><span class="op">)</span>
+<span class="fu"><a href="reference/visualise.html">visualise</a></span><span class="op">(</span>`Currituck - boundary vertices`<span class="op">=</span> <span class="va">boundPoints</span>, linecol <span class="op">=</span> <span class="va">fid</span><span class="op">)</span></code></pre></div>
 <p><img src="reference/figures/README-unnamed-chunk-10-1.png" width="100%"></p>
 </div>
 </div>
@@ -285,7 +294,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

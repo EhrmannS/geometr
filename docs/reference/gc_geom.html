@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Transform a spatial object to class <code>geom</code> — gc_geom • geometr</title>
+<title>Transform a spatial object to class geom — gc_geom • geometr</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -15,11 +15,13 @@
 <link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png" />
 <link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png" />
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png" />
+
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous" />
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
 
 <!-- bootstrap-toc -->
@@ -43,12 +45,10 @@
 
 
 
-<meta property="og:title" content="Transform a spatial object to class <code>geom</code> — gc_geom" />
 
+<meta property="og:title" content="Transform a spatial object to class geom — gc_geom" />
 <meta property="og:description" content="Transform a spatial object to class geom" />
-
 <meta property="og:image" content="http://EhrmannS.github.io/geometr/logo.svg" />
-
 
 
 
@@ -80,7 +80,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">geometr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.6</span>
       </span>
     </div>
 
@@ -96,7 +96,6 @@
   <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
-      
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="http://www.twitter.com/DerEhrmann">
@@ -129,23 +128,21 @@
     </div>
 
     <div class="ref-description">
-    
     <p>Transform a spatial object to class <code>geom</code></p>
-    
     </div>
 
     <pre class="usage"><span class='co'># S4 method for Spatial</span>
-<span class='fu'>gc_geom</span>(<span class='kw'>input</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>)
+<span class='fu'>gc_geom</span><span class='op'>(</span>input <span class='op'>=</span> <span class='cn'>NULL</span>, <span class='va'>...</span><span class='op'>)</span>
 
 <span class='co'># S4 method for sf</span>
-<span class='fu'>gc_geom</span>(<span class='kw'>input</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>group</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='no'>...</span>)
+<span class='fu'>gc_geom</span><span class='op'>(</span>input <span class='op'>=</span> <span class='cn'>NULL</span>, group <span class='op'>=</span> <span class='cn'>FALSE</span>, <span class='va'>...</span><span class='op'>)</span>
 
 <span class='co'># S4 method for ppp</span>
-<span class='fu'>gc_geom</span>(<span class='kw'>input</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>)
+<span class='fu'>gc_geom</span><span class='op'>(</span>input <span class='op'>=</span> <span class='cn'>NULL</span>, <span class='va'>...</span><span class='op'>)</span>
 
 <span class='co'># S4 method for Raster</span>
-<span class='fu'>gc_geom</span>(<span class='kw'>input</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>)</pre>
-    
+<span class='fu'>gc_geom</span><span class='op'>(</span>input <span class='op'>=</span> <span class='cn'>NULL</span>, <span class='va'>...</span><span class='op'>)</span></pre>
+
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
@@ -165,23 +162,21 @@ into the groups table (<code>TRUE</code>), or should they be kept as duplicated
 per-feature attributes (<code>FALSE</code>, default)?</p></td>
     </tr>
     </table>
-    
+
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>an object of class <code>geom</code></p>
-    
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>Other spatial classes: 
-<code><a href='gc_grob.html'>gc_grob</a>()</code>,
 <code><a href='gc_ppp.html'>gc_ppp</a>()</code>,
 <code><a href='gc_raster.html'>gc_raster</a>()</code>,
 <code><a href='gc_sf.html'>gc_sf</a>()</code>,
 <code><a href='gc_sp.html'>gc_sp</a>()</code></p></div>
-    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>gc_geom</span>(<span class='kw'>input</span> <span class='kw'>=</span> <span class='no'>gtPPP</span>)</div><div class='output co'>#&gt; <span style='color: #BBBB00;'>geom</span><span>        point
+    <pre class="examples"><div class='input'><span class='fu'>gc_geom</span><span class='op'>(</span>input <span class='op'>=</span> <span class='va'>gtPPP</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span style='color: #BBBB00;'>geom</span><span>        point
 #&gt;             15 groups | 15 features | 15 points
 #&gt; </span><span style='color: #BBBB00;'>crs         </span><span>cartesian
 #&gt; </span><span style='color: #BBBB00;'>attributes </span><span> --
@@ -191,7 +186,8 @@ per-feature attributes (<code>FALSE</code>, default)?</p></td>
 #&gt;               ◌ ◌ ◌ ◌    
 #&gt;             0 ◉ ◌ ◌ ○ 12 
 #&gt;               0 </div><div class='input'>
-<span class='fu'>gc_geom</span>(<span class='kw'>input</span> <span class='kw'>=</span> <span class='no'>gtSF</span>$<span class='no'>polygon</span>)</div><div class='output co'>#&gt; </span><span style='color: #BBBB00;'>geom</span><span>        polygon
+<span class='fu'>gc_geom</span><span class='op'>(</span>input <span class='op'>=</span> <span class='va'>gtSF</span><span class='op'>$</span><span class='va'>polygon</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; </span><span style='color: #BBBB00;'>geom</span><span>        polygon
 #&gt;             2 groups | 2 features | 15 points
 #&gt; </span><span style='color: #BBBB00;'>crs         </span><span>cartesian
 #&gt; </span><span style='color: #BBBB00;'>attributes </span><span> (features) a
@@ -201,7 +197,8 @@ per-feature attributes (<code>FALSE</code>, default)?</p></td>
 #&gt;               ◌ ◌ ◌ ◌    
 #&gt;             0 ◉ ◌ ◌ ○ 12 
 #&gt;               0 </div><div class='input'>
-<span class='fu'>gc_geom</span>(<span class='kw'>input</span> <span class='kw'>=</span> <span class='no'>gtRasters</span>$<span class='no'>categorical</span>)</div><div class='output co'>#&gt; </span><span style='color: #BBBB00;'>geom</span><span>        grid
+<span class='fu'>gc_geom</span><span class='op'>(</span>input <span class='op'>=</span> <span class='va'>gtRasters</span><span class='op'>$</span><span class='va'>categorical</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; </span><span style='color: #BBBB00;'>geom</span><span>        grid
 #&gt;             1 layer | 3360 cells
 #&gt; </span><span style='color: #BBBB00;'>crs         </span><span>cartesian
 #&gt; </span><span style='color: #BBBB00;'>attributes </span><span> cover
@@ -222,7 +219,7 @@ per-feature attributes (<code>FALSE</code>, default)?</p></td>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

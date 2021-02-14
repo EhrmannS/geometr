@@ -7,6 +7,18 @@
     <loc>http://EhrmannS.github.io/geometr/reference/dot-getDecimals.html</loc>
   </url>
   <url>
+    <loc>http://EhrmannS.github.io/geometr/reference/dot-makeGrob.html</loc>
+  </url>
+  <url>
+    <loc>http://EhrmannS.github.io/geometr/reference/dot-makeLayout.html</loc>
+  </url>
+  <url>
+    <loc>http://EhrmannS.github.io/geometr/reference/dot-makeLegend.html</loc>
+  </url>
+  <url>
+    <loc>http://EhrmannS.github.io/geometr/reference/dot-makePlot.html</loc>
+  </url>
+  <url>
     <loc>http://EhrmannS.github.io/geometr/reference/dot-makeTinyMap.html</loc>
   </url>
   <url>
@@ -25,6 +37,9 @@
     <loc>http://EhrmannS.github.io/geometr/reference/dot-updateOrder.html</loc>
   </url>
   <url>
+    <loc>http://EhrmannS.github.io/geometr/reference/dot-updateTheme.html</loc>
+  </url>
+  <url>
     <loc>http://EhrmannS.github.io/geometr/reference/dot-updateVertices.html</loc>
   </url>
   <url>
@@ -32,9 +47,6 @@
   </url>
   <url>
     <loc>http://EhrmannS.github.io/geometr/reference/gc_geom.html</loc>
-  </url>
-  <url>
-    <loc>http://EhrmannS.github.io/geometr/reference/gc_grob.html</loc>
   </url>
   <url>
     <loc>http://EhrmannS.github.io/geometr/reference/gc_ppp.html</loc>
@@ -56,6 +68,9 @@
   </url>
   <url>
     <loc>http://EhrmannS.github.io/geometr/reference/getCRS.html</loc>
+  </url>
+  <url>
+    <loc>http://EhrmannS.github.io/geometr/reference/getCols.html</loc>
   </url>
   <url>
     <loc>http://EhrmannS.github.io/geometr/reference/getExtent.html</loc>
@@ -80,6 +95,9 @@
   </url>
   <url>
     <loc>http://EhrmannS.github.io/geometr/reference/getRes.html</loc>
+  </url>
+  <url>
+    <loc>http://EhrmannS.github.io/geometr/reference/getRows.html</loc>
   </url>
   <url>
     <loc>http://EhrmannS.github.io/geometr/reference/getType.html</loc>
@@ -148,13 +166,10 @@
     <loc>http://EhrmannS.github.io/geometr/reference/gt_stretch.html</loc>
   </url>
   <url>
+    <loc>http://EhrmannS.github.io/geometr/reference/gt_subset.html</loc>
+  </url>
+  <url>
     <loc>http://EhrmannS.github.io/geometr/reference/gt_translate.html</loc>
-  </url>
-  <url>
-    <loc>http://EhrmannS.github.io/geometr/reference/makeLayout.html</loc>
-  </url>
-  <url>
-    <loc>http://EhrmannS.github.io/geometr/reference/makeObject.html</loc>
   </url>
   <url>
     <loc>http://EhrmannS.github.io/geometr/reference/setCRS.html</loc>

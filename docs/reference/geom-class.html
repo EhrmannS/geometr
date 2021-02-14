@@ -15,11 +15,13 @@
 <link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png" />
 <link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png" />
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png" />
+
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous" />
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
 
 <!-- bootstrap-toc -->
@@ -43,16 +45,14 @@
 
 
 
-<meta property="og:title" content="Geometry class (S4) and methods — geom-class" />
 
+<meta property="og:title" content="Geometry class (S4) and methods — geom-class" />
 <meta property="og:description" content="A geom stores a table of points, a table of feature to which the
 points are associated and a table of groups, to which features are
 associated. A geom can be spatial, but is not by default. A
 geom can either have absolute or relative values, where relative
 values specify the point position relative to the window slot." />
-
 <meta property="og:image" content="http://EhrmannS.github.io/geometr/logo.svg" />
-
 
 
 
@@ -84,7 +84,7 @@ values specify the point position relative to the window slot." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">geometr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.6</span>
       </span>
     </div>
 
@@ -100,7 +100,6 @@ values specify the point position relative to the window slot." />
   <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
-      
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="http://www.twitter.com/DerEhrmann">
@@ -133,16 +132,15 @@ values specify the point position relative to the window slot." />
     </div>
 
     <div class="ref-description">
-    
     <p>A <code>geom</code> stores a table of points, a table of feature to which the
 points are associated and a table of groups, to which features are
 associated. A <code>geom</code> can be spatial, but is not by default. A
 <code>geom</code> can either have absolute or relative values, where relative
 values specify the point position relative to the <code>window</code> slot.</p>
-    
     </div>
 
-        
+
+
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>A <code>geom</code> is one of three geometry objects:</p><ul>
@@ -178,12 +176,11 @@ which is thus derived "on the fly" from the points. Instead it has a
 <em>reference window</em>, which is sort of a second extent that may be bigger
 (or smaller) than <code>extent</code> and which determines the relative position of
 the points when plotting.</p>
-    
     <h2 class="hasAnchor" id="slots"><a class="anchor" href="#slots"></a>Slots</h2>
 
     
 
-<dl'>
+<dl>
 <dt><code>type</code></dt><dd><p>[<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>]<br /> the type of feature, either
 <code>"point"</code>, <code>"line"</code>, <code>"polygon"</code> or <code>"grid"</code>.</p></dd>
 
@@ -210,7 +207,6 @@ notation.</p></dd>
 <code>geom</code> in focus.</p></dd>
 
 </dl>
-    
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
@@ -227,7 +223,7 @@ notation.</p></dd>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

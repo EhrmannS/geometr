@@ -15,11 +15,13 @@
 <link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png" />
 <link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png" />
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png" />
+
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous" />
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
 
 <!-- bootstrap-toc -->
@@ -43,12 +45,10 @@
 
 
 
+
 <meta property="og:title" content="Create a new theme — setTheme" />
-
 <meta property="og:description" content="Assign parameters in a gtTheme to create a new theme." />
-
 <meta property="og:image" content="http://EhrmannS.github.io/geometr/logo.svg" />
-
 
 
 
@@ -80,7 +80,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">geometr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.6</span>
       </span>
     </div>
 
@@ -96,7 +96,6 @@
   <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
-      
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="http://www.twitter.com/DerEhrmann">
@@ -129,24 +128,21 @@
     </div>
 
     <div class="ref-description">
-    
     <p>Assign parameters in a gtTheme to create a new theme.</p>
-    
     </div>
 
-    <pre class="usage"><span class='fu'>setTheme</span>(
-  <span class='kw'>from</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>title</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>box</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>xAxis</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>yAxis</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>grid</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>legend</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>scale</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>vector</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>raster</span> <span class='kw'>=</span> <span class='kw'>NULL</span>
-)</pre>
-    
+    <pre class="usage"><span class='fu'>setTheme</span><span class='op'>(</span>
+  from <span class='op'>=</span> <span class='cn'>NULL</span>,
+  title <span class='op'>=</span> <span class='cn'>NULL</span>,
+  box <span class='op'>=</span> <span class='cn'>NULL</span>,
+  xAxis <span class='op'>=</span> <span class='cn'>NULL</span>,
+  yAxis <span class='op'>=</span> <span class='cn'>NULL</span>,
+  grid <span class='op'>=</span> <span class='cn'>NULL</span>,
+  legend <span class='op'>=</span> <span class='cn'>NULL</span>,
+  scale <span class='op'>=</span> <span class='cn'>NULL</span>,
+  parameters <span class='op'>=</span> <span class='cn'>NULL</span>
+<span class='op'>)</span></pre>
+
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
@@ -208,21 +204,18 @@ or not to use the values' <code>identity</code>, the value <code>range</code> th
 shall be represented by the scale and the number of <code>bins</code>.</p></td>
     </tr>
     <tr>
-      <th>vector</th>
+      <th>parameters</th>
       <td><p>[<code>named list(.)</code>]<br /> <code>linecol</code>, <code>fillcol</code>,
 <code>missingcol</code>, <code>linetype</code>, <code>linewidth</code>, <code>pointsize</code> and
-<code>pointsymbol</code> of a vector object.</p></td>
-    </tr>
-    <tr>
-      <th>raster</th>
-      <td><p>[ <code>named list(.)</code>]<br /> <code>fillcol</code> of a raster object.</p></td>
+<code>pointsymbol</code> of the plot object.</p></td>
     </tr>
     </table>
-    
+
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>input</span> <span class='kw'>&lt;-</span> <span class='no'>gtRasters</span>$<span class='no'>continuous</span>
-(<span class='no'>myTheme</span> <span class='kw'>&lt;-</span> <span class='fu'>setTheme</span>(<span class='kw'>title</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>plot</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)))</div><div class='output co'>#&gt; <span style='color: #BB0000;'>✖</span><span style='color: #BBBB00;'> title    </span><span> 
+    <pre class="examples"><div class='input'><span class='va'>input</span> <span class='op'>&lt;-</span> <span class='va'>gtRasters</span><span class='op'>$</span><span class='va'>continuous</span>
+<span class='op'>(</span><span class='va'>myTheme</span> <span class='op'>&lt;-</span> <span class='fu'>setTheme</span><span class='op'>(</span>title <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>plot <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span style='color: #BB0000;'>✖</span><span style='color: #BBBB00;'> title    </span><span> 
 #&gt; </span><span style='color: #00BB00;'>✔</span><span style='color: #BBBB00;'> box      </span><span> in </span><span style='color: #00BBBB;'>grey</span><span> with </span><span style='color: #00BBBB;'>0.6</span><span> wide </span><span style='color: #00BBBB;'>solid</span><span> lines 
 #&gt; </span><span style='color: #00BB00;'>✔</span><span style='color: #BBBB00;'> xAxis    </span><span> with </span><span style='color: #00BBBB;'>4</span><span> bins and a margin of </span><span style='color: #00BBBB;'>5</span><span>%
 #&gt; </span><span style='color: #00BB00;'>✔</span><span style='color: #BBBB00;'>  - label  </span><span style='color: #00BBBB;'>x</span><span> in </span><span style='color: #00BBBB;'>black</span><span> with fontsize </span><span style='color: #00BBBB;'>12</span><span>
@@ -231,12 +224,13 @@ shall be represented by the scale and the number of <code>bins</code>.</p></td>
 #&gt; </span><span style='color: #00BB00;'>✔</span><span style='color: #BBBB00;'>  - label  </span><span style='color: #00BBBB;'>y</span><span> in </span><span style='color: #00BBBB;'>black</span><span> with fontsize </span><span style='color: #00BBBB;'>12</span><span>
 #&gt; </span><span style='color: #00BB00;'>✔</span><span style='color: #BBBB00;'>  - ticks  </span><span>in </span><span style='color: #00BBBB;'>black</span><span> with fontsize </span><span style='color: #00BBBB;'>10</span><span> rounded to </span><span style='color: #00BBBB;'>1</span><span> digit 
 #&gt; </span><span style='color: #00BB00;'>✔</span><span style='color: #BBBB00;'> grid     </span><span> in </span><span style='color: #00BBBB;'>grey</span><span> with </span><span style='color: #00BBBB;'>0.6</span><span> wide </span><span style='color: #00BBBB;'>solid</span><span> lines 
-#&gt; </span><span style='color: #00BB00;'>✔</span><span style='color: #BBBB00;'> legend   </span><span> with values ordered </span><span style='color: #00BBBB;'>ascending</span><span> in </span><span style='color: #00BBBB;'>4</span><span> bins and a relative height of </span><span style='color: #00BBBB;'>0.6</span><span>
+#&gt; </span><span style='color: #00BB00;'>✔</span><span style='color: #BBBB00;'> legend   </span><span> with values ordered </span><span style='color: #00BBBB;'>ascending</span><span> in </span><span style='color: #00BBBB;'>4</span><span> bins and a relative height of 
 #&gt; </span><span style='color: #00BB00;'>✔</span><span style='color: #BBBB00;'>  - label  </span><span>in </span><span style='color: #00BBBB;'>black</span><span> with fontsize </span><span style='color: #00BBBB;'>10</span><span>
 #&gt; </span><span style='color: #00BB00;'>✔</span><span style='color: #BBBB00;'>  - box    </span><span>in </span><span style='color: #00BBBB;'>black</span><span> with </span><span style='color: #00BBBB;'>0.2</span><span> wide </span><span style='color: #00BBBB;'>solid</span><span> lines 
 #&gt; </span><span style='color: #00BB00;'>✔</span><span style='color: #BBBB00;'> scale    </span><span> with </span><span style='color: #00BBBB;'>linecol</span><span> scaled to </span><span style='color: #00BBBB;'>fid</span><span>
 #&gt; </span><span style='color: #00BB00;'>✔</span><span style='color: #BBBB00;'> objects  </span><span> of </span><span style='color: #00BBBB;'>1</span><span> wide </span><span style='color: #00BBBB;'>solid</span><span> lines or </span><span style='color: #00BBBB;'>0.5</span><span> wide points of type </span><span style='color: #00BBBB;'>20</span><span></div><div class='input'>
-<span class='fu'><a href='visualise.html'>visualise</a></span>(<span class='no'>input</span>, <span class='kw'>theme</span> <span class='kw'>=</span> <span class='no'>myTheme</span>)</div><div class='img'><img src='setTheme-1.png' alt='' width='700' height='433' /></div></span></pre>
+<span class='fu'><a href='visualise.html'>visualise</a></span><span class='op'>(</span><span class='va'>input</span>, theme <span class='op'>=</span> <span class='va'>myTheme</span><span class='op'>)</span>
+</div><div class='img'><img src='setTheme-1.png' alt='' width='700' height='433' /></div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -252,7 +246,7 @@ shall be represented by the scale and the number of <code>bins</code>.</p></td>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

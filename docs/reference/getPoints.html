@@ -15,11 +15,13 @@
 <link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png" />
 <link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png" />
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png" />
+
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous" />
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
 
 <!-- bootstrap-toc -->
@@ -43,12 +45,10 @@
 
 
 
+
 <meta property="og:title" content="Get the table of point attributes — getPoints" />
-
 <meta property="og:description" content="Get tabular information of the attributes of points (incl. coordinates)." />
-
 <meta property="og:image" content="http://EhrmannS.github.io/geometr/logo.svg" />
-
 
 
 
@@ -80,7 +80,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">geometr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.6</span>
       </span>
     </div>
 
@@ -96,7 +96,6 @@
   <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
-      
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="http://www.twitter.com/DerEhrmann">
@@ -129,32 +128,30 @@
     </div>
 
     <div class="ref-description">
-    
     <p>Get tabular information of the attributes of points (incl. coordinates).</p>
-    
     </div>
 
     <pre class="usage"><span class='co'># S4 method for ANY</span>
-<span class='fu'>getPoints</span>(<span class='no'>x</span>, <span class='no'>...</span>)
+<span class='fu'>getPoints</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>...</span><span class='op'>)</span>
 
 <span class='co'># S4 method for geom</span>
-<span class='fu'>getPoints</span>(<span class='no'>x</span>, <span class='no'>...</span>)
+<span class='fu'>getPoints</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span>
 
 <span class='co'># S4 method for Spatial</span>
-<span class='fu'>getPoints</span>(<span class='no'>x</span>)
+<span class='fu'>getPoints</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span>
 
 <span class='co'># S4 method for sf</span>
-<span class='fu'>getPoints</span>(<span class='no'>x</span>)
+<span class='fu'>getPoints</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span>
 
 <span class='co'># S4 method for ppp</span>
-<span class='fu'>getPoints</span>(<span class='no'>x</span>)
+<span class='fu'>getPoints</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span>
 
 <span class='co'># S4 method for Raster</span>
-<span class='fu'>getPoints</span>(<span class='no'>x</span>)
+<span class='fu'>getPoints</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span>
 
 <span class='co'># S4 method for matrix</span>
-<span class='fu'>getPoints</span>(<span class='no'>x</span>)</pre>
-    
+<span class='fu'>getPoints</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span></pre>
+
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
@@ -164,21 +161,18 @@
     </tr>
     <tr>
       <th>...</th>
-      <td><p>subset based on logical predicates defined in terms of the
-columns in <code>x</code> or a vector of booleans. Multiple conditions are
-combined with <code>&amp;</code>. Only rows where the condition evaluates to TRUE are kept.</p></td>
+      <td><p>additional arguments.</p></td>
     </tr>
     </table>
-    
+
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A table of the point attributes of <code>x</code> or an object where the
-  point table has been subsetted.</p>
-    
+    <p>A table of the point attributes of <code>x</code>.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>Other getters: 
 <code><a href='getCRS.html'>getCRS</a>()</code>,
+<code><a href='getCols.html'>getCols</a>()</code>,
 <code><a href='getExtent.html'>getExtent</a>()</code>,
 <code><a href='getFeatures.html'>getFeatures</a>()</code>,
 <code><a href='getGroups.html'>getGroups</a>()</code>,
@@ -186,51 +180,48 @@ combined with <code>&amp;</code>. Only rows where the condition evaluates to TRU
 <code><a href='getLayer.html'>getLayer</a>()</code>,
 <code><a href='getName.html'>getName</a>()</code>,
 <code><a href='getRes.html'>getRes</a>()</code>,
+<code><a href='getRows.html'>getRows</a>()</code>,
 <code><a href='getType.html'>getType</a>()</code>,
 <code><a href='getWindow.html'>getWindow</a>()</code></p></div>
-    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>getPoints</span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>gtGeoms</span>$<span class='no'>polygon</span>)</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 15 x 3</span><span>
+    <pre class="examples"><div class='input'><span class='fu'>getPoints</span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>gtGeoms</span><span class='op'>$</span><span class='va'>polygon</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 11 x 3</span><span>
 #&gt;        x     y   fid
-#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>
-#&gt; </span><span style='color: #555555;'> 1</span><span>     0     0     1
-#&gt; </span><span style='color: #555555;'> 2</span><span>    10     0     1
-#&gt; </span><span style='color: #555555;'> 3</span><span>    10    10     1
-#&gt; </span><span style='color: #555555;'> 4</span><span>     0    10     1
-#&gt; </span><span style='color: #555555;'> 5</span><span>     0     0     1
-#&gt; </span><span style='color: #555555;'> 6</span><span>     1     1     1
-#&gt; </span><span style='color: #555555;'> 7</span><span>     1     2     1
-#&gt; </span><span style='color: #555555;'> 8</span><span>     2     2     1
-#&gt; </span><span style='color: #555555;'> 9</span><span>     2     1     1
-#&gt; </span><span style='color: #555555;'>10</span><span>     1     1     1
-#&gt; </span><span style='color: #555555;'>11</span><span>    11    11     2
-#&gt; </span><span style='color: #555555;'>12</span><span>    11    12     2
-#&gt; </span><span style='color: #555555;'>13</span><span>    12    12     2
-#&gt; </span><span style='color: #555555;'>14</span><span>    12    11     2
-#&gt; </span><span style='color: #555555;'>15</span><span>    11    11     2</div><div class='input'>
-<span class='fu'>getPoints</span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>gtGeoms</span>$<span class='no'>point</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 12 x 3</span><span>
-#&gt;        x     y   fid
-#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>
-#&gt; </span><span style='color: #555555;'> 1</span><span>     0     0     1
-#&gt; </span><span style='color: #555555;'> 2</span><span>     0    10     2
-#&gt; </span><span style='color: #555555;'> 3</span><span>    10    10     3
-#&gt; </span><span style='color: #555555;'> 4</span><span>    10     0     4
-#&gt; </span><span style='color: #555555;'> 5</span><span>     1     1     5
-#&gt; </span><span style='color: #555555;'> 6</span><span>     1     2     6
-#&gt; </span><span style='color: #555555;'> 7</span><span>     2     2     7
-#&gt; </span><span style='color: #555555;'> 8</span><span>     2     1     8
-#&gt; </span><span style='color: #555555;'> 9</span><span>    11    11     9
-#&gt; </span><span style='color: #555555;'>10</span><span>    11    12    10
-#&gt; </span><span style='color: #555555;'>11</span><span>    12    12    11
-#&gt; </span><span style='color: #555555;'>12</span><span>    12    11    12</div><div class='input'>
+#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #555555;'> 1</span><span>   0     -</span><span style='color: #BB0000;'>40</span><span>     1
+#&gt; </span><span style='color: #555555;'> 2</span><span>  34.6   -</span><span style='color: #BB0000;'>20</span><span>     1
+#&gt; </span><span style='color: #555555;'> 3</span><span>  34.6    20     1
+#&gt; </span><span style='color: #555555;'> 4</span><span>   0      40     1
+#&gt; </span><span style='color: #555555;'> 5</span><span> -</span><span style='color: #BB0000;'>34.6</span><span>    20     1
+#&gt; </span><span style='color: #555555;'> 6</span><span> -</span><span style='color: #BB0000;'>34.6</span><span>   -</span><span style='color: #BB0000;'>20</span><span>     1
+#&gt; </span><span style='color: #555555;'> 7</span><span>   0     -</span><span style='color: #BB0000;'>40</span><span>     1
+#&gt; </span><span style='color: #555555;'> 8</span><span> -</span><span style='color: #BB0000;'>34.6</span><span>    20     2
+#&gt; </span><span style='color: #555555;'> 9</span><span> -</span><span style='color: #BB0000;'>34.6</span><span>   -</span><span style='color: #BB0000;'>20</span><span>     2
+#&gt; </span><span style='color: #555555;'>10</span><span>   0       0     2
+#&gt; </span><span style='color: #555555;'>11</span><span> -</span><span style='color: #BB0000;'>34.6</span><span>    20     2</div><div class='input'>
+<span class='fu'>getPoints</span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>gtGeoms</span><span class='op'>$</span><span class='va'>point</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 9 x 3</span><span>
+#&gt;       x     y   fid
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>1</span><span>   0     -</span><span style='color: #BB0000;'>40</span><span>     1
+#&gt; </span><span style='color: #555555;'>2</span><span>  34.6   -</span><span style='color: #BB0000;'>20</span><span>     1
+#&gt; </span><span style='color: #555555;'>3</span><span>  34.6    20     1
+#&gt; </span><span style='color: #555555;'>4</span><span>   0      40     1
+#&gt; </span><span style='color: #555555;'>5</span><span> -</span><span style='color: #BB0000;'>34.6</span><span>    20     1
+#&gt; </span><span style='color: #555555;'>6</span><span> -</span><span style='color: #BB0000;'>34.6</span><span>   -</span><span style='color: #BB0000;'>20</span><span>     1
+#&gt; </span><span style='color: #555555;'>7</span><span> -</span><span style='color: #BB0000;'>34.6</span><span>    20     2
+#&gt; </span><span style='color: #555555;'>8</span><span> -</span><span style='color: #BB0000;'>34.6</span><span>   -</span><span style='color: #BB0000;'>20</span><span>     2
+#&gt; </span><span style='color: #555555;'>9</span><span>   0       0     2</div><div class='input'>
 <span class='co'># for a raster object, the @point slot is extracted from its' compact storage</span>
-<span class='no'>gtGeoms</span>$<span class='no'>grid</span>$<span class='no'>continuous</span>@<span class='kw'>point</span></div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 3 x 2</span><span>
+<span class='va'>gtGeoms</span><span class='op'>$</span><span class='va'>grid</span><span class='op'>$</span><span class='va'>continuous</span><span class='op'>@</span><span class='va'>point</span>
+</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 3 x 2</span><span>
 #&gt;       x     y
 #&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
 #&gt; </span><span style='color: #555555;'>1</span><span>     0     0
 #&gt; </span><span style='color: #555555;'>2</span><span>    60    56
-#&gt; </span><span style='color: #555555;'>3</span><span>     1     1</div><div class='input'><span class='fu'>getPoints</span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>gtGeoms</span>$<span class='no'>grid</span>$<span class='no'>continuous</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 3,360 x 3</span><span>
+#&gt; </span><span style='color: #555555;'>3</span><span>     1     1</div><div class='input'><span class='fu'>getPoints</span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>gtGeoms</span><span class='op'>$</span><span class='va'>grid</span><span class='op'>$</span><span class='va'>continuous</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 3,360 x 3</span><span>
 #&gt;      fid     x     y
 #&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
 #&gt; </span><span style='color: #555555;'> 1</span><span>     1   0.5   0.5
@@ -259,7 +250,7 @@ combined with <code>&amp;</code>. Only rows where the condition evaluates to TRU
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

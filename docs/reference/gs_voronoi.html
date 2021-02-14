@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Create a voronoi tiling <code>geom</code> — gs_voronoi • geometr</title>
+<title>Create a voronoi tiling geom — gs_voronoi • geometr</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -15,11 +15,13 @@
 <link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png" />
 <link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png" />
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png" />
+
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous" />
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
 
 <!-- bootstrap-toc -->
@@ -43,12 +45,10 @@
 
 
 
-<meta property="og:title" content="Create a voronoi tiling <code>geom</code> — gs_voronoi" />
 
+<meta property="og:title" content="Create a voronoi tiling geom — gs_voronoi" />
 <meta property="og:description" content="Create a voronoi tiling geom" />
-
 <meta property="og:image" content="http://EhrmannS.github.io/geometr/logo.svg" />
-
 
 
 
@@ -80,7 +80,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">geometr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.6</span>
       </span>
     </div>
 
@@ -96,7 +96,6 @@
   <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
-      
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="http://www.twitter.com/DerEhrmann">
@@ -129,13 +128,11 @@
     </div>
 
     <div class="ref-description">
-    
     <p>Create a voronoi tiling <code>geom</code></p>
-    
     </div>
 
-    <pre class="usage"><span class='fu'>gs_voronoi</span>(<span class='kw'>anchor</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>window</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>features</span> <span class='kw'>=</span> <span class='fl'>3</span>, <span class='kw'>sketch</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>)</pre>
-    
+    <pre class="usage"><span class='fu'>gs_voronoi</span><span class='op'>(</span>anchor <span class='op'>=</span> <span class='cn'>NULL</span>, window <span class='op'>=</span> <span class='cn'>NULL</span>, features <span class='op'>=</span> <span class='fl'>3</span>, sketch <span class='op'>=</span> <span class='cn'>NULL</span>, <span class='va'>...</span><span class='op'>)</span></pre>
+
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
@@ -157,8 +154,8 @@ specify this here.</p></td>
     </tr>
     <tr>
       <th>sketch</th>
-      <td><p>[<code>RasterLayer(1)</code> | <code><a href='https://rdrr.io/r/base/matrix.html'>matrix(1)</a></code>]<br /> Gridded object
-that serves as template to sketch the tiling.</p></td>
+      <td><p>[<code>gridded object(1)</code>]<br /> Gridded object that serves as
+template to sketch the tiling.</p></td>
     </tr>
     <tr>
       <th>...</th>
@@ -166,32 +163,33 @@ that serves as template to sketch the tiling.</p></td>
 case the tiling is sketched; see <code>gpar</code>.</p></td>
     </tr>
     </table>
-    
+
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>An invisible <code>geom</code>.</p>
-    
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>Other tilings: 
 <code><a href='gs_tiles.html'>gs_tiles</a>()</code></p></div>
-    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># 1. create voronoi polygons programmatically</span>
-<span class='no'>coords</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>40</span>, <span class='fl'>70</span>, <span class='fl'>70</span>, <span class='fl'>50</span>),
-                     <span class='kw'>y</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>40</span>, <span class='fl'>40</span>, <span class='fl'>60</span>, <span class='fl'>70</span>))
-<span class='no'>window</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0</span>, <span class='fl'>80</span>),
-                     <span class='kw'>y</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0</span>, <span class='fl'>80</span>))
-<span class='no'>aGeom</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='gs_point.html'>gs_point</a></span>(<span class='kw'>anchor</span> <span class='kw'>=</span> <span class='no'>coords</span>, <span class='kw'>window</span> <span class='kw'>=</span> <span class='no'>window</span>)
-<span class='fu'><a href='visualise.html'>visualise</a></span>(<span class='kw'>voronoi</span> <span class='kw'>=</span> <span class='no'>aGeom</span>)</div><div class='input'>
-<span class='no'>tiles</span> <span class='kw'>&lt;-</span> <span class='fu'>gs_voronoi</span>(<span class='kw'>anchor</span> <span class='kw'>=</span> <span class='no'>aGeom</span>)
-<span class='fu'><a href='visualise.html'>visualise</a></span>(<span class='no'>tiles</span>, <span class='kw'>new</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</div><div class='img'><img src='gs_voronoi-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='co'># \donttest{</span>
+<span class='va'>coords</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>40</span>, <span class='fl'>70</span>, <span class='fl'>70</span>, <span class='fl'>50</span><span class='op'>)</span>,
+                     y <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>40</span>, <span class='fl'>40</span>, <span class='fl'>60</span>, <span class='fl'>70</span><span class='op'>)</span><span class='op'>)</span>
+<span class='va'>window</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>80</span><span class='op'>)</span>,
+                     y <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>80</span><span class='op'>)</span><span class='op'>)</span>
+<span class='va'>aGeom</span> <span class='op'>&lt;-</span> <span class='fu'><a href='gs_point.html'>gs_point</a></span><span class='op'>(</span>anchor <span class='op'>=</span> <span class='va'>coords</span>, window <span class='op'>=</span> <span class='va'>window</span><span class='op'>)</span>
+<span class='fu'><a href='visualise.html'>visualise</a></span><span class='op'>(</span>voronoi <span class='op'>=</span> <span class='va'>aGeom</span><span class='op'>)</span>
+</div><div class='input'>
+<span class='va'>tiles</span> <span class='op'>&lt;-</span> <span class='fu'>gs_voronoi</span><span class='op'>(</span>anchor <span class='op'>=</span> <span class='va'>aGeom</span><span class='op'>)</span>
+<span class='fu'><a href='visualise.html'>visualise</a></span><span class='op'>(</span><span class='va'>tiles</span>, new <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
+</div><div class='img'><img src='gs_voronoi-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='co'># \donttest{</span>
 <span class='co'># 2. sketch a voronoi polygon by clicking into a template</span>
-<span class='fu'>gs_voronoi</span>(<span class='kw'>sketch</span> <span class='kw'>=</span> <span class='no'>gtRasters</span>$<span class='no'>continuous</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='visualise.html'>visualise</a></span>(<span class='kw'>tiles</span> <span class='kw'>=</span> <span class='no'>.</span>, <span class='kw'>new</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</div><div class='output co'>#&gt; <span class='message'>please click 3 vertices.</span></div><div class='output co'>#&gt; <span class='error'>Error in deldir(as.data.frame(tempAnchor), rw = c(min(theWindow$x), max(theWindow$x),     min(theWindow$y), max(theWindow$y)), suppressMsge = TRUE): There is at most one point, data or dummy, inside</span>
+<span class='va'>tiles</span> <span class='op'>&lt;-</span> <span class='fu'>gs_voronoi</span><span class='op'>(</span>sketch <span class='op'>=</span> <span class='va'>gtRasters</span><span class='op'>$</span><span class='va'>continuous</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='message'>please click 3 vertices.</span></div><div class='output co'>#&gt; <span class='error'>Error in deldir(as.data.frame(tempAnchor), rw = c(min(theWindow$x), max(theWindow$x),     min(theWindow$y), max(theWindow$y)), suppressMsge = TRUE): There is at most one point, data or dummy, inside</span>
 #&gt; <span class='error'>  the given rectangular window. Thus there are</span>
-#&gt; <span class='error'>  insufficiently many points to triangulate/tessellate.</span></div><div class='img'><img src='gs_voronoi-2.png' alt='' width='700' height='433' /></div><div class='input'># }
+#&gt; <span class='error'>  insufficiently many points to triangulate/tessellate.</span></div><div class='input'><span class='fu'><a href='visualise.html'>visualise</a></span><span class='op'>(</span><span class='va'>tiles</span>, new <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
+</div><div class='img'><img src='gs_voronoi-2.png' alt='' width='700' height='433' /></div><div class='input'><span class='co'># }</span>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
@@ -208,7 +206,7 @@ case the tiling is sketched; see <code>gpar</code>.</p></td>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Create a polygon <code>geom</code> — gs_polygon • geometr</title>
+<title>Create a polygon geom — gs_polygon • geometr</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -15,11 +15,13 @@
 <link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png" />
 <link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png" />
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png" />
+
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous" />
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
 
 <!-- bootstrap-toc -->
@@ -43,13 +45,11 @@
 
 
 
-<meta property="og:title" content="Create a polygon <code>geom</code> — gs_polygon" />
 
+<meta property="og:title" content="Create a polygon geom — gs_polygon" />
 <meta property="og:description" content="Create any (regular) polygon geometry (of class geom) either by
 specifying anchor values or by sketching it." />
-
 <meta property="og:image" content="http://EhrmannS.github.io/geometr/logo.svg" />
-
 
 
 
@@ -81,7 +81,7 @@ specifying anchor values or by sketching it." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">geometr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.6</span>
       </span>
     </div>
 
@@ -97,7 +97,6 @@ specifying anchor values or by sketching it." />
   <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
-      
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="http://www.twitter.com/DerEhrmann">
@@ -130,30 +129,28 @@ specifying anchor values or by sketching it." />
     </div>
 
     <div class="ref-description">
-    
     <p>Create any (regular) polygon geometry (of class <code><a href='geom-class.html'>geom</a></code>) either by
 specifying anchor values or by sketching it.</p>
-    
     </div>
 
-    <pre class="usage"><span class='fu'>gs_polygon</span>(
-  <span class='kw'>anchor</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>window</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>features</span> <span class='kw'>=</span> <span class='fl'>1</span>,
-  <span class='kw'>vertices</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>sketch</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>regular</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='no'>...</span>
-)
+    <pre class="usage"><span class='fu'>gs_polygon</span><span class='op'>(</span>
+  anchor <span class='op'>=</span> <span class='cn'>NULL</span>,
+  window <span class='op'>=</span> <span class='cn'>NULL</span>,
+  features <span class='op'>=</span> <span class='fl'>1</span>,
+  vertices <span class='op'>=</span> <span class='cn'>NULL</span>,
+  template <span class='op'>=</span> <span class='cn'>NULL</span>,
+  regular <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  <span class='va'>...</span>
+<span class='op'>)</span>
 
-<span class='fu'>gs_triangle</span>(<span class='kw'>anchor</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>window</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>sketch</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>features</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='no'>...</span>)
+<span class='fu'>gs_triangle</span><span class='op'>(</span>anchor <span class='op'>=</span> <span class='cn'>NULL</span>, window <span class='op'>=</span> <span class='cn'>NULL</span>, template <span class='op'>=</span> <span class='cn'>NULL</span>, features <span class='op'>=</span> <span class='fl'>1</span>, <span class='va'>...</span><span class='op'>)</span>
 
-<span class='fu'>gs_square</span>(<span class='kw'>anchor</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>window</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>sketch</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>features</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='no'>...</span>)
+<span class='fu'>gs_square</span><span class='op'>(</span>anchor <span class='op'>=</span> <span class='cn'>NULL</span>, window <span class='op'>=</span> <span class='cn'>NULL</span>, template <span class='op'>=</span> <span class='cn'>NULL</span>, features <span class='op'>=</span> <span class='fl'>1</span>, <span class='va'>...</span><span class='op'>)</span>
 
-<span class='fu'>gs_rectangle</span>(<span class='kw'>anchor</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>window</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>sketch</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>features</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='no'>...</span>)
+<span class='fu'>gs_rectangle</span><span class='op'>(</span>anchor <span class='op'>=</span> <span class='cn'>NULL</span>, window <span class='op'>=</span> <span class='cn'>NULL</span>, template <span class='op'>=</span> <span class='cn'>NULL</span>, features <span class='op'>=</span> <span class='fl'>1</span>, <span class='va'>...</span><span class='op'>)</span>
 
-<span class='fu'>gs_hexagon</span>(<span class='kw'>anchor</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>window</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>sketch</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>features</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='no'>...</span>)</pre>
-    
+<span class='fu'>gs_hexagon</span><span class='op'>(</span>anchor <span class='op'>=</span> <span class='cn'>NULL</span>, window <span class='op'>=</span> <span class='cn'>NULL</span>, template <span class='op'>=</span> <span class='cn'>NULL</span>, features <span class='op'>=</span> <span class='fl'>1</span>, <span class='va'>...</span><span class='op'>)</span></pre>
+
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
@@ -180,9 +177,9 @@ will be recycled if it does not have as many elements as specified in
 <code>features</code>.</p></td>
     </tr>
     <tr>
-      <th>sketch</th>
-      <td><p>[<code>raster(1)</code>]<br /> raster object that serves as template to
-sketch polygons.</p></td>
+      <th>template</th>
+      <td><p>[<code>gridded object(1)</code>]<br /> Gridded object that serves as
+template to sketch the tiling.</p></td>
     </tr>
     <tr>
       <th>regular</th>
@@ -196,24 +193,23 @@ provided by <code>anchor</code> (<code>FALSE</code>, default)?</p></td>
 case points are sketched; see <code><a href='https://rdrr.io/r/grid/gpar.html'>gpar</a></code></p></td>
     </tr>
     </table>
-    
+
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>An invisible <code>geom</code>.</p>
-    
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>The arguments <code>anchor</code> and <code>sketch</code> indicate how the line
+    <p>The arguments <code>anchor</code> and <code>template</code> indicate how the line
   is created:</p><ul>
 <li><p>if <code>anchor</code> is set, the line is created
   parametrically from the given objects' points,</p></li>
 <li><p>if an object is set in
-  <code>sketch</code>, this is used to create the <code>geom</code> interactively, by
+  <code>template</code>, this is used to create the <code>geom</code> interactively, by
   clicking into the plot.</p></li>
 </ul>
 
 <p>The argument <code>regular</code> determines how the vertices provided in
-  <code>anchor</code> or via <code>sketch</code> are transformed into a polygon:</p><ul>
+  <code>anchor</code> or via <code>template</code> are transformed into a polygon:</p><ul>
 <li><p>if <code>regular = FALSE</code> the resulting polygon is created
   from all vertices in <code>anchor</code>,</p></li>
 <li><p>if <code>regular = TRUE</code>, only
@@ -221,7 +217,6 @@ case points are sketched; see <code><a href='https://rdrr.io/r/grid/gpar.html'>g
   distance to the (outer) radius.</p></li>
 </ul>
 
-    
     <h2 class="hasAnchor" id="functions"><a class="anchor" href="#functions"></a>Functions</h2>
 
     
@@ -236,47 +231,41 @@ the two given opposing corners.</p></li>
 <li><p><code>gs_hexagon</code>: wrapper of gs_polygon where <code>vertices = 6</code> and
 <code>regular = TRUE</code>.</p></li>
 </ul>
-    
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>Other geometry shapes: 
 <code><a href='gs_line.html'>gs_line</a>()</code>,
 <code><a href='gs_point.html'>gs_point</a>()</code>,
 <code><a href='gs_random.html'>gs_random</a>()</code></p></div>
-    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># 1. create a polygon programmatically</span>
-<span class='no'>coords</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>40</span>, <span class='fl'>70</span>, <span class='fl'>70</span>, <span class='fl'>50</span>),
-                     <span class='kw'>y</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>40</span>, <span class='fl'>40</span>, <span class='fl'>60</span>, <span class='fl'>70</span>))
+<span class='va'>coords</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>40</span>, <span class='fl'>40</span>, <span class='fl'>0</span><span class='op'>)</span>,
+                     y <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>0</span>, <span class='fl'>40</span>, <span class='fl'>40</span><span class='op'>)</span><span class='op'>)</span>
 
 <span class='co'># if no window is set, the bounding box will be set as window</span>
-(<span class='no'>aGeom</span> <span class='kw'>&lt;-</span> <span class='fu'>gs_polygon</span>(<span class='kw'>anchor</span> <span class='kw'>=</span> <span class='no'>coords</span>))</div><div class='output co'>#&gt; <span style='color: #BBBB00;'>geom</span><span>        polygon
-#&gt;             1 group | 1 feature | 5 points
-#&gt; </span><span style='color: #BBBB00;'>crs         </span><span>cartesian
-#&gt; </span><span style='color: #BBBB00;'>attributes </span><span> --
-#&gt; </span><span style='color: #BBBB00;'>tiny map  </span><span>     70 
-#&gt;                ◌ ◎ ◌ ◌    
-#&gt;                ◌ ◌ ◌ ◎    
-#&gt;                ◌ ◌ ◌ ◌    
-#&gt;             40 ◉ ◌ ◌ ◎ 70 
-#&gt;                40 </div><div class='input'>
+<span class='va'>aGeom</span> <span class='op'>&lt;-</span> <span class='fu'>gs_polygon</span><span class='op'>(</span>anchor <span class='op'>=</span> <span class='va'>coords</span><span class='op'>)</span>
+<span class='fu'><a href='visualise.html'>visualise</a></span><span class='op'>(</span><span class='va'>aGeom</span><span class='op'>)</span>
+</div><div class='img'><img src='gs_polygon-1.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='co'># derive a regular polygon from the coordinates</span>
+<span class='va'>aPolygon</span> <span class='op'>&lt;-</span> <span class='fu'>gs_polygon</span><span class='op'>(</span>anchor <span class='op'>=</span> <span class='va'>coords</span>, vertices <span class='op'>=</span> <span class='fl'>6</span>, regular <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
+<span class='fu'><a href='visualise.html'>visualise</a></span><span class='op'>(</span><span class='va'>aPolygon</span>, linecol <span class='op'>=</span> <span class='st'>"green"</span><span class='op'>)</span>
+</div><div class='img'><img src='gs_polygon-2.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># the vertices are plottet relative to the window</span>
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>magrittr</span>)
-<span class='no'>window</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0</span>, <span class='fl'>80</span>),
-                     <span class='kw'>y</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0</span>, <span class='fl'>80</span>))
-<span class='fu'>gs_polygon</span>(<span class='kw'>anchor</span> <span class='kw'>=</span> <span class='no'>coords</span>, <span class='kw'>vertices</span> <span class='kw'>=</span> <span class='fl'>6</span>, <span class='kw'>window</span> <span class='kw'>=</span> <span class='no'>window</span>,
-           <span class='kw'>regular</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='visualise.html'>visualise</a></span>(<span class='kw'>linecol</span> <span class='kw'>=</span> <span class='st'>"green"</span>)</div><div class='img'><img src='gs_polygon-1.png' alt='' width='700' height='433' /></div><div class='input'>
-<span class='co'># when a geom is used in 'anchor', its properties are passed on</span>
-<span class='no'>aGeom</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='setWindow.html'>setWindow</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>aGeom</span>, <span class='kw'>to</span> <span class='kw'>=</span> <span class='no'>window</span>)
-<span class='fu'>gs_polygon</span>(<span class='kw'>anchor</span> <span class='kw'>=</span> <span class='no'>aGeom</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='visualise.html'>visualise</a></span>(<span class='kw'>geom</span> <span class='kw'>=</span> <span class='no'>.</span>, <span class='kw'>fillcol</span> <span class='kw'>=</span> <span class='st'>"deeppink"</span>)</div><div class='input'><span class='fu'>gs_rectangle</span>(<span class='kw'>anchor</span> <span class='kw'>=</span> <span class='no'>aGeom</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='visualise.html'>visualise</a></span>(<span class='kw'>geom</span> <span class='kw'>=</span> <span class='no'>.</span>, <span class='kw'>new</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</div><div class='img'><img src='gs_polygon-2.png' alt='' width='700' height='433' /></div><div class='input'><span class='co'># \donttest{</span>
+<span class='va'>window</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='op'>-</span><span class='fl'>50</span>, <span class='fl'>50</span><span class='op'>)</span>,
+                     y <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='op'>-</span><span class='fl'>50</span>, <span class='fl'>50</span><span class='op'>)</span><span class='op'>)</span>
+<span class='va'>aPolygon</span> <span class='op'>&lt;-</span> <span class='fu'><a href='setWindow.html'>setWindow</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>aPolygon</span>, to <span class='op'>=</span> <span class='va'>window</span><span class='op'>)</span>
+<span class='fu'><a href='visualise.html'>visualise</a></span><span class='op'>(</span><span class='va'>aPolygon</span>, fillcol <span class='op'>=</span> <span class='st'>"deeppink"</span><span class='op'>)</span>
+</div><div class='input'>
+<span class='co'># using a geom as anchor retains its properties (such as the window)</span>
+<span class='va'>aRectangle</span> <span class='op'>&lt;-</span> <span class='fu'>gs_rectangle</span><span class='op'>(</span>anchor <span class='op'>=</span> <span class='va'>aPolygon</span><span class='op'>)</span>
+<span class='fu'><a href='visualise.html'>visualise</a></span><span class='op'>(</span><span class='va'>aRectangle</span>, new <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
+</div><div class='img'><img src='gs_polygon-3.png' alt='' width='700' height='433' /></div><div class='input'><span class='co'># \donttest{</span>
 <span class='co'># 2. sketch a hexagon by clicking into a template</span>
-<span class='fu'>gs_hexagon</span>(<span class='kw'>sketch</span> <span class='kw'>=</span> <span class='no'>gtRasters</span>$<span class='no'>continuous</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='visualise.html'>visualise</a></span>(<span class='kw'>geom</span> <span class='kw'>=</span> <span class='no'>.</span>, <span class='kw'>linecol</span> <span class='kw'>=</span> <span class='st'>"deeppink"</span>, <span class='kw'>linetype</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>new</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</div><div class='output co'>#&gt; <span class='message'>please click the polygons' center and first vertex.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: no vertices are within the plotting window.</span></div><div class='output co'>#&gt; <span class='error'>Error in grid.Call.graphics(C_path, x$x, x$y, index, switch(x$rule, winding = 1L,     evenodd = 0L)): non-finite x or y in graphics path</span></div><div class='img'><img src='gs_polygon-3.png' alt='' width='700' height='433' /></div><div class='input'># }
-</div></span></pre>
+<span class='va'>aHexagon</span> <span class='op'>&lt;-</span> <span class='fu'>gs_hexagon</span><span class='op'>(</span>template <span class='op'>=</span> <span class='va'>gtRasters</span><span class='op'>$</span><span class='va'>continuous</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='message'>please click the polygons' center and first vertex.</span></div><div class='img'><img src='gs_polygon-4.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='visualise.html'>visualise</a></span><span class='op'>(</span><span class='va'>aHexagon</span>, linecol <span class='op'>=</span> <span class='st'>"deeppink"</span>, linetype <span class='op'>=</span> <span class='fl'>2</span>, new <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='error'>Error in if (min(input$x) != min(window$x)) {    window$x[window$x %in% min(window$x)] &lt;- min(input$x)}: missing value where TRUE/FALSE needed</span></div><div class='input'><span class='co'># }</span>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -292,7 +281,7 @@ the two given opposing corners.</p></li>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>
