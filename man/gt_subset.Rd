@@ -7,12 +7,13 @@
 gt_subset(obj, ..., update = TRUE)
 }
 \arguments{
-\item{obj}{[\code{geometric object(1)}]\cr the object to derive a subset from.}
+\item{obj}{[\code{geometric object(1)}]\cr the object to derive a subset
+from.}
 
 \item{...}{subset based on logical predicates defined in terms of the columns
-in \code{x} (of both, points, features and groups) or a vector of booleans.
-Multiple conditions are combined with \code{&}. Only rows where the
-condition evaluates to TRUE are kept.}
+in \code{x} (of both, points, features and groups). Multiple conditions are
+combined with \code{&}. Only rows where the condition evaluates to TRUE are
+kept.}
 
 \item{update}{[\code{logical(1)}]\cr whether or not to update the window slot
 after deriving the subset.}

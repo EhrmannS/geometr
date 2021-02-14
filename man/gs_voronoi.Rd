@@ -4,7 +4,7 @@
 \alias{gs_voronoi}
 \title{Create a voronoi tiling \code{geom}}
 \usage{
-gs_voronoi(anchor = NULL, window = NULL, features = 3, sketch = NULL, ...)
+gs_voronoi(anchor = NULL, window = NULL, features = 3, template = NULL, ...)
 }
 \arguments{
 \item{anchor}{[\code{geom(1)}|\code{data.frame(1)}]\cr Object to derive the
@@ -17,7 +17,7 @@ specify this here.}
 
 \item{features}{[\code{integerish(1)}]\cr number of tiles to sketch.}
 
-\item{sketch}{[\code{gridded object(1)}]\cr Gridded object that serves as
+\item{template}{[\code{gridded object(1)}]\cr Gridded object that serves as
 template to sketch the tiling.}
 
 \item{...}{[various]\cr graphical parameters to \code{\link{gt_locate}}, in
@@ -42,7 +42,7 @@ tiles <- gs_voronoi(anchor = aGeom)
 visualise(tiles, new = FALSE)
 \donttest{
 # 2. sketch a voronoi polygon by clicking into a template
-tiles <- gs_voronoi(sketch = gtRasters$continuous)
+tiles <- gs_voronoi(template = gtRasters$continuous)
 visualise(tiles, new = FALSE)
 }
 }
