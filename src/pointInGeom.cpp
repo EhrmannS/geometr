@@ -14,7 +14,6 @@ using namespace Rcpp;
 // damage resulting from its use. Users of this code must verify correctness for
 // their application.
 
-
 // [[Rcpp::export]]
 IntegerVector pointInGeomC(NumericMatrix &vert, NumericMatrix &geom, bool invert){
   int vRows = vert.nrow();
@@ -42,7 +41,7 @@ IntegerVector pointInGeomC(NumericMatrix &vert, NumericMatrix &geom, bool invert
 
     // if the coordinate is within the bounding box, proceed, otherwise value is definitely 'outside'
     if((x <= xMax) & (x >= xMin) & (y <= yMax) & (y >= yMin)){
-      int wn = 0;                            // the  winding number counter
+      int wn = 0;                            // the winding number counter
 
       // loop through all edges of the geometry and find wn
       for (int i = 0; i < gRows-1; i++){
@@ -52,10 +51,10 @@ IntegerVector pointInGeomC(NumericMatrix &vert, NumericMatrix &geom, bool invert
           if (y < geom(i+1, 1)){             // an upward crossing
 
             isLeft = (geom(i+1, 0) - geom(i, 0)) * (y - geom(i, 1)) - (x -  geom(i, 0)) * (geom(i+1, 1) - geom(i, 1));
-            if(isLeft == 0){                 // point is on the line
+            if(isLeft > 0){                  // P left of edge
+              ++wn;                          // have a valid up intersect
+            } else if(isLeft == 0){          // point is on the line
               ++on;
-            } else if(isLeft > 0){           // P left of or on edge "isLeft > 0"
-              ++wn;                          // have  a valid up intersect
             }
           } else {
             isLeft = (geom(i+1, 0) - geom(i, 0)) * (y - geom(i, 1)) - (x -  geom(i, 0)) * (geom(i+1, 1) - geom(i, 1));
