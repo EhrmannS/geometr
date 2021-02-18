@@ -15,11 +15,7 @@
 #' @importFrom methods is
 #' @importFrom grDevices colorRampPalette rgb
 
-.makePlot <- function(x,
-                      window = NULL,
-                      image = FALSE,
-                      theme = gtTheme,
-                      ...){
+.makePlot <- function(x, window, image, theme = gtTheme, ...){
 
   window <- .testWindow(x = window)
   # extent <- getExtent(x = x)
@@ -39,7 +35,8 @@
   out$legend <- theLegend
 
   # make the layout ----
-  theLayout <- .makeLayout(legend = theLegend, window = window, #extent = extent,
+  theLayout <- .makeLayout(legend = theLegend,
+                           window = window, #extent = extent,
                            theme = theTheme)
   out$layout <- theLayout
 

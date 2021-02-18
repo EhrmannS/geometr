@@ -1,14 +1,13 @@
 #' Make the layout of a plot
 #'
-#' @param x [\code{list(.)}]\cr the object, output from \code{makeObject}, from
-#'   which to make the plot.
+#' @param legend [\code{list(.)}]\cr the legend object built with
+#'   \code{\link{.makeLegend}}.
+#' @param window [\code{data.frame(1)}] two opposing corners of a rectangle to
+#'   which the plot is limited.
 #' @param theme [\code{gtTheme(1)}]\cr the theme from which to take graphical
 #'   parameters.
 
-.makeLayout <- function(legend = NULL,
-                        window = NULL,
-                        # extent = NULL,
-                        theme = gtTheme){
+.makeLayout <- function(legend, window, theme = gtTheme){
 
   maxWinX <- max(window$x)
   minWinX <- min(window$x)

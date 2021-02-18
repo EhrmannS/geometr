@@ -14,7 +14,7 @@
 #' @importFrom grid gpar unit pointsGrob gList pathGrob polylineGrob clipGrob
 #'   rasterGrob
 
-.makeGrob <- function(x = NULL, theme = gtTheme){
+.makeGrob <- function(x, theme = gtTheme){
 
   # capture display arguments
   featureType <- getType(x = x)
@@ -23,7 +23,7 @@
   if(featureType[1] != "grid") {
 
     # rescale values between 0 and 1
-    x <- gt_scale(x = x, range = tibble(x = c(0, 1), y = c(0, 1)))
+    x <- gt_scale(obj = x, range = tibble(x = c(0, 1), y = c(0, 1)))
 
     point <- getPoints(x = x)
     ids <- unique(point$fid)

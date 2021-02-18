@@ -1,12 +1,12 @@
 #' Make the legend of a plot
 #'
-#' @param x [\code{list(.)}]\cr the theme from which to build the legend.
-#' @param type [\code{character(1)}]\cr whether it is a \code{"raster"} or a
-#'   \code{"vector"} legend.
+#' @param x [\code{list(1)}]\cr any spatial object to plot.
+#' @param theme [\code{character(1)}]\cr the theme from which to take graphical
+#'   parameters.
 #' @importFrom checkmate assertChoice
 #' @importFrom grid textGrob rasterGrob rectGrob gpar gTree gList unit
 
-.makeLegend <- function(x = NULL, theme = NULL){
+.makeLegend <- function(x, theme){
 
   featureType <- getType(x = x)
   theParam <- theme@scale$param
