@@ -131,7 +131,7 @@
     <p>Create a voronoi tiling <code>geom</code></p>
     </div>
 
-    <pre class="usage"><span class='fu'>gs_voronoi</span><span class='op'>(</span>anchor <span class='op'>=</span> <span class='cn'>NULL</span>, window <span class='op'>=</span> <span class='cn'>NULL</span>, features <span class='op'>=</span> <span class='fl'>3</span>, sketch <span class='op'>=</span> <span class='cn'>NULL</span>, <span class='va'>...</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>gs_voronoi</span><span class='op'>(</span>anchor <span class='op'>=</span> <span class='cn'>NULL</span>, window <span class='op'>=</span> <span class='cn'>NULL</span>, features <span class='op'>=</span> <span class='fl'>3</span>, template <span class='op'>=</span> <span class='cn'>NULL</span>, <span class='va'>...</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -153,7 +153,7 @@ specify this here.</p></td>
       <td><p>[<code>integerish(1)</code>]<br /> number of tiles to sketch.</p></td>
     </tr>
     <tr>
-      <th>sketch</th>
+      <th>template</th>
       <td><p>[<code>gridded object(1)</code>]<br /> Gridded object that serves as
 template to sketch the tiling.</p></td>
     </tr>
@@ -185,7 +185,7 @@ case the tiling is sketched; see <code>gpar</code>.</p></td>
 <span class='fu'><a href='visualise.html'>visualise</a></span><span class='op'>(</span><span class='va'>tiles</span>, new <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
 </div><div class='img'><img src='gs_voronoi-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='co'># \donttest{</span>
 <span class='co'># 2. sketch a voronoi polygon by clicking into a template</span>
-<span class='va'>tiles</span> <span class='op'>&lt;-</span> <span class='fu'>gs_voronoi</span><span class='op'>(</span>sketch <span class='op'>=</span> <span class='va'>gtRasters</span><span class='op'>$</span><span class='va'>continuous</span><span class='op'>)</span>
+<span class='va'>tiles</span> <span class='op'>&lt;-</span> <span class='fu'>gs_voronoi</span><span class='op'>(</span>template <span class='op'>=</span> <span class='va'>gtRasters</span><span class='op'>$</span><span class='va'>continuous</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; <span class='message'>please click 3 vertices.</span></div><div class='output co'>#&gt; <span class='error'>Error in deldir(as.data.frame(tempAnchor), rw = c(min(theWindow$x), max(theWindow$x),     min(theWindow$y), max(theWindow$y)), suppressMsge = TRUE): There is at most one point, data or dummy, inside</span>
 #&gt; <span class='error'>  the given rectangular window. Thus there are</span>
 #&gt; <span class='error'>  insufficiently many points to triangulate/tessellate.</span></div><div class='input'><span class='fu'><a href='visualise.html'>visualise</a></span><span class='op'>(</span><span class='va'>tiles</span>, new <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
