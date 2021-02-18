@@ -14,34 +14,23 @@
   out <- list(obj = NULL, maxVal = NULL, posX = NULL, posY = NULL)
 
   if(theme@legend$plot){
-    if(featureType[1] == "grid"){
-      cols <- theme@parameters$fillcol
-      ids <- getFeatures(x = x)$gid
 
-      cols <- unique(cols[order(ids)])
-      ids <- unique(sort(ids))
+    cols <- theme@parameters[[theme@scale$param]]
 
-    } else{
-      cols <- theme@parameters[[theme@scale$param]]
-      ids <- getFeatures(x = x)$gid
-
-    }
-
-    tickValues <- seq_along(cols)
+    allLabels <- sort(gt_pull(obj = x, var = theme@scale$to))
+    allColours <- colorRampPalette(colors = cols)(theme@scale$bins)
 
     # determine the tick values and labels
-    if(length(tickValues) > theme@legend$bins){
-      tickValues <- quantile(tickValues, probs = seq(0, 1, length.out = theme@legend$bins+1), type = 1, names = FALSE)
+    if(theme@scale$bins > theme@legend$bins){
+      tickPositions <- quantile(1:theme@scale$bins, probs = seq(0, 1, length.out = theme@legend$bins+1), type = 1, names = FALSE)
+    } else {
+      tickPositions <- 1:theme@scale$bins
     }
+    legendLabels <- allLabels[tickPositions]
 
-    legendLabels <- ids[tickValues]
-    legendCols <- cols
-    if(theme@legend$ascending){
-      legendPos <- unit(tickValues, "native")
-    } else{
-      legendPos <- rev(unit(tickValues, "native"))
+    if(!theme@legend$ascending){
+      tickPositions <- rev(tickPositions)
     }
-
 
 
     # if(featureType[1] == "vector"){
@@ -238,7 +227,7 @@
                                height = unit(1, "npc"),
                                just = c("left"),
                                name = "legend_items",
-                               image = rev(legendCols),
+                               image = rev(allColours),
                                interpolate = FALSE)
 
       if(theme@legend$box$plot){
@@ -299,16 +288,15 @@
     if(theme@legend$label$plot){
       legend_labels <- textGrob(label = unlist(legendLabels, use.names = FALSE),
                                 x = unit(0, "npc") + unit(20, "points"),
-                                y = unit(legendPos, "native") - unit(0.5, "native"),
+                                y = unit(tickPositions, "native") - unit(0.5, "native"),
                                 name = "legend_labels",
                                 just = c("left"),
                                 gp = gpar(fontsize = theme@legend$label$fontsize,
                                           col = theme@legend$label$colour))
     }
 
-
     out$obj <- gTree(children = gList(legend_values, legend_obj, legend_labels))
-    out$maxVal <- unit(tail(tickValues, 1) + 1, "native")
+    out$maxVal <- unit(tail(tickPositions, 1) + 1, "native")
   } else {
     out$obj <- NULL
     out$maxVal <- 0
