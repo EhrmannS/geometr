@@ -63,7 +63,7 @@ setMethod(f = "gc_geom",
                        feature = list(geometry = theData),
                        group = list(geometry = theGroups),
                        window = theWindow,
-                       scale = "absolute",
+                       # scale = "absolute",
                        crs = theCRS,
                        history = list(history))
 
@@ -115,7 +115,7 @@ setMethod(f = "gc_geom",
                        feature = list(geometry = theData),
                        group = list(geometry = theGroups),
                        window = theWindow,
-                       scale = "absolute",
+                       # scale = "absolute",
                        crs = theCRS,
                        history = list(history))
 
@@ -144,7 +144,7 @@ setMethod(f = "gc_geom",
                        feature = list(geometry = theData),
                        group = list(geometry = theGroups),
                        window = theWindow,
-                       scale = "absolute",
+                       # scale = "absolute",
                        crs = theCRS,
                        history = list(history))
 
@@ -206,7 +206,7 @@ setMethod(f = "gc_geom",
                        feature = theFeatures,
                        group = theGroups,
                        window = theWindow,
-                       scale = "absolute",
+                       # scale = "absolute",
                        crs = theCRS,
                        history = c(getHistory(input), hist))
 

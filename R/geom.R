@@ -59,7 +59,7 @@ geom <- setClass(Class = "geom",
                            feature = "list",
                            group = "list",
                            window = "data.frame",
-                           scale = "character",
+                           # scale = "character",
                            crs = "character",
                            history = "list"
                  )
@@ -155,24 +155,24 @@ setValidity("geom", function(object){
     }
   }
 
-  if(!.hasSlot(object = object, name = "scale")){
-    errors = c(errors, "the geom does not have a 'scale' slot.")
-  } else {
-    if(!is.character(object@scale)){
-      errors = c(errors, "the slot 'scale' is not a character vector.")
-    } else {
-      # if(object@type == "grid"){
-      #   if(!any(object@scale %in% c("continuous", "categorical"))){
-      #     errors = c(errors, "the scale must either be 'continuous' or 'categorical'.")
-      #   }
-      # } else {
-      if(!any(object@scale %in% c("absolute", "relative"))){
-        errors = c(errors, "the scale must either be 'absolute' or 'relative'.")
-      }
-      # }
-
-    }
-  }
+  # if(!.hasSlot(object = object, name = "scale")){
+  #   errors = c(errors, "the geom does not have a 'scale' slot.")
+  # } else {
+  #   if(!is.character(object@scale)){
+  #     errors = c(errors, "the slot 'scale' is not a character vector.")
+  #   } else {
+  #     # if(object@type == "grid"){
+  #     #   if(!any(object@scale %in% c("continuous", "categorical"))){
+  #     #     errors = c(errors, "the scale must either be 'continuous' or 'categorical'.")
+  #     #   }
+  #     # } else {
+  #     if(!any(object@scale %in% c("absolute", "relative"))){
+  #       errors = c(errors, "the scale must either be 'absolute' or 'relative'.")
+  #     }
+  #     # }
+  #
+  #   }
+  # }
 
   if(!.hasSlot(object = object, name = "crs")){
     errors = c(errors, "the geom does not have a 'crs' slot.")
