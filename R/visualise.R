@@ -66,22 +66,21 @@
 visualise <- function(...,
                       layer = NULL,
                       window = NULL,
-                      theme = gtTheme,
                       trace = FALSE,
                       image = FALSE,
                       new = TRUE,
-                      clip = TRUE){
+                      clip = TRUE,
+                      theme = gtTheme){
 
   # library(geometr); library(checkmate); library(grid); library(rlang); library(tibble); library(dplyr)
-  # layer = NULL; window = NULL; theme = gtTheme; trace = FALSE; image = FALSE; new = TRUE; clip = FALSE; newParams <- list()
-  # source('/media/se87kuhe/external1/r-dev/geometr/R/makePlot.R')
-  # source('/media/se87kuhe/external1/r-dev/geometr/R/updateTheme.R')
-  # source('/media/se87kuhe/external1/r-dev/geometr/R/makeGrob.R')
-  # source('/media/se87kuhe/external1/r-dev/geometr/R/makeLayout.R')
-  # source('/media/se87kuhe/external1/r-dev/geometr/R/makeLegend.R')
-  # source('/media/se87kuhe/external1/r-dev/geometr/R/test_functions.R')
+  # layer = NULL; window = NULL; theme = gtTheme; trace = FALSE; image = FALSE; new = T; clip = FALSE; newParams <- list()
+  # source('/media/se87kuhe/external1/projekte/r-dev/geometr/R/makePlot.R')
+  # source('/media/se87kuhe/external1/projekte/r-dev/geometr/R/updateTheme.R')
+  # source('/media/se87kuhe/external1/projekte/r-dev/geometr/R/makeGrob.R')
+  # source('/media/se87kuhe/external1/projekte/r-dev/geometr/R/makeLayout.R')
+  # source('/media/se87kuhe/external1/projekte/r-dev/geometr/R/makeLegend.R')
+  # source('/media/se87kuhe/external1/projekte/r-dev/geometr/R/test_functions.R')
   # Rcpp::sourceCpp('src/unique.cpp')
-  # objs <- list(gtSF$polygon)
 
   # check arguments ----
   window <- .testWindow(x = window)
@@ -97,24 +96,41 @@ visualise <- function(...,
   if(any(!is.null(names(objs)))){
     objs <- objs[!names(objs) %in% names(theme@parameters)]
   }
-  if(length(objs) == 0){
-    return()
-  }
+  # if(length(objs) == 0){
+  #   return()
+  # }
+  #
+  # return(objs)
 
-  # tease apart objects with several layers (e.g. RasterStack)
-  plotObjects <- NULL
+  # tease apart objects with several layers (e.g. RasterStack) and determine
+  # names
+  plotObjects <- plotNames <- NULL
   for(i in seq_along(objs)){
     theLayers <- getLayer(x = eval_tidy(expr = objs[[i]]))
+    objsName <- names(objs)[i]
+    layerName <- names(theLayers)
+
+    if(objsName %in% names(theme@parameters)){
+      next
+    } else if(objsName == ""){
+      theName <- layerName
+      # theName <- getType(x = theLayers[[1]])[1]
+    } else {
+      theName <- rep(objsName, length(theLayers))
+    }
 
     if(is.null(theLayers)){
       warning(paste0("object '", names(objs)[i], "' can't be plotted, it's neither a geometric object, nor a graphical parameter."))
     } else {
       plotObjects <- c(plotObjects, theLayers)
+      plotNames <- c(plotNames, theName)
     }
   }
-  if(length(plotObjects) == 0){
-    return()
-  }
+  names(plotObjects) <- plotNames
+  # if(length(plotObjects) == 0){
+  #   return()
+  # }
+  # return(plotObjects)
 
   # start_overall <- Sys.time()
   # timings <- NULL
@@ -160,37 +176,15 @@ visualise <- function(...,
     pushViewport(viewport(name = "geometr"))
   }
 
+  # return(plotObjects)
+
   # make and plot the panels ----
   for(i in seq_along(plotObjects)){
 
     # manage the object and its name ----
     theObject <- plotObjects[[i]]
     theType <- getType(x = plotObjects[[i]])[1]
-    theName <- getName(plotObjects[[i]])
-    if(is.null(theName)) theName <- ""
-    if(theName != ""){
-      if(theName %in% names(theme@parameters)){
-        next
-      }
-    } else {
-      theName <- paste0("panel_", i)
-    }
-
-    # manage the window ----
-    if(!newPlot){
-      # take it first from previous plot
-      prev <- grid.get(gPath("extentGrob"), global = TRUE)
-      theWindow <- .testWindow(x = tibble(x = c(as.numeric(prev$x), as.numeric(prev$x) + as.numeric(prev$width)),
-                                          y = c(as.numeric(prev$y), as.numeric(prev$y) + as.numeric(prev$height))))
-    } else {
-      # otherwise, if given, from the argument
-      if(!is.null(window)){
-        theWindow <- window
-      } else {
-        # and otherwise from the object to plot
-        theWindow <- getWindow(x = theObject)
-      }
-    }
+    theName <- names(plotObjects)[i]
 
     if(newPlot | (!newPlot & theType == "grid")){
 
@@ -205,6 +199,13 @@ visualise <- function(...,
 
       # prepare the object for plotting ----
       # start_time <- Sys.time()
+      if(!is.null(window)){
+        # if given, from the argument
+        theWindow <- window
+      } else {
+        # and otherwise from the object to plot
+        theWindow <- getWindow(x = theObject)
+      }
       temp <- .makePlot(x = theObject, window = theWindow, image = image, theme = theme, ...)
       theGrob <- temp$grob
       theLegend <- temp$legend
@@ -406,6 +407,12 @@ visualise <- function(...,
 
       # prepare the object for plotting ----
       # start_time <- Sys.time()
+      prev <- grid.get(gPath("extentGrob"), global = TRUE)
+      if(is(prev) == "gList"){
+        prev <- prev[[i]]
+      }
+      theWindow <- .testWindow(x = tibble(x = c(as.numeric(prev$x), as.numeric(prev$x) + as.numeric(prev$width)),
+                                          y = c(as.numeric(prev$y), as.numeric(prev$y) + as.numeric(prev$height))))
       temp <- .makePlot(x = theObject, window = theWindow, image = image, theme = theme, ...)
       theGrob <- temp$grob
       # end_time <- Sys.time()
@@ -487,7 +494,6 @@ visualise <- function(...,
 #' @param parameters [\code{named list(.)}]\cr \code{linecol}, \code{fillcol},
 #'   \code{missingcol}, \code{linetype}, \code{linewidth}, \code{pointsize} and
 #'   \code{pointsymbol} of the plot object.
-#' @param raster [ \code{named list(.)}]\cr \code{fillcol} of a raster object.
 #' @examples
 #' input <- gtRasters$continuous
 #' (myTheme <- setTheme(title = list(plot = FALSE)))
