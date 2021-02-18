@@ -16,11 +16,11 @@ gt_sketch(
 )
 }
 \arguments{
-\item{template}{[\code{RasterLayer(1)} | \code{matrix(1)}]\cr Gridded object
-that serves as template to sketch the geometry.}
+\item{template}{[\code{gridded object(1)}]\cr a gridded object that serves as
+template to sketch the geometry.}
 
-\item{shape}{[\code{character(1)}]\cr a geometry shape that should be
-sketched, possible are the geom types \code{"point"}, \code{"line"} and
+\item{shape}{[\code{character(1)}]\cr the shape that should be sketched,
+options are the geometry shapes \code{"point"}, \code{"line"} and
 \code{"polygon"} and special cases thereof (recently implemented are
 \code{"triangle"}, \code{"square"}, \code{"hexagon"}) and \code{"random"}.}
 
@@ -30,20 +30,20 @@ sketched, possible are the geom types \code{"point"}, \code{"line"} and
 will be recycled if it does not have as many elements as specified in
 \code{features}.}
 
-\item{regular}{[\code{logical(1)}]\cr if a polygon is sketched, should it be
-regular, i.e. point symmetric (\code{TRUE}) with the number of corners
-defined by \code{vertices} or should the vertices be selected according to
-the click locations, resulting in a non-regular polygon (\code{FALSE},
-default)?}
+\item{regular}{[\code{logical(1)}]\cr in case a polygon is sketched, should
+it be regular, i.e. point symmetric (\code{TRUE}) with the number of
+corners defined by \code{vertices} or should the vertices be selected
+according to the click locations, resulting in a non-regular polygon
+(\code{FALSE}, default)?}
 
-\item{fixed}{[\code{logical(1)}]\cr if a regular polygon is sketched, should
-it be aligned vertically (\code{TRUE}, default), or should it be aligned
-according to the second click (\code{FALSE}); only relevant if
+\item{fixed}{[\code{logical(1)}]\cr in case a regular polygon is sketched,
+should it be aligned vertically (\code{TRUE}, default), or should it be
+aligned according to the second click (\code{FALSE}); only relevant if
 \code{regular = TRUE}.}
 
-\item{show}{[\code{logical(1)}]\cr should plot information be shown in the
-plot (\code{TRUE}), or should the geom merely be returned in the console
-(\code{FALSE, default})}
+\item{show}{[\code{logical(1)}]\cr should information be shown in the plot
+(\code{TRUE}), or should the geom merely be returned (\code{FALSE,
+default})}
 
 \item{...}{[various]\cr additional arguments to \code{\link{gt_locate}}.}
 }
@@ -56,8 +56,7 @@ Sketch \code{geom}s by clicking into a plot.
 \examples{
 \donttest{
 # sketch a point geometry
-gt_sketch(template = gtRasters$categorical, shape = "point") \%>\%
-  visualise(points = ., linecol = "green", pointsymbol = 5, new = FALSE)
+gt_sketch(template = gtRasters$categorical, shape = "point", show = TRUE)
 
 # sketch a line geometry
 gt_sketch(template = gtRasters$categorical, vertices = 4, shape = "line") \%>\%
