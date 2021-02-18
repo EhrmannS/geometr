@@ -1,36 +1,35 @@
 #' Sketch \code{geom}s
 #'
 #' Sketch \code{geom}s by clicking into a plot.
-#' @param template [\code{RasterLayer(1)} | \code{matrix(1)}]\cr Gridded object
-#'   that serves as template to sketch the geometry.
-#' @param shape [\code{character(1)}]\cr a geometry shape that should be
-#'   sketched, possible are the geom types \code{"point"}, \code{"line"} and
+#' @param template [\code{gridded object(1)}]\cr a gridded object that serves as
+#'   template to sketch the geometry.
+#' @param shape [\code{character(1)}]\cr the shape that should be sketched,
+#'   options are the geometry shapes \code{"point"}, \code{"line"} and
 #'   \code{"polygon"} and special cases thereof (recently implemented are
 #'   \code{"triangle"}, \code{"square"}, \code{"hexagon"}) and \code{"random"}.
 #' @param features [\code{integerish(1)}]\cr number of geometries to create.
 #' @param vertices [\code{integerish(.)}]\cr number of vertices per geometry;
 #'   will be recycled if it does not have as many elements as specified in
 #'   \code{features}.
-#' @param regular [\code{logical(1)}]\cr if a polygon is sketched, should it be
-#'   regular, i.e. point symmetric (\code{TRUE}) with the number of corners
-#'   defined by \code{vertices} or should the vertices be selected according to
-#'   the click locations, resulting in a non-regular polygon (\code{FALSE},
-#'   default)?
-#' @param fixed [\code{logical(1)}]\cr if a regular polygon is sketched, should
-#'   it be aligned vertically (\code{TRUE}, default), or should it be aligned
-#'   according to the second click (\code{FALSE}); only relevant if
+#' @param regular [\code{logical(1)}]\cr in case a polygon is sketched, should
+#'   it be regular, i.e. point symmetric (\code{TRUE}) with the number of
+#'   corners defined by \code{vertices} or should the vertices be selected
+#'   according to the click locations, resulting in a non-regular polygon
+#'   (\code{FALSE}, default)?
+#' @param fixed [\code{logical(1)}]\cr in case a regular polygon is sketched,
+#'   should it be aligned vertically (\code{TRUE}, default), or should it be
+#'   aligned according to the second click (\code{FALSE}); only relevant if
 #'   \code{regular = TRUE}.
-#' @param show [\code{logical(1)}]\cr should plot information be shown in the
-#'   plot (\code{TRUE}), or should the geom merely be returned in the console
-#'   (\code{FALSE, default})
+#' @param show [\code{logical(1)}]\cr should information be shown in the plot
+#'   (\code{TRUE}), or should the geom merely be returned (\code{FALSE,
+#'   default})
 #' @param ... [various]\cr additional arguments to \code{\link{gt_locate}}.
 #' @return An invisible \code{geom}.
 #' @family geometry tools
 #' @examples
 #' \donttest{
 #' # sketch a point geometry
-#' gt_sketch(template = gtRasters$categorical, shape = "point") %>%
-#'   visualise(points = ., linecol = "green", pointsymbol = 5, new = FALSE)
+#' gt_sketch(template = gtRasters$categorical, shape = "point", show = TRUE)
 #'
 #' # sketch a line geometry
 #' gt_sketch(template = gtRasters$categorical, vertices = 4, shape = "line") %>%
@@ -47,8 +46,9 @@
 #' @importFrom dplyr bind_rows
 #' @export
 
-gt_sketch <- function(template = NULL, shape = NULL, features = 1, vertices = NULL,
-                      regular = FALSE, fixed = FALSE, show = FALSE, ...){
+gt_sketch <- function(template = NULL, shape = NULL, features = 1,
+                      vertices = NULL, regular = FALSE, fixed = FALSE,
+                      show = FALSE, ...){
 
   theCoices <- c("point", "line", "polygon", "triangle", "square", "hexagon", "random")
   # check arguments
@@ -178,7 +178,6 @@ gt_sketch <- function(template = NULL, shape = NULL, features = 1, vertices = NU
                  feature = list(geometry = theFeatures),
                  group = list(geometry = theGroups),
                  window = theWindow,
-                 scale = theScale,
                  crs = as.character(projection),
                  history = list(paste0("geometry was created as '", type, "'.")))
 

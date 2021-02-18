@@ -21,6 +21,7 @@
 #' @return A \code{tibble} of the selected locations and, if \code{identify
 #'   = TRUE}, the respective values. If \code{show = TRUE} the values are also
 #'   shown in the plot.
+#' @family geometry tools
 #' @examples
 #' \donttest{
 #' # locate coordinates with geoms
@@ -172,14 +173,15 @@ gt_locate <- function(samples = 1, panel = NULL, identify = FALSE, snap = FALSE,
       } else if(isVectorInPlot){
 
         theVal <- plotVal <- NA
-        for(i in seq_along(unique(theValues))){
-          geom <- grid.get(gPath(as.character(i)), global = TRUE)
+        for(j in seq_along(unique(theValues))){
+          geom <- grid.get(gPath(as.character(j)), global = TRUE)
+          geom <- matrix(data = c(geom$x, geom$y, geom$pathId), ncol = 3)
           inside <- pointInGeomC(vert = matrix(data = c(values[1], values[2]), ncol = 2),
-                                 geom = matrix(data = c(geom$x, geom$y), ncol = 2),
+                                 geom = geom[which(geom[,3] == j), c(1, 2)],
                                  invert = FALSE)
           if(inside >= 1){
-            theVal <- i
-            plotVal <- i
+            theVal <- j
+            plotVal <- j
             break
           }
         }
