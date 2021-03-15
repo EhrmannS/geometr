@@ -3,26 +3,26 @@
 #' @param x the object from which to get the name.
 #' @return A vector of the requested names.
 #' @family getters
-#' @name getName
-#' @rdname getName
+#' @name getNames
+#' @rdname getNames
 NULL
 
 # generic ----
-#' @rdname getName
-#' @name getName
+#' @rdname getNames
+#' @name getNames
 #' @export
-if(!isGeneric("getName")){
-  setGeneric(name = "getName",
+if(!isGeneric("getNames")){
+  setGeneric(name = "getNames",
              def = function(x, ...){
-               standardGeneric("getName")
+               standardGeneric("getNames")
              }
   )
 }
 
 # any ----
-#' @rdname getName
+#' @rdname getNames
 #' @export
-setMethod(f = "getName",
+setMethod(f = "getNames",
           signature = "ANY",
           definition = function(x){
             NULL
@@ -30,9 +30,9 @@ setMethod(f = "getName",
 )
 
 # geom ----
-#' @rdname getName
+#' @rdname getNames
 #' @export
-setMethod(f = "getName",
+setMethod(f = "getNames",
           signature = "geom",
           definition = function(x){
 
@@ -43,10 +43,10 @@ setMethod(f = "getName",
 )
 
 # matrix ----
-#' @rdname getName
+#' @rdname getNames
 #' @importFrom sf st_drop_geometry
 #' @export
-setMethod(f = "getName",
+setMethod(f = "getNames",
           signature = "sf",
           definition = function(x){
             allNames <- names(x)
@@ -58,10 +58,10 @@ setMethod(f = "getName",
 )
 
 # RasterLayer ----
-#' @rdname getName
+#' @rdname getNames
 #' @importFrom checkmate testNumeric assertIntegerish testCharacter assertSubset
 #' @export
-setMethod(f = "getName",
+setMethod(f = "getNames",
           signature = "Raster",
           definition = function(x){
 

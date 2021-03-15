@@ -4,26 +4,26 @@
 #' @param layer [\code{character(.)} | \code{integerish(.)}]\cr the layer(s) to get.
 #' @return A list of the requested layers.
 #' @family getters
-#' @name getLayer
-#' @rdname getLayer
+#' @name getLayers
+#' @rdname getLayers
 NULL
 
 # generic ----
-#' @rdname getLayer
-#' @name getLayer
+#' @rdname getLayers
+#' @name getLayers
 #' @export
-if(!isGeneric("getLayer")){
-  setGeneric(name = "getLayer",
+if(!isGeneric("getLayers")){
+  setGeneric(name = "getLayers",
              def = function(x, layer = NULL, ...){
-               standardGeneric("getLayer")
+               standardGeneric("getLayers")
              }
   )
 }
 
 # any ----
-#' @rdname getLayer
+#' @rdname getLayers
 #' @export
-setMethod(f = "getLayer",
+setMethod(f = "getLayers",
           signature = "ANY",
           definition = function(x){
             NULL
@@ -31,10 +31,10 @@ setMethod(f = "getLayer",
 )
 
 # geom ----
-#' @rdname getLayer
+#' @rdname getLayers
 #' @importFrom checkmate testNumeric assertIntegerish testCharacter assertSubset
 #' @export
-setMethod(f = "getLayer",
+setMethod(f = "getLayers",
           signature = "geom",
           definition = function(x, layer = NULL){
 
@@ -90,9 +90,9 @@ setMethod(f = "getLayer",
 )
 
 # matrix ----
-#' @rdname getLayer
+#' @rdname getLayers
 #' @export
-setMethod(f = "getLayer",
+setMethod(f = "getLayers",
           signature = "Spatial",
           definition = function(x, layer = NULL){
             out <- setNames(list(x), "a spatial object")
@@ -101,10 +101,10 @@ setMethod(f = "getLayer",
 )
 
 # matrix ----
-#' @rdname getLayer
+#' @rdname getLayers
 #' @importFrom sf st_drop_geometry
 #' @export
-setMethod(f = "getLayer",
+setMethod(f = "getLayers",
           signature = "sf",
           definition = function(x, layer = NULL){
             allNames <- names(x)
@@ -117,10 +117,10 @@ setMethod(f = "getLayer",
 )
 
 # RasterLayer ----
-#' @rdname getLayer
+#' @rdname getLayers
 #' @importFrom checkmate testNumeric assertIntegerish testCharacter assertSubset
 #' @export
-setMethod(f = "getLayer",
+setMethod(f = "getLayers",
           signature = "Raster",
           definition = function(x, layer = NULL){
 
@@ -158,9 +158,9 @@ setMethod(f = "getLayer",
 )
 
 # matrix ----
-#' @rdname getLayer
+#' @rdname getLayers
 #' @export
-setMethod(f = "getLayer",
+setMethod(f = "getLayers",
           signature = "matrix",
           definition = function(x, layer = NULL){
             out <- setNames(list(x), "a matrix")
