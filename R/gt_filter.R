@@ -1,5 +1,7 @@
-#' Derive the subset of a geometric object
+#' Subset a geometric object using column values
 #'
+#' This function allows to subset any geometric object for which all required
+#' getters are available.
 #' @param obj [\code{geometric object(1)}]\cr the object to derive a subset
 #'   from.
 #' @param ... subset based on logical predicates defined in terms of the columns
@@ -12,16 +14,16 @@
 #' @family geometry tools
 #' @examples
 #' # get a subset of a geom
-#' gt_subset(gtGeoms$point, y < -10)
+#' gt_filter(gtGeoms$point, y < -10)
 #'
 #' # get a subset of an sf-object
-#' gt_subset(obj = gtSF$multilinestring, a == 1)
+#' gt_filter(obj = gtSF$multilinestring, a == 1)
 #' @importFrom rlang enquos eval_tidy exprs
 #' @importFrom dplyr left_join
 #' @importFrom methods new
 #' @export
 
-gt_subset <- function(obj, ..., update = TRUE){
+gt_filter <- function(obj, ..., update = TRUE){
 
   thePoints <- getPoints(x = obj)
   theFeatures <- getFeatures(x = obj)

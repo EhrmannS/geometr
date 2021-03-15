@@ -213,7 +213,7 @@ gs_rectangle <- function(anchor = NULL, window = NULL, template = NULL,
 
   outTable <- NULL
   for(i in seq_along(theGeom@feature$geometry$fid)){
-    geomSubset <- gt_subset(theGeom, fid == !!i)
+    geomSubset <- gt_filter(theGeom, fid == !!i)
     temp <- getExtent(geomSubset)
     temp <- tibble(x = c(rep(temp$x, each = 2), temp$x[1]),
                    y = c(temp$y, rev(temp$y), temp$y[1]),
