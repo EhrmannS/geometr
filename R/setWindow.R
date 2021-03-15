@@ -75,7 +75,7 @@ setMethod(f = "setWindow",
             }
             x@window <- tibble(x = c(rep(xVals, each = 2), xVals[1]),
                                y = c(yVals, rev(yVals), yVals[1]))
-            x@history <- c(getHistory(x = x), list(paste0("the window was set to x(", paste(xVals, collapse = ","), "), y(", paste(yVals, collapse = ","), ")")))
+            x@history <- c(getHistory(x = x), list(paste0("the window was set to x[", paste(xVals, collapse = " "), "], y[", paste(yVals, collapse = " "), "]")))
             return(x)
           }
 )
