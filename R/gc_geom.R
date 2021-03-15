@@ -1,11 +1,41 @@
 #' Transform a spatial object to class \code{geom}
 #'
 #' @param input the object to transform to class \code{geom}.
-#' @param group [\code{logical(1)}]\cr should the attributes of multi* features
-#'   be grouped, i.e. should the unique values per multi* feature be assigned
+#' @param group [\code{logical(1)}]\cr should the attributes of MULTI* features
+#'   be grouped, i.e., should the unique values per MULTI* feature be assigned
 #'   into the groups table (\code{TRUE}), or should they be kept as duplicated
 #'   per-feature attributes (\code{FALSE}, default)?
+#' @param stack [\code{logical(1)}]\cr should the layers of gridded objects be
+#'   stacked, i.e., should several layers be stored as columns in the attribute
+#'   table of features of one geom (\code{TRUE}, default), or should they be
+#'   stored in (a list of) several geoms separately (\code{FALSE})?
+#' @param as_hex [\code{logical(1)}]\cr should the bands 'red', 'green' and
+#'   'blue' of a gridded object be transformed to hexadecimal values
+#'   (\code{TRUE}), or should they be retained as columns in a stacked grid geom
+#'   (\code{FALSE}, default)?.
 #' @param ... additional arguments.
+#' @details When transforming a simple feature to a geom, all MULTI* features
+#'   are organised on a per feature basis, where the attribute table of features
+#'   in the geom contains those variables that are valid for each feature, while
+#'   the attribute table of groups contains those variables, that are unique
+#'   only at the level of groups of features (i.e., at the level of MULTI*
+#'   simple features). Those variables that are valid at the level of groups
+#'   would be duplicated in the attribute table of features. When a MULTI*
+#'   feature is transformed to a geom, the default behaviour is to copy the
+#'   simple feature as closely as possible. However, to reduce the object size
+#'   (and improve its' organisation), it is possible to assign the attributes of
+#'   groups into the attribute table of groups of the geom by setting
+#'   \code{group = TRUE}.
+#'
+#'   When transforming a Raster* (or possibly other gridded classes) with
+#'   several layers to a geom, the layers are by default organised into columns
+#'   of the attribute table of features of the same geom. However, when the
+#'   layers contain fundamentally different data, this may techincally be
+#'   possible, but would not make sense. "Fundamentally different data" means
+#'   here, that the values of the layers are associated to different groups, so
+#'   that the geom would require more than one attribute table of groups. To
+#'   deal with this, layers can be assigned into separate geoms by setting
+#'   \code{stack = FALSE}.
 #' @return an object of class \code{geom}
 #' @family spatial classes
 #' @examples
@@ -115,7 +145,6 @@ setMethod(f = "gc_geom",
                        feature = list(geometry = theData),
                        group = list(geometry = theGroups),
                        window = theWindow,
-                       # scale = "absolute",
                        crs = theCRS,
                        history = list(history))
 
@@ -156,11 +185,12 @@ setMethod(f = "gc_geom",
 #' @rdname gc_geom
 #' @importFrom tibble tibble
 #' @importFrom raster xres yres
+#' @importFrom dplyr bind_cols full_join arrange
 #' @importFrom utils object.size
 #' @export
 setMethod(f = "gc_geom",
           signature = "Raster",
-          definition = function(input = NULL, ...){
+          definition = function(input = NULL, stack = TRUE, as_hex = FALSE, ...){
 
             theExtent <- getExtent(x = input)
             theCoords <- tibble(x = c(min(theExtent$x), input@ncols, xres(input)),
@@ -168,47 +198,103 @@ setMethod(f = "gc_geom",
 
             theType <- getType(x = input)
             theWindow <- getWindow(x = input)
+            theCRS <- getCRS(x = input)
 
-            theFeatures <- list()
-            theGroups <- hist <- list()
+            hist <- list()
+
+            assertLogical(x = as_hex, len = 1)
+            if(as_hex){
+              assertNames(x = names(input), must.include = c("red", "green", "blue"))
+              red <- getFeatures(x = getLayers(x = input, layer = "red")[[1]])$values
+              red[is.na(red)] <- 255L
+              green <- getFeatures(x = getLayers(x = input, layer = "green")[[1]])$values
+              green[is.na(green)] <- 255L
+              blue <- getFeatures(x = getLayers(x = input, layer = "blue")[[1]])$values
+              blue[is.na(blue)] <- 255L
+              alpha <- rep(255, length(blue))
+              alpha[is.na(red)] <- 0L
+              alpha[is.na(green)] <- 0L
+              alpha[is.na(blue)] <- 0L
+
+              input <- input[[1]] # subset to have dim(input) == 1
+              names(input) <- "colours"
+            }
+
+            out <- theFeatures <- NULL
+            theGroups <- tibble(gid = integer())
             for(i in 1:dim(input)[3]){
-              hist <- c(hist, paste0("geom was transformed from an object of class ", theType[2], "."))
 
               theInput <- input[[i]]
               theName <- names(input)[i]
+              hist <- c(hist, paste0("geom was transformed from an object of class ", theType[2], "."))
 
-              rawVal <- getFeatures(x = theInput)$values
-              rleVal <- rle(rawVal)
-              if(object.size(rleVal) > object.size(rawVal)){
-                tempFeatures <- tibble(values = rawVal)
+              if(as_hex){
+                rawVal <- rgb(red = red, green = green, blue = blue, alpha = alpha, maxColorValue = 255)
               } else {
-                tempFeatures <- tibble(val = rleVal$values,
-                                       len = rleVal$lengths)
-                hist <- c(hist, paste0("layer '", theName, "' is run-length encoded."))
+                rawVal <- getFeatures(x = theInput)$values
               }
-              theFeatures <- c(theFeatures, setNames(list(tempFeatures), theName))
+              tempGroups <- getGroups(theInput)
 
-              if(length(theInput@data@attributes) != 0){
-                tempGroups <- as_tibble(theInput@data@attributes[[1]])
-                colnames(tempGroups) <- c("gid", colnames(tempGroups)[-1])
+              if(stack){
+
+                tempFeatures <- tibble(rawVal)
+                names(tempFeatures) <- theName
+                theFeatures <- bind_cols(theFeatures, tempFeatures)
+                theGroups <- full_join(theGroups, tempGroups, by = "gid")
+                theGroups <- arrange(theGroups, gid)
+
               } else {
-                tempGroups <- tibble(gid = integer())
-              }
-              theGroups <- c(theGroups, setNames(list(tempGroups), theName))
 
+                rleVal <- rle(rawVal)
+                if(object.size(rleVal) > object.size(rawVal)){
+                  tempFeatures <- tibble(rawVal)
+                  names(tempFeatures) <- theName
+                } else {
+                  tempFeatures <- tibble(val = rleVal$values,
+                                         len = rleVal$lengths)
+                  hist <- c(hist, paste0("layer '", theName, "' is run-length encoded."))
+                }
+                if(length(theInput@data@attributes) != 0){
+                  theGroups <- as_tibble(theInput@data@attributes[[1]])
+                  colnames(theGroups) <- c("gid", colnames(theGroups)[-1])
+                } else {
+                  if(as_hex){
+                    theGroups <- tibble(gid = 1)
+                  } else {
+                    theGroups <- tibble(gid = sortUniqueC(rleVal$values))
+                  }
+                }
+
+                theFeatures <- setNames(list(tempFeatures), theName)
+                theGroups <- setNames(list(theGroups), theName)
+
+                temp <- new(Class = "geom",
+                            type = "grid",
+                            point = theCoords,
+                            feature = theFeatures,
+                            group = theGroups,
+                            window = theWindow,
+                            crs = theCRS,
+                            history = c(getHistory(input), hist))
+
+                out <- c(out, setNames(list(temp), theName))
+              }
             }
 
-            theCRS <- getCRS(x = input)
+            if(stack){
 
-            out <- new(Class = "geom",
-                       type = "grid",
-                       point = theCoords,
-                       feature = theFeatures,
-                       group = theGroups,
-                       window = theWindow,
-                       # scale = "absolute",
-                       crs = theCRS,
-                       history = c(getHistory(input), hist))
+              theFeatures <- setNames(list(theFeatures), "geometry")
+              theGroups <- setNames(list(theGroups), "geometry")
+
+              out <- new(Class = "geom",
+                          type = "grid",
+                          point = theCoords,
+                          feature = theFeatures,
+                          group = theGroups,
+                          window = theWindow,
+                          crs = theCRS,
+                          history = c(getHistory(input), hist))
+            }
 
             return(out)
           }
