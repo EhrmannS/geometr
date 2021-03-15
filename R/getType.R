@@ -52,7 +52,7 @@ setMethod(f = "getType",
           signature = signature("Spatial"),
           definition = function(x){
             theType <- class(x)[1]
-            if(theType %in% c("SpatialMultiPoints", "SpatialMultiPointsDataFrame", "SpatialPixels", "SpatialPixelsDataFrame")){
+            if(theType %in% c("SpatialPoints", "SpatialPointsDataFrame", "SpatialMultiPoints", "SpatialMultiPointsDataFrame", "SpatialPixels", "SpatialPixelsDataFrame")){
               geomType <- "point"
             } else if(theType %in% c("SpatialPolygons", "SpatialPolygonsDataFrame", "SpatialGrid", "SpatialGridDataFrame")){
               geomType <- "polygon"
