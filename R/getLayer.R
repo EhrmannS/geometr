@@ -76,7 +76,6 @@ setMethod(f = "getLayer",
                             feature = tempFeatures,
                             group = tempGroups,
                             window = x@window,
-                            scale = x@scale,
                             crs = x@crs,
                             history = x@history)
                 out <- c(out, setNames(list(temp), tempName))

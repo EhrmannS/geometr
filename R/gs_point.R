@@ -111,7 +111,6 @@ gs_point <- function(anchor = NULL, window = NULL, vertices = 1, template = NULL
                    feature = theFeatures,
                    group = theGroups,
                    window = theWindow,
-                   # scale = "absolute",
                    crs = as.character(projection),
                    history = c(getHistory(x = anchor$obj), list(hist)))
   }
