@@ -6,22 +6,14 @@
 #'   layer(s) that shall be plotted.
 #' @param window [\code{data.frame(1)}]\cr two opposing corners of a rectangle
 #'   to which the plot is limited.
-#' @param theme [\code{list(7)}]\cr visualising options; see
-#'   \code{\link{setTheme}} for details.
+#' @param theme [\code{list(7)}]\cr the theme from which to take graphical
+#'   parameters; see \code{\link{setTheme}} for details.
 #' @param trace [\code{logical(1)}]\cr Print the raster object's history (i.e.
 #'   the process according to which it has been created) (\code{TRUE}), or
 #'   simply plot the object (\code{FALSE}, default).
-#' @param image [\code{logical(1)}]\cr set this to \code{TRUE} if \code{raster}
-#'   is actually an image; see Details.
 #' @param new [\code{logical(1)}]\cr force a new plot (\code{TRUE}, default).
 #' @param clip [\code{logical(1)}]\cr clip the plot by the plot box
 #'   (\code{TRUE}, default), or plot all of the objects.
-#' @details In case you want to plot an image (similar to
-#'   \code{\link[raster]{plotRGB}}), you either have to: \enumerate{ \item
-#'   provide a \code{RasterStack} with the three layers \code{red}, \code{green}
-#'   and \code{blue} or \item provide a matrix with hexadecimal colour values
-#'   (e.g. '#000000')} and set \code{image = TRUE}.
-#'
 #' @return Returns invisibly an object of class \code{recordedplot}, see
 #'   \code{\link{recordPlot}} for details (and warnings).
 #' @examples
@@ -67,13 +59,12 @@ visualise <- function(...,
                       layer = NULL,
                       window = NULL,
                       trace = FALSE,
-                      image = FALSE,
                       new = TRUE,
                       clip = TRUE,
                       theme = gtTheme){
 
   # library(geometr); library(checkmate); library(grid); library(rlang); library(tibble); library(dplyr)
-  # layer = NULL; window = NULL; theme = gtTheme; trace = FALSE; image = FALSE; new = T; clip = FALSE; newParams <- list()
+  # layer = NULL; window = NULL; theme = gtTheme; trace = FALSE; new = T; clip = FALSE; plotParams <- list()
   # source('/media/se87kuhe/external1/projekte/r-dev/geometr/R/makePlot.R')
   # source('/media/se87kuhe/external1/projekte/r-dev/geometr/R/updateTheme.R')
   # source('/media/se87kuhe/external1/projekte/r-dev/geometr/R/makeGrob.R')
@@ -87,7 +78,6 @@ visualise <- function(...,
   assertDataFrame(x = window, nrows = 5, min.cols = 2, null.ok = TRUE)
   assertClass(x = theme, classes = "gtTheme", null.ok = TRUE)
   assertLogical(x = trace, len = 1, any.missing = FALSE)
-  assertLogical(x = image, len = 1, any.missing = FALSE)
   assertLogical(x = new, len = 1, any.missing = FALSE)
   assertLogical(x = clip, len = 1, any.missing = FALSE)
 
@@ -96,25 +86,19 @@ visualise <- function(...,
   if(any(!is.null(names(objs)))){
     objs <- objs[!names(objs) %in% names(theme@parameters)]
   }
-  # if(length(objs) == 0){
-  #   return()
-  # }
-  #
-  # return(objs)
 
   # tease apart objects with several layers (e.g. RasterStack) and determine
   # names
   plotObjects <- plotNames <- NULL
   for(i in seq_along(objs)){
-    theLayers <- getLayer(x = eval_tidy(expr = objs[[i]]))
+    theLayers <- getLayers(x = eval_tidy(expr = objs[[i]]))
     objsName <- names(objs)[i]
     layerName <- names(theLayers)
 
-    if(objsName %in% names(theme@parameters)){
+    if(objsName %in% c("linecol", "fillcol", "linetype", "linewidth", "pointsize", "pointsymbol")){
       next
     } else if(objsName == ""){
       theName <- layerName
-      # theName <- getType(x = theLayers[[1]])[1]
     } else {
       theName <- rep(objsName, length(theLayers))
     }
@@ -127,10 +111,6 @@ visualise <- function(...,
     }
   }
   names(plotObjects) <- plotNames
-  # if(length(plotObjects) == 0){
-  #   return()
-  # }
-  # return(plotObjects)
 
   # start_overall <- Sys.time()
   # timings <- NULL
@@ -176,8 +156,6 @@ visualise <- function(...,
     pushViewport(viewport(name = "geometr"))
   }
 
-  # return(plotObjects)
-
   # make and plot the panels ----
   for(i in seq_along(plotObjects)){
 
@@ -188,16 +166,7 @@ visualise <- function(...,
 
     if(newPlot | (!newPlot & theType == "grid")){
 
-      # first, create the plot region for the i-th panel. This serve to derive all distances
-      pushViewport(viewport(x = (panelPosX[i]/ncol)-(1/ncol/2),
-                            y = (panelPosY[i]/nrow)-(1/nrow/2),
-                            width = 1/ncol,
-                            height = 1/nrow,
-                            name = theName))
-      grid.rect(width = convertX(unit(1, "npc"), "native"),
-                gp = gpar(col = "green", fill = NA), name = "panelGrob")
-
-      # prepare the object for plotting ----
+      # first, prepare the object for plotting ----
       # start_time <- Sys.time()
       if(!is.null(window)){
         # if given, from the argument
@@ -206,15 +175,24 @@ visualise <- function(...,
         # and otherwise from the object to plot
         theWindow <- getWindow(x = theObject)
       }
-      temp <- .makePlot(x = theObject, window = theWindow, image = image, theme = theme, ...)
+
+      temp <- .makePlot(x = theObject, window = theWindow, theme = theme, ...)
       theGrob <- temp$grob
       theLegend <- temp$legend
       theLayout <- temp$layout
       # end_time <- Sys.time()
       # timings <- bind_rows(timings, tibble(activity = "make object", duration = end_time - start_time))
 
+      # then, create the plot ----
+      # first, create the plot region for the i-th panel. This serve to derive all distances
+      pushViewport(viewport(x = (panelPosX[i]/ncol)-(1/ncol/2),
+                            y = (panelPosY[i]/nrow)-(1/nrow/2),
+                            width = 1/ncol,
+                            height = 1/nrow,
+                            name = theName))
+      grid.rect(width = convertX(unit(1, "npc"), "native"),
+                gp = gpar(col = "#D3D3D3FF", fill = NA), name = "panelGrob")
 
-      # create the plot ----
       # grid.rect(height = theLayout$yMargin, width = theLayout$xMargin,
       #           gp = gpar(col = NA, fill = NA), name = "marginGrob")
       grid.rect(x = unit(theLayout$window$xmin, "points"),
@@ -234,25 +212,27 @@ visualise <- function(...,
                                                unit(theLayout$dim$y3, "points"),
                                                unit(theLayout$dim$y4, "points"))
       )
-      # grid.show.layout(l = myLayout, newpage = FALSE)
       layoutVP <- viewport(name = "theLayout",
                            layout = myLayout)
-      # 1. axis ticks and label dimensions need to be added
-      # 2. raster must be smaller than the plot, by the margin
       titleVP <- viewport(name = "title",
-                          layout.pos.col = 2, layout.pos.row = 1)
+                          layout.pos.col = 2,
+                          layout.pos.row = 1)
       yAxisVP <- viewport(name = "y_axis",
-                          layout.pos.col = 1, layout.pos.row = 2,
+                          layout.pos.col = 1,
+                          layout.pos.row = 2,
                           xscale = c(theLayout$scale$xmin, theLayout$scale$xmax),
                           yscale = c(theLayout$scale$ymin, theLayout$scale$ymax))
       xAxisVP <- viewport(name = "x_axis",
-                          layout.pos.col = 2, layout.pos.row = 3,
+                          layout.pos.col = 2,
+                          layout.pos.row = 3,
                           xscale = c(theLayout$scale$xmin, theLayout$scale$xmax),
                           yscale = c(theLayout$scale$ymin, theLayout$scale$ymax))
       legendVP <- viewport(name = "legend",
-                           layout.pos.col = theLegend$posX, layout.pos.row = theLegend$posY)
+                           layout.pos.col = theLayout$legend$posX,
+                           layout.pos.row = theLayout$legend$posY)
       plotVP <- viewport(name = theType,
-                         layout.pos.col = 2, layout.pos.row = 2,
+                         layout.pos.col = 2,
+                         layout.pos.row = 2,
                          xscale = c(theLayout$scale$xmin, theLayout$scale$xmax),
                          yscale = c(theLayout$scale$ymin, theLayout$scale$ymax))
 
@@ -260,8 +240,7 @@ visualise <- function(...,
                         height = unit(1, "npc") - unit(2 * theLayout$margin$y, "native") + unit(theme@box$linewidth, "points"),
                         name = "box")
       legBoxVP <- viewport(height = unit(1, "npc") * theme@legend$yRatio,
-                           width = unit(1, "npc") * theme@legend$xRatio,
-                           yscale = c(1, theLayout$scale$legend),
+                           width = unit(1, "npc"),
                            name = "legend_box")
 
       # end_time <- Sys.time()
@@ -274,7 +253,7 @@ visualise <- function(...,
       # start_time <- Sys.time()
       if(theme@title$plot){
         pushViewport(titleVP)
-        grid.rect(gp = gpar(col = "blue", fill = NA))
+        # grid.rect(gp = gpar(col = "blue", fill = NA))
         grid.text(y = unit(1, "npc") - unit(3, "points"),
                   just = "top",
                   label = theName,
@@ -286,10 +265,10 @@ visualise <- function(...,
       # ... the yAxis viewport ----
       if(theme@yAxis$plot){
         pushViewport(yAxisVP)
-        grid.rect(gp = gpar(col = "red", fill = NA))
+        # grid.rect(gp = gpar(col = "red", fill = NA))
 
         if(theme@yAxis$label$plot){
-          grid.text(x = unit(1, "npc") - unit(3, "points") - unit(theLayout$labels$yAxisTicksW, "points"),
+          grid.text(x = unit(1, "npc") - unit(5, "points") - unit(theLayout$labels$yAxisTicksW, "points"),
                     just = "right",
                     label = theme@yAxis$label$title,
                     rot = theme@yAxis$label$rotation,
@@ -299,9 +278,9 @@ visualise <- function(...,
         }
 
         if(theme@yAxis$ticks$plot){
-          grid.text(x = unit(1, "npc") - unit(theLayout$labels$yAxisTicksW, "points"),
+          grid.text(x = unit(1, "npc") - unit(2, "points"),
                     label = as.character(theLayout$grid$yMaj),
-                    just = "left",
+                    just = "right",
                     y = unit(theLayout$grid$yMaj, "native"),
                     rot = theme@xAxis$ticks$rotation,
                     name = "y_tick_labels",
@@ -314,7 +293,7 @@ visualise <- function(...,
       # ... the xAxis viewport ----
       if(theme@xAxis$plot){
         pushViewport(xAxisVP)
-        grid.rect(gp = gpar(col = "red", fill = NA))
+        # grid.rect(gp = gpar(col = "red", fill = NA))
 
         if(theme@yAxis$label$plot){
           grid.text(y = unit(1, "npc") - unit(3, "points") - unit(theLayout$labels$xAxisTicksH, "points"),
@@ -345,10 +324,12 @@ visualise <- function(...,
       # start_time <- Sys.time()
       if(theme@legend$plot){
         pushViewport(legendVP)
-        grid.rect(gp = gpar(col = "violet", fill = NA))
+        # grid.rect(gp = gpar(col = "violet", fill = NA))
         pushViewport(legBoxVP)
 
-        grid.draw(theLegend$obj)
+        for(j in seq_along(theLegend)){
+          grid.draw(theLegend[[j]])
+        }
 
         upViewport() # exit legBoxVP
         upViewport() # exit legendVP
@@ -413,7 +394,8 @@ visualise <- function(...,
       }
       theWindow <- .testWindow(x = tibble(x = c(as.numeric(prev$x), as.numeric(prev$x) + as.numeric(prev$width)),
                                           y = c(as.numeric(prev$y), as.numeric(prev$y) + as.numeric(prev$height))))
-      temp <- .makePlot(x = theObject, window = theWindow, image = image, theme = theme, ...)
+      theme@legend$plot <- FALSE
+      temp <- .makePlot(x = theObject, window = theWindow, theme = theme, ...)
       theGrob <- temp$grob
       # end_time <- Sys.time()
       # timings <- bind_rows(timings, tibble(activity = "make object", duration = end_time - start_time))
@@ -635,7 +617,7 @@ setTheme <- function(from = NULL, title = NULL, box = NULL, xAxis = NULL,
 
   assertList(scale, any.missing = FALSE, max.len = 5, null.ok = TRUE)
   if(!is.null(scale)){
-    assertNames(names(scale), subset.of = c("param", "to", "identity", "range", "bins"))
+    assertNames(names(scale), subset.of = c("param", "to", "identity", "range", "bins", "maxPoxels"))
     previous <- from@scale
     for(i in seq_along(names(scale))){
       out@scale[which(names(previous) == names(scale)[i])] <- scale[i]
@@ -644,7 +626,7 @@ setTheme <- function(from = NULL, title = NULL, box = NULL, xAxis = NULL,
 
   assertList(parameters, any.missing = FALSE, max.len = 7, null.ok = TRUE)
   if(!is.null(parameters)){
-    assertNames(names(parameters), subset.of = c("linecol", "fillcol", "missingcol", "linetype", "linewidth", "pointsize", "pointsymbol"))
+    assertNames(names(parameters), subset.of = c("colours", "missingcol", "linetype", "linewidth", "pointsize", "pointsymbol"))
     previous <- from@parameters
     for(i in seq_along(names(parameters))){
       out@parameters[which(names(previous) == names(parameters)[i])] <- parameters[i]
