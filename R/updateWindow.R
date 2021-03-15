@@ -10,9 +10,11 @@
 .updateWindow <- function(input = NULL, window = NULL){
 
   # check arguments
+  if(!testDataFrame(x = input, min.rows = 2)){
+    return(window)
+  }
   names(input) <- tolower(names(input))
   assertNames(x = names(input), must.include = c("x", "y"))
-  assertDataFrame(x = input, min.rows = 2)
   names(window) <- tolower(names(window))
   assertNames(x = names(window), must.include = c("x", "y"))
   if(dim(window)[1] >= 2){
