@@ -44,14 +44,22 @@
 
   if(theme@legend$plot){
 
+    legendH <- legendW <- NULL
+
     if(theme@legend$position == "right"){
-      labels <- legend$obj$children$legend_labels$label
-      maxLbl <- labels[which.max(nchar(labels))]
-      legendH <- 0
-      legendW <- ceiling(convertX(unit(1, "strwidth", maxLbl) + unit(25, "points"), "points"))
-    } else {
-      legendH <- 0
       legendW <- 0
+      legendScale <- NULL
+      for(i in seq_along(legend)){
+        labels <- legend[[i]]$children$legend_labels$label
+        maxLbl <- labels[which.max(nchar(labels))]
+        tempW <- as.numeric(ceiling(convertX(unit(1, "strwidth", maxLbl) + unit(25, "points"), "points")))
+        legendW <- legendW + tempW
+      }
+      legendW <- unit(legendW, "points")
+      legendH <- unit(0, "points")
+    } else {
+      legendH <- unit(0, "points")
+      legendW <- unit(0, "points")
     }
 
   #   legendW <- NULL
@@ -77,8 +85,17 @@
     legendW <- unit(0, "points")
     legendH <- unit(0, "points")
   }
+
+  if(theme@legend$position == "right"){
+    legendPosX <- 3
+    legendPosY <- 2
+  } else {
+    legendPosX <- 2
+    legendPosY <- 4
+  }
+
   if(theme@yAxis$plot){
-    yAxisTitleW <- theme@yAxis$label$fontsize
+    yAxisTitleW <- theme@yAxis$label$fontsize + 5
     digits <- round(axisSteps$y1, theme@yAxis$ticks$digits)
     yAxisTicksW <- ceiling(convertX(unit(1, "strwidth", as.character(digits[which.max(nchar(digits))])), "points"))
     yAxisTicksW <- as.numeric(yAxisTicksW)
@@ -116,12 +133,13 @@
               scale = list(xmin = minWinX - margin$x,
                            xmax = maxWinX + margin$x,
                            ymin = minWinY - margin$y,
-                           ymax = maxWinY + margin$y,
-                           legend = legend$maxVal),
+                           ymax = maxWinY + margin$y),
               grid = list(xMaj = round(axisSteps$x1, theme@yAxis$ticks$digits),
                           xMin = round(axisSteps$x2, theme@yAxis$ticks$digits),
                           yMaj = round(axisSteps$y1, theme@yAxis$ticks$digits),
-                          yMin = round(axisSteps$y2, theme@yAxis$ticks$digits))
+                          yMin = round(axisSteps$y2, theme@yAxis$ticks$digits)),
+              legend = list(posX = legendPosX,
+                            posy = legendPosY)
               )
 
   return(out)
