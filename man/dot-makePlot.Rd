@@ -4,7 +4,7 @@
 \alias{.makePlot}
 \title{Make the object to a plot}
 \usage{
-.makePlot(x, window, image, theme = gtTheme, ...)
+.makePlot(x, window, theme = gtTheme, ...)
 }
 \arguments{
 \item{x}{[\code{list(1)}]\cr named list of the object from which to make the
@@ -12,8 +12,6 @@ plot.}
 
 \item{window}{[\code{data.frame(1)}] two opposing corners of a rectangle to
 which the plot is limited.}
-
-\item{image}{[\code{logical(1)}]\cr whether or not \code{x} is an image}
 
 \item{theme}{[\code{gtTheme(1)}]\cr the theme from which to take graphical
 parameters.}

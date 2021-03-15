@@ -9,7 +9,6 @@ visualise(
   layer = NULL,
   window = NULL,
   trace = FALSE,
-  image = FALSE,
   new = TRUE,
   clip = TRUE,
   theme = gtTheme
@@ -29,16 +28,13 @@ to which the plot is limited.}
 the process according to which it has been created) (\code{TRUE}), or
 simply plot the object (\code{FALSE}, default).}
 
-\item{image}{[\code{logical(1)}]\cr set this to \code{TRUE} if \code{raster}
-is actually an image; see Details.}
-
 \item{new}{[\code{logical(1)}]\cr force a new plot (\code{TRUE}, default).}
 
 \item{clip}{[\code{logical(1)}]\cr clip the plot by the plot box
 (\code{TRUE}, default), or plot all of the objects.}
 
-\item{theme}{[\code{list(7)}]\cr visualising options; see
-\code{\link{setTheme}} for details.}
+\item{theme}{[\code{list(7)}]\cr the theme from which to take graphical
+parameters; see \code{\link{setTheme}} for details.}
 }
 \value{
 Returns invisibly an object of class \code{recordedplot}, see
@@ -46,13 +42,6 @@ Returns invisibly an object of class \code{recordedplot}, see
 }
 \description{
 Visualise raster and geom objects
-}
-\details{
-In case you want to plot an image (similar to
-  \code{\link[raster]{plotRGB}}), you either have to: \enumerate{ \item
-  provide a \code{RasterStack} with the three layers \code{red}, \code{green}
-  and \code{blue} or \item provide a matrix with hexadecimal colour values
-  (e.g. '#000000')} and set \code{image = TRUE}.
 }
 \examples{
 coords <- data.frame(x = c(30, 60, 60, 40),

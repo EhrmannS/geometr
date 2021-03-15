@@ -4,10 +4,13 @@
 \alias{.makeGrob}
 \title{Make the grob of a plot}
 \usage{
-.makeGrob(x, theme = gtTheme)
+.makeGrob(x, plotParams, theme = gtTheme)
 }
 \arguments{
 \item{x}{the object to transform to class \code{grob}.}
+
+\item{plotParams}{[\code{named list(.)}]\cr new plotting parameters specified
+via the quick options in \code{\link{visualise}}.}
 
 \item{theme}{[\code{gtTheme(1)}]\cr the theme from which to take parameters.}
 }

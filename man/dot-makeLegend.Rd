@@ -4,12 +4,15 @@
 \alias{.makeLegend}
 \title{Make the legend of a plot}
 \usage{
-.makeLegend(x, theme)
+.makeLegend(x, plotParams, theme)
 }
 \arguments{
 \item{x}{[\code{list(1)}]\cr any spatial object to plot.}
 
-\item{theme}{[\code{character(1)}]\cr the theme from which to take graphical
+\item{plotParams}{[\code{named list(.)}]\cr new plotting parameters specified
+via the quick options in \code{\link{visualise}}.}
+
+\item{theme}{[\code{list(7)}]\cr the theme from which to take graphical
 parameters.}
 }
 \description{

@@ -2,18 +2,15 @@
 % Please edit documentation in R/updateTheme.R
 \name{.updateTheme}
 \alias{.updateTheme}
-\title{Update the theme according to disply arguments}
+\title{Update the theme parameters}
 \usage{
-.updateTheme(x, newParams, theme = gtTheme)
+.updateTheme(x, theme = gtTheme)
 }
 \arguments{
 \item{x}{[\code{list(1)}]\cr any spatial object to plot.}
 
-\item{newParams}{[\code{named list(.)}]\cr new plotting parameters specified
-via the quick options in \code{\link{visualise}}.}
-
 \item{theme}{[\code{gtTheme(1)}]\cr the theme that shall be updated.}
 }
 \description{
-Update the theme according to disply arguments
+Update the theme parameters
 }
