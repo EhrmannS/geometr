@@ -86,13 +86,26 @@ setMethod(f = "getGroups",
 setMethod(f = "getGroups",
           signature = "Raster",
           definition = function(x){
-            if(length(x@data@attributes) == 0){
-              out <- tibble(gid = integer())
-            } else{
-              names <- names(x@data@attributes[[1]])
-              names[which(names == "id")] <- "gid"
-              out <- as_tibble(x@data@attributes[[1]])
-              names(out) <- names
+            if(class(x) == "RasterBrick"){
+              out <- tibble(gid = 1)
+            } else {
+              out <- NULL
+              for(i in 1:dim(x)[3]){
+                temp <- x[[i]]@data@attributes
+                if(length(temp) != 0){
+                  names <- names(temp[[1]])
+                  names[which(names == "id")] <- "gid"
+                  tab <- as_tibble(temp[[1]])
+                  names(tab) <- names
+                } else {
+                  tab <- tibble(gid = sortUniqueC(getValues(x)))
+                }
+                if(dim(x)[3] == 1){
+                  out <- tab
+                } else {
+                  out <- c(out, setNames(list(tab), names(x)[i]))
+                }
+              }
             }
             return(out)
           }
@@ -105,7 +118,6 @@ setMethod(f = "getGroups",
 setMethod(f = "getGroups",
           signature = "matrix",
           definition = function(x){
-            vals <- sort(unique(as.vector(x = x)))
-            tibble(gid = seq_along(vals), values = vals)
+            tibble(gid = sortUniqueC(as.vector(x = x)))
           }
 )

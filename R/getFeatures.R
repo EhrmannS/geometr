@@ -308,7 +308,7 @@ setMethod(f = "getFeatures",
 
 # Raster ----
 #' @rdname getFeatures
-#' @importFrom tibble tibble
+#' @importFrom tibble tibble as_tibble
 #' @importFrom dplyr bind_cols
 #' @importFrom raster getValues
 #' @export
@@ -316,15 +316,25 @@ setMethod(f = "getFeatures",
           signature = "Raster",
           definition = function(x){
 
-            temp <- getValues(x)
-            if(is.matrix(temp)){
-              out <- list()
-              for(i in 1:dim(temp)[2]){
-                out[[i]] <- tibble(fid = seq_along(temp[,i]), gid = temp[,i], values = temp[,i])
-              }
-              names(out) <- colnames(temp)
+            vals <- getValues(x)
+            if(class(x) == "RasterBrick"){
+              out <- tibble(fid = seq_along(vals[,1]), gid = 1)
+              out <- bind_cols(out, as_tibble(vals))
             } else {
-              out <- tibble(fid = seq_along(temp), gid = temp, values = temp)
+              out <- NULL
+              for(i in 1:dim(x)[3]){
+                if(is.matrix(vals)){
+                  temp <- vals[,i]
+                } else {
+                  temp <- vals
+                }
+                tab <- tibble(fid = seq_along(temp), gid = temp, values = temp)
+                if(dim(x)[3] == 1){
+                  out <- tab
+                } else {
+                  out <- c(out, setNames(list(tab), names(x)[i]))
+                }
+              }
             }
             return(out)
           }
@@ -339,7 +349,7 @@ setMethod(f = "getFeatures",
           definition = function(x){
 
             temp <- as.vector(t(x))
-            out <- tibble(fid = seq_along(temp), gid = seq_along(temp), values = temp)
+            out <- tibble(fid = seq_along(temp), gid = temp, values = temp)
             return(out)
           }
 )
