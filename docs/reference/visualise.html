@@ -99,13 +99,13 @@
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="http://www.twitter.com/DerEhrmann">
-    <span class="fa fa-twitter fa-lg"></span>
+    <span class="fas fa-twitter fa-lg"></span>
      
   </a>
 </li>
 <li>
   <a href="https://github.com/EhrmannS/geometr">
-    <span class="fa fa-github"></span>
+    <span class="fas fa-github"></span>
      
   </a>
 </li>
@@ -136,7 +136,6 @@
   layer <span class='op'>=</span> <span class='cn'>NULL</span>,
   window <span class='op'>=</span> <span class='cn'>NULL</span>,
   trace <span class='op'>=</span> <span class='cn'>FALSE</span>,
-  image <span class='op'>=</span> <span class='cn'>FALSE</span>,
   new <span class='op'>=</span> <span class='cn'>TRUE</span>,
   clip <span class='op'>=</span> <span class='cn'>TRUE</span>,
   theme <span class='op'>=</span> <span class='va'>gtTheme</span>
@@ -167,11 +166,6 @@ the process according to which it has been created) (<code>TRUE</code>), or
 simply plot the object (<code>FALSE</code>, default).</p></td>
     </tr>
     <tr>
-      <th>image</th>
-      <td><p>[<code><a href='https://rdrr.io/r/base/logical.html'>logical(1)</a></code>]<br /> set this to <code>TRUE</code> if <code>raster</code>
-is actually an image; see Details.</p></td>
-    </tr>
-    <tr>
       <th>new</th>
       <td><p>[<code><a href='https://rdrr.io/r/base/logical.html'>logical(1)</a></code>]<br /> force a new plot (<code>TRUE</code>, default).</p></td>
     </tr>
@@ -182,8 +176,8 @@ is actually an image; see Details.</p></td>
     </tr>
     <tr>
       <th>theme</th>
-      <td><p>[<code><a href='https://rdrr.io/r/base/list.html'>list(7)</a></code>]<br /> visualising options; see
-<code><a href='setTheme.html'>setTheme</a></code> for details.</p></td>
+      <td><p>[<code><a href='https://rdrr.io/r/base/list.html'>list(7)</a></code>]<br /> the theme from which to take graphical
+parameters; see <code><a href='setTheme.html'>setTheme</a></code> for details.</p></td>
     </tr>
     </table>
 
@@ -191,15 +185,6 @@ is actually an image; see Details.</p></td>
 
     <p>Returns invisibly an object of class <code>recordedplot</code>, see
   <code><a href='https://rdrr.io/r/grDevices/recordplot.html'>recordPlot</a></code> for details (and warnings).</p>
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
-
-    <p>In case you want to plot an image (similar to
-  <code><a href='https://rdrr.io/pkg/raster/man/plotRGB.html'>plotRGB</a></code>), you either have to:</p><ol>
-<li><p>provide a <code>RasterStack</code> with the three layers <code>red</code>, <code>green</code>
-  and <code>blue</code> or</p></li>
-<li><p>provide a matrix with hexadecimal colour values
-  (e.g. '#000000')</p></li>
-</ol><p>and set <code>image = TRUE</code>.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='va'>coords</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>30</span>, <span class='fl'>60</span>, <span class='fl'>60</span>, <span class='fl'>40</span><span class='op'>)</span>,

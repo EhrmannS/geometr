@@ -99,13 +99,13 @@
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="http://www.twitter.com/DerEhrmann">
-    <span class="fa fa-twitter fa-lg"></span>
+    <span class="fas fa-twitter fa-lg"></span>
      
   </a>
 </li>
 <li>
   <a href="https://github.com/EhrmannS/geometr">
-    <span class="fa fa-github"></span>
+    <span class="fas fa-github"></span>
      
   </a>
 </li>
@@ -141,7 +141,7 @@
 <span class='fu'>gc_geom</span><span class='op'>(</span>input <span class='op'>=</span> <span class='cn'>NULL</span>, <span class='va'>...</span><span class='op'>)</span>
 
 <span class='co'># S4 method for Raster</span>
-<span class='fu'>gc_geom</span><span class='op'>(</span>input <span class='op'>=</span> <span class='cn'>NULL</span>, <span class='va'>...</span><span class='op'>)</span></pre>
+<span class='fu'>gc_geom</span><span class='op'>(</span>input <span class='op'>=</span> <span class='cn'>NULL</span>, stack <span class='op'>=</span> <span class='cn'>TRUE</span>, as_hex <span class='op'>=</span> <span class='cn'>FALSE</span>, <span class='va'>...</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -156,16 +156,52 @@
     </tr>
     <tr>
       <th>group</th>
-      <td><p>[<code><a href='https://rdrr.io/r/base/logical.html'>logical(1)</a></code>]<br /> should the attributes of multi* features
-be grouped, i.e. should the unique values per multi* feature be assigned
+      <td><p>[<code><a href='https://rdrr.io/r/base/logical.html'>logical(1)</a></code>]<br /> should the attributes of MULTI* features
+be grouped, i.e., should the unique values per MULTI* feature be assigned
 into the groups table (<code>TRUE</code>), or should they be kept as duplicated
 per-feature attributes (<code>FALSE</code>, default)?</p></td>
+    </tr>
+    <tr>
+      <th>stack</th>
+      <td><p>[<code><a href='https://rdrr.io/r/base/logical.html'>logical(1)</a></code>]<br /> should the layers of gridded objects be
+stacked, i.e., should several layers be stored as columns in the attribute
+table of features of one geom (<code>TRUE</code>, default), or should they be
+stored in (a list of) several geoms separately (<code>FALSE</code>)?</p></td>
+    </tr>
+    <tr>
+      <th>as_hex</th>
+      <td><p>[<code><a href='https://rdrr.io/r/base/logical.html'>logical(1)</a></code>]<br /> should the bands 'red', 'green' and
+'blue' of a gridded object be transformed to hexadecimal values
+(<code>TRUE</code>), or should they be retained as columns in a stacked grid geom
+(<code>FALSE</code>, default)?.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>an object of class <code>geom</code></p>
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>When transforming a simple feature to a geom, all MULTI* features
+  are organised on a per feature basis, where the attribute table of features
+  in the geom contains the variables that are valid for each feature and the
+  attribute table of groups contains those variables, that are unique only at
+  the level of groups of features (i.e., at the level of MULTI* simple
+  features), which would consequently be duplicated in the attribute table of
+  features. When a MULTI* feature is transformed to a geom, the default
+  behaviour is to copy the simple feature as closely as possible. However, to
+  reduce the object size, it is possible to assign the attributes of groups
+  into the attribute table of groups of the geom by setting <code>group =
+  TRUE</code>.</p>
+<p>When transforming a Raster* (or possibly other gridded classes) with
+  several layers to a geom, the layers are by default organised into columns
+  of the attribute table of features of the same geom. However, when the
+  layers contain fundamentally different data, this may techincally be
+  possible, but would not make sense. "Fundamentally different data" means
+  here, that the values of the layers are associated to different groups, so
+  that a single attribute table of groups can't be assigned to all layers
+  simultaneously. To deal with this, layers can be assigned into separate
+  geoms by setting <code>stack = FALSE</code>.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>Other spatial classes: 

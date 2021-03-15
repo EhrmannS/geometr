@@ -98,13 +98,13 @@
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="http://www.twitter.com/DerEhrmann">
-    <span class="fa fa-twitter fa-lg"></span>
+    <span class="fas fa-twitter fa-lg"></span>
      
   </a>
 </li>
 <li>
   <a href="https://github.com/EhrmannS/geometr">
-    <span class="fa fa-github"></span>
+    <span class="fas fa-github"></span>
      
   </a>
 </li>
@@ -130,7 +130,8 @@
 <a href="#geometr-026" class="anchor"></a>geometr 0.2.6<small> Unreleased </small>
 </h1>
 <ul>
-<li>subsetting has been moved out of the respective getters into <code><a href="../reference/gt_subset.html">gt_subset()</a></code>, it also includes subsetting x and y values of the vertices.</li>
+<li>subsetting has been moved out of the respective getters into <code><a href="../reference/gt_filter.html">gt_filter()</a></code>, it also includes subsetting x and y values of the vertices.</li>
+<li>pulling columns can now be donw with <code><a href="../reference/gt_pull.html">gt_pull()</a></code>.</li>
 <li>new getters <code>getCol()</code>, <code>getRow()</code> and <code><a href="../reference/getName.html">getName()</a></code>.</li>
 <li>removed the <code>@scale</code>-slot from from the geom class, because it is no longer needed.</li>
 <li>included the <code>@extent</code>-slot for faster processing of large objects where it takes long to find min/max values of coordinates.</li>

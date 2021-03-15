@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Get the number of columns of a spatial object. — getCols • geometr</title>
+<title>Extract a single column from a geometric object — gt_pull • geometr</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -46,8 +46,10 @@
 
 
 
-<meta property="og:title" content="Get the number of columns of a spatial object. — getCols" />
-<meta property="og:description" content="Get the number of columns of a spatial object." />
+<meta property="og:title" content="Extract a single column from a geometric object — gt_pull" />
+<meta property="og:description" content="This function allows to extract a specific column from any geometric object
+for which all required getters are available and thus reflects the base
+function $." />
 <meta property="og:image" content="http://EhrmannS.github.io/geometr/logo.svg" />
 
 
@@ -122,55 +124,69 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Get the number of columns of a spatial object.</h1>
-    <small class="dont-index">Source: <a href='https://github.com/EhrmannS/geometr/blob/master/R/getCols.R'><code>R/getCols.R</code></a></small>
-    <div class="hidden name"><code>getCols.Rd</code></div>
+    <h1>Extract a single column from a geometric object</h1>
+    <small class="dont-index">Source: <a href='https://github.com/EhrmannS/geometr/blob/master/R/gt_pull.R'><code>R/gt_pull.R</code></a></small>
+    <div class="hidden name"><code>gt_pull.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Get the number of columns of a spatial object.</p>
+    <p>This function allows to extract a specific column from any geometric object
+for which all required getters are available and thus reflects the base
+function <code><a href='https://rdrr.io/r/base/Extract.html'>$</a></code>.</p>
     </div>
 
-    <pre class="usage"><span class='co'># S4 method for ANY</span>
-<span class='fu'>getCols</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span>
-
-<span class='co'># S4 method for geom</span>
-<span class='fu'>getCols</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span>
-
-<span class='co'># S4 method for Raster</span>
-<span class='fu'>getCols</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span>
-
-<span class='co'># S4 method for matrix</span>
-<span class='fu'>getCols</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>gt_pull</span><span class='op'>(</span><span class='va'>obj</span>, <span class='va'>var</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>x</th>
-      <td><p>the object from which to get the number of columns.</p></td>
+      <th>obj</th>
+      <td><p>[<code>geometric object(1)</code>]<br /> the object to pull a column from.</p></td>
+    </tr>
+    <tr>
+      <th>var</th>
+      <td><p>[<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>]<br /> name of the variable to pull.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>An integer of the number of columns.</p>
+    <p>unique values of the column specified in <code>var</code>.</p>
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>This function searches for <code>var</code> by first looking in the
+  groups, then the features and finally the points of <code>obj</code>. This
+  results always in an output that is limited to the unique cases of
+  <code>var</code>. In case you want the explicit values of, for instance,
+  <code>fid</code> in <code>obj@points</code>, you have to extract points and then use
+  <code><a href='https://dplyr.tidyverse.org/reference/pull.html'>pull</a></code> on the result.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p>Other getters: 
-<code><a href='getCRS.html'>getCRS</a>()</code>,
-<code><a href='getExtent.html'>getExtent</a>()</code>,
-<code><a href='getFeatures.html'>getFeatures</a>()</code>,
-<code><a href='getGroups.html'>getGroups</a>()</code>,
-<code><a href='getHistory.html'>getHistory</a>()</code>,
-<code><a href='getLayer.html'>getLayer</a>()</code>,
-<code><a href='getName.html'>getName</a>()</code>,
-<code><a href='getPoints.html'>getPoints</a>()</code>,
-<code><a href='getRes.html'>getRes</a>()</code>,
-<code><a href='getRows.html'>getRows</a>()</code>,
-<code><a href='getType.html'>getType</a>()</code>,
-<code><a href='getWindow.html'>getWindow</a>()</code></p></div>
+    <div class='dont-index'><p>Other geometry tools: 
+<code><a href='gt_filter.html'>gt_filter</a>()</code>,
+<code><a href='gt_locate.html'>gt_locate</a>()</code>,
+<code><a href='gt_reflect.html'>gt_reflect</a>()</code>,
+<code><a href='gt_rotate.html'>gt_rotate</a>()</code>,
+<code><a href='gt_scale.html'>gt_scale</a>()</code>,
+<code><a href='gt_sketch.html'>gt_sketch</a>()</code>,
+<code><a href='gt_skew.html'>gt_skew</a>()</code>,
+<code><a href='gt_stretch.html'>gt_stretch</a>()</code>,
+<code><a href='gt_translate.html'>gt_translate</a>()</code></p></div>
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='co'># pull values from a geom (there are two features, thus two values) ...</span>
+<span class='fu'>gt_pull</span><span class='op'>(</span><span class='va'>gtGeoms</span><span class='op'>$</span><span class='va'>point</span>, <span class='st'>"fid"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] 1 2</div><div class='input'>
+<span class='co'># pull from a Raster* with RAT</span>
+<span class='fu'>gt_pull</span><span class='op'>(</span><span class='va'>gtGeoms</span><span class='op'>$</span><span class='va'>grid</span><span class='op'>$</span><span class='va'>categorical</span>, <span class='st'>"cover"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] lake              sealed            wetland           arable           
+#&gt; [5] pasture           clearcut          deciduous forest  coniferous forest
+#&gt; [9] mixed forest     
+#&gt; 9 Levels: arable clearcut coniferous forest deciduous forest ... wetland</div><div class='input'>
+<span class='co'># pull from an sf-object</span>
+<span class='fu'>gt_pull</span><span class='op'>(</span><span class='va'>gtSF</span><span class='op'>$</span><span class='va'>point</span>, <span class='st'>"a"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] 1 2</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

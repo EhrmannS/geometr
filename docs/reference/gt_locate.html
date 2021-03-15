@@ -99,13 +99,13 @@
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="http://www.twitter.com/DerEhrmann">
-    <span class="fa fa-twitter fa-lg"></span>
+    <span class="fas fa-twitter fa-lg"></span>
      
   </a>
 </li>
 <li>
   <a href="https://github.com/EhrmannS/geometr">
-    <span class="fa fa-github"></span>
+    <span class="fas fa-github"></span>
      
   </a>
 </li>
@@ -192,13 +192,14 @@ created when <code>show = TRUE</code>.</p></td>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>Other geometry tools: 
+<code><a href='gt_filter.html'>gt_filter</a>()</code>,
+<code><a href='gt_pull.html'>gt_pull</a>()</code>,
 <code><a href='gt_reflect.html'>gt_reflect</a>()</code>,
 <code><a href='gt_rotate.html'>gt_rotate</a>()</code>,
 <code><a href='gt_scale.html'>gt_scale</a>()</code>,
 <code><a href='gt_sketch.html'>gt_sketch</a>()</code>,
 <code><a href='gt_skew.html'>gt_skew</a>()</code>,
 <code><a href='gt_stretch.html'>gt_stretch</a>()</code>,
-<code><a href='gt_subset.html'>gt_subset</a>()</code>,
 <code><a href='gt_translate.html'>gt_translate</a>()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
@@ -206,11 +207,11 @@ created when <code>show = TRUE</code>.</p></td>
 <span class='co'># locate coordinates with geoms</span>
 <span class='fu'><a href='visualise.html'>visualise</a></span><span class='op'>(</span>geom <span class='op'>=</span> <span class='va'>gtGeoms</span><span class='op'>$</span><span class='va'>polygon</span><span class='op'>)</span>
 </div><div class='input'><span class='fu'>gt_locate</span><span class='op'>(</span>samples <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span>
-</div><div class='img'><img src='gt_locate-1.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 2 x 3</span><span>
+</div><div class='img'><img src='gt_locate-1.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt; # A tibble: 2 x 3
 #&gt;      id     x     y
-#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'>1</span><span>     1    </span><span style='color: #BB0000;'>NA</span><span>    </span><span style='color: #BB0000;'>NA</span><span>
-#&gt; </span><span style='color: #555555;'>2</span><span>     2    </span><span style='color: #BB0000;'>NA</span><span>    </span><span style='color: #BB0000;'>NA</span><span></div><div class='input'>
+#&gt;   &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt;
+#&gt; 1     1    NA    NA
+#&gt; 2     2    NA    NA</div><div class='input'>
 <span class='co'># locate or identify values with rasters</span>
 <span class='fu'><a href='visualise.html'>visualise</a></span><span class='op'>(</span>raster <span class='op'>=</span> <span class='va'>gtRasters</span><span class='op'>$</span><span class='va'>continuous</span><span class='op'>)</span>
 </div><div class='input'><span class='fu'>gt_locate</span><span class='op'>(</span>identify <span class='op'>=</span> <span class='cn'>TRUE</span>, snap <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
@@ -219,7 +220,7 @@ created when <code>show = TRUE</code>.</p></td>
 <span class='fu'><a href='visualise.html'>visualise</a></span><span class='op'>(</span><span class='va'>gtRasters</span><span class='op'>)</span>
 </div><div class='input'><span class='fu'>gt_locate</span><span class='op'>(</span>samples <span class='op'>=</span> <span class='fl'>4</span>, panel <span class='op'>=</span> <span class='st'>"categorical"</span>, snap <span class='op'>=</span> <span class='cn'>TRUE</span>, identify <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; <span class='error'>Error in values[1] &lt;- matPos$x: replacement has length zero</span></div><div class='img'><img src='gt_locate-3.png' alt='' width='700' height='433' /></div><div class='input'><span class='co'># }</span>
-</div></span></pre>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
