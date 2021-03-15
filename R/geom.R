@@ -59,7 +59,6 @@ geom <- setClass(Class = "geom",
                            feature = "list",
                            group = "list",
                            window = "data.frame",
-                           # scale = "character",
                            crs = "character",
                            history = "list"
                  )

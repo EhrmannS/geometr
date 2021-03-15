@@ -169,7 +169,6 @@ gs_polygon <- function(anchor = NULL, window = NULL, features = 1, vertices = NU
                    feature = list(geometry = theFeatures),
                    group = list(geometry = theGroups),
                    window = theWindow,
-                   # scale = "absolute",
                    crs = as.character(projection),
                    history = c(getHistory(x = anchor$obj), list(hist)))
   }
