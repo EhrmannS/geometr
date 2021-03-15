@@ -1,315 +1,165 @@
 #' Make the legend of a plot
 #'
 #' @param x [\code{list(1)}]\cr any spatial object to plot.
-#' @param theme [\code{character(1)}]\cr the theme from which to take graphical
+#' @param plotParams [\code{named list(.)}]\cr new plotting parameters specified
+#'   via the quick options in \code{\link{visualise}}.
+#' @param theme [\code{list(7)}]\cr the theme from which to take graphical
 #'   parameters.
 #' @importFrom checkmate assertChoice
 #' @importFrom grid textGrob rasterGrob rectGrob gpar gTree gList unit
 
-.makeLegend <- function(x, theme){
+.makeLegend <- function(x, plotParams, theme){
 
-  featureType <- getType(x = x)
-  theParam <- theme@scale$param
-  theName <- theme@scale$to
-  out <- list(obj = NULL, maxVal = NULL, posX = NULL, posY = NULL)
-
+  legends <- list()
   if(theme@legend$plot){
 
-    cols <- theme@parameters[[theme@scale$param]]
-
-    allLabels <- sort(gt_pull(obj = x, var = theme@scale$to))
-    allColours <- colorRampPalette(colors = cols)(theme@scale$bins)
-
-    # determine the tick values and labels
-    if(theme@scale$bins > theme@legend$bins){
-      tickPositions <- quantile(1:theme@scale$bins, probs = seq(0, 1, length.out = theme@legend$bins+1), type = 1, names = FALSE)
-    } else {
-      tickPositions <- 1:theme@scale$bins
-    }
-    legendLabels <- allLabels[tickPositions]
-
-    if(!theme@legend$ascending){
-      tickPositions <- rev(tickPositions)
+    if(!theme@scale$param %in% names(plotParams) & !is.na(theme@scale$param)){
+      plotParams <- setNames(list(theme@scale$to), theme@scale$param)
     }
 
+    prevX <- unit(0, "points")
+    for(i in seq_along(plotParams)){
 
-    # if(featureType[1] == "vector"){
-    #   out <- list("out" = NULL, "hasLegend" = NULL, "params" = NULL, "legend" = NULL)
-    #
-    #   thePoints <- getPoints(x = x)
-    #   theFeatures <- getFeatures(x = x)
-    #   theGroups <- getGroups(x = x)
-    #
-    #   tempArgs <- displayArgs[names(displayArgs) %in% names(theme@vector)]
-    #   if(length(tempArgs) == 0){
-    #     tempArgs <- setNames(list(theme@scale$to), theme@scale$param)
-    #   }
-    #
-    #   # make a table of relevant features
-    #   attr <- thePoints
-    #   if(!is.null(theFeatures)){
-    #     attr <- left_join(x = attr, y = theFeatures, by = "fid")
-    #   }
-    #   if(!is.null(theGroups)){
-    #     attr <- left_join(x = attr, y = theGroups, by = "gid")
-    #   }
-    #
-    #   # test whether vertices are outside of 'window'
-    #   inWindow <- pointInGeomC(vert = as.matrix(thePoints[c("x", "y")]),
-    #                            geom = as.matrix(theWindow[c("x", "y")]),
-    #                            invert = FALSE)
-    #   inWindow <- inWindow[-5] != 0
-    #
-    #   if(!any(inWindow)){
-    #     warning("no vertices are within the plotting window.", immediate. = TRUE)
-    #   } else if(!all(inWindow)){
-    #     warning("some vertices are not within the plotting window.", immediate. = TRUE)
-    #   }
-    #
-    #   if(!class(x)[1] %in% "geom"){
-    #     x <- gc_geom(input = x)
-    #   }
-    #
-    #
-    #   allValues <- sapply(aGrob, function(x){
-    #     if(suppressWarnings(all(!is.na(as.numeric(as.character(x$name)))))){
-    #       as.numeric(as.character(x$name))
-    #     } else {
-    #       x$name
-    #     }
-    #   })
-    #   allColours <- sapply(aGrob, function(x){
-    #     x$gp$col
-    #   })
-    #   allFill <- sapply(aGrob, function(x){
-    #     if(!is.null(x$gp$fill)){
-    #       x$gp$fill
-    #     } else {
-    #       NA_integer_
-    #     }
-    #   })
-    #   allPch <- sapply(aGrob, function(x){
-    #     if(!is.null(x$pch)){
-    #       x$pch
-    #     } else {
-    #       NA_integer_
-    #     }
-    #   })
-    #   allSize <- sapply(aGrob, function(x){
-    #     if(!is.null(x$size)){
-    #       x$size
-    #     } else {
-    #       NA_real_
-    #     }
-    #   })
-    #   allLty <- sapply(aGrob, function(x){
-    #     if(!is.null(x$gp$lty)){
-    #       x$gp$lty
-    #     } else {
-    #       NA_character_
-    #     }
-    #   })
-    #   allLwd <- sapply(aGrob, function(x){
-    #     if(!is.null(x$gp$lwd)){
-    #       x$gp$lwd
-    #     } else {
-    #       NA_integer_
-    #     }
-    #   })
-    #
-    #   # make an overall table of parameters
-    #   params <- tibble(fid = rev(allValues),
-    #                    fillcol = rev(allFill),
-    #                    pointsymbol = rev(allPch),
-    #                    pointsize = rev(allSize),
-    #                    linecol = rev(allColours),
-    #                    linetype = rev(allLty),
-    #                    linewidth = rev(allLwd))
-    #   params <- left_join(x = params, y = attr, by = "fid")
-    #
-    #   # go through the defined display arguments ...
-    #   legends <- list()
-    #   for(i in seq_along(tempArgs)){
-    #
-    #     theArg <- names(tempArgs)[i]
-    #     theVal <- as.character(tempArgs[[i]])
-    #
-    #     # ... construct the indices for selecting attributes
-    #     if(is.null(theme@scale$range)){
-    #       if(theVal %in% colnames(params)){
-    #         uniqueVal <- params[[as.character(theVal)]][!duplicated(params[[as.character(theVal)]])]
-    #         if(any(is.na(params[[theArg]]))){
-    #           uniqueArg <- params[[theArg]][!duplicated(params[[as.character(theVal)]])][order(uniqueVal)][-length(uniqueVal)]
-    #         } else {
-    #           uniqueArg <- params[[theArg]][!duplicated(params[[as.character(theVal)]])][order(uniqueVal)]
-    #         }
-    #       } else {
-    #         next
-    #         # uniqueVal <- NA_character_#params[[as.character(theVal)]][!duplicated(params[[as.character(theVal)]])]
-    #         # uniqueArg <- theVal
-    #       }
-    #       uniqueVal <- sort(uniqueVal)
-    #       if(length(uniqueArg) > theme@legend$bins){
-    #         tempTicks <- quantile(seq_along(uniqueArg), probs = seq(0, 1, length.out = theme@legend$bins), type = 1, names = FALSE)
-    #       } else {
-    #         tempTicks <- seq_along(uniqueArg)
-    #       }
-    #       legendVals <- uniqueVal[tempTicks]
-    #     } else {
-    #       uniqueVal <- seq(theme@scale$range[1], theme@scale$range[2])
-    #       tempTicks <- quantile(uniqueVal, probs = seq(0, 1, length.out = theme@legend$bins), type = 1, names = FALSE)
-    #       legendVals <- uniqueVal[tempTicks+1]
-    #     }
-    #
-    #     tempLegend <- tibble(labels = legendVals,
-    #                          pos = as.numeric(unit(tempTicks, "native")))
-    #     names(tempLegend)[1] <- as.character(theVal)
-    #
-    #     legends <- c(legends, setNames(object = list(tempLegend), nm = theArg))
-    #   }
-    #
-    #   # revert order if given
-    #   if(!theme@legend$ascending){
-    #     params <- params[dim(params)[1]:1,]
-    #     legendNames <- names(legends)
-    #     legends <- lapply(seq_along(legends), function(x){
-    #       legends[[x]][dim(legends[[x]])[1]:1,]
-    #     })
-    #     names(legends) <- legendNames
-    #   }
-    #
-    #   out$hasLegend <- TRUE
-    #   out$params <- params
-    #   out$legend <- legends
-    #
-    #
-    # } else {
-    #
-    # }
+      theParam <- names(plotParams)[i]
+      theVar <- plotParams[[i]]
 
+      allLabels <- suppressMessages(sort(gt_pull(obj = x, var = theVar)))
 
-
-
-    # cols <- getFeatures(x = x)$values
-    # allValues <- sortUniqueC(cols[!is.na(cols)])
-    # tickValues <- seq_along(cols)
-    # targetColours <- theme@raster$fillcol
-    # allColours <- colorRampPalette(colors = cols)(length(cols))
-
-
-    # theParam <- names(obj$legend)[j]
-    # theLegend <- obj$legend[[j]]
-    # legendName <- names(theLegend[,1])
-
-    # if(length(legendPos) == 1){
-    #   maxYScale <- unit(as.numeric(legendPos[length(legendPos)]) + 1, "native")
-    # } else {
-    #   maxYScale <- unit(as.numeric(legendPos[which.max(legendPos)]) + 1, "native")
-    # }
-    # pushViewport(viewport(height = unit(1, "npc") * theme@legend$yRatio,
-    #                       yscale = c(1, maxYScale),
-    #                       name = theName))
-
-    # this is a little hack to get all the values that are contained in the
-    # object "into" the plotted object for later use (e.g. by gt_locate())
-    legend_values <- textGrob(label = legendLabels,
-                              name = "legend_values",
-                              gp = gpar(col = NA))
-
-
-    if(theParam %in% c("linecol", "fillcol")){
-
-      # make sure that the NA colour is always at the bottom (this
-      # seems to be not the case when $range has a value)
-
-      legend_obj <- rasterGrob(x = unit(0, "npc") + unit(5, "points"),
-                               width = unit(10, "points"),
-                               height = unit(1, "npc"),
-                               just = c("left"),
-                               name = "legend_items",
-                               image = rev(allColours),
-                               interpolate = FALSE)
-
-      if(theme@legend$box$plot){
-        legend_obj <- gList(
-          legend_obj,
-          rectGrob(x = unit(0, "npc") + unit(5, "points"),
-                   width = unit(10, "points"),
-                   just = c("left"),
-                   name = "legend_box",
-                   gp = gpar(col = theme@legend$box$colour,
-                             fill = NA,
-                             lty = theme@legend$box$linetype,
-                             lwd = theme@legend$box$linewidth)))
+      if(!is.null(theme@scale$bins)){
+        thebins <- theme@scale$bins
+      } else {
+        thebins <- length(allLabels)
       }
 
-    } else if(theParam %in% "pointsize"){
+      if(is.null(allLabels)){
+        next
+      }
 
-      # theSizes <- sort(unique(unlist(obj$params[theParam], use.names = FALSE)))[theLegend$pos]
-      # legend_obj <- pointsGrob(x = rep(unit(1, "npc") + theLayout$legendX[j], times = length(theLegend$pos)),
-      #                   y = unit(theLegend$pos, "native") - unit(0.5, "native"),
-      #                   pch = theme@vector$pointsymbol[1],
-      #                   size = unit(theSizes, "char"),
-      #                   name = "legend_items")
+      # determine the tick values and labels
+      if(thebins > theme@legend$bins){
+        tickPositions <- quantile(1:thebins, probs = seq(0, 1, length.out = theme@legend$bins+1), type = 1, names = FALSE)
+      } else {
+        tickPositions <- 1:thebins
+      }
+      legendLabels <- allLabels[tickPositions]
 
-    } else if(theParam %in% "pointsymbol"){
+      if(!theme@legend$ascending){
+        tickPositions <- rev(tickPositions)
+      }
 
-      # theSymbols <- sort(unique(unlist(obj$params[theParam], use.names = FALSE)))[theLegend$pos]
-      # legend_obj <- pointsGrob(x = rep(unit(1, "npc") + theLayout$legendX[j], length(theSymbols)),
-      #                   y = unit(theLegend$pos, "native") - unit(0.5, "native"),
-      #                   pch = theSymbols,
-      #                   size = unit(max(theme@vector$pointsize), "char"),
-      #                   name = "legend_items")
+      # this is a little hack to get all the values that are contained in the
+      # object "into" the plotted object for later use (e.g. by gt_locate())
+      legend_values <- textGrob(label = legendLabels,
+                                name = "legend_values",
+                                gp = gpar(col = NA))
 
-    } else if(theParam %in% c("linewidth")){
 
-      # theWidths <- sort(unique(unlist(obj$params[theParam], use.names = FALSE)))[theLegend$pos]
-      # legend_obj <- polylineGrob(x = rep(unit(c(1, 1), "npc") + unit.c(theLayout$legendX[j], theLayout$legendX[j] + unit(10, "points")), times = length(theLegend$pos)),
-      #                     y = unit(rep(theLegend$pos, each = 2), "native") - unit(0.5, "native"),
-      #                     id = rep(theLegend$pos, each = 2),
-      #                     name = "legend_items",
-      #                     gp = gpar(col = theme@vector$linecol[1],
-      #                               lwd = theWidths,
-      #                               lty = theme@vector$linetype[1]))
+      if(any(theParam == c("linecol", "fillcol"))){
 
-    } else if(theParam %in% c("linetype")){
+        cols <- theme@parameters$colours
+        allColours <- colorRampPalette(colors = cols)(thebins)
 
-      # theTypes <- sort(unique(unlist(obj$params[theParam], use.names = FALSE)))[theLegend$pos]
-      # legend_obj <- polylineGrob(x = rep(unit(c(1, 1), "npc") + unit.c(theLayout$legendX[j], theLayout$legendX[j] + unit(10, "points")), times = length(theLegend$pos)),
-      #                     y = unit(rep(theLegend$pos, each = 2), "native") - unit(0.5, "native"),
-      #                     id = rep(theLegend$pos, each = 2),
-      #                     name = "legend_items",
-      #                     gp = gpar(col = theme@vector$linecol[1],
-      #                               lwd = max(theme@vector$linewidth),
-      #                               lty = theTypes))
+        legend_obj <- rasterGrob(x = unit(0, "npc") + unit(5, "points") + prevX,
+                                 width = unit(10, "points"),
+                                 height = unit(1, "npc"),
+                                 just = c("left"),
+                                 name = "legend_items",
+                                 image = rev(allColours),
+                                 interpolate = FALSE)
 
+        if(theme@legend$box$plot){
+          legend_obj <- gList(
+            legend_obj,
+            rectGrob(x = unit(0, "npc") + unit(5, "points") + prevX,
+                     width = unit(10, "points"),
+                     just = c("left"),
+                     name = "legend_box",
+                     gp = gpar(col = theme@legend$box$colour,
+                               fill = NA,
+                               lty = theme@legend$box$linetype,
+                               lwd = theme@legend$box$linewidth)))
+        }
+
+      } else if(theParam == "pointsize"){
+
+        theSizes <- seq(from = min(theme@parameters[["pointsize"]], na.rm = TRUE),
+                        to = max(theme@parameters[["pointsize"]], na.rm = TRUE),
+                        length.out = thebins)[tickPositions]
+
+        legend_obj <- pointsGrob(x = rep(unit(0, "npc") + unit(10, "points") + prevX,
+                                         times = length(tickPositions)),
+                                 y = unit(seq(0, 1, 1/(length(tickPositions)-1)), "npc"),
+                                 pch = 20,
+                                 size = unit(theSizes, "char"),
+                                 name = "legend_items")
+
+      } else if(theParam == "linewidth"){
+
+        theWidths <- seq(from = min(theme@parameters[["linewidth"]], na.rm = TRUE),
+                         to = max(theme@parameters[["linewidth"]], na.rm = TRUE),
+                         length.out = thebins)[tickPositions]
+
+        legend_obj <- polylineGrob(x = rep(unit.c(unit(0, "points"), unit(10, "points")) + prevX,
+                                           times = length(tickPositions)),
+                                   y = unit(rep(seq(0, 1, 1/(length(tickPositions)-1)), each = length(tickPositions)), "npc"),
+                                   id = rep(tickPositions, each = 2),
+                                   name = "legend_items",
+                                   gp = gpar(col = "black",
+                                             lwd = theWidths,
+                                             lty = "solid"))
+
+      } else if(theParam == "pointsymbol"){
+
+        theSymbols <- theme@parameters[["pointsymbol"]][tickPositions]
+
+        legend_obj <- pointsGrob(x = rep(unit(0, "npc") + unit(10, "points") + prevX,
+                                         times = length(tickPositions)),
+                                 y = unit(seq(0, 1, 1/(length(tickPositions)-1)), "npc"),
+                                 pch = theSymbols,
+                                 size = unit(0.5, "char"),
+                                 name = "legend_items")
+
+      } else if(theParam %in% c("linetype")){
+
+        theTypes <- theme@parameters[["linetype"]][tickPositions]
+
+        legend_obj <- polylineGrob(x = rep(unit.c(unit(0, "points"), unit(10, "points")) + prevX,
+                                           times = length(tickPositions)),
+                                   y = unit(rep(seq(0, 1, 1/(length(tickPositions)-1)), each = length(tickPositions)), "npc"),
+                                   id = rep(tickPositions, each = 2),
+                                   name = "legend_items",
+                                   gp = gpar(col = "black",
+                                             lwd = 1,
+                                             lty = theTypes))
+
+      }
+
+      if(theme@legend$label$plot){
+        thePositions <- tickPositions / max(tickPositions)
+        thePositions <- (tickPositions-1) / max(tickPositions) + thePositions[1]/2
+        legend_labels <- textGrob(label = legendLabels,
+                                  x = unit(0, "npc") + unit(20, "points") + prevX,
+                                  y = unit(thePositions, "npc"),
+                                  name = "legend_labels",
+                                  just = c("left", "centre"),
+                                  gp = gpar(fontsize = theme@legend$label$fontsize,
+                                            col = theme@legend$label$colour))
+
+        maxLbl <- legend_labels$label[which.max(nchar(legend_labels$label))]
+        tempW <- as.numeric(ceiling(convertX(unit(1, "strwidth", maxLbl), "points")))
+        prevX <- prevX + unit(20 + tempW, "points")
+      } else {
+        prevX <- prevX + unit(20, "points")
+      }
+
+      out <- gTree(children = gList(legend_values, legend_obj, legend_labels))
+      legends <- c(legends, setNames(list(out), theParam))
     }
 
-    if(theme@legend$label$plot){
-      legend_labels <- textGrob(label = unlist(legendLabels, use.names = FALSE),
-                                x = unit(0, "npc") + unit(20, "points"),
-                                y = unit(tickPositions, "native") - unit(0.5, "native"),
-                                name = "legend_labels",
-                                just = c("left"),
-                                gp = gpar(fontsize = theme@legend$label$fontsize,
-                                          col = theme@legend$label$colour))
-    }
-
-    out$obj <- gTree(children = gList(legend_values, legend_obj, legend_labels))
-    out$maxVal <- unit(tail(tickPositions, 1) + 1, "native")
   } else {
-    out$obj <- NULL
-    out$maxVal <- 0
+    legends <- NULL
   }
 
-  if(theme@legend$position == "right"){
-    out$posX <- 3
-    out$posY <- 2
-  } else {
-    # out$posX <- 2
-    # out$posY <- 4
-  }
-
-  return(out)
+  return(legends)
 }
 
