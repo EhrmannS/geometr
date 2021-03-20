@@ -1,3 +1,5 @@
+# geometr 0.2.7
+
 # geometr 0.2.6
 
 - identifying and setting groups in gridded `geom`s has been refined. Several layers are by default stacked, but it is now also possible to create a list of separate `geom`s per layer with `gc_geom(..., stack = FALSE)`.
