@@ -52,7 +52,7 @@ setMethod(f = "setGroups",
                 outGroups <- outGroups[,-which(colnames(outGroups) == "fid")]
               }
 
-              x@group <- list(geometry = as_tibble(outGroups))
+              x@group <- as_tibble(outGroups)
             }
 
             cln <- colnames(table)

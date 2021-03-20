@@ -39,8 +39,6 @@
 #' @return an object of class \code{geom}
 #' @family spatial classes
 #' @examples
-#' gc_geom(input = gtPPP)
-#'
 #' gc_geom(input = gtSF$polygon)
 #'
 #' gc_geom(input = gtRasters$categorical)
@@ -90,10 +88,9 @@ setMethod(f = "gc_geom",
             out <- new(Class = "geom",
                        type = type,
                        point = theCoords,
-                       feature = list(geometry = theData),
-                       group = list(geometry = theGroups),
+                       feature = theData,
+                       group = theGroups,
                        window = theWindow,
-                       # scale = "absolute",
                        crs = theCRS,
                        history = list(history))
 
@@ -142,8 +139,8 @@ setMethod(f = "gc_geom",
             out <- new(Class = "geom",
                        type = type,
                        point = theCoords,
-                       feature = list(geometry = theData),
-                       group = list(geometry = theGroups),
+                       feature = theData,
+                       group = theGroups,
                        window = theWindow,
                        crs = theCRS,
                        history = list(history))
@@ -170,10 +167,9 @@ setMethod(f = "gc_geom",
             out <- new(Class = "geom",
                        type = "point",
                        point = theCoords,
-                       feature = list(geometry = theData),
-                       group = list(geometry = theGroups),
+                       feature = theData,
+                       group = theGroups,
                        window = theWindow,
-                       # scale = "absolute",
                        crs = theCRS,
                        history = list(history))
 
@@ -200,6 +196,10 @@ setMethod(f = "gc_geom",
             theWindow <- getWindow(x = input)
             theCRS <- getCRS(x = input)
 
+            if(dim(input)[3] == 1){
+              stack <- FALSE
+            }
+
             hist <- list()
 
             assertLogical(x = as_hex, len = 1)
@@ -221,7 +221,7 @@ setMethod(f = "gc_geom",
             }
 
             out <- theFeatures <- NULL
-            theGroups <- tibble(gid = integer())
+            theGroups <- tibble(value = integer())
             for(i in 1:dim(input)[3]){
 
               theInput <- input[[i]]
@@ -240,33 +240,30 @@ setMethod(f = "gc_geom",
                 tempFeatures <- tibble(rawVal)
                 names(tempFeatures) <- theName
                 theFeatures <- bind_cols(theFeatures, tempFeatures)
-                theGroups <- full_join(theGroups, tempGroups, by = "gid")
-                theGroups <- arrange(theGroups, gid)
+                theGroups <- full_join(theGroups, tempGroups, by = "value")
+                theGroups <- arrange(theGroups, value)
 
               } else {
 
                 rleVal <- rle(rawVal)
                 if(object.size(rleVal) > object.size(rawVal)){
-                  tempFeatures <- tibble(rawVal)
-                  names(tempFeatures) <- theName
+                  theFeatures <- tibble(rawVal)
+                  names(theFeatures) <- theName
                 } else {
-                  tempFeatures <- tibble(val = rleVal$values,
-                                         len = rleVal$lengths)
+                  theFeatures <- tibble(val = rleVal$values,
+                                        len = rleVal$lengths)
                   hist <- c(hist, paste0("layer '", theName, "' is run-length encoded."))
                 }
                 if(length(theInput@data@attributes) != 0){
                   theGroups <- as_tibble(theInput@data@attributes[[1]])
-                  colnames(theGroups) <- c("gid", colnames(theGroups)[-1])
+                  colnames(theGroups) <- c("value", colnames(theGroups)[-1])
                 } else {
                   if(as_hex){
-                    theGroups <- tibble(gid = 1)
+                    theGroups <- tibble(value = integer())
                   } else {
-                    theGroups <- tibble(gid = sortUniqueC(rleVal$values))
+                    theGroups <- tibble(value = sortUniqueC(rleVal$values))
                   }
                 }
-
-                theFeatures <- setNames(list(tempFeatures), theName)
-                theGroups <- setNames(list(theGroups), theName)
 
                 temp <- new(Class = "geom",
                             type = "grid",
@@ -277,14 +274,15 @@ setMethod(f = "gc_geom",
                             crs = theCRS,
                             history = c(getHistory(input), hist))
 
-                out <- c(out, setNames(list(temp), theName))
+                if(dim(input)[3] != 1){
+                  out <- c(out, setNames(list(temp), theName))
+                } else {
+                  out <- temp
+                }
               }
             }
 
             if(stack){
-
-              theFeatures <- setNames(list(theFeatures), "geometry")
-              theGroups <- setNames(list(theGroups), "geometry")
 
               out <- new(Class = "geom",
                           type = "grid",
