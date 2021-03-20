@@ -56,8 +56,12 @@
 geom <- setClass(Class = "geom",
                  slots = c(type = "character",
                            point = "data.frame",
-                           feature = "list",
-                           group = "list",
+                           # feature = "list",
+                           feature = "data.frame",
+                           # group = "list",
+                           group = "data.frame",
+                           # extent = "data.frame",
+                           # manage extent properly
                            window = "data.frame",
                            crs = "character",
                            history = "list"
@@ -119,11 +123,11 @@ setValidity("geom", function(object){
       errors = c(errors, "the slot 'feature' must contain named lists.")
     }
     if(object@type != "grid"){
-      for(i in seq_along(object@feature)){
-        if(!all(c("fid", "gid") %in% names(object@feature[[i]]))){
+      # for(i in seq_along(object@feature)){
+        if(!all(c("fid", "gid") %in% names(object@feature))){
           errors = c(errors, "the geom must have a features table with at least the columns 'fid' and 'gid'.")
         }
-      }
+      # }
     }
   }
 
@@ -136,11 +140,11 @@ setValidity("geom", function(object){
     if(is.null(names(object@group))){
       errors = c(errors, "the slot 'group' must contain named lists.")
     }
-    for(i in seq_along(object@group)){
-      if(!all(c("gid") %in% names(object@group[[i]]))){
-        errors = c(errors, "the geom must have a group table with the column 'gid'.")
-      }
-    }
+    # for(i in seq_along(object@group)){
+      # if(!any(c("value", "gid") %in% names(object@group))){
+      #   errors = c(errors, "the geom must have a group table with the column 'value'.")
+      # }
+    # }
   }
 
   if(!.hasSlot(object = object, name = "window")){
@@ -153,25 +157,6 @@ setValidity("geom", function(object){
       errors = c(errors, "the geom must have a window table with columns 'x' and 'y'.")
     }
   }
-
-  # if(!.hasSlot(object = object, name = "scale")){
-  #   errors = c(errors, "the geom does not have a 'scale' slot.")
-  # } else {
-  #   if(!is.character(object@scale)){
-  #     errors = c(errors, "the slot 'scale' is not a character vector.")
-  #   } else {
-  #     # if(object@type == "grid"){
-  #     #   if(!any(object@scale %in% c("continuous", "categorical"))){
-  #     #     errors = c(errors, "the scale must either be 'continuous' or 'categorical'.")
-  #     #   }
-  #     # } else {
-  #     if(!any(object@scale %in% c("absolute", "relative"))){
-  #       errors = c(errors, "the scale must either be 'absolute' or 'relative'.")
-  #     }
-  #     # }
-  #
-  #   }
-  # }
 
   if(!.hasSlot(object = object, name = "crs")){
     errors = c(errors, "the geom does not have a 'crs' slot.")
@@ -236,8 +221,8 @@ setMethod(f = "show",
                   if(dim(theLayer)[1] != 0){
                     myAttributes <- c(myAttributes, paste0(" {", theName, "} ",
                                                            ifelse(featureAttribs <= 9,
-                                                                  paste0(paste0(names(theLayer)[!names(theLayer) %in% c("gid")], collapse = ", "), "\n"),
-                                                                  paste0(paste0(c(head(names(theLayer)[!names(theLayer) %in% c("gid")], 9), "..."), collapse = ", "), "\n")
+                                                                  paste0(paste0(names(theLayer)[!names(theLayer) %in% c("value")], collapse = ", "), "\n"),
+                                                                  paste0(paste0(c(head(names(theLayer)[!names(theLayer) %in% c("value")], 9), "..."), collapse = ", "), "\n")
                                                            )))
                   }
                 }
@@ -247,8 +232,8 @@ setMethod(f = "show",
                 if(!is.null(theLayer)){
                   if(!all(names(thePoints) %in% c("gid"))){
                     myAttributes <- c(myAttributes, paste0(" ", ifelse(featureAttribs <= 9,
-                                                                       paste0(paste0(names(theLayer)[!names(theLayer) %in% c("gid")], collapse = ", "), "\n"),
-                                                                       paste0(paste0(c(head(names(theLayer)[!names(theLayer) %in% c("gid")], 9), "..."), collapse = ", "), "\n")
+                                                                       paste0(paste0(names(theLayer)[!names(theLayer) %in% c("value")], collapse = ", "), "\n"),
+                                                                       paste0(paste0(c(head(names(theLayer)[!names(theLayer) %in% c("value")], 9), "..."), collapse = ", "), "\n")
                     )))
                   }
                 }
