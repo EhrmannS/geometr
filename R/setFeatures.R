@@ -50,12 +50,12 @@ setMethod(f = "setFeatures",
                 theFeatures <- theFeatures[,-which(colnames(theFeatures) == "gid")]
 
                 outGroups <- theGroups[theGroups$gid %in% table$gid,]
-                x@group <- list(geometry = outGroups)
+                x@group <- outGroups
               }
               outFeatures <- merge(x = theFeatures, y = table, all.x = TRUE)
               outFeatures <- .updateOrder(input = outFeatures)
 
-              x@feature <- list(geometry = as_tibble(outFeatures))
+              x@feature <- as_tibble(outFeatures)
             }
 
             cln <- colnames(table)
@@ -139,23 +139,6 @@ setMethod(f = "setFeatures",
             assertDataFrame(table)
 
             out <- st_sf(geom = x, table)
-            return(out)
-          }
-)
-
-# ppp ----
-#' @rdname setFeatures
-#' @importFrom spatstat ppp
-#' @export
-setMethod(f = "setFeatures",
-          signature = "ppp",
-          definition = function(x, table = NULL){
-            assertDataFrame(x = table, nrows = length(x$x))
-            temp <- x
-
-            out <- ppp(x = temp$x, y = temp$y,
-                       window = temp$window,
-                       marks = table)
             return(out)
           }
 )

@@ -79,23 +79,3 @@ setMethod(f = "setWindow",
             return(x)
           }
 )
-
-# ppp ----
-#' @rdname setWindow
-#' @examples
-#'
-#' window <- data.frame(x = c(0, 2),
-#'                      y = c(0, 2))
-#' setWindow(x = gtPPP, to = window)
-#' @importFrom spatstat owin
-#' @export
-setMethod(f = "setWindow",
-          signature = "ppp",
-          definition = function(x, to = NULL){
-            assertNames(names(to), must.include = c("x", "y"))
-            temp <- x
-            aWindow <- owin(xrange = to$x, yrange = to$y)
-            temp$window <- aWindow
-            return(temp)
-          }
-)
