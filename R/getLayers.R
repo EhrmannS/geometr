@@ -1,7 +1,8 @@
 #' Get a specific layer of a spatial object.
 #'
 #' @param x the object from which to get the layer.
-#' @param layer [\code{character(.)} | \code{integerish(.)}]\cr the layer(s) to get.
+#' @param layer [\code{character(.)} | \code{integerish(.)}]\cr the layer(s) to
+#'   get. If left at \code{NULL}, all layers are pulled.
 #' @return A list of the requested layers.
 #' @family getters
 #' @name getLayers
@@ -40,34 +41,27 @@ setMethod(f = "getLayers",
 
             theType <- getType(x = x)[2]
 
-            if(is.null(layer)){
-              layer <- seq_along(x@feature)
-            }
-
             out <- NULL
             if(theType == "grid"){
-
               theFeatures <- getFeatures(x = x)
-              if(!is.null(dim(theFeatures))){
-                theFeatures <- setNames(list(theFeatures), names(x@feature))
-              }
               theGroups <- getGroups(x = x)
-              if(!is.null(dim(theGroups))){
-                theGroups <- setNames(list(theGroups), names(x@feature))
+              layerNames <- names(theFeatures)[!names(theFeatures) %in% c("fid")]
+
+              if(is.null(layer)){
+                layer <- seq_along(layerNames)
               }
-              theNames <- names(theFeatures)
               for(i in seq_along(layer)){
 
                 if(testNumeric(x = layer)){
                   assertIntegerish(x = layer, lower = 1, upper = length(theFeatures))
-                  tempFeatures <- setNames(list(tibble(values = as.vector(theFeatures[[layer[i]]]$values))), theNames[i])
-                  tempGroups <- setNames(list(theGroups[[layer[i]]]), theNames[i])
-                  tempName <- theNames[i]
+                  tempFeatures <- tibble(values = as.vector(theFeatures[[layerNames[i]]]))
+                  tempGroups <- theGroups
+                  tempName <- layerNames[i]
                 } else if(testCharacter(x = layer)){
-                  assertSubset(x = layer, choices = theNames)
-                  tempFeatures <- setNames(list(tibble(values = as.vector(theFeatures[[which(theNames %in% layer[i])]]$values))), theNames[i])
-                  tempGroups <- setNames(list(theGroups[[which(theNames %in% layer[i])]]), theNames[i])
-                  tempName <- theNames[which(theNames %in% layer[i])]
+                  assertSubset(x = layer, choices = layerNames)
+                  tempFeatures <- tibble(values = as.vector(theFeatures[[which(layerNames %in% layer[i])]]))
+                  tempGroups <- theGroups[[which(layerNames %in% layer[i])]]
+                  tempName <- layerNames[i]
                 }
 
                 temp <- new(Class = "geom",
@@ -83,6 +77,9 @@ setMethod(f = "getLayers",
 
             } else {
               out <- c(out, setNames(list(x), "geometry"))
+              # this could be done so that getLayers allows you to treat
+              # attributes as layers and thus pull an attribute as layer here,
+              # but this might be redundant with gt_pull!?
             }
 
             return(out)

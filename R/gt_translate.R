@@ -13,13 +13,13 @@
 #' @return \code{geom} of the mathematically translated \code{obj}.
 #' @family geometry tools
 #' @examples
-#' # translate several geoms
+#' # translate several features
 #' visualise(gtGeoms$polygon, linewidth = 3)
 #' newPoly <- gt_translate(obj = gtGeoms$polygon, x = 5, y = c(-10, 5),
 #'                         update = FALSE)
 #' visualise(geom = newPoly, linecol = "green", new = FALSE)
 #'
-#' # translate a single geom
+#' # translate a single feature
 #' visualise(gtGeoms$polygon, linewidth = 3)
 #' newPoly <- gt_translate(obj = gtGeoms$polygon, x = 5, fid = 2,
 #'                         update = FALSE)
@@ -98,8 +98,8 @@ gt_translate <- function(obj, x = NULL, y = NULL, fid = NULL, update = TRUE){
   out <- new(Class = "geom",
              type = getType(x = obj)[1],
              point = as_tibble(temp),
-             feature = list(geometry = theFeatures),
-             group = list(geometry = theGroups),
+             feature = theFeatures,
+             group = theGroups,
              window = window,
              crs = getCRS(x = obj),
              history = c(getHistory(x = obj), list(hist)))

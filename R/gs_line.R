@@ -67,7 +67,11 @@ gs_line <- function(anchor = NULL, window = NULL, features = 1, vertices = NULL,
   if(!is.null(anchor)){
     if(anchor$type == "geom"){
       hist <- paste0("object was cast to 'line' geom.")
-      features <- length(unique(anchor$obj@feature$geometry$fid))
+      if(getType(x = anchor$obj)[1] == "point"){
+        features <- length(unique(anchor$obj@feature$gid))
+      } else {
+        features <- length(unique(anchor$obj@feature$fid))
+      }
       projection <- getCRS(x = anchor$obj)
     } else if(anchor$type == "df"){
       hist <- paste0("object was created as 'line' geom.")
@@ -98,27 +102,37 @@ gs_line <- function(anchor = NULL, window = NULL, features = 1, vertices = NULL,
         if(is.null(theWindow)){
           theWindow <- anchor$obj@window
         }
-        tempAnchor <- anchor$obj@point[anchor$obj@point$fid == i,]
-        if(dim(tempAnchor)[1] < 2){
+
+        if(getType(x = anchor$obj)[1] == "point"){
+          tempAnchor <- gt_filter(obj = anchor$obj, gid == !!i)
+        } else {
+          tempAnchor <- gt_filter(obj = anchor$obj, gid == !!i)
+        }
+        tempPoints <- getPoints(tempAnchor)
+        tempFeatures <- getFeatures(tempAnchor)
+        tempGroups <- getGroups(tempAnchor)
+
+        tempPoints <- left_join(tempPoints, tempFeatures, by = "fid")
+        tempPoints <- select(mutate(tempPoints, fid = gid), -gid)
+
+        if(dim(tempAnchor@point)[1] < 2){
           stop(paste0("a line geom must have at least 2 points per 'fid'."))
         }
-        tempFeatures <- anchor$obj@feature$geometry[anchor$obj@feature$geometry$fid == i,]
-        tempGroups <- anchor$obj@group$geometry[anchor$obj@group$geometry$gid == i,]
       } else if(anchor$type == "df"){
         if(is.null(theWindow)){
           theWindow = tibble(x = c(min(anchor$obj$x), max(anchor$obj$x), max(anchor$obj$x), min(anchor$obj$x), min(anchor$obj$x)),
                              y = c(min(anchor$obj$y), min(anchor$obj$y), max(anchor$obj$y), max(anchor$obj$y), min(anchor$obj$y)))
         }
         if("fid" %in% names(anchor$obj)){
-          tempAnchor <- anchor$obj[anchor$obj$fid == i, ]
+          tempPoints <- anchor$obj[anchor$obj$fid == i, ]
         } else {
-          tempAnchor <- anchor$obj
-          tempAnchor <- bind_cols(tempAnchor, fid = rep(1, length.out = length(anchor$obj$x)))
+          tempPoints <- anchor$obj
+          tempPoints <- bind_cols(tempPoints, fid = rep(1, length.out = length(anchor$obj$x)))
         }
         tempFeatures <- tibble(fid = i, gid = i)
         tempGroups <- tibble(gid = i)
       }
-      theNodes <- tempAnchor[c("x", "y", "fid")]
+      theNodes <- tempPoints[c("x", "y", "fid")]
       theVertices <- bind_rows(theVertices, theNodes)
       theFeatures <- bind_rows(theFeatures, tempFeatures)
       theGroups <- bind_rows(theGroups, tempGroups)
@@ -128,10 +142,9 @@ gs_line <- function(anchor = NULL, window = NULL, features = 1, vertices = NULL,
     theGeom <- new(Class = "geom",
                    type = "line",
                    point = theVertices,
-                   feature = list(geometry = theFeatures),
-                   group = list(geometry = theGroups),
+                   feature = theFeatures,
+                   group = theGroups,
                    window = theWindow,
-                   # scale = "absolute",
                    crs = as.character(projection),
                    history = c(getHistory(x = anchor$obj), list(hist)))
   }

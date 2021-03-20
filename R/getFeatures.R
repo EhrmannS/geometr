@@ -49,29 +49,21 @@ setMethod(f = "getFeatures",
             if(theType == "grid"){
               theFeatures <- x@feature
               out <- list()
-              for(i in seq_along(theFeatures)){
-                theInput <- theFeatures[[i]]
-                theName <- names(theFeatures)[i]
 
-                if(all(names(theInput) %in% c("val", "len"))){
-                  temp <- list(lengths = theInput$len,
-                               values = theInput$val)
-                  attr(temp, "class") <- "rle"
-                  temp <- inverse.rle(temp)
-                  tempFeatures <- tibble(fid = seq_along(temp), gid = temp, values = temp)
-                } else {
-                  theInput <- unlist(theInput, use.names = FALSE)
-                  tempFeatures <- tibble(fid = 1:length(theInput), gid = theInput, values = theInput)
-                }
-
-                if(length(theFeatures) > 1){
-                  out <- c(out, setNames(list(tempFeatures), theName))
-                } else {
-                  out <- tempFeatures
-                }
+              if(all(c("val", "len") %in% names(theFeatures))){
+                temp <- list(lengths = theFeatures$len,
+                             values = theFeatures$val)
+                attr(temp, "class") <- "rle"
+                temp <- inverse.rle(temp)
+                tempFeatures <- tibble(fid = seq_along(temp), values = temp)
+              } else {
+                tempFeatures <- tibble(fid = 1:dim(theFeatures)[1])
+                tempFeatures <- bind_cols(tempFeatures, theFeatures)
               }
+              out <- tempFeatures
+
             } else {
-              out <- x@feature$geometry
+              out <- x@feature
             }
 
             return(out)
@@ -309,7 +301,7 @@ setMethod(f = "getFeatures",
                 } else {
                   temp <- vals
                 }
-                tab <- tibble(fid = seq_along(temp), gid = temp, values = temp)
+                tab <- tibble(fid = seq_along(temp), values = temp)
                 if(dim(x)[3] == 1){
                   out <- tab
                 } else {

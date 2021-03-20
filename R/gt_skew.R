@@ -11,12 +11,12 @@
 #' @return \code{geom} of the skewed \code{obj}.
 #' @family geometry tools
 #' @examples
-#' # skew several geoms
+#' # skew several features
 #' visualise(gtGeoms$polygon, linewidth = 3)
 #' newPoly <- gt_skew(obj = gtGeoms$polygon, x = 0.5, update = FALSE)
 #' visualise(geom = newPoly, linecol = "green", new = FALSE)
 #'
-#' # skew single geom
+#' # skew a single feature
 #' visualise(gtGeoms$polygon, linewidth = 3)
 #' newPoly <- gt_skew(obj = gtGeoms$polygon, x = 0.5, y = .7, fid = 2,
 #'                    update = FALSE)
@@ -104,8 +104,8 @@ gt_skew <- function(obj, x = NULL, y = NULL, fid = NULL, update = TRUE){
   out <- new(Class = "geom",
              type = getType(x = obj)[1],
              point = as_tibble(temp),
-             feature = list(geometry = theFeatures),
-             group = list(geometry = theGroups),
+             feature = theFeatures,
+             group = theGroups,
              window = window,
              crs = getCRS(x = obj),
              history = c(getHistory(x = obj), list(hist)))

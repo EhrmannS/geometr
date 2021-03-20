@@ -76,11 +76,20 @@ gs_point <- function(anchor = NULL, window = NULL, vertices = 1, template = NULL
       if(is.null(theWindow)){
         theWindow <- anchor$obj@window
       }
-      theVertices <- anchor$obj@point
-      theFeatures <- anchor$obj@feature
-      theGroups <- anchor$obj@group
+      theVertices <- getPoints(anchor$obj)
+      theFeatures <- getFeatures(anchor$obj)
+      theGroups <- getGroups(anchor$obj)
       projection <- getCRS(x = anchor$obj)
 
+      dups <- duplicated(theVertices)
+
+      theFeatures <- left_join(dplyr::select(theVertices, -x, -y), theFeatures, by = "fid")[!dups,]
+      theFeatures$fid <- seq_along(theFeatures$fid)
+      theVertices <- theVertices[!dups,]
+      theVertices$fid <- seq_along(theVertices$x)
+
+      # theFeatures <- list(geometry = theFeatures)
+      # theGroups <- list(geometry = theGroups)
     } else if(anchor$type == "df"){
       hist <- paste0("object was created as 'point' geom.")
 
@@ -89,18 +98,19 @@ gs_point <- function(anchor = NULL, window = NULL, vertices = 1, template = NULL
                            y = c(min(anchor$obj$y), min(anchor$obj$y), max(anchor$obj$y), max(anchor$obj$y), min(anchor$obj$y)))
       }
       theVertices <- bind_cols(anchor$obj)
-      if(!"fid" %in% names(theVertices)){
-        theVertices <- bind_cols(theVertices, fid = seq_along(theVertices$x))
+      if(!"gid" %in% names(theVertices)){
+        theVertices$fid <- seq_along(theVertices$x)
         vertices <- dim(theVertices)[1]
-        theFeatures <- tibble(fid = 1:vertices, gid = 1:vertices)
-        theGroups <- tibble(gid = 1:vertices)
+        theFeatures <- tibble(fid = 1:vertices, gid = 1)
+        theGroups <- tibble(gid = 1)
       } else {
-        vertices <- unique(theVertices$fid)
-        theFeatures <- tibble(fid = vertices, gid = seq_along(vertices))
-        theGroups <- tibble(gid = seq_along(vertices))
+        theVertices$fid <- seq_along(theVertices$x)
+        vertices <- dim(theVertices)[1]
+        theFeatures <- tibble(fid = 1:vertices, gid = theVertices$gid)
+        theGroups <- tibble(gid = unique(theVertices$gid))
       }
-      theFeatures <- list(geometry = theFeatures)
-      theGroups <- list(geometry = theGroups)
+      # theFeatures <- list(geometry = theFeatures)
+      # theGroups <- list(geometry = theGroups)
       projection <- NA
 
     }

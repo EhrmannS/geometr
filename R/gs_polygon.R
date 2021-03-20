@@ -64,7 +64,7 @@
 #' @importFrom checkmate testDataFrame assertNames testClass assertDataFrame
 #'   testTRUE testNull testClass assertIntegerish assertLogical assert
 #' @importFrom tibble tibble add_row
-#' @importFrom dplyr bind_cols bind_rows
+#' @importFrom dplyr bind_cols bind_rows filter
 #' @importFrom rlang !!
 #' @export
 
@@ -84,7 +84,11 @@ gs_polygon <- function(anchor = NULL, window = NULL, features = 1, vertices = NU
   if(!is.null(anchor)){
     if(anchor$type == "geom"){
       hist <- paste0("object was cast to 'polygon' geom.")
-      features <- length(unique(anchor$obj@feature$geometry$fid))
+      if(getType(x = anchor$obj)[1] == "point"){
+        features <- length(unique(anchor$obj@feature$gid))
+      } else {
+        features <- length(unique(anchor$obj@feature$fid))
+      }
       projection <- getCRS(x = anchor$obj)
     } else if(anchor$type == "df"){
       hist <- paste0("object was created as 'polygon' geom.")
@@ -116,13 +120,24 @@ gs_polygon <- function(anchor = NULL, window = NULL, features = 1, vertices = NU
         if(is.null(theWindow)){
           theWindow <- anchor$obj@window
         }
-        tempAnchor <- anchor$obj@point[anchor$obj@point$fid == i,]
-        if(dim(tempAnchor)[1] < 3){
+
+        if(getType(x = anchor$obj)[1] == "point"){
+          tempAnchor <- gt_filter(obj = anchor$obj, gid == !!i)
+        } else {
+          tempAnchor <- gt_filter(obj = anchor$obj, gid == !!i)
+        }
+        tempPoints <- getPoints(tempAnchor)
+        tempFeatures <- getFeatures(tempAnchor)
+        tempGroups <- getGroups(tempAnchor)
+
+        tempPoints <- left_join(tempPoints, tempFeatures, by = "fid")
+        tempPoints <- select(mutate(tempPoints, fid = gid), -gid)
+        tempFeatures <- filter(tempFeatures, fid == unique(tempPoints$fid))
+
+        if(dim(tempAnchor@point)[1] < 3){
           stop(paste0("a polygon geom must have at least 3 points per 'fid'."))
         }
-        openingAngle <- atan((tempAnchor$x[1] - tempAnchor$x[2]) / (tempAnchor$y[1] - tempAnchor$y[2])) * 180 / pi
-        tempFeatures <- anchor$obj@feature$geometry[anchor$obj@feature$geometry$fid == i,]
-        tempGroups <- anchor$obj@group$geometry[anchor$obj@group$geometry$gid == i,]
+        openingAngle <- atan((tempPoints$x[1] - tempPoints$x[2]) / (tempPoints$y[1] - tempPoints$y[2])) * 180 / pi
 
       } else if(anchor$type == "df"){
 
@@ -131,12 +146,12 @@ gs_polygon <- function(anchor = NULL, window = NULL, features = 1, vertices = NU
                              y = c(min(anchor$obj$y), min(anchor$obj$y), max(anchor$obj$y), max(anchor$obj$y), min(anchor$obj$y)))
         }
         if("fid" %in% names(anchor$obj)){
-          tempAnchor <- anchor$obj[anchor$obj$fid == i, ]
+          tempPoints <- anchor$obj[anchor$obj$fid == i, ]
         } else {
-          tempAnchor <- anchor$obj
-          tempAnchor <- bind_cols(tempAnchor, fid = rep(i, length.out = length(anchor$obj$x)))
+          tempPoints <- anchor$obj
+          tempPoints <- bind_cols(tempPoints, fid = rep(i, length.out = length(anchor$obj$x)))
         }
-        openingAngle <- atan((tempAnchor$x[1] - tempAnchor$x[2]) / (tempAnchor$y[1] - tempAnchor$y[2])) * 180 / pi
+        openingAngle <- atan((tempPoints$x[1] - tempPoints$x[2]) / (tempPoints$y[1] - tempPoints$y[2])) * 180 / pi
         tempFeatures <- tibble(fid = i, gid = i)
         tempGroups <- tibble(gid = i)
 
@@ -148,13 +163,13 @@ gs_polygon <- function(anchor = NULL, window = NULL, features = 1, vertices = NU
         angle <- 360/vertices[i]
         angles <- seq(from = 90, to = 360-angle+90, by = angle) - openingAngle
 
-        radius <- dist(tempAnchor[c(1:2),])
-        cx <- tempAnchor$x[1] + radius*cos(.rad(angles))
-        cy <- tempAnchor$y[1] + radius*sin(.rad(angles))
+        radius <- dist(tempPoints[c(1:2),])
+        cx <- tempPoints$x[1] + radius*cos(.rad(angles))
+        cy <- tempPoints$y[1] + radius*sin(.rad(angles))
         theNodes <- tibble(x = cx, y = cy, fid = i)
         theWindow <- .updateWindow(input = theNodes, window = theWindow)
       } else{
-        theNodes <- tempAnchor[c("x", "y", "fid")]
+        theNodes <- tempPoints[c("x", "y", "fid")]
       }
 
       theNodes <- .updateVertices(input = theNodes)
@@ -166,8 +181,8 @@ gs_polygon <- function(anchor = NULL, window = NULL, features = 1, vertices = NU
     theGeom <- new(Class = "geom",
                    type = "polygon",
                    point = theVertices,
-                   feature = list(geometry = theFeatures),
-                   group = list(geometry = theGroups),
+                   feature = theFeatures,
+                   group = theGroups,
                    window = theWindow,
                    crs = as.character(projection),
                    history = c(getHistory(x = anchor$obj), list(hist)))
@@ -211,7 +226,7 @@ gs_rectangle <- function(anchor = NULL, window = NULL, template = NULL,
   theGeom <- gs_polygon(anchor = anchor, window = window, template = template, features = features, vertices = 2, ...)
 
   outTable <- NULL
-  for(i in seq_along(theGeom@feature$geometry$fid)){
+  for(i in seq_along(theGeom@feature$fid)){
     geomSubset <- gt_filter(theGeom, fid == !!i)
     temp <- getExtent(geomSubset)
     temp <- tibble(x = c(rep(temp$x, each = 2), temp$x[1]),

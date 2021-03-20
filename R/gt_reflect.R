@@ -14,13 +14,13 @@
 #' @return \code{geom} of the reflected \code{obj}.
 #' @family geometry tools
 #' @examples
-#' # reflect several geoms
+#' # reflect several features
 #' visualise(gtGeoms$polygon, linewidth = 3)
 #' newPoly <- gt_reflect(obj = gtGeoms$polygon, angle = 45,
 #'                       update = FALSE)
 #' visualise(newPoly, linecol = "green", new = FALSE)
 #'
-#' # reflect a single geom
+#' # reflect a single feature
 #' visualise(gtGeoms$polygon, linewidth = 3)
 #' newPoly <- gt_reflect(obj = gtGeoms$polygon, angle = 90, fid = 2,
 #'                       update = FALSE)
@@ -39,7 +39,7 @@ gt_reflect <- function(obj, angle, fid = NULL, update = TRUE){
   theFeatures <- getFeatures(x = obj)
   theGroups <- getGroups(x = obj)
   thePoints <- getPoints(x = obj)
-  thewindow <- getWindow(x = obj)
+  theWindow <- getWindow(x = obj)
 
   # identify fids to modify
   ids <- unique(thePoints$fid)
@@ -74,9 +74,9 @@ gt_reflect <- function(obj, angle, fid = NULL, update = TRUE){
 
   # update window
   if(update){
-    window <- .updateWindow(input = temp, window = thewindow)
+    window <- .updateWindow(input = temp, window = theWindow)
   } else {
-    window <- thewindow
+    window <- theWindow
   }
 
   # make history
@@ -90,8 +90,8 @@ gt_reflect <- function(obj, angle, fid = NULL, update = TRUE){
   out <- new(Class = "geom",
              type = getType(x = obj)[1],
              point = temp,
-             feature = list(geometry = theFeatures),
-             group = list(geometry = theGroups),
+             feature = theFeatures,
+             group = theGroups,
              window = window,
              crs = getCRS(x = obj),
              history = c(getHistory(x = obj), list(hist)))

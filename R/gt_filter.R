@@ -60,8 +60,8 @@ gt_filter <- function(obj, ..., update = TRUE){
   out <- new(Class = "geom",
              type = theType,
              point = newPoints,
-             feature = list(geometry = newFeatures),
-             group = list(geometry = newGroups),
+             feature = newFeatures,
+             group = newGroups,
              window = theWindow,
              crs = getCRS(x = obj),
              history = c(getHistory(x = obj), list(hist)))

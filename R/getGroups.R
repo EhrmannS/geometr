@@ -57,22 +57,13 @@ setMethod(f = "getGroups",
 
             if(theType == "grid"){
               theGroups <- x@group
-              out <- list()
-              for(i in seq_along(theGroups)){
-                theInput <- theGroups[[i]]
-                theName <- names(theGroups)[i]
-                if(length(theGroups) > 1){
-                  out <- c(out, setNames(list(theInput), theName))
-                } else {
-                  if(dim(theInput)[1] == 0){
-                    out <- theGroups[[1]]
-                  } else {
-                    out <- theInput
-                  }
-                }
+              if(dim(theGroups)[1] == 0){
+                out <- theGroups[[1]]
+              } else {
+                out <- theGroups
               }
             } else {
-              out <- x@group$geometry
+              out <- x@group
             }
 
             return(out)
@@ -87,18 +78,18 @@ setMethod(f = "getGroups",
           signature = "Raster",
           definition = function(x){
             if(class(x) == "RasterBrick"){
-              out <- tibble(gid = 1)
+              out <- tibble(value = integer())
             } else {
               out <- NULL
               for(i in 1:dim(x)[3]){
                 temp <- x[[i]]@data@attributes
                 if(length(temp) != 0){
                   names <- names(temp[[1]])
-                  names[which(names == "id")] <- "gid"
+                  names[which(names == "id")] <- "value"
                   tab <- as_tibble(temp[[1]])
                   names(tab) <- names
                 } else {
-                  tab <- tibble(gid = sortUniqueC(getValues(x)))
+                  tab <- tibble(value = sortUniqueC(getValues(x)))
                 }
                 if(dim(x)[3] == 1){
                   out <- tab

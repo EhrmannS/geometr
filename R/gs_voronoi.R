@@ -50,7 +50,7 @@ gs_voronoi <- function(anchor = NULL, window = NULL, features = 3, template = NU
   if(!is.null(anchor)){
     if(anchor$type == "geom"){
       hist <- paste0("object was cast to 'polygon' geom.")
-      features <- length(unique(anchor$obj@feature$geometry$fid))
+      features <- length(unique(anchor$obj@feature$fid))
       projection <- getCRS(x = anchor$obj)
     } else if(anchor$type == "df"){
       hist <- paste0("object was created as 'polygon' geom.")
@@ -82,8 +82,8 @@ gs_voronoi <- function(anchor = NULL, window = NULL, features = 3, template = NU
         theWindow <- anchor$obj@window
       }
       tempAnchor <- anchor$obj@point
-      theFeatures <- anchor$obj@feature$geometry
-      theGroups <- anchor$obj@group$geometry
+      theFeatures <- anchor$obj@feature
+      theGroups <- anchor$obj@group
       projection <- getCRS(x = anchor$obj)
 
     } else if(anchor$type == "df"){
@@ -118,10 +118,9 @@ gs_voronoi <- function(anchor = NULL, window = NULL, features = 3, template = NU
   theGeom <- new(Class = "geom",
                  type = "polygon",
                  point = theVertices,
-                 feature = list(geometry = theFeatures),
-                 group = list(geometry = theGroups),
+                 feature = theFeatures,
+                 group = theGroups,
                  window = theWindow,
-                 # scale = "absolute",
                  crs = as.character(projection),
                  history = c(getHistory(x = anchor$obj), list(hist)))
 

@@ -81,10 +81,9 @@ gs_random <- function(type = "point", window = NULL, vertices = NULL, ...){
   theGeom <- new(Class = "geom",
                  type = outType,
                  point = anchor,
-                 feature = list(geometry = theFeatures),
-                 group = list(geometry = theGroups),
+                 feature = theFeatures,
+                 group = theGroups,
                  window = theWindow,
-                 # scale = "relative",
                  crs = as.character(NA),
                  history = list(paste0("geometry was created randomly")))
 

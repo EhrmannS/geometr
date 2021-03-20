@@ -163,10 +163,9 @@ gs_tiles <- function(anchor = NULL, width = NULL, pattern = "squared",
   theTiles <- new(Class = "geom",
                   type = theType,
                   point = tibble(fid = retain$fid, x = retain$x, y = retain$y),
-                  feature = list(geometry = theFeatures),
-                  group = list(geometry = theGroups),
+                  feature = theFeatures,
+                  group = theGroups,
                   window = anchor@window,
-                  # scale = "absolute",
                   crs = NA_character_,
                   history = list(paste0("tiled geometry of type '", theType, "' was created.")))
 
