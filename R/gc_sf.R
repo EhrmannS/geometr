@@ -49,7 +49,7 @@ setMethod(f = "gc_sf",
 
             makeDF <- FALSE
 
-            if(featureType %in% c("point")){
+            if(featureType == "point"){
 
               gids <- unique(theData$gid)
               tempOut <- list()
