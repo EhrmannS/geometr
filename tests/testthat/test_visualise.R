@@ -11,7 +11,7 @@ test_that("visualise a RasterLayer object", {
 
 test_that("visualise a RasterBrick object", {
   input <- brick(system.file("external/rlogo.grd", package="raster"))
-  output <- visualise(raster = input)
+  output <- visualise(raster = gc_geom(input = input, as_hex = TRUE))
   expect_class(output, "recordedplot")
 })
 
@@ -19,12 +19,6 @@ test_that("visualise a matrix", {
   aMatrix <- raster::as.matrix(gtRasters$continuous)
 
   output <- visualise(`my matrix` = aMatrix)
-  expect_class(output, "recordedplot")
-})
-
-test_that("visualise an image", {
-  input <<- brick(system.file("external/rlogo.grd", package="raster"))
-  output <- visualise(raster = input, image = TRUE)
   expect_class(output, "recordedplot")
 })
 
@@ -54,15 +48,15 @@ test_that("quick options produce output", {
   expect_class(output, "recordedplot")
 
   # pointsize
-  output <- visualise(geom = gtGeoms$polygon, pointsize = "fid", theme = aTheme)
-  expect_class(output, "recordedplot")
-
-  # pointsymbol
-  output <- visualise(geom = gtGeoms$polygon, pointsymbol = "fid", theme = aTheme)
+  output <- visualise(geom = gtGeoms$point, pointsize = "fid", theme = aTheme)
   expect_class(output, "recordedplot")
 
   # linewidth
   output <- visualise(geom = gtGeoms$polygon, linewidth = "fid", theme = aTheme)
+  expect_class(output, "recordedplot")
+
+  # pointsymbol
+  output <- visualise(geom = gtGeoms$point, pointsymbol = "fid", theme = aTheme)
   expect_class(output, "recordedplot")
 
   # linetype
@@ -115,11 +109,10 @@ test_that("Error/warning if arguments have wrong value", {
   window <- data.frame(x = c(0, 80),
                        y = c(0, 80))
   aGeom <- gs_polygon(anchor = coords)
-  # anImage <- system.file()
 
   expect_warning(visualise(raster = "bla"))
   expect_warning(visualise(raster = continuous, geom = "bla"))
   expect_error(visualise(raster = continuous, theme = "bla"))
   expect_error(visualise(raster = continuous, trace = 1))
-  expect_error(visualise(raster = continuous, image = 0))
 })
+

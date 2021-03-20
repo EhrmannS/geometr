@@ -16,14 +16,12 @@ test_that("setFeatures of a 'geom'", {
   # set table with a known variable
   output <- setFeatures(x = input, table = attributes)
   expect_class(output, "geom")
-  expect_list(output@feature, len = 1)
-  expect_names(names(output@feature$geometry), must.include = c("fid", "gid", "data"))
+  expect_names(names(output@feature), must.include = c("fid", "gid", "data"))
 
   # set table with only unknown variables
   output <- setFeatures(x = input, table = data.frame(fid = 1, data = "B"))
   expect_class(output, "geom")
-  expect_list(output@feature, len = 1)
-  expect_names(names(output@feature$geometry), must.include = c("fid", "gid", "data"))
+  expect_names(names(output@feature), must.include = c("fid", "gid", "data"))
 })
 
 test_that("setFeatures of a Spatial*DataFrame object", {
@@ -148,15 +146,6 @@ test_that("setFeatures of an sfc object", {
   output <- setFeatures(x = input, newData)
   expect_class(output, classes = c("sf", "data.frame"))
   expect_data_frame(x = output, nrows = 2, ncols = 2)
-})
-
-test_that("setFeatures of a ppp object", {
-  newData <- data.frame(attr = LETTERS[1:15],
-                        colour = topo.colors(15))
-
-  input <- gtPPP
-  output <- setFeatures(x = input, newData)
-  expect_class(output, classes = c("ppp"))
 })
 
 

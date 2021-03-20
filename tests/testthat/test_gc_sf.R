@@ -56,7 +56,6 @@ test_that("transform geom to POINT sf", {
 test_that("transform geom to MULTIPOINT sf", {
   output <- gc_sf(input = gtGeoms$point)
   expect_class(x = output, classes = "sf")
-  expect_list(x = output$geom, types = "numeric", len = 2)
   expect_names(x = names(output), identical.to = c("geom"))
 })
 
@@ -93,8 +92,8 @@ test_that("transform geom to LINESTRING sf", {
 
 test_that("transform geom to MULTILINE sf", {
   input <- gtGeoms$line
-  input@feature$geometry$gid <- c(1, 1)
-  input@group <- list(geometry = tibble(gid = c(1, 2)))
+  input@feature$gid <- c(1, 1)
+  input@group <- tibble(gid = c(1, 2))
   lineGeomF <- setFeatures(x = input, table = data.frame(fid = 1, feature = LETTERS[1:3]))
   expect_warning(object = output <- gc_sf(input = lineGeomF))
   expect_class(x = output, classes = "sf")
@@ -138,8 +137,8 @@ test_that("transform geom to MULTIPOLYGON sf", {
                                              y = c(0, 10, 10, 0, 0, 11, 12, 12, 11, 11, 9, 10, 10, 9, 9),
                                              fid = c(1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3)),
                          window = data.frame(x = c(0, 12), y = c(0, 12)))
-  polyGeom@feature$geometry$gid <- c(1, 1, 2)
-  polyGeom@group <- list(geometry = tibble(gid = c(1, 2)))
+  polyGeom@feature$gid <- c(1, 1, 2)
+  polyGeom@group <- tibble(gid = c(1, 2))
 
   polyGeomF <- setFeatures(x = polyGeom, table = data.frame(fid = 1, feature = LETTERS[1:3]))
   expect_warning(object = output <- gc_sf(input = polyGeomF))

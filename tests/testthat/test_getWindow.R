@@ -51,20 +51,6 @@ test_that("getWindow of an sf object", {
   expect_names(names(output), identical.to = c("x", "y"))
 })
 
-test_that("getWindow of a ppp object", {
-  x <- runif(20)
-  y <- runif(20)
-  input <- ppp(x, y, poly=list(x=c(0,10,0), y=c(0,0,10)))
-
-  output <- getWindow(input)
-  expect_data_frame(output, any.missing = FALSE, nrows = 4, ncols = 2)
-  expect_names(names(output), identical.to = c("x", "y"))
-
-  output <- getWindow(gtPPP)
-  expect_data_frame(output, any.missing = FALSE, nrows = 5, ncols = 2)
-  expect_names(names(output), identical.to = c("x", "y"))
-})
-
 test_that("getWindow of any other object", {
   output <- getWindow("bla")
   expect_null(object = output)
