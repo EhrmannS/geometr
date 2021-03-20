@@ -1,8 +1,11 @@
 # geometr 0.2.6
 
-- subsetting has been moved out of the respective getters into `gt_subset()`, it also includes subsetting x and y values of the 
+- identifying and setting groups in gridded `geom`s has been refined. Several layers are by default stacked, but it is now also possible to create a list of separate `geom`s per layer with `gc_geom(..., stack = FALSE)`.
+- \"images\" are now handled by being able to create a grid geom with hexadecimal values by setting `gc_geom(..., as_hex = TRUE)`.
+- subsetting has been moved out of the respective getters into `gt_filter()`, it also includes subsetting x and y values of the 
 vertices.
-- new getters `getCol()`, `getRow()` and `getName()`.
+- pulling columns can now be done with `gt_pull()`.
+- new getters `getCols()`, `getRows()` and `getNames()`.
 - removed the `@scale`-slot from from the geom class, because it is no longer needed.
 - included the `@extent`-slot for faster processing of large objects where it takes long to find min/max values of coordinates.
 - `visualise()` has been revised so that it fully supports plotting all geometric classes that have getters defined.
