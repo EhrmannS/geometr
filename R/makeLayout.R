@@ -134,10 +134,10 @@
                            xmax = maxWinX + margin$x,
                            ymin = minWinY - margin$y,
                            ymax = maxWinY + margin$y),
-              grid = list(xMaj = round(axisSteps$x1, theme@yAxis$ticks$digits),
-                          xMin = round(axisSteps$x2, theme@yAxis$ticks$digits),
-                          yMaj = round(axisSteps$y1, theme@yAxis$ticks$digits),
-                          yMin = round(axisSteps$y2, theme@yAxis$ticks$digits)),
+              grid = list(xMaj = axisSteps$x1,
+                          xMin = axisSteps$x2,
+                          yMaj = axisSteps$y1,
+                          yMin = axisSteps$y2),
               legend = list(posX = legendPosX,
                             posy = legendPosY)
               )

@@ -279,7 +279,7 @@ visualise <- function(...,
 
         if(theme@yAxis$ticks$plot){
           grid.text(x = unit(1, "npc") - unit(2, "points"),
-                    label = as.character(theLayout$grid$yMaj),
+                    label = as.character(round(theLayout$grid$yMaj, theme@yAxis$ticks$digits)),
                     just = "right",
                     y = unit(theLayout$grid$yMaj, "native"),
                     rot = theme@xAxis$ticks$rotation,
@@ -306,7 +306,7 @@ visualise <- function(...,
         }
 
         if(theme@xAxis$ticks$plot){
-          grid.text(label = as.character(theLayout$grid$xMaj),
+          grid.text(label = as.character(round(theLayout$grid$xMaj, theme@yAxis$ticks$digits)),
                     x = unit(theLayout$grid$xMaj, "native"),
                     y = unit(1, "npc") - unit(theLayout$labels$xAxisTicksH, "points"),
                     just = "bottom",
