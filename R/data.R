@@ -35,14 +35,6 @@
 #'   the example and test-sections of this package.
 "gtSF"
 
-#' Example \code{ppp} object
-#'
-#' A single ppp object
-#' @format The object contains an object of class \code{ppp}. It consists of 15
-#'   points without an attribute table. It is mostly used in the example and
-#'   test-sections of this package.
-"gtPPP"
-
 #' Default visualising theme
 #'
 "gtTheme"
