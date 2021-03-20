@@ -210,19 +210,6 @@ setMethod(f = "getPoints",
           }
 )
 
-# ppp ----
-#' @rdname getPoints
-#' @export
-setMethod(f = "getPoints",
-          signature = "ppp",
-          definition = function(x){
-            temp <- x
-            tibble(x = temp$x,
-                   y = temp$y,
-                   fid = seq_along(temp$x))
-          }
-)
-
 # Raster ----
 #' @rdname getPoints
 #' @importFrom tibble tibble as_tibble

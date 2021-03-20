@@ -85,16 +85,6 @@ setMethod(f = "getType",
           }
 )
 
-# ppp ----
-#' @rdname getType
-#' @export
-setMethod(f = "getType",
-          signature = "ppp",
-          definition = function(x){
-            c("point", class(x)[1])
-          }
-)
-
 # RasterLayer ----
 #' @rdname getType
 #' @examples

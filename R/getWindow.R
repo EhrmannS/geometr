@@ -77,35 +77,6 @@ setMethod(f = "getWindow",
           }
 )
 
-# ppp ----
-#' @rdname getWindow
-#' @examples
-#'
-#' getWindow(x = gtPPP)
-#' @export
-setMethod(f = "getWindow",
-          signature = "ppp",
-          definition = function(x){
-            temp <- x
-            if("bdry" %in% names(temp$window)){
-              verts <- do.call(rbind.data.frame, temp$window$bdry)
-              fids <- rep(seq_along(temp$window$bdry), sapply(temp$window$bdry, function(x) length(x[[1]])))
-              verts <- bind_cols(verts, fid = fids)
-              verts <- .updateVertices(input = verts)
-              verts$fid <- NULL
-            } else {
-              xmin <- min(temp$window$xrange)
-              xmax <- max(temp$window$xrange)
-              ymin <- min(temp$window$yrange)
-              ymax <- max(temp$window$yrange)
-              verts <- tibble(x = c(xmin, xmax, xmax, xmin, xmin),
-                              y = c(ymin, ymin, ymax, ymax, ymin))
-            }
-
-            return(verts)
-          }
-)
-
 # Raster ----
 #' @rdname getWindow
 #' @examples

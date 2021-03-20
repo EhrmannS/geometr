@@ -88,21 +88,6 @@ setMethod(f = "getExtent",
           }
 )
 
-# ppp ----
-#' @rdname getExtent
-#' @examples
-#'
-#' getExtent(x = gtPPP)
-#' @export
-setMethod(f = "getExtent",
-          signature = "ppp",
-          definition = function(x){
-            bla <- x
-            tibble(x = c(min(bla$x), max(bla$x)),
-                   y = c(min(bla$y), max(bla$y)))
-          }
-)
-
 # Raster ----
 #' @rdname getExtent
 #' @examples

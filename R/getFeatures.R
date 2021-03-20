@@ -287,25 +287,6 @@ setMethod(f = "getFeatures",
           }
 )
 
-# ppp ----
-#' @rdname getFeatures
-#' @importFrom tibble as_tibble
-#' @importFrom dplyr bind_cols
-#' @export
-setMethod(f = "getFeatures",
-          signature = "ppp",
-          definition = function(x){
-
-            temp <- x
-            out <- tibble(fid = seq_along(temp$x), gid = seq_along(temp$x))
-            if("marks" %in% names(temp)){
-              out <- bind_cols(out, values = temp$marks)
-            }
-
-            return(out)
-          }
-)
-
 # Raster ----
 #' @rdname getFeatures
 #' @importFrom tibble tibble as_tibble
