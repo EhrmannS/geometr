@@ -5,15 +5,17 @@
 #' \code{gtTheme}, because it carries out all the checks and makes sure that
 #' names of the parameters are properly matched.
 #' @slot title [\code{named list(3)}]\cr properties of the title.
-#' @slot box [\code{named list(4)}]\cr properties of the bounding box.
+#' @slot box [\code{named list(5)}]\cr properties of the bounding box.
 #' @slot xAxis [\code{named list(5)}]\cr properties of the x-axis, its labels
 #'   and ticks.
 #' @slot yAxis [\code{named list(5)}]\cr properties of the y-axis, its labels
 #'   and ticks.
 #' @slot grid [\code{named list(5)}]\cr properties of the major and minor grid.
-#' @slot legend [\code{named list(10)}]\cr properties of the legend, its title,
+#' @slot legend [\code{named list(9)}]\cr properties of the legend, its title,
 #'   labels, ticks and bounding box.
-#' @slot parameters [\code{named list(7)}]\cr properties of the plot object.
+#' @slot scale [\code{names list(6)}]\cr properties of scaling parameters to
+#'   attributes/variables.
+#' @slot parameters [\code{named list(7)}]\cr parameters of the plot object.
 
 themeClass <- setClass(Class = "gtTheme",
                        slots = c(title = "list",
