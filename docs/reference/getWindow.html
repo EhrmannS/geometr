@@ -143,9 +143,6 @@
 <span class='co'># S4 method for sf</span>
 <span class='fu'>getWindow</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span>
 
-<span class='co'># S4 method for ppp</span>
-<span class='fu'>getWindow</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span>
-
 <span class='co'># S4 method for Raster</span>
 <span class='fu'>getWindow</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span>
 
@@ -173,8 +170,8 @@
 <code><a href='getFeatures.html'>getFeatures</a>()</code>,
 <code><a href='getGroups.html'>getGroups</a>()</code>,
 <code><a href='getHistory.html'>getHistory</a>()</code>,
-<code><a href='getLayer.html'>getLayer</a>()</code>,
-<code><a href='getName.html'>getName</a>()</code>,
+<code><a href='getLayers.html'>getLayers</a>()</code>,
+<code><a href='getNames.html'>getNames</a>()</code>,
 <code><a href='getPoints.html'>getPoints</a>()</code>,
 <code><a href='getRes.html'>getRes</a>()</code>,
 <code><a href='getRows.html'>getRows</a>()</code>,
@@ -183,59 +180,50 @@
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
 <span class='fu'>getWindow</span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>gtGeoms</span><span class='op'>$</span><span class='va'>line</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; # A tibble: 5 x 2
+</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 5 x 2</span><span>
 #&gt;       x     y
-#&gt;   &lt;dbl&gt; &lt;dbl&gt;
-#&gt; 1   -50   -50
-#&gt; 2   -50    50
-#&gt; 3    50    50
-#&gt; 4    50   -50
-#&gt; 5   -50   -50</div><div class='input'>
+#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #BCBCBC;'>1</span><span>   -</span><span style='color: #BB0000;'>50</span><span>   -</span><span style='color: #BB0000;'>50</span><span>
+#&gt; </span><span style='color: #BCBCBC;'>2</span><span>   -</span><span style='color: #BB0000;'>50</span><span>    50
+#&gt; </span><span style='color: #BCBCBC;'>3</span><span>    50    50
+#&gt; </span><span style='color: #BCBCBC;'>4</span><span>    50   -</span><span style='color: #BB0000;'>50</span><span>
+#&gt; </span><span style='color: #BCBCBC;'>5</span><span>   -</span><span style='color: #BB0000;'>50</span><span>   -</span><span style='color: #BB0000;'>50</span><span></div><div class='input'>
 <span class='fu'>getWindow</span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>gtSP</span><span class='op'>$</span><span class='va'>SpatialLines</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; # A tibble: 5 x 2
+</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 5 x 2</span><span>
 #&gt;       x     y
-#&gt;   &lt;dbl&gt; &lt;dbl&gt;
-#&gt; 1     0     0
-#&gt; 2    10     0
-#&gt; 3    10    10
-#&gt; 4     0    10
-#&gt; 5     0     0</div><div class='input'>
+#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #BCBCBC;'>1</span><span>     0     0
+#&gt; </span><span style='color: #BCBCBC;'>2</span><span>    10     0
+#&gt; </span><span style='color: #BCBCBC;'>3</span><span>    10    10
+#&gt; </span><span style='color: #BCBCBC;'>4</span><span>     0    10
+#&gt; </span><span style='color: #BCBCBC;'>5</span><span>     0     0</div><div class='input'>
 <span class='fu'>getWindow</span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>gtSF</span><span class='op'>$</span><span class='va'>multilinestring</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; # A tibble: 5 x 2
+</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 5 x 2</span><span>
 #&gt;       x     y
-#&gt;   &lt;dbl&gt; &lt;dbl&gt;
-#&gt; 1     0     0
-#&gt; 2    12     0
-#&gt; 3    12    12
-#&gt; 4     0    12
-#&gt; 5     0     0</div><div class='input'>
-<span class='fu'>getWindow</span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>gtPPP</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; # A tibble: 5 x 2
-#&gt;       x     y
-#&gt;   &lt;dbl&gt; &lt;dbl&gt;
-#&gt; 1     0     0
-#&gt; 2    12     0
-#&gt; 3    12    12
-#&gt; 4     0    12
-#&gt; 5     0     0</div><div class='input'>
+#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #BCBCBC;'>1</span><span>     0     0
+#&gt; </span><span style='color: #BCBCBC;'>2</span><span>    12     0
+#&gt; </span><span style='color: #BCBCBC;'>3</span><span>    12    12
+#&gt; </span><span style='color: #BCBCBC;'>4</span><span>     0    12
+#&gt; </span><span style='color: #BCBCBC;'>5</span><span>     0     0</div><div class='input'>
 <span class='fu'>getWindow</span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>gtRasters</span><span class='op'>$</span><span class='va'>categorical</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; # A tibble: 5 x 2
+</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 5 x 2</span><span>
 #&gt;       x     y
-#&gt;   &lt;dbl&gt; &lt;dbl&gt;
-#&gt; 1     0     0
-#&gt; 2    60     0
-#&gt; 3    60    56
-#&gt; 4     0    56
-#&gt; 5     0     0</div><div class='input'>
+#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #BCBCBC;'>1</span><span>     0     0
+#&gt; </span><span style='color: #BCBCBC;'>2</span><span>    60     0
+#&gt; </span><span style='color: #BCBCBC;'>3</span><span>    60    56
+#&gt; </span><span style='color: #BCBCBC;'>4</span><span>     0    56
+#&gt; </span><span style='color: #BCBCBC;'>5</span><span>     0     0</div><div class='input'>
 <span class='fu'>getWindow</span><span class='op'>(</span>x <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>matrix</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>3</span>, <span class='fl'>5</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; # A tibble: 5 x 2
+</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 5 x 2</span><span>
 #&gt;       x     y
-#&gt;   &lt;dbl&gt; &lt;dbl&gt;
-#&gt; 1     0     0
-#&gt; 2     5     0
-#&gt; 3     5     3
-#&gt; 4     0     3
-#&gt; 5     0     0</div></pre>
+#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #BCBCBC;'>1</span><span>     0     0
+#&gt; </span><span style='color: #BCBCBC;'>2</span><span>     5     0
+#&gt; </span><span style='color: #BCBCBC;'>3</span><span>     5     3
+#&gt; </span><span style='color: #BCBCBC;'>4</span><span>     0     3
+#&gt; </span><span style='color: #BCBCBC;'>5</span><span>     0     0</div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

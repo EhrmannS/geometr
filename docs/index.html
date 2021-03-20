@@ -206,13 +206,12 @@
 <p><img src="reference/figures/README-unnamed-chunk-8-1.png" width="100%"></p>
 <p>Each <code>geom</code> has the slot <code>@window</code>, which contains a reference window. This reference window can be used or modified in many functions of <code>geometr</code></p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="reference/visualise.html">visualise</a></span><span class="op">(</span>`Currituck` <span class="op">=</span> <span class="va">currituck</span>, window <span class="op">=</span> <span class="fu"><a href="reference/getExtent.html">getExtent</a></span><span class="op">(</span><span class="va">currituck</span><span class="op">)</span>, linecol <span class="op">=</span> <span class="st">"fid"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="fu"><a href="reference/visualise.html">visualise</a></span><span class="op">(</span>`Currituck` <span class="op">=</span> <span class="va">currituck</span>, linecol <span class="op">=</span> <span class="st">"fid"</span><span class="op">)</span></code></pre></div>
 <p><img src="reference/figures/README-unnamed-chunk-9-1.png" width="100%"></p>
 <p>Finally, cast a <code>geom</code> to another type simply by providing it in <code>anchor</code> of the respective type</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://magrittr.tidyverse.org">magrittr</a></span><span class="op">)</span>
-<span class="va">boundPoints</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/gs_point.html">gs_point</a></span><span class="op">(</span>anchor <span class="op">=</span> <span class="va">currituck</span><span class="op">)</span> <span class="op">%&gt;%</span> 
-   <span class="fu"><a href="reference/setWindow.html">setWindow</a></span><span class="op">(</span>to <span class="op">=</span> <span class="fu"><a href="reference/getExtent.html">getExtent</a></span><span class="op">(</span><span class="va">.</span><span class="op">)</span><span class="op">)</span>
+<span class="va">boundPoints</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/gs_point.html">gs_point</a></span><span class="op">(</span>anchor <span class="op">=</span> <span class="va">currituck</span><span class="op">)</span>
 <span class="fu"><a href="reference/visualise.html">visualise</a></span><span class="op">(</span>`Currituck - boundary vertices`<span class="op">=</span> <span class="va">boundPoints</span>, linecol <span class="op">=</span> <span class="st">"fid"</span><span class="op">)</span></code></pre></div>
 <p><img src="reference/figures/README-unnamed-chunk-10-1.png" width="100%"></p>
 </div>

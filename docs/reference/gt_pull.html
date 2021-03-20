@@ -177,7 +177,7 @@ function <code><a href='https://rdrr.io/r/base/Extract.html'>$</a></code>.</p>
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># pull values from a geom (there are two features, thus two values) ...</span>
 <span class='fu'>gt_pull</span><span class='op'>(</span><span class='va'>gtGeoms</span><span class='op'>$</span><span class='va'>point</span>, <span class='st'>"fid"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] 1 2</div><div class='input'>
+</div><div class='output co'>#&gt; [1] 1 2 3 4 5 6 7 8 9</div><div class='input'>
 <span class='co'># pull from a Raster* with RAT</span>
 <span class='fu'>gt_pull</span><span class='op'>(</span><span class='va'>gtGeoms</span><span class='op'>$</span><span class='va'>grid</span><span class='op'>$</span><span class='va'>categorical</span>, <span class='st'>"cover"</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; [1] lake              sealed            wetland           arable           

@@ -83,7 +83,7 @@
       <h1 data-toc-skip>geometr - An overview</h1>
                         <h4 class="author">Steffen Ehrmann</h4>
             
-            <h4 class="date">2021-03-15</h4>
+            <h4 class="date">2021-03-20</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/EhrmannS/geometr/blob/master/vignettes/geometr.Rmd"><code>vignettes/geometr.Rmd</code></a></small>
       <div class="hidden name"><code>geometr.Rmd</code></div>
@@ -118,10 +118,10 @@
 <code class="sourceCode R"><span class="va">nc_sf</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_read.html">st_read</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span><span class="op">(</span><span class="st">"shape/nc.shp"</span>, package <span class="op">=</span> <span class="st">"sf"</span><span class="op">)</span><span class="op">)</span>
 <span class="co">#&gt; Reading layer `nc' from data source `/home/se87kuhe/R/x86_64-pc-linux-gnu-library/3.6/sf/shape/nc.shp' using driver `ESRI Shapefile'</span>
 <span class="co">#&gt; Simple feature collection with 100 features and 14 fields</span>
-<span class="co">#&gt; geometry type:  MULTIPOLYGON</span>
-<span class="co">#&gt; dimension:      XY</span>
-<span class="co">#&gt; bbox:           xmin: -84.32385 ymin: 33.88199 xmax: -75.45698 ymax: 36.58965</span>
-<span class="co">#&gt; geographic CRS: NAD27</span>
+<span class="co">#&gt; Geometry type: MULTIPOLYGON</span>
+<span class="co">#&gt; Dimension:     XY</span>
+<span class="co">#&gt; Bounding box:  xmin: -84.32385 ymin: 33.88199 xmax: -75.45698 ymax: 36.58965</span>
+<span class="co">#&gt; Geodetic CRS:  NAD27</span>
 <span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_bbox.html">st_bbox</a></span><span class="op">(</span><span class="va">nc_sf</span><span class="op">)</span>
 <span class="co">#&gt;      xmin      ymin      xmax      ymax </span>
 <span class="co">#&gt; -84.32385  33.88199 -75.45698  36.58965</span>
@@ -265,14 +265,13 @@
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/object.size.html">object.size</a></span><span class="op">(</span><span class="va">gtRasters</span><span class="op">$</span><span class="va">categorical</span><span class="op">)</span>
 <span class="co">#&gt; 30608 bytes</span>
 <span class="fu"><a href="https://rdrr.io/r/utils/object.size.html">object.size</a></span><span class="op">(</span><span class="va">gtGeoms</span><span class="op">$</span><span class="va">grid</span><span class="op">$</span><span class="va">categorical</span><span class="op">)</span>
-<span class="co">#&gt; 13728 bytes</span>
+<span class="co">#&gt; 12920 bytes</span>
 
 <span class="fu"><a href="../reference/visualise.html">visualise</a></span><span class="op">(</span><span class="va">gtRasters</span><span class="op">$</span><span class="va">categorical</span>, <span class="va">gtGeoms</span><span class="op">$</span><span class="va">grid</span><span class="op">$</span><span class="va">categorical</span><span class="op">)</span></code></pre></div>
 <p><img src="geometr_files/figure-html/unnamed-chunk-6-1.png" width="700"></p>
 <p>As with points, the getter <code><a href="../reference/getFeatures.html">getFeatures()</a></code> unpacks the <code>@feature</code> slot into its interoperable form.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">gtGeoms</span><span class="op">$</span><span class="va">grid</span><span class="op">$</span><span class="va">categorical</span><span class="op">@</span><span class="va">feature</span>
-<span class="co">#&gt; $categorical</span>
 <span class="co">#&gt; # A tibble: 726 x 2</span>
 <span class="co">#&gt;      val   len</span>
 <span class="co">#&gt;    &lt;int&gt; &lt;int&gt;</span>
@@ -288,19 +287,19 @@
 <span class="co">#&gt; 10    41     4</span>
 <span class="co">#&gt; # … with 716 more rows</span>
 <span class="fu"><a href="../reference/getFeatures.html">getFeatures</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">gtGeoms</span><span class="op">$</span><span class="va">grid</span><span class="op">$</span><span class="va">categorical</span><span class="op">)</span>
-<span class="co">#&gt; # A tibble: 3,360 x 3</span>
-<span class="co">#&gt;      fid   gid values</span>
-<span class="co">#&gt;    &lt;int&gt; &lt;int&gt;  &lt;int&gt;</span>
-<span class="co">#&gt;  1     1    31     31</span>
-<span class="co">#&gt;  2     2    31     31</span>
-<span class="co">#&gt;  3     3    47     47</span>
-<span class="co">#&gt;  4     4    47     47</span>
-<span class="co">#&gt;  5     5    47     47</span>
-<span class="co">#&gt;  6     6    47     47</span>
-<span class="co">#&gt;  7     7    47     47</span>
-<span class="co">#&gt;  8     8    47     47</span>
-<span class="co">#&gt;  9     9    47     47</span>
-<span class="co">#&gt; 10    10    47     47</span>
+<span class="co">#&gt; # A tibble: 3,360 x 2</span>
+<span class="co">#&gt;      fid values</span>
+<span class="co">#&gt;    &lt;int&gt;  &lt;int&gt;</span>
+<span class="co">#&gt;  1     1     31</span>
+<span class="co">#&gt;  2     2     31</span>
+<span class="co">#&gt;  3     3     47</span>
+<span class="co">#&gt;  4     4     47</span>
+<span class="co">#&gt;  5     5     47</span>
+<span class="co">#&gt;  6     6     47</span>
+<span class="co">#&gt;  7     7     47</span>
+<span class="co">#&gt;  8     8     47</span>
+<span class="co">#&gt;  9     9     47</span>
+<span class="co">#&gt; 10    10     47</span>
 <span class="co">#&gt; # … with 3,350 more rows</span></code></pre></div>
 <p>For raster objects it is intuitively clear that attributes are contained in separate tables, where unique values of the raster cells are related to attribute values. For vector objects this also seems apparent, however, when digging below the surface there are some difference in interpretation. The attribute table for vector objects is typically seen as a table that contains attributes per feature, not per group (of unique features). When storing vector data in a simple feature data structure, each feature is an actually not so simple object that can be made up of one or more points or lines, or of a wide range of nested and neighbouring polygons, such as in a <code>MULTIPOLYGON</code> or even a mix of all of those in a <code>GEOMETRYCOLLECTION</code>.</p>
 <p>In <code>geometr</code>, in contrast, a feature is a single point, one sequence of points that form a line or a <a href="#how-are-polygons-handled">single polygon</a>, i.e., only a single object of each type. Any closed path that is not fully enclosed by another closed path, or that is not part of the same line (or the same point…), is thus a distinct feature. Obviously, it must be possible to relate features to one another beyond their physical connectedness as closed path, for examples several islands that form a nation. In <code>geometr</code>, this connectedness is represented by a group ID (<code>gid</code>), which relates all features of that group to the group specific attributes in the <code>@group</code> slot. This has two advantages over simple features:</p>
@@ -311,7 +310,7 @@
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/getGroups.html">getGroups</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">gtGeoms</span><span class="op">$</span><span class="va">grid</span><span class="op">$</span><span class="va">categorical</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 9 x 2</span>
-<span class="co">#&gt;     gid cover            </span>
+<span class="co">#&gt;   value cover            </span>
 <span class="co">#&gt;   &lt;int&gt; &lt;fct&gt;            </span>
 <span class="co">#&gt; 1     1 lake             </span>
 <span class="co">#&gt; 2    11 sealed           </span>
@@ -347,7 +346,7 @@
                  y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">40</span>, <span class="fl">40</span>, <span class="fl">60</span>, <span class="fl">70</span><span class="op">)</span><span class="op">)</span>
 <span class="op">(</span><span class="va">somePoints</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/gs_point.html">gs_point</a></span><span class="op">(</span>anchor <span class="op">=</span> <span class="va">coords</span><span class="op">)</span><span class="op">)</span>
 <span class="co">#&gt; geom        point</span>
-<span class="co">#&gt;             4 groups | 4 features | 4 points</span>
+<span class="co">#&gt;             1 group | 4 features | 4 points</span>
 <span class="co">#&gt; crs         cartesian</span>
 <span class="co">#&gt; attributes  --</span>
 <span class="co">#&gt; tiny map       70 </span>
@@ -499,10 +498,9 @@
 <p>The following code chunk shows casting in <code>geometr</code>. When casting to polygons, vertex checks are carried out that make sure the output is a valid polygon. This results, as also described above, in the first/last point becoming duplicated to form a closed path. When casting from a polygon to another type, those duplicates have to be handled, for example by removing duplicates.</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># make points and discard duplicates ...</span>
-<span class="op">(</span><span class="va">somePoints</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/gs_point.html">gs_point</a></span><span class="op">(</span>anchor <span class="op">=</span> <span class="va">aPoly</span><span class="op">)</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="../reference/gt_filter.html">gt_filter</a></span><span class="op">(</span><span class="op">!</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/duplicated.html">duplicated</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">&amp;</span> <span class="fu"><a href="https://rdrr.io/r/base/duplicated.html">duplicated</a></span><span class="op">(</span><span class="va">y</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
+<span class="op">(</span><span class="va">somePoints</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/gs_point.html">gs_point</a></span><span class="op">(</span>anchor <span class="op">=</span> <span class="va">aPoly</span><span class="op">)</span><span class="op">)</span>
 <span class="co">#&gt; geom        point</span>
-<span class="co">#&gt;             1 group | 1 feature | 4 points</span>
+<span class="co">#&gt;             1 group | 4 features | 4 points</span>
 <span class="co">#&gt; crs         cartesian</span>
 <span class="co">#&gt; attributes  --</span>
 <span class="co">#&gt; tiny map       70 </span>
@@ -563,19 +561,20 @@
 <div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">gtTheme</span>
 <span class="co">#&gt; ✔ title     in black with fontsize 16 </span>
-<span class="co">#&gt; ✔ box       in grey with 0.6 wide solid lines </span>
+<span class="co">#&gt; ✔ box       in grey with 0.6 wide lines of type solid </span>
 <span class="co">#&gt; ✔ xAxis     with 4 bins and a margin of 5%</span>
 <span class="co">#&gt; ✔  - label  x in black with fontsize 12</span>
 <span class="co">#&gt; ✔  - ticks  in black with fontsize 10 rounded to 1 digit </span>
 <span class="co">#&gt; ✔ yAxis     with 4 bins and a margin of 5%</span>
 <span class="co">#&gt; ✔  - label  y in black with fontsize 12</span>
 <span class="co">#&gt; ✔  - ticks  in black with fontsize 10 rounded to 1 digit </span>
-<span class="co">#&gt; ✔ grid      in grey with 0.6 wide solid lines </span>
-<span class="co">#&gt; ✔ legend    with values ordered ascending in 4 bins and a relative height of </span>
+<span class="co">#&gt; ✔ grid      in grey with 0.6 wide lines of type solid </span>
+<span class="co">#&gt; ✔ legend    with values ordered ascending in 4 bins and a relative height of 0.6</span>
 <span class="co">#&gt; ✔  - label  in black with fontsize 10</span>
-<span class="co">#&gt; ✔  - box    in black with 0.2 wide solid lines </span>
-<span class="co">#&gt; ✔ scale     with NA scaled to NA</span>
-<span class="co">#&gt; ✔ objects   of 1 wide solid lines or 0.5 wide points of type 20</span></code></pre></div>
+<span class="co">#&gt; ✔  - box    in black with 0.2 wide lines of type solid </span>
+<span class="co">#&gt; ✔ objects   with line-colour black and fill-colour empty</span>
+<span class="co">#&gt;             with 1 wide lines of type solid</span>
+<span class="co">#&gt;             or 0.5 wide points of type 20</span></code></pre></div>
 <p>A new theme can be created by modifying any of the elements (shown in yellow in the console), via the function <code><a href="../reference/setTheme.html">setTheme()</a></code>. <code>vector</code> and <code>raster</code> are provided with a <code>scale</code>, where it is noted that one of the properties is scaled to one of the attributes of the object. By default, the line colour (<code>linecol</code>) is scaled to the feature ID (<code>fid</code>) for <code>vector</code> objects and rasters are scaled to their unique values, or the ID of an optional <a href="https://rdrr.io/cran/raster/man/factor.html" target="_blank">attribute table</a>. For <code>vector</code> objects also other properties can be scaled, namely the point symbol (<code>pointsymbol</code>) and size (<code>pointsize</code>), the colour of points (also <code>linecol</code>), the line type (<code>linetype</code>) and width (<code>linewidth</code>) of lines and polygons and the fill colour of polygons (<code>fillcol</code>).</p>
 <p>By default <code>gtTheme</code> contains only a single value for most properties (except colours), so when scaling a property, a sensible range needs to be specified. For example, to make a plot where each point represents the diameter of a tree, it would make sense to scale the points between values that resemble the tree diameter.</p>
 <div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">

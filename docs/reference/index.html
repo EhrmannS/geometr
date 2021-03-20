@@ -202,12 +202,6 @@
       </tr><tr>
         
         <td>
-          <p><code><a href="gc_ppp.html">gc_ppp(<i>&lt;geom&gt;</i>)</a></code> </p>
-        </td>
-        <td><p>Transform a spatial object to class <code>ppp</code></p></td>
-      </tr><tr>
-        
-        <td>
           <p><code><a href="gc_raster.html">gc_raster(<i>&lt;geom&gt;</i>)</a></code> </p>
         </td>
         <td><p>Transform a spatial object to class <code>Raster*</code></p></td>
@@ -239,31 +233,25 @@
       <tr>
         
         <td>
-          <p><code><a href="getCRS.html">getCRS(<i>&lt;ANY&gt;</i>)</a></code> <code><a href="getCRS.html">getCRS(<i>&lt;geom&gt;</i>)</a></code> <code><a href="getCRS.html">getCRS(<i>&lt;Spatial&gt;</i>)</a></code> <code><a href="getCRS.html">getCRS(<i>&lt;sf&gt;</i>)</a></code> <code><a href="getCRS.html">getCRS(<i>&lt;ppp&gt;</i>)</a></code> <code><a href="getCRS.html">getCRS(<i>&lt;Raster&gt;</i>)</a></code> </p>
-        </td>
-        <td><p>Get the coordinate reference system of a spatial object.</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="getExtent.html">getExtent(<i>&lt;ANY&gt;</i>)</a></code> <code><a href="getExtent.html">getExtent(<i>&lt;geom&gt;</i>)</a></code> <code><a href="getExtent.html">getExtent(<i>&lt;Spatial&gt;</i>)</a></code> <code><a href="getExtent.html">getExtent(<i>&lt;sf&gt;</i>)</a></code> <code><a href="getExtent.html">getExtent(<i>&lt;ppp&gt;</i>)</a></code> <code><a href="getExtent.html">getExtent(<i>&lt;Raster&gt;</i>)</a></code> <code><a href="getExtent.html">getExtent(<i>&lt;matrix&gt;</i>)</a></code> </p>
-        </td>
-        <td><p>Get the extent (bounding box) of a spatial object.</p></td>
-      </tr><tr>
-        
-        <td>
           <p><code><a href="getCols.html">getCols(<i>&lt;ANY&gt;</i>)</a></code> <code><a href="getCols.html">getCols(<i>&lt;geom&gt;</i>)</a></code> <code><a href="getCols.html">getCols(<i>&lt;Raster&gt;</i>)</a></code> <code><a href="getCols.html">getCols(<i>&lt;matrix&gt;</i>)</a></code> </p>
         </td>
         <td><p>Get the number of columns of a spatial object.</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="getRows.html">getRows(<i>&lt;ANY&gt;</i>)</a></code> <code><a href="getRows.html">getRows(<i>&lt;geom&gt;</i>)</a></code> <code><a href="getRows.html">getRows(<i>&lt;Raster&gt;</i>)</a></code> <code><a href="getRows.html">getRows(<i>&lt;matrix&gt;</i>)</a></code> </p>
+          <p><code><a href="getCRS.html">getCRS(<i>&lt;ANY&gt;</i>)</a></code> <code><a href="getCRS.html">getCRS(<i>&lt;geom&gt;</i>)</a></code> <code><a href="getCRS.html">getCRS(<i>&lt;Spatial&gt;</i>)</a></code> <code><a href="getCRS.html">getCRS(<i>&lt;sf&gt;</i>)</a></code> <code><a href="getCRS.html">getCRS(<i>&lt;ppp&gt;</i>)</a></code> <code><a href="getCRS.html">getCRS(<i>&lt;Raster&gt;</i>)</a></code> </p>
         </td>
-        <td><p>Get the number of rows of a spatial object.</p></td>
+        <td><p>Get the coordinate reference system of a spatial object.</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="getFeatures.html">getFeatures(<i>&lt;ANY&gt;</i>)</a></code> <code><a href="getFeatures.html">getFeatures(<i>&lt;geom&gt;</i>)</a></code> <code><a href="getFeatures.html">getFeatures(<i>&lt;Spatial&gt;</i>)</a></code> <code><a href="getFeatures.html">getFeatures(<i>&lt;sf&gt;</i>)</a></code> <code><a href="getFeatures.html">getFeatures(<i>&lt;ppp&gt;</i>)</a></code> <code><a href="getFeatures.html">getFeatures(<i>&lt;Raster&gt;</i>)</a></code> <code><a href="getFeatures.html">getFeatures(<i>&lt;matrix&gt;</i>)</a></code> </p>
+          <p><code><a href="getExtent.html">getExtent(<i>&lt;ANY&gt;</i>)</a></code> <code><a href="getExtent.html">getExtent(<i>&lt;geom&gt;</i>)</a></code> <code><a href="getExtent.html">getExtent(<i>&lt;Spatial&gt;</i>)</a></code> <code><a href="getExtent.html">getExtent(<i>&lt;sf&gt;</i>)</a></code> <code><a href="getExtent.html">getExtent(<i>&lt;Raster&gt;</i>)</a></code> <code><a href="getExtent.html">getExtent(<i>&lt;matrix&gt;</i>)</a></code> </p>
+        </td>
+        <td><p>Get the extent (bounding box) of a spatial object.</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="getFeatures.html">getFeatures(<i>&lt;ANY&gt;</i>)</a></code> <code><a href="getFeatures.html">getFeatures(<i>&lt;geom&gt;</i>)</a></code> <code><a href="getFeatures.html">getFeatures(<i>&lt;Spatial&gt;</i>)</a></code> <code><a href="getFeatures.html">getFeatures(<i>&lt;sf&gt;</i>)</a></code> <code><a href="getFeatures.html">getFeatures(<i>&lt;Raster&gt;</i>)</a></code> <code><a href="getFeatures.html">getFeatures(<i>&lt;matrix&gt;</i>)</a></code> </p>
         </td>
         <td><p>Get the table of feature attributes</p></td>
       </tr><tr>
@@ -281,13 +269,19 @@
       </tr><tr>
         
         <td>
-          <p><code><a href="getLayer.html">getLayer(<i>&lt;ANY&gt;</i>)</a></code> <code><a href="getLayer.html">getLayer(<i>&lt;geom&gt;</i>)</a></code> <code><a href="getLayer.html">getLayer(<i>&lt;Spatial&gt;</i>)</a></code> <code><a href="getLayer.html">getLayer(<i>&lt;sf&gt;</i>)</a></code> <code><a href="getLayer.html">getLayer(<i>&lt;Raster&gt;</i>)</a></code> <code><a href="getLayer.html">getLayer(<i>&lt;matrix&gt;</i>)</a></code> </p>
+          <p><code><a href="getLayers.html">getLayers(<i>&lt;ANY&gt;</i>)</a></code> <code><a href="getLayers.html">getLayers(<i>&lt;geom&gt;</i>)</a></code> <code><a href="getLayers.html">getLayers(<i>&lt;Spatial&gt;</i>)</a></code> <code><a href="getLayers.html">getLayers(<i>&lt;sf&gt;</i>)</a></code> <code><a href="getLayers.html">getLayers(<i>&lt;Raster&gt;</i>)</a></code> <code><a href="getLayers.html">getLayers(<i>&lt;matrix&gt;</i>)</a></code> </p>
         </td>
         <td><p>Get a specific layer of a spatial object.</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="getPoints.html">getPoints(<i>&lt;ANY&gt;</i>)</a></code> <code><a href="getPoints.html">getPoints(<i>&lt;geom&gt;</i>)</a></code> <code><a href="getPoints.html">getPoints(<i>&lt;Spatial&gt;</i>)</a></code> <code><a href="getPoints.html">getPoints(<i>&lt;sf&gt;</i>)</a></code> <code><a href="getPoints.html">getPoints(<i>&lt;ppp&gt;</i>)</a></code> <code><a href="getPoints.html">getPoints(<i>&lt;Raster&gt;</i>)</a></code> <code><a href="getPoints.html">getPoints(<i>&lt;matrix&gt;</i>)</a></code> </p>
+          <p><code><a href="getNames.html">getNames(<i>&lt;ANY&gt;</i>)</a></code> <code><a href="getNames.html">getNames(<i>&lt;geom&gt;</i>)</a></code> <code><a href="getNames.html">getNames(<i>&lt;sf&gt;</i>)</a></code> <code><a href="getNames.html">getNames(<i>&lt;Raster&gt;</i>)</a></code> </p>
+        </td>
+        <td><p>Get the name(s) of a spatial object.</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="getPoints.html">getPoints(<i>&lt;ANY&gt;</i>)</a></code> <code><a href="getPoints.html">getPoints(<i>&lt;geom&gt;</i>)</a></code> <code><a href="getPoints.html">getPoints(<i>&lt;Spatial&gt;</i>)</a></code> <code><a href="getPoints.html">getPoints(<i>&lt;sf&gt;</i>)</a></code> <code><a href="getPoints.html">getPoints(<i>&lt;Raster&gt;</i>)</a></code> <code><a href="getPoints.html">getPoints(<i>&lt;matrix&gt;</i>)</a></code> </p>
         </td>
         <td><p>Get the table of point attributes</p></td>
       </tr><tr>
@@ -299,13 +293,19 @@
       </tr><tr>
         
         <td>
-          <p><code><a href="getType.html">getType(<i>&lt;ANY&gt;</i>)</a></code> <code><a href="getType.html">getType(<i>&lt;geom&gt;</i>)</a></code> <code><a href="getType.html">getType(<i>&lt;Spatial&gt;</i>)</a></code> <code><a href="getType.html">getType(<i>&lt;sf&gt;</i>)</a></code> <code><a href="getType.html">getType(<i>&lt;ppp&gt;</i>)</a></code> <code><a href="getType.html">getType(<i>&lt;Raster&gt;</i>)</a></code> <code><a href="getType.html">getType(<i>&lt;matrix&gt;</i>)</a></code> </p>
+          <p><code><a href="getRows.html">getRows(<i>&lt;ANY&gt;</i>)</a></code> <code><a href="getRows.html">getRows(<i>&lt;geom&gt;</i>)</a></code> <code><a href="getRows.html">getRows(<i>&lt;Raster&gt;</i>)</a></code> <code><a href="getRows.html">getRows(<i>&lt;matrix&gt;</i>)</a></code> </p>
+        </td>
+        <td><p>Get the number of rows of a spatial object.</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="getType.html">getType(<i>&lt;ANY&gt;</i>)</a></code> <code><a href="getType.html">getType(<i>&lt;geom&gt;</i>)</a></code> <code><a href="getType.html">getType(<i>&lt;Spatial&gt;</i>)</a></code> <code><a href="getType.html">getType(<i>&lt;sf&gt;</i>)</a></code> <code><a href="getType.html">getType(<i>&lt;Raster&gt;</i>)</a></code> <code><a href="getType.html">getType(<i>&lt;matrix&gt;</i>)</a></code> </p>
         </td>
         <td><p>Get the type of a spatial object.</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="getWindow.html">getWindow(<i>&lt;ANY&gt;</i>)</a></code> <code><a href="getWindow.html">getWindow(<i>&lt;geom&gt;</i>)</a></code> <code><a href="getWindow.html">getWindow(<i>&lt;Spatial&gt;</i>)</a></code> <code><a href="getWindow.html">getWindow(<i>&lt;sf&gt;</i>)</a></code> <code><a href="getWindow.html">getWindow(<i>&lt;ppp&gt;</i>)</a></code> <code><a href="getWindow.html">getWindow(<i>&lt;Raster&gt;</i>)</a></code> <code><a href="getWindow.html">getWindow(<i>&lt;matrix&gt;</i>)</a></code> </p>
+          <p><code><a href="getWindow.html">getWindow(<i>&lt;ANY&gt;</i>)</a></code> <code><a href="getWindow.html">getWindow(<i>&lt;geom&gt;</i>)</a></code> <code><a href="getWindow.html">getWindow(<i>&lt;Spatial&gt;</i>)</a></code> <code><a href="getWindow.html">getWindow(<i>&lt;sf&gt;</i>)</a></code> <code><a href="getWindow.html">getWindow(<i>&lt;Raster&gt;</i>)</a></code> <code><a href="getWindow.html">getWindow(<i>&lt;matrix&gt;</i>)</a></code> </p>
         </td>
         <td><p>Get the reference window of a spatial object.</p></td>
       </tr><tr>
@@ -317,7 +317,7 @@
       </tr><tr>
         
         <td>
-          <p><code><a href="setFeatures.html">setFeatures(<i>&lt;ANY&gt;</i>)</a></code> <code><a href="setFeatures.html">setFeatures(<i>&lt;geom&gt;</i>)</a></code> <code><a href="setFeatures.html">setFeatures(<i>&lt;Spatial&gt;</i>)</a></code> <code><a href="setFeatures.html">setFeatures(<i>&lt;sf&gt;</i>)</a></code> <code><a href="setFeatures.html">setFeatures(<i>&lt;sfc&gt;</i>)</a></code> <code><a href="setFeatures.html">setFeatures(<i>&lt;ppp&gt;</i>)</a></code> </p>
+          <p><code><a href="setFeatures.html">setFeatures(<i>&lt;ANY&gt;</i>)</a></code> <code><a href="setFeatures.html">setFeatures(<i>&lt;geom&gt;</i>)</a></code> <code><a href="setFeatures.html">setFeatures(<i>&lt;Spatial&gt;</i>)</a></code> <code><a href="setFeatures.html">setFeatures(<i>&lt;sf&gt;</i>)</a></code> <code><a href="setFeatures.html">setFeatures(<i>&lt;sfc&gt;</i>)</a></code> </p>
         </td>
         <td><p>Set a table of feature attributes</p></td>
       </tr><tr>
@@ -335,7 +335,7 @@
       </tr><tr>
         
         <td>
-          <p><code><a href="setWindow.html">setWindow(<i>&lt;ANY&gt;</i>)</a></code> <code><a href="setWindow.html">setWindow(<i>&lt;geom&gt;</i>)</a></code> <code><a href="setWindow.html">setWindow(<i>&lt;ppp&gt;</i>)</a></code> </p>
+          <p><code><a href="setWindow.html">setWindow(<i>&lt;ANY&gt;</i>)</a></code> <code><a href="setWindow.html">setWindow(<i>&lt;geom&gt;</i>)</a></code> </p>
         </td>
         <td><p>Set the reference window of a spatial object.</p></td>
       </tr>
@@ -354,15 +354,33 @@
       <tr>
         
         <td>
-          <p><code><a href="gt_rotate.html">gt_rotate()</a></code> </p>
+          <p><code><a href="gt_filter.html">gt_filter()</a></code> </p>
         </td>
-        <td><p>Rotate geometric objects</p></td>
+        <td><p>Subset a geometric object using column values</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="gt_locate.html">gt_locate()</a></code> </p>
+        </td>
+        <td><p>Locate (and identify) clicks</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="gt_pull.html">gt_pull()</a></code> </p>
+        </td>
+        <td><p>Extract a single column from a geometric object</p></td>
       </tr><tr>
         
         <td>
           <p><code><a href="gt_reflect.html">gt_reflect()</a></code> </p>
         </td>
         <td><p>Reflect geometric objects</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="gt_rotate.html">gt_rotate()</a></code> </p>
+        </td>
+        <td><p>Rotate geometric objects</p></td>
       </tr><tr>
         
         <td>
@@ -393,12 +411,6 @@
           <p><code><a href="gt_translate.html">gt_translate()</a></code> </p>
         </td>
         <td><p>Translate geometric objects</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="gt_locate.html">gt_locate()</a></code> </p>
-        </td>
-        <td><p>Locate (and identify) clicks</p></td>
       </tr>
     </tbody><tbody>
       <tr>
@@ -428,6 +440,31 @@
     </tbody><tbody>
       <tr>
         <th colspan="2">
+          <h2 id="section-classes" class="hasAnchor"><a href="#section-classes" class="anchor"></a>classes</h2>
+          <p class="section-desc"><p>new classes that come with this package</p></p>
+        </th>
+      </tr>
+      
+      
+    </tbody><tbody>
+      
+      
+      <tr>
+        
+        <td>
+          <p><code><a href="geom-class.html">geom-class</a></code> </p>
+        </td>
+        <td><p>Geometry class (S4) and methods</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="gtTheme-class.html">gtTheme-class</a></code> </p>
+        </td>
+        <td><p>Theme class (S4) and methods</p></td>
+      </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
           <h2 id="section-example-data" class="hasAnchor"><a href="#section-example-data" class="anchor"></a>example data</h2>
           <p class="section-desc"><p>data that are used throughout the documentation</p></p>
         </th>
@@ -443,12 +480,6 @@
           <p><code><a href="gtGeoms.html">gtGeoms</a></code> </p>
         </td>
         <td><p>Example <code>geom</code> objects</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="gtPPP.html">gtPPP</a></code> </p>
-        </td>
-        <td><p>Example <code>ppp</code> object</p></td>
       </tr><tr>
         
         <td>

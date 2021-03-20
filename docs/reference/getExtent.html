@@ -143,9 +143,6 @@
 <span class='co'># S4 method for sf</span>
 <span class='fu'>getExtent</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span>
 
-<span class='co'># S4 method for ppp</span>
-<span class='fu'>getExtent</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span>
-
 <span class='co'># S4 method for Raster</span>
 <span class='fu'>getExtent</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span>
 
@@ -173,8 +170,8 @@
 <code><a href='getFeatures.html'>getFeatures</a>()</code>,
 <code><a href='getGroups.html'>getGroups</a>()</code>,
 <code><a href='getHistory.html'>getHistory</a>()</code>,
-<code><a href='getLayer.html'>getLayer</a>()</code>,
-<code><a href='getName.html'>getName</a>()</code>,
+<code><a href='getLayers.html'>getLayers</a>()</code>,
+<code><a href='getNames.html'>getNames</a>()</code>,
 <code><a href='getPoints.html'>getPoints</a>()</code>,
 <code><a href='getRes.html'>getRes</a>()</code>,
 <code><a href='getRows.html'>getRows</a>()</code>,
@@ -183,41 +180,35 @@
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'>getExtent</span><span class='op'>(</span><span class='va'>gtGeoms</span><span class='op'>$</span><span class='va'>polygon</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; # A tibble: 2 x 2
+</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 2 x 2</span><span>
 #&gt;       x     y
-#&gt;   &lt;dbl&gt; &lt;dbl&gt;
-#&gt; 1 -34.6   -40
-#&gt; 2  34.6    40</div><div class='input'>
+#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #BCBCBC;'>1</span><span> -</span><span style='color: #BB0000;'>34.6</span><span>   -</span><span style='color: #BB0000;'>40</span><span>
+#&gt; </span><span style='color: #BCBCBC;'>2</span><span>  34.6    40</div><div class='input'>
 <span class='fu'>getExtent</span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>gtSP</span><span class='op'>$</span><span class='va'>SpatialPolygons</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; # A tibble: 2 x 2
+</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 2 x 2</span><span>
 #&gt;       x     y
-#&gt;   &lt;dbl&gt; &lt;dbl&gt;
-#&gt; 1     0     0
-#&gt; 2    12    12</div><div class='input'>
+#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #BCBCBC;'>1</span><span>     0     0
+#&gt; </span><span style='color: #BCBCBC;'>2</span><span>    12    12</div><div class='input'>
 <span class='fu'>getExtent</span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>gtSF</span><span class='op'>$</span><span class='va'>multilinestring</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; # A tibble: 2 x 2
+</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 2 x 2</span><span>
 #&gt;       x     y
-#&gt;   &lt;dbl&gt; &lt;dbl&gt;
-#&gt; 1     0     0
-#&gt; 2    12    12</div><div class='input'>
-<span class='fu'>getExtent</span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>gtPPP</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; # A tibble: 2 x 2
-#&gt;       x     y
-#&gt;   &lt;dbl&gt; &lt;dbl&gt;
-#&gt; 1     0     0
-#&gt; 2    12    12</div><div class='input'>
+#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #BCBCBC;'>1</span><span>     0     0
+#&gt; </span><span style='color: #BCBCBC;'>2</span><span>    12    12</div><div class='input'>
 <span class='fu'>getExtent</span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>gtRasters</span><span class='op'>$</span><span class='va'>categorical</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; # A tibble: 2 x 2
+</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 2 x 2</span><span>
 #&gt;       x     y
-#&gt;   &lt;dbl&gt; &lt;dbl&gt;
-#&gt; 1     0     0
-#&gt; 2    60    56</div><div class='input'>
+#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #BCBCBC;'>1</span><span>     0     0
+#&gt; </span><span style='color: #BCBCBC;'>2</span><span>    60    56</div><div class='input'>
 <span class='fu'>getExtent</span><span class='op'>(</span>x <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>matrix</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>3</span>, <span class='fl'>5</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; # A tibble: 2 x 2
+</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 2 x 2</span><span>
 #&gt;       x     y
-#&gt;   &lt;dbl&gt; &lt;dbl&gt;
-#&gt; 1     0     0
-#&gt; 2     5     3</div></pre>
+#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #BCBCBC;'>1</span><span>     0     0
+#&gt; </span><span style='color: #BCBCBC;'>2</span><span>     5     3</div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

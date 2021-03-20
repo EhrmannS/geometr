@@ -21,23 +21,23 @@ reference:
     contents:
       - gc_geom
       - gc_grob
-      - gc_ppp
       - gc_raster
       - gc_sf
       - gc_sp
   - title: getters and setters
     desc: methods that standardise dealing with geometric objects
     contents:
+      - getCols
       - getCRS
       - getExtent
-      - getCols
-      - getRows
       - getFeatures
       - getGroups
       - getHistory
-      - getLayer
+      - getLayers
+      - getNames
       - getPoints
       - getRes
+      - getRows
       - getType
       - getWindow
       - setCRS
@@ -48,25 +48,30 @@ reference:
   - title: standardised tools
     desc: functions that modify geometric objects of all supported classes
     contents:
-      - gt_rotate
+      - gt_filter
+      - gt_locate
+      - gt_pull
       - gt_reflect
+      - gt_rotate
       - gt_scale
       - gt_sketch
       - gt_skew
       - gt_stretch
       - gt_translate
-      - gt_subset
-      - gt_locate
   - title: visualise
     desc: plot geometric objects
     contents:
       - visualise
       - setTheme
+  - title: classes
+    desc: new classes that come with this package
+    contents:
+      - geom-class
+      - gtTheme-class
   - title: example data
     desc: data that are used throughout the documentation
     contents:
       - gtGeoms
-      - gtPPP
       - gtSF
       - gtSP
       - gtRasters

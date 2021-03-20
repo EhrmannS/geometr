@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Get the type of a spatial object. — getType • geometr</title>
+<title>Get the name(s) of a spatial object. — getNames • geometr</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -46,8 +46,8 @@
 
 
 
-<meta property="og:title" content="Get the type of a spatial object. — getType" />
-<meta property="og:description" content="Get the type of a spatial object." />
+<meta property="og:title" content="Get the name(s) of a spatial object. — getNames" />
+<meta property="og:description" content="Get the name(s) of a spatial object." />
 <meta property="og:image" content="http://EhrmannS.github.io/geometr/logo.svg" />
 
 
@@ -122,46 +122,39 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Get the type of a spatial object.</h1>
-    <small class="dont-index">Source: <a href='https://github.com/EhrmannS/geometr/blob/master/R/getType.R'><code>R/getType.R</code></a></small>
-    <div class="hidden name"><code>getType.Rd</code></div>
+    <h1>Get the name(s) of a spatial object.</h1>
+    <small class="dont-index">Source: <a href='https://github.com/EhrmannS/geometr/blob/master/R/getNames.R'><code>R/getNames.R</code></a></small>
+    <div class="hidden name"><code>getNames.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Get the type of a spatial object.</p>
+    <p>Get the name(s) of a spatial object.</p>
     </div>
 
     <pre class="usage"><span class='co'># S4 method for ANY</span>
-<span class='fu'>getType</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span>
+<span class='fu'>getNames</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span>
 
 <span class='co'># S4 method for geom</span>
-<span class='fu'>getType</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span>
-
-<span class='co'># S4 method for Spatial</span>
-<span class='fu'>getType</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span>
+<span class='fu'>getNames</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span>
 
 <span class='co'># S4 method for sf</span>
-<span class='fu'>getType</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span>
+<span class='fu'>getNames</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span>
 
 <span class='co'># S4 method for Raster</span>
-<span class='fu'>getType</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span>
-
-<span class='co'># S4 method for matrix</span>
-<span class='fu'>getType</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span></pre>
+<span class='fu'>getNames</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>x</th>
-      <td><p>the object for which to determine the type.</p></td>
+      <td><p>the object from which to get the name.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A vector of two values giving the general type (vector/raster) and
-  the specific type/class of <code>x</code>.</p>
+    <p>A vector of the requested names.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>Other getters: 
@@ -172,21 +165,12 @@
 <code><a href='getGroups.html'>getGroups</a>()</code>,
 <code><a href='getHistory.html'>getHistory</a>()</code>,
 <code><a href='getLayers.html'>getLayers</a>()</code>,
-<code><a href='getNames.html'>getNames</a>()</code>,
 <code><a href='getPoints.html'>getPoints</a>()</code>,
 <code><a href='getRes.html'>getRes</a>()</code>,
 <code><a href='getRows.html'>getRows</a>()</code>,
+<code><a href='getType.html'>getType</a>()</code>,
 <code><a href='getWindow.html'>getWindow</a>()</code></p></div>
 
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>getType</span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>gtGeoms</span><span class='op'>$</span><span class='va'>polygon</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] "polygon" "polygon"</div><div class='input'>
-<span class='fu'>getType</span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>gtSP</span><span class='op'>$</span><span class='va'>SpatialPolygons</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] "polygon"         "SpatialPolygons"</div><div class='input'>
-<span class='fu'>getType</span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>gtSF</span><span class='op'>$</span><span class='va'>multiline</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] "line"            "MULTILINESTRING"</div><div class='input'>
-<span class='fu'>getType</span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>gtRasters</span><span class='op'>$</span><span class='va'>categorical</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] "grid"        "RasterLayer"</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

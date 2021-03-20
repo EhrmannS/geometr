@@ -130,9 +130,11 @@
 <a href="#geometr-026" class="anchor"></a>geometr 0.2.6<small> Unreleased </small>
 </h1>
 <ul>
+<li>identifying and setting groups in gridded <code>geom</code>s has been refined. Several layers are by default stacked, but it is now also possible to create a list of separate <code>geom</code>s per layer with <code><a href="../reference/gc_geom.html">gc_geom(..., stack = FALSE)</a></code>.</li>
+<li>"images" are now handled by being able to create a grid geom with hexadecimal values by setting <code><a href="../reference/gc_geom.html">gc_geom(..., as_hex = TRUE)</a></code>.</li>
 <li>subsetting has been moved out of the respective getters into <code><a href="../reference/gt_filter.html">gt_filter()</a></code>, it also includes subsetting x and y values of the vertices.</li>
-<li>pulling columns can now be donw with <code><a href="../reference/gt_pull.html">gt_pull()</a></code>.</li>
-<li>new getters <code>getCol()</code>, <code>getRow()</code> and <code><a href="../reference/getName.html">getName()</a></code>.</li>
+<li>pulling columns can now be done with <code><a href="../reference/gt_pull.html">gt_pull()</a></code>.</li>
+<li>new getters <code><a href="../reference/getCols.html">getCols()</a></code>, <code><a href="../reference/getRows.html">getRows()</a></code> and <code><a href="../reference/getNames.html">getNames()</a></code>.</li>
 <li>removed the <code>@scale</code>-slot from from the geom class, because it is no longer needed.</li>
 <li>included the <code>@extent</code>-slot for faster processing of large objects where it takes long to find min/max values of coordinates.</li>
 <li>
@@ -176,7 +178,7 @@
 <ul>
 <li>included a faster method to determine IDs of paths and sub-paths of grobs when plotting.</li>
 <li>
-<code><a href="../reference/getLayer.html">getLayer()</a></code> also for sf and Spatial objects.</li>
+<code>getLayer()</code> also for sf and Spatial objects.</li>
 </ul>
 </div>
     <div id="geometr-021" class="section level1">
@@ -226,7 +228,7 @@
 <li>
 <code><a href="../reference/getRes.html">getRes()</a></code> to get the resolution of a gridded object.</li>
 <li>
-<code><a href="../reference/getLayer.html">getLayer()</a></code> to extract layers from an object that has layers.</li>
+<code>getLayer()</code> to extract layers from an object that has layers.</li>
 </ul>
 </div>
     <div id="geometr-011" class="section level1">

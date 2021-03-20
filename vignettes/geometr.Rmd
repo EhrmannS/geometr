@@ -75,13 +75,13 @@ Moreover, distinct workflows provide data so that the same information is not at
 The following code chunk exemplifies this by showing various functions, which are all considered standard in R to date, that derive an extent from specific spatial objects:
 
 ```{r}
-nc_sf <- st_read(system.file("shape/nc.shp", package="sf"))
+nc_sf <- st_read(system.file("shape/nc.shp", package = "sf"))
 st_bbox(nc_sf)
 
 nc_sp <- as_Spatial(nc_sf)
 bbox(nc_sp)
 
-ras <- raster(system.file("external/test.grd", package="raster"))
+ras <- raster(system.file("external/test.grd", package = "raster"))
 extent(ras)
 ```
 
@@ -239,7 +239,7 @@ island <- tibble(x = c(60, 65, 65, 60, 60),
 temp <- bind_rows(pond, island, getPoints(aPoly))
 
 (perforatedPoly <- gs_polygon(anchor = temp))
-visualise(perforatedPoly, fillcol = fid)
+visualise(perforatedPoly, fillcol = "fid")
 ```
 
 
@@ -296,8 +296,7 @@ validpoints <- getPoints(x = trees)
 title <- paste0("Clocaenog - tree heights (", dim(validpoints)[1], ")")
 
 # and visualise
-visualise(!!title := trees, linecol = height)
-visualise(!!title := gt_subset(trees, deciduous), linecol = height)
+visualise(!!title := trees, linecol = "height")
 ```
 
 
@@ -331,8 +330,7 @@ When casting from a polygon to another type, those duplicates have to be handled
 
 ```{r}
 # make points and discard duplicates ...
-(somePoints <- gs_point(anchor = aPoly) %>%
-  gt_subset(!(duplicated(x) & duplicated(y))))
+(somePoints <- gs_point(anchor = aPoly))
 
 # ... and recreate a polygon from that
 (aPoly <- gs_polygon(anchor = somePoints))
@@ -383,13 +381,14 @@ visualise('zoomed object' = gtRasters$categorical, window = getExtent(x = zoom))
 `visualise()` also allows to plot images, simply by providing an object that has the three layers `red`,  `green` and `blue` and setting `image = TRUE`.
 
 ```{r}
-anImage <- brick(system.file("external/rlogo.grd", package="raster"))
-visualise('R logo' = anImage, image = TRUE)
+R_logo <- brick(system.file("external/rlogo.grd", package="raster"))
+visualise('R logo' = gc_geom(input = R_logo, as_hex = TRUE))
 ```
 
-To adjust the appearance of a plot one can either provide a theme for all plot elements or quick options for the plotted objects only.
 
 ### The `gtTheme`
+
+To adjust the appearance of a plot one can either provide a theme for all plot elements or quick options for the plotted objects only.
 
 The theme controls how plots that are created with `visualise()` appear.
 By default, this theme is `gtTheme` and it has the following properties.
@@ -409,7 +408,7 @@ For example, to make a plot where each point represents the diameter of a tree, 
 ```{r}
 treeTheme <- setTheme(scale = list(param = "pointsize", to = "dbh"), 
                       parameters = list(pointsize = c(0.05, 0.77)))
-visualise(`Clocaenog - tree diameters` = trees, theme = treeTheme)
+visualise(`Clocaenog - tree diameters` = trees, theme = treeTheme, clip = FALSE)
 ```
 
 Alternatively, one could use quick options to set scaling, by providing the property to scale and the attribute to scale to as `property = attribute`, also for several properties at the same time.
@@ -417,7 +416,7 @@ Alternatively, one could use quick options to set scaling, by providing the prop
 ```{r}
 treeTheme <- setTheme(parameters = list(pointsize = c(0.05, 0.77)))
 visualise(`Clocaenog - tree diameters and heights` = trees, theme = treeTheme,
-          pointsize = dbh, linecol = height)
+          pointsize = "dbh", linecol = "height")
 ```
 
 Colour palettes can be set by providing "waypoints" between which colours should be interpolated (see the documentation of <a href="https://rdrr.io/r/grDevices/colorRamp.html" target="_blank">`colorRamp`</a>).
@@ -425,6 +424,7 @@ By default, these are a darkish blue (`#00204D`) for low values and yellow (`#FF
 When including additional values, or when building totally new palettes, the colour can be modified accordingly.
 
 ```{r}
-treeTheme <- setTheme(parameters = list(linecol = c("#00204DFF", "#73D216FF", "#FFEA46FF", "#CC0000F0")))
-visualise(`Clocaenog - tree heights` = trees, theme = treeTheme, linecol = height)
+treeTheme <- setTheme(parameters = list(colours = c("#00204DFF", "#73D216FF", 
+                                                    "#FFEA46FF", "#CC0000F0")))
+visualise(`Clocaenog - tree heights` = trees, theme = treeTheme, linecol = "height")
 ```

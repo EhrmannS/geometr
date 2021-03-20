@@ -184,46 +184,35 @@ stored in (a list of) several geoms separately (<code>FALSE</code>)?</p></td>
 
     <p>When transforming a simple feature to a geom, all MULTI* features
   are organised on a per feature basis, where the attribute table of features
-  in the geom contains the variables that are valid for each feature and the
-  attribute table of groups contains those variables, that are unique only at
-  the level of groups of features (i.e., at the level of MULTI* simple
-  features), which would consequently be duplicated in the attribute table of
-  features. When a MULTI* feature is transformed to a geom, the default
-  behaviour is to copy the simple feature as closely as possible. However, to
-  reduce the object size, it is possible to assign the attributes of groups
-  into the attribute table of groups of the geom by setting <code>group =
-  TRUE</code>.</p>
+  in the geom contains those variables that are valid for each feature, while
+  the attribute table of groups contains those variables, that are unique
+  only at the level of groups of features (i.e., at the level of MULTI*
+  simple features). Those variables that are valid at the level of groups
+  would be duplicated in the attribute table of features. When a MULTI*
+  feature is transformed to a geom, the default behaviour is to copy the
+  simple feature as closely as possible. However, to reduce the object size
+  (and improve its' organisation), it is possible to assign the attributes of
+  groups into the attribute table of groups of the geom by setting
+  <code>group = TRUE</code>.</p>
 <p>When transforming a Raster* (or possibly other gridded classes) with
   several layers to a geom, the layers are by default organised into columns
   of the attribute table of features of the same geom. However, when the
   layers contain fundamentally different data, this may techincally be
   possible, but would not make sense. "Fundamentally different data" means
   here, that the values of the layers are associated to different groups, so
-  that a single attribute table of groups can't be assigned to all layers
-  simultaneously. To deal with this, layers can be assigned into separate
-  geoms by setting <code>stack = FALSE</code>.</p>
+  that the geom would require more than one attribute table of groups. To
+  deal with this, layers can be assigned into separate geoms by setting
+  <code>stack = FALSE</code>.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>Other spatial classes: 
-<code><a href='gc_ppp.html'>gc_ppp</a>()</code>,
 <code><a href='gc_raster.html'>gc_raster</a>()</code>,
 <code><a href='gc_sf.html'>gc_sf</a>()</code>,
 <code><a href='gc_sp.html'>gc_sp</a>()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>gc_geom</span><span class='op'>(</span>input <span class='op'>=</span> <span class='va'>gtPPP</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span style='color: #BBBB00;'>geom</span><span>        point
-#&gt;             15 groups | 15 features | 15 points
-#&gt; </span><span style='color: #BBBB00;'>crs         </span><span>cartesian
-#&gt; </span><span style='color: #BBBB00;'>attributes </span><span> --
-#&gt; </span><span style='color: #BBBB00;'>tiny map  </span><span>    12 
-#&gt;               ○ ◌ ◌ ◉    
-#&gt;               ◌ ◌ ◌ ◌    
-#&gt;               ◌ ◌ ◌ ◌    
-#&gt;             0 ◉ ◌ ◌ ○ 12 
-#&gt;               0 </div><div class='input'>
-<span class='fu'>gc_geom</span><span class='op'>(</span>input <span class='op'>=</span> <span class='va'>gtSF</span><span class='op'>$</span><span class='va'>polygon</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; </span><span style='color: #BBBB00;'>geom</span><span>        polygon
+    <pre class="examples"><div class='input'><span class='fu'>gc_geom</span><span class='op'>(</span>input <span class='op'>=</span> <span class='va'>gtSF</span><span class='op'>$</span><span class='va'>polygon</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span style='color: #BBBB00;'>geom</span><span>        polygon
 #&gt;             2 groups | 2 features | 15 points
 #&gt; </span><span style='color: #BBBB00;'>crs         </span><span>cartesian
 #&gt; </span><span style='color: #BBBB00;'>attributes </span><span> (features) a
@@ -235,7 +224,7 @@ stored in (a list of) several geoms separately (<code>FALSE</code>)?</p></td>
 #&gt;               0 </div><div class='input'>
 <span class='fu'>gc_geom</span><span class='op'>(</span>input <span class='op'>=</span> <span class='va'>gtRasters</span><span class='op'>$</span><span class='va'>categorical</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; </span><span style='color: #BBBB00;'>geom</span><span>        grid
-#&gt;             1 layer | 3360 cells
+#&gt;             2 layers | 3360 cells
 #&gt; </span><span style='color: #BBBB00;'>crs         </span><span>cartesian
 #&gt; </span><span style='color: #BBBB00;'>attributes </span><span> cover
 #&gt; </span><span style='color: #BBBB00;'>resolution </span><span> 1 1 (x, y)
