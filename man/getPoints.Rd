@@ -6,7 +6,6 @@
 \alias{getPoints,geom-method}
 \alias{getPoints,Spatial-method}
 \alias{getPoints,sf-method}
-\alias{getPoints,ppp-method}
 \alias{getPoints,Raster-method}
 \alias{getPoints,matrix-method}
 \title{Get the table of point attributes}
@@ -18,8 +17,6 @@
 \S4method{getPoints}{Spatial}(x)
 
 \S4method{getPoints}{sf}(x)
-
-\S4method{getPoints}{ppp}(x)
 
 \S4method{getPoints}{Raster}(x)
 
@@ -53,8 +50,8 @@ Other getters:
 \code{\link{getFeatures}()},
 \code{\link{getGroups}()},
 \code{\link{getHistory}()},
-\code{\link{getLayer}()},
-\code{\link{getName}()},
+\code{\link{getLayers}()},
+\code{\link{getNames}()},
 \code{\link{getRes}()},
 \code{\link{getRows}()},
 \code{\link{getType}()},

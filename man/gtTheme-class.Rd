@@ -16,7 +16,7 @@ names of the parameters are properly matched.
 \describe{
 \item{\code{title}}{[\code{named list(3)}]\cr properties of the title.}
 
-\item{\code{box}}{[\code{named list(4)}]\cr properties of the bounding box.}
+\item{\code{box}}{[\code{named list(5)}]\cr properties of the bounding box.}
 
 \item{\code{xAxis}}{[\code{named list(5)}]\cr properties of the x-axis, its labels
 and ticks.}
@@ -26,9 +26,12 @@ and ticks.}
 
 \item{\code{grid}}{[\code{named list(5)}]\cr properties of the major and minor grid.}
 
-\item{\code{legend}}{[\code{named list(10)}]\cr properties of the legend, its title,
+\item{\code{legend}}{[\code{named list(9)}]\cr properties of the legend, its title,
 labels, ticks and bounding box.}
 
-\item{\code{parameters}}{[\code{named list(7)}]\cr properties of the plot object.}
+\item{\code{scale}}{[\code{names list(6)}]\cr properties of scaling parameters to
+attributes/variables.}
+
+\item{\code{parameters}}{[\code{named list(7)}]\cr parameters of the plot object.}
 }}
 

@@ -26,18 +26,18 @@ after stretching.}
 Stretch geometric objects by a scale factor in x and y dimension.
 }
 \examples{
-# stretch several geoms
+# stretch several features
 visualise(gtGeoms$polygon, linewidth = 3)
 newPoly <- gt_stretch(obj = gtGeoms$polygon, x = 0.5, y = 0.2,
                       update = FALSE)
 visualise(geom = newPoly, linecol = "green", new = FALSE)
 
-# stretch single geom
+# stretch a single feature
 visualise(gtGeoms$polygon, linewidth = 3)
 newPoly <- gt_stretch(obj = gtGeoms$polygon, x = 0.5, fid = 2, update = FALSE)
 visualise(geom = newPoly, linecol = "green", new = FALSE)
 
-# stretch geoms separately
+# stretch feature separately
 visualise(gtGeoms$polygon, linewidth = 3)
 newPoly <- gt_stretch(obj = gtGeoms$polygon,
                       x = c(0.2, 1),

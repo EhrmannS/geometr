@@ -45,15 +45,16 @@ Transform a spatial object to class \code{geom}
 \details{
 When transforming a simple feature to a geom, all MULTI* features
   are organised on a per feature basis, where the attribute table of features
-  in the geom contains the variables that are valid for each feature and the
-  attribute table of groups contains those variables, that are unique only at
-  the level of groups of features (i.e., at the level of MULTI* simple
-  features), which would consequently be duplicated in the attribute table of
-  features. When a MULTI* feature is transformed to a geom, the default
-  behaviour is to copy the simple feature as closely as possible. However, to
-  reduce the object size, it is possible to assign the attributes of groups
-  into the attribute table of groups of the geom by setting \code{group =
-  TRUE}.
+  in the geom contains those variables that are valid for each feature, while
+  the attribute table of groups contains those variables, that are unique
+  only at the level of groups of features (i.e., at the level of MULTI*
+  simple features). Those variables that are valid at the level of groups
+  would be duplicated in the attribute table of features. When a MULTI*
+  feature is transformed to a geom, the default behaviour is to copy the
+  simple feature as closely as possible. However, to reduce the object size
+  (and improve its' organisation), it is possible to assign the attributes of
+  groups into the attribute table of groups of the geom by setting
+  \code{group = TRUE}.
 
   When transforming a Raster* (or possibly other gridded classes) with
   several layers to a geom, the layers are by default organised into columns
@@ -61,20 +62,17 @@ When transforming a simple feature to a geom, all MULTI* features
   layers contain fundamentally different data, this may techincally be
   possible, but would not make sense. "Fundamentally different data" means
   here, that the values of the layers are associated to different groups, so
-  that a single attribute table of groups can't be assigned to all layers
-  simultaneously. To deal with this, layers can be assigned into separate
-  geoms by setting \code{stack = FALSE}.
+  that the geom would require more than one attribute table of groups. To
+  deal with this, layers can be assigned into separate geoms by setting
+  \code{stack = FALSE}.
 }
 \examples{
-gc_geom(input = gtPPP)
-
 gc_geom(input = gtSF$polygon)
 
 gc_geom(input = gtRasters$categorical)
 }
 \seealso{
 Other spatial classes: 
-\code{\link{gc_ppp}()},
 \code{\link{gc_raster}()},
 \code{\link{gc_sf}()},
 \code{\link{gc_sp}()}

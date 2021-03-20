@@ -30,13 +30,13 @@ The reflection axis is a straight line that goes through the plot
   positive y-axis and negative angles open up towards the negative y-axis.
 }
 \examples{
-# reflect several geoms
+# reflect several features
 visualise(gtGeoms$polygon, linewidth = 3)
 newPoly <- gt_reflect(obj = gtGeoms$polygon, angle = 45,
                       update = FALSE)
 visualise(newPoly, linecol = "green", new = FALSE)
 
-# reflect a single geom
+# reflect a single feature
 visualise(gtGeoms$polygon, linewidth = 3)
 newPoly <- gt_reflect(obj = gtGeoms$polygon, angle = 90, fid = 2,
                       update = FALSE)

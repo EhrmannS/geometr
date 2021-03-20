@@ -4,14 +4,11 @@
 \alias{setWindow}
 \alias{setWindow,ANY-method}
 \alias{setWindow,geom-method}
-\alias{setWindow,ppp-method}
 \title{Set the reference window of a spatial object.}
 \usage{
 \S4method{setWindow}{ANY}(x)
 
 \S4method{setWindow}{geom}(x, to = NULL)
-
-\S4method{setWindow}{ppp}(x, to = NULL)
 }
 \arguments{
 \item{x}{the object for which to set a new reference window.}
@@ -44,10 +41,6 @@ window <- data.frame(x = c(0, 80),
 (aGeom <- setWindow(x = aGeom, to = window))
 
 visualise(aGeom)
-
-window <- data.frame(x = c(0, 2),
-                     y = c(0, 2))
-setWindow(x = gtPPP, to = window)
 }
 \seealso{
 Other setters: 

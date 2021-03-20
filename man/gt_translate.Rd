@@ -28,13 +28,13 @@ after translation.}
 Translate geometric objects by adding a constant in x and y dimension.
 }
 \examples{
-# translate several geoms
+# translate several features
 visualise(gtGeoms$polygon, linewidth = 3)
 newPoly <- gt_translate(obj = gtGeoms$polygon, x = 5, y = c(-10, 5),
                         update = FALSE)
 visualise(geom = newPoly, linecol = "green", new = FALSE)
 
-# translate a single geom
+# translate a single feature
 visualise(gtGeoms$polygon, linewidth = 3)
 newPoly <- gt_translate(obj = gtGeoms$polygon, x = 5, fid = 2,
                         update = FALSE)

@@ -26,12 +26,12 @@ after skewing.}
 Skew geometric objects by a shear factor in x and y dimension.
 }
 \examples{
-# skew several geoms
+# skew several features
 visualise(gtGeoms$polygon, linewidth = 3)
 newPoly <- gt_skew(obj = gtGeoms$polygon, x = 0.5, update = FALSE)
 visualise(geom = newPoly, linecol = "green", new = FALSE)
 
-# skew single geom
+# skew a single feature
 visualise(gtGeoms$polygon, linewidth = 3)
 newPoly <- gt_skew(obj = gtGeoms$polygon, x = 0.5, y = .7, fid = 2,
                    update = FALSE)

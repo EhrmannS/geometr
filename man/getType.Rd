@@ -6,7 +6,6 @@
 \alias{getType,geom-method}
 \alias{getType,Spatial-method}
 \alias{getType,sf-method}
-\alias{getType,ppp-method}
 \alias{getType,Raster-method}
 \alias{getType,matrix-method}
 \title{Get the type of a spatial object.}
@@ -18,8 +17,6 @@
 \S4method{getType}{Spatial}(x)
 
 \S4method{getType}{sf}(x)
-
-\S4method{getType}{ppp}(x)
 
 \S4method{getType}{Raster}(x)
 
@@ -52,8 +49,8 @@ Other getters:
 \code{\link{getFeatures}()},
 \code{\link{getGroups}()},
 \code{\link{getHistory}()},
-\code{\link{getLayer}()},
-\code{\link{getName}()},
+\code{\link{getLayers}()},
+\code{\link{getNames}()},
 \code{\link{getPoints}()},
 \code{\link{getRes}()},
 \code{\link{getRows}()},

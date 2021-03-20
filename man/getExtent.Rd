@@ -6,7 +6,6 @@
 \alias{getExtent,geom-method}
 \alias{getExtent,Spatial-method}
 \alias{getExtent,sf-method}
-\alias{getExtent,ppp-method}
 \alias{getExtent,Raster-method}
 \alias{getExtent,matrix-method}
 \title{Get the extent (bounding box) of a spatial object.}
@@ -18,8 +17,6 @@
 \S4method{getExtent}{Spatial}(x)
 
 \S4method{getExtent}{sf}(x)
-
-\S4method{getExtent}{ppp}(x)
 
 \S4method{getExtent}{Raster}(x)
 
@@ -42,8 +39,6 @@ getExtent(x = gtSP$SpatialPolygons)
 
 getExtent(x = gtSF$multilinestring)
 
-getExtent(x = gtPPP)
-
 getExtent(x = gtRasters$categorical)
 
 getExtent(x = matrix(0, 3, 5))
@@ -55,8 +50,8 @@ Other getters:
 \code{\link{getFeatures}()},
 \code{\link{getGroups}()},
 \code{\link{getHistory}()},
-\code{\link{getLayer}()},
-\code{\link{getName}()},
+\code{\link{getLayers}()},
+\code{\link{getNames}()},
 \code{\link{getPoints}()},
 \code{\link{getRes}()},
 \code{\link{getRows}()},

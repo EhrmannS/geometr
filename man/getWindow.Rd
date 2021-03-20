@@ -6,7 +6,6 @@
 \alias{getWindow,geom-method}
 \alias{getWindow,Spatial-method}
 \alias{getWindow,sf-method}
-\alias{getWindow,ppp-method}
 \alias{getWindow,Raster-method}
 \alias{getWindow,matrix-method}
 \title{Get the reference window of a spatial object.}
@@ -18,8 +17,6 @@
 \S4method{getWindow}{Spatial}(x)
 
 \S4method{getWindow}{sf}(x)
-
-\S4method{getWindow}{ppp}(x)
 
 \S4method{getWindow}{Raster}(x)
 
@@ -42,8 +39,6 @@ getWindow(x = gtSP$SpatialLines)
 
 getWindow(x = gtSF$multilinestring)
 
-getWindow(x = gtPPP)
-
 getWindow(x = gtRasters$categorical)
 
 getWindow(x = matrix(0, 3, 5))
@@ -56,8 +51,8 @@ Other getters:
 \code{\link{getFeatures}()},
 \code{\link{getGroups}()},
 \code{\link{getHistory}()},
-\code{\link{getLayer}()},
-\code{\link{getName}()},
+\code{\link{getLayers}()},
+\code{\link{getNames}()},
 \code{\link{getPoints}()},
 \code{\link{getRes}()},
 \code{\link{getRows}()},

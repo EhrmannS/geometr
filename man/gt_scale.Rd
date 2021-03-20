@@ -4,13 +4,16 @@
 \alias{gt_scale}
 \title{Scale geometric objects}
 \usage{
-gt_scale(obj, range = NULL, update = TRUE)
+gt_scale(obj, range = NULL, fid = NULL, update = TRUE)
 }
 \arguments{
 \item{obj}{[\code{geometric object(1)}]\cr the object to be scaled.}
 
 \item{range}{[\code{data.frame(2)}]\cr vector of length two for both of the
 \code{x} and \code{y} dimension to which the values should be scaled.}
+
+\item{fid}{[\code{integerish(.)}]\cr if only a subset of features shall be
+scaled, specify that here.}
 
 \item{update}{[\code{logical(1)}]\cr whether or not to update the window slot
 after scaling.}
@@ -25,6 +28,12 @@ Scale the vertex values of geometric objects to a values range.
 # rescale to values between -10 and 10
 visualise(gtGeoms$polygon, linewidth = 3)
 newPoly <- gt_scale(obj = gtGeoms$polygon, update = FALSE,
+                    range = data.frame(x = c(-10, 10), y = c(-10, 10)))
+visualise(geom = newPoly, linecol = "green", new = FALSE)
+
+# rescale a single feature
+visualise(gtGeoms$polygon, linewidth = 3)
+newPoly <- gt_scale(obj = gtGeoms$polygon, update = FALSE, fid = 2,
                     range = data.frame(x = c(-10, 10), y = c(-10, 10)))
 visualise(geom = newPoly, linecol = "green", new = FALSE)
 }

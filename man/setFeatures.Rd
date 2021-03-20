@@ -7,7 +7,6 @@
 \alias{setFeatures,Spatial-method}
 \alias{setFeatures,sf-method}
 \alias{setFeatures,sfc-method}
-\alias{setFeatures,ppp-method}
 \title{Set a table of feature attributes}
 \usage{
 \S4method{setFeatures}{ANY}(x)
@@ -19,8 +18,6 @@
 \S4method{setFeatures}{sf}(x, table = NULL)
 
 \S4method{setFeatures}{sfc}(x, table = NULL)
-
-\S4method{setFeatures}{ppp}(x, table = NULL)
 }
 \arguments{
 \item{x}{the object to which to assign a new attribute table.}
