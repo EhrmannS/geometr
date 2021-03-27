@@ -66,8 +66,8 @@ gt_scale <- function(obj, range = NULL, fid = NULL, update = TRUE){
     newCoords <- tempCoords
 
     if(doScale[i]){
-      newCoords$x <- (tempCoords$x - minX) * (max(range$x) - min(range$x)) / (maxX - minX) +  min(range$x)
-      newCoords$y <- (tempCoords$y - minY) * (max(range$y) - min(range$y)) / (maxY - minY) +  min(range$y)
+      newCoords$x <- (tempCoords$x - minX) * (max(range$x) - min(range$x)) / (maxX - minX) + min(range$x)
+      newCoords$y <- (tempCoords$y - minY) * (max(range$y) - min(range$y)) / (maxY - minY) + min(range$y)
     }
 
     temp <- rbind(temp, newCoords)
