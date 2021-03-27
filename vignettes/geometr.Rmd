@@ -357,8 +357,7 @@ To this end, a `geom` would be provided with a reference window from which the r
 
 ```{r, fig.height=3.5}
 relPoly <- gs_rectangle(anchor = aPoly) %>% 
-  setWindow(to = tibble(x = c(0, 100), y = c(0, 100))) %>%
-  gt_scale(range = getWindow(.))
+  setWindow(to = tibble(x = c(0, 100), y = c(0, 100)))
 
 visualise(gtRasters$categorical, gtRasters$continuous)
 visualise(relPoly, linecol = "deeppink", new = FALSE)
