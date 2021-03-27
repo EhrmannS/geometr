@@ -31,6 +31,8 @@ setMethod(f = "getCRS",
 
 # geom ----
 #' @rdname getCRS
+#' @examples
+#' getCRS(x = gtGeoms$grid$continuous)
 #' @export
 setMethod(f = "getCRS",
           signature = "geom",
@@ -41,6 +43,9 @@ setMethod(f = "getCRS",
 
 # Spatial ----
 #' @rdname getCRS
+#' @examples
+#'
+#' getCRS(x = gtSP$SpatialLines)
 #' @export
 setMethod(f = "getCRS",
           signature =  signature("Spatial"),
@@ -51,6 +56,9 @@ setMethod(f = "getCRS",
 
 # sf ----
 #' @rdname getCRS
+#' @examples
+#'
+#' getCRS(x = gtSF$multipoint)
 #' @importFrom sf st_crs
 #' @export
 setMethod(f = "getCRS",
@@ -60,19 +68,11 @@ setMethod(f = "getCRS",
           }
 )
 
-# ppp ----
-#' @rdname getCRS
-#' @importFrom sf st_crs
-#' @export
-setMethod(f = "getCRS",
-          signature = "ppp",
-          definition = function(x){
-            as.character(NA)
-          }
-)
-
 # Raster ----
 #' @rdname getCRS
+#' @examples
+#'
+#' getCRS(x = gtRasters$categorical)
 #' @export
 setMethod(f = "getCRS",
           signature = 'Raster',
