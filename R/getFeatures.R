@@ -2,14 +2,17 @@
 #'
 #' Get tabular information of the attributes of features.
 #' @param x the object from which to derive the attribute table.
-#' @param ... additional arguments.
-#' @return A table of the feature attributes of \code{x}.
+#' @details This table contains at least the column 'fid'. In case \code{x} has
+#'   any typ other than 'grid', it contains also the column 'gid' and in case it
+#'   has type 'grid', it also contains the column 'values'.
+#' @return A tibble (or a list of tibbles per layer) of the feature attributes
+#'   of \code{x}.
 #' @family getters
 #' @examples
 #' getFeatures(x = gtGeoms$polygon)
 #'
-#' # get the values of a RasterLayer
-#' getFeatures(x = gtRasters$continuous)
+#' getFeatures(x = gtRasters)
+#'
 #' @name getFeatures
 #' @rdname getFeatures
 NULL
@@ -20,7 +23,7 @@ NULL
 #' @export
 if(!isGeneric("getFeatures")){
   setGeneric(name = "getFeatures",
-             def = function(x, ...){
+             def = function(x){
                standardGeneric("getFeatures")
              }
   )
@@ -31,7 +34,7 @@ if(!isGeneric("getFeatures")){
 #' @export
 setMethod(f = "getFeatures",
           signature = "ANY",
-          definition = function(x, ...){
+          definition = function(x){
             NULL
           }
 )

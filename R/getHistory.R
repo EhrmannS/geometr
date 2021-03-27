@@ -31,6 +31,15 @@ setMethod(f = "getHistory",
 
 # geom ----
 #' @rdname getHistory
+#' @examples
+#' library(tibble)
+#' library(magrittr)
+#'
+#' geom <- tibble(x = c(40, 70, 70, 50),
+#'                y = c(40, 40, 60, 70)) %>%
+#'   gs_polygon() %>%
+#'   gt_reflect(angle = 45)
+#' getHistory(x = geom)
 #' @export
 setMethod(f = "getHistory",
           signature = "geom",
@@ -42,6 +51,9 @@ setMethod(f = "getHistory",
 
 # RasterLayer ----
 #' @rdname getHistory
+#' @examples
+#'
+#' getHistory(x = gtRasters)
 #' @export
 setMethod(f = "getHistory",
           signature = "Raster",

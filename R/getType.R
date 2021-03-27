@@ -1,8 +1,8 @@
 #' Get the type of a spatial object.
 #'
 #' @param x the object for which to determine the type.
-#' @return A vector of two values giving the general type (vector/raster) and
-#'   the specific type/class of \code{x}.
+#' @return A vector of two values of the geometry type (point/line/polygon/grid)
+#'   and the specific main type/class of \code{x}.
 #' @family getters
 #' @name getType
 #' @rdname getType
@@ -33,7 +33,7 @@ setMethod(f = "getType",
 # geom ----
 #' @rdname getType
 #' @examples
-#' getType(x = gtGeoms$polygon)
+#' getType(x = gtGeoms$point)
 #' @export
 setMethod(f = "getType",
           signature = "geom",
@@ -100,6 +100,9 @@ setMethod(f = "getType",
 
 # matrix ----
 #' @rdname getType
+#' @examples
+#'
+#' getType(x = matrix(0, 3, 5))
 #' @export
 setMethod(f = "getType",
           signature = "matrix",

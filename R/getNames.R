@@ -1,7 +1,7 @@
 #' Get the name(s) of a spatial object.
 #'
 #' @param x the object from which to get the name.
-#' @return A vector of the requested names.
+#' @return A vector of the names of \code{x}.
 #' @family getters
 #' @name getNames
 #' @rdname getNames
@@ -31,6 +31,8 @@ setMethod(f = "getNames",
 
 # geom ----
 #' @rdname getNames
+#' @examples
+#' getNames(x = gtGeoms$grid$continuous)
 #' @export
 setMethod(f = "getNames",
           signature = "geom",
@@ -42,8 +44,11 @@ setMethod(f = "getNames",
           }
 )
 
-# matrix ----
+# sf ----
 #' @rdname getNames
+#' @examples
+#'
+#' getNames(x = gtSF$polygon)
 #' @importFrom sf st_drop_geometry
 #' @export
 setMethod(f = "getNames",
@@ -59,6 +64,9 @@ setMethod(f = "getNames",
 
 # RasterLayer ----
 #' @rdname getNames
+#' @examples
+#'
+#' getNames(x = gtRasters)
 #' @importFrom checkmate testNumeric assertIntegerish testCharacter assertSubset
 #' @export
 setMethod(f = "getNames",

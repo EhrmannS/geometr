@@ -31,6 +31,8 @@ setMethod(f = "getRows",
 
 # geom ----
 #' @rdname getRows
+#' @examples
+#' getRows(x = gtGeoms$grid$continuous)
 #' @export
 setMethod(f = "getRows",
           signature = "geom",
@@ -46,6 +48,9 @@ setMethod(f = "getRows",
 
 # RasterLayer ----
 #' @rdname getRows
+#' @examples
+#'
+#' getRows(x = gtRasters$categorical)
 #' @importFrom raster nrow
 #' @export
 setMethod(f = "getRows",
@@ -58,6 +63,9 @@ setMethod(f = "getRows",
 
 # matrix ----
 #' @rdname getRows
+#' @examples
+#'
+#' getRows(x = matrix(0, 3, 5))
 #' @export
 setMethod(f = "getRows",
           signature = "matrix",

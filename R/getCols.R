@@ -31,6 +31,8 @@ setMethod(f = "getCols",
 
 # geom ----
 #' @rdname getCols
+#' @examples
+#' getCols(x = gtGeoms$grid$continuous)
 #' @export
 setMethod(f = "getCols",
           signature = "geom",
@@ -46,6 +48,9 @@ setMethod(f = "getCols",
 
 # RasterLayer ----
 #' @rdname getCols
+#' @examples
+#'
+#' getCols(x = gtRasters$categorical)
 #' @importFrom raster ncol
 #' @export
 setMethod(f = "getCols",
@@ -58,6 +63,9 @@ setMethod(f = "getCols",
 
 # matrix ----
 #' @rdname getCols
+#' @examples
+#'
+#' getCols(x = matrix(0, 3, 5))
 #' @export
 setMethod(f = "getCols",
           signature = "matrix",
