@@ -129,6 +129,18 @@
 <h1 class="page-header" data-toc-text="0.2.7">
 <a href="#geometr-027" class="anchor"></a>geometr 0.2.7<small> Unreleased </small>
 </h1>
+<ul>
+<li>included the <code>@extent</code>-slot for faster processing of large objects where it takes long to find min/max values of coordinates.</li>
+<li>
+<code>getRes</code> now returns a vector, instead of a tibble</li>
+<li>
+<code>getLayers</code> now returns all layers in a list (no subsetting more possible)</li>
+<li>print-method of <code>gtTheme</code> has been beautified (it now also shows whether an attribute is scaled to some parameter)</li>
+<li>
+<code>gc_geom</code> now only adds groups to the group attribute table in case the input raster actually contains a raster attribute table (RAT).</li>
+<li>In case an object doesn’t have any provenance information, <code>getHistory</code> now prints that this object has been loaded from memory.</li>
+<li>all spatstat getters/setters (for class <code>ppp</code>) have been temporarily removed.</li>
+</ul>
 </div>
     <div id="geometr-026" class="section level1">
 <h1 class="page-header" data-toc-text="0.2.6">
@@ -141,7 +153,6 @@
 <li>pulling columns can now be done with <code><a href="../reference/gt_pull.html">gt_pull()</a></code>.</li>
 <li>new getters <code><a href="../reference/getCols.html">getCols()</a></code>, <code><a href="../reference/getRows.html">getRows()</a></code> and <code><a href="../reference/getNames.html">getNames()</a></code>.</li>
 <li>removed the <code>@scale</code>-slot from from the geom class, because it is no longer needed.</li>
-<li>included the <code>@extent</code>-slot for faster processing of large objects where it takes long to find min/max values of coordinates.</li>
 <li>
 <code><a href="../reference/visualise.html">visualise()</a></code> has been revised so that it fully supports plotting all geometric classes that have getters defined.</li>
 <li>all previously existing <code>gt_*()</code> functions were revised so that they too support all geometric classes that have getters defined.</li>

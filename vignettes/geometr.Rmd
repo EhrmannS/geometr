@@ -380,7 +380,7 @@ visualise('zoomed object' = gtRasters$categorical, window = getExtent(x = zoom))
 `visualise()` also allows to plot images, simply by providing an object that has the three layers `red`,  `green` and `blue` and setting `image = TRUE`.
 
 ```{r}
-R_logo <- brick(system.file("external/rlogo.grd", package="raster"))
+R_logo <- brick(system.file("external/rlogo.grd", package = "raster"))
 visualise('R logo' = gc_geom(input = R_logo, as_hex = TRUE))
 ```
 

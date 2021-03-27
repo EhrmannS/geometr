@@ -1,5 +1,13 @@
 # geometr 0.2.7
 
+- included the `@extent`-slot for faster processing of large objects where it takes long to find min/max values of coordinates.
+- `getRes` now returns a vector, instead of a tibble
+- `getLayers` now returns all layers in a list (no subsetting more possible)
+- print-method of `gtTheme` has been beautified (it now also shows whether an attribute is scaled to some parameter)
+- `gc_geom` now only adds groups to the group attribute table in case the input raster actually contains a raster attribute table (RAT).
+- In case an object doesn't have any provenance information, `getHistory` now prints that this object has been loaded from memory.
+- all spatstat getters/setters (for class `ppp`) have been temporarily removed.
+
 # geometr 0.2.6
 
 - identifying and setting groups in gridded `geom`s has been refined. Several layers are by default stacked, but it is now also possible to create a list of separate `geom`s per layer with `gc_geom(..., stack = FALSE)`.
@@ -9,7 +17,6 @@ vertices.
 - pulling columns can now be done with `gt_pull()`.
 - new getters `getCols()`, `getRows()` and `getNames()`.
 - removed the `@scale`-slot from from the geom class, because it is no longer needed.
-- included the `@extent`-slot for faster processing of large objects where it takes long to find min/max values of coordinates.
 - `visualise()` has been revised so that it fully supports plotting all geometric classes that have getters defined.
 - all previously existing `gt_*()` functions were revised so that they too support all geometric classes that have getters defined.
 - some code adaptions that come with those changes.
