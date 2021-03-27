@@ -45,6 +45,9 @@ setMethod(f = "getHistory",
           signature = "geom",
           definition = function(x){
             hist <- x@history
+            if(length(hist) == 0){
+              hist <- list("the object was loaded from memory")
+            }
             return(hist)
           }
 )
@@ -65,6 +68,9 @@ setMethod(f = "getHistory",
               }
             } else {
               hist <- x@history
+            }
+            if(length(hist) == 0){
+              hist <- list("the object was loaded from memory")
             }
             return(hist)
           }
