@@ -8,9 +8,9 @@
 \alias{getPoints,sf-method}
 \alias{getPoints,Raster-method}
 \alias{getPoints,matrix-method}
-\title{Get the table of point attributes}
+\title{Get the table of point coordinates}
 \usage{
-\S4method{getPoints}{ANY}(x, ...)
+\S4method{getPoints}{ANY}(x)
 
 \S4method{getPoints}{geom}(x)
 
@@ -23,23 +23,30 @@
 \S4method{getPoints}{matrix}(x)
 }
 \arguments{
-\item{x}{the object from which to derive the attribute table.}
-
-\item{...}{additional arguments.}
+\item{x}{the object from which to derive the point coordinates.}
 }
 \value{
-A table of the point attributes of \code{x}.
+A tibble of the point coordinates of \code{x}.
 }
 \description{
-Get tabular information of the attributes of points (incl. coordinates).
+Get tabular information of the point coordinates.
+}
+\details{
+This table contains three columns (x, y and fid) and as many rows as
+  there are points. In case \code{x} is a polygon, the last point of each
+  distinct feature is a duplicate of its first point. In case \code{x} has
+  the type 'grid', all layers are summarised into one tibble, as several
+  layers must have the same extent and resolution, so that each point ocurrs
+  in each layer, merely with a different, layer-specific value.
 }
 \examples{
 getPoints(x = gtGeoms$polygon)
 
 getPoints(x = gtGeoms$point)
 
-# for a raster object, the @point slot is extracted from its' compact storage
+# for raster objects, the @point slot is extracted from its compact form
 gtGeoms$grid$continuous@point
+
 getPoints(x = gtGeoms$grid$continuous)
 }
 \seealso{

@@ -10,7 +10,7 @@
 \alias{getFeatures,matrix-method}
 \title{Get the table of feature attributes}
 \usage{
-\S4method{getFeatures}{ANY}(x, ...)
+\S4method{getFeatures}{ANY}(x)
 
 \S4method{getFeatures}{geom}(x)
 
@@ -24,20 +24,24 @@
 }
 \arguments{
 \item{x}{the object from which to derive the attribute table.}
-
-\item{...}{additional arguments.}
 }
 \value{
-A table of the feature attributes of \code{x}.
+A tibble (or a list of tibbles per layer) of the feature attributes
+  of \code{x}.
 }
 \description{
 Get tabular information of the attributes of features.
 }
+\details{
+This table contains at least the column 'fid'. In case \code{x} has
+  any typ other than 'grid', it contains also the column 'gid' and in case it
+  has type 'grid', it also contains the column 'values'.
+}
 \examples{
 getFeatures(x = gtGeoms$polygon)
 
-# get the values of a RasterLayer
-getFeatures(x = gtRasters$continuous)
+getFeatures(x = gtRasters)
+
 }
 \seealso{
 Other getters: 

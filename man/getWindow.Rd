@@ -26,7 +26,9 @@
 \item{x}{the object from which to derive the reference window.}
 }
 \value{
-A table of the corners of the reference window of \code{x}.
+A tibble of the corner coordinates of the reference window of
+  \code{x}. This table has two columns (x and y) and five rows, where values
+  in the last row are a duplicate of the first row.
 }
 \description{
 Get the reference window of a spatial object.

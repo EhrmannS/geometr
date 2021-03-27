@@ -20,10 +20,17 @@
 \item{x}{the object from which to get the name.}
 }
 \value{
-A vector of the requested names.
+A vector of the names of \code{x}.
 }
 \description{
 Get the name(s) of a spatial object.
+}
+\examples{
+getNames(x = gtGeoms$grid$continuous)
+
+getNames(x = gtSF$polygon)
+
+getNames(x = gtRasters)
 }
 \seealso{
 Other getters: 

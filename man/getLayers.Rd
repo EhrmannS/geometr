@@ -29,7 +29,8 @@
 get. If left at \code{NULL}, all layers are pulled.}
 }
 \value{
-A list of the requested layers.
+A list of the layers of \code{x}. Each list-item hast the result of
+  getNames(x) as name.
 }
 \description{
 Get a specific layer of a spatial object.

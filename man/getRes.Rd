@@ -10,22 +10,28 @@
 \usage{
 \S4method{getRes}{ANY}(x)
 
-\S4method{getRes}{geom}(x, precision = getOption("digits"))
+\S4method{getRes}{geom}(x)
 
-\S4method{getRes}{Raster}(x, precision = getOption("digits"))
+\S4method{getRes}{Raster}(x)
 
 \S4method{getRes}{matrix}(x)
 }
 \arguments{
 \item{x}{the object from which to derive the resolution.}
-
-\item{precision}{the number of digits to which to round the values.}
 }
 \value{
-The resolution of \code{x} in x and y dimension.
+A vector of two values of the spatial resolution of \code{x} in x and
+  y dimensio n.
 }
 \description{
 Get the spatial resolution of a spatial object.
+}
+\examples{
+getRes(x = gtGeoms$grid$continuous)
+
+getRes(x = gtRasters$categorical)
+
+getRes(x = matrix(0, 3, 5))
 }
 \seealso{
 Other getters: 

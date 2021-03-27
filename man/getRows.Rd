@@ -25,6 +25,13 @@ An integer of the number of rows.
 \description{
 Get the number of rows of a spatial object.
 }
+\examples{
+getRows(x = gtGeoms$grid$continuous)
+
+getRows(x = gtRasters$categorical)
+
+getRows(x = matrix(0, 3, 5))
+}
 \seealso{
 Other getters: 
 \code{\link{getCRS}()},

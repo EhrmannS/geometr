@@ -25,6 +25,13 @@ An integer of the number of columns.
 \description{
 Get the number of columns of a spatial object.
 }
+\examples{
+getCols(x = gtGeoms$grid$continuous)
+
+getCols(x = gtRasters$categorical)
+
+getCols(x = matrix(0, 3, 5))
+}
 \seealso{
 Other getters: 
 \code{\link{getCRS}()},

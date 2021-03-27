@@ -6,7 +6,6 @@
 \alias{getCRS,geom-method}
 \alias{getCRS,Spatial-method}
 \alias{getCRS,sf-method}
-\alias{getCRS,ppp-method}
 \alias{getCRS,Raster-method}
 \title{Get the coordinate reference system of a spatial object.}
 \usage{
@@ -18,8 +17,6 @@
 
 \S4method{getCRS}{sf}(x)
 
-\S4method{getCRS}{ppp}(x)
-
 \S4method{getCRS}{Raster}(x)
 }
 \arguments{
@@ -30,6 +27,15 @@ The coordinate reference system of \code{x} given as proj4string.
 }
 \description{
 Get the coordinate reference system of a spatial object.
+}
+\examples{
+getCRS(x = gtGeoms$grid$continuous)
+
+getCRS(x = gtSP$SpatialLines)
+
+getCRS(x = gtSF$multipoint)
+
+getCRS(x = gtRasters$categorical)
 }
 \seealso{
 Other getters: 

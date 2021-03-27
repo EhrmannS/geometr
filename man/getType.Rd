@@ -26,20 +26,22 @@
 \item{x}{the object for which to determine the type.}
 }
 \value{
-A vector of two values giving the general type (vector/raster) and
-  the specific type/class of \code{x}.
+A vector of two values of the geometry type (point/line/polygon/grid)
+  and the specific main type/class of \code{x}.
 }
 \description{
 Get the type of a spatial object.
 }
 \examples{
-getType(x = gtGeoms$polygon)
+getType(x = gtGeoms$point)
 
 getType(x = gtSP$SpatialPolygons)
 
 getType(x = gtSF$multiline)
 
 getType(x = gtRasters$categorical)
+
+getType(x = matrix(0, 3, 5))
 }
 \seealso{
 Other getters: 

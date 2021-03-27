@@ -4,15 +4,12 @@
 \alias{gc_geom}
 \alias{gc_geom,Spatial-method}
 \alias{gc_geom,sf-method}
-\alias{gc_geom,ppp-method}
 \alias{gc_geom,Raster-method}
 \title{Transform a spatial object to class \code{geom}}
 \usage{
 \S4method{gc_geom}{Spatial}(input = NULL, ...)
 
 \S4method{gc_geom}{sf}(input = NULL, group = FALSE, ...)
-
-\S4method{gc_geom}{ppp}(input = NULL, ...)
 
 \S4method{gc_geom}{Raster}(input = NULL, stack = TRUE, as_hex = FALSE, ...)
 }

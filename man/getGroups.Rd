@@ -5,40 +5,37 @@
 \alias{getGroups,ANY-method}
 \alias{getGroups,geom-method}
 \alias{getGroups,Raster-method}
-\alias{getGroups,matrix-method}
 \title{Get the table of group attributes}
 \usage{
-\S4method{getGroups}{ANY}(x, ...)
+\S4method{getGroups}{ANY}(x)
 
 \S4method{getGroups}{geom}(x)
 
 \S4method{getGroups}{Raster}(x)
-
-\S4method{getGroups}{matrix}(x)
 }
 \arguments{
 \item{x}{the object from which to derive the attribute table.}
-
-\item{...}{additional arguments.}
 }
 \value{
-A table of the group attributes of \code{x}.
+A tibble (or a list of tibbles per layer) of the group attributes of
+  \code{x}.
 }
 \description{
 Get the table of group attributes
 }
 \details{
-When this function is called on "ANY" object, it is first tested
-  whether that object has features (\code{\link{getFeatures}}), from which
-  the groups can be reconstructed. If this is not the case, \code{NULL} is
-  returned.
+This table contains at least the column 'gid'.
+
+  When this function is called on "ANY" object, it is first tested whether
+  that object has features (\code{\link{getFeatures}}), from which the groups
+  can be reconstructed. If this is not the case, \code{NULL} is returned.
 }
 \examples{
 getGroups(x = gtGeoms$polygon)
 
 # for raster objects, groups are pixels with the same value and their
 # attributes are in the raster attribute table (RAT)
-getGroups(x = gtRasters$categorical)
+getGroups(x = gtRasters)
 }
 \seealso{
 Other getters: 
