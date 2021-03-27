@@ -149,34 +149,6 @@ setMethod(f = "gc_geom",
           }
 )
 
-# ppp ----
-#' @rdname gc_geom
-#' @importFrom tibble tibble
-#' @export
-setMethod(f = "gc_geom",
-          signature = "ppp",
-          definition = function(input = NULL, ...){
-
-            theCoords <- getPoints(x = input)
-            theData <- getFeatures(x = input)
-            theGroups <- tibble(gid = theData$gid)
-            theWindow <- getWindow(x = input)
-            history <- paste0("geom was transformed from an object of class ppp.")
-            theCRS <- NA_character_
-
-            out <- new(Class = "geom",
-                       type = "point",
-                       point = theCoords,
-                       feature = theData,
-                       group = theGroups,
-                       window = theWindow,
-                       crs = theCRS,
-                       history = list(history))
-
-            return(out)
-          }
-)
-
 # Raster ----
 #' @rdname gc_geom
 #' @importFrom tibble tibble
