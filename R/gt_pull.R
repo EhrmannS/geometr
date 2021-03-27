@@ -23,6 +23,8 @@
 #' # pull from an sf-object
 #' gt_pull(gtSF$point, "a")
 #' @importFrom dplyr pull
+#' @importFrom tibble tibble
+#' @importFrom raster getValues
 #' @export
 
 gt_pull <- function(obj, var){
@@ -30,6 +32,12 @@ gt_pull <- function(obj, var){
   theGroups <- getGroups(x = obj)
   theFeatures <- getFeatures(x = obj)
   thePoints <- getPoints(x = obj)
+
+  if(dim(theGroups)[1] == 0){
+    if(is.numeric(theFeatures$values)){
+      theGroups <- tibble(value = sortUniqueC(theFeatures$values))
+    }
+  }
 
   var <- as.character(var)
   if(var %in% names(theGroups)){
