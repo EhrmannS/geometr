@@ -111,7 +111,7 @@ setMethod(f = "getGroups",
                   tab <- as_tibble(temp[[1]])
                   names(tab) <- names
                 } else {
-                  tab <- tibble(value = sortUniqueC(getValues(x)))
+                  tab <- tibble(value = integer())
                 }
                 if(dim(x)[3] == 1){
                   out <- tab
