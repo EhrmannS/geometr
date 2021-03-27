@@ -152,13 +152,14 @@ setMethod(f = "gc_geom",
 # Raster ----
 #' @rdname gc_geom
 #' @importFrom tibble tibble
-#' @importFrom raster xres yres
+#' @importFrom raster xres yres getValues
 #' @importFrom dplyr bind_cols full_join arrange
 #' @importFrom utils object.size
 #' @export
 setMethod(f = "gc_geom",
           signature = "Raster",
-          definition = function(input = NULL, stack = TRUE, as_hex = FALSE, ...){
+          definition = function(input = NULL, stack = FALSE, group = FALSE,
+                                as_hex = FALSE, ...){
 
             theExtent <- getExtent(x = input)
             theCoords <- tibble(x = c(min(theExtent$x), input@ncols, xres(input)),
@@ -171,8 +172,6 @@ setMethod(f = "gc_geom",
             if(dim(input)[3] == 1){
               stack <- FALSE
             }
-
-            hist <- list()
 
             assertLogical(x = as_hex, len = 1)
             if(as_hex){
@@ -199,7 +198,7 @@ setMethod(f = "gc_geom",
 
               theInput <- input[[i]]
               theName <- names(input)[i]
-              hist <- c(hist, paste0("layer '", theName, "' was transformed from an object of class ", theType[2], "."))
+              hist <- paste0("layer '", theName, "' was transformed from an object of class ", theType[2], ".")
 
               if(as_hex){
                 rawVal <- rgb(red = red, green = green, blue = blue, alpha = alpha, maxColorValue = 255)
@@ -207,16 +206,17 @@ setMethod(f = "gc_geom",
                 rawVal <- getFeatures(x = theInput)$values
               }
               tempGroups <- getGroups(theInput)
+              if(group & dim(tempGroups)[1] == 0) {
+                tempGroups <- tibble(value = sortUniqueC(getValues(theInput)))
+              }
 
               if(stack){
 
                 tempFeatures <- tibble(rawVal)
                 names(tempFeatures) <- theName
                 theFeatures <- bind_cols(theFeatures, tempFeatures)
-                if(any(!names(tempGroups) %in% "value")){
-                  theGroups <- full_join(theGroups, tempGroups, by = "value")
-                  theGroups <- arrange(theGroups, value)
-                }
+                theGroups <- full_join(theGroups, tempGroups, by = "value")
+                theGroups <- arrange(theGroups, value)
 
               } else {
 
@@ -229,16 +229,7 @@ setMethod(f = "gc_geom",
                                         len = rleVal$lengths)
                   hist <- c(hist, paste0("layer '", theName, "' is run-length encoded."))
                 }
-                if(length(theInput@data@attributes) != 0){
-                  theGroups <- as_tibble(theInput@data@attributes[[1]])
-                  colnames(theGroups) <- c("value", colnames(theGroups)[-1])
-                } else {
-                  if(as_hex){
-                    theGroups <- tibble(value = integer())
-                  } else {
-                    theGroups <- tibble(value = sortUniqueC(rleVal$values))
-                  }
-                }
+                theGroups <- tempGroups
 
                 temp <- new(Class = "geom",
                             type = "grid",
