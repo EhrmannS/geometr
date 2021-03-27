@@ -3,10 +3,11 @@
 - included the `@extent`-slot for faster processing of large objects where it takes long to find min/max values of coordinates.
 - `getRes` now returns a vector, instead of a tibble
 - `getLayers` now returns all layers in a list (no subsetting more possible)
+- `getGroups` now returns for RasterLayers without a raster attribute table (RAT) an empty tibble.
+- `gc_geom` now only adds groups to the group attribute table in case the input raster actually contains a RAT.
 - print-method of `gtTheme` has been beautified (it now also shows whether an attribute is scaled to some parameter)
-- `gc_geom` now only adds groups to the group attribute table in case the input raster actually contains a raster attribute table (RAT).
 - In case an object doesn't have any provenance information, `getHistory` now prints that this object has been loaded from memory.
-- all spatstat getters/setters (for class `ppp`) have been temporarily removed.
+- all spatstat getters/setters (for class `ppp`) have been removed temporarily.
 
 # geometr 0.2.6
 

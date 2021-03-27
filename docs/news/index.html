@@ -135,11 +135,13 @@
 <code>getRes</code> now returns a vector, instead of a tibble</li>
 <li>
 <code>getLayers</code> now returns all layers in a list (no subsetting more possible)</li>
-<li>print-method of <code>gtTheme</code> has been beautified (it now also shows whether an attribute is scaled to some parameter)</li>
 <li>
-<code>gc_geom</code> now only adds groups to the group attribute table in case the input raster actually contains a raster attribute table (RAT).</li>
+<code>getGroups</code> now returns for RasterLayers without a raster attribute table (RAT) an empty tibble.</li>
+<li>
+<code>gc_geom</code> now only adds groups to the group attribute table in case the input raster actually contains a RAT.</li>
+<li>print-method of <code>gtTheme</code> has been beautified (it now also shows whether an attribute is scaled to some parameter)</li>
 <li>In case an object doesn’t have any provenance information, <code>getHistory</code> now prints that this object has been loaded from memory.</li>
-<li>all spatstat getters/setters (for class <code>ppp</code>) have been temporarily removed.</li>
+<li>all spatstat getters/setters (for class <code>ppp</code>) have been removed temporarily.</li>
 </ul>
 </div>
     <div id="geometr-026" class="section level1">
