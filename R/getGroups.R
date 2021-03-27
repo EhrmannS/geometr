@@ -63,12 +63,17 @@ setMethod(f = "getGroups",
 
               out <- NULL
               for(i in seq_along(theNames)){
-                sbs <- sortUniqueC(unlist(theFeatures[theNames[i]], use.names=F))
+                vals <- unlist(theFeatures[theNames[i]], use.names=F)
+                if(is.numeric(vals)){
+                  sbs <- sortUniqueC(vals)
 
-                if(all(sbs %in% theGroups$value)){
-                  tab <- theGroups[theGroups$value %in% sbs,]
+                  if(all(sbs %in% theGroups$value)){
+                    tab <- theGroups[theGroups$value %in% sbs,]
+                  } else {
+                    tab <- tibble(value = sbs)
+                  }
                 } else {
-                  tab <- tibble(value = sbs)
+                  tab <- tibble(value = integer())
                 }
 
                 if(length(theNames) > 1){
