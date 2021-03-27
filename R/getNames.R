@@ -38,7 +38,17 @@ setMethod(f = "getNames",
           signature = "geom",
           definition = function(x){
 
-            out <- names(x@feature)
+            theFeatures <- x@feature
+            if(all(c("val", "len") %in% names(theFeatures))){
+              out <- NULL
+            } else {
+              out <- names(theFeatures)
+              out <- out[out != c("fid", "gid")]
+
+              if(length(out) == 0){
+                out <- NULL
+              }
+            }
 
             return(out)
           }
