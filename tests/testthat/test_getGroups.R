@@ -22,7 +22,7 @@ test_that("getGroups of a Raster* object", {
   # test RasterLayer without attribute table
   input <- gtRasters$continuous
   output <- getGroups(input)
-  expect_data_frame(output, any.missing = FALSE, nrows = 91, ncols = 1)
+  expect_data_frame(output, any.missing = FALSE, nrows = 0, ncols = 1)
   expect_names(x = names(output), permutation.of = c("value"))
 
   # test RasterLayer with attribute table

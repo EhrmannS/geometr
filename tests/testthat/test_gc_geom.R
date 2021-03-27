@@ -160,16 +160,33 @@ test_that("transform from Raster to geom", {
   input <- gtRasters
 
   output <- gc_geom(input)
-  expect_class(output, "geom")
-  expect_true(output@type == "grid")
-
-  # RasterStack without stacking
-  output <- gc_geom(input, stack = FALSE)
-  expect_list(output, len = 2)
+  expect_list(x = output, len = 2)
   expect_class(output$categorical, "geom")
   expect_true(output$categorical@type == "grid")
   expect_class(output$continuous, "geom")
   expect_true(output$continuous@type == "grid")
+  expect_data_frame(x = output$continuous@group, nrows = 0)
+
+  # RasterStack with grouping
+  output <- gc_geom(input, group = TRUE)
+  expect_list(x = output, len = 2)
+  expect_class(output$categorical, "geom")
+  expect_true(output$categorical@type == "grid")
+  expect_class(output$continuous, "geom")
+  expect_true(output$continuous@type == "grid")
+  expect_data_frame(x = output$continuous@group, nrows = 91)
+
+  # RasterStack with stacking
+  output <- gc_geom(input, stack = TRUE)
+  expect_class(output, "geom")
+  expect_true(output@type == "grid")
+  expect_data_frame(x = output@group, nrows = 9)
+
+  # RasterStack with stacking and grouping
+  output <- gc_geom(input, stack = TRUE, group = TRUE)
+  expect_class(output, "geom")
+  expect_true(output@type == "grid")
+  expect_data_frame(x = output@group, nrows = 93)
 
   # RasterLayer
   input <- gtRasters$continuous
@@ -177,4 +194,11 @@ test_that("transform from Raster to geom", {
   output <- gc_geom(input)
   expect_class(output, "geom")
   expect_true(output@type == "grid")
+  expect_data_frame(x = output@group, nrows = 0)
+
+  # RasterLayer with grouping
+  output <- gc_geom(input, group = TRUE)
+  expect_class(output, "geom")
+  expect_true(output@type == "grid")
+  expect_data_frame(x = output@group, nrows = 91)
 })
