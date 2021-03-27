@@ -3,6 +3,8 @@
 #' @param x the object from which to get the layer.
 #' @param layer [\code{character(.)} | \code{integerish(.)}]\cr the layer(s) to
 #'   get. If left at \code{NULL}, all layers are pulled.
+#' @details When this function is called on "ANY" object, it returns by default
+#'   a list of \code{x}.
 #' @return A list of the layers of \code{x}. Each list-item hast the result of
 #'   getNames(x) as name.
 #' @family getters
@@ -28,7 +30,8 @@ if(!isGeneric("getLayers")){
 setMethod(f = "getLayers",
           signature = "ANY",
           definition = function(x){
-            NULL
+            out <- list(x)
+            return(out)
           }
 )
 
@@ -89,17 +92,6 @@ setMethod(f = "getLayers",
 
 # matrix ----
 #' @rdname getLayers
-#' @export
-setMethod(f = "getLayers",
-          signature = "Spatial",
-          definition = function(x, layer = NULL){
-            out <- list(x)
-            return(out)
-          }
-)
-
-# matrix ----
-#' @rdname getLayers
 #' @importFrom sf st_drop_geometry
 #' @export
 setMethod(f = "getLayers",
@@ -151,17 +143,6 @@ setMethod(f = "getLayers",
               out <- c(out, setNames(list(temp), tempName))
 
             }
-            return(out)
-          }
-)
-
-# matrix ----
-#' @rdname getLayers
-#' @export
-setMethod(f = "getLayers",
-          signature = "matrix",
-          definition = function(x, layer = NULL){
-            out <- list(x)
             return(out)
           }
 )
