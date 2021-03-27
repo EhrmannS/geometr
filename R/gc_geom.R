@@ -198,7 +198,7 @@ setMethod(f = "gc_geom",
 
               theInput <- input[[i]]
               theName <- names(input)[i]
-              hist <- c(hist, paste0("geom was transformed from an object of class ", theType[2], "."))
+              hist <- c(hist, paste0("layer '", theName, "' was transformed from an object of class ", theType[2], "."))
 
               if(as_hex){
                 rawVal <- rgb(red = red, green = green, blue = blue, alpha = alpha, maxColorValue = 255)
@@ -212,8 +212,10 @@ setMethod(f = "gc_geom",
                 tempFeatures <- tibble(rawVal)
                 names(tempFeatures) <- theName
                 theFeatures <- bind_cols(theFeatures, tempFeatures)
-                theGroups <- full_join(theGroups, tempGroups, by = "value")
-                theGroups <- arrange(theGroups, value)
+                if(any(!names(tempGroups) %in% "value")){
+                  theGroups <- full_join(theGroups, tempGroups, by = "value")
+                  theGroups <- arrange(theGroups, value)
+                }
 
               } else {
 
