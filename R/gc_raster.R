@@ -36,51 +36,42 @@ setMethod(f = "gc_raster",
             featureType <- getType(input)
 
             if(!all(featureType %in% c("grid"))){
-              stop("Only objects of class 'geom' and type 'grid' can be transformed to a Raster*")
+              stop("Only objects of type 'grid' can be transformed to a Raster*")
             } else {
 
               theFeatures <- getFeatures(x = input)
               theGroups <- getGroups(x = input)
+              theNames <- getNames(input)
               theCRS <- getCRS(x = input)
 
-              hist <- list()
-              if(!is.data.frame(theFeatures)){
+              if(is.data.frame(theGroups)){
+                theGroups <- list(theGroups)
+              }
+              theRasters <- list()
+              for(i in seq_along(theNames)){
 
-                theNames <- names(theFeatures)
-                theRasters <- list()
-                for(i in seq_along(theFeatures)){
-
-                  mat <- matrix(data = theFeatures[[i]]$values,
-                                nrow = input@point$y[2],
-                                ncol = input@point$x[2], byrow = TRUE)
-                  out <- raster(x = mat, crs = theCRS,
-                                xmn = input@point$x[1], xmx = input@point$x[1] + input@point$x[2]*input@point$x[3],
-                                ymn = input@point$y[1], ymx = input@point$y[1] + input@point$y[2]*input@point$y[3])
-
-                  if(dim(theGroups)[1] != 0){
-                    out <- ratify(out)
-                    out@data@attributes <- list(as.data.frame(theGroups[[i]]))
-                  }
-                  out <- setHistory(x = out, history = paste0("raster was transformed from an object of class geom."))
-
-                  theRasters <- c(theRasters, setNames(object = list(out), nm = theNames[i]))
-                }
-                out <- stack(theRasters)
-
-              } else {
-                mat <- matrix(data = theFeatures$values,
+                mat <- matrix(data = unlist(theFeatures[theNames[i]], use.names = F),
                               nrow = input@point$y[2],
                               ncol = input@point$x[2], byrow = TRUE)
                 out <- raster(x = mat, crs = theCRS,
                               xmn = input@point$x[1], xmx = input@point$x[1] + input@point$x[2]*input@point$x[3],
                               ymn = input@point$y[1], ymx = input@point$y[1] + input@point$y[2]*input@point$y[3])
 
-                if(dim(theGroups)[1] != 0){
+                if(any(names(theGroups[[i]]) != "value")){
                   out <- ratify(out)
-                  out@data@attributes <- list(as.data.frame(theGroups))
+                  out@data@attributes <- list(as.data.frame(theGroups[[i]]))
                 }
-                out <- setHistory(x = out, history = paste0("raster was transformed from an object of class geom."))
+                out <- setHistory(x = out, history = paste0("raster '", theNames[i], "' was transformed from an object of class geom."))
+
+                theRasters <- c(theRasters, setNames(object = list(out), nm = theNames[i]))
               }
+
+              if(length(theRasters) > 1){
+                out <- stack(theRasters)
+              } else {
+                out <- theRasters[[1]]
+              }
+
 
             }
 

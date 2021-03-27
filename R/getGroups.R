@@ -57,12 +57,28 @@ setMethod(f = "getGroups",
             theType <- getType(x = x)[1]
 
             if(theType == "grid"){
+              theNames <- getNames(x = x)
+              theFeatures <- getFeatures(x)
               theGroups <- x@group
-              if(dim(theGroups)[1] == 0){
-                out <- theGroups[[1]]
-              } else {
-                out <- theGroups
+
+              out <- NULL
+              for(i in seq_along(theNames)){
+                sbs <- sortUniqueC(unlist(theFeatures[theNames[i]], use.names=F))
+
+                if(all(sbs %in% theGroups$value)){
+                  tab <- theGroups[theGroups$value %in% sbs,]
+                } else {
+                  tab <- tibble(value = sbs)
+                }
+
+                if(length(theNames) > 1){
+                  out <- c(out, setNames(list(tab), theNames[i]))
+                } else {
+                  out <- tab
+                }
+
               }
+
             } else {
               out <- x@group
             }

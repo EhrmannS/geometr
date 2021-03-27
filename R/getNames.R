@@ -40,13 +40,13 @@ setMethod(f = "getNames",
 
             theFeatures <- x@feature
             if(all(c("val", "len") %in% names(theFeatures))){
-              out <- NULL
+              out <- "values"
             } else {
               out <- names(theFeatures)
-              out <- out[out != c("fid", "gid")]
+              out <- out[!out %in% c("fid", "gid")]
 
               if(length(out) == 0){
-                out <- NULL
+                out <- paste0(getType(x = x)[1], "_geom")
               }
             }
 
