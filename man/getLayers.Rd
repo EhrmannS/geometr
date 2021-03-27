@@ -4,17 +4,23 @@
 \alias{getLayers}
 \alias{getLayers,ANY-method}
 \alias{getLayers,geom-method}
+\alias{getLayers,Spatial-method}
 \alias{getLayers,sf-method}
 \alias{getLayers,Raster-method}
+\alias{getLayers,matrix-method}
 \title{Get a specific layer of a spatial object.}
 \usage{
 \S4method{getLayers}{ANY}(x)
 
 \S4method{getLayers}{geom}(x, layer = NULL)
 
+\S4method{getLayers}{Spatial}(x, layer = NULL)
+
 \S4method{getLayers}{sf}(x, layer = NULL)
 
 \S4method{getLayers}{Raster}(x, layer = NULL)
+
+\S4method{getLayers}{matrix}(x, layer = NULL)
 }
 \arguments{
 \item{x}{the object from which to get the layer.}
@@ -28,10 +34,6 @@ A list of the layers of \code{x}. Each list-item hast the result of
 }
 \description{
 Get a specific layer of a spatial object.
-}
-\details{
-When this function is called on "ANY" object, it returns by default
-  a list of \code{x}.
 }
 \seealso{
 Other getters: 
