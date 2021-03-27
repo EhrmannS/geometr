@@ -43,13 +43,13 @@
       # determine value and name of the i-th display argument
       theVar <- tempArgs[[i]]
       theParam <- names(tempArgs)[i]
-      # assertChoice(x = theme@scale$param, choices = names(params))
       pos <- which(names(params) %in% theParam)
+
+      items <- suppressMessages(gt_pull(obj = x, var = theVar))
+      num <- suppressWarnings(as.numeric(as.character(theVar)))
 
       # if the argument is a colour argument, construct a color ramp from two or more values
       if(theParam %in% c("linecol", "fillcol")){
-
-        items <- suppressMessages(gt_pull(obj = x, var = theVar))
 
         if(!is.null(theme@scale$bins)){
           thebins <- theme@scale$bins
@@ -77,9 +77,6 @@
 
       } else if(theParam %in% c("linewidth", "pointsize")){
 
-        items <- suppressMessages(gt_pull(obj = x, var = theVar))
-        num <- suppressWarnings(as.numeric(as.character(theVar)))
-
         if(!is.null(theme@scale$bins)){
           thebins <- theme@scale$bins
         } else {
@@ -105,9 +102,6 @@
         }
 
       } else if(theParam %in% c("pointsymbol", "linetype")){
-
-        items <- suppressMessages(gt_pull(obj = x, var = theVar))
-        num <- suppressWarnings(as.numeric(as.character(theVar)))
 
         if(!is.null(theme@scale$bins)){
           thebins <- theme@scale$bins
