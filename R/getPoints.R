@@ -1,16 +1,22 @@
-#' Get the table of point attributes
+#' Get the table of point coordinates
 #'
-#' Get tabular information of the attributes of points (incl. coordinates).
-#' @param x the object from which to derive the attribute table.
-#' @param ... additional arguments.
-#' @return A table of the point attributes of \code{x}.
+#' Get tabular information of the point coordinates.
+#' @param x the object from which to derive the point coordinates.
+#' @details This table contains three columns (x, y and fid) and as many rows as
+#'   there are points. In case \code{x} is a polygon, the last point of each
+#'   distinct feature is a duplicate of its first point. In case \code{x} has
+#'   the type 'grid', all layers are summarised into one tibble, as several
+#'   layers must have the same extent and resolution, so that each point ocurrs
+#'   in each layer, merely with a different, layer-specific value.
+#' @return A tibble of the point coordinates of \code{x}.
 #' @examples
 #' getPoints(x = gtGeoms$polygon)
 #'
 #' getPoints(x = gtGeoms$point)
 #'
-#' # for a raster object, the @point slot is extracted from its' compact storage
+#' # for raster objects, the @point slot is extracted from its compact form
 #' gtGeoms$grid$continuous@point
+#'
 #' getPoints(x = gtGeoms$grid$continuous)
 #' @family getters
 #' @name getPoints
@@ -23,7 +29,7 @@ NULL
 #' @export
 if(!isGeneric("getPoints")){
   setGeneric(name = "getPoints",
-             def = function(x, ...){
+             def = function(x){
                standardGeneric("getPoints")
              }
   )
@@ -34,7 +40,7 @@ if(!isGeneric("getPoints")){
 #' @export
 setMethod(f = "getPoints",
           signature = "ANY",
-          definition = function(x, ...){
+          definition = function(x){
             NULL
           }
 )
@@ -53,11 +59,14 @@ setMethod(f = "getPoints",
               # rebuild points
               xGrid <- seq(from = x@point$x[1], length.out = x@point$x[2], by = x@point$x[3]) + 0.5
               yGrid <- seq(from = x@point$y[1], length.out = x@point$y[2], by = x@point$y[3]) + 0.5
-              out <- tibble(fid = seq(1:(length(xGrid)*length(yGrid))),
-                            x = rep(xGrid, times = length(yGrid)),
-                            y = rep(yGrid, each = length(xGrid)))
+              out <- tibble(x = rep(xGrid, times = length(yGrid)),
+                            y = rep(yGrid, each = length(xGrid)),
+                            fid = seq(1:(length(xGrid)*length(yGrid))))
             } else {
-              out <- x@point
+              thePoints <- x@point
+              out <- tibble(x = thePoints$x,
+                            y = thePoints$y,
+                            fid = thePoints$fid)
             }
 
             return(out)
