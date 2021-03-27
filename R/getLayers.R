@@ -46,24 +46,17 @@ setMethod(f = "getLayers",
             if(theType == "grid"){
               theFeatures <- getFeatures(x = x)
               theGroups <- getGroups(x = x)
-              layerNames <- names(theFeatures)[!names(theFeatures) %in% c("fid")]
+              theNames <- getNames(x)
 
-              if(is.null(layer)){
-                layer <- seq_along(layerNames)
+              if(is.data.frame(theGroups)){
+                theGroups <- list(theGroups)
               }
-              for(i in seq_along(layer)){
 
-                if(testNumeric(x = layer)){
-                  assertIntegerish(x = layer, lower = 1, upper = length(theFeatures))
-                  tempFeatures <- tibble(values = as.vector(theFeatures[[layerNames[i]]]))
-                  tempGroups <- theGroups
-                  tempName <- layerNames[i]
-                } else if(testCharacter(x = layer)){
-                  assertSubset(x = layer, choices = layerNames)
-                  tempFeatures <- tibble(values = as.vector(theFeatures[[which(layerNames %in% layer[i])]]))
-                  tempGroups <- theGroups[[which(layerNames %in% layer[i])]]
-                  tempName <- layerNames[i]
-                }
+              for(i in seq_along(theNames)){
+
+                tempFeatures <- tibble(values = as.vector(theFeatures[[theNames[i]]]))
+                tempGroups <- theGroups[[i]]
+                tempName <- theNames[i]
 
                 temp <- new(Class = "geom",
                             type = x@type,
@@ -77,10 +70,7 @@ setMethod(f = "getLayers",
               }
 
             } else {
-              out <- c(out, setNames(list(x), "geometry"))
-              # this could be done so that getLayers allows you to treat
-              # attributes as layers and thus pull an attribute as layer here,
-              # but this might be redundant with gt_pull!?
+              out <- setNames(list(x), paste0(getType(x)[1], "_geom"))
             }
 
             return(out)
@@ -92,7 +82,7 @@ setMethod(f = "getLayers",
 #' @export
 setMethod(f = "getLayers",
           signature = "Spatial",
-          definition = function(x, layer = NULL){
+          definition = function(x){
             out <-list(x)
             return(out)
           }
@@ -104,7 +94,7 @@ setMethod(f = "getLayers",
 #' @export
 setMethod(f = "getLayers",
           signature = "sf",
-          definition = function(x, layer = NULL){
+          definition = function(x){
             allNames <- names(x)
             noGeom <- names(st_drop_geometry(x))
             geomName <- allNames[!allNames %in% noGeom]
@@ -120,37 +110,18 @@ setMethod(f = "getLayers",
 #' @export
 setMethod(f = "getLayers",
           signature = "Raster",
-          definition = function(x, layer = NULL){
-
-            if(is.null(layer)){
-              layer <- 1:dim(x)[3]
-            }
+          definition = function(x){
 
             # extract objects and assign history if that was set
-            tempRas <- lapply(1:dim(x)[3], function(y){
+            out <- lapply(1:dim(x)[3], function(y){
               t <- x[[y]]
               if(length(x@history) != 0){
                 t@history <- x@history
               }
               return(t)
             })
-            theNames <- names(x)
+            names(out) <- names(x)
 
-            out <- NULL
-            for(i in seq_along(layer)){
-
-              if(testNumeric(x = layer)){
-                assertIntegerish(x = layer, lower = 1, upper = length(tempRas))
-                temp <- tempRas[[layer[i]]]
-                tempName <- theNames[layer[i]]
-              } else if(testCharacter(x = layer)){
-                assertSubset(x = layer, choices = theNames)
-                temp <- tempRas[[which(theNames %in% layer[i])]]
-                tempName <- theNames[which(theNames %in% layer[i])]
-              }
-              out <- c(out, setNames(list(temp), tempName))
-
-            }
             return(out)
           }
 )
@@ -160,7 +131,7 @@ setMethod(f = "getLayers",
 #' @export
 setMethod(f = "getLayers",
           signature = "matrix",
-          definition = function(x, layer = NULL){
+          definition = function(x){
             out <- list(x)
             return(out)
           }

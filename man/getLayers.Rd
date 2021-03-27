@@ -14,13 +14,13 @@
 
 \S4method{getLayers}{geom}(x, layer = NULL)
 
-\S4method{getLayers}{Spatial}(x, layer = NULL)
+\S4method{getLayers}{Spatial}(x)
 
-\S4method{getLayers}{sf}(x, layer = NULL)
+\S4method{getLayers}{sf}(x)
 
-\S4method{getLayers}{Raster}(x, layer = NULL)
+\S4method{getLayers}{Raster}(x)
 
-\S4method{getLayers}{matrix}(x, layer = NULL)
+\S4method{getLayers}{matrix}(x)
 }
 \arguments{
 \item{x}{the object from which to get the layer.}

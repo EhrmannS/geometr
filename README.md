@@ -211,7 +211,6 @@ Finally, cast a `geom` to another type simply by providing it in
 `anchor` of the respective type
 
 ``` r
-library(magrittr)
 boundPoints <- gs_point(anchor = currituck)
 visualise(`Currituck - boundary vertices`= boundPoints, linecol = "fid")
 ```
