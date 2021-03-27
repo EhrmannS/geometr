@@ -3,7 +3,8 @@
 #' @param x the object from which to get the layer.
 #' @param layer [\code{character(.)} | \code{integerish(.)}]\cr the layer(s) to
 #'   get. If left at \code{NULL}, all layers are pulled.
-#' @return A list of the requested layers.
+#' @return A list of the layers of \code{x}. Each list-item hast the result of
+#'   getNames(x) as name.
 #' @family getters
 #' @name getLayers
 #' @rdname getLayers
@@ -92,7 +93,7 @@ setMethod(f = "getLayers",
 setMethod(f = "getLayers",
           signature = "Spatial",
           definition = function(x, layer = NULL){
-            out <- setNames(list(x), "a spatial object")
+            out <- list(x)
             return(out)
           }
 )
@@ -160,7 +161,7 @@ setMethod(f = "getLayers",
 setMethod(f = "getLayers",
           signature = "matrix",
           definition = function(x, layer = NULL){
-            out <- setNames(list(x), "a matrix")
+            out <- list(x)
             return(out)
           }
 )
