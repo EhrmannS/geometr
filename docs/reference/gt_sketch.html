@@ -80,7 +80,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">geometr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.6</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.7</span>
       </span>
     </div>
 
@@ -218,11 +218,11 @@ default</code>)</p></td>
 <span class='co'># sketch a line geometry</span>
 <span class='fu'>gt_sketch</span><span class='op'>(</span>template <span class='op'>=</span> <span class='va'>gtRasters</span><span class='op'>$</span><span class='va'>categorical</span>, vertices <span class='op'>=</span> <span class='fl'>4</span>, shape <span class='op'>=</span> <span class='st'>"line"</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
   <span class='fu'><a href='visualise.html'>visualise</a></span><span class='op'>(</span>points <span class='op'>=</span> <span class='va'>.</span>, linecol <span class='op'>=</span> <span class='st'>"orange"</span>, linewidth <span class='op'>=</span> <span class='fl'>5</span>, new <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='error'>Error in gt_sketch(template = gtRasters$categorical, vertices = 4, shape = "line") %&gt;%     visualise(points = ., linecol = "orange", linewidth = 5,         new = FALSE): could not find function "%&gt;%"</span></div><div class='input'>
+</div><div class='output co'>#&gt; <span class='message'>please click 4 vertices.</span></div><div class='output co'>#&gt; <span class='error'>Error in if (min(input$x) != min(window$x)) {    window$x[window$x %in% min(window$x)] &lt;- min(input$x)}: missing value where TRUE/FALSE needed</span></div><div class='img'><img src='gt_sketch-2.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># sketch a polygon geometry</span>
 <span class='fu'>gt_sketch</span><span class='op'>(</span>template <span class='op'>=</span> <span class='va'>gtRasters</span><span class='op'>$</span><span class='va'>continuous</span>, shape <span class='op'>=</span> <span class='st'>"hexagon"</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
   <span class='fu'><a href='visualise.html'>visualise</a></span><span class='op'>(</span>geom <span class='op'>=</span> <span class='va'>.</span>, linecol <span class='op'>=</span> <span class='st'>"deeppink"</span>, linetype <span class='op'>=</span> <span class='fl'>2</span>, new <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='error'>Error in gt_sketch(template = gtRasters$continuous, shape = "hexagon") %&gt;%     visualise(geom = ., linecol = "deeppink", linetype = 2, new = FALSE): could not find function "%&gt;%"</span></div><div class='input'><span class='co'># }</span>
+</div><div class='output co'>#&gt; <span class='message'>please click the polygons' center and first vertex.</span></div><div class='output co'>#&gt; <span class='error'>Error in if (min(input$x) != min(window$x)) {    window$x[window$x %in% min(window$x)] &lt;- min(input$x)}: missing value where TRUE/FALSE needed</span></div><div class='img'><img src='gt_sketch-3.png' alt='' width='700' height='433' /></div><div class='input'><span class='co'># }</span>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

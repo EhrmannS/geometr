@@ -80,7 +80,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">geometr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.6</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.7</span>
       </span>
     </div>
 
@@ -132,7 +132,7 @@
     </div>
 
     <pre class="usage"><span class='co'># S4 method for ANY</span>
-<span class='fu'>getFeatures</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>...</span><span class='op'>)</span>
+<span class='fu'>getFeatures</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span>
 
 <span class='co'># S4 method for geom</span>
 <span class='fu'>getFeatures</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span>
@@ -156,15 +156,17 @@
       <th>x</th>
       <td><p>the object from which to derive the attribute table.</p></td>
     </tr>
-    <tr>
-      <th>...</th>
-      <td><p>additional arguments.</p></td>
-    </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A table of the feature attributes of <code>x</code>.</p>
+    <p>A tibble (or a list of tibbles per layer) of the feature attributes
+  of <code>x</code>.</p>
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>This table contains at least the column 'fid'. In case <code>x</code> has
+  any typ other than 'grid', it contains also the column 'gid' and in case it
+  has type 'grid', it also contains the column 'values'.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>Other getters: 
@@ -188,9 +190,25 @@
 #&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span>
 #&gt; </span><span style='color: #BCBCBC;'>1</span><span>     1     1
 #&gt; </span><span style='color: #BCBCBC;'>2</span><span>     2     2</div><div class='input'>
-<span class='co'># get the values of a RasterLayer</span>
-<span class='fu'>getFeatures</span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>gtRasters</span><span class='op'>$</span><span class='va'>continuous</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 3,360 x 2</span><span>
+<span class='fu'>getFeatures</span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>gtRasters</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; $categorical
+#&gt; </span><span style='color: #949494;'># A tibble: 3,360 x 2</span><span>
+#&gt;      fid values
+#&gt;    </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span>  </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span>
+#&gt; </span><span style='color: #BCBCBC;'> 1</span><span>     1     31
+#&gt; </span><span style='color: #BCBCBC;'> 2</span><span>     2     31
+#&gt; </span><span style='color: #BCBCBC;'> 3</span><span>     3     47
+#&gt; </span><span style='color: #BCBCBC;'> 4</span><span>     4     47
+#&gt; </span><span style='color: #BCBCBC;'> 5</span><span>     5     47
+#&gt; </span><span style='color: #BCBCBC;'> 6</span><span>     6     47
+#&gt; </span><span style='color: #BCBCBC;'> 7</span><span>     7     47
+#&gt; </span><span style='color: #BCBCBC;'> 8</span><span>     8     47
+#&gt; </span><span style='color: #BCBCBC;'> 9</span><span>     9     47
+#&gt; </span><span style='color: #BCBCBC;'>10</span><span>    10     47
+#&gt; </span><span style='color: #949494;'># … with 3,350 more rows</span><span>
+#&gt; 
+#&gt; $continuous
+#&gt; </span><span style='color: #949494;'># A tibble: 3,360 x 2</span><span>
 #&gt;      fid values
 #&gt;    </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span>  </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span>
 #&gt; </span><span style='color: #BCBCBC;'> 1</span><span>     1     21
@@ -203,7 +221,9 @@
 #&gt; </span><span style='color: #BCBCBC;'> 8</span><span>     8     79
 #&gt; </span><span style='color: #BCBCBC;'> 9</span><span>     9     50
 #&gt; </span><span style='color: #BCBCBC;'>10</span><span>    10     77
-#&gt; </span><span style='color: #949494;'># … with 3,350 more rows</span><span></div></span></pre>
+#&gt; </span><span style='color: #949494;'># … with 3,350 more rows</span><span>
+#&gt; </div><div class='input'>
+</div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

@@ -38,7 +38,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">geometr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.6</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.7</span>
       </span>
     </div>
 
@@ -83,7 +83,7 @@
       <h1 data-toc-skip>geometr - An overview</h1>
                         <h4 class="author">Steffen Ehrmann</h4>
             
-            <h4 class="date">2021-03-20</h4>
+            <h4 class="date">2021-03-27</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/EhrmannS/geometr/blob/master/vignettes/geometr.Rmd"><code>vignettes/geometr.Rmd</code></a></small>
       <div class="hidden name"><code>geometr.Rmd</code></div>
@@ -247,18 +247,18 @@
 <span class="co">#&gt; 3     1     1</span>
 <span class="fu"><a href="../reference/getPoints.html">getPoints</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">gtGeoms</span><span class="op">$</span><span class="va">grid</span><span class="op">$</span><span class="va">categorical</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 3,360 x 3</span>
-<span class="co">#&gt;      fid     x     y</span>
-<span class="co">#&gt;    &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt;</span>
-<span class="co">#&gt;  1     1   0.5   0.5</span>
-<span class="co">#&gt;  2     2   1.5   0.5</span>
-<span class="co">#&gt;  3     3   2.5   0.5</span>
-<span class="co">#&gt;  4     4   3.5   0.5</span>
-<span class="co">#&gt;  5     5   4.5   0.5</span>
-<span class="co">#&gt;  6     6   5.5   0.5</span>
-<span class="co">#&gt;  7     7   6.5   0.5</span>
-<span class="co">#&gt;  8     8   7.5   0.5</span>
-<span class="co">#&gt;  9     9   8.5   0.5</span>
-<span class="co">#&gt; 10    10   9.5   0.5</span>
+<span class="co">#&gt;        x     y   fid</span>
+<span class="co">#&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt;</span>
+<span class="co">#&gt;  1   0.5   0.5     1</span>
+<span class="co">#&gt;  2   1.5   0.5     2</span>
+<span class="co">#&gt;  3   2.5   0.5     3</span>
+<span class="co">#&gt;  4   3.5   0.5     4</span>
+<span class="co">#&gt;  5   4.5   0.5     5</span>
+<span class="co">#&gt;  6   5.5   0.5     6</span>
+<span class="co">#&gt;  7   6.5   0.5     7</span>
+<span class="co">#&gt;  8   7.5   0.5     8</span>
+<span class="co">#&gt;  9   8.5   0.5     9</span>
+<span class="co">#&gt; 10   9.5   0.5    10</span>
 <span class="co">#&gt; # … with 3,350 more rows</span></code></pre></div>
 <p>In contrast to <code>Raster*</code> objects of the <code>raster</code> package, the values in a grid <code>geom</code> are <a href="https://en.wikipedia.org/wiki/Run-length_encoding"><em>run-length encoded</em></a>, in case that results in a smaller object, which is often the case for rasters with categorical values.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
@@ -534,8 +534,7 @@
 <p>In case a <code>geom</code> is provided with a relative scale, the values are scaled between 0 and 1 and it is plotted by default relative to the plot extent. This allows, for example, to observe always the same region in a set of images, in which some signal changes, and eventually to extract the values. To this end, a <code>geom</code> would be provided with a reference window from which the relative values shall be derived and its’ coordinates are scaled to those values.</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">relPoly</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/gs_polygon.html">gs_rectangle</a></span><span class="op">(</span>anchor <span class="op">=</span> <span class="va">aPoly</span><span class="op">)</span> <span class="op">%&gt;%</span> 
-  <span class="fu"><a href="../reference/setWindow.html">setWindow</a></span><span class="op">(</span>to <span class="op">=</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/tibble.html">tibble</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">100</span><span class="op">)</span>, y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">100</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="../reference/gt_scale.html">gt_scale</a></span><span class="op">(</span>range <span class="op">=</span> <span class="fu"><a href="../reference/getWindow.html">getWindow</a></span><span class="op">(</span><span class="va">.</span><span class="op">)</span><span class="op">)</span>
+  <span class="fu"><a href="../reference/setWindow.html">setWindow</a></span><span class="op">(</span>to <span class="op">=</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/tibble.html">tibble</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">100</span><span class="op">)</span>, y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">100</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
 
 <span class="fu"><a href="../reference/visualise.html">visualise</a></span><span class="op">(</span><span class="va">gtRasters</span><span class="op">$</span><span class="va">categorical</span>, <span class="va">gtRasters</span><span class="op">$</span><span class="va">continuous</span><span class="op">)</span>
 <span class="fu"><a href="../reference/visualise.html">visualise</a></span><span class="op">(</span><span class="va">relPoly</span>, linecol <span class="op">=</span> <span class="st">"deeppink"</span>, new <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre></div>

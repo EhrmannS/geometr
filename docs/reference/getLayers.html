@@ -80,7 +80,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">geometr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.6</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.7</span>
       </span>
     </div>
 
@@ -137,16 +137,10 @@
 <span class='co'># S4 method for geom</span>
 <span class='fu'>getLayers</span><span class='op'>(</span><span class='va'>x</span>, layer <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span>
 
-<span class='co'># S4 method for Spatial</span>
-<span class='fu'>getLayers</span><span class='op'>(</span><span class='va'>x</span>, layer <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span>
-
 <span class='co'># S4 method for sf</span>
 <span class='fu'>getLayers</span><span class='op'>(</span><span class='va'>x</span>, layer <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span>
 
 <span class='co'># S4 method for Raster</span>
-<span class='fu'>getLayers</span><span class='op'>(</span><span class='va'>x</span>, layer <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span>
-
-<span class='co'># S4 method for matrix</span>
 <span class='fu'>getLayers</span><span class='op'>(</span><span class='va'>x</span>, layer <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -165,7 +159,12 @@ get. If left at <code>NULL</code>, all layers are pulled.</p></td>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A list of the requested layers.</p>
+    <p>A list of the layers of <code>x</code>. Each list-item hast the result of
+  getNames(x) as name.</p>
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>When this function is called on "ANY" object, it returns by default
+  a list of <code>x</code>.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>Other getters: 

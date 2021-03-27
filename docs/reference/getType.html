@@ -80,7 +80,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">geometr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.6</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.7</span>
       </span>
     </div>
 
@@ -160,8 +160,8 @@
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A vector of two values giving the general type (vector/raster) and
-  the specific type/class of <code>x</code>.</p>
+    <p>A vector of two values of the geometry type (point/line/polygon/grid)
+  and the specific main type/class of <code>x</code>.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>Other getters: 
@@ -179,14 +179,16 @@
 <code><a href='getWindow.html'>getWindow</a>()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>getType</span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>gtGeoms</span><span class='op'>$</span><span class='va'>polygon</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] "polygon" "polygon"</div><div class='input'>
+    <pre class="examples"><div class='input'><span class='fu'>getType</span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>gtGeoms</span><span class='op'>$</span><span class='va'>point</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] "point" "point"</div><div class='input'>
 <span class='fu'>getType</span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>gtSP</span><span class='op'>$</span><span class='va'>SpatialPolygons</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; [1] "polygon"         "SpatialPolygons"</div><div class='input'>
 <span class='fu'>getType</span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>gtSF</span><span class='op'>$</span><span class='va'>multiline</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; [1] "line"            "MULTILINESTRING"</div><div class='input'>
 <span class='fu'>getType</span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>gtRasters</span><span class='op'>$</span><span class='va'>categorical</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] "grid"        "RasterLayer"</div></pre>
+</div><div class='output co'>#&gt; [1] "grid"        "RasterLayer"</div><div class='input'>
+<span class='fu'>getType</span><span class='op'>(</span>x <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>matrix</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>3</span>, <span class='fl'>5</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] "grid"   "matrix"</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

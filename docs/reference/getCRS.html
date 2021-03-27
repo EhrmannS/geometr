@@ -80,7 +80,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">geometr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.6</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.7</span>
       </span>
     </div>
 
@@ -143,9 +143,6 @@
 <span class='co'># S4 method for sf</span>
 <span class='fu'>getCRS</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span>
 
-<span class='co'># S4 method for ppp</span>
-<span class='fu'>getCRS</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span>
-
 <span class='co'># S4 method for Raster</span>
 <span class='fu'>getCRS</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span></pre>
 
@@ -177,6 +174,15 @@
 <code><a href='getType.html'>getType</a>()</code>,
 <code><a href='getWindow.html'>getWindow</a>()</code></p></div>
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='fu'>getCRS</span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>gtGeoms</span><span class='op'>$</span><span class='va'>grid</span><span class='op'>$</span><span class='va'>continuous</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] NA</div><div class='input'>
+<span class='fu'>getCRS</span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>gtSP</span><span class='op'>$</span><span class='va'>SpatialLines</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] NA</div><div class='input'>
+<span class='fu'>getCRS</span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>gtSF</span><span class='op'>$</span><span class='va'>multipoint</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] NA</div><div class='input'>
+<span class='fu'>getCRS</span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>gtRasters</span><span class='op'>$</span><span class='va'>categorical</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] NA</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

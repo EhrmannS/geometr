@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Get the table of point attributes — getPoints • geometr</title>
+<title>Get the table of point coordinates — getPoints • geometr</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -46,8 +46,8 @@
 
 
 
-<meta property="og:title" content="Get the table of point attributes — getPoints" />
-<meta property="og:description" content="Get tabular information of the attributes of points (incl. coordinates)." />
+<meta property="og:title" content="Get the table of point coordinates — getPoints" />
+<meta property="og:description" content="Get tabular information of the point coordinates." />
 <meta property="og:image" content="http://EhrmannS.github.io/geometr/logo.svg" />
 
 
@@ -80,7 +80,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">geometr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.6</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.7</span>
       </span>
     </div>
 
@@ -122,17 +122,17 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Get the table of point attributes</h1>
+    <h1>Get the table of point coordinates</h1>
     <small class="dont-index">Source: <a href='https://github.com/EhrmannS/geometr/blob/master/R/getPoints.R'><code>R/getPoints.R</code></a></small>
     <div class="hidden name"><code>getPoints.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Get tabular information of the attributes of points (incl. coordinates).</p>
+    <p>Get tabular information of the point coordinates.</p>
     </div>
 
     <pre class="usage"><span class='co'># S4 method for ANY</span>
-<span class='fu'>getPoints</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>...</span><span class='op'>)</span>
+<span class='fu'>getPoints</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span>
 
 <span class='co'># S4 method for geom</span>
 <span class='fu'>getPoints</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span>
@@ -154,17 +154,21 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>x</th>
-      <td><p>the object from which to derive the attribute table.</p></td>
-    </tr>
-    <tr>
-      <th>...</th>
-      <td><p>additional arguments.</p></td>
+      <td><p>the object from which to derive the point coordinates.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A table of the point attributes of <code>x</code>.</p>
+    <p>A tibble of the point coordinates of <code>x</code>.</p>
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>This table contains three columns (x, y and fid) and as many rows as
+  there are points. In case <code>x</code> is a polygon, the last point of each
+  distinct feature is a duplicate of its first point. In case <code>x</code> has
+  the type 'grid', all layers are summarised into one tibble, as several
+  layers must have the same extent and resolution, so that each point ocurrs
+  in each layer, merely with a different, layer-specific value.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>Other getters: 
@@ -210,27 +214,28 @@
 #&gt; </span><span style='color: #BCBCBC;'>7</span><span> -</span><span style='color: #BB0000;'>34.6</span><span>    20     7
 #&gt; </span><span style='color: #BCBCBC;'>8</span><span> -</span><span style='color: #BB0000;'>34.6</span><span>   -</span><span style='color: #BB0000;'>20</span><span>     8
 #&gt; </span><span style='color: #BCBCBC;'>9</span><span>   0       0     9</div><div class='input'>
-<span class='co'># for a raster object, the @point slot is extracted from its' compact storage</span>
+<span class='co'># for raster objects, the @point slot is extracted from its compact form</span>
 <span class='va'>gtGeoms</span><span class='op'>$</span><span class='va'>grid</span><span class='op'>$</span><span class='va'>continuous</span><span class='op'>@</span><span class='va'>point</span>
 </div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 3 x 2</span><span>
 #&gt;       x     y
 #&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
 #&gt; </span><span style='color: #BCBCBC;'>1</span><span>     0     0
 #&gt; </span><span style='color: #BCBCBC;'>2</span><span>    60    56
-#&gt; </span><span style='color: #BCBCBC;'>3</span><span>     1     1</div><div class='input'><span class='fu'>getPoints</span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>gtGeoms</span><span class='op'>$</span><span class='va'>grid</span><span class='op'>$</span><span class='va'>continuous</span><span class='op'>)</span>
+#&gt; </span><span style='color: #BCBCBC;'>3</span><span>     1     1</div><div class='input'>
+<span class='fu'>getPoints</span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>gtGeoms</span><span class='op'>$</span><span class='va'>grid</span><span class='op'>$</span><span class='va'>continuous</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 3,360 x 3</span><span>
-#&gt;      fid     x     y
-#&gt;    </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'> 1</span><span>     1   0.5   0.5
-#&gt; </span><span style='color: #BCBCBC;'> 2</span><span>     2   1.5   0.5
-#&gt; </span><span style='color: #BCBCBC;'> 3</span><span>     3   2.5   0.5
-#&gt; </span><span style='color: #BCBCBC;'> 4</span><span>     4   3.5   0.5
-#&gt; </span><span style='color: #BCBCBC;'> 5</span><span>     5   4.5   0.5
-#&gt; </span><span style='color: #BCBCBC;'> 6</span><span>     6   5.5   0.5
-#&gt; </span><span style='color: #BCBCBC;'> 7</span><span>     7   6.5   0.5
-#&gt; </span><span style='color: #BCBCBC;'> 8</span><span>     8   7.5   0.5
-#&gt; </span><span style='color: #BCBCBC;'> 9</span><span>     9   8.5   0.5
-#&gt; </span><span style='color: #BCBCBC;'>10</span><span>    10   9.5   0.5
+#&gt;        x     y   fid
+#&gt;    </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span>
+#&gt; </span><span style='color: #BCBCBC;'> 1</span><span>   0.5   0.5     1
+#&gt; </span><span style='color: #BCBCBC;'> 2</span><span>   1.5   0.5     2
+#&gt; </span><span style='color: #BCBCBC;'> 3</span><span>   2.5   0.5     3
+#&gt; </span><span style='color: #BCBCBC;'> 4</span><span>   3.5   0.5     4
+#&gt; </span><span style='color: #BCBCBC;'> 5</span><span>   4.5   0.5     5
+#&gt; </span><span style='color: #BCBCBC;'> 6</span><span>   5.5   0.5     6
+#&gt; </span><span style='color: #BCBCBC;'> 7</span><span>   6.5   0.5     7
+#&gt; </span><span style='color: #BCBCBC;'> 8</span><span>   7.5   0.5     8
+#&gt; </span><span style='color: #BCBCBC;'> 9</span><span>   8.5   0.5     9
+#&gt; </span><span style='color: #BCBCBC;'>10</span><span>   9.5   0.5    10
 #&gt; </span><span style='color: #949494;'># … with 3,350 more rows</span><span></div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
