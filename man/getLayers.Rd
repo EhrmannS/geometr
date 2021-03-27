@@ -12,7 +12,7 @@
 \usage{
 \S4method{getLayers}{ANY}(x)
 
-\S4method{getLayers}{geom}(x, layer = NULL)
+\S4method{getLayers}{geom}(x)
 
 \S4method{getLayers}{Spatial}(x)
 
@@ -24,9 +24,6 @@
 }
 \arguments{
 \item{x}{the object from which to get the layer.}
-
-\item{layer}{[\code{character(.)} | \code{integerish(.)}]\cr the layer(s) to
-get. If left at \code{NULL}, all layers are pulled.}
 }
 \value{
 A list of the layers of \code{x}. Each list-item hast the result of

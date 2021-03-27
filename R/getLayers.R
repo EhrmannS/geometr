@@ -1,8 +1,6 @@
 #' Get a specific layer of a spatial object.
 #'
 #' @param x the object from which to get the layer.
-#' @param layer [\code{character(.)} | \code{integerish(.)}]\cr the layer(s) to
-#'   get. If left at \code{NULL}, all layers are pulled.
 #' @return A list of the layers of \code{x}. Each list-item hast the result of
 #'   getNames(x) as name.
 #' @family getters
@@ -16,7 +14,7 @@ NULL
 #' @export
 if(!isGeneric("getLayers")){
   setGeneric(name = "getLayers",
-             def = function(x, layer = NULL, ...){
+             def = function(x, ...){
                standardGeneric("getLayers")
              }
   )
@@ -38,7 +36,7 @@ setMethod(f = "getLayers",
 #' @export
 setMethod(f = "getLayers",
           signature = "geom",
-          definition = function(x, layer = NULL){
+          definition = function(x){
 
             theType <- getType(x = x)[2]
 

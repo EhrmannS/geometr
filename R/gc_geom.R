@@ -177,11 +177,12 @@ setMethod(f = "gc_geom",
             assertLogical(x = as_hex, len = 1)
             if(as_hex){
               assertNames(x = names(input), must.include = c("red", "green", "blue"))
-              red <- getFeatures(x = getLayers(x = input, layer = "red")[[1]])$values
+              temp <- getLayers(x = input)
+              red <- getFeatures(x = temp[["red"]])$values
               red[is.na(red)] <- 255L
-              green <- getFeatures(x = getLayers(x = input, layer = "green")[[1]])$values
+              green <- getFeatures(x = temp[["green"]])$values
               green[is.na(green)] <- 255L
-              blue <- getFeatures(x = getLayers(x = input, layer = "blue")[[1]])$values
+              blue <- getFeatures(x = temp[["blue"]])$values
               blue[is.na(blue)] <- 255L
               alpha <- rep(255, length(blue))
               alpha[is.na(red)] <- 0L
