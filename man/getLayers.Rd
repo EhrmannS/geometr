@@ -32,6 +32,9 @@ A list of the layers of \code{x}. Each list-item hast the result of
 \description{
 Get a specific layer of a spatial object.
 }
+\examples{
+getLayers(x = gtRasters)
+}
 \seealso{
 Other getters: 
 \code{\link{getCRS}()},

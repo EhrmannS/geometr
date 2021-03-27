@@ -11,7 +11,7 @@
 
 \S4method{gc_geom}{sf}(input = NULL, group = FALSE, ...)
 
-\S4method{gc_geom}{Raster}(input = NULL, stack = TRUE, as_hex = FALSE, ...)
+\S4method{gc_geom}{Raster}(input = NULL, stack = FALSE, group = FALSE, as_hex = FALSE, ...)
 }
 \arguments{
 \item{input}{the object to transform to class \code{geom}.}
