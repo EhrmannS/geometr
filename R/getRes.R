@@ -1,8 +1,8 @@
 #' Get the spatial resolution of a spatial object.
 #'
 #' @param x the object from which to derive the resolution.
-#' @param precision the number of digits to which to round the values.
-#' @return The resolution of \code{x} in x and y dimension.
+#' @return A vector of two values of the spatial resolution of \code{x} in x and
+#'   y dimensio n.
 #' @family getters
 #' @name getRes
 #' @rdname getRes
@@ -32,16 +32,16 @@ setMethod(f = "getRes",
 
 # geom ----
 #' @rdname getRes
-#' @importFrom tibble tibble
+#' @examples
+#' getRes(x = gtGeoms$grid$continuous)
 #' @export
 setMethod(f = "getRes",
           signature = "geom",
-          definition = function(x, precision = getOption("digits")){
+          definition = function(x){
 
             temp <- x
             if(temp@type == "grid"){
-              out <- tibble(x = c(temp@point$x[3]), y = c(temp@point$y[3]))
-              out <- round(out, precision)
+              out <- c(temp@point$x[3], temp@point$y[3])
             } else {
               out <- NULL
             }
@@ -52,27 +52,32 @@ setMethod(f = "getRes",
 
 # Raster* ----
 #' @rdname getRes
+#' @examples
+#'
+#' getRes(x = gtRasters$categorical)
 #' @importFrom tibble tibble
 #' @importFrom raster res
 #' @export
 setMethod(f = "getRes",
           signature = "Raster",
-          definition = function(x, precision = getOption("digits")){
+          definition = function(x){
             temp <- res(x)
-            temp <- round(temp, precision)
-            out <- tibble(x = temp[1], y = temp[2])
+            out <- c(temp[1], temp[2])
             return(out)
           }
 )
 
 # matrix ----
 #' @rdname getRes
+#' @examples
+#'
+#' getRes(x = matrix(0, 3, 5))
 #' @importFrom tibble tibble
 #' @export
 setMethod(f = "getRes",
           signature = "matrix",
           definition = function(x){
-            out <- tibble(x = 1, y = 1)
+            out <- c(1, 1)
             return(out)
           }
 )

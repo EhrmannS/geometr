@@ -6,22 +6,22 @@ context("getRes")
 
 test_that("getRes of a grid geom", {
   output <- getRes(gtGeoms$grid$categorical)
-  expect_data_frame(x = output, any.missing = FALSE, types = "double", nrows = 1, ncols = 2)
+  expect_numeric(x = output, len = 2, any.missing = FALSE)
 })
 
 test_that("getRes of a Raster*", {
   # RasterLayer
   output <- getRes(gtRasters$categorical)
-  expect_data_frame(x = output, any.missing = FALSE, types = "double", nrows = 1, ncols = 2)
+  expect_numeric(x = output, len = 2, any.missing = FALSE)
 
   # RasterStack
   output <- getRes(gtRasters)
-  expect_data_frame(x = output, any.missing = FALSE, types = "double", nrows = 1, ncols = 2)
+  expect_numeric(x = output, len = 2, any.missing = FALSE)
 })
 
 test_that("getRes of a matrix", {
   output <- getRes(raster::as.matrix(gtRasters$categorical))
-  expect_data_frame(x = output, any.missing = FALSE, types = "double", nrows = 1, ncols = 2)
+  expect_numeric(x = output, len = 2, any.missing = FALSE)
 })
 
 test_that("getRes of any other object", {
