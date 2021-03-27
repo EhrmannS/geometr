@@ -1,19 +1,20 @@
 #' Get the table of group attributes
 #'
 #' @param x the object from which to derive the attribute table.
-#' @param ... additional arguments.
-#' @details When this function is called on "ANY" object, it is first tested
-#'   whether that object has features (\code{\link{getFeatures}}), from which
-#'   the groups can be reconstructed. If this is not the case, \code{NULL} is
-#'   returned.
-#' @return A table of the group attributes of \code{x}.
+#' @details This table contains at least the column 'gid'.
+#'
+#'   When this function is called on "ANY" object, it is first tested whether
+#'   that object has features (\code{\link{getFeatures}}), from which the groups
+#'   can be reconstructed. If this is not the case, \code{NULL} is returned.
+#' @return A tibble (or a list of tibbles per layer) of the group attributes of
+#'   \code{x}.
 #' @family getters
 #' @examples
 #' getGroups(x = gtGeoms$polygon)
 #'
 #' # for raster objects, groups are pixels with the same value and their
 #' # attributes are in the raster attribute table (RAT)
-#' getGroups(x = gtRasters$categorical)
+#' getGroups(x = gtRasters)
 #' @name getGroups
 #' @rdname getGroups
 NULL
@@ -24,7 +25,7 @@ NULL
 #' @export
 if(!isGeneric("getGroups")){
   setGeneric(name = "getGroups",
-             def = function(x, ...){
+             def = function(x){
                standardGeneric("getGroups")
              }
   )
@@ -35,10 +36,10 @@ if(!isGeneric("getGroups")){
 #' @export
 setMethod(f = "getGroups",
           signature = "ANY",
-          definition = function(x, ...){
+          definition = function(x){
             theFeatures <- getFeatures(x = x)
             if(!is.null(theFeatures)){
-              tibble(gid = unique(theFeatures$gid))
+              tibble(gid = sortUniqueC(theFeatures$gid))
             } else {
               theFeatures
             }
@@ -99,16 +100,5 @@ setMethod(f = "getGroups",
               }
             }
             return(out)
-          }
-)
-
-# master ----
-#' @rdname getGroups
-#' @importFrom tibble tibble as_tibble
-#' @export
-setMethod(f = "getGroups",
-          signature = "matrix",
-          definition = function(x){
-            tibble(gid = sortUniqueC(as.vector(x = x)))
           }
 )
