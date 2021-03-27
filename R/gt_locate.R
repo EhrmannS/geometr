@@ -63,7 +63,7 @@ gt_locate <- function(samples = 1, panel = NULL, identify = FALSE, snap = FALSE,
       stop("please create a plot with geometr::visualise()")
     }
 
-    panelNames <- objViewports$name[objViewports$vpDepth == 2 & objViewports$name != "1"]
+    panelNames <- objViewports$name[objViewports$vpDepth == objViewports$vpDepth[which(objViewports$name == "geometr")] + 1 & objViewports$name != "1"]
     panelNames <- panelNames[!duplicated(panelNames)]
   } else{
     stop("please create a plot with geometr::visualise()")
@@ -83,7 +83,7 @@ gt_locate <- function(samples = 1, panel = NULL, identify = FALSE, snap = FALSE,
     panel <- panelNames[grepl(panel, panelNames)]
     if(length(panel) == 0){
       panel <- panelNames[1]
-      warning("the specified panel did not match any of the existing panels, please select locations in the first panel.", immediate. = TRUE, call. = FALSE)
+      warning("the specified panel did not match any of the existing panels (", paste0(panelNames, collapse = ", "), "), please select locations in the first panel.", immediate. = TRUE, call. = FALSE)
     }
   }
 
