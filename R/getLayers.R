@@ -104,6 +104,8 @@ setMethod(f = "getLayers",
 
 # RasterLayer ----
 #' @rdname getLayers
+#' @examples
+#' getLayers(x = gtRasters)
 #' @importFrom checkmate testNumeric assertIntegerish testCharacter assertSubset
 #' @export
 setMethod(f = "getLayers",
