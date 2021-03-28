@@ -20,7 +20,6 @@ reference:
     desc: functions that transform between geometric classes
     contents:
       - gc_geom
-      - gc_grob
       - gc_raster
       - gc_sf
       - gc_sp
