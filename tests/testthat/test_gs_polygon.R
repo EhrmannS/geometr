@@ -38,15 +38,9 @@ test_that("Error if arguments have wrong value", {
                        y = c(40, 70))
   input <- gs_point(anchor = coords)
 
-  expect_error(gs_polygon(window = coords), regexp = "please provide anchor values.")
-  expect_error(gs_polygon(anchor = "bla"))
   expect_error(gs_polygon(anchor = input))
   expect_error(gs_polygon(anchor = coords, vertices = "bla"))
   expect_error(gs_polygon(anchor = coords, regular = "bla"))
   expect_error(gs_polygon(anchor = coords, vertices = 4, regular = "bla"))
-  expect_error(gs_polygon(vertices = 4, regular = TRUE))
-
-  # function stops when trying to cast from line/point with less than 3 vertices
-
 })
 
