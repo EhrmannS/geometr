@@ -7,6 +7,7 @@
 .updateTheme <- function(x, theme = gtTheme){
 
   featureType <- getType(x = x)
+  thePoints <- getPoints(x = x)
 
   if(featureType[1] == "grid"){
 
@@ -20,22 +21,29 @@
     }
   }
 
-  # determine the items for which a scale should be built
-  items <- suppressMessages(sort(gt_pull(obj = x, var = theme@scale$to)))
+  if(dim(thePoints)[1] != 0){
+    # determine the items for which a scale should be built
+    items <- suppressMessages(sort(gt_pull(obj = x, var = theme@scale$to)))
 
-  # only use automatic range, if it haven't been set before
-  if(is.null(theme@scale$range)){
-    if(!is.null(items)){
-      theme@scale$range <- c(head(items, 1), tail(items, 1))
+    # only use automatic range, if it haven't been set before
+    if(is.null(theme@scale$range)){
+      if(!is.null(items)){
+        theme@scale$range <- c(head(items, 1), tail(items, 1))
+      }
     }
+
+    # only use automatic bins, if they haven't been set before
+    if(is.null(theme@scale$bins)){
+      if(!is.null(items)){
+        theme@scale$bins <- length(items)
+      }
+    }
+  } else {
+    theme@title$plot <- FALSE
+    theme@legend$plot <- FALSE
+    theme@box$plot <- FALSE
   }
 
-  # only use automatic bins, if they haven't been set before
-  if(is.null(theme@scale$bins)){
-    if(!is.null(items)){
-      theme@scale$bins <- length(items)
-    }
-  }
 
   return(theme)
 }
