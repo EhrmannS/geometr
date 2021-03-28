@@ -12,19 +12,18 @@ gs_polygon(
   anchor = NULL,
   window = NULL,
   features = 1,
-  vertices = NULL,
-  template = NULL,
+  vertices = 3,
   regular = FALSE,
   ...
 )
 
-gs_triangle(anchor = NULL, window = NULL, template = NULL, features = 1, ...)
+gs_triangle(anchor = NULL, window = NULL, features = 1, ...)
 
-gs_square(anchor = NULL, window = NULL, template = NULL, features = 1, ...)
+gs_square(anchor = NULL, window = NULL, features = 1, ...)
 
-gs_rectangle(anchor = NULL, window = NULL, template = NULL, features = 1, ...)
+gs_rectangle(anchor = NULL, window = NULL, features = 1, ...)
 
-gs_hexagon(anchor = NULL, window = NULL, template = NULL, features = 1, ...)
+gs_hexagon(anchor = NULL, window = NULL, features = 1, ...)
 }
 \arguments{
 \item{anchor}{[\code{geom(1)}|\code{data.frame(1)}]\cr Object to derive the
@@ -40,9 +39,6 @@ specify this here.}
 \item{vertices}{[\code{integerish(.)}]\cr number of vertices per polygon;
 will be recycled if it does not have as many elements as specified in
 \code{features}.}
-
-\item{template}{[\code{gridded object(1)}]\cr Gridded object that serves as
-template to sketch the tiling.}
 
 \item{regular}{[\code{logical(1)}]\cr should the polygon be regular, i.e.
 point symmetric (\code{TRUE}) or should the vertices be selected as
@@ -112,7 +108,7 @@ aRectangle <- gs_rectangle(anchor = aPolygon)
 visualise(aRectangle, new = FALSE)
 \donttest{
 # 2. sketch a hexagon by clicking into a template
-aHexagon <- gs_hexagon(template = gtRasters$continuous)
+aHexagon <- gs_hexagon(features = 1)
 visualise(aHexagon, linecol = "deeppink", linetype = 2, new = FALSE)
 }
 }
