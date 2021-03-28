@@ -23,10 +23,11 @@
   # only chose parameters that are in the theme (exclude plot objects)
   plotParams <- plotParams[names(plotParams) %in% c("linecol", "fillcol", "linetype", "linewidth", "pointsize", "pointsymbol")]
 
+  out <- list(theme = NULL, grob = NULL, legend = NULL, layout = NULL)
+
   # modify the theme according to 'plotParams' ----
   completeTheme <- .updateTheme(x = x, theme = theme)
-
-  out <- list(grob = NULL, legend = NULL, layout = NULL)
+  out$theme <- completeTheme
 
   # make the grob ----
   theGrob <- .makeGrob(x = x, plotParams = plotParams, theme = completeTheme)
