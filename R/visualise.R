@@ -1,9 +1,6 @@
 #' Visualise raster and geom objects
 #'
 #' @param ... objects to plot and optional graphical parameters.
-#' @param layer [\code{integerish(.)} | \code{character(.)}]\cr in case the
-#'   objects to plot have several layers, this is the name or index of the
-#'   layer(s) that shall be plotted.
 #' @param window [\code{data.frame(1)}]\cr two opposing corners of a rectangle
 #'   to which the plot is limited.
 #' @param theme [\code{list(7)}]\cr the theme from which to take graphical
@@ -17,15 +14,19 @@
 #' @return Returns invisibly an object of class \code{recordedplot}, see
 #'   \code{\link{recordPlot}} for details (and warnings).
 #' @examples
+#' # make an empty plot
+#' visualise()
+#' visualise(window = getExtent(gtRasters$continuous))
+#'
 #' coords <- data.frame(x = c(30, 60, 60, 40),
 #'                      y = c(40, 40, 60, 70),
 #'                      fid = 1)
 #' (aGeom <- gs_polygon(anchor = coords))
 #' visualise(aGeom)
 #'
-#' window <- data.frame(x = c(0, 80),
-#'                      y = c(0, 80))
-#' withWindow <- setWindow(x = aGeom, to = window)
+#' win <- data.frame(x = c(0, 80),
+#'                   y = c(0, 80))
+#' withWindow <- setWindow(x = aGeom, to = win)
 #' visualise(expanded = withWindow)
 #'
 #' (aRaster <-  gtRasters$categorical)
@@ -56,7 +57,6 @@
 #' @export
 
 visualise <- function(...,
-                      layer = NULL,
                       window = NULL,
                       trace = FALSE,
                       new = TRUE,
@@ -64,7 +64,7 @@ visualise <- function(...,
                       theme = gtTheme){
 
   # library(geometr); library(checkmate); library(grid); library(rlang); library(tibble); library(dplyr)
-  # layer = NULL; window = NULL; theme = gtTheme; trace = FALSE; new = T; clip = FALSE; plotParams <- list()
+  # window = NULL; theme = gtTheme; trace = FALSE; new = T; clip = FALSE; plotParams <- list()
   # source('/media/se87kuhe/external1/projekte/r-dev/geometr/R/makePlot.R')
   # source('/media/se87kuhe/external1/projekte/r-dev/geometr/R/updateTheme.R')
   # source('/media/se87kuhe/external1/projekte/r-dev/geometr/R/makeGrob.R')
@@ -87,30 +87,41 @@ visualise <- function(...,
     objs <- objs[!names(objs) %in% names(theme@parameters)]
   }
 
-  # tease apart objects with several layers (e.g. RasterStack) and determine
-  # names
-  plotObjects <- plotNames <- NULL
-  for(i in seq_along(objs)){
-    theLayers <- getLayers(x = eval_tidy(expr = objs[[i]]))
-    objsName <- names(objs)[i]
-    layerName <- names(theLayers)
+  if(length(objs) != 0){
 
-    if(objsName %in% c("linecol", "fillcol", "linetype", "linewidth", "pointsize", "pointsymbol")){
-      next
-    } else if(objsName == ""){
-      theName <- layerName
-    } else {
-      theName <- rep(objsName, length(theLayers))
-    }
+    # tease apart objects with several layers (e.g. RasterStack) and determine
+    # names
+    plotObjects <- plotNames <- NULL
+    for(i in seq_along(objs)){
+      theLayers <- getLayers(x = eval_tidy(expr = objs[[i]]))
+      objsName <- names(objs)[i]
+      layerName <- names(theLayers)
 
-    if(is.null(theLayers)){
-      warning(paste0("object '", names(objs)[i], "' can't be plotted, it's neither a geometric object, nor a graphical parameter."))
-    } else {
-      plotObjects <- c(plotObjects, theLayers)
-      plotNames <- c(plotNames, theName)
+      if(objsName %in% c("linecol", "fillcol", "linetype", "linewidth", "pointsize", "pointsymbol")){
+        next
+      } else if(objsName == ""){
+        theName <- layerName
+      } else {
+        theName <- rep(objsName, length(theLayers))
+      }
+
+      if(is.null(theLayers)){
+        warning(paste0("object '", names(objs)[i], "' can't be plotted, it's neither a geometric object, nor a graphical parameter."))
+      } else {
+        plotObjects <- c(plotObjects, theLayers)
+        plotNames <- c(plotNames, theName)
+      }
     }
+    names(plotObjects) <- plotNames
+
+  } else {
+    if(!is.null(window)){
+      tempWindow <- window
+    } else {
+      tempWindow <- tibble(x = c(0, 1), y = c(0, 1))
+    }
+    plotObjects <- list(none = gs_point(window = tempWindow, vertices = 0))
   }
-  names(plotObjects) <- plotNames
 
   # start_overall <- Sys.time()
   # timings <- NULL
@@ -177,6 +188,7 @@ visualise <- function(...,
       }
 
       temp <- .makePlot(x = theObject, window = theWindow, theme = theme, ...)
+      theme <- temp$theme
       theGrob <- temp$grob
       theLegend <- temp$legend
       theLayout <- temp$layout
