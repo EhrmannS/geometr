@@ -65,8 +65,8 @@ gs_voronoi <- function(anchor = NULL, window = NULL, features = 3, ...){
       projection <- NA
 
       if(is.null(theWindow)){
-        theWindow = tibble(x = c(min(anchor$obj$x), max(anchor$obj$x), max(anchor$obj$x), min(anchor$obj$x), min(anchor$obj$x)),
-                           y = c(min(anchor$obj$y), min(anchor$obj$y), max(anchor$obj$y), max(anchor$obj$y), min(anchor$obj$y)))
+        theWindow = tibble(x = c(min(anchor$obj$x), max(anchor$obj$x)),
+                           y = c(min(anchor$obj$y), max(anchor$obj$y)))
       }
       tempAnchor <- anchor$obj
       theFeatures = tibble(fid = seq_along(tempAnchor$x), gid = seq_along(tempAnchor$x))

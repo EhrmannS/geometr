@@ -71,8 +71,8 @@ gs_random <- function(type = "point", window = NULL, vertices = NULL, ...){
   }
 
   if(is.null(theWindow)){
-    theWindow = tibble(x = c(0, 1, 1, 0, 0),
-                       y = c(0, 0, 1, 1, 0))
+    theWindow = tibble(x = c(0, 1),
+                       y = c(0, 1))
   }
 
   theFeatures <- tibble(fid = unique(anchor$fid), gid = unique(anchor$fid))
