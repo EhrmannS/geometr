@@ -56,9 +56,7 @@
 geom <- setClass(Class = "geom",
                  slots = c(type = "character",
                            point = "data.frame",
-                           # feature = "list",
                            feature = "data.frame",
-                           # group = "list",
                            group = "data.frame",
                            # extent = "data.frame",
                            # manage extent properly
@@ -77,10 +75,6 @@ setValidity("geom", function(object){
   } else {
     if(!any(object@type %in% c("point", "line", "polygon", "grid"))){
       errors = c(errors, "the geom must either be of type 'point', 'line', 'polygon' or 'grid'.")
-    } else if(object@type == "point"){
-      if(dim(object@point)[1] < 1){
-        errors = c(errors, "a geom of type 'point' must have at least 1 point.")
-      }
     } else if(object@type == "line"){
       if(dim(object@point)[1] < 2){
         errors = c(errors, "a geom of type 'line' must have at least 2 points.")
