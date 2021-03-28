@@ -17,11 +17,7 @@
   assertNames(x = names(input), must.include = c("x", "y"))
   names(window) <- tolower(names(window))
   assertNames(x = names(window), must.include = c("x", "y"))
-  if(dim(window)[1] >= 2){
-    window = as_tibble(data.frame(x = c(min(window$x), max(window$x), max(window$x), min(window$x), min(window$x)),
-                                  y = c(min(window$y), min(window$y), max(window$y), max(window$y), min(window$y))))
-  }
-  assertDataFrame(x = window, nrows = 5)
+  assertDataFrame(x = window, nrows = 2)
 
   if(min(input$x) != min(window$x)){
     window$x[window$x %in% min(window$x)] <- min(input$x)

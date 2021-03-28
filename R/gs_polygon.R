@@ -142,8 +142,8 @@ gs_polygon <- function(anchor = NULL, window = NULL, features = 1, vertices = NU
       } else if(anchor$type == "df"){
 
         if(is.null(theWindow)){
-          theWindow = tibble(x = c(min(anchor$obj$x), max(anchor$obj$x), max(anchor$obj$x), min(anchor$obj$x), min(anchor$obj$x)),
-                             y = c(min(anchor$obj$y), min(anchor$obj$y), max(anchor$obj$y), max(anchor$obj$y), min(anchor$obj$y)))
+          theWindow = tibble(x = c(min(anchor$obj$x), max(anchor$obj$x)),
+                             y = c(min(anchor$obj$y), max(anchor$obj$y)))
         }
         if("fid" %in% names(anchor$obj)){
           tempPoints <- anchor$obj[anchor$obj$fid == i, ]

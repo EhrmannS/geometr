@@ -82,8 +82,8 @@ gs_point <- function(anchor = NULL, window = NULL, vertices = 1, ...){
       theHistory <- list(paste0("object was created as 'point' geom."))
 
       if(is.null(theWindow)){
-        theWindow = tibble(x = c(min(anchor$obj$x), max(anchor$obj$x), max(anchor$obj$x), min(anchor$obj$x), min(anchor$obj$x)),
-                           y = c(min(anchor$obj$y), min(anchor$obj$y), max(anchor$obj$y), max(anchor$obj$y), min(anchor$obj$y)))
+        theWindow = tibble(x = c(min(anchor$obj$x), max(anchor$obj$x)),
+                           y = c(min(anchor$obj$y), max(anchor$obj$y)))
       }
       thePoints <- bind_cols(anchor$obj)
       if(!"gid" %in% names(thePoints)){

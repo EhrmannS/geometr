@@ -61,7 +61,7 @@ setMethod(f = "setWindow",
               yVals <- c(to@ymin, to@ymax)
             } else if(is.data.frame(to)){
               to <- .testWindow(x = to)
-              assertDataFrame(x = to, nrows = 5, min.cols = 2)
+              assertDataFrame(x = to, nrows = 2, min.cols = 2)
               assertNames(names(to), must.include = c("x", "y"))
               xVals <- c(min(to$x), max(to$x))
               yVals <- c(min(to$y), max(to$y))
@@ -73,8 +73,8 @@ setMethod(f = "setWindow",
             } else{
               stop("no suitable window provided.")
             }
-            x@window <- tibble(x = c(rep(xVals, each = 2), xVals[1]),
-                               y = c(yVals, rev(yVals), yVals[1]))
+            x@window <- tibble(x = c(min(xVals), max(xVals)),
+                               y = c(min(yVals), max(yVals)))
             x@history <- c(getHistory(x = x), list(paste0("the window was set to x[", paste(xVals, collapse = " "), "], y[", paste(yVals, collapse = " "), "]")))
             return(x)
           }
