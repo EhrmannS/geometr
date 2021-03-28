@@ -75,7 +75,6 @@ visualise <- function(...,
 
   # check arguments ----
   window <- .testWindow(x = window)
-  assertDataFrame(x = window, nrows = 5, min.cols = 2, null.ok = TRUE)
   assertClass(x = theme, classes = "gtTheme", null.ok = TRUE)
   assertLogical(x = trace, len = 1, any.missing = FALSE)
   assertLogical(x = new, len = 1, any.missing = FALSE)
@@ -188,7 +187,7 @@ visualise <- function(...,
       }
 
       temp <- .makePlot(x = theObject, window = theWindow, theme = theme, ...)
-      theme <- temp$theme
+      theTheme <- temp$theme
       theGrob <- temp$grob
       theLegend <- temp$legend
       theLayout <- temp$layout
@@ -248,10 +247,10 @@ visualise <- function(...,
                          xscale = c(theLayout$scale$xmin, theLayout$scale$xmax),
                          yscale = c(theLayout$scale$ymin, theLayout$scale$ymax))
 
-      boxVP <- viewport(width = unit(1, "npc") - unit(2 * theLayout$margin$x, "native") + unit(theme@box$linewidth, "points"),
-                        height = unit(1, "npc") - unit(2 * theLayout$margin$y, "native") + unit(theme@box$linewidth, "points"),
+      boxVP <- viewport(width = unit(1, "npc") - unit(2 * theLayout$margin$x, "native") + unit(theTheme@box$linewidth, "points"),
+                        height = unit(1, "npc") - unit(2 * theLayout$margin$y, "native") + unit(theTheme@box$linewidth, "points"),
                         name = "box")
-      legBoxVP <- viewport(height = unit(1, "npc") * theme@legend$yRatio,
+      legBoxVP <- viewport(height = unit(1, "npc") * theTheme@legend$yRatio,
                            width = unit(1, "npc"),
                            name = "legend_box")
 
@@ -263,69 +262,69 @@ visualise <- function(...,
 
       # ... the title viewport ----
       # start_time <- Sys.time()
-      if(theme@title$plot){
+      if(theTheme@title$plot){
         pushViewport(titleVP)
         # grid.rect(gp = gpar(col = "blue", fill = NA))
         grid.text(y = unit(1, "npc") - unit(3, "points"),
                   just = "top",
                   label = theName,
-                  gp = gpar(fontsize = theme@title$fontsize,
-                            col = theme@title$colour))
+                  gp = gpar(fontsize = theTheme@title$fontsize,
+                            col = theTheme@title$colour))
         upViewport() # exit titleVP
       }
 
       # ... the yAxis viewport ----
-      if(theme@yAxis$plot){
+      if(theTheme@yAxis$plot){
         pushViewport(yAxisVP)
         # grid.rect(gp = gpar(col = "red", fill = NA))
 
-        if(theme@yAxis$label$plot){
+        if(theTheme@yAxis$label$plot){
           grid.text(x = unit(1, "npc") - unit(5, "points") - unit(theLayout$labels$yAxisTicksW, "points"),
                     just = "right",
-                    label = theme@yAxis$label$title,
-                    rot = theme@yAxis$label$rotation,
+                    label = theTheme@yAxis$label$title,
+                    rot = theTheme@yAxis$label$rotation,
                     name = "y_title",
-                    gp = gpar(fontsize = theme@yAxis$label$fontsize,
-                              col = theme@yAxis$label$colour))
+                    gp = gpar(fontsize = theTheme@yAxis$label$fontsize,
+                              col = theTheme@yAxis$label$colour))
         }
 
-        if(theme@yAxis$ticks$plot){
+        if(theTheme@yAxis$ticks$plot){
           grid.text(x = unit(1, "npc") - unit(2, "points"),
-                    label = as.character(round(theLayout$grid$yMaj, theme@yAxis$ticks$digits)),
+                    label = as.character(round(theLayout$grid$yMaj, theTheme@yAxis$ticks$digits)),
                     just = "right",
                     y = unit(theLayout$grid$yMaj, "native"),
-                    rot = theme@xAxis$ticks$rotation,
+                    rot = theTheme@xAxis$ticks$rotation,
                     name = "y_tick_labels",
-                    gp = gpar(fontsize = theme@yAxis$ticks$fontsize,
-                              col = theme@yAxis$ticks$colour))
+                    gp = gpar(fontsize = theTheme@yAxis$ticks$fontsize,
+                              col = theTheme@yAxis$ticks$colour))
         }
         upViewport() # exit yAxisVP
       }
 
       # ... the xAxis viewport ----
-      if(theme@xAxis$plot){
+      if(theTheme@xAxis$plot){
         pushViewport(xAxisVP)
         # grid.rect(gp = gpar(col = "red", fill = NA))
 
-        if(theme@yAxis$label$plot){
+        if(theTheme@yAxis$label$plot){
           grid.text(y = unit(1, "npc") - unit(3, "points") - unit(theLayout$labels$xAxisTicksH, "points"),
                     just = "top",
-                    label = theme@xAxis$label$title,
-                    rot = theme@xAxis$label$rotation,
+                    label = theTheme@xAxis$label$title,
+                    rot = theTheme@xAxis$label$rotation,
                     name = "x_title",
-                    gp = gpar(fontsize = theme@xAxis$label$fontsize,
-                              col = theme@xAxis$label$colour))
+                    gp = gpar(fontsize = theTheme@xAxis$label$fontsize,
+                              col = theTheme@xAxis$label$colour))
         }
 
-        if(theme@xAxis$ticks$plot){
-          grid.text(label = as.character(round(theLayout$grid$xMaj, theme@yAxis$ticks$digits)),
+        if(theTheme@xAxis$ticks$plot){
+          grid.text(label = as.character(round(theLayout$grid$xMaj, theTheme@yAxis$ticks$digits)),
                     x = unit(theLayout$grid$xMaj, "native"),
                     y = unit(1, "npc") - unit(theLayout$labels$xAxisTicksH, "points"),
                     just = "bottom",
-                    rot = theme@xAxis$ticks$rotation,
+                    rot = theTheme@xAxis$ticks$rotation,
                     name = "x_tick_labels",
-                    gp = gpar(fontsize = theme@xAxis$ticks$fontsize,
-                              col = theme@xAxis$ticks$colour))
+                    gp = gpar(fontsize = theTheme@xAxis$ticks$fontsize,
+                              col = theTheme@xAxis$ticks$colour))
         }
         upViewport() # exit xAxisVP
       }
@@ -334,7 +333,7 @@ visualise <- function(...,
 
       # ... the legend viewport ----
       # start_time <- Sys.time()
-      if(theme@legend$plot){
+      if(theTheme@legend$plot){
         pushViewport(legendVP)
         # grid.rect(gp = gpar(col = "violet", fill = NA))
         pushViewport(legBoxVP)
@@ -353,25 +352,25 @@ visualise <- function(...,
       # start_time <- Sys.time()
       pushViewport(plotVP)
 
-      if(theme@grid$plot){
+      if(theTheme@grid$plot){
         # plot the major grid viewport
         grid.grill(h = unit(theLayout$grid$yMaj, "native"),
                    v = unit(theLayout$grid$xMaj, "native"),
-                   gp = gpar(col = theme@grid$colour,
-                             lwd = theme@grid$linewidth,
-                             lty = theme@grid$linetype))
+                   gp = gpar(col = theTheme@grid$colour,
+                             lwd = theTheme@grid$linewidth,
+                             lty = theTheme@grid$linetype))
 
         # plot the minor grid
-        if(theme@grid$minor & theType != "grid"){
+        if(theTheme@grid$minor & theType != "grid"){
           grid.grill(h = unit(theLayout$grid$yMin, "native"),
                      v = unit(theLayout$grid$xMin, "native"),
-                     gp = gpar(col = theme@grid$colour,
-                               lwd = theme@grid$linewidth/2,
-                               lty = theme@grid$linetype))
+                     gp = gpar(col = theTheme@grid$colour,
+                               lwd = theTheme@grid$linewidth/2,
+                               lty = theTheme@grid$linetype))
         }
       }
 
-      if(theme@box$plot){
+      if(theTheme@box$plot){
         pushViewport(boxVP)
 
         if(theType == "grid"){
@@ -380,8 +379,8 @@ visualise <- function(...,
           grid.draw(theGrob)
         } else {
           if(clip){
-            grid.clip(width = unit(1, "npc") + unit(theme@box$linewidth, "points"),
-                      height = unit(1, "npc") + unit(theme@box$linewidth, "points"))
+            grid.clip(width = unit(1, "npc") + unit(theTheme@box$linewidth, "points"),
+                      height = unit(1, "npc") + unit(theTheme@box$linewidth, "points"))
           }
           grid.draw(theGrob)
         }
