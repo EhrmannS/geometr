@@ -137,8 +137,8 @@ gt_sketch <- function(template = NULL, shape = NULL, features = 1,
       theClicks <- gs_random(type = shape)
       theClicks <- theClicks@point
     }
-    theWindow <- tibble(x = c(0, dims[2], dims[2], 0, 0),
-                        y = c(0, 0, dims[1], dims[1], 0))
+    theWindow <- tibble(x = c(0, dims[2]),
+                        y = c(0, dims[1]))
     tempAnchor <- tibble(x = theClicks$x,
                          y = theClicks$y,
                          fid = i)
