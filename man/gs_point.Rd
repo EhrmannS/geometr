@@ -4,7 +4,7 @@
 \alias{gs_point}
 \title{Create a point \code{geom}}
 \usage{
-gs_point(anchor = NULL, window = NULL, vertices = 1, template = NULL, ...)
+gs_point(anchor = NULL, window = NULL, vertices = 1, ...)
 }
 \arguments{
 \item{anchor}{[\code{geom(1)}|\code{data.frame(1)}]\cr Object to derive the
@@ -16,9 +16,6 @@ from the bounding box of \code{anchor} (minimum and maximum values),
 specify this here.}
 
 \item{vertices}{[\code{integer(1)}]\cr number of vertices.}
-
-\item{template}{[\code{gridded object(1)}]\cr Gridded object that serves as
-template to sketch the tiling.}
 
 \item{...}{[various]\cr graphical parameters to \code{\link{gt_locate}}, in
 case points are sketched; see \code{\link[grid]{gpar}}}
@@ -57,7 +54,7 @@ points <- gs_point(anchor = aGeom)
 visualise(points)
 \donttest{
 # 2. sketch two points by clicking into a template
-points <- gs_point(template = gtRasters$continuous, vertices = 2)
+points <- gs_point(vertices = 2)
 visualise(points, linecol = "green", pointsymbol = 5, new = FALSE)
 }
 }

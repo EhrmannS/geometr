@@ -6,7 +6,6 @@
 \usage{
 visualise(
   ...,
-  layer = NULL,
   window = NULL,
   trace = FALSE,
   new = TRUE,
@@ -16,10 +15,6 @@ visualise(
 }
 \arguments{
 \item{...}{objects to plot and optional graphical parameters.}
-
-\item{layer}{[\code{integerish(.)} | \code{character(.)}]\cr in case the
-objects to plot have several layers, this is the name or index of the
-layer(s) that shall be plotted.}
 
 \item{window}{[\code{data.frame(1)}]\cr two opposing corners of a rectangle
 to which the plot is limited.}
@@ -44,15 +39,19 @@ Returns invisibly an object of class \code{recordedplot}, see
 Visualise raster and geom objects
 }
 \examples{
+# make an empty plot
+visualise()
+visualise(window = getExtent(gtRasters$continuous))
+
 coords <- data.frame(x = c(30, 60, 60, 40),
                      y = c(40, 40, 60, 70),
                      fid = 1)
 (aGeom <- gs_polygon(anchor = coords))
 visualise(aGeom)
 
-window <- data.frame(x = c(0, 80),
-                     y = c(0, 80))
-withWindow <- setWindow(x = aGeom, to = window)
+win <- data.frame(x = c(0, 80),
+                  y = c(0, 80))
+withWindow <- setWindow(x = aGeom, to = win)
 visualise(expanded = withWindow)
 
 (aRaster <-  gtRasters$categorical)

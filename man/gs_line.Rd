@@ -68,8 +68,7 @@ aLine <- gs_line(anchor = aGeom)
 visualise(aLine, linecol = "deeppink")
 \donttest{
 # 2. sketch a line by clicking into a template
-(aLine <- gs_line(template = gtRasters$continuous, vertices = 4))
-getWindow(aLine); getExtent(aLine)
+aLine <- gs_line(template = gtRasters$continuous, vertices = 4)
 visualise(aLine, linecol = "orange", linewidth = 5, new = FALSE)
 }
 }

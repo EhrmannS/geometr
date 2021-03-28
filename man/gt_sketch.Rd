@@ -54,7 +54,7 @@ An invisible \code{geom}.
 Sketch \code{geom}s by clicking into a plot.
 }
 \examples{
-\donttest{
+if(dev.interactive()){
 # sketch a point geometry
 gt_sketch(template = gtRasters$categorical, shape = "point", show = TRUE)
 
