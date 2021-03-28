@@ -66,7 +66,7 @@ gt_locate <- function(samples = 1, panel = NULL, identify = FALSE, snap = FALSE,
       stop("please create a plot with geometr::visualise()")
     }
 
-    panelNames <- objViewports$name[objViewports$vpDepth == objViewports$vpDepth[which(objViewports$name == "geometr")] + 1 & objViewports$name != "1"]
+    panelNames <- objViewports$name[objViewports$vpDepth == unique(objViewports$vpDepth[which(objViewports$name == "geometr")]) + 1 & objViewports$name != "1"]
     panelNames <- panelNames[!duplicated(panelNames)]
   } else{
     stop("please create a plot with geometr::visualise()")
@@ -106,13 +106,13 @@ gt_locate <- function(samples = 1, panel = NULL, identify = FALSE, snap = FALSE,
     snap <- FALSE
   }
   if(isVectorInPlot){
-    vectorVpPath <- grid.grep(paste0(panel, "::theLayout::point|line|polygon"), grobs = FALSE, viewports = TRUE, grep = TRUE)
+    vectorVpPath <- grid.grep(paste0(panel, "::theLayout::point|line|polygon::box"), grobs = FALSE, viewports = TRUE, grep = TRUE)
     seekViewport(vectorVpPath)
   }
 
   extentGrobMeta <- grid.get(gPath("extentGrob"))
-  panelExt <- tibble(x = c(0, as.numeric(extentGrobMeta$width)) + as.numeric(extentGrobMeta$x),
-                     y = c(0, as.numeric(extentGrobMeta$height)) + as.numeric(extentGrobMeta$y))
+  panelExt <- tibble(x = c(as.numeric(extentGrobMeta$x), as.numeric(extentGrobMeta$width)) + as.numeric(extentGrobMeta$x),
+                     y = c(as.numeric(extentGrobMeta$y), as.numeric(extentGrobMeta$height)) + as.numeric(extentGrobMeta$y))
 
   if(snap){
     theGrid <- tibble(x = rep(seq(panelExt$x[1] + 0.5, panelExt$x[2], 1), times = panelExt$y[2]),
