@@ -9,7 +9,7 @@ test_that("locating in a geom works", {
 
   output <- gt_locate()
   expect_data_frame(x = output)
-  expect_names(names(output), identical.to = c("id", "x", "y"))
+  expect_names(names(output), identical.to = c("fid", "x", "y"))
 })
 
 test_that("identifying in a geom works", {
@@ -17,7 +17,7 @@ test_that("identifying in a geom works", {
 
   output <- gt_locate(identify = TRUE)
   expect_data_frame(x = output)
-  expect_names(names(output), identical.to = c("id", "x", "y", "geom"))
+  expect_names(names(output), identical.to = c("fid", "x", "y", "geom"))
 })
 
 test_that("locating in a raster works", {
@@ -25,7 +25,7 @@ test_that("locating in a raster works", {
 
   output <- gt_locate()
   expect_data_frame(x = output)
-  expect_names(names(output), identical.to = c("id", "x", "y"))
+  expect_names(names(output), identical.to = c("fid", "x", "y"))
 })
 
 test_that("identifying in a raster works", {

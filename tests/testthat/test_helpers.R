@@ -23,7 +23,7 @@ test_that(".updateWindow works", {
   aWindow <- data.frame(x = c(-1, 15), y = c(-1, 15))
   output <- .updateWindow(input = gtGeoms$polygon@point,
                           window = aWindow)
-  expect_data_frame(x = output, nrows = 5, ncols = 2)
+  expect_data_frame(x = output, nrows = 2, ncols = 2)
   expect_true(max(gtGeoms$polygon@point$x) == max(output$x))
   expect_true(min(gtGeoms$polygon@point$x) == min(output$x))
   expect_true(max(gtGeoms$polygon@point$y) == max(output$y))

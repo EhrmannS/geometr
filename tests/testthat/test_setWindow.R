@@ -16,7 +16,7 @@ test_that("setWindow for geom based on data.frame", {
   output <- setWindow(input, window)
   expect_class(output, "geom")
   expect_data_frame(getWindow(output))
-  expect_equal(dim(getWindow(output)),  c(5, 2))
+  expect_equal(dim(getWindow(output)),  c(2, 2))
 })
 
 test_that("setWindow for geom based on Extent", {
@@ -31,7 +31,7 @@ test_that("setWindow for geom based on Extent", {
   output <- setWindow(input, window)
   expect_class(output, "geom")
   expect_data_frame(getWindow(output))
-  expect_equal(dim(getWindow(output)),  c(5, 2))
+  expect_equal(dim(getWindow(output)),  c(2, 2))
 })
 
 test_that("setWindow for geom based on bbox", {
@@ -44,7 +44,7 @@ test_that("setWindow for geom based on bbox", {
   output <- setWindow(input, window)
   expect_class(output, "geom")
   expect_data_frame(getWindow(output))
-  expect_equal(dim(getWindow(output)),  c(5, 2))
+  expect_equal(dim(getWindow(output)),  c(2, 2))
 })
 
 test_that("Error if arguments have wrong value", {
