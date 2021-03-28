@@ -64,7 +64,7 @@ visualise <- function(...,
                       theme = gtTheme){
 
   # library(geometr); library(checkmate); library(grid); library(rlang); library(tibble); library(dplyr)
-  # window = NULL; theme = gtTheme; trace = FALSE; new = T; clip = FALSE; plotParams <- list()
+  # window = NULL; theme = gtTheme; trace = FALSE; new = F; clip = FALSE; plotParams <- list()
   # source('/media/se87kuhe/external1/projekte/r-dev/geometr/R/makePlot.R')
   # source('/media/se87kuhe/external1/projekte/r-dev/geometr/R/updateTheme.R')
   # source('/media/se87kuhe/external1/projekte/r-dev/geometr/R/makeGrob.R')
@@ -119,7 +119,7 @@ visualise <- function(...,
     } else {
       tempWindow <- tibble(x = c(0, 1), y = c(0, 1))
     }
-    plotObjects <- list(none = gs_point(window = tempWindow, vertices = 0))
+    plotObjects <- list(sketching = gs_point(window = tempWindow, vertices = 0))
   }
 
   # start_overall <- Sys.time()
@@ -249,6 +249,8 @@ visualise <- function(...,
 
       boxVP <- viewport(width = unit(1, "npc") - unit(2 * theLayout$margin$x, "native") + unit(theTheme@box$linewidth, "points"),
                         height = unit(1, "npc") - unit(2 * theLayout$margin$y, "native") + unit(theTheme@box$linewidth, "points"),
+                        xscale = c(theLayout$scale$xmin, theLayout$scale$xmax),
+                        yscale = c(theLayout$scale$ymin, theLayout$scale$ymax),
                         name = "box")
       legBoxVP <- viewport(height = unit(1, "npc") * theTheme@legend$yRatio,
                            width = unit(1, "npc"),
@@ -370,8 +372,8 @@ visualise <- function(...,
         }
       }
 
+      pushViewport(boxVP)
       if(theTheme@box$plot){
-        pushViewport(boxVP)
 
         if(theType == "grid"){
           grid.clip(width = unit(1, "npc"),
@@ -405,8 +407,13 @@ visualise <- function(...,
       }
       theWindow <- .testWindow(x = tibble(x = c(as.numeric(prev$x), as.numeric(prev$x) + as.numeric(prev$width)),
                                           y = c(as.numeric(prev$y), as.numeric(prev$y) + as.numeric(prev$height))))
-      theme@legend$plot <- FALSE
-      temp <- .makePlot(x = theObject, window = theWindow, theme = theme, ...)
+      theTheme <- theme
+      theTheme@legend$plot <- FALSE
+
+      if(panelNames[i] == "sketching"){
+        theTheme@title$plot <- FALSE
+      }
+      temp <- .makePlot(x = theObject, window = theWindow, theme = theTheme, ...)
       theGrob <- temp$grob
       # end_time <- Sys.time()
       # timings <- bind_rows(timings, tibble(activity = "make object", duration = end_time - start_time))
