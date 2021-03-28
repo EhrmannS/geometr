@@ -12,8 +12,6 @@
 #' @param vertices [\code{integerish(.)}]\cr number of vertices per polygon;
 #'   will be recycled if it does not have as many elements as specified in
 #'   \code{features}.
-#' @param template [\code{gridded object(1)}]\cr Gridded object that serves as
-#'   template to sketch the tiling.
 #' @param regular [\code{logical(1)}]\cr should the polygon be regular, i.e.
 #'   point symmetric (\code{TRUE}) or should the vertices be selected as
 #'   provided by \code{anchor} (\code{FALSE}, default)?
@@ -57,7 +55,7 @@
 #' visualise(aRectangle, new = FALSE)
 #' \donttest{
 #' # 2. sketch a hexagon by clicking into a template
-#' aHexagon <- gs_hexagon(template = gtRasters$continuous)
+#' aHexagon <- gs_hexagon(features = 1)
 #' visualise(aHexagon, linecol = "deeppink", linetype = 2, new = FALSE)
 #' }
 #' @importFrom stats dist
@@ -68,8 +66,8 @@
 #' @importFrom rlang !!
 #' @export
 
-gs_polygon <- function(anchor = NULL, window = NULL, features = 1, vertices = NULL,
-                       template = NULL, regular = FALSE, ...){
+gs_polygon <- function(anchor = NULL, window = NULL, features = 1, vertices = 3,
+                       regular = FALSE, ...){
 
   # check arguments
   anchor <- .testAnchor(x = anchor)
@@ -78,11 +76,10 @@ gs_polygon <- function(anchor = NULL, window = NULL, features = 1, vertices = NU
   assertIntegerish(x = vertices, min.len = 1, lower = 2, any.missing = FALSE, null.ok = TRUE)
   assertLogical(x = regular)
 
-  if(is.null(anchor) & is.null(template)){
-    stop("please provide anchor values.")
-  }
   if(!is.null(anchor)){
+
     if(anchor$type == "geom"){
+
       hist <- paste0("object was cast to 'polygon' geom.")
       if(getType(x = anchor$obj)[1] == "point"){
         features <- length(unique(anchor$obj@feature$gid))
@@ -90,37 +87,36 @@ gs_polygon <- function(anchor = NULL, window = NULL, features = 1, vertices = NU
         features <- length(unique(anchor$obj@feature$fid))
       }
       projection <- getCRS(x = anchor$obj)
+
     } else if(anchor$type == "df"){
+
       hist <- paste0("object was created as 'polygon' geom.")
       if("fid" %in% names(anchor$obj)){
         features <- length(unique(anchor$obj$fid))
       }
       projection <- NA
+
     }
   }
 
-  # sketch the geometry
-  if(!is.null(template)){
-    hist <- paste0("object was sketched as 'polygon' geom.")
+  # recycle vertices to match the number of features
+  if(length(vertices) != features){
+    vertices <- rep(vertices, length.out = features)
+  }
 
-    template <- .testTemplate(x = template, ...)
-    theGeom <- gt_sketch(template = template$obj,
-                         shape = "polygon",
-                         features = features,
-                         vertices = vertices,
-                         regular = regular,
-                         ...)
-  } else{
+  thePoints <- theFeatures <- theGroups <- NULL
+  for(i in 1:features){
 
-    theVertices <- theFeatures <- theGroups <- NULL
-    for(i in 1:features){
+    if(!is.null(anchor)){
 
       if(anchor$type == "geom"){
+
+        hist <- paste0("object was cast to 'polygon' geom.")
+        theHistory <- c(getHistory(x = anchor$obj), list(hist))
 
         if(is.null(theWindow)){
           theWindow <- anchor$obj@window
         }
-
         if(getType(x = anchor$obj)[1] == "point"){
           tempAnchor <- gt_filter(obj = anchor$obj, gid == !!i)
         } else {
@@ -137,9 +133,10 @@ gs_polygon <- function(anchor = NULL, window = NULL, features = 1, vertices = NU
         if(dim(tempAnchor@point)[1] < 3){
           stop(paste0("a polygon geom must have at least 3 points per 'fid'."))
         }
-        openingAngle <- atan((tempPoints$x[1] - tempPoints$x[2]) / (tempPoints$y[1] - tempPoints$y[2])) * 180 / pi
 
       } else if(anchor$type == "df"){
+
+        theHistory <- list(paste0("object was created as 'polygon' geom."))
 
         if(is.null(theWindow)){
           theWindow = tibble(x = c(min(anchor$obj$x), max(anchor$obj$x)),
@@ -151,42 +148,79 @@ gs_polygon <- function(anchor = NULL, window = NULL, features = 1, vertices = NU
           tempPoints <- anchor$obj
           tempPoints <- bind_cols(tempPoints, fid = rep(i, length.out = length(anchor$obj$x)))
         }
-        openingAngle <- atan((tempPoints$x[1] - tempPoints$x[2]) / (tempPoints$y[1] - tempPoints$y[2])) * 180 / pi
-        tempFeatures <- tibble(fid = i, gid = i)
-        tempGroups <- tibble(gid = i)
+        tempFeatures <- tibble(fid = i, gid = 1)
+        tempGroups <- tibble(gid = 1)
 
       }
 
-      # build a regular geometry
+    } else {
+
       if(regular){
-        # trigonometry
-        angle <- 360/vertices[i]
-        angles <- seq(from = 90, to = 360-angle+90, by = angle) - openingAngle
-
-        radius <- dist(tempPoints[c(1:2),])
-        cx <- tempPoints$x[1] + radius*cos(.rad(angles))
-        cy <- tempPoints$y[1] + radius*sin(.rad(angles))
-        theNodes <- tibble(x = cx, y = cy, fid = i)
-        theWindow <- .updateWindow(input = theNodes, window = theWindow)
-      } else{
-        theNodes <- tempPoints[c("x", "y", "fid")]
+        clicks <- 2
+      } else {
+        clicks <- vertices[i]
       }
 
-      theNodes <- .updateVertices(input = theNodes)
-      theVertices <- bind_rows(theVertices, theNodes)
-      theFeatures <- bind_rows(theFeatures, tempFeatures)
-      theGroups <- bind_rows(theGroups, tempGroups)
+      theHistory <- list(paste0("object was created as 'polygon' geom."))
+
+      # first, ensure that a plot is available, otherwise make one
+      if(is.null(dev.list())){
+        if(is.null(theWindow)){
+          theWindow <- tibble(x = c(0, 1), y = c(0, 1))
+        }
+        visualise(window = theWindow)
+      } else {
+        extentGrobMeta <- grid.get(gPath("extentGrob"))
+        theWindow <- tibble(x = c(0, as.numeric(extentGrobMeta$width)) + as.numeric(extentGrobMeta$x),
+                            y = c(0, as.numeric(extentGrobMeta$height)) + as.numeric(extentGrobMeta$y))
+      }
+      message(paste0("please click ", clicks, " vertices."))
+      tempAnchor <- gt_locate(samples = clicks)
+      tempAnchor <- .testPoints(x = tempAnchor)
+      if(is.null(tempAnchor)){
+        tempAnchor <- gs_random(type = "polygon", vertices = vertices)
+        tempAnchor <- tempAnchor@point
+      }
+
+      tempPoints <- tibble(fid = i, x = tempAnchor$x, y = tempAnchor$y)
+      tempFeatures = tibble(fid = i, gid = 1)
+      tempGroups = tibble(gid = 1)
+
+      projection <- NA
+
     }
 
-    theGeom <- new(Class = "geom",
-                   type = "polygon",
-                   point = theVertices,
-                   feature = theFeatures,
-                   group = theGroups,
-                   window = theWindow,
-                   crs = as.character(projection),
-                   history = c(getHistory(x = anchor$obj), list(hist)))
+    openingAngle <- atan((tempPoints$x[1] - tempPoints$x[2]) / (tempPoints$y[1] - tempPoints$y[2])) * 180 / pi
+
+    # build a regular geometry
+    if(regular){
+      # trigonometry
+      angle <- 360/vertices[i]
+      angles <- seq(from = 90, to = 360-angle+90, by = angle) - openingAngle
+
+      radius <- dist(tempPoints[c(1:2),])
+      cx <- tempPoints$x[1] + radius*cos(.rad(angles))
+      cy <- tempPoints$y[1] + radius*sin(.rad(angles))
+      theNodes <- tibble(x = cx, y = cy, fid = i)
+      # theWindow <- .updateWindow(input = theNodes, window = theWindow)
+    } else{
+      theNodes <- tempPoints[c("x", "y", "fid")]
+    }
+
+    theNodes <- .updateVertices(input = theNodes)
+    thePoints <- bind_rows(thePoints, theNodes)
+    theFeatures <- bind_rows(theFeatures, tempFeatures)
+    theGroups <- bind_rows(theGroups, tempGroups)
   }
+
+  theGeom <- new(Class = "geom",
+                 type = "polygon",
+                 point = thePoints,
+                 feature = theFeatures,
+                 group = theGroups,
+                 window = theWindow,
+                 crs = as.character(projection),
+                 history = theHistory)
 
   invisible(theGeom)
 }
@@ -195,10 +229,9 @@ gs_polygon <- function(anchor = NULL, window = NULL, features = 1, vertices = NU
 #'   \code{regular = TRUE}.
 #' @export
 
-gs_triangle <- function(anchor = NULL, window = NULL, template = NULL,
-                        features = 1, ...){
+gs_triangle <- function(anchor = NULL, window = NULL, features = 1, ...){
 
-  theGeom <- gs_polygon(anchor = anchor, window = window, template = template, features = features, vertices = 3, regular = TRUE, ...)
+  theGeom <- gs_polygon(anchor = anchor, window = window, features = features, vertices = 3, regular = TRUE, ...)
 
   invisible(theGeom)
 }
@@ -207,10 +240,9 @@ gs_triangle <- function(anchor = NULL, window = NULL, template = NULL,
 #'   \code{regular = TRUE}.
 #' @export
 
-gs_square <- function(anchor = NULL, window = NULL, template = NULL,
-                      features = 1, ...){
+gs_square <- function(anchor = NULL, window = NULL, features = 1, ...){
 
-  theGeom <- gs_polygon(anchor = anchor, window = window, template = template, features = features, vertices = 4, regular = TRUE, ...)
+  theGeom <- gs_polygon(anchor = anchor, window = window, features = features, vertices = 4, regular = TRUE, ...)
 
   invisible(theGeom)
 }
@@ -220,10 +252,9 @@ gs_square <- function(anchor = NULL, window = NULL, template = NULL,
 #'   the two given opposing corners.
 #' @export
 
-gs_rectangle <- function(anchor = NULL, window = NULL, template = NULL,
-                         features = 1, ...){
+gs_rectangle <- function(anchor = NULL, window = NULL, features = 1, ...){
 
-  theGeom <- gs_polygon(anchor = anchor, window = window, template = template, features = features, vertices = 2, ...)
+  theGeom <- gs_polygon(anchor = anchor, window = window, features = features, vertices = 2, ...)
 
   outTable <- NULL
   for(i in seq_along(theGeom@feature$fid)){
@@ -244,10 +275,9 @@ gs_rectangle <- function(anchor = NULL, window = NULL, template = NULL,
 #'   \code{regular = TRUE}.
 #' @export
 
-gs_hexagon <- function(anchor = NULL, window = NULL, template = NULL,
-                       features = 1, ...){
+gs_hexagon <- function(anchor = NULL, window = NULL, features = 1, ...){
 
-  theGeom <- gs_polygon(anchor = anchor, window = window, template = template, features = features, vertices = 6, regular = TRUE, ...)
+  theGeom <- gs_polygon(anchor = anchor, window = window, features = features, vertices = 6, regular = TRUE, ...)
 
   invisible(theGeom)
 }
