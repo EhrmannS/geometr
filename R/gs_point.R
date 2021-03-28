@@ -9,8 +9,6 @@
 #'   from the bounding box of \code{anchor} (minimum and maximum values),
 #'   specify this here.
 #' @param vertices [\code{integer(1)}]\cr number of vertices.
-#' @param template [\code{gridded object(1)}]\cr Gridded object that serves as
-#'   template to sketch the tiling.
 #' @param ... [various]\cr graphical parameters to \code{\link{gt_locate}}, in
 #'   case points are sketched; see \code{\link[grid]{gpar}}
 #' @return An invisible \code{geom}.
@@ -40,7 +38,7 @@
 #' visualise(points)
 #' \donttest{
 #' # 2. sketch two points by clicking into a template
-#' points <- gs_point(template = gtRasters$continuous, vertices = 2)
+#' points <- gs_point(vertices = 2)
 #' visualise(points, linecol = "green", pointsymbol = 5, new = FALSE)
 #' }
 #' @importFrom checkmate testDataFrame assertNames testNull assert testClass
@@ -50,80 +48,110 @@
 #' @importFrom methods new
 #' @export
 
-gs_point <- function(anchor = NULL, window = NULL, vertices = 1, template = NULL,
-                     ...){
+gs_point <- function(anchor = NULL, window = NULL, vertices = 1, ...){
 
   # check arguments
   anchor <- .testAnchor(x = anchor)
   theWindow <- .testWindow(x = window)
-  assertIntegerish(vertices, min.len = 1, lower = 1, any.missing = FALSE)
+  assertIntegerish(vertices, min.len = 1, lower = 0, any.missing = FALSE)
 
-  # sketch the geometry
-  if(!is.null(template)){
-    hist <- paste0("object was sketched as 'point' geom.")
-
-    template <- .testTemplate(x = template, ...)
-    theGeom <- gt_sketch(template = template$obj,
-                         shape = "point",
-                         features = vertices,
-                         ...)
-
-  } else {
+  if(!is.null(anchor)){
 
     if(anchor$type == "geom"){
+
       hist <- paste0("object was cast to 'point' geom.")
+      theHistory <- c(getHistory(x = anchor$obj), list(hist))
 
       if(is.null(theWindow)){
         theWindow <- anchor$obj@window
       }
-      theVertices <- getPoints(anchor$obj)
+      thePoints <- getPoints(anchor$obj)
       theFeatures <- getFeatures(anchor$obj)
       theGroups <- getGroups(anchor$obj)
       projection <- getCRS(x = anchor$obj)
 
-      dups <- duplicated(theVertices)
+      dups <- duplicated(thePoints)
 
-      theFeatures <- left_join(dplyr::select(theVertices, -x, -y), theFeatures, by = "fid")[!dups,]
+      theFeatures <- left_join(dplyr::select(thePoints, -x, -y), theFeatures, by = "fid")[!dups,]
       theFeatures$fid <- seq_along(theFeatures$fid)
-      theVertices <- theVertices[!dups,]
-      theVertices$fid <- seq_along(theVertices$x)
+      thePoints <- thePoints[!dups,]
+      thePoints$fid <- seq_along(thePoints$x)
 
-      # theFeatures <- list(geometry = theFeatures)
-      # theGroups <- list(geometry = theGroups)
     } else if(anchor$type == "df"){
-      hist <- paste0("object was created as 'point' geom.")
+
+      theHistory <- list(paste0("object was created as 'point' geom."))
 
       if(is.null(theWindow)){
         theWindow = tibble(x = c(min(anchor$obj$x), max(anchor$obj$x), max(anchor$obj$x), min(anchor$obj$x), min(anchor$obj$x)),
                            y = c(min(anchor$obj$y), min(anchor$obj$y), max(anchor$obj$y), max(anchor$obj$y), min(anchor$obj$y)))
       }
-      theVertices <- bind_cols(anchor$obj)
-      if(!"gid" %in% names(theVertices)){
-        theVertices$fid <- seq_along(theVertices$x)
-        vertices <- dim(theVertices)[1]
+      thePoints <- bind_cols(anchor$obj)
+      if(!"gid" %in% names(thePoints)){
+        thePoints$fid <- seq_along(thePoints$x)
+        vertices <- dim(thePoints)[1]
         theFeatures <- tibble(fid = 1:vertices, gid = 1)
         theGroups <- tibble(gid = 1)
       } else {
-        theVertices$fid <- seq_along(theVertices$x)
-        vertices <- dim(theVertices)[1]
-        theFeatures <- tibble(fid = 1:vertices, gid = theVertices$gid)
-        theGroups <- tibble(gid = unique(theVertices$gid))
+        thePoints$fid <- seq_along(thePoints$x)
+        vertices <- dim(thePoints)[1]
+        theFeatures <- tibble(fid = 1:vertices, gid = thePoints$gid)
+        theGroups <- tibble(gid = unique(thePoints$gid))
       }
-      # theFeatures <- list(geometry = theFeatures)
-      # theGroups <- list(geometry = theGroups)
       projection <- NA
 
     }
 
-    theGeom <- new(Class = "geom",
-                   type = "point",
-                   point = theVertices,
-                   feature = theFeatures,
-                   group = theGroups,
-                   window = theWindow,
-                   crs = as.character(projection),
-                   history = c(getHistory(x = anchor$obj), list(hist)))
+  } else {
+
+    theHistory <- list(paste0("object was created as 'point' geom."))
+
+    if(vertices != 0){
+
+      # first, ensure that a plot is available, otherwise make one
+      if(is.null(dev.list())){
+        if(is.null(theWindow)){
+          theWindow <- tibble(x = c(0, 1), y = c(0, 1))
+        }
+        visualise(window = theWindow)
+      } else {
+        extentGrobMeta <- grid.get(gPath("extentGrob"))
+        theWindow <- tibble(x = c(0, as.numeric(extentGrobMeta$width)) + as.numeric(extentGrobMeta$x),
+                            y = c(0, as.numeric(extentGrobMeta$height)) + as.numeric(extentGrobMeta$y))
+      }
+      message(paste0("please click ", vertices, " vertices."))
+      tempAnchor <- gt_locate(samples = vertices)
+      tempAnchor <- .testPoints(x = tempAnchor)
+      if(is.null(tempAnchor)){
+        tempAnchor <- gs_random(type = "point", vertices = vertices)
+        tempAnchor <- tempAnchor@point
+      }
+
+      thePoints <- tibble(fid = seq_along(tempAnchor$fid), x = tempAnchor$x, y = tempAnchor$y)
+      theFeatures = tibble(fid = thePoints$fid, gid = 1)
+      theGroups = tibble(gid = 1)
+
+    } else {
+
+      if(is.null(theWindow)){
+        theWindow <- tibble(x = c(0, 1), y = c(0, 1))
+      }
+      thePoints <- tibble(fid = integer(), x = numeric(), y = numeric())
+      theFeatures <- tibble(fid = integer(), gid = integer())
+      theGroups <- tibble(gid = integer())
+    }
+
+    projection <- NA
+
   }
+
+  theGeom <- new(Class = "geom",
+                 type = "point",
+                 point = thePoints,
+                 feature = theFeatures,
+                 group = theGroups,
+                 window = theWindow,
+                 crs = as.character(projection),
+                 history = theHistory)
 
   invisible(theGeom)
 }
