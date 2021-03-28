@@ -27,7 +27,7 @@
 #' @return An invisible \code{geom}.
 #' @family geometry tools
 #' @examples
-#' \donttest{
+#' if(dev.interactive()){
 #' # sketch a point geometry
 #' gt_sketch(template = gtRasters$categorical, shape = "point", show = TRUE)
 #'

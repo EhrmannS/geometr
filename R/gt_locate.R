@@ -23,18 +23,21 @@
 #'   shown in the plot.
 #' @family geometry tools
 #' @examples
-#' \donttest{
-#' # locate coordinates with geoms
-#' visualise(geom = gtGeoms$polygon)
-#' gt_locate(samples = 2)
+#' if(dev.interactive()){
 #'
-#' # locate or identify values with rasters
-#' visualise(raster = gtRasters$continuous)
-#' gt_locate(identify = TRUE, snap = TRUE)
+#'   # locate coordinates with geoms
+#'   visualise(geom = gtGeoms$polygon)
+#'   gt_locate(samples = 2)
 #'
-#' # with several panels, specify a target
-#' visualise(gtRasters)
-#' gt_locate(samples = 4, panel = "categorical", snap = TRUE, identify = TRUE)
+#'   # locate or identify values with rasters
+#'   visualise(raster = gtRasters$continuous)
+#'   gt_locate(identify = TRUE, snap = TRUE)
+#'
+#'   # with several panels, specify a target
+#'   visualise(gtRasters)
+#'   gt_locate(samples = 4, panel = "categorical",
+#'             snap = TRUE, identify = TRUE)
+#'
 #' }
 #' @importFrom checkmate assertIntegerish assertCharacter assertLogical
 #' @importFrom grDevices dev.list
@@ -144,7 +147,7 @@ gt_locate <- function(samples = 1, panel = NULL, identify = FALSE, snap = FALSE,
                        row = ceiling(values[2]))
     }
 
-    temp <- tibble(id = i, x = values[1], y = values[2])
+    temp <- tibble(fid = i, x = values[1], y = values[2])
 
     if(raw){
       temp <- bind_cols(temp, matPos)
