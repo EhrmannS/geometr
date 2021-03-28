@@ -133,6 +133,10 @@ gt_sketch <- function(template = NULL, shape = NULL, features = 1,
       visualise(template$obj)
     }
     theClicks <- gt_locate(samples = clicks, panel = tempName, show = show)
+    if(all(is.na(theClicks$x)) & all(is.na(theClicks$y)) | !all(is.finite(theClicks$x)) & !all(is.finite(theClicks$x))){
+      theClicks <- gs_random(type = shape)
+      theClicks <- theClicks@point
+    }
     theWindow <- tibble(x = c(0, dims[2], dims[2], 0, 0),
                         y = c(0, 0, dims[1], dims[1], 0))
     tempAnchor <- tibble(x = theClicks$x,
@@ -170,6 +174,8 @@ gt_sketch <- function(template = NULL, shape = NULL, features = 1,
     theFeatures <- bind_rows(theFeatures, tempFeatures)
     theGroups <- bind_rows(theGroups, tempGroups)
   }
+
+
 
   # make new geom
   theGeom <- new(Class = "geom",
