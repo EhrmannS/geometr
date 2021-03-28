@@ -18,10 +18,12 @@
 
 \item{...}{additional arguments.}
 
-\item{group}{[\code{logical(1)}]\cr should the attributes of MULTI* features
-be grouped, i.e., should the unique values per MULTI* feature be assigned
-into the groups table (\code{TRUE}), or should they be kept as duplicated
-per-feature attributes (\code{FALSE}, default)?}
+\item{group}{[\code{logical(1)}]\cr should the values of a Raster* or the
+attributes of MULTI* features be grouped, i.e., should the unique values be
+assigned into the groups table (\code{TRUE})? The default behaviour for
+Raster* would be not to assign values into the group attribute table if no
+RAT is available and for MULIT* features it would be to keep the attributes
+as duplicated per-feature attributes (\code{FALSE})?}
 
 \item{stack}{[\code{logical(1)}]\cr should the layers of gridded objects be
 stacked, i.e., should several layers be stored as columns in the attribute
