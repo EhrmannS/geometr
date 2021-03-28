@@ -10,13 +10,13 @@
 
 .makeLegend <- function(x, plotParams, theme){
 
-  legends <- list()
   if(theme@legend$plot){
 
     if(!theme@scale$param %in% names(plotParams) & !is.na(theme@scale$param)){
       plotParams <- setNames(list(theme@scale$to), theme@scale$param)
     }
 
+    legends <- list()
     prevX <- unit(0, "points")
     for(i in seq_along(plotParams)){
 
