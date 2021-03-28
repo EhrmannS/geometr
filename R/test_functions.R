@@ -68,6 +68,23 @@
 
 }
 
+#' Test points to not contain NA
+#'
+#' @param x [\code{data.frame}]\cr the points to be tested.
+#' @param ... [\code{.}]\cr additional arguments.
+
+.testPoints <- function(x, ...){
+
+  assertNames(names(x), must.include = c("x", "y"), .var.name = "points->names(x)")
+
+  if(all(is.na(x$x)) | all(is.na(x$y))){
+    return(NULL)
+  } else {
+    return(x)
+  }
+
+}
+
 #' Test template for consistency
 #'
 #' @param x [\code{RasterLayer | matrix}]\cr the object to be tested for
