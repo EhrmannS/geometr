@@ -56,14 +56,11 @@ When transforming a simple feature to a geom, all MULTI* features
   \code{group = TRUE}.
 
   When transforming a Raster* (or possibly other gridded classes) with
-  several layers to a geom, the layers are by default organised into columns
-  of the attribute table of features of the same geom. However, when the
-  layers contain fundamentally different data, this may techincally be
-  possible, but would not make sense. "Fundamentally different data" means
-  here, that the values of the layers are associated to different groups, so
-  that the geom would require more than one attribute table of groups. To
-  deal with this, layers can be assigned into separate geoms by setting
-  \code{stack = FALSE}.
+  several layers to a geom, the layers are by default organised into a list
+  with a layer per list item. However, when several layers contain
+  fundamentally the same data (i.e., values that are associated to the same
+  groups), layers could be stacked \code{stack = TRUE}, because they share
+  the same group attribute table.
 }
 \examples{
 gc_geom(input = gtSF$polygon)

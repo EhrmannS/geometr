@@ -17,9 +17,7 @@ an object of class \code{Raster*}
 Transform a spatial object to class \code{Raster*}
 }
 \examples{
-rasGeom <- gc_geom(input = gtRasters$categorical)
-
-gc_raster(input = rasGeom)
+gc_raster(input = gtGeoms$grid$categorical)
 }
 \seealso{
 Other spatial classes: 

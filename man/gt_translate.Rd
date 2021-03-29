@@ -48,7 +48,6 @@ Other geometry tools:
 \code{\link{gt_reflect}()},
 \code{\link{gt_rotate}()},
 \code{\link{gt_scale}()},
-\code{\link{gt_sketch}()},
 \code{\link{gt_skew}()},
 \code{\link{gt_stretch}()}
 }

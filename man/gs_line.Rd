@@ -4,14 +4,7 @@
 \alias{gs_line}
 \title{Create a line \code{geom}}
 \usage{
-gs_line(
-  anchor = NULL,
-  window = NULL,
-  features = 1,
-  vertices = NULL,
-  template = NULL,
-  ...
-)
+gs_line(anchor = NULL, window = NULL, features = 1, vertices = 2, ...)
 }
 \arguments{
 \item{anchor}{[\code{geom(1)}|\code{data.frame(1)}]\cr Object to derive the
@@ -28,25 +21,22 @@ specify this here.}
 be recycled if it does not have as many elements as specified in
 \code{features}.}
 
-\item{template}{[\code{gridded object(1)}]\cr Gridded object that serves as
-template to sketch the tiling.}
-
 \item{...}{[various]\cr graphical parameters to \code{\link{gt_locate}}, in
 case points are sketched; see \code{\link[grid]{gpar}}}
 }
 \value{
-An invisible \code{geom}.
+A \code{geom}.
 }
 \description{
 Create a line geometry (of class \code{\link{geom}}) either by specifying
 anchor values or by sketching it.
 }
 \details{
-The arguments \code{anchor} and \code{template} indicate how the line
-  is created: \itemize{ \item if \code{anchor} is set, the line is created
-  parametrically from the given objects' points, \item if an object is set in
-  \code{template}, this is used to create the \code{geom} interactively, by
-  clicking into the plot.}
+The argument \code{anchor} indicates how the geom is created:
+  \itemize{ \item if \code{anchor} is set, the geom is created parametrically
+  from the points given in \code{anchor}, \item if it is not set either
+  \code{window} or a default window between 0 and 1 is opened to sketch the
+  geom.}
 }
 \examples{
 # 1. create a line programmatically
@@ -66,10 +56,11 @@ visualise(aLine, linecol = "green")
 aGeom <- setWindow(x = aGeom, to = window)
 aLine <- gs_line(anchor = aGeom)
 visualise(aLine, linecol = "deeppink")
-\donttest{
-# 2. sketch a line by clicking into a template
-aLine <- gs_line(template = gtRasters$continuous, vertices = 4)
-visualise(aLine, linecol = "orange", linewidth = 5, new = FALSE)
+
+# 2. sketch a line
+if(dev.interactive()){
+  aLine <- gs_line(vertices = 4)
+  visualise(aLine, linecol = "orange", linewidth = 5, new = FALSE)
 }
 }
 \seealso{

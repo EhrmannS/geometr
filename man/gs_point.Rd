@@ -21,18 +21,18 @@ specify this here.}
 case points are sketched; see \code{\link[grid]{gpar}}}
 }
 \value{
-An invisible \code{geom}.
+A \code{geom}.
 }
 \description{
 Create a point geometry (of class \code{\link{geom}}) either by specifying
 anchor values or by sketching it.
 }
 \details{
-The arguments \code{anchor} and \code{template} indicate how the line
-  is created: \itemize{ \item if \code{anchor} is set, the line is created
-  parametrically from the given objects' points, \item if an object is set in
-  \code{template}, this is used to create the \code{geom} interactively, by
-  clicking into the plot.}
+The argument \code{anchor} indicates how the geom is created:
+  \itemize{ \item if \code{anchor} is set, the geom is created parametrically
+  from the points given in \code{anchor}, \item if it is not set either
+  \code{window} or a default window between 0 and 1 is opened to sketch the
+  geom.}
 }
 \examples{
 # 1. create points programmatically
@@ -52,10 +52,11 @@ visualise(points, linecol = "green")
 aGeom <- setWindow(x = aGeom, to = window)
 points <- gs_point(anchor = aGeom)
 visualise(points)
-\donttest{
-# 2. sketch two points by clicking into a template
-points <- gs_point(vertices = 2)
-visualise(points, linecol = "green", pointsymbol = 5, new = FALSE)
+
+# 2. sketch two points
+if(dev.interactive()){
+  points <- gs_point(vertices = 2)
+  visualise(points, linecol = "green", pointsymbol = 5, new = FALSE)
 }
 }
 \seealso{

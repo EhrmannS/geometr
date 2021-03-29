@@ -21,7 +21,7 @@ specify this here.}
 case the tiling is sketched; see \code{\link{gpar}}.}
 }
 \value{
-An invisible \code{geom}.
+A \code{geom}.
 }
 \description{
 Create a voronoi tiling \code{geom}
@@ -37,10 +37,11 @@ visualise(voronoi = aGeom, linecol = "deeppink")
 
 tiles <- gs_voronoi(anchor = aGeom)
 visualise(tiles, new = FALSE)
-\donttest{
-# 2. sketch a voronoi polygon by clicking into a template
-tiles <- gs_voronoi()
-visualise(tiles, new = FALSE)
+
+# 2. sketch a voronoi polygon
+if(dev.interactive()){
+  tiles <- gs_voronoi()
+  visualise(tiles, new = FALSE)
 }
 }
 \seealso{

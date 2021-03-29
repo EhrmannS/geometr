@@ -4,13 +4,7 @@
 \alias{gs_tiles}
 \title{Create a regular tiling \code{geom}}
 \usage{
-gs_tiles(
-  anchor = NULL,
-  width = NULL,
-  pattern = "squared",
-  centroids = FALSE,
-  ...
-)
+gs_tiles(anchor = NULL, width = NULL, pattern = "squared", centroids = FALSE)
 }
 \arguments{
 \item{anchor}{[\code{geom(1)}|\code{data.frame(1)}]\cr Object to derive the
@@ -26,11 +20,9 @@ options are \code{"squared"} (default) or \code{"hexagonal"}.}
 \item{centroids}{[\code{logical(1)}]\cr should the centroids of the tiling be
 returned (\code{TRUE}) or should the tiling be returned (\code{FALSE},
 default)?}
-
-\item{...}{[various]\cr additional arguments; see Details.}
 }
 \value{
-An invisible \code{geom}.
+A \code{geom}.
 }
 \description{
 Create a regular tiling polygon geometry (of class \code{geom}) for the
@@ -40,14 +32,8 @@ extent of an anchor value.
 When deriving a regular tiling for a prescribed window, there is
   only a limited set of legal combinations of cells in x and y dimension. For
   instance, a window of 100 by 100 can't comprise 10 by 5 squares of
-  side-length 10, because then the y-dimension wouldn't be fully covered. The
-  same is true for hexagonal and triangular tilings. As all tilings are
-  regular, the measurement of one dimension is sufficient to specify the
-  dimensions of tiles, which is \code{width}.
-
-  Possible additional arguments are: \itemize{ \item verbose = TRUE/FALSE
-  \item graphical parameters to \code{\link{gt_locate}}, in case points are
-  sketched; see \code{\link{gpar}}}
+  side-length/width 10, because then the y-dimension wouldn't be fully covered. The
+  same is true for hexagonal and triangular tilings.
 }
 \examples{
 # create a squared tiling

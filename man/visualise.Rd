@@ -2,7 +2,7 @@
 % Please edit documentation in R/visualise.R
 \name{visualise}
 \alias{visualise}
-\title{Visualise raster and geom objects}
+\title{Visualise geometric objects}
 \usage{
 visualise(
   ...,
@@ -19,14 +19,14 @@ visualise(
 \item{window}{[\code{data.frame(1)}]\cr two opposing corners of a rectangle
 to which the plot is limited.}
 
-\item{trace}{[\code{logical(1)}]\cr Print the raster object's history (i.e.
-the process according to which it has been created) (\code{TRUE}), or
-simply plot the object (\code{FALSE}, default).}
+\item{trace}{[\code{logical(1)}]\cr Print the provenance information of the
+geometric object (if available) (\code{TRUE}), or simply plot the object
+(\code{FALSE}, default).}
 
 \item{new}{[\code{logical(1)}]\cr force a new plot (\code{TRUE}, default).}
 
 \item{clip}{[\code{logical(1)}]\cr clip the plot by the plot box
-(\code{TRUE}, default), or plot all of the objects.}
+(\code{TRUE}, default), or plot also objects that go beyond the plot box.}
 
 \item{theme}{[\code{list(7)}]\cr the theme from which to take graphical
 parameters; see \code{\link{setTheme}} for details.}
@@ -36,7 +36,7 @@ Returns invisibly an object of class \code{recordedplot}, see
   \code{\link{recordPlot}} for details (and warnings).
 }
 \description{
-Visualise raster and geom objects
+Visualise geometric objects
 }
 \examples{
 # make an empty plot

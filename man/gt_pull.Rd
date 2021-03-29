@@ -12,7 +12,7 @@ gt_pull(obj, var)
 \item{var}{[\code{character(1)}]\cr name of the variable to pull.}
 }
 \value{
-unique values of the column specified in \code{var}.
+vector of the column specified in \code{var}.
 }
 \description{
 This function allows to extract a specific column from any geometric object
@@ -44,7 +44,6 @@ Other geometry tools:
 \code{\link{gt_reflect}()},
 \code{\link{gt_rotate}()},
 \code{\link{gt_scale}()},
-\code{\link{gt_sketch}()},
 \code{\link{gt_skew}()},
 \code{\link{gt_stretch}()},
 \code{\link{gt_translate}()}

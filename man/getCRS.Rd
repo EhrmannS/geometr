@@ -31,9 +31,9 @@ Get the coordinate reference system of a spatial object.
 \examples{
 getCRS(x = gtGeoms$grid$continuous)
 
-getCRS(x = gtSP$SpatialLines)
-
-getCRS(x = gtSF$multipoint)
+library(sf)
+nc_sf <- st_read(system.file("shape/nc.shp", package="sf"), quiet = TRUE)
+getCRS(nc_sf)
 
 getCRS(x = gtRasters$categorical)
 }
