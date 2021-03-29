@@ -38,7 +38,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">geometr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.7</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.8</span>
       </span>
     </div>
 
@@ -83,7 +83,7 @@
       <h1 data-toc-skip>geometr - An overview</h1>
                         <h4 class="author">Steffen Ehrmann</h4>
             
-            <h4 class="date">2021-03-27</h4>
+            <h4 class="date">2021-03-29</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/EhrmannS/geometr/blob/master/vignettes/geometr.Rmd"><code>vignettes/geometr.Rmd</code></a></small>
       <div class="hidden name"><code>geometr.Rmd</code></div>
@@ -265,7 +265,7 @@
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/object.size.html">object.size</a></span><span class="op">(</span><span class="va">gtRasters</span><span class="op">$</span><span class="va">categorical</span><span class="op">)</span>
 <span class="co">#&gt; 30608 bytes</span>
 <span class="fu"><a href="https://rdrr.io/r/utils/object.size.html">object.size</a></span><span class="op">(</span><span class="va">gtGeoms</span><span class="op">$</span><span class="va">grid</span><span class="op">$</span><span class="va">categorical</span><span class="op">)</span>
-<span class="co">#&gt; 12584 bytes</span>
+<span class="co">#&gt; 12520 bytes</span>
 
 <span class="fu"><a href="../reference/visualise.html">visualise</a></span><span class="op">(</span><span class="va">gtRasters</span><span class="op">$</span><span class="va">categorical</span>, <span class="va">gtGeoms</span><span class="op">$</span><span class="va">grid</span><span class="op">$</span><span class="va">categorical</span><span class="op">)</span></code></pre></div>
 <p><img src="geometr_files/figure-html/unnamed-chunk-6-1.png" width="700"></p>
@@ -310,7 +310,7 @@
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/getGroups.html">getGroups</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">gtGeoms</span><span class="op">$</span><span class="va">grid</span><span class="op">$</span><span class="va">categorical</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 9 x 2</span>
-<span class="co">#&gt;   value cover            </span>
+<span class="co">#&gt;     gid cover            </span>
 <span class="co">#&gt;   &lt;int&gt; &lt;fct&gt;            </span>
 <span class="co">#&gt; 1     1 lake             </span>
 <span class="co">#&gt; 2    11 sealed           </span>

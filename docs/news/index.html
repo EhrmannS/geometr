@@ -79,7 +79,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">geometr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.7</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.8</span>
       </span>
     </div>
 
@@ -125,6 +125,20 @@
       <small>Source: <a href='https://github.com/EhrmannS/geometr/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
     </div>
 
+    <div id="geometr-028" class="section level1">
+<h1 class="page-header" data-toc-text="0.2.8">
+<a href="#geometr-028" class="anchor"></a>geometr 0.2.8<small> Unreleased </small>
+</h1>
+<ul>
+<li>
+<code>gs_point</code> now allows to create an empty geom that contains only “window” information.</li>
+<li>
+<code>visualise</code> can now plot empty geoms, making use of their “window” information, to create an empty surface for sketching.</li>
+<li>the option to use a <code>template</code> has been removed from all <code>gs_*</code> functions. The new workflow to sketch geoms is now either via an already open plot, or via a sketching surface (see above changes).</li>
+<li>the window slot now only contains the lower left and upper right corner, instead of each coordinate of the rectangle.</li>
+<li>removed function <code>gt_sketch</code>, as it is redundant.</li>
+</ul>
+</div>
     <div id="geometr-027" class="section level1">
 <h1 class="page-header" data-toc-text="0.2.7">
 <a href="#geometr-027" class="anchor"></a>geometr 0.2.7<small> Unreleased </small>

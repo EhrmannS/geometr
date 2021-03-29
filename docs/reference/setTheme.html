@@ -80,7 +80,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">geometr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.7</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.8</span>
       </span>
     </div>
 
@@ -191,17 +191,19 @@ grid and whether or not to plot the <code>minor = TRUE/FALSE</code> grid.</p></t
       <th>legend</th>
       <td><p>[<code>named list(.)</code>]<br /> <code>plot = TRUE/FALSE</code>, number of
 <code>bins</code>, <code>ascending = TRUE/FALSE</code> order of values and the
-<code>sizeRatio</code> of plot and legend, <br /><br /> label [<code>named list(.)</code>]<br />
-<code>plot = TRUE/FALSE</code>, <code>fontsize</code> and <code>colour</code> of the legend
-labels, <br /><br /> box [<code>named list(.)</code>]<br /> <code>plot = TRUE/FALSE</code>,
-<code>linetype</code>, <code>linewidth</code> and <code>colour</code> of the legend box.</p></td>
+<code>sizeRatio</code> of legend/plot size, <br /><br /> label [<code>named
+list(.)</code>]<br /> <code>plot = TRUE/FALSE</code>, <code>fontsize</code> and <code>colour</code> of
+the legend labels, <br /><br /> box [<code>named list(.)</code>]<br /> <code>plot =
+TRUE/FALSE</code>, <code>linetype</code>, <code>linewidth</code> and <code>colour</code> of the
+legend box.</p></td>
     </tr>
     <tr>
       <th>scale</th>
       <td><p>[<code>named list(.)</code>]<br /> <code>param = 'someParameter'</code> and
-<code>to = 'someAttribute'</code> to which to scale 'someParameter' to. Whether
-or not to use the values' <code>identity</code>, the value <code>range</code> that
-shall be represented by the scale and the number of <code>bins</code>.</p></td>
+<code>to = 'someAttribute'</code> specifying which parameter shall be scale to
+which attribute, the value <code>range</code> that shall be represented by the
+scale, the number of <code>bins</code> into which the values shall be classified
+and the number of <code>maxPixels</code>.</p></td>
     </tr>
     <tr>
       <th>parameters</th>

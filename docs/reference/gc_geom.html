@@ -80,7 +80,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">geometr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.7</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.8</span>
       </span>
     </div>
 
@@ -153,10 +153,12 @@
     </tr>
     <tr>
       <th>group</th>
-      <td><p>[<code><a href='https://rdrr.io/r/base/logical.html'>logical(1)</a></code>]<br /> should the attributes of MULTI* features
-be grouped, i.e., should the unique values per MULTI* feature be assigned
-into the groups table (<code>TRUE</code>), or should they be kept as duplicated
-per-feature attributes (<code>FALSE</code>, default)?</p></td>
+      <td><p>[<code><a href='https://rdrr.io/r/base/logical.html'>logical(1)</a></code>]<br /> should the values of a Raster* or the
+attributes of MULTI* features be grouped, i.e., should the unique values be
+assigned into the groups table (<code>TRUE</code>)? The default behaviour for
+Raster* would be not to assign values into the group attribute table if no
+RAT is available and for MULIT* features it would be to keep the attributes
+as duplicated per-feature attributes (<code>FALSE</code>)?</p></td>
     </tr>
     <tr>
       <th>stack</th>
@@ -192,14 +194,11 @@ stored in (a list of) several geoms separately (<code>FALSE</code>)?</p></td>
   groups into the attribute table of groups of the geom by setting
   <code>group = TRUE</code>.</p>
 <p>When transforming a Raster* (or possibly other gridded classes) with
-  several layers to a geom, the layers are by default organised into columns
-  of the attribute table of features of the same geom. However, when the
-  layers contain fundamentally different data, this may techincally be
-  possible, but would not make sense. "Fundamentally different data" means
-  here, that the values of the layers are associated to different groups, so
-  that the geom would require more than one attribute table of groups. To
-  deal with this, layers can be assigned into separate geoms by setting
-  <code>stack = FALSE</code>.</p>
+  several layers to a geom, the layers are by default organised into a list
+  with a layer per list item. However, when several layers contain
+  fundamentally the same data (i.e., values that are associated to the same
+  groups), layers could be stacked <code>stack = TRUE</code>, because they share
+  the same group attribute table.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>Other spatial classes: 
@@ -223,7 +222,7 @@ stored in (a list of) several geoms separately (<code>FALSE</code>)?</p></td>
 </div><div class='output co'>#&gt; </span><span style='color: #BBBB00;'>geom</span><span>        grid
 #&gt;             2 layers | 3360 cells
 #&gt; </span><span style='color: #BBBB00;'>crs         </span><span>cartesian
-#&gt; </span><span style='color: #BBBB00;'>attributes </span><span> cover
+#&gt; </span><span style='color: #BBBB00;'>attributes </span><span> gid, cover
 #&gt; </span><span style='color: #BBBB00;'>resolution </span><span> 1 1 (x, y)
 #&gt; </span><span style='color: #BBBB00;'>extent     </span><span> 0 60 0 56 (xmin, xmax, ymin, ymax)</div></span></pre>
   </div>

@@ -81,7 +81,7 @@ anchor values or by sketching it." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">geometr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.7</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.8</span>
       </span>
     </div>
 
@@ -133,7 +133,7 @@ anchor values or by sketching it." />
 anchor values or by sketching it.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>gs_point</span><span class='op'>(</span>anchor <span class='op'>=</span> <span class='cn'>NULL</span>, window <span class='op'>=</span> <span class='cn'>NULL</span>, vertices <span class='op'>=</span> <span class='fl'>1</span>, template <span class='op'>=</span> <span class='cn'>NULL</span>, <span class='va'>...</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>gs_point</span><span class='op'>(</span>anchor <span class='op'>=</span> <span class='cn'>NULL</span>, window <span class='op'>=</span> <span class='cn'>NULL</span>, vertices <span class='op'>=</span> <span class='fl'>1</span>, <span class='va'>...</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -155,11 +155,6 @@ specify this here.</p></td>
       <td><p>[<code><a href='https://rdrr.io/r/base/integer.html'>integer(1)</a></code>]<br /> number of vertices.</p></td>
     </tr>
     <tr>
-      <th>template</th>
-      <td><p>[<code>gridded object(1)</code>]<br /> Gridded object that serves as
-template to sketch the tiling.</p></td>
-    </tr>
-    <tr>
       <th>...</th>
       <td><p>[various]<br /> graphical parameters to <code><a href='gt_locate.html'>gt_locate</a></code>, in
 case points are sketched; see <code><a href='https://rdrr.io/r/grid/gpar.html'>gpar</a></code></p></td>
@@ -168,16 +163,15 @@ case points are sketched; see <code><a href='https://rdrr.io/r/grid/gpar.html'>g
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>An invisible <code>geom</code>.</p>
+    <p>A <code>geom</code>.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>The arguments <code>anchor</code> and <code>template</code> indicate how the line
-  is created:</p><ul>
-<li><p>if <code>anchor</code> is set, the line is created
-  parametrically from the given objects' points,</p></li>
-<li><p>if an object is set in
-  <code>template</code>, this is used to create the <code>geom</code> interactively, by
-  clicking into the plot.</p></li>
+    <p>The argument <code>anchor</code> indicates how the geom is created:</p><ul>
+<li><p>if <code>anchor</code> is set, the geom is created parametrically
+  from the points given in <code>anchor</code>,</p></li>
+<li><p>if it is not set either
+  <code>window</code> or a default window between 0 and 1 is opened to sketch the
+  geom.</p></li>
 </ul>
 
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
@@ -214,11 +208,12 @@ case points are sketched; see <code><a href='https://rdrr.io/r/grid/gpar.html'>g
 <span class='va'>aGeom</span> <span class='op'>&lt;-</span> <span class='fu'><a href='setWindow.html'>setWindow</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>aGeom</span>, to <span class='op'>=</span> <span class='va'>window</span><span class='op'>)</span>
 <span class='va'>points</span> <span class='op'>&lt;-</span> <span class='fu'>gs_point</span><span class='op'>(</span>anchor <span class='op'>=</span> <span class='va'>aGeom</span><span class='op'>)</span>
 <span class='fu'><a href='visualise.html'>visualise</a></span><span class='op'>(</span><span class='va'>points</span><span class='op'>)</span>
-</div><div class='img'><img src='gs_point-2.png' alt='' width='700' height='433' /></div><div class='input'><span class='co'># \donttest{</span>
-<span class='co'># 2. sketch two points by clicking into a template</span>
-<span class='va'>points</span> <span class='op'>&lt;-</span> <span class='fu'>gs_point</span><span class='op'>(</span>template <span class='op'>=</span> <span class='va'>gtRasters</span><span class='op'>$</span><span class='va'>continuous</span>, vertices <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>please click 2 vertices.</span></div><div class='img'><img src='gs_point-3.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='visualise.html'>visualise</a></span><span class='op'>(</span><span class='va'>points</span>, linecol <span class='op'>=</span> <span class='st'>"green"</span>, pointsymbol <span class='op'>=</span> <span class='fl'>5</span>, new <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='error'>Error in if (min(input$x) != min(window$x)) {    window$x[window$x %in% min(window$x)] &lt;- min(input$x)}: missing value where TRUE/FALSE needed</span></div><div class='input'><span class='co'># }</span>
+</div><div class='img'><img src='gs_point-2.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='co'># 2. sketch two points</span>
+<span class='kw'>if</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/grDevices/dev.interactive.html'>dev.interactive</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span><span class='op'>{</span>
+  <span class='va'>points</span> <span class='op'>&lt;-</span> <span class='fu'>gs_point</span><span class='op'>(</span>vertices <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span>
+  <span class='fu'><a href='visualise.html'>visualise</a></span><span class='op'>(</span><span class='va'>points</span>, linecol <span class='op'>=</span> <span class='st'>"green"</span>, pointsymbol <span class='op'>=</span> <span class='fl'>5</span>, new <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
+<span class='op'>}</span>
 </div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

@@ -4,6 +4,7 @@
 - `visualise` can now plot empty geoms, making use of their "window" information, to create an empty surface for sketching.
 - the option to use a `template` has been removed from all `gs_*` functions. The new workflow to sketch geoms is now either via an already open plot, or via a sketching surface (see above changes).
 - the window slot now only contains the lower left and upper right corner, instead of each coordinate of the rectangle.
+- removed function `gt_sketch`, as it is redundant.
 
 # geometr 0.2.7
 
