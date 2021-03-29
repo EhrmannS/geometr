@@ -12,7 +12,7 @@
   if(featureType[1] == "grid"){
 
     theme@scale$param <- "fillcol"
-    theme@scale$to <- "value"
+    theme@scale$to <- "gid"
 
     # if the values are colours, don't plot the legend
     vals <- sample(getFeatures(x = x)$values, 10)

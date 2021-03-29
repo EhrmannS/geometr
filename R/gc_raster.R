@@ -4,9 +4,7 @@
 #' @return an object of class \code{Raster*}
 #' @family spatial classes
 #' @examples
-#' rasGeom <- gc_geom(input = gtRasters$categorical)
-#'
-#' gc_raster(input = rasGeom)
+#' gc_raster(input = gtGeoms$grid$categorical)
 #' @name gc_raster
 #' @rdname gc_raster
 NULL
@@ -57,7 +55,7 @@ setMethod(f = "gc_raster",
                               xmn = input@point$x[1], xmx = input@point$x[1] + input@point$x[2]*input@point$x[3],
                               ymn = input@point$y[1], ymx = input@point$y[1] + input@point$y[2]*input@point$y[3])
 
-                if(any(names(theGroups[[i]]) != "value")){
+                if(any(names(theGroups[[i]]) != "gid")){
                   out <- ratify(out)
                   out@data@attributes <- list(as.data.frame(theGroups[[i]]))
                 }

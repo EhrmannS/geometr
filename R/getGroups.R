@@ -67,13 +67,13 @@ setMethod(f = "getGroups",
                 if(is.numeric(vals)){
                   sbs <- sortUniqueC(vals)
 
-                  if(all(sbs %in% theGroups$value)){
-                    tab <- theGroups[theGroups$value %in% sbs,]
+                  if(all(sbs %in% theGroups$gid)){
+                    tab <- theGroups[theGroups$gid %in% sbs,]
                   } else {
-                    tab <- tibble(value = sbs)
+                    tab <- tibble(gid = sbs)
                   }
                 } else {
-                  tab <- tibble(value = integer())
+                  tab <- tibble(gid = integer())
                 }
 
                 if(length(theNames) > 1){
@@ -100,18 +100,18 @@ setMethod(f = "getGroups",
           signature = "Raster",
           definition = function(x){
             if(class(x) == "RasterBrick"){
-              out <- tibble(value = integer())
+              out <- tibble(gid = integer())
             } else {
               out <- NULL
               for(i in 1:dim(x)[3]){
                 temp <- x[[i]]@data@attributes
                 if(length(temp) != 0){
                   names <- names(temp[[1]])
-                  names[which(names == "id")] <- "value"
+                  names[which(names == "id")] <- "gid"
                   tab <- as_tibble(temp[[1]])
                   names(tab) <- names
                 } else {
-                  tab <- tibble(value = integer())
+                  tab <- tibble(gid = integer())
                 }
                 if(dim(x)[3] == 1){
                   out <- tab

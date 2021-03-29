@@ -11,7 +11,7 @@
 #'   \code{var}. In case you want the explicit values of, for instance,
 #'   \code{fid} in \code{obj@points}, you have to extract points and then use
 #'   \code{\link[dplyr]{pull}} on the result.
-#' @return unique values of the column specified in \code{var}.
+#' @return vector of the column specified in \code{var}.
 #' @family geometry tools
 #' @examples
 #' # pull values from a geom (there are two features, thus two values) ...
@@ -35,7 +35,7 @@ gt_pull <- function(obj, var){
 
   if(dim(theGroups)[1] == 0){
     if(is.numeric(theFeatures$values)){
-      theGroups <- tibble(value = sortUniqueC(theFeatures$values))
+      theGroups <- tibble(gid = sortUniqueC(theFeatures$values))
     }
   }
 
