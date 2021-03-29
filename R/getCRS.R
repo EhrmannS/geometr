@@ -43,9 +43,6 @@ setMethod(f = "getCRS",
 
 # Spatial ----
 #' @rdname getCRS
-#' @examples
-#'
-#' getCRS(x = gtSP$SpatialLines)
 #' @export
 setMethod(f = "getCRS",
           signature =  signature("Spatial"),
@@ -58,7 +55,9 @@ setMethod(f = "getCRS",
 #' @rdname getCRS
 #' @examples
 #'
-#' getCRS(x = gtSF$multipoint)
+#' library(sf)
+#' nc_sf <- st_read(system.file("shape/nc.shp", package="sf"), quiet = TRUE)
+#' getCRS(nc_sf)
 #' @importFrom sf st_crs
 #' @export
 setMethod(f = "getCRS",

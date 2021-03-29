@@ -2,8 +2,8 @@
 #'
 #' @param x the object from which to derive the reference window.
 #' @return A tibble of the corner coordinates of the reference window of
-#'   \code{x}. This table has two columns (x and y) and five rows, where values
-#'   in the last row are a duplicate of the first row.
+#'   \code{x}. This table two columns (x and y) and two rows (minimum and
+#'   maximum).
 #' @family getters
 #' @name getWindow
 #' @rdname getWindow

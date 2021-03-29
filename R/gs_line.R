@@ -8,21 +8,19 @@
 #' @param window [\code{data.frame(1)}]\cr in case the reference window deviates
 #'   from the bounding box of \code{anchor} (minimum and maximum values),
 #'   specify this here.
-#' @param template [\code{gridded object(1)}]\cr Gridded object that serves as
-#'   template to sketch the tiling.
 #' @param features [\code{integerish(1)}]\cr number of lines to create.
 #' @param vertices [\code{integerish(.)}]\cr number of vertices per line; will
 #'   be recycled if it does not have as many elements as specified in
 #'   \code{features}.
 #' @param ... [various]\cr graphical parameters to \code{\link{gt_locate}}, in
 #'   case points are sketched; see \code{\link[grid]{gpar}}
-#' @return An invisible \code{geom}.
+#' @return A \code{geom}.
 #' @family geometry shapes
-#' @details The arguments \code{anchor} and \code{template} indicate how the line
-#'   is created: \itemize{ \item if \code{anchor} is set, the line is created
-#'   parametrically from the given objects' points, \item if an object is set in
-#'   \code{template}, this is used to create the \code{geom} interactively, by
-#'   clicking into the plot.}
+#' @details The argument \code{anchor} indicates how the geom is created:
+#'   \itemize{ \item if \code{anchor} is set, the geom is created parametrically
+#'   from the points given in \code{anchor}, \item if it is not set either
+#'   \code{window} or a default window between 0 and 1 is opened to sketch the
+#'   geom.}
 #' @examples
 #' # 1. create a line programmatically
 #' coords <- data.frame(x = c(40, 70, 70, 50),
