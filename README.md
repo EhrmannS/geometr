@@ -11,7 +11,6 @@ status](https://ci.appveyor.com/api/projects/status/github/EhrmannS/geometr?bran
 [![Coverage
 Status](https://img.shields.io/codecov/c/github/EhrmannS/geometr/master.svg)](https://codecov.io/github/EhrmannS/geometr?branch=master)
 [![](http://cranlogs.r-pkg.org/badges/grand-total/geometr)](https://cran.r-project.org/package=geometr)
-[![Lifecycle:maturing](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
 
 ## Overview
 
