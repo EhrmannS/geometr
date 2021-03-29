@@ -39,10 +39,11 @@
 #' aGeom <- setWindow(x = aGeom, to = window)
 #' aLine <- gs_line(anchor = aGeom)
 #' visualise(aLine, linecol = "deeppink")
-#' \donttest{
-#' # 2. sketch a line by clicking into a template
-#' aLine <- gs_line(template = gtRasters$continuous, vertices = 4)
-#' visualise(aLine, linecol = "orange", linewidth = 5, new = FALSE)
+#'
+#' # 2. sketch a line
+#' if(dev.interactive()){
+#'   aLine <- gs_line(vertices = 4)
+#'   visualise(aLine, linecol = "orange", linewidth = 5, new = FALSE)
 #' }
 #' @importFrom checkmate testDataFrame assertNames testClass testNull
 #'   assertDataFrame assert assertIntegerish
@@ -50,8 +51,7 @@
 #' @importFrom tibble tibble
 #' @export
 
-gs_line <- function(anchor = NULL, window = NULL, features = 1, vertices = NULL,
-                    template = NULL, ...){
+gs_line <- function(anchor = NULL, window = NULL, features = 1, vertices = 2, ...){
 
   # check arguments
   anchor <- .testAnchor(x = anchor)
@@ -59,9 +59,6 @@ gs_line <- function(anchor = NULL, window = NULL, features = 1, vertices = NULL,
   assertIntegerish(features, len = 1, lower = 1)
   assertIntegerish(vertices, min.len = 1, lower = 2, any.missing = FALSE, null.ok = TRUE)
 
-  if(is.null(anchor) & is.null(template)){
-    stop("please provide anchor values.")
-  }
   if(!is.null(anchor)){
     if(anchor$type == "geom"){
       hist <- paste0("object was cast to 'line' geom.")
@@ -80,23 +77,21 @@ gs_line <- function(anchor = NULL, window = NULL, features = 1, vertices = NULL,
     }
   }
 
-  # sketch the geometry
-  if(!is.null(template)){
-    hist <- paste0("object was sketched as 'line' geom.")
+  # recycle vertices to match the number of features
+  if(length(vertices) != features){
+    vertices <- rep(vertices, length.out = features)
+  }
 
-    template <- .testTemplate(x = template, ...)
-    theGeom <- gt_sketch(template = template$obj,
-                         shape = "line",
-                         features = features,
-                         vertices = vertices,
-                         ...)
+  theVertices <- theFeatures <- theGroups <- NULL
+  for(i in 1:features){
 
-  } else {
-
-    theVertices <- theFeatures <- theGroups <- NULL
-    for(i in 1:features){
+    if(!is.null(anchor)){
 
       if(anchor$type == "geom"){
+
+        hist <- paste0("object was cast to 'line' geom.")
+        theHistory <- c(getHistory(x = anchor$obj), list(hist))
+
         if(is.null(theWindow)){
           theWindow <- anchor$obj@window
         }
@@ -117,6 +112,9 @@ gs_line <- function(anchor = NULL, window = NULL, features = 1, vertices = NULL,
           stop(paste0("a line geom must have at least 2 points per 'fid'."))
         }
       } else if(anchor$type == "df"){
+
+        theHistory <- list(paste0("object was created as 'line' geom."))
+
         if(is.null(theWindow)){
           theWindow = tibble(x = c(min(anchor$obj$x), max(anchor$obj$x)),
                              y = c(min(anchor$obj$y), max(anchor$obj$y)))
@@ -130,22 +128,55 @@ gs_line <- function(anchor = NULL, window = NULL, features = 1, vertices = NULL,
         tempFeatures <- tibble(fid = i, gid = i)
         tempGroups <- tibble(gid = i)
       }
-      theNodes <- tempPoints[c("x", "y", "fid")]
-      theVertices <- bind_rows(theVertices, theNodes)
-      theFeatures <- bind_rows(theFeatures, tempFeatures)
-      theGroups <- bind_rows(theGroups, tempGroups)
+
+    } else {
+
+      clicks <- vertices[i]
+
+      theHistory <- list(paste0("object was created as 'polygon' geom."))
+
+      # first, ensure that a plot is available, otherwise make one
+      if(is.null(dev.list())){
+        if(is.null(theWindow)){
+          theWindow <- tibble(x = c(0, 1), y = c(0, 1))
+        }
+        visualise(window = theWindow)
+      } else {
+        extentGrobMeta <- grid.get(gPath("extentGrob"))
+        theWindow <- tibble(x = c(0, as.numeric(extentGrobMeta$width)) + as.numeric(extentGrobMeta$x),
+                            y = c(0, as.numeric(extentGrobMeta$height)) + as.numeric(extentGrobMeta$y))
+      }
+      message(paste0("please click ", clicks, " vertices."))
+      tempAnchor <- gt_locate(samples = clicks)
+      tempAnchor <- .testPoints(x = tempAnchor)
+      if(is.null(tempAnchor)){
+        tempAnchor <- gs_random(type = "line", vertices = vertices)
+        tempAnchor <- tempAnchor@point
+      }
+
+      tempPoints <- tibble(fid = i, x = tempAnchor$x, y = tempAnchor$y)
+      tempFeatures = tibble(fid = i, gid = 1)
+      tempGroups = tibble(gid = 1)
+
+      projection <- NA
 
     }
 
-    theGeom <- new(Class = "geom",
-                   type = "line",
-                   point = theVertices,
-                   feature = theFeatures,
-                   group = theGroups,
-                   window = theWindow,
-                   crs = as.character(projection),
-                   history = c(getHistory(x = anchor$obj), list(hist)))
+    theNodes <- tempPoints[c("x", "y", "fid")]
+    theVertices <- bind_rows(theVertices, theNodes)
+    theFeatures <- bind_rows(theFeatures, tempFeatures)
+    theGroups <- bind_rows(theGroups, tempGroups)
+
   }
+
+  theGeom <- new(Class = "geom",
+                 type = "line",
+                 point = theVertices,
+                 feature = theFeatures,
+                 group = theGroups,
+                 window = theWindow,
+                 crs = as.character(projection),
+                 history = theHistory)
 
   invisible(theGeom)
 }
