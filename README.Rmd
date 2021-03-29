@@ -34,7 +34,7 @@ Status](https://img.shields.io/codecov/c/github/EhrmannS/geometr/master.svg)](ht
 ## Overview
 
 The `geometr` package provides tools that generate and process easily accessible and tidy geometric shapes (of class `geom`). Moreover, it aims to improve interoperability of spatial and other geometric classes. Spatial
-classes are typically a collection of geometric shapes (or their vertices) that are accompanied by various metadata (such as attributes and a coordinate reference system). Most spatial classes are thus conceptually quite similar, yet a common standard lacks for accessing features, vertices or the metadata. `Geometr` fills this gap by
+classes are typically a collection of geometric shapes (or their vertices) that are accompanied by various metadata (such as attributes and a coordinate reference system). Most spatial classes are thus conceptually quite similar, yet a common standard lacks for accessing features, vertices or the metadata. `geometr` fills this gap by
 providing tools that
 
   - produce an identical output for the same metadata of different classes (via so-called getters) and
@@ -71,10 +71,10 @@ nc_sf <- st_read(system.file("shape/nc.shp", package="sf"), quiet = TRUE)
 nc_geom <- gc_geom(input = nc_sf)
 ```
 
-Metadata of different classes can be extracted in interoperable quality (i.e. the same metadata in different objects/classes have the same name and the same arrangement).
+Metadata of different classes can be extracted in interoperable quality (i.e. the same metadata in different objects/classes have the same names and the same arrangement).
 
 ```{r}
-getFeatures(x = nc_sf)
+getExtent(x = nc_geom)
 
 getFeatures(x = nc_geom)
 ```
@@ -82,18 +82,12 @@ getFeatures(x = nc_geom)
 `geometr` only knows the feature types `point`, `line`, `polygon` and `grid` (a systematic lattice of points). 
 In contrast to the simple features standard, there are no  *MULTI\** features. 
 The way simple features have been implemented in R has the consequence that certain information can only be stored in a rather inefficient and cumbersome way. 
-Think of a set of polygons that has individual attributes at the `POLYGON` level, but also attributes at the group (`MULTIPOLYGON`) level, i.e., where all polygons of that set have the same value of the respective attributes.
+Think of a set of polygons that has individual attributes at the `POLYGON` level, but also attributes at the group (`MULTIPOLYGON`) level, i.e., where all polygons of that group have the same value of the respective attributes.
+It is impossible to store this information in a single `sf` object, other than in a `POLYGON` that contains the respective attributes as duplicates (which may be very inefficient in large objects).
 
-make up a `MULTIPOLYGON` with attributes that are valid for the overall group only.
-Likewise, the polygons could be stored at the level of individual \"closed paths\" as `POLYGON`, with specific attributes per polygon.
-Both sets of attributes can only exists either as duplicates for all group specific attributes in a `POLYGON`, or even more complicated nested attribute tables at the `MULTIPOLYGON` level.
-
-, which are only interoperable after a range of tests and corrections
-
-
-The backbone of a `geom` are three attribute tables, one for points, features and groups of features, the latter two of which can be provided with ancillary information.
-Each feature is stored as a single unit, all of which are related to other features by a group ID, which relates the features to attributes for an overall group.
-Eventually this results in a tidier data-structure with easier access than `Spatial*` of `sf` objects and with higher versatility.
+The backbone of a `geom` are three tables, one for points, one for features and one for groups of features, the latter two of which can be provided with ancillary information (attributes).
+Each point is stored with a feature ID (`fid`) that relates it to a feature (and its attributes) and each feature is stored with a group ID (`gid`) that relates it to a group (and its attributes).
+Eventually this results in a tidier data-structure with easier access than `Spatial*` or `sf` objects and with higher versatility.
 
 ```{r}
 # when using the group = TRUE argument, the attributes of MULTI*-feature are
@@ -110,6 +104,18 @@ newTable <- data.frame(fid = c(1:108),
 (nc_geom <- setFeatures(x = nc_geom, table = newTable))
 ```
 
+Moreover, a `geom` also allows to store raster information in the same data format.
+A raster is a systematic lattice of points/pixels with one or more layers, where each pixel exists in each layer, possibly with different values, i.e., from different attributes.
+The raster attribute table (RAT) is basically already the groups attribute table of a `geom`, where a group of pixels that have the same value are associated to attributes this class has in common.
+In this case, however, the features (single pixels) don't have to be associated to a group ID, as their feature values are at the same time the group values.
+
+```{r}
+str(gtGeoms$polygon, max.level = 2)
+
+str(gtGeoms$grid$categorical, max.level = 2)
+```
+
+
 `geometr` comes with the `visualise` function, which makes nice-looking diagnostic spatial plots, that show explicit values whenever possible.
 For example, it does not create artificial (\"nice\") bins for the x and y axis or the values values shown in the plot, but provides the range of values explicitly.
 Moreover, you can easily set plot titles without much effort.
@@ -118,14 +124,14 @@ Moreover, you can easily set plot titles without much effort.
 visualise(`North Carolina` = nc_geom)
 ```
 
-You can use quick options to scale the plot parameters to the arguments of the `geom` to modify which aspects of and object should be shown in the plot, for example when scaling `fillcol` to the attribute `NWBIR74`.
+You can use quick options to scale plot parameters to the attributes of the `geom` to modify which aspects of and object should be shown in the plot, for example when scaling `fillcol` to `NWBIR74`.
 
 ```{r, fig.height=3}
 myAttr <- "NWBIR74"
 visualise(!!paste0("NC - ", myAttr) := nc_geom, fillcol = !!myAttr)
 ```
 
-Each `geom` has the slot `@window`, which contains a reference window. This reference window can be used or modified in many functions of `geometr`
+The `@window` slot of modified `geom`s is by default automatically updated.
 
 ```{r, fig.height=3.5}
 visualise(`Currituck` = currituck, linecol = "fid")

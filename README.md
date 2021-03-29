@@ -22,7 +22,7 @@ Spatial classes are typically a collection of geometric shapes (or their
 vertices) that are accompanied by various metadata (such as attributes
 and a coordinate reference system). Most spatial classes are thus
 conceptually quite similar, yet a common standard lacks for accessing
-features, vertices or the metadata. `Geometr` fills this gap by
+features, vertices or the metadata. `geometr` fills this gap by
 providing tools that
 
   - produce an identical output for the same metadata of different
@@ -69,26 +69,16 @@ nc_geom <- gc_geom(input = nc_sf)
 ```
 
 Metadata of different classes can be extracted in interoperable quality
-(i.e. the same metadata in different objects/classes have the same name
+(i.e. the same metadata in different objects/classes have the same names
 and the same arrangement).
 
 ``` r
-getFeatures(x = nc_sf)
-#> # A tibble: 108 x 16
-#>      fid   gid  AREA PERIMETER CNTY_ CNTY_ID NAME    FIPS  FIPSNO CRESS_ID BIR74
-#>  * <int> <int> <dbl>     <dbl> <dbl>   <dbl> <fct>   <fct>  <dbl>    <int> <dbl>
-#>  1     1     1 0.114      1.44  1825    1825 Ashe    37009  37009        5  1091
-#>  2     2     2 0.061      1.23  1827    1827 Allegh… 37005  37005        3   487
-#>  3     3     3 0.143      1.63  1828    1828 Surry   37171  37171       86  3188
-#>  4     4     4 0.07       2.97  1831    1831 Currit… 37053  37053       27   508
-#>  5     5     4 0.07       2.97  1831    1831 Currit… 37053  37053       27   508
-#>  6     6     4 0.07       2.97  1831    1831 Currit… 37053  37053       27   508
-#>  7     7     5 0.153      2.21  1832    1832 Northa… 37131  37131       66  1421
-#>  8     8     6 0.097      1.67  1833    1833 Hertfo… 37091  37091       46  1452
-#>  9     9     7 0.062      1.55  1834    1834 Camden  37029  37029       15   286
-#> 10    10     8 0.091      1.28  1835    1835 Gates   37073  37073       37   420
-#> # … with 98 more rows, and 5 more variables: SID74 <dbl>, NWBIR74 <dbl>,
-#> #   BIR79 <dbl>, SID79 <dbl>, NWBIR79 <dbl>
+getExtent(x = nc_geom)
+#> # A tibble: 2 x 2
+#>       x     y
+#>   <dbl> <dbl>
+#> 1 -84.3  33.9
+#> 2 -75.5  36.6
 
 getFeatures(x = nc_geom)
 #> # A tibble: 108 x 16
@@ -115,25 +105,20 @@ features have been implemented in R has the consequence that certain
 information can only be stored in a rather inefficient and cumbersome
 way. Think of a set of polygons that has individual attributes at the
 `POLYGON` level, but also attributes at the group (`MULTIPOLYGON`)
-level, i.e., where all polygons of that set have the same value of the
-respective attributes.
+level, i.e., where all polygons of that group have the same value of the
+respective attributes. It is impossible to store this information in a
+single `sf` object, other than in a `POLYGON` that contains the
+respective attributes as duplicates (which may be very inefficient in
+large objects).
 
-make up a `MULTIPOLYGON` with attributes that are valid for the overall
-group only. Likewise, the polygons could be stored at the level of
-individual "closed paths" as `POLYGON`, with specific attributes per
-polygon. Both sets of attributes can only exists either as duplicates
-for all group specific attributes in a `POLYGON`, or even more
-complicated nested attribute tables at the `MULTIPOLYGON` level.
-
-, which are only interoperable after a range of tests and corrections
-
-The backbone of a `geom` are three attribute tables, one for points,
-features and groups of features, the latter two of which can be provided
-with ancillary information. Each feature is stored as a single unit, all
-of which are related to other features by a group ID, which relates the
-features to attributes for an overall group. Eventually this results in
-a tidier data-structure with easier access than `Spatial*` of `sf`
-objects and with higher versatility.
+The backbone of a `geom` are three tables, one for points, one for
+features and one for groups of features, the latter two of which can be
+provided with ancillary information (attributes). Each point is stored
+with a feature ID (`fid`) that relates it to a feature (and its
+attributes) and each feature is stored with a group ID (`gid`) that
+relates it to a group (and its attributes). Eventually this results in a
+tidier data-structure with easier access than `Spatial*` or `sf` objects
+and with higher versatility.
 
 ``` r
 # when using the group = TRUE argument, the attributes of MULTI*-feature are
@@ -164,13 +149,45 @@ newTable <- data.frame(fid = c(1:108),
 #>             100 groups | 108 features | 2529 points
 #> crs         +proj=longlat +datum=NAD27 +no_defs
 #> attributes  (features) attrib
-#>            (groups) AREA, PERIMETER, CNTY_, CNTY_ID, NAME, FIPS, FIPSNO, CRESS_ID, BIR74, ...
+#>             (groups) AREA, PERIMETER, CNTY_, CNTY_ID, NAME, FIPS, FIPSNO, CRESS_ID, BIR74, ...
 #> tiny map           36.59 
 #>                    ◌ ○ ◌ ○        
 #>                    ○ ○ ○ ○        
 #>                    ◌ ◌ ○ ◌        
 #>             -84.32 ◌ ◌ ◌ ◌ -75.46 
 #>                    33.88
+```
+
+Moreover, a `geom` also allows to store raster information in the same
+data format. A raster is a systematic lattice of points/pixels with one
+or more layers, where each pixel exists in each layer, possibly with
+different values, i.e., from different attributes. The raster attribute
+table (RAT) is basically already the groups attribute table of a `geom`,
+where a group of pixels that have the same value are associated to
+attributes this class has in common. In this case, however, the features
+(single pixels) don’t have to be associated to a group ID, as their
+feature values are at the same time the group values.
+
+``` r
+str(gtGeoms$polygon, max.level = 2)
+#> Formal class 'geom' [package "geometr"] with 7 slots
+#>   ..@ type   : chr "polygon"
+#>   ..@ point  : tibble [11 × 3] (S3: tbl_df/tbl/data.frame)
+#>   ..@ feature: tibble [2 × 2] (S3: tbl_df/tbl/data.frame)
+#>   ..@ group  : tibble [2 × 1] (S3: tbl_df/tbl/data.frame)
+#>   ..@ window : tibble [2 × 2] (S3: tbl_df/tbl/data.frame)
+#>   ..@ crs    : chr NA
+#>   ..@ history: list()
+
+str(gtGeoms$grid$categorical, max.level = 2)
+#> Formal class 'geom' [package "geometr"] with 7 slots
+#>   ..@ type   : chr "grid"
+#>   ..@ point  : tibble [3 × 2] (S3: tbl_df/tbl/data.frame)
+#>   ..@ feature: tibble [726 × 2] (S3: tbl_df/tbl/data.frame)
+#>   ..@ group  : tibble [9 × 2] (S3: tbl_df/tbl/data.frame)
+#>   ..@ window : tibble [2 × 2] (S3: tbl_df/tbl/data.frame)
+#>   ..@ crs    : chr NA
+#>   ..@ history: list()
 ```
 
 `geometr` comes with the `visualise` function, which makes nice-looking
@@ -184,28 +201,27 @@ effort.
 visualise(`North Carolina` = nc_geom)
 ```
 
-<img src="man/figures/README-unnamed-chunk-7-1.png" width="100%" />
+<img src="man/figures/README-unnamed-chunk-8-1.png" width="100%" />
 
-You can use quick options to scale the plot parameters to the arguments
-of the `geom` to modify which aspects of and object should be shown in
-the plot, for example when scaling `fillcol` to the attribute `NWBIR74`.
+You can use quick options to scale plot parameters to the attributes of
+the `geom` to modify which aspects of and object should be shown in the
+plot, for example when scaling `fillcol` to `NWBIR74`.
 
 ``` r
 myAttr <- "NWBIR74"
 visualise(!!paste0("NC - ", myAttr) := nc_geom, fillcol = !!myAttr)
 ```
 
-<img src="man/figures/README-unnamed-chunk-8-1.png" width="100%" />
+<img src="man/figures/README-unnamed-chunk-9-1.png" width="100%" />
 
-Each `geom` has the slot `@window`, which contains a reference window.
-This reference window can be used or modified in many functions of
-`geometr`
+The `@window` slot of modified `geom`s is by default automatically
+updated.
 
 ``` r
 visualise(`Currituck` = currituck, linecol = "fid")
 ```
 
-<img src="man/figures/README-unnamed-chunk-9-1.png" width="100%" />
+<img src="man/figures/README-unnamed-chunk-10-1.png" width="100%" />
 
 Finally, cast a `geom` to another type simply by providing it in
 `anchor` of the respective type
@@ -215,4 +231,4 @@ boundPoints <- gs_point(anchor = currituck)
 visualise(`Currituck - boundary vertices`= boundPoints, linecol = "fid")
 ```
 
-<img src="man/figures/README-unnamed-chunk-10-1.png" width="100%" />
+<img src="man/figures/README-unnamed-chunk-11-1.png" width="100%" />
