@@ -32,13 +32,3 @@ test_that("casting to 'line' works", {
   expect_true(output@type == "line")
   expect_data_frame(output@point, any.missing = FALSE, nrows = 5, ncols = 3)
 })
-
-test_that("Error if arguments have wrong value", {
-  coords <- data.frame(x = c(40, 70, 70, 50),
-                       y = c(40, 40, 60, 70))
-  input <- gs_point(anchor = coords)
-
-  expect_error(gs_line(vertices = 4))
-  expect_error(gs_line(anchor = "bla"))
-  expect_error(gs_line(anchor = coords, vertices = "bla"))
-})

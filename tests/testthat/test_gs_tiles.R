@@ -24,12 +24,6 @@ test_that("output is valid geometry", {
   expect_class(output, classes = "geom")
   expect_true(output@type == "point")
   expect_data_frame(output@point, any.missing = FALSE, nrows = 504, ncols = 3)
-
-  # rotated tiles
-  output <- gs_tiles(anchor = aWindow, width = 10, rotation = 45)
-  expect_class(output, classes = "geom")
-  expect_true(output@type == "polygon")
-  expect_data_frame(output@point, any.missing = FALSE, nrows = 2775, ncols = 3)
 })
 
 test_that("Error if arguments have wrong value", {
