@@ -54,7 +54,7 @@
 #' aRectangle <- gs_rectangle(anchor = aPolygon)
 #' visualise(aRectangle, new = FALSE)
 #' \donttest{
-#' # 2. sketch a hexagon by clicking into a template
+#' # 2. sketch a hexagon
 #' aHexagon <- gs_hexagon(features = 1)
 #' visualise(aHexagon, linecol = "deeppink", linetype = 2, new = FALSE)
 #' }

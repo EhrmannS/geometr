@@ -37,7 +37,7 @@
 #' points <- gs_point(anchor = aGeom)
 #' visualise(points)
 #' \donttest{
-#' # 2. sketch two points by clicking into a template
+#' # 2. sketch two points
 #' points <- gs_point(vertices = 2)
 #' visualise(points, linecol = "green", pointsymbol = 5, new = FALSE)
 #' }
