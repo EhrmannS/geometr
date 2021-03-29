@@ -187,8 +187,8 @@ setMethod(f = "show",
             theGroups <- getGroups(x = object)
 
             vertAttribs <- length(thePoints)
-            featureAttribs <- length(theFeatures)
-            groupAttribs <- length(theGroups)
+            featureAttribs <- names(theFeatures)[!names(theFeatures) %in% c("fid", "gid")]
+            groupAttribs <- names(theGroups)[!names(theGroups) %in% c("gid")]
 
             myAttributes <- NULL
             points <- feats <- groups <- FALSE
@@ -200,35 +200,20 @@ setMethod(f = "show",
             }
 
             if(theType == "grid"){
-
-              if(!is.data.frame(theFeatures)){
-                theFeats <- names(theFeatures)
-                for(i in seq_along(theFeatures)){
-                  theLayer <- theGroups[[i]]
-                  theName <- names(theGroups)[i]
-
-                  if(dim(theLayer)[1] != 0){
-                    myAttributes <- c(myAttributes, paste0(" {", theName, "} ",
-                                                           ifelse(featureAttribs <= 9,
-                                                                  paste0(paste0(names(theLayer)[!names(theLayer) %in% c("value")], collapse = ", "), "\n"),
-                                                                  paste0(paste0(c(head(names(theLayer)[!names(theLayer) %in% c("value")], 9), "..."), collapse = ", "), "\n")
-                                                           )))
-                  }
-                }
-              } else {
-                theFeats <- names(object@feature)
-                theLayer <- theGroups
-                if(!is.null(theLayer)){
-                  if(!all(names(thePoints) %in% c("gid"))){
-                    myAttributes <- c(myAttributes, paste0(" ", ifelse(featureAttribs <= 9,
-                                                                       paste0(paste0(names(theLayer)[!names(theLayer) %in% c("value")], collapse = ", "), "\n"),
-                                                                       paste0(paste0(c(head(names(theLayer)[!names(theLayer) %in% c("value")], 9), "..."), collapse = ", "), "\n")
-                    )))
-                  }
+              theFeats <- featureAttribs
+              theLayer <- theGroups
+              if(!is.null(theLayer)){
+                if(!all(names(thePoints) %in% c("gid"))){
+                  myAttributes <- c(myAttributes, paste0(" ", ifelse(length(groupAttribs) == 0,
+                                                                     paste0("--\n"),
+                                                                     ifelse(length(groupAttribs) <= 9,
+                                                                            paste0(paste0(groupAttribs, collapse = ", "), "\n"),
+                                                                            paste0(paste0(c(head(groupAttribs, 9), "..."), collapse = ", "), "\n"))
+                  )))
                 }
               }
 
-              if(length(unique(theFeats)) == 1){
+              if(length(unique(groupAttribs)) == 1){
                 myFeat <- "layer"
               } else {
                 myFeat <- "layers"
@@ -267,20 +252,20 @@ setMethod(f = "show",
                   featureString <- " (features) "
                 }
                 myAttributes <- c(myAttributes, paste0(featureString,
-                                                       ifelse(featureAttribs <= 9,
-                                                              paste0(paste0(names(theFeatures)[!names(theFeatures) %in% c("fid", "gid")], collapse = ", "), "\n"),
-                                                              paste0(paste0(c(head(names(theFeatures)[!names(theFeatures) %in% c("fid", "gid")], 9), "..."), collapse = ", "), "\n")
+                                                       ifelse(length(featureAttribs) <= 9,
+                                                              paste0(paste0(featureAttribs, collapse = ", "), "\n"),
+                                                              paste0(paste0(c(head(featureAttribs, 9), "..."), collapse = ", "), "\n")
                                                        )))
                 feats <- TRUE
               }
               if(!all(names(theGroups) %in% c("gid"))){
                 if(feats | points){
-                  groupString <- "           (groups) "
+                  groupString <- "            (groups) "
                 } else {
                   groupString <- " (groups) "
                 }
                 myAttributes <- c(myAttributes, paste0(groupString,
-                                                       ifelse(groupAttribs <= 9,
+                                                       ifelse(length(groupAttribs) <= 9,
                                                               paste0(paste0(names(theGroups)[!names(theGroups) %in% c("gid")], collapse = ", "), "\n"),
                                                               paste0(paste0(c(head(names(theGroups)[!names(theGroups) %in% c("gid")], 9), "..."), collapse = ", "), "\n")
                                                        )))
