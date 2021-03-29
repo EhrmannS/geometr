@@ -42,7 +42,7 @@ Moreover, `geometr` provides a data structure (of class `geom`) that represents 
 One could argue that spatial objects are merely a special case of geometric objects, where the coordinates of points refer to real locations on the surface of the earth instead of some virtual (cartesian) coordinate system.
 Geometric and spatial objects typically contain a collection of points that outline a geometric shape, or feature.
 A feature in `geometr` is defined as a set of points that form no more than one single unit of one of the types point, line, polygon or grid.
-In contrast to the <a href="http://www.opengeospatial.org/standards/sfa" target="_blank">simple features standard</a>, there are no *multi-\** features in `geometr`, sets of features that belong together beyond their geometric connectedness are instead assigned a common group.
+In contrast to the <a href="https://www.ogc.org/standards/sfa" target="_blank">simple features standard</a>, there are no *multi-\** features in `geometr`, sets of features that belong together beyond their geometric connectedness are instead assigned a common group.
 Consequently, a `geom` is primarily made up of three tables that contain information on points (their coordinates), features and groups.
 The tables are related with feature and group IDs (`fid` and `gid` respectively) and can be provided with additional attributes (more on this in the chapter [\"Attributes of a `geom`\"](#attributes-of-a-geom)).
 
