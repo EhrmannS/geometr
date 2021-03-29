@@ -12,19 +12,12 @@
 #' @param centroids [\code{logical(1)}]\cr should the centroids of the tiling be
 #'   returned (\code{TRUE}) or should the tiling be returned (\code{FALSE},
 #'   default)?
-#' @param ... [various]\cr additional arguments; see Details.
 #' @details When deriving a regular tiling for a prescribed window, there is
 #'   only a limited set of legal combinations of cells in x and y dimension. For
 #'   instance, a window of 100 by 100 can't comprise 10 by 5 squares of
-#'   side-length 10, because then the y-dimension wouldn't be fully covered. The
-#'   same is true for hexagonal and triangular tilings. As all tilings are
-#'   regular, the measurement of one dimension is sufficient to specify the
-#'   dimensions of tiles, which is \code{width}.
-#'
-#'   Possible additional arguments are: \itemize{ \item verbose = TRUE/FALSE
-#'   \item graphical parameters to \code{\link{gt_locate}}, in case points are
-#'   sketched; see \code{\link{gpar}}}
-#' @return An invisible \code{geom}.
+#'   side-length/width 10, because then the y-dimension wouldn't be fully covered. The
+#'   same is true for hexagonal and triangular tilings.
+#' @return A \code{geom}.
 #' @family tilings
 #' @examples
 #' # create a squared tiling
@@ -49,10 +42,10 @@
 #' @export
 
 gs_tiles <- function(anchor = NULL, width = NULL, pattern = "squared",
-                     centroids = FALSE, ...){
+                     centroids = FALSE){
 
   # check arguments
-  anchor <- .testAnchor(x = anchor, ...)
+  anchor <- .testAnchor(x = anchor)
   assertIntegerish(x = width, len = 1)
   assertChoice(x = pattern, choices = c("squared", "hexagonal", "triangular"))
   assertLogical(x = centroids)

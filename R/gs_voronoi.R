@@ -9,7 +9,7 @@
 #' @param features [\code{integerish(1)}]\cr number of tiles to sketch.
 #' @param ... [various]\cr graphical parameters to \code{\link{gt_locate}}, in
 #'   case the tiling is sketched; see \code{\link{gpar}}.
-#' @return An invisible \code{geom}.
+#' @return A \code{geom}.
 #' @family tilings
 #' @examples
 #' # 1. create voronoi polygons programmatically
@@ -22,10 +22,11 @@
 #'
 #' tiles <- gs_voronoi(anchor = aGeom)
 #' visualise(tiles, new = FALSE)
-#' \donttest{
-#' # 2. sketch a voronoi polygon by clicking into a template
-#' tiles <- gs_voronoi()
-#' visualise(tiles, new = FALSE)
+#'
+#' # 2. sketch a voronoi polygon
+#' if(dev.interactive()){
+#'   tiles <- gs_voronoi()
+#'   visualise(tiles, new = FALSE)
 #' }
 #' @importFrom checkmate testDataFrame assertNames testClass testNull
 #'   assertDataFrame assert assertIntegerish

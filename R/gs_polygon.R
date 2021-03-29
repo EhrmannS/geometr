@@ -17,11 +17,11 @@
 #'   provided by \code{anchor} (\code{FALSE}, default)?
 #' @param ... [various]\cr graphical parameters to \code{\link{gt_locate}}, in
 #'   case points are sketched; see \code{\link[grid]{gpar}}
-#' @details The arguments \code{anchor} and \code{template} indicate how the line
-#'   is created: \itemize{ \item if \code{anchor} is set, the line is created
-#'   parametrically from the given objects' points, \item if an object is set in
-#'   \code{template}, this is used to create the \code{geom} interactively, by
-#'   clicking into the plot.}
+#' @details The argument \code{anchor} indicates how the geom is created:
+#'   \itemize{ \item if \code{anchor} is set, the geom is created parametrically
+#'   from the points given in \code{anchor}, \item if it is not set either
+#'   \code{window} or a default window between 0 and 1 is opened to sketch the
+#'   geom.}
 #'
 #'   The argument \code{regular} determines how the vertices provided in
 #'   \code{anchor} or via \code{template} are transformed into a polygon:
@@ -29,7 +29,7 @@
 #'   from all vertices in \code{anchor}, \item if \code{regular = TRUE}, only
 #'   the first two vertices are considered, as center and indicating the
 #'   distance to the (outer) radius.}
-#' @return An invisible \code{geom}.
+#' @return A \code{geom}.
 #' @family geometry shapes
 #' @examples
 #' # 1. create a polygon programmatically
@@ -43,6 +43,7 @@
 #' # derive a regular polygon from the coordinates
 #' aPolygon <- gs_polygon(anchor = coords, vertices = 6, regular = TRUE)
 #' visualise(aPolygon, linecol = "green")
+#' visualise(aGeom, new = FALSE)
 #'
 #' # the vertices are plottet relative to the window
 #' window <- data.frame(x = c(-50, 50),
@@ -53,10 +54,11 @@
 #' # using a geom as anchor retains its properties (such as the window)
 #' aRectangle <- gs_rectangle(anchor = aPolygon)
 #' visualise(aRectangle, new = FALSE)
-#' \donttest{
+#'
 #' # 2. sketch a hexagon
-#' aHexagon <- gs_hexagon(features = 1)
-#' visualise(aHexagon, linecol = "deeppink", linetype = 2, new = FALSE)
+#' if(dev.interactive()){
+#'   aHexagon <- gs_hexagon(features = 1)
+#'   visualise(aHexagon, linecol = "deeppink", linetype = 2, new = FALSE)
 #' }
 #' @importFrom stats dist
 #' @importFrom checkmate testDataFrame assertNames testClass assertDataFrame
@@ -202,7 +204,7 @@ gs_polygon <- function(anchor = NULL, window = NULL, features = 1, vertices = 3,
       cx <- tempPoints$x[1] + radius*cos(.rad(angles))
       cy <- tempPoints$y[1] + radius*sin(.rad(angles))
       theNodes <- tibble(x = cx, y = cy, fid = i)
-      # theWindow <- .updateWindow(input = theNodes, window = theWindow)
+      theWindow <- .updateWindow(input = theNodes, window = theWindow)
     } else{
       theNodes <- tempPoints[c("x", "y", "fid")]
     }

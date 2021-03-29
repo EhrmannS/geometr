@@ -1,16 +1,16 @@
-#' Visualise raster and geom objects
+#' Visualise geometric objects
 #'
 #' @param ... objects to plot and optional graphical parameters.
 #' @param window [\code{data.frame(1)}]\cr two opposing corners of a rectangle
 #'   to which the plot is limited.
 #' @param theme [\code{list(7)}]\cr the theme from which to take graphical
 #'   parameters; see \code{\link{setTheme}} for details.
-#' @param trace [\code{logical(1)}]\cr Print the raster object's history (i.e.
-#'   the process according to which it has been created) (\code{TRUE}), or
-#'   simply plot the object (\code{FALSE}, default).
+#' @param trace [\code{logical(1)}]\cr Print the provenance information of the
+#'   geometric object (if available) (\code{TRUE}), or simply plot the object
+#'   (\code{FALSE}, default).
 #' @param new [\code{logical(1)}]\cr force a new plot (\code{TRUE}, default).
 #' @param clip [\code{logical(1)}]\cr clip the plot by the plot box
-#'   (\code{TRUE}, default), or plot all of the objects.
+#'   (\code{TRUE}, default), or plot also objects that go beyond the plot box.
 #' @return Returns invisibly an object of class \code{recordedplot}, see
 #'   \code{\link{recordPlot}} for details (and warnings).
 #' @examples
@@ -483,14 +483,16 @@ visualise <- function(...,
 #'   grid and whether or not to plot the \code{minor = TRUE/FALSE} grid.
 #' @param legend [\code{named list(.)}]\cr \code{plot = TRUE/FALSE}, number of
 #'   \code{bins}, \code{ascending = TRUE/FALSE} order of values and the
-#'   \code{sizeRatio} of plot and legend, \cr\cr label [\code{named list(.)}]\cr
-#'   \code{plot = TRUE/FALSE}, \code{fontsize} and \code{colour} of the legend
-#'   labels, \cr\cr box [\code{named list(.)}]\cr \code{plot = TRUE/FALSE},
-#'   \code{linetype}, \code{linewidth} and \code{colour} of the legend box.
+#'   \code{sizeRatio} of legend/plot size, \cr\cr label [\code{named
+#'   list(.)}]\cr \code{plot = TRUE/FALSE}, \code{fontsize} and \code{colour} of
+#'   the legend labels, \cr\cr box [\code{named list(.)}]\cr \code{plot =
+#'   TRUE/FALSE}, \code{linetype}, \code{linewidth} and \code{colour} of the
+#'   legend box.
 #' @param scale [\code{named list(.)}]\cr \code{param = 'someParameter'} and
-#'   \code{to = 'someAttribute'} to which to scale 'someParameter' to. Whether
-#'   or not to use the values' \code{identity}, the value \code{range} that
-#'   shall be represented by the scale and the number of \code{bins}.
+#'   \code{to = 'someAttribute'} specifying which parameter shall be scale to
+#'   which attribute, the value \code{range} that shall be represented by the
+#'   scale, the number of \code{bins} into which the values shall be classified
+#'   and the number of \code{maxPixels}.
 #' @param parameters [\code{named list(.)}]\cr \code{linecol}, \code{fillcol},
 #'   \code{missingcol}, \code{linetype}, \code{linewidth}, \code{pointsize} and
 #'   \code{pointsymbol} of the plot object.
