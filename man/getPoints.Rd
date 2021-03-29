@@ -36,7 +36,7 @@ This table contains three columns (x, y and fid) and as many rows as
   there are points. In case \code{x} is a polygon, the last point of each
   distinct feature is a duplicate of its first point. In case \code{x} has
   the type 'grid', all layers are summarised into one tibble, as several
-  layers must have the same extent and resolution, so that each point ocurrs
+  layers must have the same extent and resolution, so that each point occurrs
   in each layer, merely with a different, layer-specific value.
 }
 \examples{

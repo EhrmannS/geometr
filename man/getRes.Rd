@@ -21,7 +21,7 @@
 }
 \value{
 A vector of two values of the spatial resolution of \code{x} in x and
-  y dimensio n.
+  y dimension.
 }
 \description{
 Get the spatial resolution of a spatial object.

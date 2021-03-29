@@ -2,7 +2,7 @@
 #'
 #' @param x the object from which to derive the resolution.
 #' @return A vector of two values of the spatial resolution of \code{x} in x and
-#'   y dimensio n.
+#'   y dimension.
 #' @family getters
 #' @name getRes
 #' @rdname getRes

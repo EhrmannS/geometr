@@ -5,7 +5,7 @@
 #'   attributes of MULTI* features be grouped, i.e., should the unique values be
 #'   assigned into the groups table (\code{TRUE})? The default behaviour for
 #'   Raster* would be not to assign values into the group attribute table if no
-#'   RAT is available and for MULIT* features it would be to keep the attributes
+#'   RAT is available and for MULTI* features it would be to keep the attributes
 #'   as duplicated per-feature attributes (\code{FALSE})?
 #' @param stack [\code{logical(1)}]\cr should the layers of gridded objects be
 #'   stacked, i.e., should several layers be stored as columns in the attribute
