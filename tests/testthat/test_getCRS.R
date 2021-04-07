@@ -7,18 +7,18 @@ context("getCRS")
 
 test_that("getCRS of a geom", {
   input <- gtGeoms$polygon
-  input <- setCRS(x = input, crs = "+proj=laea +lat_0=52 +lon_0=10 +x_0=4321000 +y_0=3210000 +ellps=GRS80 +units=m +no_defs")
+  input <- setCRS(x = input, crs = "+proj=longlat +ellps=WGS84")
 
   output <- getCRS(input)
-  expect_character(output, any.missing = FALSE, pattern = "+proj=laea", len = 1)
+  expect_character(output, any.missing = FALSE, pattern = "+proj=longlat", len = 1)
 })
 
 test_that("getExtent of a Spatial object", {
   input <- gtSP$SpatialPoints
-  input <- setCRS(x = input, crs = "+proj=laea +lat_0=52 +lon_0=10 +x_0=4321000 +y_0=3210000 +ellps=GRS80 +units=m +no_defs")
+  input <- setCRS(x = input, crs = "EPSG:4326")
 
   output <- getCRS(input)
-  expect_character(output, any.missing = FALSE, pattern = "+proj=laea", len = 1)
+  expect_character(output, any.missing = FALSE, pattern = "+proj=longlat", len = 1)
 })
 
 test_that("getExtent of an sf object", {

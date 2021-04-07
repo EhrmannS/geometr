@@ -34,7 +34,7 @@ if(!isGeneric("setCRS")){
 setMethod(f = "setCRS",
           signature = "ANY",
           definition = function(x){
-            warning(paste0("I can't set a history to an object of class '", paste0(class(x), collapse = ", "), "'."))
+            warning(paste0("I can't set a coordinate reference system to an object of class '", paste0(class(x), collapse = ", "), "'."))
           }
 )
 
@@ -111,7 +111,7 @@ setMethod(f = "setCRS",
             if(is.na(x@crs)){
               x@crs <- crs(crs)
             } else{
-              x <- projectRaster(from = x, crs = crs)
+              x <- projectRaster(from = x, crs = crs(crs))
             }
             x@history <- c(getHistory(x = x), list(paste0("the crs was set to '", crs, "'.")))
             return(x)

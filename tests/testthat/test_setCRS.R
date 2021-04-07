@@ -1,3 +1,8 @@
+library(sf)
+library(raster)
+library(sp)
+library(testthat)
+library(checkmate)
 context("setCRS")
 
 
@@ -8,19 +13,19 @@ test_that("setCRS of a geom", {
   window <- data.frame(x = c(0, 80),
                        y = c(0, 80))
   aGeom <- gs_polygon(anchor = coords, window = window)
-  output <- setCRS(x = aGeom, crs = "+proj=laea +lat_0=52 +lon_0=10 +x_0=4321000 +y_0=3210000 +ellps=GRS80 +units=m +no_defs")
+  output <- setCRS(x = aGeom, crs = "+proj=lcc +lat_1=48 +lat_2=33 +lon_0=-100 +datum=WGS84")
 
   expect_class(output, classes = "geom")
-  expect_character(getCRS(output), any.missing = FALSE, pattern = "+proj=laea", len = 1)
+  expect_character(getCRS(output), any.missing = FALSE, pattern = "+proj=lcc", len = 1)
 
-  anSpGeom <- setCRS(x = aGeom, crs = "+proj=laea +lat_0=52 +lon_0=10 +x_0=4321000 +y_0=3210000 +ellps=GRS80 +units=m +no_defs")
+  anSpGeom <- setCRS(x = aGeom, crs = "+proj=lcc +lat_1=48 +lat_2=33 +lon_0=-100 +datum=WGS84")
   output <- setCRS(x = anSpGeom, crs = "+proj=longlat +ellps=WGS84 +towgs84=0,0,0,0,0,0,0 +no_defs")
   expect_class(output, classes = "geom")
   expect_character(getCRS(output), any.missing = FALSE, pattern = "+proj=longlat", len = 1)
 
-  output <- setCRS(x = output, crs = "+proj=laea +lat_0=52 +lon_0=10 +x_0=4321000 +y_0=3210000 +ellps=GRS80 +units=m +no_defs")
+  output <- setCRS(x = output, crs = "+proj=lcc +lat_1=48 +lat_2=33 +lon_0=-100 +datum=WGS84")
   expect_class(output, classes = "geom")
-  expect_character(getCRS(output), any.missing = FALSE, pattern = "+proj=laea", len = 1)
+  expect_character(getCRS(output), any.missing = FALSE, pattern = "+proj=lcc", len = 1)
 })
 
 test_that("setCRS of a Spatial object", {
@@ -29,26 +34,26 @@ test_that("setCRS of a Spatial object", {
   aSpatial <- SpatialPoints(cbind(x, y))
 
   # setting a CRS on a Spatial* that hasn't had one before
-  output <- setCRS(x = aSpatial, crs = "+proj=laea +lat_0=52 +lon_0=10 +x_0=4321000 +y_0=3210000 +ellps=GRS80 +units=m +no_defs")
+  output <- setCRS(x = aSpatial, crs = "+proj=eck4 +lon_0=0 +x_0=0 +y_0=0 +ellps=WGS84 +datum=WGS84 +units=m")
   expect_class(output, classes = "SpatialPoints")
-  expect_character(proj4string(output), any.missing = FALSE, pattern = "+proj=laea", len = 1)
+  expect_character(output@proj4string@projargs, any.missing = FALSE, pattern = "+proj=eck4", len = 1)
 
   # setting a CRS on a Spatial* that had one before
-  output <- setCRS(x = output, crs = "+proj=longlat +ellps=WGS84 +towgs84=0,0,0,0,0,0,0 +no_defs")
+  output <- setCRS(x = output, crs = "EPSG:4326")
   expect_class(output, classes = "SpatialPoints")
-  expect_character(proj4string(output), any.missing = FALSE, pattern = "+proj=longlat", len = 1)
+  expect_character(output@proj4string@projargs, any.missing = FALSE, pattern = "+proj=longlat", len = 1)
 })
 
 test_that("setCRS of an sf object", {
   input <- gtSF$polygon
 
   # setting a CRS on a sf that hasn't had one before
-  output <- setCRS(x = input, crs = "+proj=laea +lat_0=52 +lon_0=10 +x_0=4321000 +y_0=3210000 +ellps=GRS80 +units=m +no_defs")
+  output <- setCRS(x = input, crs = "+proj=eck4 +lon_0=0 +x_0=0 +y_0=0 +ellps=WGS84 +datum=WGS84 +units=m")
   expect_class(output, classes = "sf")
-  expect_character(st_crs(output)$proj4string, any.missing = FALSE, pattern = "+proj=laea", len = 1)
+  expect_character(st_crs(output)$proj4string, any.missing = FALSE, pattern = "+proj=eck4", len = 1)
 
   # setting a CRS on a sf that had one before
-  output <- setCRS(x = output, crs = "+proj=longlat +ellps=WGS84 +towgs84=0,0,0,0,0,0,0 +no_defs")
+  output <- setCRS(x = output, crs = "+proj=longlat +ellps=WGS84")
   expect_class(output, classes = "sf")
   expect_character(st_crs(output)$proj4string, any.missing = FALSE, pattern = "+proj=longlat", len = 1)
 })
@@ -65,7 +70,7 @@ test_that("setCRS of a Raster", {
   expect_character(crs(output)@projargs, any.missing = FALSE, pattern = "+proj=longlat", len = 1)
 
   # test to reproject an existing crs
-  output <- setCRS(x = output, crs = "+proj=laea +lat_0=52 +lon_0=10 +x_0=4321000 +y_0=3210000 +ellps=GRS80 +units=m +no_defs")
+  output <- setCRS(x = output, crs = "+proj=lcc +lat_1=48 +lat_2=33 +lon_0=-100 +datum=WGS84")
   expect_class(crs(output), classes = "CRS")
-  expect_character(crs(output)@projargs, any.missing = FALSE, pattern = "+proj=laea", len = 1)
+  expect_character(crs(output)@projargs, any.missing = FALSE, pattern = "+proj=lcc", len = 1)
 })
