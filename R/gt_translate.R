@@ -34,7 +34,7 @@ gt_translate <- function(obj, x = NULL, y = NULL, fid = NULL, update = TRUE){
 
   assertNumeric(x, any.missing = FALSE, min.len = 1, null.ok = TRUE)
   assertNumeric(y, any.missing = FALSE, min.len = 1, null.ok = TRUE)
-  assertIntegerish(x = fid, any.missing = FALSE, null.ok = TRUE)
+  assertNumeric(x = fid, lower = 1, finite = TRUE, any.missing = FALSE, null.ok = TRUE)
   assertLogical(x = update, len = 1, any.missing = FALSE)
 
   theFeatures <- getFeatures(x = obj)

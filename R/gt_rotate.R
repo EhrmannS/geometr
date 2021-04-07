@@ -44,7 +44,7 @@ gt_rotate <- function(obj, x = NULL, y = NULL, angle = NULL, fid = NULL,
   assertNumeric(x = x, any.missing = FALSE, min.len = 1, null.ok = TRUE)
   assertNumeric(x = y, any.missing = FALSE, min.len = 1, null.ok = TRUE)
   assertNumeric(angle, any.missing = FALSE, lower = -360, upper = 360, min.len = 1)
-  assertIntegerish(x = fid, any.missing = FALSE, null.ok = TRUE)
+  assertNumeric(x = fid, lower = 1, finite = TRUE, any.missing = FALSE, null.ok = TRUE)
   assertLogical(x = update, len = 1, any.missing = FALSE)
 
   theFeatures <- getFeatures(x = obj)

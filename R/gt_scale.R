@@ -31,6 +31,7 @@ gt_scale <- function(obj, range = NULL, fid = NULL, update = TRUE){
 
   assertDataFrame(x = range, types = "numeric", any.missing = FALSE, ncols = 2)
   assertNames(names(range), permutation.of = c("x", "y"))
+  assertNumeric(x = fid, lower = 1, finite = TRUE, any.missing = FALSE, null.ok = TRUE)
   assertLogical(x = update, len = 1, any.missing = FALSE)
 
   thePoints <- getPoints(x = obj)

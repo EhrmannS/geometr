@@ -33,7 +33,7 @@
 gt_reflect <- function(obj, angle, fid = NULL, update = TRUE){
 
   assertNumeric(x = angle, any.missing = FALSE, lower = -360, upper = 360, min.len = 1)
-  assertIntegerish(x = fid, any.missing = FALSE, null.ok = TRUE)
+  assertNumeric(x = fid, lower = 1, finite = TRUE, any.missing = FALSE, null.ok = TRUE)
   assertLogical(x = update, len = 1, any.missing = FALSE)
 
   theFeatures <- getFeatures(x = obj)
