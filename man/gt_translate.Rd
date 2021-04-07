@@ -9,14 +9,14 @@ gt_translate(obj, x = NULL, y = NULL, fid = NULL, update = TRUE)
 \arguments{
 \item{obj}{[\code{geometric object(1)}]\cr the object to translate.}
 
-\item{x}{[\code{numeric(1)}]\cr the translation constant (offset) in
-x dimension.}
+\item{x}{[\code{numeric(1)}]\cr the translation constant (offset) in x
+dimension.}
 
-\item{y}{[\code{numeric(1)}]\cr the translation constant (offset) in
-y dimension.}
+\item{y}{[\code{numeric(1)}]\cr the translation constant (offset) in y
+dimension.}
 
-\item{fid}{[\code{integerish(.)}]\cr if only a subset of features shall be
-translated, specify that here.}
+\item{fid}{[\code{integerish(.)}]\cr in case only a subset of features shall
+be translated, specify that here.}
 
 \item{update}{[\code{logical(1)}]\cr whether or not to update the window slot
 after translation.}

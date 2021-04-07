@@ -12,11 +12,11 @@ gt_scale(obj, range = NULL, fid = NULL, update = TRUE)
 \item{range}{[\code{data.frame(2)}]\cr vector of length two for both of the
 \code{x} and \code{y} dimension to which the values should be scaled.}
 
-\item{fid}{[\code{integerish(.)}]\cr if only a subset of features shall be
-scaled, specify that here.}
+\item{fid}{[\code{integerish(.)}]\cr in case only a subset of features shall
+be scaled, specify that here.}
 
 \item{update}{[\code{logical(1)}]\cr whether or not to update the window slot
-after scaling.}
+of the resulting geom.}
 }
 \value{
 \code{geom} of the scaled \code{obj}.

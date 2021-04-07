@@ -13,14 +13,14 @@ gt_rotate(obj, x = NULL, y = NULL, angle = NULL, fid = NULL, update = TRUE)
 
 \item{y}{[\code{numeric(1)}]\cr the y position(s) to rotate about.}
 
-\item{angle}{[\code{numeric(1)}]\cr the counter-clockwise angle by which
-\code{geom} shall be rotated (can be negative to rotate clockwise).}
+\item{angle}{[\code{numeric(1)}]\cr the counter-clockwise angle(s) by which
+\code{obj} shall be rotated (can be negative to rotate clockwise).}
 
-\item{fid}{[\code{integerish(.)}]\cr if only a subset of features shall be
-rotated, specify that here.}
+\item{fid}{[\code{integerish(.)}]\cr in case only a subset of features shall
+be rotated, specify that here.}
 
 \item{update}{[\code{logical(1)}]\cr whether or not to update the window slot
-after rotation.}
+of the resulting geom.}
 }
 \value{
 \code{geom} of the rotated \code{obj}.

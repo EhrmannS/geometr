@@ -4,8 +4,8 @@
 #' @param obj [\code{geometric object(1)}]\cr the object to reflect.
 #' @param angle [\code{numeric(1)}]\cr the counter-clockwise angle by which the
 #'   reflection axis shall be rotated (can be negative to rotate clockwise).
-#' @param fid [\code{integerish(.)}]\cr if only a subset of features shall be
-#'   rotated, specify that here.
+#' @param fid [\code{integerish(.)}]\cr in case only a subset of features shall
+#'   be rotated, specify that here.
 #' @param update [\code{logical(1)}]\cr whether or not to update the window slot
 #'   after rotation.
 #' @details The reflection axis is a straight line that goes through the plot

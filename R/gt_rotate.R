@@ -4,12 +4,12 @@
 #' @param obj [\code{geometric object(1)}]\cr the object to rotate.
 #' @param x [\code{numeric(1)}]\cr the x position(s) to rotate about.
 #' @param y [\code{numeric(1)}]\cr the y position(s) to rotate about.
-#' @param angle [\code{numeric(1)}]\cr the counter-clockwise angle by which
-#'   \code{geom} shall be rotated (can be negative to rotate clockwise).
-#' @param fid [\code{integerish(.)}]\cr if only a subset of features shall be
-#'   rotated, specify that here.
+#' @param angle [\code{numeric(1)}]\cr the counter-clockwise angle(s) by which
+#'   \code{obj} shall be rotated (can be negative to rotate clockwise).
+#' @param fid [\code{integerish(.)}]\cr in case only a subset of features shall
+#'   be rotated, specify that here.
 #' @param update [\code{logical(1)}]\cr whether or not to update the window slot
-#'   after rotation.
+#'   of the resulting geom.
 #' @return \code{geom} of the rotated \code{obj}.
 #' @family geometry tools
 #' @examples

@@ -13,8 +13,8 @@ gt_skew(obj, x = NULL, y = NULL, fid = NULL, update = TRUE)
 
 \item{y}{[\code{numeric(1)}]\cr the shear factor in y dimension.}
 
-\item{fid}{[\code{integerish(.)}]\cr if only a subset of features shall be
-skewed, specify that here.}
+\item{fid}{[\code{integerish(.)}]\cr in case only a subset of features shall
+be skewed, specify that here.}
 
 \item{update}{[\code{logical(1)}]\cr whether or not to update the window slot
 after skewing.}

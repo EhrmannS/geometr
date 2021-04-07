@@ -4,10 +4,10 @@
 #' @param obj [\code{geometric object(1)}]\cr the object to be scaled.
 #' @param range [\code{data.frame(2)}]\cr vector of length two for both of the
 #'   \code{x} and \code{y} dimension to which the values should be scaled.
-#' @param fid [\code{integerish(.)}]\cr if only a subset of features shall be
-#'   scaled, specify that here.
+#' @param fid [\code{integerish(.)}]\cr in case only a subset of features shall
+#'   be scaled, specify that here.
 #' @param update [\code{logical(1)}]\cr whether or not to update the window slot
-#'   after scaling.
+#'   of the resulting geom.
 #' @return \code{geom} of the scaled \code{obj}.
 #' @family geometry tools
 #' @examples

@@ -12,8 +12,8 @@ gt_reflect(obj, angle, fid = NULL, update = TRUE)
 \item{angle}{[\code{numeric(1)}]\cr the counter-clockwise angle by which the
 reflection axis shall be rotated (can be negative to rotate clockwise).}
 
-\item{fid}{[\code{integerish(.)}]\cr if only a subset of features shall be
-rotated, specify that here.}
+\item{fid}{[\code{integerish(.)}]\cr in case only a subset of features shall
+be rotated, specify that here.}
 
 \item{update}{[\code{logical(1)}]\cr whether or not to update the window slot
 after rotation.}
