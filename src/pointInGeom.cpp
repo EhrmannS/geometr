@@ -46,18 +46,18 @@ IntegerVector pointInGeomC(NumericMatrix &vert, NumericMatrix &geom, bool invert
       // loop through all edges of the geometry and find wn
       for (int i = 0; i < gRows-1; i++){
 
+        isLeft = (geom(i+1, 0) - geom(i, 0)) * (y - geom(i, 1)) - (x - geom(i, 0)) * (geom(i+1, 1) - geom(i, 1));
+
         if (y >= geom(i, 1)){
 
           if (y < geom(i+1, 1)){             // an upward crossing
 
-            isLeft = (geom(i+1, 0) - geom(i, 0)) * (y - geom(i, 1)) - (x -  geom(i, 0)) * (geom(i+1, 1) - geom(i, 1));
             if(isLeft > 0){                  // P left of edge
               ++wn;                          // have a valid up intersect
             } else if(isLeft == 0){          // point is on the line
               ++on;
             }
           } else {
-            isLeft = (geom(i+1, 0) - geom(i, 0)) * (y - geom(i, 1)) - (x -  geom(i, 0)) * (geom(i+1, 1) - geom(i, 1));
             if(isLeft == 0){
               ++on;
             }
@@ -67,7 +67,6 @@ IntegerVector pointInGeomC(NumericMatrix &vert, NumericMatrix &geom, bool invert
 
           if (y >= geom(i+1, 1)){            // a downward crossing
 
-            isLeft = (geom(i+1, 0) - geom(i, 0)) * (y - geom(i, 1)) - (x -  geom(i, 0)) * (geom(i+1, 1) - geom(i, 1));
             if(isLeft == 0){
               ++on;
             } else if(isLeft < 0){           // P right of edge
