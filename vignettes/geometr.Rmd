@@ -226,7 +226,7 @@ The function `gs_polygon()` ensures that a polygon fulfills the formal criteria 
 Moreover, polygons may have holes (and islands therein), for example a park with a pond that has a little island in the middle.
 When defining polygon `geom`s with nested closed paths (holes), the only thing to consider is that the outer path must be given as first ring and that this outer ring must fully enclose all interior rings.
 All paths that are supposed to be nested within this path must themselves be closed, but their order does not matter.
-Also, when building a polygon with hole in `geometr`, the rotation direction described by the sequence of the points does not matter, in contrast to other spatial classes to date.
+Also, when building a polygon with hole in `geometr`, the rotation direction described by the sequence of the points does not matter, in contrast to other spatial classes to date. *mention here that this is a requirement of algorithms that are generally used, even though they are outdated...)*
 The correct treatment and visualisation of polygons with interior rings is determined by the code-logic of the functions processing polygons.
 
 ```{r}

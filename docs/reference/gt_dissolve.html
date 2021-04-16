@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Scale geometric objects — gt_scale • geometr</title>
+<title>Dissolve geometric objects — gt_dissolve • geometr</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -46,8 +46,9 @@
 
 
 
-<meta property="og:title" content="Scale geometric objects — gt_scale" />
-<meta property="og:description" content="Scale the vertex values of geometric objects to a values range." />
+<meta property="og:title" content="Dissolve geometric objects — gt_dissolve" />
+<meta property="og:description" content="Remove all vertices that are not on the outer ring(s) enclosing all the input
+features." />
 <meta property="og:image" content="http://EhrmannS.github.io/geometr/logo.svg" />
 
 
@@ -122,69 +123,87 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Scale geometric objects</h1>
-    <small class="dont-index">Source: <a href='https://github.com/EhrmannS/geometr/blob/master/R/gt_scale.R'><code>R/gt_scale.R</code></a></small>
-    <div class="hidden name"><code>gt_scale.Rd</code></div>
+    <h1>Dissolve geometric objects</h1>
+    <small class="dont-index">Source: <a href='https://github.com/EhrmannS/geometr/blob/master/R/gt_dissolve.R'><code>R/gt_dissolve.R</code></a></small>
+    <div class="hidden name"><code>gt_dissolve.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Scale the vertex values of geometric objects to a values range.</p>
+    <p>Remove all vertices that are not on the outer ring(s) enclosing all the input
+features.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>gt_scale</span><span class='op'>(</span><span class='va'>obj</span>, range <span class='op'>=</span> <span class='cn'>NULL</span>, fid <span class='op'>=</span> <span class='cn'>NULL</span>, update <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>gt_dissolve</span><span class='op'>(</span><span class='va'>obj</span>, by <span class='op'>=</span> <span class='cn'>NULL</span>, fid <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>obj</th>
-      <td><p>[<code>geometric object(1)</code>]<br /> the object to be scaled.</p></td>
+      <td><p>[<code>geometric object(1)</code>]<br /> the object to dissolve.</p></td>
     </tr>
     <tr>
-      <th>range</th>
-      <td><p>[<code><a href='https://rdrr.io/r/base/data.frame.html'>data.frame(2)</a></code>]<br /> vector of length two for both of the
-<code>x</code> and <code>y</code> dimension to which the values should be scaled.</p></td>
+      <th>by</th>
+      <td><p>[<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>]<br /> in case sets of features to dissolve shall
+be selected based on an attribute, specify that here.</p></td>
     </tr>
     <tr>
       <th>fid</th>
       <td><p>[<code>integerish(.)</code>]<br /> in case only a subset of features shall
-be scaled, specify that here.</p></td>
-    </tr>
-    <tr>
-      <th>update</th>
-      <td><p>[<code><a href='https://rdrr.io/r/base/logical.html'>logical(1)</a></code>]<br /> whether or not to update the window slot
-of the resulting geom.</p></td>
+be dissolved, specify that here.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p><code>geom</code> of the scaled <code>obj</code>.</p>
+    <p><code>geom</code> of the dissolved <code>obj</code>.</p>
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>This function encompases the functionality of operations that are
+  known under several names.</p><ul>
+<li><p><em>union</em>: When a new set is created that comprises all input
+  members. Simple features access proposes that the union operation (both in
+  at least sf and postgis, <code>st_union</code>) is not only a collection of the
+  members, but is in fact the merged outcome thereof. ESRI seems to disagree,
+  because here the union operation is limited to merely intersecting and
+  combining all new members in one geometric object (while retaining the
+  parent members attributes), which corresponds to
+  <code><a href='gt_intersect.html'>gt_intersect</a></code>.</p></li>
+<li><p><em>merge</em>: When several features with coinciding vertices are
+  joined into a single feature.</p></li>
+<li><p><em>dissolve</em>: When the boundaries between features that shall be
+  merged are removed.</p></li>
+</ul>
+
+<p>Functionally, these operations all do the same, they identify a certain set
+  of features (irrespective of whether they overlap or not) that shall be
+  grouped and joined into a smaller set of features by removing the vertices
+  that would be inside the outer ring enclosing all features to join.
+  However, since <code>geometr</code> doesn't know MULTI* features, disjoint
+  features are not part of the same (MULTI*) feature, but part of the same
+  feature group.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>Other geometry tools: 
+<code><a href='gt_combine.html'>gt_combine</a>()</code>,
+<code><a href='gt_enclose.html'>gt_enclose</a>()</code>,
 <code><a href='gt_filter.html'>gt_filter</a>()</code>,
+<code><a href='gt_intersect.html'>gt_intersect</a>()</code>,
 <code><a href='gt_locate.html'>gt_locate</a>()</code>,
 <code><a href='gt_pull.html'>gt_pull</a>()</code>,
 <code><a href='gt_reflect.html'>gt_reflect</a>()</code>,
 <code><a href='gt_rotate.html'>gt_rotate</a>()</code>,
+<code><a href='gt_scale.html'>gt_scale</a>()</code>,
 <code><a href='gt_skew.html'>gt_skew</a>()</code>,
 <code><a href='gt_stretch.html'>gt_stretch</a>()</code>,
 <code><a href='gt_translate.html'>gt_translate</a>()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># rescale to values between -10 and 10</span>
-<span class='fu'><a href='visualise.html'>visualise</a></span><span class='op'>(</span><span class='va'>gtGeoms</span><span class='op'>$</span><span class='va'>polygon</span>, linewidth <span class='op'>=</span> <span class='fl'>3</span><span class='op'>)</span>
-</div><div class='input'><span class='va'>newPoly</span> <span class='op'>&lt;-</span> <span class='fu'>gt_scale</span><span class='op'>(</span>obj <span class='op'>=</span> <span class='va'>gtGeoms</span><span class='op'>$</span><span class='va'>polygon</span>, update <span class='op'>=</span> <span class='cn'>FALSE</span>,
-                    range <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='op'>-</span><span class='fl'>10</span>, <span class='fl'>10</span><span class='op'>)</span>, y <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='op'>-</span><span class='fl'>10</span>, <span class='fl'>10</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
-<span class='fu'><a href='visualise.html'>visualise</a></span><span class='op'>(</span>geom <span class='op'>=</span> <span class='va'>newPoly</span>, linecol <span class='op'>=</span> <span class='st'>"green"</span>, new <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
-</div><div class='img'><img src='gt_scale-1.png' alt='' width='700' height='433' /></div><div class='input'>
-<span class='co'># rescale a single feature</span>
-<span class='fu'><a href='visualise.html'>visualise</a></span><span class='op'>(</span><span class='va'>gtGeoms</span><span class='op'>$</span><span class='va'>polygon</span>, linewidth <span class='op'>=</span> <span class='fl'>3</span><span class='op'>)</span>
-</div><div class='input'><span class='va'>newPoly</span> <span class='op'>&lt;-</span> <span class='fu'>gt_scale</span><span class='op'>(</span>obj <span class='op'>=</span> <span class='va'>gtGeoms</span><span class='op'>$</span><span class='va'>polygon</span>, update <span class='op'>=</span> <span class='cn'>FALSE</span>, fid <span class='op'>=</span> <span class='fl'>2</span>,
-                    range <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='op'>-</span><span class='fl'>10</span>, <span class='fl'>10</span><span class='op'>)</span>, y <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='op'>-</span><span class='fl'>10</span>, <span class='fl'>10</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
-<span class='fu'><a href='visualise.html'>visualise</a></span><span class='op'>(</span>geom <span class='op'>=</span> <span class='va'>newPoly</span>, linecol <span class='op'>=</span> <span class='st'>"green"</span>, new <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
-</div><div class='img'><img src='gt_scale-2.png' alt='' width='700' height='433' /></div></pre>
+    <pre class="examples"><div class='input'><span class='fu'><a href='visualise.html'>visualise</a></span><span class='op'>(</span><span class='va'>gtGeoms</span><span class='op'>$</span><span class='va'>polygon</span>, linewidth <span class='op'>=</span> <span class='fl'>3</span><span class='op'>)</span>
+</div><div class='img'><img src='gt_dissolve-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='va'>newPoly</span> <span class='op'>&lt;-</span> <span class='fu'>gt_dissolve</span><span class='op'>(</span>obj <span class='op'>=</span> <span class='va'>gtGeoms</span><span class='op'>$</span><span class='va'>polygon</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='error'>Error in gt_dissolve(obj = gtGeoms$polygon): could not find function "gt_dissolve"</span></div><div class='input'><span class='fu'><a href='visualise.html'>visualise</a></span><span class='op'>(</span>geom <span class='op'>=</span> <span class='va'>newPoly</span>, linecol <span class='op'>=</span> <span class='st'>"green"</span>, new <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='error'>Error in eval_tidy(expr = objs[[i]]): object 'newPoly' not found</span></div><div class='input'>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
