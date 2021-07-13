@@ -265,9 +265,20 @@ It becomes clear that this approach to attribute tables makes the class `geom` q
 One could for example assign some point specific measurements (such as [Arne Pommerening's](http://www.pommerening.org) Clocaenog 6 sample data) to the feature attribute table, and at the same time set group specific attributes to the group attribute table of a point `geom`.
 
 ```{r}
-clg_dat <- read_delim(file = "http://www.pommerening.org/wiki/images/d/dc/Clg6.txt", 
+read_delim_cr <- function(file, ...) {
+  data <- read_file_raw(file)
+
+  for (i in seq_along(data)) {
+    if (data[[i]] == 0x0d) {
+      data[[i]] <- as.raw(0x0a)
+    }
+  }
+  read_delim(data, ...)
+}
+
+clg_dat <- read_delim_cr(file = "http://www.pommerening.org/wiki/images/d/dc/Clg6.txt", 
                         delim = "\t", col_types = "iiidddd")
-clg_spec <- read_delim(file = "http://www.pommerening.org/wiki/images/d/df/Clg6.species",
+clg_spec <- read_delim_cr(file = "http://www.pommerening.org/wiki/images/d/df/Clg6.species",
                        delim = "\t", col_types = "icccc") %>% 
   mutate_if(is.character, trimws)
 
