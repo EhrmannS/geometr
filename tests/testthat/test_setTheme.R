@@ -95,10 +95,8 @@ test_that("modifying grid works", {
 
 test_that("modifying legend works", {
   myTheme <- setTheme(legend = list(plot = TRUE,
-                                    common = TRUE,
                                     bins = 3,
                                     ascending = FALSE,
-                                    sizeRatio = 0.8,
                                     label = list(
                                       plot = TRUE,
                                       fontsize = 8,
