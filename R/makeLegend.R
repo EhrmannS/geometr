@@ -137,6 +137,11 @@
       if(theme@legend$label$plot){
         thePositions <- tickPositions / max(tickPositions)
         thePositions <- (tickPositions-1) / max(tickPositions) + thePositions[1]/2
+
+        if(is.numeric(legendLabels)){
+          legendLabels <- format(legendLabels, digits = theme@legend$digits+1)
+        }
+
         legend_labels <- textGrob(label = legendLabels,
                                   x = unit(0, "npc") + unit(20, "points") + prevX,
                                   y = unit(thePositions, "npc"),

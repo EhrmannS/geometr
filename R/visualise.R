@@ -64,7 +64,7 @@ visualise <- function(...,
                       theme = gtTheme){
 
   # library(geometr); library(checkmate); library(grid); library(rlang); library(tibble); library(dplyr)
-  # window = NULL; theme = gtTheme; trace = FALSE; new = F; clip = FALSE; plotParams <- list()
+  # window = NULL; theme = gtTheme; trace = FALSE; new = T; clip = FALSE; plotParams <- list()
   # source('/media/se87kuhe/external1/projekte/r-dev/geometr/R/makePlot.R')
   # source('/media/se87kuhe/external1/projekte/r-dev/geometr/R/updateTheme.R')
   # source('/media/se87kuhe/external1/projekte/r-dev/geometr/R/makeGrob.R')
@@ -457,45 +457,104 @@ visualise <- function(...,
 
 #' Create a new theme
 #'
-#' Assign parameters in a gtTheme to create a new theme.
-#' @param from [\code{gtTheme}]\cr an gtTheme object.
-#' @param title [\code{named list(.)}]\cr \code{plot = TRUE/FALSE},
-#'   \code{fontsize} and \code{colour} of the title.
-#' @param box [\code{named list(.)}]\cr \code{plot = TRUE/FALSE},
-#'   \code{linewidth}, \code{linetype} and \code{linecol} of the bounding box
-#'   (not supported recently).
-#' @param xAxis [\code{named list(.)}]\cr \code{plot = TRUE/FALSE}, number of
-#'   \code{bins} and \code{margin} of the x-axis,\cr\cr label [\code{named
-#'   list(.)}]\cr \code{plot = TRUE/FALSE}, \code{title}, \code{fontsize},
-#'   \code{colour} and \code{rotation} of the x-axis label,\cr\cr ticks
-#'   [\code{named list(.)}]\cr \code{plot = TRUE/FALSE}, \code{fontsize},
-#'   \code{colour} and number of \code{digits} to which to round the x-axis
-#'   ticks.
-#' @param yAxis [\code{named list(.)}]\cr \code{plot = TRUE/FALSE}, number of
-#'   \code{bins} and \code{margin} of the y-axis,\cr\cr label [\code{named
-#'   list(.)}]\cr \code{plot = TRUE/FALSE}, \code{title}, \code{fontsize},
-#'   \code{colour} and \code{rotation} of the y-axis label,\cr\cr ticks
-#'   [\code{named list(.)}]\cr \code{plot = TRUE/FALSE}, \code{fontsize},
-#'   \code{colour} and number of \code{digits} to which to round the y-axis
-#'   ticks.
-#' @param grid [\code{named list(.)}]\cr \code{plot = TRUE/FALSE},
-#'   \code{colour}, \code{linetype} and \code{linewidth} of the major and minor
-#'   grid and whether or not to plot the \code{minor = TRUE/FALSE} grid.
-#' @param legend [\code{named list(.)}]\cr \code{plot = TRUE/FALSE}, number of
-#'   \code{bins}, \code{ascending = TRUE/FALSE} order of values and the
-#'   \code{sizeRatio} of legend/plot size, \cr\cr label [\code{named
-#'   list(.)}]\cr \code{plot = TRUE/FALSE}, \code{fontsize} and \code{colour} of
-#'   the legend labels, \cr\cr box [\code{named list(.)}]\cr \code{plot =
-#'   TRUE/FALSE}, \code{linetype}, \code{linewidth} and \code{colour} of the
-#'   legend box.
-#' @param scale [\code{named list(.)}]\cr \code{param = 'someParameter'} and
-#'   \code{to = 'someAttribute'} specifying which parameter shall be scale to
-#'   which attribute, the value \code{range} that shall be represented by the
-#'   scale, the number of \code{bins} into which the values shall be classified
-#'   and the number of \code{maxPixels}.
-#' @param parameters [\code{named list(.)}]\cr \code{linecol}, \code{fillcol},
-#'   \code{missingcol}, \code{linetype}, \code{linewidth}, \code{pointsize} and
-#'   \code{pointsymbol} of the plot object.
+#' Change parameters in a gtTheme to create a new theme.
+#' @param from [\code{gtTheme}]\cr a gtTheme object to modify.
+#' @param title [\code{named list(3)}]\cr \itemize{
+#'   \item \code{plot [logical]}, whether or not to plot the title
+#'   \item \code{fontsize [numeric]}
+#'   \item \code{colour [character]}
+#' }
+#' @param box [\code{named list(5)}]\cr \itemize{
+#'   \item \code{plot [logical]}
+#'   \item \code{fillcol [character]}
+#'   \item \code{linewidth [numeric]}
+#'   \item \code{linetype [character]}
+#'   \item \code{linecol [character]}
+#' }
+#' @param xAxis [\code{named list(5)}]\cr \itemize{
+#'   \item \code{plot [logical]}
+#'   \item \code{bins [numeric]}, into which to separate the tick labels
+#'   \item \code{margin [numeric]}, proportion (0 - 1) of the plot that shall be taken by the margin
+#'   \item \code{label [named list(5)]} \itemize{
+#'     \item \code{plot [logical]}
+#'     \item \code{title [character]}
+#'     \item \code{fontsize [numeric]}
+#'     \item \code{colour [character]}
+#'     \item \code{rotation [numeric]}
+#'   }
+#'   \item \code{ticks [named list(5)]} \itemize{
+#'     \item \code{plot [logical]}
+#'     \item \code{fontsize [numeric]}
+#'     \item \code{colour [character]}
+#'     \item \code{rotation [numeric]}
+#'     \item \code{digits [numeric]}, number of digits to round non-integer values to
+#'   }
+#' }
+#' @param yAxis [\code{named list(5)}]\cr \itemize{
+#'   \item \code{plot [logical]}
+#'   \item \code{bins [numeric]}
+#'   \item \code{margin [numeric]}
+#'   \item \code{label [named list(5)]} \itemize{
+#'     \item \code{plot [logical]}
+#'     \item \code{title [character]}
+#'     \item \code{fontsize [numeric]}
+#'     \item \code{colour [character]}
+#'     \item \code{rotation [numeric]}
+#'   }
+#'   \item \code{ticks [named list(5)]} \itemize{
+#'     \item \code{plot [logical]}
+#'     \item \code{fontsize [numeric]}
+#'     \item \code{colour [character]}
+#'     \item \code{rotation [numeric]}
+#'     \item \code{digits [numeric]}
+#'   }
+#' }
+#' @param grid [\code{named list(5)}]\cr \itemize{
+#'   \item \code{plot [logical]}
+#'   \item \code{minor [logical]}, whether or not to plot the minor grid
+#'   \item \code{colour [character]}
+#'   \item \code{linetype [character]}
+#'   \item \code{linewidth [numeric]}
+#' }
+#' @param legend [\code{named list(10)}]\cr \itemize{
+#'   \item \code{plot [logical]}
+#'   \item \code{bins [logical]}
+#'   \item \code{ascending [logical]}, order of values
+#'   \item \code{position [logical]}  (currently only "right" possible)
+#'   \item \code{orientation [logical]} (currently only "vertical" possible)
+#'   \item \code{xRatio [logical]}, ratio between the legend and the plot-box
+#'   \item \code{yRatio [character]}
+#'   \item \code{digits [numeric]}
+#'   \item \code{label [named list(3)]} \itemize{
+#'     \item \code{plot [logical]}
+#'     \item \code{fontsize [numeric]}
+#'     \item \code{colour [character]}
+#'   }
+#'   \item \code{box [named list(4)]} \itemize{
+#'     \item \code{plot [logical]}
+#'     \item \code{linetype [character]}
+#'     \item \code{linewidth [numeric]}
+#'     \item \code{colour [character]}
+#'   }
+#' }
+#' @param scale [\code{named list(6)}]\cr \itemize{
+#'   \item \code{param [logical]} and
+#'   \item \code{to [logical]}, specifying which parameter shall be scale to
+#'   which attribute
+#'   \item \code{identity [logical]}
+#'   \item \code{range [numeric]}, that shall be represented by the
+#'   scale
+#'   \item \code{bins [numeric]}, into which the values shall be classified
+#'   \item \code{maxPixels [numeric]}
+#' }
+#' @param parameters [\code{named list(6)}]\cr \itemize{
+#'   \item \code{colours [character]}, between which to scale (must be at least two, but can be as many as required)
+#'   \item \code{missingcol [character]}
+#'   \item \code{linetype [character]}
+#'   \item \code{linewidth [numeric]}
+#'   \item \code{pointsize [numeric]}
+#'   \item \code{pointsymbol [numeric]}
+#' }
 #' @examples
 #' input <- gtRasters$continuous
 #' (myTheme <- setTheme(title = list(plot = FALSE)))
@@ -609,7 +668,7 @@ setTheme <- function(from = NULL, title = NULL, box = NULL, xAxis = NULL,
 
   assertList(legend, any.missing = FALSE, max.len = 10, null.ok = TRUE)
   if(!is.null(legend)){
-    assertNames(names(legend), subset.of = c("plot", "common", "bins", "ascending", "position", "sizeRatio", "title", "label", "ticks", "box"))
+    assertNames(names(legend), subset.of = c("plot", "bins", "ascending", "label", "box", "position", "orientation", "xRatio", "yRatio", "digits"))
 
     for(i in seq_along(names(legend))){
       if(names(legend)[i] == "label"){

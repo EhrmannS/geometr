@@ -17,55 +17,114 @@ setTheme(
 )
 }
 \arguments{
-\item{from}{[\code{gtTheme}]\cr an gtTheme object.}
+\item{from}{[\code{gtTheme}]\cr a gtTheme object to modify.}
 
-\item{title}{[\code{named list(.)}]\cr \code{plot = TRUE/FALSE},
-\code{fontsize} and \code{colour} of the title.}
+\item{title}{[\code{named list(3)}]\cr \itemize{
+  \item \code{plot [logical]}, whether or not to plot the title
+  \item \code{fontsize [numeric]}
+  \item \code{colour [character]}
+}}
 
-\item{box}{[\code{named list(.)}]\cr \code{plot = TRUE/FALSE},
-\code{linewidth}, \code{linetype} and \code{linecol} of the bounding box
-(not supported recently).}
+\item{box}{[\code{named list(5)}]\cr \itemize{
+  \item \code{plot [logical]}
+  \item \code{fillcol [character]}
+  \item \code{linewidth [numeric]}
+  \item \code{linetype [character]}
+  \item \code{linecol [character]}
+}}
 
-\item{xAxis}{[\code{named list(.)}]\cr \code{plot = TRUE/FALSE}, number of
-\code{bins} and \code{margin} of the x-axis,\cr\cr label [\code{named
-list(.)}]\cr \code{plot = TRUE/FALSE}, \code{title}, \code{fontsize},
-\code{colour} and \code{rotation} of the x-axis label,\cr\cr ticks
-[\code{named list(.)}]\cr \code{plot = TRUE/FALSE}, \code{fontsize},
-\code{colour} and number of \code{digits} to which to round the x-axis
-ticks.}
+\item{xAxis}{[\code{named list(5)}]\cr \itemize{
+  \item \code{plot [logical]}
+  \item \code{bins [numeric]}, into which to separate the tick labels
+  \item \code{margin [numeric]}, proportion (0 - 1) of the plot that shall be taken by the margin
+  \item \code{label [named list(5)]} \itemize{
+    \item \code{plot [logical]}
+    \item \code{title [character]}
+    \item \code{fontsize [numeric]}
+    \item \code{colour [character]}
+    \item \code{rotation [numeric]}
+  }
+  \item \code{ticks [named list(5)]} \itemize{
+    \item \code{plot [logical]}
+    \item \code{fontsize [numeric]}
+    \item \code{colour [character]}
+    \item \code{rotation [numeric]}
+    \item \code{digits [numeric]}, number of digits to round non-integer values to
+  }
+}}
 
-\item{yAxis}{[\code{named list(.)}]\cr \code{plot = TRUE/FALSE}, number of
-\code{bins} and \code{margin} of the y-axis,\cr\cr label [\code{named
-list(.)}]\cr \code{plot = TRUE/FALSE}, \code{title}, \code{fontsize},
-\code{colour} and \code{rotation} of the y-axis label,\cr\cr ticks
-[\code{named list(.)}]\cr \code{plot = TRUE/FALSE}, \code{fontsize},
-\code{colour} and number of \code{digits} to which to round the y-axis
-ticks.}
+\item{yAxis}{[\code{named list(5)}]\cr \itemize{
+  \item \code{plot [logical]}
+  \item \code{bins [numeric]}
+  \item \code{margin [numeric]}
+  \item \code{label [named list(5)]} \itemize{
+    \item \code{plot [logical]}
+    \item \code{title [character]}
+    \item \code{fontsize [numeric]}
+    \item \code{colour [character]}
+    \item \code{rotation [numeric]}
+  }
+  \item \code{ticks [named list(5)]} \itemize{
+    \item \code{plot [logical]}
+    \item \code{fontsize [numeric]}
+    \item \code{colour [character]}
+    \item \code{rotation [numeric]}
+    \item \code{digits [numeric]}
+  }
+}}
 
-\item{grid}{[\code{named list(.)}]\cr \code{plot = TRUE/FALSE},
-\code{colour}, \code{linetype} and \code{linewidth} of the major and minor
-grid and whether or not to plot the \code{minor = TRUE/FALSE} grid.}
+\item{grid}{[\code{named list(5)}]\cr \itemize{
+  \item \code{plot [logical]}
+  \item \code{minor [logical]}, whether or not to plot the minor grid
+  \item \code{colour [character]}
+  \item \code{linetype [character]}
+  \item \code{linewidth [numeric]}
+}}
 
-\item{legend}{[\code{named list(.)}]\cr \code{plot = TRUE/FALSE}, number of
-\code{bins}, \code{ascending = TRUE/FALSE} order of values and the
-\code{sizeRatio} of legend/plot size, \cr\cr label [\code{named
-list(.)}]\cr \code{plot = TRUE/FALSE}, \code{fontsize} and \code{colour} of
-the legend labels, \cr\cr box [\code{named list(.)}]\cr \code{plot =
-TRUE/FALSE}, \code{linetype}, \code{linewidth} and \code{colour} of the
-legend box.}
+\item{legend}{[\code{named list(10)}]\cr \itemize{
+  \item \code{plot [logical]}
+  \item \code{bins [logical]}
+  \item \code{ascending [logical]}, order of values
+  \item \code{position [logical]}  (currently only "right" possible)
+  \item \code{orientation [logical]} (currently only "vertical" possible)
+  \item \code{xRatio [logical]}, ratio between the legend and the plot-box
+  \item \code{yRatio [character]}
+  \item \code{digits [numeric]}
+  \item \code{label [named list(3)]} \itemize{
+    \item \code{plot [logical]}
+    \item \code{fontsize [numeric]}
+    \item \code{colour [character]}
+  }
+  \item \code{box [named list(4)]} \itemize{
+    \item \code{plot [logical]}
+    \item \code{linetype [character]}
+    \item \code{linewidth [numeric]}
+    \item \code{colour [character]}
+  }
+}}
 
-\item{scale}{[\code{named list(.)}]\cr \code{param = 'someParameter'} and
-\code{to = 'someAttribute'} specifying which parameter shall be scale to
-which attribute, the value \code{range} that shall be represented by the
-scale, the number of \code{bins} into which the values shall be classified
-and the number of \code{maxPixels}.}
+\item{scale}{[\code{named list(6)}]\cr \itemize{
+  \item \code{param [logical]} and
+  \item \code{to [logical]}, specifying which parameter shall be scale to
+  which attribute
+  \item \code{identity [logical]}
+  \item \code{range [numeric]}, that shall be represented by the
+  scale
+  \item \code{bins [numeric]}, into which the values shall be classified
+  \item \code{maxPixels [numeric]}
+}}
 
-\item{parameters}{[\code{named list(.)}]\cr \code{linecol}, \code{fillcol},
-\code{missingcol}, \code{linetype}, \code{linewidth}, \code{pointsize} and
-\code{pointsymbol} of the plot object.}
+\item{parameters}{[\code{named list(6)}]\cr \itemize{
+  \item \code{colours [character]}, between which to scale (must be at least two, but can be as many as required)
+  \item \code{missingcol [character]}
+  \item \code{linetype [character]}
+  \item \code{linewidth [numeric]}
+  \item \code{pointsize [numeric]}
+  \item \code{pointsymbol [numeric]}
+}}
 }
 \description{
-Assign parameters in a gtTheme to create a new theme.
+Change parameters in a gtTheme to create a new theme.
 }
 \examples{
 input <- gtRasters$continuous
