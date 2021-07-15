@@ -66,7 +66,6 @@ visualise <- function(...,
   # library(geometr); library(checkmate); library(grid); library(rlang); library(tibble); library(dplyr)
   # window = NULL; theme = gtTheme; trace = FALSE; new = T; clip = FALSE; plotParams <- list()
   # source('/media/se87kuhe/external1/projekte/r-dev/geometr/R/makePlot.R')
-  # source('/media/se87kuhe/external1/projekte/r-dev/geometr/R/updateTheme.R')
   # source('/media/se87kuhe/external1/projekte/r-dev/geometr/R/makeGrob.R')
   # source('/media/se87kuhe/external1/projekte/r-dev/geometr/R/makeLayout.R')
   # source('/media/se87kuhe/external1/projekte/r-dev/geometr/R/makeLegend.R')
