@@ -1,3 +1,9 @@
+# geometr 0.3.0 - fast visuals
+
+- revise `visualise` and all its' helpers to make plotting way faster.
+- fix a bug that would not allow zooming
+
+
 # geoemtr 0.2.9
 
 - revise documentation of `setTheme` in an effort to make it more accessible.

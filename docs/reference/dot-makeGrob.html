@@ -80,7 +80,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">geometr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.8</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.9</span>
       </span>
     </div>
 
@@ -99,13 +99,13 @@
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="http://www.twitter.com/DerEhrmann">
-    <span class="fas fa-twitter fa-lg"></span>
+    <span class="fa fa-twitter fa-lg"></span>
      
   </a>
 </li>
 <li>
   <a href="https://github.com/EhrmannS/geometr">
-    <span class="fas fa-github"></span>
+    <span class="fa fa-github"></span>
      
   </a>
 </li>
@@ -131,7 +131,16 @@
     <p>Make the grob of a plot</p>
     </div>
 
-    <pre class="usage"><span class='fu'>.makeGrob</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>plotParams</span>, theme <span class='op'>=</span> <span class='va'>gtTheme</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>.makeGrob</span><span class='op'>(</span>
+  <span class='va'>x</span>,
+  <span class='va'>featureType</span>,
+  <span class='va'>featureValues</span>,
+  <span class='va'>scaleValues</span>,
+  <span class='va'>plotParams</span>,
+  rows <span class='op'>=</span> <span class='va'>rows</span>,
+  cols <span class='op'>=</span> <span class='va'>cols</span>,
+  theme <span class='op'>=</span> <span class='va'>gtTheme</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -141,13 +150,33 @@
       <td><p>the object to transform to class <code>grob</code>.</p></td>
     </tr>
     <tr>
+      <th>featureType</th>
+      <td><p>the type of feature to make a grob from.</p></td>
+    </tr>
+    <tr>
+      <th>featureValues</th>
+      <td><p>the plot values.</p></td>
+    </tr>
+    <tr>
+      <th>scaleValues</th>
+      <td><p>the scale values.</p></td>
+    </tr>
+    <tr>
       <th>plotParams</th>
-      <td><p>[<code>named list(.)</code>]<br /> new plotting parameters specified
+      <td><p>new plotting parameters specified
 via the quick options in <code><a href='visualise.html'>visualise</a></code>.</p></td>
     </tr>
     <tr>
+      <th>rows</th>
+      <td><p>in case it's a grid, the number of rows.</p></td>
+    </tr>
+    <tr>
+      <th>cols</th>
+      <td><p>in case it's a grid, the number of cols.</p></td>
+    </tr>
+    <tr>
       <th>theme</th>
-      <td><p>[<code><a href='gtTheme.html'>gtTheme(1)</a></code>]<br /> the theme from which to take parameters.</p></td>
+      <td><p>the theme from which to take parameters.</p></td>
     </tr>
     </table>
 

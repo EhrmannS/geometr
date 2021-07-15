@@ -38,7 +38,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">geometr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.8</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.9</span>
       </span>
     </div>
 
@@ -57,13 +57,13 @@
 <ul class="nav navbar-nav navbar-right">
 <li>
   <a href="http://www.twitter.com/DerEhrmann">
-    <span class="fas fa-twitter fa-lg"></span>
+    <span class="fa fa-twitter fa-lg"></span>
      
   </a>
 </li>
 <li>
   <a href="https://github.com/EhrmannS/geometr">
-    <span class="fas fa-github"></span>
+    <span class="fa fa-github"></span>
      
   </a>
 </li>
@@ -77,13 +77,13 @@
 
       
 
-      </header><script src="geometr_files/header-attrs-2.7/header-attrs.js"></script><script src="geometr_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
+      </header><script src="geometr_files/header-attrs-2.9/header-attrs.js"></script><script src="geometr_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>geometr - An overview</h1>
                         <h4 class="author">Steffen Ehrmann</h4>
             
-            <h4 class="date">2021-04-16</h4>
+            <h4 class="date">2021-07-15</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/EhrmannS/geometr/blob/master/vignettes/geometr.Rmd"><code>vignettes/geometr.Rmd</code></a></small>
       <div class="hidden name"><code>geometr.Rmd</code></div>
@@ -116,7 +116,9 @@
 <p>The following code chunk exemplifies this by showing various functions, which are all considered standard in R to date, that derive an extent from specific spatial objects:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">nc_sf</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_read.html">st_read</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span><span class="op">(</span><span class="st">"shape/nc.shp"</span>, package <span class="op">=</span> <span class="st">"sf"</span><span class="op">)</span><span class="op">)</span>
-<span class="co">#&gt; Reading layer `nc' from data source `/home/se87kuhe/R/x86_64-pc-linux-gnu-library/3.6/sf/shape/nc.shp' using driver `ESRI Shapefile'</span>
+<span class="co">#&gt; Reading layer `nc' from data source </span>
+<span class="co">#&gt;   `/home/se87kuhe/R/x86_64-pc-linux-gnu-library/3.6/sf/shape/nc.shp' </span>
+<span class="co">#&gt;   using driver `ESRI Shapefile'</span>
 <span class="co">#&gt; Simple feature collection with 100 features and 14 fields</span>
 <span class="co">#&gt; Geometry type: MULTIPOLYGON</span>
 <span class="co">#&gt; Dimension:     XY</span>
@@ -441,9 +443,20 @@
 <span class="co">#&gt; #   SID79 &lt;dbl&gt;, NWBIR79 &lt;dbl&gt;</span></code></pre></div>
 <p>It becomes clear that this approach to attribute tables makes the class <code>geom</code> quite flexible. One could for example assign some point specific measurements (such as <a href="http://www.pommerening.org">Arne Pommerening’s</a> Clocaenog 6 sample data) to the feature attribute table, and at the same time set group specific attributes to the group attribute table of a point <code>geom</code>.</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">clg_dat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://readr.tidyverse.org/reference/read_delim.html">read_delim</a></span><span class="op">(</span>file <span class="op">=</span> <span class="st">"http://www.pommerening.org/wiki/images/d/dc/Clg6.txt"</span>, 
+<code class="sourceCode R"><span class="va">read_delim_cr</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">file</span>, <span class="va">...</span><span class="op">)</span> <span class="op">{</span>
+  <span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://readr.tidyverse.org/reference/read_file.html">read_file_raw</a></span><span class="op">(</span><span class="va">file</span><span class="op">)</span>
+
+  <span class="kw">for</span> <span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq_along</a></span><span class="op">(</span><span class="va">data</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span>
+    <span class="kw">if</span> <span class="op">(</span><span class="va">data</span><span class="op">[[</span><span class="va">i</span><span class="op">]</span><span class="op">]</span> <span class="op">==</span> <span class="fl">0x0d</span><span class="op">)</span> <span class="op">{</span>
+      <span class="va">data</span><span class="op">[[</span><span class="va">i</span><span class="op">]</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/raw.html">as.raw</a></span><span class="op">(</span><span class="fl">0x0a</span><span class="op">)</span>
+    <span class="op">}</span>
+  <span class="op">}</span>
+  <span class="fu"><a href="https://readr.tidyverse.org/reference/read_delim.html">read_delim</a></span><span class="op">(</span><span class="va">data</span>, <span class="va">...</span><span class="op">)</span>
+<span class="op">}</span>
+
+<span class="va">clg_dat</span> <span class="op">&lt;-</span> <span class="fu">read_delim_cr</span><span class="op">(</span>file <span class="op">=</span> <span class="st">"http://www.pommerening.org/wiki/images/d/dc/Clg6.txt"</span>, 
                         delim <span class="op">=</span> <span class="st">"\t"</span>, col_types <span class="op">=</span> <span class="st">"iiidddd"</span><span class="op">)</span>
-<span class="va">clg_spec</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://readr.tidyverse.org/reference/read_delim.html">read_delim</a></span><span class="op">(</span>file <span class="op">=</span> <span class="st">"http://www.pommerening.org/wiki/images/d/df/Clg6.species"</span>,
+<span class="va">clg_spec</span> <span class="op">&lt;-</span> <span class="fu">read_delim_cr</span><span class="op">(</span>file <span class="op">=</span> <span class="st">"http://www.pommerening.org/wiki/images/d/df/Clg6.species"</span>,
                        delim <span class="op">=</span> <span class="st">"\t"</span>, col_types <span class="op">=</span> <span class="st">"icccc"</span><span class="op">)</span> <span class="op">%&gt;%</span> 
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate_all.html">mutate_if</a></span><span class="op">(</span><span class="va">is.character</span>, <span class="va">trimws</span><span class="op">)</span>
 
@@ -569,7 +582,7 @@
 <span class="co">#&gt; ✔  - ticks  in black with fontsize 10 rounded to 1 digit </span>
 <span class="co">#&gt; ✔ grid      in grey with 0.6 wide lines of type solid </span>
 <span class="co">#&gt; ✔ legend    with values ordered ascending in 4 bins and a relative height of 0.6</span>
-<span class="co">#&gt; ✔  - label  in black with fontsize 10</span>
+<span class="co">#&gt; ✔  - label  in black with fontsize 10 rounded to 2 digits</span>
 <span class="co">#&gt; ✔  - box    in black with 0.2 wide lines of type solid </span>
 <span class="co">#&gt; ✔ objects   with line-colour black and fill-colour empty</span>
 <span class="co">#&gt;             with 1 wide lines of type solid</span>

@@ -47,7 +47,7 @@
 
 
 <meta property="og:title" content="Create a new theme — setTheme" />
-<meta property="og:description" content="Assign parameters in a gtTheme to create a new theme." />
+<meta property="og:description" content="Change parameters in a gtTheme to create a new theme." />
 <meta property="og:image" content="http://EhrmannS.github.io/geometr/logo.svg" />
 
 
@@ -80,7 +80,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">geometr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.8</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.9</span>
       </span>
     </div>
 
@@ -99,13 +99,13 @@
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="http://www.twitter.com/DerEhrmann">
-    <span class="fas fa-twitter fa-lg"></span>
+    <span class="fa fa-twitter fa-lg"></span>
      
   </a>
 </li>
 <li>
   <a href="https://github.com/EhrmannS/geometr">
-    <span class="fas fa-github"></span>
+    <span class="fa fa-github"></span>
      
   </a>
 </li>
@@ -128,7 +128,7 @@
     </div>
 
     <div class="ref-description">
-    <p>Assign parameters in a gtTheme to create a new theme.</p>
+    <p>Change parameters in a gtTheme to create a new theme.</p>
     </div>
 
     <pre class="usage"><span class='fu'>setTheme</span><span class='op'>(</span>
@@ -148,68 +148,127 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>from</th>
-      <td><p>[<code>gtTheme</code>]<br /> an gtTheme object.</p></td>
+      <td><p>[<code>gtTheme</code>]<br /> a gtTheme object to modify.</p></td>
     </tr>
     <tr>
       <th>title</th>
-      <td><p>[<code>named list(.)</code>]<br /> <code>plot = TRUE/FALSE</code>,
-<code>fontsize</code> and <code>colour</code> of the title.</p></td>
+      <td><p>[<code>named list(3)</code>]<br /></p><ul>
+<li><p><code>plot [logical]</code>, whether or not to plot the title</p></li>
+<li><p><code>fontsize [numeric]</code></p></li>
+<li><p><code>colour [character]</code></p></li>
+</ul></td>
     </tr>
     <tr>
       <th>box</th>
-      <td><p>[<code>named list(.)</code>]<br /> <code>plot = TRUE/FALSE</code>,
-<code>linewidth</code>, <code>linetype</code> and <code>linecol</code> of the bounding box
-(not supported recently).</p></td>
+      <td><p>[<code>named list(5)</code>]<br /></p><ul>
+<li><p><code>plot [logical]</code></p></li>
+<li><p><code>fillcol [character]</code></p></li>
+<li><p><code>linewidth [numeric]</code></p></li>
+<li><p><code>linetype [character]</code></p></li>
+<li><p><code>linecol [character]</code></p></li>
+</ul></td>
     </tr>
     <tr>
       <th>xAxis</th>
-      <td><p>[<code>named list(.)</code>]<br /> <code>plot = TRUE/FALSE</code>, number of
-<code>bins</code> and <code>margin</code> of the x-axis,<br /><br /> label [<code>named
-list(.)</code>]<br /> <code>plot = TRUE/FALSE</code>, <code>title</code>, <code>fontsize</code>,
-<code>colour</code> and <code>rotation</code> of the x-axis label,<br /><br /> ticks
-[<code>named list(.)</code>]<br /> <code>plot = TRUE/FALSE</code>, <code>fontsize</code>,
-<code>colour</code> and number of <code>digits</code> to which to round the x-axis
-ticks.</p></td>
+      <td><p>[<code>named list(5)</code>]<br /></p><ul>
+<li><p><code>plot [logical]</code></p></li>
+<li><p><code>bins [numeric]</code>, into which to separate the tick labels</p></li>
+<li><p><code>margin [numeric]</code>, proportion (0 - 1) of the plot that shall be taken by the margin</p></li>
+<li><p><code>label [named list(5)]</code></p><ul>
+<li><p><code>plot [logical]</code></p></li>
+<li><p><code>title [character]</code></p></li>
+<li><p><code>fontsize [numeric]</code></p></li>
+<li><p><code>colour [character]</code></p></li>
+<li><p><code>rotation [numeric]</code></p></li>
+</ul></li>
+<li><p><code>ticks [named list(5)]</code></p><ul>
+<li><p><code>plot [logical]</code></p></li>
+<li><p><code>fontsize [numeric]</code></p></li>
+<li><p><code>colour [character]</code></p></li>
+<li><p><code>rotation [numeric]</code></p></li>
+<li><p><code>digits [numeric]</code>, number of digits to round non-integer values to</p></li>
+</ul></li>
+</ul></td>
     </tr>
     <tr>
       <th>yAxis</th>
-      <td><p>[<code>named list(.)</code>]<br /> <code>plot = TRUE/FALSE</code>, number of
-<code>bins</code> and <code>margin</code> of the y-axis,<br /><br /> label [<code>named
-list(.)</code>]<br /> <code>plot = TRUE/FALSE</code>, <code>title</code>, <code>fontsize</code>,
-<code>colour</code> and <code>rotation</code> of the y-axis label,<br /><br /> ticks
-[<code>named list(.)</code>]<br /> <code>plot = TRUE/FALSE</code>, <code>fontsize</code>,
-<code>colour</code> and number of <code>digits</code> to which to round the y-axis
-ticks.</p></td>
+      <td><p>[<code>named list(5)</code>]<br /></p><ul>
+<li><p><code>plot [logical]</code></p></li>
+<li><p><code>bins [numeric]</code></p></li>
+<li><p><code>margin [numeric]</code></p></li>
+<li><p><code>label [named list(5)]</code></p><ul>
+<li><p><code>plot [logical]</code></p></li>
+<li><p><code>title [character]</code></p></li>
+<li><p><code>fontsize [numeric]</code></p></li>
+<li><p><code>colour [character]</code></p></li>
+<li><p><code>rotation [numeric]</code></p></li>
+</ul></li>
+<li><p><code>ticks [named list(5)]</code></p><ul>
+<li><p><code>plot [logical]</code></p></li>
+<li><p><code>fontsize [numeric]</code></p></li>
+<li><p><code>colour [character]</code></p></li>
+<li><p><code>rotation [numeric]</code></p></li>
+<li><p><code>digits [numeric]</code></p></li>
+</ul></li>
+</ul></td>
     </tr>
     <tr>
       <th>grid</th>
-      <td><p>[<code>named list(.)</code>]<br /> <code>plot = TRUE/FALSE</code>,
-<code>colour</code>, <code>linetype</code> and <code>linewidth</code> of the major and minor
-grid and whether or not to plot the <code>minor = TRUE/FALSE</code> grid.</p></td>
+      <td><p>[<code>named list(5)</code>]<br /></p><ul>
+<li><p><code>plot [logical]</code></p></li>
+<li><p><code>minor [logical]</code>, whether or not to plot the minor grid</p></li>
+<li><p><code>colour [character]</code></p></li>
+<li><p><code>linetype [character]</code></p></li>
+<li><p><code>linewidth [numeric]</code></p></li>
+</ul></td>
     </tr>
     <tr>
       <th>legend</th>
-      <td><p>[<code>named list(.)</code>]<br /> <code>plot = TRUE/FALSE</code>, number of
-<code>bins</code>, <code>ascending = TRUE/FALSE</code> order of values and the
-<code>sizeRatio</code> of legend/plot size, <br /><br /> label [<code>named
-list(.)</code>]<br /> <code>plot = TRUE/FALSE</code>, <code>fontsize</code> and <code>colour</code> of
-the legend labels, <br /><br /> box [<code>named list(.)</code>]<br /> <code>plot =
-TRUE/FALSE</code>, <code>linetype</code>, <code>linewidth</code> and <code>colour</code> of the
-legend box.</p></td>
+      <td><p>[<code>named list(10)</code>]<br /></p><ul>
+<li><p><code>plot [logical]</code></p></li>
+<li><p><code>bins [logical]</code></p></li>
+<li><p><code>ascending [logical]</code>, order of values</p></li>
+<li><p><code>position [logical]</code>  (currently only "right" possible)</p></li>
+<li><p><code>orientation [logical]</code> (currently only "vertical" possible)</p></li>
+<li><p><code>xRatio [logical]</code>, ratio between the legend and the plot-box</p></li>
+<li><p><code>yRatio [character]</code></p></li>
+<li><p><code>digits [numeric]</code></p></li>
+<li><p><code>label [named list(3)]</code></p><ul>
+<li><p><code>plot [logical]</code></p></li>
+<li><p><code>fontsize [numeric]</code></p></li>
+<li><p><code>colour [character]</code></p></li>
+</ul></li>
+<li><p><code>box [named list(4)]</code></p><ul>
+<li><p><code>plot [logical]</code></p></li>
+<li><p><code>linetype [character]</code></p></li>
+<li><p><code>linewidth [numeric]</code></p></li>
+<li><p><code>colour [character]</code></p></li>
+</ul></li>
+</ul></td>
     </tr>
     <tr>
       <th>scale</th>
-      <td><p>[<code>named list(.)</code>]<br /> <code>param = 'someParameter'</code> and
-<code>to = 'someAttribute'</code> specifying which parameter shall be scale to
-which attribute, the value <code>range</code> that shall be represented by the
-scale, the number of <code>bins</code> into which the values shall be classified
-and the number of <code>maxPixels</code>.</p></td>
+      <td><p>[<code>named list(6)</code>]<br /></p><ul>
+<li><p><code>param [logical]</code> and</p></li>
+<li><p><code>to [logical]</code>, specifying which parameter shall be scale to
+  which attribute</p></li>
+<li><p><code>identity [logical]</code></p></li>
+<li><p><code>range [numeric]</code>, that shall be represented by the
+  scale</p></li>
+<li><p><code>bins [numeric]</code>, into which the values shall be classified</p></li>
+<li><p><code>maxPixels [numeric]</code></p></li>
+</ul></td>
     </tr>
     <tr>
       <th>parameters</th>
-      <td><p>[<code>named list(.)</code>]<br /> <code>linecol</code>, <code>fillcol</code>,
-<code>missingcol</code>, <code>linetype</code>, <code>linewidth</code>, <code>pointsize</code> and
-<code>pointsymbol</code> of the plot object.</p></td>
+      <td><p>[<code>named list(6)</code>]<br /></p><ul>
+<li><p><code>colours [character]</code>, between which to scale (must be at least two, but can be as many as required)</p></li>
+<li><p><code>missingcol [character]</code></p></li>
+<li><p><code>linetype [character]</code></p></li>
+<li><p><code>linewidth [numeric]</code></p></li>
+<li><p><code>pointsize [numeric]</code></p></li>
+<li><p><code>pointsymbol [numeric]</code></p></li>
+</ul></td>
     </tr>
     </table>
 
@@ -217,23 +276,23 @@ and the number of <code>maxPixels</code>.</p></td>
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='va'>input</span> <span class='op'>&lt;-</span> <span class='va'>gtRasters</span><span class='op'>$</span><span class='va'>continuous</span>
 <span class='op'>(</span><span class='va'>myTheme</span> <span class='op'>&lt;-</span> <span class='fu'>setTheme</span><span class='op'>(</span>title <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>plot <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span style='color: #BB0000;'>✖</span><span style='color: #BBBB00;'> title    </span><span> 
-#&gt; </span><span style='color: #00BB00;'>✔</span><span style='color: #BBBB00;'> box      </span><span> in </span><span style='color: #00BBBB;'>grey</span><span> with </span><span style='color: #00BBBB;'>0.6</span><span> wide lines of type </span><span style='color: #00BBBB;'>solid</span><span> 
-#&gt; </span><span style='color: #00BB00;'>✔</span><span style='color: #BBBB00;'> xAxis    </span><span> with </span><span style='color: #00BBBB;'>4</span><span> bins and a margin of </span><span style='color: #00BBBB;'>5</span><span>%
-#&gt; </span><span style='color: #00BB00;'>✔</span><span style='color: #BBBB00;'>  - label  </span><span style='color: #00BBBB;'>x</span><span> in </span><span style='color: #00BBBB;'>black</span><span> with fontsize </span><span style='color: #00BBBB;'>12</span><span>
-#&gt; </span><span style='color: #00BB00;'>✔</span><span style='color: #BBBB00;'>  - ticks  </span><span>in </span><span style='color: #00BBBB;'>black</span><span> with fontsize </span><span style='color: #00BBBB;'>10</span><span> rounded to </span><span style='color: #00BBBB;'>1</span><span> digit 
-#&gt; </span><span style='color: #00BB00;'>✔</span><span style='color: #BBBB00;'> yAxis    </span><span> with </span><span style='color: #00BBBB;'>4</span><span> bins and a margin of </span><span style='color: #00BBBB;'>5</span><span>%
-#&gt; </span><span style='color: #00BB00;'>✔</span><span style='color: #BBBB00;'>  - label  </span><span style='color: #00BBBB;'>y</span><span> in </span><span style='color: #00BBBB;'>black</span><span> with fontsize </span><span style='color: #00BBBB;'>12</span><span>
-#&gt; </span><span style='color: #00BB00;'>✔</span><span style='color: #BBBB00;'>  - ticks  </span><span>in </span><span style='color: #00BBBB;'>black</span><span> with fontsize </span><span style='color: #00BBBB;'>10</span><span> rounded to </span><span style='color: #00BBBB;'>1</span><span> digit 
-#&gt; </span><span style='color: #00BB00;'>✔</span><span style='color: #BBBB00;'> grid     </span><span> in </span><span style='color: #00BBBB;'>grey</span><span> with </span><span style='color: #00BBBB;'>0.6</span><span> wide lines of type </span><span style='color: #00BBBB;'>solid</span><span> 
-#&gt; </span><span style='color: #00BB00;'>✔</span><span style='color: #BBBB00;'> legend   </span><span> with values ordered </span><span style='color: #00BBBB;'>ascending</span><span> in </span><span style='color: #00BBBB;'>4</span><span> bins and a relative height of </span><span style='color: #00BBBB;'>0.6</span><span>
-#&gt; </span><span style='color: #00BB00;'>✔</span><span style='color: #BBBB00;'>  - label  </span><span>in </span><span style='color: #00BBBB;'>black</span><span> with fontsize </span><span style='color: #00BBBB;'>10</span><span>
-#&gt; </span><span style='color: #00BB00;'>✔</span><span style='color: #BBBB00;'>  - box    </span><span>in </span><span style='color: #00BBBB;'>black</span><span> with </span><span style='color: #00BBBB;'>0.2</span><span> wide lines of type </span><span style='color: #00BBBB;'>solid</span><span> 
-#&gt; </span><span style='color: #00BB00;'>✔</span><span style='color: #BBBB00;'> objects  </span><span> with line-colour </span><span style='color: #00BBBB;'>black</span><span> and fill-colour </span><span style='color: #00BBBB;'>empty</span><span>
-#&gt;             with </span><span style='color: #00BBBB;'>1</span><span> wide lines of type </span><span style='color: #00BBBB;'>solid</span><span>
-#&gt;             or </span><span style='color: #00BBBB;'>0.5</span><span> wide points of type </span><span style='color: #00BBBB;'>20</span><span></div><div class='input'>
+</div><div class='output co'>#&gt; <span style='color: #BB0000;'>✖</span><span style='color: #BBBB00;'> title    </span> 
+#&gt; <span style='color: #00BB00;'>✔</span><span style='color: #BBBB00;'> box      </span> in <span style='color: #00BBBB;'>grey</span> with <span style='color: #00BBBB;'>0.6</span> wide lines of type <span style='color: #00BBBB;'>solid</span> 
+#&gt; <span style='color: #00BB00;'>✔</span><span style='color: #BBBB00;'> xAxis    </span> with <span style='color: #00BBBB;'>4</span> bins and a margin of <span style='color: #00BBBB;'>5</span>%
+#&gt; <span style='color: #00BB00;'>✔</span><span style='color: #BBBB00;'>  - label  </span><span style='color: #00BBBB;'>x</span> in <span style='color: #00BBBB;'>black</span> with fontsize <span style='color: #00BBBB;'>12</span>
+#&gt; <span style='color: #00BB00;'>✔</span><span style='color: #BBBB00;'>  - ticks  </span>in <span style='color: #00BBBB;'>black</span> with fontsize <span style='color: #00BBBB;'>10</span> rounded to <span style='color: #00BBBB;'>1</span> digit 
+#&gt; <span style='color: #00BB00;'>✔</span><span style='color: #BBBB00;'> yAxis    </span> with <span style='color: #00BBBB;'>4</span> bins and a margin of <span style='color: #00BBBB;'>5</span>%
+#&gt; <span style='color: #00BB00;'>✔</span><span style='color: #BBBB00;'>  - label  </span><span style='color: #00BBBB;'>y</span> in <span style='color: #00BBBB;'>black</span> with fontsize <span style='color: #00BBBB;'>12</span>
+#&gt; <span style='color: #00BB00;'>✔</span><span style='color: #BBBB00;'>  - ticks  </span>in <span style='color: #00BBBB;'>black</span> with fontsize <span style='color: #00BBBB;'>10</span> rounded to <span style='color: #00BBBB;'>1</span> digit 
+#&gt; <span style='color: #00BB00;'>✔</span><span style='color: #BBBB00;'> grid     </span> in <span style='color: #00BBBB;'>grey</span> with <span style='color: #00BBBB;'>0.6</span> wide lines of type <span style='color: #00BBBB;'>solid</span> 
+#&gt; <span style='color: #00BB00;'>✔</span><span style='color: #BBBB00;'> legend   </span> with values ordered <span style='color: #00BBBB;'>ascending</span> in <span style='color: #00BBBB;'>4</span> bins and a relative height of <span style='color: #00BBBB;'>0.6</span>
+#&gt; <span style='color: #00BB00;'>✔</span><span style='color: #BBBB00;'>  - label  </span>in <span style='color: #00BBBB;'>black</span> with fontsize <span style='color: #00BBBB;'>10</span> rounded to <span style='color: #00BBBB;'>2</span> digits
+#&gt; <span style='color: #00BB00;'>✔</span><span style='color: #BBBB00;'>  - box    </span>in <span style='color: #00BBBB;'>black</span> with <span style='color: #00BBBB;'>0.2</span> wide lines of type <span style='color: #00BBBB;'>solid</span> 
+#&gt; <span style='color: #00BB00;'>✔</span><span style='color: #BBBB00;'> objects  </span> with line-colour <span style='color: #00BBBB;'>black</span> and fill-colour <span style='color: #00BBBB;'>empty</span>
+#&gt;             with <span style='color: #00BBBB;'>1</span> wide lines of type <span style='color: #00BBBB;'>solid</span>
+#&gt;             or <span style='color: #00BBBB;'>0.5</span> wide points of type <span style='color: #00BBBB;'>20</span></div><div class='input'>
 <span class='fu'><a href='visualise.html'>visualise</a></span><span class='op'>(</span><span class='va'>input</span>, theme <span class='op'>=</span> <span class='va'>myTheme</span><span class='op'>)</span>
-</div><div class='img'><img src='setTheme-1.png' alt='' width='700' height='433' /></div></span></pre>
+</div><div class='img'><img src='setTheme-1.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

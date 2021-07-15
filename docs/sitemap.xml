@@ -40,9 +40,6 @@
     <loc>http://EhrmannS.github.io/geometr/reference/dot-updateOrder.html</loc>
   </url>
   <url>
-    <loc>http://EhrmannS.github.io/geometr/reference/dot-updateTheme.html</loc>
-  </url>
-  <url>
     <loc>http://EhrmannS.github.io/geometr/reference/dot-updateVertices.html</loc>
   </url>
   <url>
@@ -142,19 +139,7 @@
     <loc>http://EhrmannS.github.io/geometr/reference/gtTheme.html</loc>
   </url>
   <url>
-    <loc>http://EhrmannS.github.io/geometr/reference/gt_combine.html</loc>
-  </url>
-  <url>
-    <loc>http://EhrmannS.github.io/geometr/reference/gt_dissolve.html</loc>
-  </url>
-  <url>
-    <loc>http://EhrmannS.github.io/geometr/reference/gt_enclose.html</loc>
-  </url>
-  <url>
     <loc>http://EhrmannS.github.io/geometr/reference/gt_filter.html</loc>
-  </url>
-  <url>
-    <loc>http://EhrmannS.github.io/geometr/reference/gt_intersect.html</loc>
   </url>
   <url>
     <loc>http://EhrmannS.github.io/geometr/reference/gt_locate.html</loc>
