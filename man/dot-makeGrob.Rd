@@ -4,15 +4,34 @@
 \alias{.makeGrob}
 \title{Make the grob of a plot}
 \usage{
-.makeGrob(x, plotParams, theme = gtTheme)
+.makeGrob(
+  x,
+  featureType,
+  featureValues,
+  scaleValues,
+  plotParams,
+  rows = rows,
+  cols = cols,
+  theme = gtTheme
+)
 }
 \arguments{
 \item{x}{the object to transform to class \code{grob}.}
 
-\item{plotParams}{[\code{named list(.)}]\cr new plotting parameters specified
+\item{featureType}{the type of feature to make a grob from.}
+
+\item{featureValues}{the plot values.}
+
+\item{scaleValues}{the scale values.}
+
+\item{plotParams}{new plotting parameters specified
 via the quick options in \code{\link{visualise}}.}
 
-\item{theme}{[\code{gtTheme(1)}]\cr the theme from which to take parameters.}
+\item{rows}{in case it's a grid, the number of rows.}
+
+\item{cols}{in case it's a grid, the number of cols.}
+
+\item{theme}{the theme from which to take parameters.}
 }
 \value{
 Depending on the provided geometry either a \code{\link{pointsGrob}},
