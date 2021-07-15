@@ -202,3 +202,4 @@ test_that("transform from Raster to geom", {
   expect_true(output@type == "grid")
   expect_data_frame(x = output@group, nrows = 91)
 })
+
