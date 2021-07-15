@@ -1,9 +1,14 @@
 #' Make the grob of a plot
 #'
 #' @param x the object to transform to class \code{grob}.
-#' @param plotParams [\code{named list(.)}]\cr new plotting parameters specified
+#' @param featureType the type of feature to make a grob from.
+#' @param featureValues the plot values.
+#' @param scaleValues the scale values.
+#' @param rows in case it's a grid, the number of rows.
+#' @param cols in case it's a grid, the number of cols.
+#' @param plotParams new plotting parameters specified
 #'   via the quick options in \code{\link{visualise}}.
-#' @param theme [\code{gtTheme(1)}]\cr the theme from which to take parameters.
+#' @param theme the theme from which to take parameters.
 #' @return Depending on the provided geometry either a \code{\link{pointsGrob}},
 #'   a \code{\link{polylineGrob}}, a \code{\link{pathGrob}} or a
 #'   \code{\link{rasterGrob}}.
@@ -16,11 +21,11 @@
 #' @importFrom grid gpar unit pointsGrob gList pathGrob polylineGrob clipGrob
 #'   rasterGrob
 
-.makeGrob <- function(x, plotParams, theme = gtTheme){
+.makeGrob <- function(x, featureType, featureValues, scaleValues, plotParams, rows = rows, cols = cols, theme = gtTheme){
 
   if(theme@box$plot){
 
-    featureType <- getType(x = x)
+    # featureType <- getType(x = x)
     if(featureType[1] != "grid") {
 
       params <- list(linecol = "black",
@@ -184,17 +189,18 @@
 
     } else {
 
-      vals <- getFeatures(x = x)$values
+      # vals <- getFeatures(x = x)$values
 
-      if(testCharacter(x = vals, pattern = "\\#(.{6,8})")){
-        theColours <- as.vector(vals)
+      if(testCharacter(x = featureValues, pattern = "\\#(.{6,8})")){
+        theColours <- as.vector(featureValues)
       } else {
-        items <- sort(gt_pull(obj = x, var = theme@scale$to))
-        breaksTemp <- c(items[1]-1, items)
-        valCuts <- cut(vals, breaks = breaksTemp, include.lowest = TRUE)
+        # items <- sort(gt_pull(obj = x, var = theme@scale$to))
 
-        cols <- theme@parameters$colours
-        allColours <- colorRampPalette(colors = cols)(theme@scale$bins)
+        scaleBreaks <- c(scaleValues[1]-1, scaleValues)
+        valCuts <- cut(featureValues, breaks = scaleBreaks, include.lowest = TRUE)
+
+        colours <- theme@parameters$colours
+        allColours <- colorRampPalette(colors = colours)(theme@scale$bins)
 
         theColours <- allColours[valCuts]
       }
@@ -205,7 +211,7 @@
                         height = unit(1, "npc"),
                         hjust = 0,
                         vjust = 0,
-                        image = matrix(data = theColours, nrow = getRows(x = x), ncol = getCols(x = x), byrow = TRUE),
+                        image = matrix(data = theColours, nrow = rows, ncol = cols, byrow = TRUE),
                         name = "theRaster",
                         interpolate = FALSE)
     }

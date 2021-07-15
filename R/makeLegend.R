@@ -1,14 +1,15 @@
 #' Make the legend of a plot
 #'
-#' @param x [\code{list(1)}]\cr any spatial object to plot.
-#' @param plotParams [\code{named list(.)}]\cr new plotting parameters specified
+#' @param x any spatial object to plot.
+#' @param scaleValues the scale values.
+#' @param plotParams new plotting parameters specified
 #'   via the quick options in \code{\link{visualise}}.
-#' @param theme [\code{list(7)}]\cr the theme from which to take graphical
+#' @param theme the theme from which to take graphical
 #'   parameters.
 #' @importFrom checkmate assertChoice
 #' @importFrom grid textGrob rasterGrob rectGrob gpar gTree gList unit
 
-.makeLegend <- function(x, plotParams, theme){
+.makeLegend <- function(x, scaleValues, plotParams, theme){
 
   if(theme@legend$plot){
 
@@ -23,7 +24,11 @@
       theParam <- names(plotParams)[i]
       theVar <- plotParams[[i]]
 
-      allLabels <- suppressMessages(sort(gt_pull(obj = x, var = theVar)))
+      if(theVar != "gid"){
+        allLabels <- suppressMessages(sort(gt_pull(obj = x, var = theVar)))
+      } else {
+        allLabels <- scaleValues
+      }
 
       if(!is.null(theme@scale$bins)){
         thebins <- theme@scale$bins
