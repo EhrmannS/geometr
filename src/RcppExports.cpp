@@ -5,6 +5,11 @@
 
 using namespace Rcpp;
 
+#ifdef RCPP_USE_GLOBAL_ROSTREAM
+Rcpp::Rostream<true>&  Rcpp::Rcout = Rcpp::Rcpp_cout_get();
+Rcpp::Rostream<false>& Rcpp::Rcerr = Rcpp::Rcpp_cerr_get();
+#endif
+
 // pointInGeomC
 IntegerVector pointInGeomC(NumericMatrix& vert, NumericMatrix& geom, bool invert);
 RcppExport SEXP _geometr_pointInGeomC(SEXP vertSEXP, SEXP geomSEXP, SEXP invertSEXP) {
