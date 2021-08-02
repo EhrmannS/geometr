@@ -7,7 +7,7 @@
 .makeGrob(
   x,
   featureType,
-  featureValues,
+  plotValues,
   scaleValues,
   plotParams,
   rows = rows,
@@ -20,7 +20,7 @@
 
 \item{featureType}{the type of feature to make a grob from.}
 
-\item{featureValues}{the plot values.}
+\item{plotValues}{the plot values.}
 
 \item{scaleValues}{the scale values.}
 
