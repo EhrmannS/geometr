@@ -2,7 +2,7 @@
 #'
 #' @param x the object to transform to class \code{grob}.
 #' @param featureType the type of feature to make a grob from.
-#' @param featureValues the plot values.
+#' @param plotValues the plot values.
 #' @param scaleValues the scale values.
 #' @param rows in case it's a grid, the number of rows.
 #' @param cols in case it's a grid, the number of cols.
@@ -21,7 +21,7 @@
 #' @importFrom grid gpar unit pointsGrob gList pathGrob polylineGrob clipGrob
 #'   rasterGrob
 
-.makeGrob <- function(x, featureType, featureValues, scaleValues, plotParams, rows = rows, cols = cols, theme = gtTheme){
+.makeGrob <- function(x, featureType, plotValues, scaleValues, plotParams, rows = rows, cols = cols, theme = gtTheme){
 
   if(theme@box$plot){
 
@@ -51,7 +51,11 @@
         theParam <- names(tempArgs)[i]
         pos <- which(names(params) %in% theParam)
 
-        items <- suppressMessages(gt_pull(obj = x, var = theVar))
+        if(i == 1){
+          items <- plotValues
+        } else {
+          items <- suppressMessages(gt_pull(obj = x, var = theVar))
+        }
         num <- suppressWarnings(as.numeric(as.character(theVar)))
 
         # if the argument is a colour argument, construct a color ramp from two or more values
@@ -191,13 +195,13 @@
 
       # vals <- getFeatures(x = x)$values
 
-      if(testCharacter(x = featureValues, pattern = "\\#(.{6,8})")){
-        theColours <- as.vector(featureValues)
+      if(testCharacter(x = plotValues, pattern = "\\#(.{6,8})")){
+        theColours <- as.vector(plotValues)
       } else {
         # items <- sort(gt_pull(obj = x, var = theme@scale$to))
 
         scaleBreaks <- c(scaleValues[1]-1, scaleValues)
-        valCuts <- cut(featureValues, breaks = scaleBreaks, include.lowest = TRUE)
+        valCuts <- cut(plotValues, breaks = scaleBreaks, include.lowest = TRUE)
 
         colours <- theme@parameters$colours
         allColours <- colorRampPalette(colors = colours)(theme@scale$bins)

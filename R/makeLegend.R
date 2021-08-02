@@ -24,10 +24,10 @@
       theParam <- names(plotParams)[i]
       theVar <- plotParams[[i]]
 
-      if(theVar != "gid"){
-        allLabels <- suppressMessages(sort(gt_pull(obj = x, var = theVar)))
-      } else {
+      if(i == 1){
         allLabels <- scaleValues
+      } else {
+        allLabels <- suppressMessages(sort(gt_pull(obj = x, var = theVar)))
       }
 
       if(!is.null(theme@scale$bins)){

@@ -41,15 +41,19 @@
   if(featureType[1] == "grid"){
     theme@scale$param <- "fillcol"
     theme@scale$to <- "gid"
-    getVal <- "values"
+    plotValues <- theFeatures$values
+    if(is.numeric(plotValues)){
+      scaleValues <- sortUniqueC(plotValues)
+    } else {
+      scaleValues <- sort(unique(plotValues))
+    }
   } else {
-    getVal <- "gid"
-  }
-
-  if(is.numeric(theFeatures[[getVal]])){
-    scaleValues <- sortUniqueC(theFeatures[[getVal]])
-  } else {
-    scaleValues <- sort(unique(theFeatures[[getVal]]))
+    if(length(plotParams) == 0){
+      plotValues <- theFeatures$gid
+    } else {
+      plotValues <- gt_pull(obj = x, var = plotParams[1][[1]])
+    }
+    scaleValues <- sort(unique(plotValues))
   }
 
   if(dim(thePoints)[1] == 0){
@@ -59,23 +63,24 @@
   }
 
   # items <- suppressMessages(sort(gt_pull(obj = x, var = theme@scale$to)))
-  if(length(scaleValues) > 10){
-    testItems <- sample(scaleValues, 10)
-  } else {
-     testItems <- scaleValues
-  }
-
-  if(any(as.character(testItems) %in% colors()) | any(grepl(pattern = "\\#(.{6,8})", x = testItems))){
-    theme@legend$plot <- FALSE
-  }
-  if(is.null(theme@scale$range)){
-    if(!is.null(scaleValues)){
-      theme@scale$range <- c(head(scaleValues, 1), tail(scaleValues, 1))
+  if(!is.null(scaleValues)){
+    if(length(scaleValues) > 10){
+      testItems <- sample(scaleValues, 10)
+    } else {
+      testItems <- scaleValues
     }
-  }
-  if(is.null(theme@scale$bins)){
-    if(!is.null(scaleValues)){
-      theme@scale$bins <- length(scaleValues)
+    if(any(as.character(testItems) %in% colors()) | any(grepl(pattern = "\\#(.{6,8})", x = testItems))){
+      theme@legend$plot <- FALSE
+    }
+    if(is.null(theme@scale$range)){
+      if(!is.null(scaleValues)){
+        theme@scale$range <- c(head(scaleValues, 1), tail(scaleValues, 1))
+      }
+    }
+    if(is.null(theme@scale$bins)){
+      if(!is.null(scaleValues)){
+        theme@scale$bins <- length(scaleValues)
+      }
     }
   }
   out$theme <- theme
@@ -88,7 +93,7 @@
   cols <- ifelse(!is.null(getCols(x = x)), getCols(x = x), 0)
   theGrob <- .makeGrob(x = x,
                        featureType = featureType,
-                       featureValues = theFeatures$values,
+                       plotValues = plotValues,
                        scaleValues = scaleValues,
                        plotParams = plotParams,
                        rows = rows,
