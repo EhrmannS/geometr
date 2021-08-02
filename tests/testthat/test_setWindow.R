@@ -1,7 +1,6 @@
 library(checkmate)
 library(testthat)
 library(raster)
-library(spatstat)
 context("setWindow")
 
 
