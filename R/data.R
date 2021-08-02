@@ -38,3 +38,12 @@
 #' Default visualising theme
 #'
 "gtTheme"
+
+#' Clocaenog 6 sample data
+#'
+#' Sample data of tree species and their position that have been sampled by Arne
+#' Pommerening, 2012 (http://www.pommerening.org).
+#'
+#' The list contains two items, first the tree specific data, seconda look-up
+#' table of the species names.
+"clocaenog"
