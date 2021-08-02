@@ -31,7 +31,6 @@ Imports:
     rlang,
     sf,
     sp,
-    spatstat,
     tibble,
     Rcpp
 Suggests: testthat,
