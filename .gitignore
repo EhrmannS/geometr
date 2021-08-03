@@ -3,7 +3,7 @@
 .RData
 .Ruserdata
 .Rbuildignore
-geomTools.Rproj
+geometr.Rproj
 tests/testthat/Rplots.pdf
 ToDo.txt
 ToDo_functions.R
