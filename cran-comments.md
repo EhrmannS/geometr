@@ -1,3 +1,8 @@
+03.08.2021
+
+- removing readr dependencies from the vignette
+- updating links to https and fixing redirects
+
 26.02.2020
 
 changing 'class(.) == *' to 'inherits(x, *)' in setFeatures(), getHistory() and makeObject()
