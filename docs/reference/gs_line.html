@@ -209,12 +209,12 @@ case points are sketched; see <code><a href='https://rdrr.io/r/grid/gpar.html'>g
                      y <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>80</span><span class='op'>)</span><span class='op'>)</span>
 <span class='va'>aLine</span> <span class='op'>&lt;-</span> <span class='fu'>gs_line</span><span class='op'>(</span>anchor <span class='op'>=</span> <span class='va'>coords</span>, window <span class='op'>=</span> <span class='va'>window</span><span class='op'>)</span>
 <span class='fu'><a href='visualise.html'>visualise</a></span><span class='op'>(</span><span class='va'>aLine</span>, linecol <span class='op'>=</span> <span class='st'>"green"</span><span class='op'>)</span>
-</div><div class='img'><img src='gs_line-1.png' alt='' width='700' height='433' /></div><div class='input'>
+</div><div class='output co'>#&gt; <span class='message'>the variable 'green' is not available in this object.</span></div><div class='img'><img src='gs_line-1.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># when a geom is used in 'anchor', its properties are passed on</span>
 <span class='va'>aGeom</span> <span class='op'>&lt;-</span> <span class='fu'><a href='setWindow.html'>setWindow</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>aGeom</span>, to <span class='op'>=</span> <span class='va'>window</span><span class='op'>)</span>
 <span class='va'>aLine</span> <span class='op'>&lt;-</span> <span class='fu'>gs_line</span><span class='op'>(</span>anchor <span class='op'>=</span> <span class='va'>aGeom</span><span class='op'>)</span>
 <span class='fu'><a href='visualise.html'>visualise</a></span><span class='op'>(</span><span class='va'>aLine</span>, linecol <span class='op'>=</span> <span class='st'>"deeppink"</span><span class='op'>)</span>
-</div><div class='img'><img src='gs_line-2.png' alt='' width='700' height='433' /></div><div class='input'>
+</div><div class='output co'>#&gt; <span class='message'>the variable 'deeppink' is not available in this object.</span></div><div class='img'><img src='gs_line-2.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># 2. sketch a line</span>
 <span class='kw'>if</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/grDevices/dev.interactive.html'>dev.interactive</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span><span class='op'>{</span>
   <span class='va'>aLine</span> <span class='op'>&lt;-</span> <span class='fu'>gs_line</span><span class='op'>(</span>vertices <span class='op'>=</span> <span class='fl'>4</span><span class='op'>)</span>

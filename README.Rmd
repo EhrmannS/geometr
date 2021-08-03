@@ -25,7 +25,7 @@ getFeatures(nc_sf)
 <!-- badges: start -->
 [![R-CMD-check](https://github.com/EhrmannS/geometr/workflows/R-CMD-check/badge.svg)](https://github.com/EhrmannS/geometr/actions)
 [![Coverage
-Status](https://img.shields.io/codecov/c/github/EhrmannS/geometr/master.svg)](https://codecov.io/github/EhrmannS/geometr?branch=master)
+Status](https://codecov.io/gh/EhrmannS/geometr/branch/master/graph/badge.svg)](https://codecov.io/github/EhrmannS/geometr?branch=master)
 [![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/geometr)](https://cran.r-project.org/package=geometr)
 [![](http://cranlogs.r-pkg.org/badges/grand-total/geometr)](https://cran.r-project.org/package=geometr)
 

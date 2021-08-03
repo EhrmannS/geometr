@@ -176,7 +176,7 @@ after deriving the subset.</p></td>
     <pre class="examples"><div class='input'><span class='co'># get a subset of a geom</span>
 <span class='fu'>gt_filter</span><span class='op'>(</span><span class='va'>gtGeoms</span><span class='op'>$</span><span class='va'>point</span>, <span class='va'>y</span> <span class='op'>&lt;</span> <span class='op'>-</span><span class='fl'>10</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; <span style='color: #BBBB00;'>geom</span>        point
-#&gt;             1 group | 4 features | 4 points
+#&gt;             2 groups | 4 features | 4 points
 #&gt; <span style='color: #BBBB00;'>crs         </span>cartesian
 #&gt; <span style='color: #BBBB00;'>attributes </span> --
 #&gt; <span style='color: #BBBB00;'>tiny map  </span>         -20 
@@ -187,7 +187,7 @@ after deriving the subset.</p></td>
 #&gt;                    -40 </div><div class='input'>
 <span class='co'># get a subset of an sf-object</span>
 <span class='fu'>gt_filter</span><span class='op'>(</span>obj <span class='op'>=</span> <span class='va'>gtSF</span><span class='op'>$</span><span class='va'>multilinestring</span>, <span class='va'>a</span> <span class='op'>==</span> <span class='fl'>1</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span style='color: #BBBB00;'>geom</span>        line
+</div><div class='output co'>#&gt; <span class='message'>old-style crs object detected; please recreate object with a recent sf::st_crs()</span></div><div class='output co'>#&gt; <span class='message'>old-style crs object detected; please recreate object with a recent sf::st_crs()</span></div><div class='output co'>#&gt; <span style='color: #BBBB00;'>geom</span>        line
 #&gt;             1 group | 2 features | 8 points
 #&gt; <span style='color: #BBBB00;'>crs         </span>cartesian
 #&gt; <span style='color: #BBBB00;'>attributes </span> (features) a

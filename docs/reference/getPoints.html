@@ -187,7 +187,7 @@
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'>getPoints</span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>gtGeoms</span><span class='op'>$</span><span class='va'>polygon</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 11 x 3</span>
+</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 11 × 3</span>
 #&gt;        x     y   fid
 #&gt;    <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>
 #&gt; <span style='color: #BCBCBC;'> 1</span>   0     -<span style='color: #BB0000;'>40</span>     1
@@ -202,7 +202,7 @@
 #&gt; <span style='color: #BCBCBC;'>10</span>   0       0     2
 #&gt; <span style='color: #BCBCBC;'>11</span> -<span style='color: #BB0000;'>34.6</span>    20     2</div><div class='input'>
 <span class='fu'>getPoints</span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>gtGeoms</span><span class='op'>$</span><span class='va'>point</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 9 x 3</span>
+</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 9 × 3</span>
 #&gt;       x     y   fid
 #&gt;   <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span>
 #&gt; <span style='color: #BCBCBC;'>1</span>   0     -<span style='color: #BB0000;'>40</span>     1
@@ -216,14 +216,14 @@
 #&gt; <span style='color: #BCBCBC;'>9</span>   0       0     9</div><div class='input'>
 <span class='co'># for raster objects, the @point slot is extracted from its compact form</span>
 <span class='va'>gtGeoms</span><span class='op'>$</span><span class='va'>grid</span><span class='op'>$</span><span class='va'>continuous</span><span class='op'>@</span><span class='va'>point</span>
-</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 3 x 2</span>
+</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 3 × 2</span>
 #&gt;       x     y
 #&gt;   <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>
 #&gt; <span style='color: #BCBCBC;'>1</span>     0     0
 #&gt; <span style='color: #BCBCBC;'>2</span>    60    56
 #&gt; <span style='color: #BCBCBC;'>3</span>     1     1</div><div class='input'>
 <span class='fu'>getPoints</span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>gtGeoms</span><span class='op'>$</span><span class='va'>grid</span><span class='op'>$</span><span class='va'>continuous</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 3,360 x 3</span>
+</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 3,360 × 3</span>
 #&gt;        x     y   fid
 #&gt;    <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span>
 #&gt; <span style='color: #BCBCBC;'> 1</span>   0.5   0.5     1

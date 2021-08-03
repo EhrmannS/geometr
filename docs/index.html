@@ -86,7 +86,9 @@
 <div class="page-header"><h1 class="hasAnchor">
 <a href="#geometr-" class="anchor"></a>geometr <a href="https://ehrmanns.github.io/geometr/"><img src="reference/figures/logo.svg" align="right" height="200"></a>
 </h1></div>
+<!-- badges: start -->
 
+<!-- badges: end -->
 <div id="overview" class="section level2">
 <h2 class="hasAnchor">
 <a href="#overview" class="anchor"></a>Overview</h2>
@@ -123,14 +125,14 @@
 <p>Metadata of different classes can be extracted in interoperable quality (i.e. the same metadata in different objects/classes have the same names and the same arrangement).</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="reference/getExtent.html">getExtent</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">nc_geom</span><span class="op">)</span>
-<span class="co">#&gt; # A tibble: 2 x 2</span>
+<span class="co">#&gt; # A tibble: 2 × 2</span>
 <span class="co">#&gt;       x     y</span>
 <span class="co">#&gt;   &lt;dbl&gt; &lt;dbl&gt;</span>
 <span class="co">#&gt; 1 -84.3  33.9</span>
 <span class="co">#&gt; 2 -75.5  36.6</span>
 
 <span class="fu"><a href="reference/getFeatures.html">getFeatures</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">nc_geom</span><span class="op">)</span>
-<span class="co">#&gt; # A tibble: 108 x 16</span>
+<span class="co">#&gt; # A tibble: 108 × 16</span>
 <span class="co">#&gt;      fid   gid  AREA PERIMETER CNTY_ CNTY_ID NAME    FIPS  FIPSNO CRESS_ID BIR74</span>
 <span class="co">#&gt;  * &lt;int&gt; &lt;int&gt; &lt;dbl&gt;     &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt; &lt;fct&gt;   &lt;fct&gt;  &lt;dbl&gt;    &lt;int&gt; &lt;dbl&gt;</span>
 <span class="co">#&gt;  1     1     1 0.114      1.44  1825    1825 Ashe    37009  37009        5  1091</span>
@@ -154,14 +156,14 @@
 <span class="va">currituck</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/gt_filter.html">gt_filter</a></span><span class="op">(</span>obj <span class="op">=</span> <span class="va">nc_geom</span>, <span class="va">gid</span> <span class="op">==</span> <span class="fl">4</span><span class="op">)</span>
 
 <span class="fu"><a href="reference/getFeatures.html">getFeatures</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">currituck</span><span class="op">)</span>
-<span class="co">#&gt; # A tibble: 3 x 2</span>
+<span class="co">#&gt; # A tibble: 3 × 2</span>
 <span class="co">#&gt;     fid   gid</span>
 <span class="co">#&gt;   &lt;int&gt; &lt;int&gt;</span>
 <span class="co">#&gt; 1     4     4</span>
 <span class="co">#&gt; 2     5     4</span>
 <span class="co">#&gt; 3     6     4</span>
 <span class="fu"><a href="reference/getGroups.html">getGroups</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">currituck</span><span class="op">)</span>
-<span class="co">#&gt; # A tibble: 1 x 15</span>
+<span class="co">#&gt; # A tibble: 1 × 15</span>
 <span class="co">#&gt;     gid  AREA PERIMETER CNTY_ CNTY_ID NAME     FIPS  FIPSNO CRESS_ID BIR74 SID74</span>
 <span class="co">#&gt;   &lt;int&gt; &lt;dbl&gt;     &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt; &lt;fct&gt;    &lt;fct&gt;  &lt;dbl&gt;    &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt;</span>
 <span class="co">#&gt; 1     4  0.07      2.97  1831    1831 Curritu… 37053  37053       27   508     1</span>
@@ -262,10 +264,9 @@
   <div class="dev-status">
 <h2>Dev status</h2>
 <ul class="list-unstyled">
+<li><a href="https://github.com/EhrmannS/geometr/actions"><img src="https://github.com/EhrmannS/geometr/workflows/R-CMD-check/badge.svg" alt="R-CMD-check"></a></li>
+<li><a href="https://codecov.io/github/EhrmannS/geometr?branch=master"><img src="https://codecov.io/gh/EhrmannS/geometr/branch/master/graph/badge.svg" alt="Coverage Status"></a></li>
 <li><a href="https://cran.r-project.org/package=geometr"><img src="http://www.r-pkg.org/badges/version/geometr" alt="CRAN_Status_Badge"></a></li>
-<li><a href="https://travis-ci.org/EhrmannS/geometr"><img src="https://travis-ci.org/EhrmannS/geometr.svg?branch=master" alt="Travis-CI Build Status"></a></li>
-<li><a href="https://ci.appveyor.com/project/EhrmannS/geometr"><img src="https://ci.appveyor.com/api/projects/status/github/EhrmannS/geometr?branch=master&amp;svg=true" alt="AppVeyor build status"></a></li>
-<li><a href="https://codecov.io/github/EhrmannS/geometr?branch=master"><img src="https://img.shields.io/codecov/c/github/EhrmannS/geometr/master.svg" alt="Coverage Status"></a></li>
 <li><a href="https://cran.r-project.org/package=geometr"><img src="http://cranlogs.r-pkg.org/badges/grand-total/geometr"></a></li>
 </ul>
 </div>
