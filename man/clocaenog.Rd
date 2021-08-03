@@ -12,7 +12,7 @@ clocaenog
 }
 \description{
 Sample data of tree species and their position that have been sampled by Arne
-Pommerening, 2012 (http://www.pommerening.org).
+Pommerening, 2012 (https://www.pommerening.org).
 }
 \details{
 The list contains two items, first the tree specific data, seconda look-up

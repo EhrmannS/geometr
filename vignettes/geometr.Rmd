@@ -260,7 +260,7 @@ getGroups(x = new_geom)
 ```
 
 It becomes clear that this approach to attribute tables makes the class `geom` quite flexible.
-One could for example assign some point specific measurements (such as [Arne Pommerening's](http://www.pommerening.org) Clocaenog 6 sample data) to the feature attribute table, and at the same time set group specific attributes to the group attribute table of a point `geom`.
+One could for example assign some point specific measurements (such as [Arne Pommerening's](https://www.pommerening.org) Clocaenog 6 sample data) to the feature attribute table, and at the same time set group specific attributes to the group attribute table of a point `geom`.
 
 ```{r}
 clg_dat <- clocaenog$trees

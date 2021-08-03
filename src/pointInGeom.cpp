@@ -7,7 +7,7 @@ using namespace Rcpp;
 // the values 2 and 3, for points that are on one or two lines (a vertex) of the
 // polygon, respectively.
 //
-// http://geomalgorithms.com/a03-_inclusion.html Copyright 2000 softSurfer, 2012
+// http://www.geomalgorithms.com/ Copyright 2000 softSurfer, 2012
 // Dan Sunday This code may be freely used and modified for any purpose
 // providing that this copyright notice is included with it. SoftSurfer makes no
 // warranty for this code, and cannot be held liable for any real or imagined

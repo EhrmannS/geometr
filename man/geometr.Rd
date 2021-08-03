@@ -31,5 +31,5 @@ or the metadata. Geometr fills this gap by providing tools
 \strong{Maintainer, Author}: Steffen Ehrmann
   \email{steffen.ehrmann@idiv.de}
 
-\strong{Copyright holder} Dan Sunday \href{http://geomalgorithms.com/a03-_inclusion.html}{fast point-in-polygon algorithm}
+\strong{Copyright holder} Dan Sunday \href{http://www.geomalgorithms.com/algorithms.html}{fast point-in-polygon algorithm}
 }
