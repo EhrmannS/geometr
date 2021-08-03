@@ -41,19 +41,6 @@ jobs:
 
       - uses: r-lib/actions/setup-pandoc@v1
 
-      - name: Install spatial dependencies (ubuntu)
-        if: runner.os == 'Linux'
-        run: |
-          sudo add-apt-repository ppa:ubuntugis/ppa --yes
-          sudo apt-get --yes --force-yes update -qq
-          sudo apt-get install --yes libgdal-dev libproj-dev libgeos-dev libudunits2-dev netcdf-bin
-        shell: bash
-
-      - name: Install spatial dependencies (R)
-        run: |
-          install.packages("rgdal", repos="https://r-forge.r-project.org/")
-        shell: Rscript {0}
-
       - name: Query dependencies
         run: |
           install.packages('remotes')
@@ -68,13 +55,15 @@ jobs:
           key: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-${{ hashFiles('.github/depends.Rds') }}
           restore-keys: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-
 
-      - name: Install system dependencies
+      - name: Install system dependencies (Linux)
         if: runner.os == 'Linux'
         run: |
-          while read -r cmd
-          do
-            eval sudo $cmd
-          done < <(Rscript -e 'writeLines(remotes::system_requirements("ubuntu", "20.04"))')
+          sudo apt-get update
+          sudo apt-get install -y libudunits2-dev libgdal-dev libgeos-dev libproj-dev
+
+      - name: Install system dependencies (MacOS)
+        if: runner.os == 'MacOS'
+        run: brew install gdal proj udunits pkg-config
 
       - name: Install dependencies
         run: |
