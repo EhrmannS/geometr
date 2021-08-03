@@ -1,0 +1,10 @@
+pandoc: 2.7.3
+pkgdown: 1.6.1
+pkgdown_sha: ~
+articles:
+  geometr: geometr.html
+last_built: 2021-08-03T11:23Z
+urls:
+  reference: http://EhrmannS.github.io/geometr/reference
+  article: http://EhrmannS.github.io/geometr/articles
+
