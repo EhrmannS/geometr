@@ -41,10 +41,18 @@ jobs:
 
       - uses: r-lib/actions/setup-pandoc@v1
 
-      - name: Install spatial dependencies
+      - name: Install spatial dependencies (ubuntu)
         if: runner.os == 'Linux'
-        run: sudo apt-get install libgdal-dev libproj-dev libgeos-dev libudunits2-dev netcdf-bin
+        run: |
+          sudo add-apt-repository ppa:ubuntugis/ppa --yes
+          sudo apt-get --yes --force-yes update -qq
+          sudo apt-get install --yes libgdal-dev libproj-dev libgeos-dev libudunits2-dev netcdf-bin
         shell: bash
+
+      - name: Install spatial dependencies (R)
+        run: |
+          install.packages("rgdal", repos="https://r-forge.r-project.org/")
+        shell: Rscript {0}
 
       - name: Query dependencies
         run: |
