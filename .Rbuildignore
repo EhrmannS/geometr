@@ -1,0 +1,8 @@
+^_pkgdown\.yml$
+^codecov\.yml$
+^\.github$
+geometr.Rproj
+^\.Rproj\.user$
+^README\.Rmd$
+cran-comments.md
+^.*\.Rproj$
