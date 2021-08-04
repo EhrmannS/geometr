@@ -1,6 +1,7 @@
 #' Get the coordinate reference system of a spatial object.
 #'
 #' @param x the object from which to extract the coordinate reference system.
+#' @param ... other arguments.
 #' @return The coordinate reference system of \code{x} given as proj4string.
 #' @family getters
 #' @name getCRS
@@ -11,13 +12,11 @@ NULL
 #' @rdname getCRS
 #' @name getCRS
 #' @export
-if(!isGeneric("getCRS")){
-  setGeneric(name = "getCRS",
-             def = function(x, ...){
-               standardGeneric("getCRS")
-             }
-  )
-}
+setGeneric(name = "getCRS",
+           def = function(x, ...){
+             standardGeneric("getCRS")
+           }
+)
 
 # any ----
 #' @rdname getCRS

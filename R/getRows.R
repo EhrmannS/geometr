@@ -1,6 +1,7 @@
 #' Get the number of rows of a spatial object.
 #'
 #' @param x the object from which to get the number of rows.
+#' @param ... other arguments.
 #' @return An integer of the number of rows.
 #' @family getters
 #' @name getRows
@@ -11,13 +12,11 @@ NULL
 #' @rdname getRows
 #' @name getRows
 #' @export
-if(!isGeneric("getRows")){
-  setGeneric(name = "getRows",
-             def = function(x, ...){
-               standardGeneric("getRows")
-             }
-  )
-}
+setGeneric(name = "getRows",
+           def = function(x, ...){
+             standardGeneric("getRows")
+           }
+)
 
 # any ----
 #' @rdname getRows

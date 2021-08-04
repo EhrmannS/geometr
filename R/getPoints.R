@@ -27,13 +27,11 @@ NULL
 #' @rdname getPoints
 #' @name getPoints
 #' @export
-if(!isGeneric("getPoints")){
-  setGeneric(name = "getPoints",
-             def = function(x){
-               standardGeneric("getPoints")
-             }
-  )
-}
+setGeneric(name = "getPoints",
+           def = function(x){
+             standardGeneric("getPoints")
+           }
+)
 
 # any ----
 #' @rdname getPoints

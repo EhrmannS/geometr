@@ -1,6 +1,7 @@
 #' Get the spatial resolution of a spatial object.
 #'
 #' @param x the object from which to derive the resolution.
+#' @param ... other arguments.
 #' @return A vector of two values of the spatial resolution of \code{x} in x and
 #'   y dimension.
 #' @family getters
@@ -12,13 +13,11 @@ NULL
 #' @rdname getRes
 #' @name getRes
 #' @export
-if(!isGeneric("getRes")){
-  setGeneric(name = "getRes",
-             def = function(x, ...){
-               standardGeneric("getRes")
-             }
-  )
-}
+setGeneric(name = "getRes",
+           def = function(x, ...){
+             standardGeneric("getRes")
+           }
+)
 
 # any ----
 #' @rdname getRes

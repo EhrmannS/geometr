@@ -2,6 +2,7 @@
 #'
 #' @param x the object to which to assign a new attribute table.
 #' @param table [\code{data.frame(.)}]\cr the attribute table.
+#' @param ... other arguments.
 #' @return The object \code{x} with an updated feature attribute table.
 #' @family setters
 #' @name setFeatures
@@ -12,13 +13,11 @@ NULL
 #' @rdname setFeatures
 #' @name setFeatures
 #' @export
-if(!isGeneric("setFeatures")){
-  setGeneric(name = "setFeatures",
-             def = function(x, table, ...){
-               standardGeneric("setFeatures")
-             }
-  )
-}
+setGeneric(name = "setFeatures",
+           def = function(x, table, ...){
+             standardGeneric("setFeatures")
+           }
+)
 
 # any ----
 #' @rdname setFeatures

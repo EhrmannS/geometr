@@ -1,6 +1,7 @@
 #' Transform a spatial object to class \code{geom}
 #'
 #' @param input the object to transform to class \code{geom}.
+#' @param ... other arguments.
 #' @param group [\code{logical(1)}]\cr should the values of a Raster* or the
 #'   attributes of MULTI* features be grouped, i.e., should the unique values be
 #'   assigned into the groups table (\code{TRUE})? The default behaviour for
@@ -49,13 +50,11 @@ NULL
 #' @rdname gc_geom
 #' @name gc_geom
 #' @export
-if(!isGeneric("gc_geom")){
-  setGeneric(name = "gc_geom",
-             def = function(input, ...){
-               standardGeneric("gc_geom")
-             }
-  )
-}
+setGeneric(name = "gc_geom",
+           def = function(input, ...){
+             standardGeneric("gc_geom")
+           }
+)
 
 # Spatial ----
 #' @rdname gc_geom

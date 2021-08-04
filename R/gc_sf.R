@@ -1,6 +1,7 @@
 #' Transform a spatial object to class \code{sf}
 #'
 #' @param input the object to transform to class \code{sf}.
+#' @param ... other arguments.
 #' @return If \code{input} is a \code{geom} and has attributes other than
 #'   \code{fid} and \code{gid}, a "Simple feature collection", otherwise a
 #'   "Geometry set". Several features of the \code{geom} are returned as MULTI*
@@ -25,13 +26,11 @@ NULL
 #' @rdname gc_sf
 #' @name gc_sf
 #' @export
-if(!isGeneric("gc_sf")){
-  setGeneric(name = "gc_sf",
-             def = function(input, ...){
-               standardGeneric("gc_sf")
-             }
-  )
-}
+setGeneric(name = "gc_sf",
+           def = function(input, ...){
+             standardGeneric("gc_sf")
+           }
+)
 
 # geom ----
 #' @rdname gc_sf

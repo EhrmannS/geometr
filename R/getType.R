@@ -1,6 +1,7 @@
 #' Get the type of a spatial object.
 #'
 #' @param x the object for which to determine the type.
+#' @param ... other arguments.
 #' @return A vector of two values of the geometry type (point/line/polygon/grid)
 #'   and the specific main type/class of \code{x}.
 #' @family getters
@@ -12,13 +13,11 @@ NULL
 #' @rdname getType
 #' @name getType
 #' @export
-if(!isGeneric("getType")){
-  setGeneric(name = "getType",
-             def = function(x, ...){
-               standardGeneric("getType")
-             }
-  )
-}
+setGeneric(name = "getType",
+           def = function(x, ...){
+             standardGeneric("getType")
+           }
+)
 
 # any ----
 #' @rdname getType

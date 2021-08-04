@@ -1,6 +1,7 @@
 #' Get the history of a spatial object.
 #'
 #' @param x the object from which to derive the history.
+#' @param ... other arguments.
 #' @return A list of the events that lead to \code{x}.
 #' @family getters
 #' @name getHistory
@@ -11,13 +12,12 @@ NULL
 #' @rdname getHistory
 #' @name getHistory
 #' @export
-if(!isGeneric("getHistory")){
-  setGeneric(name = "getHistory",
-             def = function(x, ...){
-               standardGeneric("getHistory")
-             }
-  )
-}
+setGeneric(name = "getHistory",
+           def = function(x, ...){
+             standardGeneric("getHistory")
+           }
+)
+
 
 # any ----
 #' @rdname getHistory

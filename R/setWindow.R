@@ -4,6 +4,7 @@
 #' @param to any suitable data-structure that contains the minimum and maximum
 #'   values in x and y-dimension to which the reference window shall be set, see
 #'   Details.
+#' @param ... other arguments.
 #' @details Possible data-structures are \itemize{ \item an object of class
 #'   \code{Extent}, \item an object of class \code{bbox}, \item a table with two
 #'   columns (named x and y) containing the minimum and maximum values for each
@@ -30,13 +31,11 @@ NULL
 #' @rdname setWindow
 #' @name setWindow
 #' @export
-if(!isGeneric("setWindow")){
-  setGeneric(name = "setWindow",
-             def = function(x, to, ...){
-               standardGeneric("setWindow")
-             }
-  )
-}
+setGeneric(name = "setWindow",
+           def = function(x, to, ...){
+             standardGeneric("setWindow")
+           }
+)
 
 # any ----
 #' @rdname setWindow

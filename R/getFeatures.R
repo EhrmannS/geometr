@@ -21,13 +21,11 @@ NULL
 #' @rdname getFeatures
 #' @name getFeatures
 #' @export
-if(!isGeneric("getFeatures")){
-  setGeneric(name = "getFeatures",
-             def = function(x){
-               standardGeneric("getFeatures")
-             }
-  )
-}
+setGeneric(name = "getFeatures",
+           def = function(x){
+             standardGeneric("getFeatures")
+           }
+)
 
 # any ----
 #' @rdname getFeatures

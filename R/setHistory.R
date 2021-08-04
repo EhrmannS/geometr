@@ -2,6 +2,7 @@
 #'
 #' @param x the object for which to set the coordinate reference system.
 #' @param history [\code{list(1)}]\cr the history to set for this object.
+#' @param ... other arguments.
 #' @details Both, objects of class \code{geom} and \code{Raster*} have the slot
 #'   \code{@history}, which contains the provenance of that object. With
 #'   \code{setHistory}, that provenance can be updated, based on the
@@ -18,13 +19,11 @@ NULL
 #' @name setHistory
 #' @docType methods
 #' @export
-if(!isGeneric("setHistory")){
-  setGeneric(name = "setHistory",
-             def = function(x, history, ...){
-               standardGeneric("setHistory")
-             }
-  )
-}
+setGeneric(name = "setHistory",
+           def = function(x, history, ...){
+             standardGeneric("setHistory")
+           }
+)
 
 # any ----
 #' @rdname setHistory

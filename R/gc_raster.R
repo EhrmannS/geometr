@@ -13,13 +13,12 @@ NULL
 #' @rdname gc_raster
 #' @name gc_raster
 #' @export
-if(!isGeneric("gc_raster")){
-  setGeneric(name = "gc_raster",
-             def = function(input){
-               standardGeneric("gc_raster")
-             }
-  )
-}
+setGeneric(name = "gc_raster",
+           def = function(input){
+             standardGeneric("gc_raster")
+           }
+)
+
 
 # geom ----
 #' @rdname gc_raster

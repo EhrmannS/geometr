@@ -1,6 +1,7 @@
 #' Get the reference window of a spatial object.
 #'
 #' @param x the object from which to derive the reference window.
+#' @param ... other arguments.
 #' @return A tibble of the corner coordinates of the reference window of
 #'   \code{x}. This table two columns (x and y) and two rows (minimum and
 #'   maximum).
@@ -13,13 +14,11 @@ NULL
 #' @rdname getWindow
 #' @name getWindow
 #' @export
-if(!isGeneric("getWindow")){
-  setGeneric(name = "getWindow",
-             def = function(x, ...){
-               standardGeneric("getWindow")
-             }
-  )
-}
+setGeneric(name = "getWindow",
+           def = function(x, ...){
+             standardGeneric("getWindow")
+           }
+)
 
 # any ----
 #' @rdname getWindow

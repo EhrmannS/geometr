@@ -2,6 +2,7 @@
 #'
 #' @param x the object to which to assign a new attribute table.
 #' @param table [\code{data.frame(.)}]\cr the new attribute table.
+#' @param ... other arguments.
 #' @return The object \code{x} with an updated group attribute table.
 #' @family setters
 #' @name setGroups
@@ -12,13 +13,11 @@ NULL
 #' @rdname setGroups
 #' @name setGroups
 #' @export
-if(!isGeneric("setGroups")){
-  setGeneric(name = "setGroups",
-             def = function(x, table, ...){
-               standardGeneric("setGroups")
-             }
-  )
-}
+setGeneric(name = "setGroups",
+           def = function(x, table, ...){
+             standardGeneric("setGroups")
+           }
+)
 
 # any ----
 #' @rdname setGroups

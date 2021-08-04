@@ -8,6 +8,7 @@
 #' @param x the object for which to set the coordinate reference system.
 #' @param crs [\code{character(1)}]\cr the coordinate reference system to set
 #'   for this object.
+#' @param ... other arguments.
 #' @return The object \code{x} with an assigned or transformed coordinate
 #'   reference system.
 #' @family setters
@@ -20,13 +21,11 @@ NULL
 #' @name setCRS
 #' @docType methods
 #' @export
-if(!isGeneric("setCRS")){
-  setGeneric(name = "setCRS",
-             def = function(x, crs, ...){
-               standardGeneric("setCRS")
-             }
-  )
-}
+setGeneric(name = "setCRS",
+           def = function(x, crs, ...){
+             standardGeneric("setCRS")
+           }
+)
 
 # any ----
 #' @rdname setCRS

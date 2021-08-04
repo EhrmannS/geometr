@@ -1,6 +1,7 @@
 #' Get the number of columns of a spatial object.
 #'
 #' @param x the object from which to get the number of columns.
+#' @param ... other arguments.
 #' @return An integer of the number of columns.
 #' @family getters
 #' @name getCols
@@ -11,13 +12,11 @@ NULL
 #' @rdname getCols
 #' @name getCols
 #' @export
-if(!isGeneric("getCols")){
-  setGeneric(name = "getCols",
-             def = function(x, ...){
-               standardGeneric("getCols")
-             }
-  )
-}
+setGeneric(name = "getCols",
+           def = function(x, ...){
+             standardGeneric("getCols")
+           }
+)
 
 # any ----
 #' @rdname getCols

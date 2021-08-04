@@ -23,13 +23,12 @@ NULL
 #' @rdname getGroups
 #' @name getGroups
 #' @export
-if(!isGeneric("getGroups")){
-  setGeneric(name = "getGroups",
-             def = function(x){
-               standardGeneric("getGroups")
-             }
-  )
-}
+setGeneric(name = "getGroups",
+           def = function(x){
+             standardGeneric("getGroups")
+           }
+)
+
 
 # any ----
 #' @rdname getGroups

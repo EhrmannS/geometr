@@ -1,6 +1,7 @@
 #' Transform a spatial object to class \code{Spatial}
 #'
 #' @param input the object to transform to class \code{Spatial}.
+#' @param ... other arguments.
 #' @return an object of class \code{Spatial}
 #' @family spatial classes
 #' @examples
@@ -17,13 +18,11 @@ NULL
 #' @rdname gc_sp
 #' @name gc_sp
 #' @export
-if(!isGeneric("gc_sp")){
-  setGeneric(name = "gc_sp",
-             def = function(input, ...){
-               standardGeneric("gc_sp")
-             }
-  )
-}
+setGeneric(name = "gc_sp",
+           def = function(input, ...){
+             standardGeneric("gc_sp")
+           }
+)
 
 # geom ----
 #' @rdname gc_sp

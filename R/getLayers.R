@@ -1,6 +1,7 @@
 #' Get a specific layer of a spatial object.
 #'
 #' @param x the object from which to get the layer.
+#' @param ... other arguments.
 #' @return A list of the layers of \code{x}. Each list-item hast the result of
 #'   getNames(x) as name.
 #' @family getters
@@ -12,13 +13,11 @@ NULL
 #' @rdname getLayers
 #' @name getLayers
 #' @export
-if(!isGeneric("getLayers")){
-  setGeneric(name = "getLayers",
-             def = function(x, ...){
-               standardGeneric("getLayers")
-             }
-  )
-}
+setGeneric(name = "getLayers",
+           def = function(x, ...){
+             standardGeneric("getLayers")
+           }
+)
 
 # any ----
 #' @rdname getLayers

@@ -1,6 +1,7 @@
 #' Get the extent (bounding box) of a spatial object.
 #'
 #' @param x the object from which to derive the extent.
+#' @param ... other arguments.
 #' @return A tibble of the lower left and upper right corner coordinates of the
 #'   extent of \code{x}. This table two columns (x and y) and two rows (minimum
 #'   and maximum).
@@ -13,13 +14,11 @@ NULL
 #' @rdname getExtent
 #' @name getExtent
 #' @export
-if(!isGeneric("getExtent")){
-  setGeneric(name = "getExtent",
-             def = function(x, ...){
-               standardGeneric("getExtent")
-             }
-  )
-}
+setGeneric(name = "getExtent",
+           def = function(x, ...){
+             standardGeneric("getExtent")
+           }
+)
 
 # any ----
 #' @rdname getExtent

@@ -1,6 +1,7 @@
 #' Get the name(s) of a spatial object.
 #'
 #' @param x the object from which to get the name.
+#' @param ... other arguments.
 #' @return A vector of the names of \code{x}.
 #' @family getters
 #' @name getNames
@@ -11,13 +12,11 @@ NULL
 #' @rdname getNames
 #' @name getNames
 #' @export
-if(!isGeneric("getNames")){
-  setGeneric(name = "getNames",
-             def = function(x, ...){
-               standardGeneric("getNames")
-             }
-  )
-}
+setGeneric(name = "getNames",
+           def = function(x, ...){
+             standardGeneric("getNames")
+           }
+)
 
 # any ----
 #' @rdname getNames
