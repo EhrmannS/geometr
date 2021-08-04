@@ -53,8 +53,6 @@ geom <- setClass(Class = "geom",
                            point = "data.frame",
                            feature = "data.frame",
                            group = "data.frame",
-                           # extent = "data.frame",
-                           # manage extent properly
                            window = "data.frame",
                            crs = "character",
                            history = "list"
