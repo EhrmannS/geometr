@@ -6,3 +6,4 @@ geometr.Rproj
 ^README\.Rmd$
 cran-comments.md
 ^.*\.Rproj$
+^CRAN-RELEASE$
