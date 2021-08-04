@@ -26,13 +26,11 @@ Imports:
     grid,
     methods,
     raster,
-    readr,
     rgdal,
     rlang,
     sf,
     sp,
-    tibble,
-    Rcpp
+    tibble
 Suggests: testthat,
     rmarkdown,
     bookdown,
