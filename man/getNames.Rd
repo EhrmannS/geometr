@@ -8,6 +8,8 @@
 \alias{getNames,Raster-method}
 \title{Get the name(s) of a spatial object.}
 \usage{
+getNames(x, ...)
+
 \S4method{getNames}{ANY}(x)
 
 \S4method{getNames}{geom}(x)
@@ -18,6 +20,8 @@
 }
 \arguments{
 \item{x}{the object from which to get the name.}
+
+\item{...}{other arguments.}
 }
 \value{
 A vector of the names of \code{x}.

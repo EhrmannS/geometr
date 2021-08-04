@@ -8,6 +8,8 @@
 \alias{getRows,matrix-method}
 \title{Get the number of rows of a spatial object.}
 \usage{
+getRows(x, ...)
+
 \S4method{getRows}{ANY}(x)
 
 \S4method{getRows}{geom}(x)
@@ -18,6 +20,8 @@
 }
 \arguments{
 \item{x}{the object from which to get the number of rows.}
+
+\item{...}{other arguments.}
 }
 \value{
 An integer of the number of rows.

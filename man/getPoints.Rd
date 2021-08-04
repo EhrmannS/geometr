@@ -10,6 +10,8 @@
 \alias{getPoints,matrix-method}
 \title{Get the table of point coordinates}
 \usage{
+getPoints(x)
+
 \S4method{getPoints}{ANY}(x)
 
 \S4method{getPoints}{geom}(x)

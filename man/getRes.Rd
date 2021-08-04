@@ -8,6 +8,8 @@
 \alias{getRes,matrix-method}
 \title{Get the spatial resolution of a spatial object.}
 \usage{
+getRes(x, ...)
+
 \S4method{getRes}{ANY}(x)
 
 \S4method{getRes}{geom}(x)
@@ -18,6 +20,8 @@
 }
 \arguments{
 \item{x}{the object from which to derive the resolution.}
+
+\item{...}{other arguments.}
 }
 \value{
 A vector of two values of the spatial resolution of \code{x} in x and

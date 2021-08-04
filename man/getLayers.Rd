@@ -10,6 +10,8 @@
 \alias{getLayers,matrix-method}
 \title{Get a specific layer of a spatial object.}
 \usage{
+getLayers(x, ...)
+
 \S4method{getLayers}{ANY}(x)
 
 \S4method{getLayers}{geom}(x)
@@ -24,6 +26,8 @@
 }
 \arguments{
 \item{x}{the object from which to get the layer.}
+
+\item{...}{other arguments.}
 }
 \value{
 A list of the layers of \code{x}. Each list-item hast the result of

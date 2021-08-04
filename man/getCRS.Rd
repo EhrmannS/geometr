@@ -9,6 +9,8 @@
 \alias{getCRS,Raster-method}
 \title{Get the coordinate reference system of a spatial object.}
 \usage{
+getCRS(x, ...)
+
 \S4method{getCRS}{ANY}(x)
 
 \S4method{getCRS}{geom}(x)
@@ -21,6 +23,8 @@
 }
 \arguments{
 \item{x}{the object from which to extract the coordinate reference system.}
+
+\item{...}{other arguments.}
 }
 \value{
 The coordinate reference system of \code{x} given as proj4string.

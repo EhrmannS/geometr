@@ -10,6 +10,8 @@
 \alias{getWindow,matrix-method}
 \title{Get the reference window of a spatial object.}
 \usage{
+getWindow(x, ...)
+
 \S4method{getWindow}{ANY}(x)
 
 \S4method{getWindow}{geom}(x)
@@ -24,6 +26,8 @@
 }
 \arguments{
 \item{x}{the object from which to derive the reference window.}
+
+\item{...}{other arguments.}
 }
 \value{
 A tibble of the corner coordinates of the reference window of

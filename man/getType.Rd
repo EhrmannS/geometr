@@ -10,6 +10,8 @@
 \alias{getType,matrix-method}
 \title{Get the type of a spatial object.}
 \usage{
+getType(x, ...)
+
 \S4method{getType}{ANY}(x)
 
 \S4method{getType}{geom}(x)
@@ -24,6 +26,8 @@
 }
 \arguments{
 \item{x}{the object for which to determine the type.}
+
+\item{...}{other arguments.}
 }
 \value{
 A vector of two values of the geometry type (point/line/polygon/grid)

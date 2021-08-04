@@ -10,6 +10,8 @@
 \alias{setCRS,Raster-method}
 \title{Set (or transform) the coordinate reference system of a spatial object.}
 \usage{
+setCRS(x, crs, ...)
+
 \S4method{setCRS}{ANY}(x)
 
 \S4method{setCRS}{geom}(x, crs = NULL)
@@ -25,6 +27,8 @@
 
 \item{crs}{[\code{character(1)}]\cr the coordinate reference system to set
 for this object.}
+
+\item{...}{other arguments.}
 }
 \value{
 The object \code{x} with an assigned or transformed coordinate

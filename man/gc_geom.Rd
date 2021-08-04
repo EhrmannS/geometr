@@ -7,6 +7,8 @@
 \alias{gc_geom,Raster-method}
 \title{Transform a spatial object to class \code{geom}}
 \usage{
+gc_geom(input, ...)
+
 \S4method{gc_geom}{Spatial}(input = NULL, ...)
 
 \S4method{gc_geom}{sf}(input = NULL, group = FALSE, ...)

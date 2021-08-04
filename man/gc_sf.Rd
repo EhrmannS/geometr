@@ -5,10 +5,14 @@
 \alias{gc_sf,geom-method}
 \title{Transform a spatial object to class \code{sf}}
 \usage{
+gc_sf(input, ...)
+
 \S4method{gc_sf}{geom}(input = NULL)
 }
 \arguments{
 \item{input}{the object to transform to class \code{sf}.}
+
+\item{...}{other arguments.}
 }
 \value{
 If \code{input} is a \code{geom} and has attributes other than

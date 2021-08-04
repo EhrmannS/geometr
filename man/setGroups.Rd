@@ -7,6 +7,8 @@
 \alias{setGroups,RasterLayer-method}
 \title{Set a table of group attributes}
 \usage{
+setGroups(x, table, ...)
+
 \S4method{setGroups}{ANY}(x)
 
 \S4method{setGroups}{geom}(x, table = NULL)
@@ -17,6 +19,8 @@
 \item{x}{the object to which to assign a new attribute table.}
 
 \item{table}{[\code{data.frame(.)}]\cr the new attribute table.}
+
+\item{...}{other arguments.}
 }
 \value{
 The object \code{x} with an updated group attribute table.

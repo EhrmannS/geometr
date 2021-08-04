@@ -7,6 +7,8 @@
 \alias{getHistory,Raster-method}
 \title{Get the history of a spatial object.}
 \usage{
+getHistory(x, ...)
+
 \S4method{getHistory}{ANY}(x)
 
 \S4method{getHistory}{geom}(x)
@@ -15,6 +17,8 @@
 }
 \arguments{
 \item{x}{the object from which to derive the history.}
+
+\item{...}{other arguments.}
 }
 \value{
 A list of the events that lead to \code{x}.

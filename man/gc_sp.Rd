@@ -5,10 +5,14 @@
 \alias{gc_sp,geom-method}
 \title{Transform a spatial object to class \code{Spatial}}
 \usage{
+gc_sp(input, ...)
+
 \S4method{gc_sp}{geom}(input = NULL)
 }
 \arguments{
 \item{input}{the object to transform to class \code{Spatial}.}
+
+\item{...}{other arguments.}
 }
 \value{
 an object of class \code{Spatial}

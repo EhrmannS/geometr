@@ -8,6 +8,8 @@
 \alias{getCols,matrix-method}
 \title{Get the number of columns of a spatial object.}
 \usage{
+getCols(x, ...)
+
 \S4method{getCols}{ANY}(x)
 
 \S4method{getCols}{geom}(x)
@@ -18,6 +20,8 @@
 }
 \arguments{
 \item{x}{the object from which to get the number of columns.}
+
+\item{...}{other arguments.}
 }
 \value{
 An integer of the number of columns.

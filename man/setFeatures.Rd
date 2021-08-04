@@ -9,6 +9,8 @@
 \alias{setFeatures,sfc-method}
 \title{Set a table of feature attributes}
 \usage{
+setFeatures(x, table, ...)
+
 \S4method{setFeatures}{ANY}(x)
 
 \S4method{setFeatures}{geom}(x, table = NULL)
@@ -23,6 +25,8 @@
 \item{x}{the object to which to assign a new attribute table.}
 
 \item{table}{[\code{data.frame(.)}]\cr the attribute table.}
+
+\item{...}{other arguments.}
 }
 \value{
 The object \code{x} with an updated feature attribute table.

@@ -5,6 +5,8 @@
 \alias{gc_raster,geom-method}
 \title{Transform a spatial object to class \code{Raster*}}
 \usage{
+gc_raster(input)
+
 \S4method{gc_raster}{geom}(input = NULL)
 }
 \arguments{

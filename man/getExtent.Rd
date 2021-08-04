@@ -10,6 +10,8 @@
 \alias{getExtent,matrix-method}
 \title{Get the extent (bounding box) of a spatial object.}
 \usage{
+getExtent(x, ...)
+
 \S4method{getExtent}{ANY}(x)
 
 \S4method{getExtent}{geom}(x)
@@ -24,6 +26,8 @@
 }
 \arguments{
 \item{x}{the object from which to derive the extent.}
+
+\item{...}{other arguments.}
 }
 \value{
 A tibble of the lower left and upper right corner coordinates of the

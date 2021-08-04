@@ -10,6 +10,8 @@
 \alias{getFeatures,matrix-method}
 \title{Get the table of feature attributes}
 \usage{
+getFeatures(x)
+
 \S4method{getFeatures}{ANY}(x)
 
 \S4method{getFeatures}{geom}(x)

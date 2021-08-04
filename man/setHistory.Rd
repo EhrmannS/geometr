@@ -8,6 +8,8 @@
 \alias{setHistory,RasterLayer-method}
 \title{Set additional entries to the history of an object}
 \usage{
+setHistory(x, history, ...)
+
 \S4method{setHistory}{ANY}(x)
 
 \S4method{setHistory}{geom}(x, history = NULL)
@@ -18,6 +20,8 @@
 \item{x}{the object for which to set the coordinate reference system.}
 
 \item{history}{[\code{list(1)}]\cr the history to set for this object.}
+
+\item{...}{other arguments.}
 }
 \value{
 The object \code{x} where the history slot has been updated.

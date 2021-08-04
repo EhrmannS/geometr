@@ -6,6 +6,8 @@
 \alias{setWindow,geom-method}
 \title{Set the reference window of a spatial object.}
 \usage{
+setWindow(x, to, ...)
+
 \S4method{setWindow}{ANY}(x)
 
 \S4method{setWindow}{geom}(x, to = NULL)
@@ -16,6 +18,8 @@
 \item{to}{any suitable data-structure that contains the minimum and maximum
 values in x and y-dimension to which the reference window shall be set, see
 Details.}
+
+\item{...}{other arguments.}
 }
 \value{
 The object \code{x} with an update reference window.
