@@ -130,7 +130,7 @@ gs_polygon <- function(anchor = NULL, window = NULL, features = 1, vertices = 3,
 
         tempPoints <- left_join(tempPoints, tempFeatures, by = "fid")
         tempPoints <- select(mutate(tempPoints, fid = gid), -gid)
-        tempFeatures <- filter(tempFeatures, fid == unique(tempPoints$fid))
+        tempFeatures <- tibble(fid = unique(tempPoints$fid), gid = unique(tempFeatures$gid))
 
         if(dim(tempAnchor@point)[1] < 3){
           stop(paste0("a polygon geom must have at least 3 points per 'fid'."))

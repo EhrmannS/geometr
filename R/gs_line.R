@@ -107,6 +107,7 @@ gs_line <- function(anchor = NULL, window = NULL, features = 1, vertices = 2, ..
 
         tempPoints <- left_join(tempPoints, tempFeatures, by = "fid")
         tempPoints <- select(mutate(tempPoints, fid = gid), -gid)
+        tempFeatures <- tibble(fid = unique(tempPoints$fid), gid = unique(tempFeatures$gid))
 
         if(dim(tempAnchor@point)[1] < 2){
           stop(paste0("a line geom must have at least 2 points per 'fid'."))
