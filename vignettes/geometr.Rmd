@@ -33,392 +33,392 @@ library(magrittr)
 getExtent(x = st_read(system.file("shape/nc.shp", package="sf")))
 ```
 
-# Introduction
-  
-The `geometr` package generalises the way to interact with spatial and other geometric objects by providing functions that access and modify data components in the same manner across classes.
-Moreover, `geometr` provides a data structure (of class `geom`) that represents the different data components in a truly [tidy](https://tidyr.tidyverse.org/) manner, allowing to generate geometric objects that are easily accessible and play well with other tidy tools.
+<!-- # Introduction -->
 
-One could argue that spatial objects are merely a special case of geometric objects, where the coordinates of points refer to real locations on the surface of the earth instead of some virtual (cartesian) coordinate system.
-Geometric and spatial objects typically contain a collection of points that outline a geometric shape, or feature.
-A feature in `geometr` is defined as a set of points that form no more than one single unit of one of the types point, line, polygon or grid.
-In contrast to the <a href="https://www.ogc.org/standards/sfa" target="_blank">simple features standard</a>, there are no *multi-\** features in `geometr`, sets of features that belong together beyond their geometric connectedness are instead assigned a common group.
-Consequently, a `geom` is primarily made up of three tables that contain information on points (their coordinates), features and groups.
-The tables are related with feature and group IDs (`fid` and `gid` respectively) and can be provided with additional attributes (more on this in the chapter [\"Attributes of a `geom`\"](#attributes-of-a-geom)).
+<!-- The `geometr` package generalises the way to interact with spatial and other geometric objects by providing functions that access and modify data components in the same manner across classes. -->
+<!-- Moreover, `geometr` provides a data structure (of class `geom`) that represents the different data components in a truly [tidy](https://tidyr.tidyverse.org/) manner, allowing to generate geometric objects that are easily accessible and play well with other tidy tools. -->
 
+<!-- One could argue that spatial objects are merely a special case of geometric objects, where the coordinates of points refer to real locations on the surface of the earth instead of some virtual (cartesian) coordinate system. -->
+<!-- Geometric and spatial objects typically contain a collection of points that outline a geometric shape, or feature. -->
+<!-- A feature in `geometr` is defined as a set of points that form no more than one single unit of one of the types point, line, polygon or grid. -->
+<!-- In contrast to the <a href="https://www.ogc.org/standards/sfa" target="_blank">simple features standard</a>, there are no *multi-\** features in `geometr`, sets of features that belong together beyond their geometric connectedness are instead assigned a common group. -->
+<!-- Consequently, a `geom` is primarily made up of three tables that contain information on points (their coordinates), features and groups. -->
+<!-- The tables are related with feature and group IDs (`fid` and `gid` respectively) and can be provided with additional attributes (more on this in the chapter [\"Attributes of a `geom`\"](#attributes-of-a-geom)). -->
 
-This vignette outlines in detail first how `geometr` improves interoperability, then it describes the data-structure of a `geom`, how different feature types are cast into one another and shows how to visualise geometric objects with `geometr`.
 
-```{r, eval=FALSE}
-library(sf)
-library(sp)
-library(raster)
-library(geometr)
-library(tibble)
-library(dplyr)
-library(magrittr)
-```
+<!-- This vignette outlines in detail first how `geometr` improves interoperability, then it describes the data-structure of a `geom`, how different feature types are cast into one another and shows how to visualise geometric objects with `geometr`. -->
 
-# Interoperability
+<!-- ```{r, eval=FALSE} -->
+<!-- library(sf) -->
+<!-- library(sp) -->
+<!-- library(raster) -->
+<!-- library(geometr) -->
+<!-- library(tibble) -->
+<!-- library(dplyr) -->
+<!-- library(magrittr) -->
+<!-- ``` -->
 
-<a href="https://en.wikipedia.org/wiki/Interoperability" target="_blank">Interoperable software</a> is designed to easily exchange information with other software, which can be achieved by providing the output of functionally similar operations in a common arrangement or format, standardising access to the data.
-This principle is not only true for software written in different programming languages, but can also apply to several packages within the R ecosystem.
-R is an open source environment which means that no single package or class will ever be the sole source of a particular data structure and this is also the case for spatial and other geometric data.
+<!-- # Interoperability -->
 
-Interoperable data is data that has a common arrangement and that uses the same terminology, resulting ideally in <a href="https://en.wikipedia.org/wiki/Semantic_interoperability" target="_blank">semantic interoperability</a>.
-As an example, we can think of the extent of a geometric object.
-An extent reports the minimum and maximum value of all dimensions an object resides in.
-There are, however, several ways in which even this simple information can be reported, for example as vector or as table and with or without names.
-Moreover, distinct workflows provide data so that the same information is not at the same location or with the same name in all structures, e.g., the minimum value of the x dimension is not always the first information and is not always called 'xmin'.
+<!-- <a href="https://en.wikipedia.org/wiki/Interoperability" target="_blank">Interoperable software</a> is designed to easily exchange information with other software, which can be achieved by providing the output of functionally similar operations in a common arrangement or format, standardising access to the data. -->
+<!-- This principle is not only true for software written in different programming languages, but can also apply to several packages within the R ecosystem. -->
+<!-- R is an open source environment which means that no single package or class will ever be the sole source of a particular data structure and this is also the case for spatial and other geometric data. -->
 
-The following code chunk exemplifies this by showing various functions, which are all considered standard in R to date, that derive an extent from specific spatial objects:
+<!-- Interoperable data is data that has a common arrangement and that uses the same terminology, resulting ideally in <a href="https://en.wikipedia.org/wiki/Semantic_interoperability" target="_blank">semantic interoperability</a>. -->
+<!-- As an example, we can think of the extent of a geometric object. -->
+<!-- An extent reports the minimum and maximum value of all dimensions an object resides in. -->
+<!-- There are, however, several ways in which even this simple information can be reported, for example as vector or as table and with or without names. -->
+<!-- Moreover, distinct workflows provide data so that the same information is not at the same location or with the same name in all structures, e.g., the minimum value of the x dimension is not always the first information and is not always called 'xmin'. -->
 
-```{r}
-nc_sf <- st_read(system.file("shape/nc.shp", package = "sf"))
-st_bbox(nc_sf)
+<!-- The following code chunk exemplifies this by showing various functions, which are all considered standard in R to date, that derive an extent from specific spatial objects: -->
 
-nc_sp <- as_Spatial(nc_sf)
-bbox(nc_sp)
+<!-- ```{r} -->
+<!-- nc_sf <- st_read(system.file("shape/nc.shp", package = "sf")) -->
+<!-- st_bbox(nc_sf) -->
 
-ras <- raster(system.file("external/test.grd", package = "raster"))
-extent(ras)
-```
+<!-- nc_sp <- as_Spatial(nc_sf) -->
+<!-- bbox(nc_sp) -->
 
-`st_bbox()` provides the information as a named vector and presents first minimum and then maximum values of both dimensions, `bbox()` provides a table with minimum and maximum values in columns and `extent()` provides the information in an S4 object that presents first the x and then the y values.
-Neither data structures, nor names or positions of the information are identical.
+<!-- ras <- raster(system.file("external/test.grd", package = "raster")) -->
+<!-- extent(ras) -->
+<!-- ``` -->
 
-For a human user the structure of those information might not matter because we recognise, in most cases intuitively, where which information is to be found in such a simple data-structure.
-In the above case it is easy to recognise how the combination of column and rownames (of `bbox()`) refers to the already combined names (of `st_bbox()` or `extent()`).
-However, this capacity of humans to recognise information relative to the context needs to be programmed into software, for it to have that ability.
-Think, for example, of a new custom function that is designed to extract and process information from an arbitrary spatial input, i.e., without knowing in advance what spatial class the user will provide. 
-This would require an extensive code-logic to handle all possible input formats, complicated further by classes that may become available only in the future.
+<!-- `st_bbox()` provides the information as a named vector and presents first minimum and then maximum values of both dimensions, `bbox()` provides a table with minimum and maximum values in columns and `extent()` provides the information in an S4 object that presents first the x and then the y values. -->
+<!-- Neither data structures, nor names or positions of the information are identical. -->
 
-`geometr` improves interoperability in R for geometric and thus spatial classes by following the <a href="https://www.bioconductor.org/help/course-materials/2017/Zurich/S4-classes-and-methods.html#api-vs-internals" target="_blank">Bioconductor standard for S4 classes</a>.
-Here, *getters* and *setters* are used as accessor functions, and as pathway to extract or modify information of a given data structure.
-`geometr` thus provides getters that provide information in identical arrangement from a wide range of classes, and likewise setters that modify different classes in the same way, despite those classes typically need differently formatted input, arguments and functions.
-The following code chunk shows how different input classes yield the same output object.
+<!-- For a human user the structure of those information might not matter because we recognise, in most cases intuitively, where which information is to be found in such a simple data-structure. -->
+<!-- In the above case it is easy to recognise how the combination of column and rownames (of `bbox()`) refers to the already combined names (of `st_bbox()` or `extent()`). -->
+<!-- However, this capacity of humans to recognise information relative to the context needs to be programmed into software, for it to have that ability. -->
+<!-- Think, for example, of a new custom function that is designed to extract and process information from an arbitrary spatial input, i.e., without knowing in advance what spatial class the user will provide.  -->
+<!-- This would require an extensive code-logic to handle all possible input formats, complicated further by classes that may become available only in the future. -->
 
-```{r}
-myInput <- nc_sf
-getExtent(x = myInput)
+<!-- `geometr` improves interoperability in R for geometric and thus spatial classes by following the <a href="https://www.bioconductor.org/help/course-materials/2017/Zurich/S4-classes-and-methods.html#api-vs-internals" target="_blank">Bioconductor standard for S4 classes</a>. -->
+<!-- Here, *getters* and *setters* are used as accessor functions, and as pathway to extract or modify information of a given data structure. -->
+<!-- `geometr` thus provides getters that provide information in identical arrangement from a wide range of classes, and likewise setters that modify different classes in the same way, despite those classes typically need differently formatted input, arguments and functions. -->
+<!-- The following code chunk shows how different input classes yield the same output object. -->
 
-myInput <- nc_sp
-getExtent(x = myInput)
+<!-- ```{r} -->
+<!-- myInput <- nc_sf -->
+<!-- getExtent(x = myInput) -->
 
-myInput <- ras
-getExtent(x = myInput)
-```
+<!-- myInput <- nc_sp -->
+<!-- getExtent(x = myInput) -->
 
-The output of the getters provided by `geometr` is 
+<!-- myInput <- ras -->
+<!-- getExtent(x = myInput) -->
+<!-- ``` -->
 
-* tidy, i.e., it provides variables in columns, observations in rows and only one value per cell
-* semantically interoperable, i.e., it provides the same information in the same location of the output object, with the same names.
+<!-- The output of the getters provided by `geometr` is  -->
 
-This ensures that the information retrieved with getters are compatible with a tidy workflow and that a custom function that processes geometric information requires merely one very simple row of code to extract those information from a potentially wide range of distinct classes.
+<!-- * tidy, i.e., it provides variables in columns, observations in rows and only one value per cell -->
+<!-- * semantically interoperable, i.e., it provides the same information in the same location of the output object, with the same names. -->
 
+<!-- This ensures that the information retrieved with getters are compatible with a tidy workflow and that a custom function that processes geometric information requires merely one very simple row of code to extract those information from a potentially wide range of distinct classes. -->
 
 
-# Description of the class `geom`
 
-`geometr` comes with the S4 class `geom`, a geometric (spatial) class that has primarily been developed for its interoperability and easy access.
+<!-- # Description of the class `geom` -->
 
-All objects of this class are structurally the same, no slots are removed or added when modifying an object and all properties are labelled with the same terms in each object of that class.
-This interoperability is true for objects representing point (and grid), line or polygon features, for objects that contain a single or several features and for objects that are either merely geometric or indeed spatial/geographic because they contain a coordinate reference system (crs).
-A `geom` contains, moreover, only direct information, i.e., such information that can't be derived from other of its information, such as the extent (which is in fact only the minimum and maximum coordinates that make up the geometry).
+<!-- `geometr` comes with the S4 class `geom`, a geometric (spatial) class that has primarily been developed for its interoperability and easy access. -->
 
+<!-- All objects of this class are structurally the same, no slots are removed or added when modifying an object and all properties are labelled with the same terms in each object of that class. -->
+<!-- This interoperability is true for objects representing point (and grid), line or polygon features, for objects that contain a single or several features and for objects that are either merely geometric or indeed spatial/geographic because they contain a coordinate reference system (crs). -->
+<!-- A `geom` contains, moreover, only direct information, i.e., such information that can't be derived from other of its information, such as the extent (which is in fact only the minimum and maximum coordinates that make up the geometry). -->
 
-## The data-structure of a `geom`
 
-A `geom` contains as its backbone the three slots `@point`, `@feature` and `@group`.
-Each of those slots are a named list that contains as many tables as there are layers in the `geom`.
-The exact values stored in those tables are explained in Tab. \@ref(tab:slots), along the other slots of a `geom`.
+<!-- ## The data-structure of a `geom` -->
 
-| slot | class | description |
-| :---- | :---- | :------------ |
-| `type` | `character` | the type of how the `geom` is processed and visualised. Either `point`, `line`, `polygon` or `grid`. |
-| `point` | `tibble` | the coordinates in x and y dimension and the ID of the feature the point is part of (`fid`). |
-| `feature` | `list` of `tibble`s | the feature ID (`fid`) and the ID of the group the feature is part of (`gid`). Any other attributes that are valid for each individual feature can be joined to this table. |
-| `group` | `list` of `tibble`s | the group ID (`gid`) and any attributes that are valid for an overall group. |
-| `window` | `tibble` | the coordinates of a rectangular polygon that outlines the \"enclosing area\" of the `geom`. This is not to be confused with the extent, which is the minimum and maximum values of all dimensions of the `geom` and which is not recorded in a slot but derived from the coordinates. |
-| `crs` | `character` | the coordinate reference system, currently in proj4 notation. In case no crs has been set, this is shown as \'cartesian\'. |
-| `history` | `list` | all of the functions of `geometr` produce an entry in this list to document [provenance](https://en.wikipedia.org/wiki/Provenance#Data_provenance). |
+<!-- A `geom` contains as its backbone the three slots `@point`, `@feature` and `@group`. -->
+<!-- Each of those slots are a named list that contains as many tables as there are layers in the `geom`. -->
+<!-- The exact values stored in those tables are explained in Tab. \@ref(tab:slots), along the other slots of a `geom`. -->
 
-Table: (\#tab:slots) List of issues, which have to be considered when building a database of areal data from distinct sources.
+<!-- | slot | class | description | -->
+<!-- | :---- | :---- | :------------ | -->
+<!-- | `type` | `character` | the type of how the `geom` is processed and visualised. Either `point`, `line`, `polygon` or `grid`. | -->
+<!-- | `point` | `tibble` | the coordinates in x and y dimension and the ID of the feature the point is part of (`fid`). | -->
+<!-- | `feature` | `list` of `tibble`s | the feature ID (`fid`) and the ID of the group the feature is part of (`gid`). Any other attributes that are valid for each individual feature can be joined to this table. | -->
+<!-- | `group` | `list` of `tibble`s | the group ID (`gid`) and any attributes that are valid for an overall group. | -->
+<!-- | `window` | `tibble` | the coordinates of a rectangular polygon that outlines the \"enclosing area\" of the `geom`. This is not to be confused with the extent, which is the minimum and maximum values of all dimensions of the `geom` and which is not recorded in a slot but derived from the coordinates. | -->
+<!-- | `crs` | `character` | the coordinate reference system, currently in proj4 notation. In case no crs has been set, this is shown as \'cartesian\'. | -->
+<!-- | `history` | `list` | all of the functions of `geometr` produce an entry in this list to document [provenance](https://en.wikipedia.org/wiki/Provenance#Data_provenance). | -->
 
-A `geom` of type grid is a special case of a point `geom` in that it is made up of a systematically distributed lattice of points, thereby resembling `raster` objects.
-A `geom` of type grid contains in the `@point` slot merely a table that contains the minimum and maximum value and the cell size for the x and y dimensions, while a `geom` of type point, line or polygon explicitly contains all the coordinates of the points that make up features. 
-When using the getter `getPoints()`, this slot is "unpacked" into a form that is interoperable with the other `geom` types.
-
-```{r}
-gtGeoms$grid$categorical@point
-getPoints(x = gtGeoms$grid$categorical)
-```
+<!-- Table: (\#tab:slots) List of issues, which have to be considered when building a database of areal data from distinct sources. -->
 
-In contrast to `Raster*` objects of the `raster` package, the values in a grid `geom` are [*run-length encoded*](https://en.wikipedia.org/wiki/Run-length_encoding), in case that results in a smaller object, which is often the case for rasters with categorical values.
+<!-- A `geom` of type grid is a special case of a point `geom` in that it is made up of a systematically distributed lattice of points, thereby resembling `raster` objects. -->
+<!-- A `geom` of type grid contains in the `@point` slot merely a table that contains the minimum and maximum value and the cell size for the x and y dimensions, while a `geom` of type point, line or polygon explicitly contains all the coordinates of the points that make up features.  -->
+<!-- When using the getter `getPoints()`, this slot is "unpacked" into a form that is interoperable with the other `geom` types. -->
+
+<!-- ```{r} -->
+<!-- gtGeoms$grid$categorical@point -->
+<!-- getPoints(x = gtGeoms$grid$categorical) -->
+<!-- ``` -->
 
-```{r, fig.height=3.5}
-object.size(gtRasters$categorical)
-object.size(gtGeoms$grid$categorical)
+<!-- In contrast to `Raster*` objects of the `raster` package, the values in a grid `geom` are [*run-length encoded*](https://en.wikipedia.org/wiki/Run-length_encoding), in case that results in a smaller object, which is often the case for rasters with categorical values. -->
 
-visualise(gtRasters$categorical, gtGeoms$grid$categorical)
-```
+<!-- ```{r, fig.height=3.5} -->
+<!-- object.size(gtRasters$categorical) -->
+<!-- object.size(gtGeoms$grid$categorical) -->
 
-As with points, the getter `getFeatures()` unpacks the `@feature` slot into its interoperable form.
+<!-- visualise(gtRasters$categorical, gtGeoms$grid$categorical) -->
+<!-- ``` -->
 
-```{r}
-gtGeoms$grid$categorical@feature
-getFeatures(x = gtGeoms$grid$categorical)
-```
+<!-- As with points, the getter `getFeatures()` unpacks the `@feature` slot into its interoperable form. -->
 
-For raster objects it is intuitively clear that attributes are contained in separate tables, where unique values of the raster cells are related to attribute values. 
-For vector objects this also seems apparent, however, when digging below the surface there are some difference in interpretation.
-The attribute table for vector objects is typically seen as a table that contains attributes per feature, not per group (of unique features).
-When storing vector data in a simple feature data structure, each feature is an actually not so simple object that can be made up of one or more points or lines, or of a wide range of nested and neighbouring polygons, such as in a `MULTIPOLYGON` or even a mix of all of those in a `GEOMETRYCOLLECTION`.
+<!-- ```{r} -->
+<!-- gtGeoms$grid$categorical@feature -->
+<!-- getFeatures(x = gtGeoms$grid$categorical) -->
+<!-- ``` -->
 
-In `geometr`, in contrast, a feature is a single point, one sequence of points that form a line or a [single polygon](#how-are-polygons-handled), i.e., only a single object of each type.
-Any closed path that is not fully enclosed by another closed path, or that is not part of the same line (or the same point...), is thus a distinct feature.
-Obviously, it must be possible to relate features to one another beyond their physical connectedness as closed path, for examples several islands that form a nation.
-In `geometr`, this connectedness is represented by a group ID (`gid`), which relates all features of that group to the group specific attributes in the `@group` slot.
-This has two advantages over simple features:
-
-1. each feature can have both, ancillary information at the feature level and at the group level (i.e., a feature in the \"simple feature\" sense).
-2. this interpretation allows also raster objects to be captured in the exact same data structure, when regarding the cell values as features and the raster attribute tables as relating groups of unique values/features to group specific attributes.
-
-```{r}
-getGroups(x = gtGeoms$grid$categorical)
-```
-
-## Create a `geom`
-
-A `geom` can be created simply by transforming it from another class in case a method for that class is defined (`showMethods("gc_geom")`), or by using one of the *geometry shape* functions that are labelled `gs_*` in `geometr`.
-
-```{r}
-# transform from class sf
-(nc_geom <- gc_geom(input = nc_sf))
-
-# make "by hand"
-coords <- tibble(x = c(40, 70, 70, 50),
-                 y = c(40, 40, 60, 70))
-(somePoints <- gs_point(anchor = coords))
-```
-
-`nc_geom` is made up of 100 groups with 108 individual polygon features (with 2529 points), has a crs other than cartesian and a set of (feature) attributes.
-The attributes values are not shown by the print method of a `geom` for compact visualisation of the important information.
-Instead, there is a \"tiny map\" that shows where the points of the respective `geom` are concentrated.
-If there is less than 1/16th of all points in a section of the map, a `r '\u25CC'` is shown, for more than 1/16th but less than 1/8th this is `r '\u25CB'`, for more than 1/8th but less than 1/4th `r '\u25CE'` and for sections with more than 1/4th of points, this is `r '\u25C9'`.
+<!-- For raster objects it is intuitively clear that attributes are contained in separate tables, where unique values of the raster cells are related to attribute values.  -->
+<!-- For vector objects this also seems apparent, however, when digging below the surface there are some difference in interpretation. -->
+<!-- The attribute table for vector objects is typically seen as a table that contains attributes per feature, not per group (of unique features). -->
+<!-- When storing vector data in a simple feature data structure, each feature is an actually not so simple object that can be made up of one or more points or lines, or of a wide range of nested and neighbouring polygons, such as in a `MULTIPOLYGON` or even a mix of all of those in a `GEOMETRYCOLLECTION`. -->
 
-
-## How are polygons handled?
+<!-- In `geometr`, in contrast, a feature is a single point, one sequence of points that form a line or a [single polygon](#how-are-polygons-handled), i.e., only a single object of each type. -->
+<!-- Any closed path that is not fully enclosed by another closed path, or that is not part of the same line (or the same point...), is thus a distinct feature. -->
+<!-- Obviously, it must be possible to relate features to one another beyond their physical connectedness as closed path, for examples several islands that form a nation. -->
+<!-- In `geometr`, this connectedness is represented by a group ID (`gid`), which relates all features of that group to the group specific attributes in the `@group` slot. -->
+<!-- This has two advantages over simple features: -->
+
+<!-- 1. each feature can have both, ancillary information at the feature level and at the group level (i.e., a feature in the \"simple feature\" sense). -->
+<!-- 2. this interpretation allows also raster objects to be captured in the exact same data structure, when regarding the cell values as features and the raster attribute tables as relating groups of unique values/features to group specific attributes. -->
+
+<!-- ```{r} -->
+<!-- getGroups(x = gtGeoms$grid$categorical) -->
+<!-- ``` -->
+
+<!-- ## Create a `geom` -->
+
+<!-- A `geom` can be created simply by transforming it from another class in case a method for that class is defined (`showMethods("gc_geom")`), or by using one of the *geometry shape* functions that are labelled `gs_*` in `geometr`. -->
+
+<!-- ```{r} -->
+<!-- # transform from class sf -->
+<!-- (nc_geom <- gc_geom(input = nc_sf)) -->
+
+<!-- # make "by hand" -->
+<!-- coords <- tibble(x = c(40, 70, 70, 50), -->
+<!--                  y = c(40, 40, 60, 70)) -->
+<!-- (somePoints <- gs_point(anchor = coords)) -->
+<!-- ``` -->
+
+<!-- `nc_geom` is made up of 100 groups with 108 individual polygon features (with 2529 points), has a crs other than cartesian and a set of (feature) attributes. -->
+<!-- The attributes values are not shown by the print method of a `geom` for compact visualisation of the important information. -->
+<!-- Instead, there is a \"tiny map\" that shows where the points of the respective `geom` are concentrated. -->
+<!-- If there is less than 1/16th of all points in a section of the map, a `r '\u25CC'` is shown, for more than 1/16th but less than 1/8th this is `r '\u25CB'`, for more than 1/8th but less than 1/4th `r '\u25CE'` and for sections with more than 1/4th of points, this is `r '\u25C9'`. -->
 
-A polygon is by definition a two-dimensional plane, in contrast to a line that has only one dimension, its length, and a point, which is dimensionless.
-A polygon and a line can be made up of the same set of points and a polygon is indeed nothing more than a sequence of lines (a path) that outlines the shape of the polygon.
-To then distinguish a line and polygon with the same points, it can be defined that a polygon must have duplicate start and end points, which would constitute a *closed path*.
+
+<!-- ## How are polygons handled? -->
 
-```{r}
-(aPoly <- gs_polygon(anchor = coords))
-```
+<!-- A polygon is by definition a two-dimensional plane, in contrast to a line that has only one dimension, its length, and a point, which is dimensionless. -->
+<!-- A polygon and a line can be made up of the same set of points and a polygon is indeed nothing more than a sequence of lines (a path) that outlines the shape of the polygon. -->
+<!-- To then distinguish a line and polygon with the same points, it can be defined that a polygon must have duplicate start and end points, which would constitute a *closed path*. -->
 
-`aPoly` is made up of one feature with 5 points, has a cartesian coordinate system and the tiny map implies that the point at location `(40|40)` is duplicated. 
-As a matter of fact, any `geom` that has no crs assigned is assumed to be a mere geometric object of which the values are valid in a cartesian coordinate system.
-The function `gs_polygon()` ensures that a polygon fulfills the formal criteria of a polygon, and thus also reconstructs duplicate points that would close individual paths.
+<!-- ```{r} -->
+<!-- (aPoly <- gs_polygon(anchor = coords)) -->
+<!-- ``` -->
 
-Moreover, polygons may have holes (and islands therein), for example a park with a pond that has a little island in the middle.
-When defining polygon `geom`s with nested closed paths (holes), the only thing to consider is that the outer path must be given as first ring and that this outer ring must fully enclose all interior rings.
-All paths that are supposed to be nested within this path must themselves be closed, but their order does not matter.
-Also, when building a polygon with hole in `geometr`, the rotation direction described by the sequence of the points does not matter, in contrast to other spatial classes to date. *mention here that this is a requirement of algorithms that are generally used, even though they are outdated...)*
-The correct treatment and visualisation of polygons with interior rings is determined by the code-logic of the functions processing polygons.
-
-```{r}
-pond <- tibble(x = c(30, 30, 80, 80, 30),
-               y = c(30, 80, 80, 30, 30),
-               fid = 1)
-island <- tibble(x = c(60, 65, 65, 60, 60),
-                y = c(45, 45, 50, 50, 45),
-                fid = 1)
-temp <- bind_rows(pond, island, getPoints(aPoly))
+<!-- `aPoly` is made up of one feature with 5 points, has a cartesian coordinate system and the tiny map implies that the point at location `(40|40)` is duplicated.  -->
+<!-- As a matter of fact, any `geom` that has no crs assigned is assumed to be a mere geometric object of which the values are valid in a cartesian coordinate system. -->
+<!-- The function `gs_polygon()` ensures that a polygon fulfills the formal criteria of a polygon, and thus also reconstructs duplicate points that would close individual paths. -->
 
-(perforatedPoly <- gs_polygon(anchor = temp))
-visualise(perforatedPoly, fillcol = "fid")
-```
+<!-- Moreover, polygons may have holes (and islands therein), for example a park with a pond that has a little island in the middle. -->
+<!-- When defining polygon `geom`s with nested closed paths (holes), the only thing to consider is that the outer path must be given as first ring and that this outer ring must fully enclose all interior rings. -->
+<!-- All paths that are supposed to be nested within this path must themselves be closed, but their order does not matter. -->
+<!-- Also, when building a polygon with hole in `geometr`, the rotation direction described by the sequence of the points does not matter, in contrast to other spatial classes to date. *mention here that this is a requirement of algorithms that are generally used, even though they are outdated...)* -->
+<!-- The correct treatment and visualisation of polygons with interior rings is determined by the code-logic of the functions processing polygons. -->
+
+<!-- ```{r} -->
+<!-- pond <- tibble(x = c(30, 30, 80, 80, 30), -->
+<!--                y = c(30, 80, 80, 30, 30), -->
+<!--                fid = 1) -->
+<!-- island <- tibble(x = c(60, 65, 65, 60, 60), -->
+<!--                 y = c(45, 45, 50, 50, 45), -->
+<!--                 fid = 1) -->
+<!-- temp <- bind_rows(pond, island, getPoints(aPoly)) -->
 
+<!-- (perforatedPoly <- gs_polygon(anchor = temp)) -->
+<!-- visualise(perforatedPoly, fillcol = "fid") -->
+<!-- ``` -->
 
-## Attributes of a `geom`
 
-`nc_sf` consists of 100 "`MULTIPOLYGONS`" of which in fact only a small number are composed of several polygons.
-This is due the definition of simple features, where one "simple" feature can be of a *multi\** type that comprises several closed paths in the same object and which would thus be called `MULTIPOLYGON`.
-Yet, an object can also contain only a single closed path and still have the feature type `MULTIPOLYGON`.
-In a `geom`, *multi\**-features are broken down into their distinct closed paths, into \"simpler features\", so to speak.
+<!-- ## Attributes of a `geom` -->
 
-By default, the attributes related to each simple feature are also stored in the `@feature` slot in a `geom`, with duplicated entries for all \"simpler features\" that are part of the same simple feature (for instance, features four, five and six in `nc_geom`).
-This may not be desired, for the sake of consistency, so `gc_geom` has the argument `group = FALSE/TRUE` to set whether simple feature attributes shall be regarded as group attributes in the resulting `geom`. 
+<!-- `nc_sf` consists of 100 "`MULTIPOLYGONS`" of which in fact only a small number are composed of several polygons. -->
+<!-- This is due the definition of simple features, where one "simple" feature can be of a *multi\** type that comprises several closed paths in the same object and which would thus be called `MULTIPOLYGON`. -->
+<!-- Yet, an object can also contain only a single closed path and still have the feature type `MULTIPOLYGON`. -->
+<!-- In a `geom`, *multi\**-features are broken down into their distinct closed paths, into \"simpler features\", so to speak. -->
 
-```{r}
-new_geom <- gc_geom(input = nc_sf, group = TRUE)
+<!-- By default, the attributes related to each simple feature are also stored in the `@feature` slot in a `geom`, with duplicated entries for all \"simpler features\" that are part of the same simple feature (for instance, features four, five and six in `nc_geom`). -->
+<!-- This may not be desired, for the sake of consistency, so `gc_geom` has the argument `group = FALSE/TRUE` to set whether simple feature attributes shall be regarded as group attributes in the resulting `geom`.  -->
 
-getFeatures(x = new_geom)
+<!-- ```{r} -->
+<!-- new_geom <- gc_geom(input = nc_sf, group = TRUE) -->
 
-getGroups(x = new_geom)
-```
+<!-- getFeatures(x = new_geom) -->
 
-It becomes clear that this approach to attribute tables makes the class `geom` quite flexible.
-One could for example assign some point specific measurements (such as [Arne Pommerening's](https://www.pommerening.org) Clocaenog 6 sample data) to the feature attribute table, and at the same time set group specific attributes to the group attribute table of a point `geom`.
+<!-- getGroups(x = new_geom) -->
+<!-- ``` -->
 
-```{r}
-clg_dat <- clocaenog$trees
-clg_spec <- clocaenog$species
+<!-- It becomes clear that this approach to attribute tables makes the class `geom` quite flexible. -->
+<!-- One could for example assign some point specific measurements (such as [Arne Pommerening's](https://www.pommerening.org) Clocaenog 6 sample data) to the feature attribute table, and at the same time set group specific attributes to the group attribute table of a point `geom`. -->
 
-# make table of locations, tree properties and species metadata
-locations <- tibble(x = clg_dat$x,
-                    y = clg_dat$y,
-                    fid = clg_dat$Number)
-prop <- tibble(fid = clg_dat$Number,
-               gid = clg_dat$Species,
-               dbh = clg_dat$dbh,
-               height = clg_dat$ht)
-species <- tibble(gid = unique(clg_dat$Species)) %>% 
-  left_join(clg_spec, by = c("gid" = "NC")) %>% 
-  select(gid, name = CN, scientific = BN) %>% 
-  mutate(deciduous = c(T, T, F, F, F, T, T, F, T, T, F)) %>% 
-  arrange(gid)
+<!-- ```{r} -->
+<!-- clg_dat <- clocaenog$trees -->
+<!-- clg_spec <- clocaenog$species -->
 
-# set these as attribute tables and select only trees with a height value
-trees <- locations %>%
-  gs_point(anchor = .) %>%
-  setFeatures(table = prop) %>%
-  setGroups(table = species)
+<!-- # make table of locations, tree properties and species metadata -->
+<!-- locations <- tibble(x = clg_dat$x, -->
+<!--                     y = clg_dat$y, -->
+<!--                     fid = clg_dat$Number) -->
+<!-- prop <- tibble(fid = clg_dat$Number, -->
+<!--                gid = clg_dat$Species, -->
+<!--                dbh = clg_dat$dbh, -->
+<!--                height = clg_dat$ht) -->
+<!-- species <- tibble(gid = unique(clg_dat$Species)) %>%  -->
+<!--   left_join(clg_spec, by = c("gid" = "NC")) %>%  -->
+<!--   select(gid, name = CN, scientific = BN) %>%  -->
+<!--   mutate(deciduous = c(T, T, F, F, F, T, T, F, T, T, F)) %>%  -->
+<!--   arrange(gid) -->
 
-# make the title
-validpoints <- getPoints(x = trees)
-title <- paste0("Clocaenog - tree heights (", dim(validpoints)[1], ")")
+<!-- # set these as attribute tables and select only trees with a height value -->
+<!-- trees <- locations %>% -->
+<!--   gs_point(anchor = .) %>% -->
+<!--   setFeatures(table = prop) %>% -->
+<!--   setGroups(table = species) -->
 
-# and visualise
-visualise(!!title := trees, linecol = "height")
-```
+<!-- # make the title -->
+<!-- validpoints <- getPoints(x = trees) -->
+<!-- title <- paste0("Clocaenog - tree heights (", dim(validpoints)[1], ")") -->
 
+<!-- # and visualise -->
+<!-- visualise(!!title := trees, linecol = "height") -->
+<!-- ``` -->
 
-## Data provenance
 
-An object of class `geom` contains, just like a `raster` the slot `@history`.
-This slot documents the <a href="https://en.wikipedia.org/wiki/Data_lineage" target="_blank">provenance</a> of that object, i.e., where it came from and how it has been modified.
-The function `gc_geom()`, all `gs_*()` and all `gt_()*` functions attach information to the list the `@history` slot is.
-In case you want to make use of this slot, it can be set via `setHistory()`.
+<!-- ## Data provenance -->
 
-```{r}
-visualise(aPoly)
+<!-- An object of class `geom` contains, just like a `raster` the slot `@history`. -->
+<!-- This slot documents the <a href="https://en.wikipedia.org/wiki/Data_lineage" target="_blank">provenance</a> of that object, i.e., where it came from and how it has been modified. -->
+<!-- The function `gc_geom()`, all `gs_*()` and all `gt_()*` functions attach information to the list the `@history` slot is. -->
+<!-- In case you want to make use of this slot, it can be set via `setHistory()`. -->
 
-reflPoly <- gt_reflect(obj = aPoly, angle = 45)
+<!-- ```{r} -->
+<!-- visualise(aPoly) -->
 
-visualise(reflPoly, linecol = "deeppink", new = FALSE, trace = TRUE)
-```
+<!-- reflPoly <- gt_reflect(obj = aPoly, angle = 45) -->
 
-# Casting
+<!-- visualise(reflPoly, linecol = "deeppink", new = FALSE, trace = TRUE) -->
+<!-- ``` -->
 
-It is quite straightforward to cast from one feature type to another with `geometr`.
-As already mentioned above, the feature types point, line and polygon have the same arrangement and differ only in the slot `@type`. 
-This means that the only element that needs to be changed is the feature type.
-All `gs_*()` functions contain the argument `anchor = `, this is where location information for creating the output are provided.
-If what is provided here is already a `geom`, most of the location information and other properties can be (and in fact are) simply copied into the new object.
+<!-- # Casting -->
 
-The following code chunk shows casting in `geometr`.
-When casting to polygons, vertex checks are carried out that make sure the output is a valid polygon. 
-This results, as also described above, in the first/last point becoming duplicated to form a closed path. 
-When casting from a polygon to another type, those duplicates have to be handled, for example by removing duplicates.
+<!-- It is quite straightforward to cast from one feature type to another with `geometr`. -->
+<!-- As already mentioned above, the feature types point, line and polygon have the same arrangement and differ only in the slot `@type`.  -->
+<!-- This means that the only element that needs to be changed is the feature type. -->
+<!-- All `gs_*()` functions contain the argument `anchor = `, this is where location information for creating the output are provided. -->
+<!-- If what is provided here is already a `geom`, most of the location information and other properties can be (and in fact are) simply copied into the new object. -->
 
-```{r}
-# make points and discard duplicates ...
-(somePoints <- gs_point(anchor = aPoly))
+<!-- The following code chunk shows casting in `geometr`. -->
+<!-- When casting to polygons, vertex checks are carried out that make sure the output is a valid polygon.  -->
+<!-- This results, as also described above, in the first/last point becoming duplicated to form a closed path.  -->
+<!-- When casting from a polygon to another type, those duplicates have to be handled, for example by removing duplicates. -->
 
-# ... and recreate a polygon from that
-(aPoly <- gs_polygon(anchor = somePoints))
-```
+<!-- ```{r} -->
+<!-- # make points and discard duplicates ... -->
+<!-- (somePoints <- gs_point(anchor = aPoly)) -->
 
+<!-- # ... and recreate a polygon from that -->
+<!-- (aPoly <- gs_polygon(anchor = somePoints)) -->
+<!-- ``` -->
 
-# Visualising
 
-We saw already some quite powerful use-cases of the `visualise()` function that comes with `geometr`.
-The philosophy of plotting geometric objects in `geometr` deviates a bit from other approaches.
+<!-- # Visualising -->
 
-The idea is that both vector and raster objects can be visualised at the same time, and that additional options can be specified for their appearance, and for the appearance of other plot elements (such as the legend, the box or the axes).
-In case several objects are provided to `visualise()` at the same time, they are facetted, i.e., plotted in separate panels next to one another.
-Moreover, it is possible to set the plot title by providing a name to the object that shall be plotted, for example via `'plot name' = plotObject`.
-In case a title is not provided in that way, the title is either extracted from the object name (for example, the raster in the following example is part of a `RasterStack` with the name `continuous`) or a default value is used.
+<!-- We saw already some quite powerful use-cases of the `visualise()` function that comes with `geometr`. -->
+<!-- The philosophy of plotting geometric objects in `geometr` deviates a bit from other approaches. -->
 
-```{r, fig.height=3.5}
-visualise('I made a polygon!' = aPoly, gtRasters$continuous)
-```
+<!-- The idea is that both vector and raster objects can be visualised at the same time, and that additional options can be specified for their appearance, and for the appearance of other plot elements (such as the legend, the box or the axes). -->
+<!-- In case several objects are provided to `visualise()` at the same time, they are facetted, i.e., plotted in separate panels next to one another. -->
+<!-- Moreover, it is possible to set the plot title by providing a name to the object that shall be plotted, for example via `'plot name' = plotObject`. -->
+<!-- In case a title is not provided in that way, the title is either extracted from the object name (for example, the raster in the following example is part of a `RasterStack` with the name `continuous`) or a default value is used. -->
 
-In case a `geom` is provided with a relative scale, the values are scaled between 0 and 1 and it is plotted by default relative to the plot extent.
-This allows, for example, to observe always the same region in a set of images, in which some signal changes, and eventually to extract the values.
-To this end, a `geom` would be provided with a reference window from which the relative values shall be derived and its' coordinates are scaled to those values.
+<!-- ```{r, fig.height=3.5} -->
+<!-- visualise('I made a polygon!' = aPoly, gtRasters$continuous) -->
+<!-- ``` -->
 
-```{r, fig.height=3.5}
-relPoly <- gs_rectangle(anchor = aPoly) %>% 
-  setWindow(to = tibble(x = c(0, 100), y = c(0, 100)))
+<!-- In case a `geom` is provided with a relative scale, the values are scaled between 0 and 1 and it is plotted by default relative to the plot extent. -->
+<!-- This allows, for example, to observe always the same region in a set of images, in which some signal changes, and eventually to extract the values. -->
+<!-- To this end, a `geom` would be provided with a reference window from which the relative values shall be derived and its' coordinates are scaled to those values. -->
 
-visualise(gtRasters$categorical, gtRasters$continuous)
-visualise(relPoly, linecol = "deeppink", new = FALSE)
-```
+<!-- ```{r, fig.height=3.5} -->
+<!-- relPoly <- gs_rectangle(anchor = aPoly) %>%  -->
+<!--   setWindow(to = tibble(x = c(0, 100), y = c(0, 100))) -->
 
-In various functions of `geometr` the reference window can play a role, most prominently to control which part of an object is plotted.
-The window of any object that has been plotted here so far, other than `relPoly`, has been set implicitly, usually to the extent of that object.
-`relPoly` has been assigned with a reference window that is larger than its' extent and this lead to an effect that could be described *zooming out*.
-Likewise, one could *zoom in* by assigning a reference window smaller than the extent of an object.
-The reference region for a plot can be set via the `window = ` argument in `visualise()`, which requires absolute values.
-To zoom in on `relPoly`, we thus have to assign the plot extent as window to `relPoly` and rescale the relative values to absolute values on that basis.
+<!-- visualise(gtRasters$categorical, gtRasters$continuous) -->
+<!-- visualise(relPoly, linecol = "deeppink", new = FALSE) -->
+<!-- ``` -->
 
-```{r}
-zoom <- gt_scale(obj = relPoly, range = getExtent(x = gtRasters$categorical)) %>% 
-  setWindow(to = getExtent(x = gtRasters$categorical))
-  
-visualise('zoomed object' = gtRasters$categorical, window = getExtent(x = zoom))
-```
+<!-- In various functions of `geometr` the reference window can play a role, most prominently to control which part of an object is plotted. -->
+<!-- The window of any object that has been plotted here so far, other than `relPoly`, has been set implicitly, usually to the extent of that object. -->
+<!-- `relPoly` has been assigned with a reference window that is larger than its' extent and this lead to an effect that could be described *zooming out*. -->
+<!-- Likewise, one could *zoom in* by assigning a reference window smaller than the extent of an object. -->
+<!-- The reference region for a plot can be set via the `window = ` argument in `visualise()`, which requires absolute values. -->
+<!-- To zoom in on `relPoly`, we thus have to assign the plot extent as window to `relPoly` and rescale the relative values to absolute values on that basis. -->
 
-`visualise()` also allows to plot images, simply by providing an object that has the three layers `red`,  `green` and `blue` and setting `image = TRUE`.
+<!-- ```{r} -->
+<!-- zoom <- gt_scale(obj = relPoly, range = getExtent(x = gtRasters$categorical)) %>%  -->
+<!--   setWindow(to = getExtent(x = gtRasters$categorical)) -->
 
-```{r}
-R_logo <- brick(system.file("external/rlogo.grd", package = "raster"))
-visualise('R logo' = gc_geom(input = R_logo, as_hex = TRUE))
-```
+<!-- visualise('zoomed object' = gtRasters$categorical, window = getExtent(x = zoom)) -->
+<!-- ``` -->
 
+<!-- `visualise()` also allows to plot images, simply by providing an object that has the three layers `red`,  `green` and `blue` and setting `image = TRUE`. -->
 
-### The `gtTheme`
+<!-- ```{r} -->
+<!-- R_logo <- brick(system.file("external/rlogo.grd", package = "raster")) -->
+<!-- visualise('R logo' = gc_geom(input = R_logo, as_hex = TRUE)) -->
+<!-- ``` -->
 
-To adjust the appearance of a plot one can either provide a theme for all plot elements or quick options for the plotted objects only.
 
-The theme controls how plots that are created with `visualise()` appear.
-By default, this theme is `gtTheme` and it has the following properties.
+<!-- ### The `gtTheme` -->
 
-```{r}
-gtTheme
-```
+<!-- To adjust the appearance of a plot one can either provide a theme for all plot elements or quick options for the plotted objects only. -->
 
-A new theme can be created by modifying any of the elements (shown in yellow in the console), via the function `setTheme()`.
-`vector` and `raster` are provided with a `scale`, where it is noted that one of the properties is scaled to one of the attributes of the object.
-By default, the line colour (`linecol`) is scaled to the feature ID (`fid`) for `vector` objects and rasters are scaled to their unique values, or the ID of an optional <a href="https://rdrr.io/cran/raster/man/factor.html" target="_blank">attribute table</a>.
-For `vector` objects also other properties can be scaled, namely the point symbol (`pointsymbol`) and size (`pointsize`), the colour of points (also `linecol`), the line type (`linetype`) and width (`linewidth`) of lines and polygons and the fill colour of polygons (`fillcol`).
+<!-- The theme controls how plots that are created with `visualise()` appear. -->
+<!-- By default, this theme is `gtTheme` and it has the following properties. -->
 
-By default `gtTheme` contains only a single value for most properties (except colours), so when scaling a property, a sensible range needs to be specified.
-For example, to make a plot where each point represents the diameter of a tree, it would make sense to scale the points between values that resemble the tree diameter.
+<!-- ```{r} -->
+<!-- gtTheme -->
+<!-- ``` -->
 
-```{r}
-treeTheme <- setTheme(scale = list(param = "pointsize", to = "dbh"), 
-                      parameters = list(pointsize = c(0.05, 0.77)))
-visualise(`Clocaenog - tree diameters` = trees, theme = treeTheme, clip = FALSE)
-```
+<!-- A new theme can be created by modifying any of the elements (shown in yellow in the console), via the function `setTheme()`. -->
+<!-- `vector` and `raster` are provided with a `scale`, where it is noted that one of the properties is scaled to one of the attributes of the object. -->
+<!-- By default, the line colour (`linecol`) is scaled to the feature ID (`fid`) for `vector` objects and rasters are scaled to their unique values, or the ID of an optional <a href="https://rdrr.io/cran/raster/man/factor.html" target="_blank">attribute table</a>. -->
+<!-- For `vector` objects also other properties can be scaled, namely the point symbol (`pointsymbol`) and size (`pointsize`), the colour of points (also `linecol`), the line type (`linetype`) and width (`linewidth`) of lines and polygons and the fill colour of polygons (`fillcol`). -->
 
-Alternatively, one could use quick options to set scaling, by providing the property to scale and the attribute to scale to as `property = attribute`, also for several properties at the same time.
+<!-- By default `gtTheme` contains only a single value for most properties (except colours), so when scaling a property, a sensible range needs to be specified. -->
+<!-- For example, to make a plot where each point represents the diameter of a tree, it would make sense to scale the points between values that resemble the tree diameter. -->
 
-```{r}
-treeTheme <- setTheme(parameters = list(pointsize = c(0.05, 0.77)))
-visualise(`Clocaenog - tree diameters and heights` = trees, theme = treeTheme,
-          pointsize = "dbh", linecol = "height")
-```
+<!-- ```{r} -->
+<!-- treeTheme <- setTheme(scale = list(param = "pointsize", to = "dbh"),  -->
+<!--                       parameters = list(pointsize = c(0.05, 0.77))) -->
+<!-- visualise(`Clocaenog - tree diameters` = trees, theme = treeTheme, clip = FALSE) -->
+<!-- ``` -->
 
-Colour palettes can be set by providing "waypoints" between which colours should be interpolated (see the documentation of <a href="https://rdrr.io/r/grDevices/colorRamp.html" target="_blank">`colorRamp`</a>).
-By default, these are a darkish blue (`#00204D`) for low values and yellow (`#FFEA46`) for high values.
-When including additional values, or when building totally new palettes, the colour can be modified accordingly.
+<!-- Alternatively, one could use quick options to set scaling, by providing the property to scale and the attribute to scale to as `property = attribute`, also for several properties at the same time. -->
 
-```{r}
-treeTheme <- setTheme(parameters = list(colours = c("#00204DFF", "#73D216FF", 
-                                                    "#FFEA46FF", "#CC0000F0")))
-visualise(`Clocaenog - tree heights` = trees, theme = treeTheme, linecol = "height")
-```
+<!-- ```{r} -->
+<!-- treeTheme <- setTheme(parameters = list(pointsize = c(0.05, 0.77))) -->
+<!-- visualise(`Clocaenog - tree diameters and heights` = trees, theme = treeTheme, -->
+<!--           pointsize = "dbh", linecol = "height") -->
+<!-- ``` -->
+
+<!-- Colour palettes can be set by providing "waypoints" between which colours should be interpolated (see the documentation of <a href="https://rdrr.io/r/grDevices/colorRamp.html" target="_blank">`colorRamp`</a>). -->
+<!-- By default, these are a darkish blue (`#00204D`) for low values and yellow (`#FFEA46`) for high values. -->
+<!-- When including additional values, or when building totally new palettes, the colour can be modified accordingly. -->
+
+<!-- ```{r} -->
+<!-- treeTheme <- setTheme(parameters = list(colours = c("#00204DFF", "#73D216FF",  -->
+<!--                                                     "#FFEA46FF", "#CC0000F0"))) -->
+<!-- visualise(`Clocaenog - tree heights` = trees, theme = treeTheme, linecol = "height") -->
+<!-- ``` -->

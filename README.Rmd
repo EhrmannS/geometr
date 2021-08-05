@@ -59,88 +59,88 @@ devtools::install_github("EhrmannS/geometr")
 
 3) Have fun being a [geometer](https://en.wikipedia.org/wiki/List_of_geometers)\!
 
-## Examples
+<!-- ## Examples -->
 
-Create a `geom`
+<!-- Create a `geom` -->
 
-```{r}
-library(geometr)
+<!-- ```{r} -->
+<!-- library(geometr) -->
 
-# ... from other classes
-library(sf)
-nc_sf <- st_read(system.file("shape/nc.shp", package="sf"), quiet = TRUE)
-nc_geom <- gc_geom(input = nc_sf)
-```
+<!-- # ... from other classes -->
+<!-- library(sf) -->
+<!-- nc_sf <- st_read(system.file("shape/nc.shp", package="sf"), quiet = TRUE) -->
+<!-- nc_geom <- gc_geom(input = nc_sf) -->
+<!-- ``` -->
 
-Metadata of different classes can be extracted in interoperable quality (i.e. the same metadata in different objects/classes have the same names and the same arrangement).
+<!-- Metadata of different classes can be extracted in interoperable quality (i.e. the same metadata in different objects/classes have the same names and the same arrangement). -->
 
-```{r}
-getExtent(x = nc_geom)
+<!-- ```{r} -->
+<!-- getExtent(x = nc_geom) -->
 
-getFeatures(x = nc_geom)
-```
+<!-- getFeatures(x = nc_geom) -->
+<!-- ``` -->
 
-`geometr` only knows the feature types `point`, `line`, `polygon` and `grid` (a systematic lattice of points). 
-In contrast to the simple features standard, there are no  *MULTI\** features. 
-The way simple features have been implemented in R has the consequence that certain information can only be stored in a rather inefficient and cumbersome way. 
-Think of a set of polygons that has individual attributes at the `POLYGON` level, but also attributes at the group (`MULTIPOLYGON`) level, i.e., where all polygons of that group have the same value of the respective attributes.
-It is impossible to store this information in a single `sf` object, other than in a `POLYGON` that contains the respective attributes as duplicates (which may be very inefficient in large objects).
+<!-- `geometr` only knows the feature types `point`, `line`, `polygon` and `grid` (a systematic lattice of points).  -->
+<!-- In contrast to the simple features standard, there are no  *MULTI\** features.  -->
+<!-- The way simple features have been implemented in R has the consequence that certain information can only be stored in a rather inefficient and cumbersome way.  -->
+<!-- Think of a set of polygons that has individual attributes at the `POLYGON` level, but also attributes at the group (`MULTIPOLYGON`) level, i.e., where all polygons of that group have the same value of the respective attributes. -->
+<!-- It is impossible to store this information in a single `sf` object, other than in a `POLYGON` that contains the respective attributes as duplicates (which may be very inefficient in large objects). -->
 
-The backbone of a `geom` are three tables, one for points, one for features and one for groups of features, the latter two of which can be provided with ancillary information (attributes).
-Each point is stored with a feature ID (`fid`) that relates it to a feature (and its attributes) and each feature is stored with a group ID (`gid`) that relates it to a group (and its attributes).
-Eventually this results in a tidier data-structure with easier access than `Spatial*` or `sf` objects and with higher versatility.
+<!-- The backbone of a `geom` are three tables, one for points, one for features and one for groups of features, the latter two of which can be provided with ancillary information (attributes). -->
+<!-- Each point is stored with a feature ID (`fid`) that relates it to a feature (and its attributes) and each feature is stored with a group ID (`gid`) that relates it to a group (and its attributes). -->
+<!-- Eventually this results in a tidier data-structure with easier access than `Spatial*` or `sf` objects and with higher versatility. -->
 
-```{r}
-# when using the group = TRUE argument, the attributes of MULTI*-feature are
-# stored in the group attribute table of a geom
-nc_geom <- gc_geom(input = nc_sf, group = TRUE)
-currituck <- gt_filter(obj = nc_geom, gid == 4)
+<!-- ```{r} -->
+<!-- # when using the group = TRUE argument, the attributes of MULTI*-feature are -->
+<!-- # stored in the group attribute table of a geom -->
+<!-- nc_geom <- gc_geom(input = nc_sf, group = TRUE) -->
+<!-- currituck <- gt_filter(obj = nc_geom, gid == 4) -->
 
-getFeatures(x = currituck)
-getGroups(x = currituck)
+<!-- getFeatures(x = currituck) -->
+<!-- getGroups(x = currituck) -->
 
-# and new attributes can be set easily, 
-newTable <- data.frame(fid = c(1:108), 
-                       attrib = rnorm(108))
-(nc_geom <- setFeatures(x = nc_geom, table = newTable))
-```
+<!-- # and new attributes can be set easily,  -->
+<!-- newTable <- data.frame(fid = c(1:108),  -->
+<!--                        attrib = rnorm(108)) -->
+<!-- (nc_geom <- setFeatures(x = nc_geom, table = newTable)) -->
+<!-- ``` -->
 
-Moreover, a `geom` also allows to store raster information in the same data format.
-A raster is a systematic lattice of points/pixels with one or more layers, where each pixel exists in each layer, possibly with different values, i.e., from different attributes.
-The raster attribute table (RAT) is basically already the groups attribute table of a `geom`, where a group of pixels that have the same value are associated to attributes this class has in common.
-In this case, however, the features (single pixels) don't have to be associated to a group ID, as their feature values are at the same time the group values.
+<!-- Moreover, a `geom` also allows to store raster information in the same data format. -->
+<!-- A raster is a systematic lattice of points/pixels with one or more layers, where each pixel exists in each layer, possibly with different values, i.e., from different attributes. -->
+<!-- The raster attribute table (RAT) is basically already the groups attribute table of a `geom`, where a group of pixels that have the same value are associated to attributes this class has in common. -->
+<!-- In this case, however, the features (single pixels) don't have to be associated to a group ID, as their feature values are at the same time the group values. -->
 
-```{r}
-str(gtGeoms$polygon, max.level = 2)
+<!-- ```{r} -->
+<!-- str(gtGeoms$polygon, max.level = 2) -->
 
-str(gtGeoms$grid$categorical, max.level = 2)
-```
+<!-- str(gtGeoms$grid$categorical, max.level = 2) -->
+<!-- ``` -->
 
 
-`geometr` comes with the `visualise` function, which makes nice-looking diagnostic spatial plots, that show explicit values whenever possible.
-For example, it does not create artificial (\"nice\") bins for the x and y axis or the values values shown in the plot, but provides the range of values explicitly.
-Moreover, you can easily set plot titles without much effort.
+<!-- `geometr` comes with the `visualise` function, which makes nice-looking diagnostic spatial plots, that show explicit values whenever possible. -->
+<!-- For example, it does not create artificial (\"nice\") bins for the x and y axis or the values values shown in the plot, but provides the range of values explicitly. -->
+<!-- Moreover, you can easily set plot titles without much effort. -->
 
-```{r, fig.height=3}
-visualise(`North Carolina` = nc_geom)
-```
+<!-- ```{r, fig.height=3} -->
+<!-- visualise(`North Carolina` = nc_geom) -->
+<!-- ``` -->
 
-You can use quick options to scale plot parameters to the attributes of the `geom` to modify which aspects of and object should be shown in the plot, for example when scaling `fillcol` to `NWBIR74`.
+<!-- You can use quick options to scale plot parameters to the attributes of the `geom` to modify which aspects of and object should be shown in the plot, for example when scaling `fillcol` to `NWBIR74`. -->
 
-```{r, fig.height=3}
-myAttr <- "NWBIR74"
-visualise(!!paste0("NC - ", myAttr) := nc_geom, fillcol = !!myAttr)
-```
+<!-- ```{r, fig.height=3} -->
+<!-- myAttr <- "NWBIR74" -->
+<!-- visualise(!!paste0("NC - ", myAttr) := nc_geom, fillcol = !!myAttr) -->
+<!-- ``` -->
 
-The `@window` slot of modified `geom`s is by default automatically updated.
+<!-- The `@window` slot of modified `geom`s is by default automatically updated. -->
 
-```{r, fig.height=3.5}
-visualise(`Currituck` = currituck, linecol = "fid")
-```
+<!-- ```{r, fig.height=3.5} -->
+<!-- visualise(`Currituck` = currituck, linecol = "fid") -->
+<!-- ``` -->
 
-Finally, cast a `geom` to another type simply by providing it in `anchor` of the respective type
+<!-- Finally, cast a `geom` to another type simply by providing it in `anchor` of the respective type -->
 
-```{r, fig.height=3.5}
-boundPoints <- gs_point(anchor = currituck)
-visualise(`Currituck - boundary vertices`= boundPoints, linecol = "fid")
-```
+<!-- ```{r, fig.height=3.5} -->
+<!-- boundPoints <- gs_point(anchor = currituck) -->
+<!-- visualise(`Currituck - boundary vertices`= boundPoints, linecol = "fid") -->
+<!-- ``` -->
