@@ -19,18 +19,19 @@ Encoding: UTF-8
 LazyData: true
 Imports: 
     checkmate,
-    crayon,
-    deldir,
-    dplyr,
     grDevices,
     grid,
+    crayon,
     methods,
-    raster,
-    rgdal,
+    dplyr,
     rlang,
+    purrr,
+    tibble,
+    rgdal,
+    deldir,
     sf,
     sp,
-    tibble
+    raster
 Suggests: testthat,
     rmarkdown,
     bookdown,
