@@ -11,23 +11,23 @@
 
 .makeLegend <- function(x, scaleValues, plotParams, theme){
 
-  if(theme@legend$plot){
-
-    if(!theme@scale$param %in% names(plotParams) & !is.na(theme@scale$param)){
-      plotParams <- setNames(list(theme@scale$to), theme@scale$param)
-    }
+  # if(theme@legend$plot){
 
     legends <- list()
     prevX <- unit(0, "points")
     for(i in seq_along(plotParams)){
 
+      allLabels <- scaleValues[[i]]
       theParam <- names(plotParams)[i]
       theVar <- plotParams[[i]]
 
-      if(i == 1){
-        allLabels <- scaleValues
+      if(length(allLabels) > 10){
+        testItems <- sample(allLabels, 10)
       } else {
-        allLabels <- suppressMessages(sort(gt_pull(obj = x, var = theVar)))
+        testItems <- allLabels
+      }
+      if(any(testItems %in% colors() | any(grepl(pattern = "\\#(.{6,8})", x = testItems)))){
+        next
       }
 
       if(!is.null(theme@scale$bins)){
@@ -166,9 +166,9 @@
       legends <- c(legends, setNames(list(out), theParam))
     }
 
-  } else {
-    legends <- NULL
-  }
+  # } else {
+  #   legends <- NULL
+  # }
 
   return(legends)
 }

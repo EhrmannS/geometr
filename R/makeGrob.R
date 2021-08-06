@@ -25,7 +25,6 @@
 
   if(theme@box$plot){
 
-    # featureType <- getType(x = x)
     if(featureType[1] != "grid") {
 
       params <- list(linecol = "black",
@@ -35,27 +34,16 @@
                      pointsize = 0.5,
                      pointsymbol = 20)
 
-      # # select only 'plotParams' that are part of the valid parameters.
-      tempArgs <- plotParams[names(plotParams) %in% names(params)]
-
-      # if the parameter to scale has not beend defined as quick parameter, add it to 'tempArgs'
-      if(!theme@scale$param %in% names(plotParams) & !is.na(theme@scale$param)){
-        tempArgs <- c(tempArgs, setNames(list(theme@scale$to), theme@scale$param))
-      }
-
       # process parameters that shall be changed
-      for(i in seq_along(tempArgs)){
+      for(i in seq_along(plotParams)){
 
         # determine value and name of the i-th display argument
-        theVar <- tempArgs[[i]]
-        theParam <- names(tempArgs)[i]
+        theVar <- plotParams[[i]]
+        theParam <- names(plotParams)[i]
         pos <- which(names(params) %in% theParam)
 
-        if(i == 1){
-          items <- plotValues
-        } else {
-          items <- suppressMessages(gt_pull(obj = x, var = theVar))
-        }
+        plotVals <- plotValues[[i]]
+        scaleVals <- scaleValues[[i]]
         num <- suppressWarnings(as.numeric(as.character(theVar)))
 
         # if the argument is a colour argument, construct a color ramp from two or more values
@@ -64,10 +52,10 @@
           if(!is.null(theme@scale$bins)){
             thebins <- theme@scale$bins
           } else {
-            thebins <- length(items)
+            thebins <- length(scaleVals)
           }
 
-          if(is.null(items)){
+          if(is.null(plotVals)){
             cols <- theVar
             if(!any(as.character(cols) %in% colors()) & !any(grepl(pattern = "\\#(.{6,8})", x = cols))){
               stop(paste0("'", cols, "' was neither found as column in the object to plot, nor is it a valid colour."))
@@ -77,7 +65,7 @@
             cols <- theme@parameters$colours
             allColours <- colorRampPalette(colors = cols)(thebins)
 
-            valCuts <- rank(items, ties.method = "min")
+            valCuts <- match(plotVals, sort(unique(plotVals)))
             tempOut <- allColours[valCuts]
           }
 
@@ -90,10 +78,10 @@
           if(!is.null(theme@scale$bins)){
             thebins <- theme@scale$bins
           } else {
-            thebins <- length(items)
+            thebins <- length(scaleVals)
           }
 
-          if(is.null(items)){
+          if(is.null(plotVals)){
             if(is.na(num)){
               stop(paste0("'", theVar, "' was neither found as column in the object to plot, nor is it a valid ", theParam, "."))
             }
@@ -103,10 +91,10 @@
                             to = max(theme@parameters[[theParam]], na.rm = TRUE),
                             length.out = thebins)
 
-            if(is.null(items)){
+            if(is.null(plotVals)){
               tempOut <- rep(num, length(allSizes))
             } else {
-              valCuts <- rank(items, ties.method = "min")
+              valCuts <- match(plotVals, sort(unique(plotVals)))
               tempOut <- allSizes[valCuts]
             }
           }
@@ -116,10 +104,10 @@
           if(!is.null(theme@scale$bins)){
             thebins <- theme@scale$bins
           } else {
-            thebins <- length(items)
+            thebins <- length(scaleVals)
           }
 
-          if(is.null(items)){
+          if(is.null(plotVals)){
             if(is.na(num)){
               stop(paste0("'", theVar, "' was neither found as column in the object to plot, nor is it a valid ", theParam, "."))
             }
@@ -127,10 +115,10 @@
           } else {
             allSymbols <- theme@parameters[[theParam]]
 
-            if(is.null(items)){
+            if(is.null(plotVals)){
               tempOut <- rep(num, length(allSymbols))
             } else {
-              valCuts <- rank(items, ties.method = "min")
+              valCuts <- match(plotVals, sort(unique(plotVals)))
               tempOut <- allSymbols[valCuts]
             }
           }
@@ -193,18 +181,17 @@
 
     } else {
 
-      # vals <- getFeatures(x = x)$values
+      scaleVals <- scaleValues[[1]]
 
       if(testCharacter(x = plotValues, pattern = "\\#(.{6,8})")){
         theColours <- as.vector(plotValues)
       } else {
-        # items <- sort(gt_pull(obj = x, var = theme@scale$to))
 
-        scaleBreaks <- c(scaleValues[1]-1, scaleValues)
+        scaleBreaks <- c(scaleVals[1]-1, scaleVals)
         valCuts <- cut(plotValues, breaks = scaleBreaks, include.lowest = TRUE)
 
         colours <- theme@parameters$colours
-        allColours <- colorRampPalette(colors = colours)(theme@scale$bins)
+        allColours <- colorRampPalette(colors = colours)(length(scaleVals))
 
         theColours <- allColours[valCuts]
       }

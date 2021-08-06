@@ -10,6 +10,7 @@
 #'   \code{\link{setTheme}} for details.
 #' @importFrom dplyr left_join
 #' @importFrom tibble tibble
+#' @importFrom purrr map
 #' @importFrom checkmate testCharacter testNames
 #' @importFrom methods is
 #' @importFrom grDevices colorRampPalette rgb
@@ -35,53 +36,44 @@
   # only chose parameters that are in the theme (exclude plot objects)
   plotParams <- plotParams[names(plotParams) %in% c("linecol", "fillcol", "linetype", "linewidth", "pointsize", "pointsymbol")]
 
+  # if the parameter to scale has not beend defined as quick parameter, add it to 'plotParams'
+  if(!theme@scale$param %in% names(plotParams) & !is.na(theme@scale$param)){
+    plotParams <- c(plotParams, setNames(list(theme@scale$to), theme@scale$param))
+  }
 
   # 2. update the theme ----
   # start_time <- Sys.time()
   if(featureType[1] == "grid"){
-    theme@scale$param <- "fillcol"
-    theme@scale$to <- "gid"
+    plotParams <- list(fillcol = "gid")
     plotValues <- theFeatures$values
     if(is.numeric(plotValues)){
       scaleValues <- sortUniqueC(plotValues)
     } else {
       scaleValues <- sort(unique(plotValues))
     }
+    scaleValues <- list(scaleValues)
   } else {
-    if(length(plotParams) == 0){
+    plotValues <- map(.x = seq_along(plotParams), .f = function(ix){
+      gt_pull(obj = x, var = plotParams[ix][[1]])
+    })
+    if(length(plotValues) == 0){
       plotValues <- theFeatures$gid
-    } else {
-      plotValues <- gt_pull(obj = x, var = plotParams[1][[1]])
     }
-    scaleValues <- sort(unique(plotValues))
+
+    scaleValues <- map(.x = seq_along(plotValues), .f = function(ix){
+      temp <- plotValues[[ix]]
+      if(is.numeric(temp)){
+        sortUniqueC(temp)
+      } else {
+        sort(unique(temp))
+      }
+    })
   }
 
   if(dim(thePoints)[1] == 0){
     theme@title$plot <- FALSE
     theme@legend$plot <- FALSE
     theme@box$plot <- FALSE
-  }
-
-  # items <- suppressMessages(sort(gt_pull(obj = x, var = theme@scale$to)))
-  if(!is.null(scaleValues)){
-    if(length(scaleValues) > 10){
-      testItems <- sample(scaleValues, 10)
-    } else {
-      testItems <- scaleValues
-    }
-    if(any(as.character(testItems) %in% colors()) | any(grepl(pattern = "\\#(.{6,8})", x = testItems))){
-      theme@legend$plot <- FALSE
-    }
-    if(is.null(theme@scale$range)){
-      if(!is.null(scaleValues)){
-        theme@scale$range <- c(head(scaleValues, 1), tail(scaleValues, 1))
-      }
-    }
-    if(is.null(theme@scale$bins)){
-      if(!is.null(scaleValues)){
-        theme@scale$bins <- length(scaleValues)
-      }
-    }
   }
   out$theme <- theme
   # end_time <- Sys.time()
