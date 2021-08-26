@@ -4,6 +4,11 @@
 - fix a bug that would not allow zooming
 
 
+# geoemtr 0.2.10
+
+- include `ungroup` argument in gt_pull
+- revise crs-management of `sp`
+
 # geoemtr 0.2.9
 
 - revise documentation of `setTheme` in an effort to make it more accessible.
