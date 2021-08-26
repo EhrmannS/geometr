@@ -88,7 +88,7 @@ It is impossible to store this information in a single `sf` object, other than i
 
 The backbone of a `geom` are three tables, one for points, one for features and one for groups of features, the latter two of which can be provided with ancillary information (attributes).
 Each point is stored with a feature ID (`fid`) that relates it to a feature (and its attributes) and each feature is stored with a group ID (`gid`) that relates it to a group (and its attributes).
-Eventually this results in a tidier data-structure with easier access than `Spatial*` or `sf` objects and with higher versatility.
+Eventually this results in a tidier data-structure with easier access than `sp` or `sf` objects and with higher versatility.
 
 ```{r}
 # when using the group = TRUE argument, the attributes of MULTI*-feature are
@@ -125,14 +125,14 @@ Moreover, you can easily set plot titles without much effort.
 visualise(`North Carolina` = nc_geom)
 ```
 
-You can use quick options to scale plot parameters to the attributes of the `geom` to modify which aspects of and object should be shown in the plot, for example when scaling `fillcol` to `NWBIR74`.
+You can use quick options to scale plot parameters to the attributes of the `geom` to modify which aspects of an object should be shown in the plot, for example when scaling `fillcol` to `NWBIR74`.
 
 ```{r, fig.height=3}
 myAttr <- "NWBIR74"
 visualise(!!paste0("NC - ", myAttr) := nc_geom, fillcol = !!myAttr)
 ```
 
-The `@window` slot of modified `geom`s is by default automatically updated.
+The `@window` slot of a modified `geom` is by default automatically updated.
 
 ```{r, fig.height=3.5}
 visualise(`Currituck` = currituck, linecol = "fid")
