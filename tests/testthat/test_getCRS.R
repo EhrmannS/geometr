@@ -13,9 +13,9 @@ test_that("getCRS of a geom", {
   expect_character(output, any.missing = FALSE, pattern = "+proj=longlat", len = 1)
 })
 
-test_that("getExtent of a Spatial object", {
+test_that("getCRS of a Spatial object", {
   input <- gtSP$SpatialPoints
-  input <- setCRS(x = input, crs = "EPSG:4326")
+  proj4string(input) <- CRS("+proj=longlat +datum=WGS84")
 
   output <- getCRS(input)
   expect_character(output, any.missing = FALSE, pattern = "+proj=longlat", len = 1)

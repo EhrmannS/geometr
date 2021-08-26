@@ -5,6 +5,7 @@ context("getRes")
 
 
 test_that("getRes of a grid geom", {
+
   output <- getRes(gtGeoms$grid$categorical)
   expect_numeric(x = output, len = 2, any.missing = FALSE)
 })

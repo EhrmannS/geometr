@@ -39,7 +39,7 @@ test_that("setCRS of a Spatial object", {
   expect_character(output@proj4string@projargs, any.missing = FALSE, pattern = "+proj=eck4", len = 1)
 
   # setting a CRS on a Spatial* that had one before
-  output <- setCRS(x = output, crs = "EPSG:4326")
+  output <- setCRS(x = output, crs = CRS("+proj=longlat +datum=WGS84"))
   expect_class(output, classes = "SpatialPoints")
   expect_character(output@proj4string@projargs, any.missing = FALSE, pattern = "+proj=longlat", len = 1)
 })

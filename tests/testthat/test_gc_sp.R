@@ -56,7 +56,7 @@ test_that("output has correct length", {
 })
 
 test_that("also objects with CRS are properly handled", {
-  input <- setCRS(x = gtGeoms$point, crs = "EPSG:4326")
+  input <- setCRS(x = gtGeoms$point, crs = CRS("+proj=longlat +datum=WGS84"))
 
   output <- gc_sp(input = input)
   expect_equal(length(output), 9)
