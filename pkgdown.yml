@@ -3,7 +3,7 @@ pkgdown: 1.6.1
 pkgdown_sha: ~
 articles:
   geometr: geometr.html
-last_built: 2021-08-26T14:54Z
+last_built: 2021-08-26T15:01Z
 urls:
   reference: http://EhrmannS.github.io/geometr/reference
   article: http://EhrmannS.github.io/geometr/articles
