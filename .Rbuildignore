@@ -7,3 +7,5 @@ geometr.Rproj
 cran-comments.md
 ^.*\.Rproj$
 ^CRAN-RELEASE$
+^docs$
+^pkgdown$

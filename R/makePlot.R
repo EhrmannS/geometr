@@ -13,6 +13,7 @@
 #' @importFrom purrr map
 #' @importFrom checkmate testCharacter testNames
 #' @importFrom methods is
+#' @importFrom stats na.exclude
 #' @importFrom grDevices colorRampPalette rgb
 
 .makePlot <- function(x, window, theme = gtTheme, ...){
@@ -54,14 +55,14 @@
     scaleValues <- list(scaleValues)
   } else {
     plotValues <- map(.x = seq_along(plotParams), .f = function(ix){
-      gt_pull(obj = x, var = plotParams[ix][[1]])
+      gt_pull(obj = x, var = plotParams[ix][[1]], ungroup = TRUE)
     })
     if(length(plotValues) == 0){
       plotValues <- theFeatures$gid
     }
 
     scaleValues <- map(.x = seq_along(plotValues), .f = function(ix){
-      temp <- plotValues[[ix]]
+      temp <- na.exclude(plotValues[[ix]])
       if(is.numeric(temp)){
         sortUniqueC(temp)
       } else {

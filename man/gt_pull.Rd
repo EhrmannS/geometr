@@ -4,12 +4,17 @@
 \alias{gt_pull}
 \title{Extract a single column from a geometric object}
 \usage{
-gt_pull(obj, var)
+gt_pull(obj, var, ungroup = FALSE)
 }
 \arguments{
 \item{obj}{[\code{geometric object(1)}]\cr the object to pull a column from.}
 
 \item{var}{[\code{character(1)}]\cr name of the variable to pull.}
+
+\item{ungroup}{[\code{logical(1)}]\cr inversely to the argument \code{group}
+in \code{\link{gc_geom}}, this argument provides the attribute to pull per
+each individual feature, producing duplicates in case there is more than
+one feature per group.}
 }
 \value{
 vector of the column specified in \code{var}.
