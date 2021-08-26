@@ -135,7 +135,7 @@ for which all required getters are available and thus reflects the base
 function <code><a href='https://rdrr.io/r/base/Extract.html'>$</a></code>.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>gt_pull</span><span class='op'>(</span><span class='va'>obj</span>, <span class='va'>var</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>gt_pull</span><span class='op'>(</span><span class='va'>obj</span>, <span class='va'>var</span>, ungroup <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -147,6 +147,13 @@ function <code><a href='https://rdrr.io/r/base/Extract.html'>$</a></code>.</p>
     <tr>
       <th>var</th>
       <td><p>[<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>]<br /> name of the variable to pull.</p></td>
+    </tr>
+    <tr>
+      <th>ungroup</th>
+      <td><p>[<code><a href='https://rdrr.io/r/base/logical.html'>logical(1)</a></code>]<br /> inversely to the argument <code>group</code>
+in <code><a href='gc_geom.html'>gc_geom</a></code>, this argument provides the attribute to pull per
+each individual feature, producing duplicates in case there is more than
+one feature per group.</p></td>
     </tr>
     </table>
 
