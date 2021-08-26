@@ -1,3 +1,7 @@
+26.08.2021
+
+- implement workaround for issues with crs in sp (hopefully works...)
+
 03.08.2021
 
 - removing readr dependencies from the vignette
