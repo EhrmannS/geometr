@@ -88,6 +88,13 @@ setMethod(f = "gc_sf",
               }
               attr <- as_tibble(merge(x = attr, y = theGroups, by = "gid", all.x = TRUE, suffixes = c(".feature", ".group")))
 
+              if(length(out) < dim(theCoords)[1]){
+                uniqueNames <- names(attr)[!names(attr) %in% names(theGroups)]
+                warning("MULTIPOINTS don't support individual attributes per point, ignoring '", paste(uniqueNames, collapse = ", ") , "'.")
+                attr <- attr[-which(colnames(attr) %in% uniqueNames)]
+                attr <- distinct(attr)
+              }
+
               if(makeDF){
                 attr <- attr[,!names(attr) %in% c("fid", "gid")]
                 out <- st_sf(geom = out, attr)
