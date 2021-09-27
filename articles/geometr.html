@@ -83,7 +83,7 @@
       <h1 data-toc-skip>geometr - An overview</h1>
                         <h4 class="author">Steffen Ehrmann</h4>
             
-            <h4 class="date">2021-08-26</h4>
+            <h4 class="date">2021-09-27</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/EhrmannS/geometr/blob/master/vignettes/geometr.Rmd"><code>vignettes/geometr.Rmd</code></a></small>
       <div class="hidden name"><code>geometr.Rmd</code></div>
@@ -125,13 +125,11 @@
 <span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_bbox.html">st_bbox</a></span><span class="op">(</span><span class="va">nc_sf</span><span class="op">)</span>
 <span class="co">#&gt;      xmin      ymin      xmax      ymax </span>
 <span class="co">#&gt; -84.32385  33.88199 -75.45698  36.58965</span>
-
 <span class="va">nc_sp</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/coerce-methods.html">as_Spatial</a></span><span class="op">(</span><span class="va">nc_sf</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/pkg/sp/man/bbox.html">bbox</a></span><span class="op">(</span><span class="va">nc_sp</span><span class="op">)</span>
 <span class="co">#&gt;         min       max</span>
 <span class="co">#&gt; x -84.32385 -75.45698</span>
 <span class="co">#&gt; y  33.88199  36.58965</span>
-
 <span class="va">ras</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/raster/man/raster.html">raster</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span><span class="op">(</span><span class="st">"external/test.grd"</span>, package <span class="op">=</span> <span class="st">"raster"</span><span class="op">)</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/pkg/raster/man/extent.html">extent</a></span><span class="op">(</span><span class="va">ras</span><span class="op">)</span>
 <span class="co">#&gt; class      : Extent </span>
@@ -150,7 +148,6 @@
 <span class="co">#&gt;   &lt;dbl&gt; &lt;dbl&gt;</span>
 <span class="co">#&gt; 1 -84.3  33.9</span>
 <span class="co">#&gt; 2 -75.5  36.6</span>
-
 <span class="va">myInput</span> <span class="op">&lt;-</span> <span class="va">nc_sp</span>
 <span class="fu"><a href="../reference/getExtent.html">getExtent</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">myInput</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 2 × 2</span>
@@ -158,7 +155,6 @@
 <span class="co">#&gt;   &lt;dbl&gt; &lt;dbl&gt;</span>
 <span class="co">#&gt; 1 -84.3  33.9</span>
 <span class="co">#&gt; 2 -75.5  36.6</span>
-
 <span class="va">myInput</span> <span class="op">&lt;-</span> <span class="va">ras</span>
 <span class="fu"><a href="../reference/getExtent.html">getExtent</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">myInput</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 2 × 2</span>
@@ -266,7 +262,6 @@
 <span class="co">#&gt; 30608 bytes</span>
 <span class="fu"><a href="https://rdrr.io/r/utils/object.size.html">object.size</a></span><span class="op">(</span><span class="va">gtGeoms</span><span class="op">$</span><span class="va">grid</span><span class="op">$</span><span class="va">categorical</span><span class="op">)</span>
 <span class="co">#&gt; 12520 bytes</span>
-
 <span class="fu"><a href="../reference/visualise.html">visualise</a></span><span class="op">(</span><span class="va">gtRasters</span><span class="op">$</span><span class="va">categorical</span>, <span class="va">gtGeoms</span><span class="op">$</span><span class="va">grid</span><span class="op">$</span><span class="va">categorical</span><span class="op">)</span></code></pre></div>
 <p><img src="geometr_files/figure-html/unnamed-chunk-6-1.png" width="700"></p>
 <p>As with points, the getter <code><a href="../reference/getFeatures.html">getFeatures()</a></code> unpacks the <code>@feature</code> slot into its interoperable form.</p>
@@ -340,7 +335,6 @@
 <span class="co">#&gt;                    ◌ ◌ ○ ◌        </span>
 <span class="co">#&gt;             -84.32 ◌ ◌ ◌ ◌ -75.46 </span>
 <span class="co">#&gt;                    33.88</span>
-
 <span class="co"># make "by hand"</span>
 <span class="va">coords</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/tibble.html">tibble</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">40</span>, <span class="fl">70</span>, <span class="fl">70</span>, <span class="fl">50</span><span class="op">)</span>,
                  y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">40</span>, <span class="fl">40</span>, <span class="fl">60</span>, <span class="fl">70</span><span class="op">)</span><span class="op">)</span>
@@ -422,7 +416,6 @@
 <span class="co">#&gt;  9     9     7</span>
 <span class="co">#&gt; 10    10     8</span>
 <span class="co">#&gt; # … with 98 more rows</span>
-
 <span class="fu"><a href="../reference/getGroups.html">getGroups</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">new_geom</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 100 × 15</span>
 <span class="co">#&gt;      gid  AREA PERIMETER CNTY_ CNTY_ID NAME    FIPS  FIPSNO CRESS_ID BIR74 SID74</span>
@@ -507,7 +500,6 @@
 <span class="co">#&gt;                ◌ ◌ ◌ ◌    </span>
 <span class="co">#&gt;             40 ◎ ◌ ◌ ◎ 70 </span>
 <span class="co">#&gt;                40</span>
-
 <span class="co"># ... and recreate a polygon from that</span>
 <span class="op">(</span><span class="va">aPoly</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/gs_polygon.html">gs_polygon</a></span><span class="op">(</span>anchor <span class="op">=</span> <span class="va">somePoints</span><span class="op">)</span><span class="op">)</span>
 <span class="co">#&gt; geom        polygon</span>
