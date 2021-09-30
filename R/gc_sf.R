@@ -56,7 +56,7 @@ setMethod(f = "gc_sf",
                 tempFids <- theData$fid[theData$gid == gids[i]]
                 tempVerts <- theCoords[c("x", "y")][theCoords$fid %in% tempFids,]
 
-                if(length(tempVerts$x) > 1){
+                if(length(tempVerts$x) > 1 | any(table(theData$gid) > 1)){
                   # make MULTIPOINT
                   # ensure that there are no duplicate coordinates for it to be a simple feature
                   tempVerts <- tempVerts[!duplicated(tempVerts[c("x", "y")]),]
