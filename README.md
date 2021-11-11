@@ -8,7 +8,7 @@
 [![R-CMD-check](https://github.com/EhrmannS/geometr/workflows/R-CMD-check/badge.svg)](https://github.com/EhrmannS/geometr/actions)
 [![Coverage
 Status](https://codecov.io/gh/EhrmannS/geometr/branch/master/graph/badge.svg)](https://codecov.io/github/EhrmannS/geometr?branch=master)
-[![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/geometr)](https://cran.r-project.org/package=geometr)
+[![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/geometr)](https://cran.r-project.org/package=geometr)
 [![](http://cranlogs.r-pkg.org/badges/grand-total/geometr)](https://cran.r-project.org/package=geometr)
 
 <!-- badges: end -->
@@ -25,16 +25,14 @@ conceptually quite similar, yet a common standard lacks for accessing
 features, vertices or the metadata. `geometr` fills this gap by
 providing tools that
 
-  - produce an identical output for the same metadata of different
+-   produce an identical output for the same metadata of different
     classes (via so-called getters) and
-  - use an identical input to write to various classes that originally
+-   use an identical input to write to various classes that originally
     require different input (via so-called setters).
 
 ## Installation
 
-1)  Install the official version from CRAN:
-
-<!-- end list -->
+1.  Install the official version from CRAN:
 
 ``` r
 install.packages("geometr")
@@ -46,14 +44,14 @@ or the latest development version from github:
 devtools::install_github("EhrmannS/geometr")
 ```
 
-2)  The
+2.  The
     [vignette](https://ehrmanns.github.io/geometr/articles/geometr.html)
     gives an in depth introduction, explains the take on
     interoperability and discusses the spatial class `geom` that comes
     with `geometr`.
 
-3)  Have fun being a
-    [geometer](https://en.wikipedia.org/wiki/List_of_geometers)\!
+3.  Have fun being a
+    [geometer](https://en.wikipedia.org/wiki/List_of_geometers)!
 
 ## Examples
 
@@ -83,7 +81,7 @@ getExtent(x = nc_geom)
 getFeatures(x = nc_geom)
 #> # A tibble: 108 × 16
 #>      fid   gid  AREA PERIMETER CNTY_ CNTY_ID NAME    FIPS  FIPSNO CRESS_ID BIR74
-#>  * <int> <int> <dbl>     <dbl> <dbl>   <dbl> <fct>   <fct>  <dbl>    <int> <dbl>
+#>  * <int> <int> <dbl>     <dbl> <dbl>   <dbl> <chr>   <chr>  <dbl>    <int> <dbl>
 #>  1     1     1 0.114      1.44  1825    1825 Ashe    37009  37009        5  1091
 #>  2     2     2 0.061      1.23  1827    1827 Allegh… 37005  37005        3   487
 #>  3     3     3 0.143      1.63  1828    1828 Surry   37171  37171       86  3188
@@ -117,8 +115,8 @@ provided with ancillary information (attributes). Each point is stored
 with a feature ID (`fid`) that relates it to a feature (and its
 attributes) and each feature is stored with a group ID (`gid`) that
 relates it to a group (and its attributes). Eventually this results in a
-tidier data-structure with easier access than `Spatial*` or `sf` objects
-and with higher versatility.
+tidier data-structure with easier access than `sp` or `sf` objects and
+with higher versatility.
 
 ``` r
 # when using the group = TRUE argument, the attributes of MULTI*-feature are
@@ -136,7 +134,7 @@ getFeatures(x = currituck)
 getGroups(x = currituck)
 #> # A tibble: 1 × 15
 #>     gid  AREA PERIMETER CNTY_ CNTY_ID NAME     FIPS  FIPSNO CRESS_ID BIR74 SID74
-#>   <int> <dbl>     <dbl> <dbl>   <dbl> <fct>    <fct>  <dbl>    <int> <dbl> <dbl>
+#>   <int> <dbl>     <dbl> <dbl>   <dbl> <chr>    <chr>  <dbl>    <int> <dbl> <dbl>
 #> 1     4  0.07      2.97  1831    1831 Curritu… 37053  37053       27   508     1
 #> # … with 4 more variables: NWBIR74 <dbl>, BIR79 <dbl>, SID79 <dbl>,
 #> #   NWBIR79 <dbl>
@@ -170,8 +168,9 @@ feature values are at the same time the group values.
 
 ``` r
 str(gtGeoms$polygon, max.level = 2)
-#> Formal class 'geom' [package "geometr"] with 7 slots
+#> Formal class 'geom' [package "geometr"] with 8 slots
 #>   ..@ type   : chr "polygon"
+#>   ..@ name   : chr "polygon_geom"
 #>   ..@ point  : tibble [11 × 3] (S3: tbl_df/tbl/data.frame)
 #>   ..@ feature: tibble [2 × 2] (S3: tbl_df/tbl/data.frame)
 #>   ..@ group  : tibble [2 × 1] (S3: tbl_df/tbl/data.frame)
@@ -180,8 +179,9 @@ str(gtGeoms$polygon, max.level = 2)
 #>   ..@ history: list()
 
 str(gtGeoms$grid$categorical, max.level = 2)
-#> Formal class 'geom' [package "geometr"] with 7 slots
+#> Formal class 'geom' [package "geometr"] with 8 slots
 #>   ..@ type   : chr "grid"
+#>   ..@ name   : chr "categorical_grid_geom"
 #>   ..@ point  : tibble [3 × 2] (S3: tbl_df/tbl/data.frame)
 #>   ..@ feature: tibble [726 × 2] (S3: tbl_df/tbl/data.frame)
 #>   ..@ group  : tibble [9 × 2] (S3: tbl_df/tbl/data.frame)
@@ -204,7 +204,7 @@ visualise(`North Carolina` = nc_geom)
 <img src="man/figures/README-unnamed-chunk-8-1.png" width="100%" />
 
 You can use quick options to scale plot parameters to the attributes of
-the `geom` to modify which aspects of and object should be shown in the
+the `geom` to modify which aspects of an object should be shown in the
 plot, for example when scaling `fillcol` to `NWBIR74`.
 
 ``` r
@@ -214,7 +214,7 @@ visualise(!!paste0("NC - ", myAttr) := nc_geom, fillcol = !!myAttr)
 
 <img src="man/figures/README-unnamed-chunk-9-1.png" width="100%" />
 
-The `@window` slot of modified `geom`s is by default automatically
+The `@window` slot of a modified `geom` is by default automatically
 updated.
 
 ``` r
