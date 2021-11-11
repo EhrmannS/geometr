@@ -39,9 +39,11 @@
 #' @return an object of class \code{geom}
 #' @family spatial classes
 #' @examples
-#' gc_geom(input = gtSF$polygon)
+#' gc_sf(input = gtGeoms$polygon) %>%
+#'   gc_geom()
 #'
-#' gc_geom(input = gtRasters$categorical)
+#' gc_raster(input = gtGeoms$grid$categorical) %>%
+#'   gc_geom()
 #' @name gc_geom
 #' @rdname gc_geom
 NULL
@@ -85,6 +87,7 @@ setMethod(f = "gc_geom",
 
             out <- new(Class = "geom",
                        type = type,
+                       name = getNames(x = input),
                        point = theCoords,
                        feature = theData,
                        group = theGroups,
@@ -136,6 +139,7 @@ setMethod(f = "gc_geom",
 
             out <- new(Class = "geom",
                        type = type,
+                       name = getNames(x = input),
                        point = theCoords,
                        feature = theData,
                        group = theGroups,
@@ -174,12 +178,11 @@ setMethod(f = "gc_geom",
             assertLogical(x = as_hex, len = 1)
             if(as_hex){
               assertNames(x = names(input), must.include = c("red", "green", "blue"))
-              temp <- getLayers(x = input)
-              red <- getFeatures(x = temp[["red"]])$values
+              red <- getFeatures(x = input[["red"]])$values
               red[is.na(red)] <- 255L
-              green <- getFeatures(x = temp[["green"]])$values
+              green <- getFeatures(x = input[["green"]])$values
               green[is.na(green)] <- 255L
-              blue <- getFeatures(x = temp[["blue"]])$values
+              blue <- getFeatures(x = input[["blue"]])$values
               blue[is.na(blue)] <- 255L
               alpha <- rep(255, length(blue))
               alpha[is.na(red)] <- 0L
@@ -187,7 +190,7 @@ setMethod(f = "gc_geom",
               alpha[is.na(blue)] <- 0L
 
               input <- input[[1]] # subset to have dim(input) == 1
-              names(input) <- "colours"
+              names(input) <- "gid"
             }
 
             out <- theFeatures <- NULL
@@ -231,6 +234,7 @@ setMethod(f = "gc_geom",
 
                 temp <- new(Class = "geom",
                             type = "grid",
+                            name = theName,
                             point = theCoords,
                             feature = theFeatures,
                             group = theGroups,
@@ -239,7 +243,7 @@ setMethod(f = "gc_geom",
                             history = c(getHistory(input), hist))
 
                 if(dim(input)[3] != 1){
-                  out <- c(out, setNames(list(temp), theName))
+                  out <- c(out, stats::setNames(list(temp), theName))
                 } else {
                   out <- temp
                 }
@@ -249,13 +253,14 @@ setMethod(f = "gc_geom",
             if(stack){
 
               out <- new(Class = "geom",
-                          type = "grid",
-                          point = theCoords,
-                          feature = theFeatures,
-                          group = theGroups,
-                          window = theWindow,
-                          crs = theCRS,
-                          history = c(getHistory(input), hist))
+                         type = "grid",
+                         name = getNames(x = input),
+                         point = theCoords,
+                         feature = theFeatures,
+                         group = theGroups,
+                         window = theWindow,
+                         crs = theCRS,
+                         history = c(getHistory(input), hist))
             }
 
             return(out)
