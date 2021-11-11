@@ -7,6 +7,7 @@
 \alias{getPoints,Spatial-method}
 \alias{getPoints,sf-method}
 \alias{getPoints,Raster-method}
+\alias{getPoints,SpatRaster-method}
 \alias{getPoints,matrix-method}
 \title{Get the table of point coordinates}
 \usage{
@@ -21,6 +22,8 @@ getPoints(x)
 \S4method{getPoints}{sf}(x)
 
 \S4method{getPoints}{Raster}(x)
+
+\S4method{getPoints}{SpatRaster}(x)
 
 \S4method{getPoints}{matrix}(x)
 }
@@ -42,14 +45,28 @@ This table contains three columns (x, y and fid) and as many rows as
   in each layer, merely with a different, layer-specific value.
 }
 \examples{
-getPoints(x = gtGeoms$polygon)
 
 getPoints(x = gtGeoms$point)
+getPoints(x = gtGeoms$polygon)
 
 # for raster objects, the @point slot is extracted from its compact form
 gtGeoms$grid$continuous@point
 
 getPoints(x = gtGeoms$grid$continuous)
+
+gc_sp(gtGeoms$line) \%>\%
+  getPoints()
+
+gc_sf(gtGeoms$line) \%>\%
+  getPoints()
+
+gc_raster(gtGeoms$grid$categorical) \%>\%
+  getPoints()
+
+gc_terra(gtGeoms$grid$categorical) \%>\%
+  getPoints()
+
+getPoints(x = matrix(0, 3, 5))
 }
 \seealso{
 Other getters: 

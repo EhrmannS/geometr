@@ -41,6 +41,7 @@ Other setters:
 \code{\link{setCRS}()},
 \code{\link{setFeatures}()},
 \code{\link{setGroups}()},
+\code{\link{setNames}()},
 \code{\link{setWindow}()}
 }
 \concept{setters}

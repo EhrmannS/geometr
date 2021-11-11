@@ -4,9 +4,11 @@
 \alias{.makeLayout}
 \title{Make the layout of a plot}
 \usage{
-.makeLayout(legend, window, theme = gtTheme)
+.makeLayout(x, legend, window, theme = gtTheme)
 }
 \arguments{
+\item{x}{any spatial object to plot.}
+
 \item{legend}{[\code{list(.)}]\cr the legend object built with
 \code{\link{.makeLegend}}.}
 

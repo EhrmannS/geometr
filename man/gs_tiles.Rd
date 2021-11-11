@@ -25,15 +25,14 @@ default)?}
 A \code{geom}.
 }
 \description{
-Create a regular tiling polygon geometry (of class \code{geom}) for the
-extent of an anchor value.
+Create a regular tiling polygon geometry for the extent of an anchor value.
 }
 \details{
 When deriving a regular tiling for a prescribed window, there is
   only a limited set of legal combinations of cells in x and y dimension. For
   instance, a window of 100 by 100 can't comprise 10 by 5 squares of
-  side-length/width 10, because then the y-dimension wouldn't be fully covered. The
-  same is true for hexagonal and triangular tilings.
+  side-length/width 10, because then the y-dimension wouldn't be fully
+  covered. The same is true for hexagonal and triangular tilings.
 }
 \examples{
 # create a squared tiling

@@ -51,6 +51,7 @@ Other setters:
 \code{\link{setCRS}()},
 \code{\link{setFeatures}()},
 \code{\link{setGroups}()},
-\code{\link{setHistory}()}
+\code{\link{setHistory}()},
+\code{\link{setNames}()}
 }
 \concept{setters}

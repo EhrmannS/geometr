@@ -6,7 +6,6 @@
 \alias{setFeatures,geom-method}
 \alias{setFeatures,Spatial-method}
 \alias{setFeatures,sf-method}
-\alias{setFeatures,sfc-method}
 \title{Set a table of feature attributes}
 \usage{
 setFeatures(x, table, ...)
@@ -18,8 +17,6 @@ setFeatures(x, table, ...)
 \S4method{setFeatures}{Spatial}(x, table = NULL)
 
 \S4method{setFeatures}{sf}(x, table = NULL)
-
-\S4method{setFeatures}{sfc}(x, table = NULL)
 }
 \arguments{
 \item{x}{the object to which to assign a new attribute table.}
@@ -39,6 +36,7 @@ Other setters:
 \code{\link{setCRS}()},
 \code{\link{setGroups}()},
 \code{\link{setHistory}()},
+\code{\link{setNames}()},
 \code{\link{setWindow}()}
 }
 \concept{setters}

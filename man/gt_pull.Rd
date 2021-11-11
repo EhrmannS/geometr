@@ -38,9 +38,6 @@ gt_pull(gtGeoms$point, "fid")
 
 # pull from a Raster* with RAT
 gt_pull(gtGeoms$grid$categorical, "cover")
-
-# pull from an sf-object
-gt_pull(gtSF$point, "a")
 }
 \seealso{
 Other geometry tools: 

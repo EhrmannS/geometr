@@ -28,15 +28,19 @@ Get the history of a spatial object.
 }
 \examples{
 library(tibble)
-library(magrittr)
 
-geom <- tibble(x = c(40, 70, 70, 50),
-               y = c(40, 40, 60, 70)) \%>\%
+tibble(x = c(40, 70, 70, 50),
+       y = c(40, 40, 60, 70)) \%>\%
   gs_polygon() \%>\%
-  gt_reflect(angle = 45)
-getHistory(x = geom)
+  gt_reflect(angle = 45) \%>\%
+  getHistory()
 
-getHistory(x = gtRasters)
+getHistory(gtGeoms$line)
+
+gc_raster(gtGeoms$grid$categorical) \%>\%
+  getHistory()
+
+getWindow(x = matrix(0, 3, 5))
 }
 \seealso{
 Other getters: 

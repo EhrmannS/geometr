@@ -26,11 +26,13 @@ This function allows to subset any geometric object for which all required
 getters are available.
 }
 \examples{
-# get a subset of a geom
 gt_filter(gtGeoms$point, y < -10)
 
-# get a subset of an sf-object
-gt_filter(obj = gtSF$multilinestring, a == 1)
+newObj <- setFeatures(x = gtGeoms$point,
+                      table = data.frame(fid = c(1:9),
+                                         attrib = c(letters[1:9])))
+
+gt_filter(obj = newObj, attrib \%in\% c("a", "c", "e"))
 }
 \seealso{
 Other geometry tools: 

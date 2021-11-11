@@ -6,6 +6,7 @@
 \usage{
 .makeGrob(
   x,
+  window,
   featureType,
   plotValues,
   scaleValues,
@@ -17,6 +18,9 @@
 }
 \arguments{
 \item{x}{the object to transform to class \code{grob}.}
+
+\item{window}{[\code{data.frame(1)}] two opposing corners of a rectangle to
+which the plot is limited.}
 
 \item{featureType}{the type of feature to make a grob from.}
 

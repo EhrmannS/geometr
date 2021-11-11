@@ -7,6 +7,7 @@
 \alias{getCRS,Spatial-method}
 \alias{getCRS,sf-method}
 \alias{getCRS,Raster-method}
+\alias{getCRS,SpatRaster-method}
 \title{Get the coordinate reference system of a spatial object.}
 \usage{
 getCRS(x, ...)
@@ -20,6 +21,8 @@ getCRS(x, ...)
 \S4method{getCRS}{sf}(x)
 
 \S4method{getCRS}{Raster}(x)
+
+\S4method{getCRS}{SpatRaster}(x)
 }
 \arguments{
 \item{x}{the object from which to extract the coordinate reference system.}
@@ -33,13 +36,29 @@ The coordinate reference system of \code{x} given as proj4string.
 Get the coordinate reference system of a spatial object.
 }
 \examples{
+obj <- gtGeoms$line \%>\%
+  setCRS("+proj=longlat +datum=WGS84 +no_defs")
+
+getCRS(obj)
+
+gc_sp(obj) \%>\%
+  getCRS()
+
+gc_sf(obj) \%>\%
+  getCRS()
+
+gc_raster(gtGeoms$grid$categorical) \%>\%
+  getCRS()
+
+gc_terra(gtGeoms$grid$categorical) \%>\%
+  getCRS()
+
+getCRS(x = matrix(0, 3, 5))
 getCRS(x = gtGeoms$grid$continuous)
 
 library(sf)
 nc_sf <- st_read(system.file("shape/nc.shp", package="sf"), quiet = TRUE)
 getCRS(nc_sf)
-
-getCRS(x = gtRasters$categorical)
 }
 \seealso{
 Other getters: 

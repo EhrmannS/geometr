@@ -41,7 +41,7 @@ Visualise geometric objects
 \examples{
 # make an empty plot
 visualise()
-visualise(window = getExtent(gtRasters$continuous))
+visualise(window = getExtent(gtGeoms$grid$continuous))
 
 coords <- data.frame(x = c(30, 60, 60, 40),
                      y = c(40, 40, 60, 70),
@@ -54,7 +54,7 @@ win <- data.frame(x = c(0, 80),
 withWindow <- setWindow(x = aGeom, to = win)
 visualise(expanded = withWindow)
 
-(aRaster <-  gtRasters$categorical)
+(aRaster <-  gtGeoms$grid$continuous)
 
 # plot several objects together
 visualise(aRaster, aGeom)

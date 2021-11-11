@@ -7,6 +7,7 @@
 \alias{getWindow,Spatial-method}
 \alias{getWindow,sf-method}
 \alias{getWindow,Raster-method}
+\alias{getWindow,SpatRaster-method}
 \alias{getWindow,matrix-method}
 \title{Get the reference window of a spatial object.}
 \usage{
@@ -22,6 +23,8 @@ getWindow(x, ...)
 
 \S4method{getWindow}{Raster}(x)
 
+\S4method{getWindow}{SpatRaster}(x)
+
 \S4method{getWindow}{matrix}(x)
 }
 \arguments{
@@ -31,21 +34,32 @@ getWindow(x, ...)
 }
 \value{
 A tibble of the corner coordinates of the reference window of
-  \code{x}. This table two columns (x and y) and two rows (minimum and
+  \code{x}. This table has two columns (x and y) and two rows (minimum and
   maximum).
 }
 \description{
-Get the reference window of a spatial object.
+The extent of an area that encompasses an object, which is at least the
+objects extent, or larger.
+}
+\details{
+Calling \code{getWindow} on spatial classes that do not have a
+  window attribute returns the same value as \code{getExtent}.
 }
 \examples{
 
-getWindow(x = gtGeoms$line)
+getWindow(gtGeoms$line)
 
-getWindow(x = gtSP$SpatialLines)
+gc_sp(gtGeoms$line) \%>\%
+  getWindow()
 
-getWindow(x = gtSF$multilinestring)
+gc_sf(gtGeoms$line) \%>\%
+  getWindow()
 
-getWindow(x = gtRasters$categorical)
+gc_raster(gtGeoms$grid$categorical) \%>\%
+  getWindow()
+
+gc_terra(gtGeoms$grid$categorical) \%>\%
+  getWindow()
 
 getWindow(x = matrix(0, 3, 5))
 }

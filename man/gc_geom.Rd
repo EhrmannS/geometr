@@ -65,14 +65,17 @@ When transforming a simple feature to a geom, all MULTI* features
   the same group attribute table.
 }
 \examples{
-gc_geom(input = gtSF$polygon)
+gc_sf(input = gtGeoms$polygon) \%>\%
+  gc_geom()
 
-gc_geom(input = gtRasters$categorical)
+gc_raster(input = gtGeoms$grid$categorical) \%>\%
+  gc_geom()
 }
 \seealso{
 Other spatial classes: 
 \code{\link{gc_raster}()},
 \code{\link{gc_sf}()},
-\code{\link{gc_sp}()}
+\code{\link{gc_sp}()},
+\code{\link{gc_terra}()}
 }
 \concept{spatial classes}

@@ -127,7 +127,7 @@ setTheme(
 Change parameters in a gtTheme to create a new theme.
 }
 \examples{
-input <- gtRasters$continuous
+input <- gtGeoms$grid$continuous
 (myTheme <- setTheme(title = list(plot = FALSE)))
 
 visualise(input, theme = myTheme)

@@ -7,6 +7,7 @@
 \alias{getType,Spatial-method}
 \alias{getType,sf-method}
 \alias{getType,Raster-method}
+\alias{getType,SpatRaster-method}
 \alias{getType,matrix-method}
 \title{Get the type of a spatial object.}
 \usage{
@@ -21,6 +22,8 @@ getType(x, ...)
 \S4method{getType}{sf}(x)
 
 \S4method{getType}{Raster}(x)
+
+\S4method{getType}{SpatRaster}(x)
 
 \S4method{getType}{matrix}(x)
 }
@@ -39,11 +42,17 @@ Get the type of a spatial object.
 \examples{
 getType(x = gtGeoms$point)
 
-getType(x = gtSP$SpatialPolygons)
+gc_sp(gtGeoms$line) \%>\%
+  getType()
 
-getType(x = gtSF$multiline)
+gc_sf(gtGeoms$polygon) \%>\%
+  getType()
 
-getType(x = gtRasters$categorical)
+gc_raster(gtGeoms$grid$categorical) \%>\%
+  getType()
+
+gc_terra(gtGeoms$grid$categorical) \%>\%
+  getType()
 
 getType(x = matrix(0, 3, 5))
 }

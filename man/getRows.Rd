@@ -5,6 +5,7 @@
 \alias{getRows,ANY-method}
 \alias{getRows,geom-method}
 \alias{getRows,Raster-method}
+\alias{getRows,SpatRaster-method}
 \alias{getRows,matrix-method}
 \title{Get the number of rows of a spatial object.}
 \usage{
@@ -15,6 +16,8 @@ getRows(x, ...)
 \S4method{getRows}{geom}(x)
 
 \S4method{getRows}{Raster}(x)
+
+\S4method{getRows}{SpatRaster}(x)
 
 \S4method{getRows}{matrix}(x)
 }
@@ -30,9 +33,14 @@ An integer of the number of rows.
 Get the number of rows of a spatial object.
 }
 \examples{
-getRows(x = gtGeoms$grid$continuous)
 
-getRows(x = gtRasters$categorical)
+getRows(gtGeoms$grid$categorical)
+
+gc_raster(gtGeoms$grid$categorical) \%>\%
+  getRows()
+
+gc_terra(gtGeoms$grid$categorical) \%>\%
+  getRows()
 
 getRows(x = matrix(0, 3, 5))
 }

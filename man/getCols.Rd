@@ -5,6 +5,7 @@
 \alias{getCols,ANY-method}
 \alias{getCols,geom-method}
 \alias{getCols,Raster-method}
+\alias{getCols,SpatRaster-method}
 \alias{getCols,matrix-method}
 \title{Get the number of columns of a spatial object.}
 \usage{
@@ -15,6 +16,8 @@ getCols(x, ...)
 \S4method{getCols}{geom}(x)
 
 \S4method{getCols}{Raster}(x)
+
+\S4method{getCols}{SpatRaster}(x)
 
 \S4method{getCols}{matrix}(x)
 }
@@ -30,9 +33,14 @@ An integer of the number of columns.
 Get the number of columns of a spatial object.
 }
 \examples{
-getCols(x = gtGeoms$grid$continuous)
 
-getCols(x = gtRasters$categorical)
+getCols(gtGeoms$grid$categorical)
+
+gc_raster(gtGeoms$grid$categorical) \%>\%
+  getCols()
+
+gc_terra(gtGeoms$grid$categorical) \%>\%
+  getCols()
 
 getCols(x = matrix(0, 3, 5))
 }

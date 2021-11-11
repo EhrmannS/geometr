@@ -5,6 +5,7 @@
 \alias{getRes,ANY-method}
 \alias{getRes,geom-method}
 \alias{getRes,Raster-method}
+\alias{getRes,SpatRaster-method}
 \alias{getRes,matrix-method}
 \title{Get the spatial resolution of a spatial object.}
 \usage{
@@ -15,6 +16,8 @@ getRes(x, ...)
 \S4method{getRes}{geom}(x)
 
 \S4method{getRes}{Raster}(x)
+
+\S4method{getRes}{SpatRaster}(x)
 
 \S4method{getRes}{matrix}(x)
 }
@@ -31,9 +34,14 @@ A vector of two values of the spatial resolution of \code{x} in x and
 Get the spatial resolution of a spatial object.
 }
 \examples{
-getRes(x = gtGeoms$grid$continuous)
 
-getRes(x = gtRasters$categorical)
+getRes(gtGeoms$grid$categorical)
+
+gc_raster(gtGeoms$grid$categorical) \%>\%
+  getRes()
+
+gc_terra(gtGeoms$grid$categorical) \%>\%
+  getRes()
 
 getRes(x = matrix(0, 3, 5))
 }

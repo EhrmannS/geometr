@@ -31,6 +31,7 @@ gc_sp(input = gtGeoms$polygon)
 Other spatial classes: 
 \code{\link{gc_geom}()},
 \code{\link{gc_raster}()},
-\code{\link{gc_sf}()}
+\code{\link{gc_sf}()},
+\code{\link{gc_terra}()}
 }
 \concept{spatial classes}

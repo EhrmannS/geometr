@@ -5,7 +5,9 @@
 \alias{getNames,ANY-method}
 \alias{getNames,geom-method}
 \alias{getNames,sf-method}
+\alias{getNames,Spatial-method}
 \alias{getNames,Raster-method}
+\alias{getNames,SpatRaster-method}
 \title{Get the name(s) of a spatial object.}
 \usage{
 getNames(x, ...)
@@ -16,7 +18,11 @@ getNames(x, ...)
 
 \S4method{getNames}{sf}(x)
 
+\S4method{getNames}{Spatial}(x)
+
 \S4method{getNames}{Raster}(x)
+
+\S4method{getNames}{SpatRaster}(x)
 }
 \arguments{
 \item{x}{the object from which to get the name.}
@@ -30,11 +36,18 @@ A vector of the names of \code{x}.
 Get the name(s) of a spatial object.
 }
 \examples{
-getNames(x = gtGeoms$grid$continuous)
 
-getNames(x = gtSF$polygon)
+getNames(gtGeoms$line)
+getNames(gtGeoms$grid$categorical)
 
-getNames(x = gtRasters)
+gc_sf(gtGeoms$line) \%>\%
+  getNames()
+
+gc_raster(gtGeoms$grid$categorical) \%>\%
+  getNames()
+
+gc_terra(gtGeoms$grid$categorical) \%>\%
+  getNames()
 }
 \seealso{
 Other getters: 

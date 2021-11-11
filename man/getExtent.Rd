@@ -7,6 +7,7 @@
 \alias{getExtent,Spatial-method}
 \alias{getExtent,sf-method}
 \alias{getExtent,Raster-method}
+\alias{getExtent,SpatRaster-method}
 \alias{getExtent,matrix-method}
 \title{Get the extent (bounding box) of a spatial object.}
 \usage{
@@ -21,6 +22,8 @@ getExtent(x, ...)
 \S4method{getExtent}{sf}(x)
 
 \S4method{getExtent}{Raster}(x)
+
+\S4method{getExtent}{SpatRaster}(x)
 
 \S4method{getExtent}{matrix}(x)
 }
@@ -38,13 +41,20 @@ A tibble of the lower left and upper right corner coordinates of the
 Get the extent (bounding box) of a spatial object.
 }
 \examples{
-getExtent(gtGeoms$polygon)
 
-getExtent(x = gtSP$SpatialPolygons)
+getExtent(gtGeoms$line)
 
-getExtent(x = gtSF$multilinestring)
+gc_sp(gtGeoms$line) \%>\%
+  getExtent()
 
-getExtent(x = gtRasters$categorical)
+gc_sf(gtGeoms$line) \%>\%
+  getExtent()
+
+gc_raster(gtGeoms$grid$categorical) \%>\%
+  getExtent()
+
+gc_terra(gtGeoms$grid$categorical) \%>\%
+  getExtent()
 
 getExtent(x = matrix(0, 3, 5))
 }

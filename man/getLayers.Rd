@@ -7,6 +7,7 @@
 \alias{getLayers,Spatial-method}
 \alias{getLayers,sf-method}
 \alias{getLayers,Raster-method}
+\alias{getLayers,SpatRaster-method}
 \alias{getLayers,matrix-method}
 \title{Get a specific layer of a spatial object.}
 \usage{
@@ -21,6 +22,8 @@ getLayers(x, ...)
 \S4method{getLayers}{sf}(x)
 
 \S4method{getLayers}{Raster}(x)
+
+\S4method{getLayers}{SpatRaster}(x)
 
 \S4method{getLayers}{matrix}(x)
 }
@@ -37,7 +40,22 @@ A list of the layers of \code{x}. Each list-item hast the result of
 Get a specific layer of a spatial object.
 }
 \examples{
-getLayers(x = gtRasters)
+
+getLayers(gtGeoms$line)
+
+gc_sp(gtGeoms$line) \%>\%
+  getLayers()
+
+gc_sf(gtGeoms$line) \%>\%
+  getLayers()
+
+gc_raster(gtGeoms$grid$categorical) \%>\%
+  getLayers()
+
+gc_terra(gtGeoms$grid$categorical) \%>\%
+  getLayers()
+
+getLayers(x = matrix(0, 3, 5))
 }
 \seealso{
 Other getters: 

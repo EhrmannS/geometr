@@ -7,6 +7,7 @@
 \alias{getFeatures,Spatial-method}
 \alias{getFeatures,sf-method}
 \alias{getFeatures,Raster-method}
+\alias{getFeatures,SpatRaster-method}
 \alias{getFeatures,matrix-method}
 \title{Get the table of feature attributes}
 \usage{
@@ -21,6 +22,8 @@ getFeatures(x)
 \S4method{getFeatures}{sf}(x)
 
 \S4method{getFeatures}{Raster}(x)
+
+\S4method{getFeatures}{SpatRaster}(x)
 
 \S4method{getFeatures}{matrix}(x)
 }
@@ -40,10 +43,22 @@ This table contains at least the column 'fid'. In case \code{x} has
   has type 'grid', it also contains the column 'values'.
 }
 \examples{
-getFeatures(x = gtGeoms$polygon)
 
-getFeatures(x = gtRasters)
+getFeatures(gtGeoms$polygon)
 
+gc_sp(gtGeoms$polygon) \%>\%
+  getFeatures()
+
+gc_sf(gtGeoms$polygon) \%>\%
+  getFeatures()
+
+gc_raster(gtGeoms$grid$categorical) \%>\%
+  getFeatures()
+
+gc_terra(gtGeoms$grid$categorical) \%>\%
+  getFeatures()
+
+getFeatures(x = matrix(0, 3, 5))
 }
 \seealso{
 Other getters: 

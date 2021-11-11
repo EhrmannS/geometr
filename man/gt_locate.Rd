@@ -55,11 +55,11 @@ if(dev.interactive()){
   gt_locate(samples = 2)
 
   # locate or identify values with rasters
-  visualise(raster = gtRasters$continuous)
+  visualise(raster = gtGeoms$grid$continuous)
   gt_locate(identify = TRUE, snap = TRUE)
 
   # with several panels, specify a target
-  visualise(gtRasters)
+  visualise(gtGeoms$grid$categorical, gtGeoms$grid$continuous)
   gt_locate(samples = 4, panel = "categorical",
             snap = TRUE, identify = TRUE)
 

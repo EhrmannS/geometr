@@ -5,6 +5,7 @@
 \alias{getGroups,ANY-method}
 \alias{getGroups,geom-method}
 \alias{getGroups,Raster-method}
+\alias{getGroups,SpatRaster-method}
 \title{Get the table of group attributes}
 \usage{
 getGroups(x)
@@ -14,6 +15,8 @@ getGroups(x)
 \S4method{getGroups}{geom}(x)
 
 \S4method{getGroups}{Raster}(x)
+
+\S4method{getGroups}{SpatRaster}(x)
 }
 \arguments{
 \item{x}{the object from which to derive the attribute table.}
@@ -33,11 +36,22 @@ This table contains at least the column 'gid'.
   can be reconstructed. If this is not the case, \code{NULL} is returned.
 }
 \examples{
-getGroups(x = gtGeoms$polygon)
 
-# for raster objects, groups are pixels with the same value and their
+getGroups(gtGeoms$polygon)
+
+gc_sp(gtGeoms$line) \%>\%
+  getGroups()
+
+gc_sf(gtGeoms$line) \%>\%
+  getGroups()
+
+# for gridded objects, groups are unique pixel values, and their
 # attributes are in the raster attribute table (RAT)
-getGroups(x = gtRasters)
+gc_raster(gtGeoms$grid$categorical) \%>\%
+  getGroups()
+
+gc_terra(gtGeoms$grid$categorical) \%>\%
+  getGroups()
 }
 \seealso{
 Other getters: 

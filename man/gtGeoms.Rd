@@ -6,8 +6,9 @@
 \title{Example \code{geom} objects}
 \format{
 The list contains five objects of class geom, a \code{point},
-  \code{line} and \code{polygon} object and two \code{grid} geoms, one with
-  categorical data and one with continuous data. They are mostly used in the
+  \code{line} and \code{polygon} object and two \code{grid} geoms (that have
+  56 by 60 cells), one with categorical values (land-use classes) and one
+  with continuous values (vegetation cover). They are mostly used in the
   example and test-sections of this package.
 }
 \usage{
