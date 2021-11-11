@@ -54,7 +54,7 @@ test_that("transform geom to POINT sf", {
 })
 
 test_that("transform geom to MULTIPOINT sf", {
-  output <- gc_sf(input = gtGeoms$point)
+  expect_warning(output <- gc_sf(input = gtGeoms$point))
   expect_class(x = output, classes = "sf")
   expect_names(x = names(output), identical.to = c("geom"))
 })

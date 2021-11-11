@@ -5,95 +5,104 @@ context("gc_geom")
 
 
 test_that("transform from sf to geom", {
+
   # test POINT
-  input <- gtSF$point
+  temp <- gtGeoms$point
+  temp@feature$gid <- temp@feature$fid
+  input <- gc_sf(temp)
 
   output <- gc_geom(input = input)
   expect_class(output, classes = "geom")
   expect_true(output@type == "point")
-  expect_data_frame(output@point, any.missing = FALSE, nrows = 2, ncols = 3)
+  expect_data_frame(output@point, any.missing = FALSE, nrows = 9, ncols = 3)
 
   # test MULTIPOINT
-  input <- gtSF$multipoint
+  input <- gc_sf(gtGeoms$point)
 
-  output <- gc_geom(input)
+  output <- gc_geom(input = input)
   expect_class(output, classes = "geom")
   expect_true(output@type == "point")
-  expect_data_frame(output@point, any.missing = FALSE, nrows = 8, ncols = 3)
-  expect_data_frame(output@feature, any.missing = FALSE, nrows = 8, ncols = 3)
+  expect_data_frame(output@point, any.missing = FALSE, nrows = 9, ncols = 3)
+  expect_data_frame(output@feature, any.missing = FALSE, nrows = 9, ncols = 2)
 
-  output <- gc_geom(input, group = TRUE)
-  expect_class(output, classes = "geom")
-  expect_true(output@type == "point")
-  expect_data_frame(output@point, any.missing = FALSE, nrows = 8, ncols = 3)
-  expect_data_frame(output@group, any.missing = FALSE, nrows = 2, ncols = 2)
+  # output <- gc_geom(input = input, group = TRUE)
+  # expect_class(output, classes = "geom")
+  # expect_true(output@type == "point")
+  # expect_data_frame(output@point, any.missing = FALSE, nrows = 8, ncols = 3)
+  # expect_data_frame(output@group, any.missing = FALSE, nrows = 2, ncols = 2)
 
   # test LINESTRING
-  input <- gtSF$linestring
+  input <- gc_sf(gtGeoms$line)
 
   output <- gc_geom(input)
   expect_class(output, classes = "geom")
   expect_true(output@type == "line")
-  expect_data_frame(output@point, any.missing = FALSE, nrows = 8, ncols = 3)
+  expect_data_frame(output@point, any.missing = FALSE, nrows = 9, ncols = 3)
 
   # test MULTILINESTRING
-  input <- gtSF$multilinestring
+  temp <- gtGeoms$line
+  temp@feature$gid <- 1
+  temp@group$gid <- 1
+  input <- gc_sf(temp)
 
   output <- gc_geom(input)
   expect_class(output, classes = "geom")
   expect_true(output@type == "line")
-  expect_data_frame(output@point, any.missing = FALSE, nrows = 12, ncols = 3)
+  expect_data_frame(output@point, any.missing = FALSE, nrows = 9, ncols = 3)
 
   # test POLYGON
-  input <- gtSF$polygon
+  input <- gc_sf(gtGeoms$polygon)
 
   output <- gc_geom(input)
   expect_class(output, classes = "geom")
   expect_true(output@type == "polygon")
-  expect_data_frame(output@point, any.missing = FALSE, nrows = 15, ncols = 3)
+  expect_data_frame(output@point, any.missing = FALSE, nrows = 11, ncols = 3)
 
   # test MULTIPOLYGON
-  input <- gtSF$multipolygon
+  temp <- gtGeoms$polygon
+  temp@feature$gid <- 1
+  temp@group$gid <- 1
+  input <- gc_sf(temp)
 
   output <- gc_geom(input)
   expect_class(output, classes = "geom")
   expect_true(output@type == "polygon")
-  expect_data_frame(output@point, any.missing = FALSE, nrows = 25, ncols = 3)
+  expect_data_frame(output@point, any.missing = FALSE, nrows = 11, ncols = 3)
 })
 
 test_that("transform from sp to geom", {
   # test 'SpatialPoints'
-  input <- gtSP$SpatialPoints
+  input <- gc_sp(input = gtGeoms$point)
 
   output <- gc_geom(input)
   expect_class(output, "geom")
   expect_true(output@type == "point")
 
   # test 'SpatialPointsDataFrame'
-  input <- SpatialPointsDataFrame(input, data.frame(data = 1:4), match.ID = TRUE)
+  input <- SpatialPointsDataFrame(input, data.frame(data = 9:1), match.ID = TRUE)
 
   output <- gc_geom(input)
   expect_class(output, "geom")
   expect_true(output@type == "point")
 
-  # test 'SpatialMultiPoints'
-  input <- gtSP$SpatialMultiPoints
+  # # test 'SpatialMultiPoints'
+  # input <- gtSP$SpatialMultiPoints
+  #
+  # output <- gc_geom(input)
+  # expect_class(output, "geom")
+  # expect_true(output@type == "point")
+  # expect_true(length(unique(output@point$fid)) == 8)
 
-  output <- gc_geom(input)
-  expect_class(output, "geom")
-  expect_true(output@type == "point")
-  expect_true(length(unique(output@point$fid)) == 8)
-
-  # test 'SpatialMultiPointsDataFrame'
-  input <- SpatialMultiPointsDataFrame(input, data = data.frame(data = 1:2))
-
-  output <- gc_geom(input)
-  expect_class(output, "geom")
-  expect_true(output@type == "point")
-  expect_data_frame(output@feature, any.missing = FALSE, nrows = 8, ncols = 3)
+  # # test 'SpatialMultiPointsDataFrame'
+  # input <- SpatialMultiPointsDataFrame(input, data = data.frame(data = 1:2))
+  #
+  # output <- gc_geom(input)
+  # expect_class(output, "geom")
+  # expect_true(output@type == "point")
+  # expect_data_frame(output@feature, any.missing = FALSE, nrows = 8, ncols = 3)
 
   # test 'SpatialLines'
-  input <- gtSP$SpatialLines
+  input <- gc_sp(input = gtGeoms$line)
 
   output <- gc_geom(input)
   expect_class(output, "geom")
@@ -109,7 +118,7 @@ test_that("transform from sp to geom", {
   expect_data_frame(output@feature, any.missing = FALSE, nrows = 2, ncols = 3)
 
   # test 'SpatialPolygons'
-  input = gtSP$SpatialPolygons
+  input <- gc_sp(input = gtGeoms$polygon)
 
   output <- gc_geom(input)
   expect_class(output, "geom")
@@ -157,7 +166,9 @@ test_that("transform from sp to geom", {
 
 test_that("transform from Raster to geom", {
   # RasterStack
-  input <- gtRasters
+  input <- raster::stack(list(gc_raster(gtGeoms$grid$categorical),
+                              gc_raster(gtGeoms$grid$continuous)))
+  names(input) <- c("categorical", "continuous")
 
   output <- gc_geom(input)
   expect_list(x = output, len = 2)
@@ -189,7 +200,7 @@ test_that("transform from Raster to geom", {
   expect_data_frame(x = output@group, nrows = 93)
 
   # RasterLayer
-  input <- gtRasters$continuous
+  input <- gc_raster(gtGeoms$grid$continuous)
 
   output <- gc_geom(input)
   expect_class(output, "geom")
