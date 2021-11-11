@@ -147,6 +147,7 @@ gs_point <- function(anchor = NULL, window = NULL, vertices = 1, ...){
 
   theGeom <- new(Class = "geom",
                  type = "point",
+                 name = "point_geom",
                  point = thePoints,
                  feature = theFeatures,
                  group = theGroups,

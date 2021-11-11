@@ -122,6 +122,7 @@ gs_voronoi <- function(anchor = NULL, window = NULL, features = 3, ...){
 
   theGeom <- new(Class = "geom",
                  type = "polygon",
+                 name = "polygon_geom",
                  point = theVertices,
                  feature = theFeatures,
                  group = theGroups,

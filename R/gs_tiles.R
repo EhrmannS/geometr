@@ -1,7 +1,6 @@
 #' Create a regular tiling \code{geom}
 #'
-#' Create a regular tiling polygon geometry (of class \code{geom}) for the
-#' extent of an anchor value.
+#' Create a regular tiling polygon geometry for the extent of an anchor value.
 #' @param anchor [\code{geom(1)}|\code{data.frame(1)}]\cr Object to derive the
 #'   tiling \code{geom} from. It must include column names \code{x}, \code{y}
 #'   and optionally a custom \code{fid}.
@@ -15,8 +14,8 @@
 #' @details When deriving a regular tiling for a prescribed window, there is
 #'   only a limited set of legal combinations of cells in x and y dimension. For
 #'   instance, a window of 100 by 100 can't comprise 10 by 5 squares of
-#'   side-length/width 10, because then the y-dimension wouldn't be fully covered. The
-#'   same is true for hexagonal and triangular tilings.
+#'   side-length/width 10, because then the y-dimension wouldn't be fully
+#'   covered. The same is true for hexagonal and triangular tilings.
 #' @return A \code{geom}.
 #' @family tilings
 #' @examples
@@ -155,6 +154,7 @@ gs_tiles <- function(anchor = NULL, width = NULL, pattern = "squared",
 
   theTiles <- new(Class = "geom",
                   type = theType,
+                  name = "polygon_geom",
                   point = tibble(fid = retain$fid, x = retain$x, y = retain$y),
                   feature = theFeatures,
                   group = theGroups,

@@ -39,6 +39,7 @@ gt_scale <- function(obj, range = NULL, fid = NULL, update = TRUE){
   theGroups <- getGroups(x = obj)
   theType <- getType(x = obj)[1]
   theWindow <- getWindow(x = obj)
+  theName <- getNames(x = obj)
 
   # identify fids to modify
   ids <- unique(thePoints$fid)
@@ -87,6 +88,7 @@ gt_scale <- function(obj, range = NULL, fid = NULL, update = TRUE){
   # make new geom
   out <- new(Class = "geom",
              type = getType(x = obj)[1],
+             name = theName,
              point = temp,
              feature = theFeatures,
              group = theGroups,

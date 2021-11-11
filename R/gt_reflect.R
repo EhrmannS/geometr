@@ -40,6 +40,7 @@ gt_reflect <- function(obj, angle, fid = NULL, update = TRUE){
   theGroups <- getGroups(x = obj)
   thePoints <- getPoints(x = obj)
   theWindow <- getWindow(x = obj)
+  theName <- getNames(x = obj)
 
   # identify fids to modify
   ids <- unique(thePoints$fid)
@@ -89,6 +90,7 @@ gt_reflect <- function(obj, angle, fid = NULL, update = TRUE){
   # make new geom
   out <- new(Class = "geom",
              type = getType(x = obj)[1],
+             name = theName,
              point = temp,
              feature = theFeatures,
              group = theGroups,

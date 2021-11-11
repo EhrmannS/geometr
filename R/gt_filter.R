@@ -13,11 +13,13 @@
 #' @return \code{geom} of the subset of \code{obj}.
 #' @family geometry tools
 #' @examples
-#' # get a subset of a geom
 #' gt_filter(gtGeoms$point, y < -10)
 #'
-#' # get a subset of an sf-object
-#' gt_filter(obj = gtSF$multilinestring, a == 1)
+#' newObj <- setFeatures(x = gtGeoms$point,
+#'                       table = data.frame(fid = c(1:9),
+#'                                          attrib = c(letters[1:9])))
+#'
+#' gt_filter(obj = newObj, attrib %in% c("a", "c", "e"))
 #' @importFrom rlang enquos eval_tidy exprs
 #' @importFrom dplyr left_join
 #' @importFrom methods new
@@ -30,6 +32,7 @@ gt_filter <- function(obj, ..., update = TRUE){
   theGroups <- getGroups(x = obj)
   theWindow <- getWindow(x = obj)
   theType <- getType(x = obj)[1]
+  theName <- getNames(x = obj)
 
   theAttribs <- left_join(theFeatures, theGroups, by = "gid")
   subset <- exprs(...)
@@ -59,6 +62,7 @@ gt_filter <- function(obj, ..., update = TRUE){
 
   out <- new(Class = "geom",
              type = theType,
+             name = theName,
              point = newPoints,
              feature = newFeatures,
              group = newGroups,

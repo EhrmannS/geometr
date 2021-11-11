@@ -82,6 +82,7 @@ gs_random <- function(type = "point", window = NULL, vertices = NULL){
 
   theGeom <- new(Class = "geom",
                  type = outType,
+                 name = paste0(type, "_geom"),
                  point = anchor,
                  feature = theFeatures,
                  group = theGroups,

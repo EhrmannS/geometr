@@ -51,6 +51,7 @@ gt_rotate <- function(obj, x = NULL, y = NULL, angle = NULL, fid = NULL,
   theGroups <- getGroups(x = obj)
   thePoints <- getPoints(x = obj)
   theWindow <- getWindow(x = obj)
+  theName <- getNames(x = obj)
 
   # set default values
   if(is.null(x)){
@@ -124,6 +125,7 @@ gt_rotate <- function(obj, x = NULL, y = NULL, angle = NULL, fid = NULL,
   # make new geom
   out <- new(Class = "geom",
              type = getType(x = obj)[1],
+             name = theName,
              point = as_tibble(temp),
              feature = theFeatures,
              group = theGroups,

@@ -37,6 +37,7 @@ gt_skew <- function(obj, x = NULL, y = NULL, fid = NULL, update = TRUE){
   theGroups <- getGroups(x = obj)
   thePoints <- getPoints(x = obj)
   thewindow <- getWindow(x = obj)
+  theName <- getNames(x = obj)
 
   # set default values
   if(is.null(x)){
@@ -103,6 +104,7 @@ gt_skew <- function(obj, x = NULL, y = NULL, fid = NULL, update = TRUE){
   # make new geom
   out <- new(Class = "geom",
              type = getType(x = obj)[1],
+             name = theName,
              point = as_tibble(temp),
              feature = theFeatures,
              group = theGroups,

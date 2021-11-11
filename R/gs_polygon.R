@@ -217,6 +217,7 @@ gs_polygon <- function(anchor = NULL, window = NULL, features = 1, vertices = 3,
 
   theGeom <- new(Class = "geom",
                  type = "polygon",
+                 name = "polygon_geom",
                  point = thePoints,
                  feature = theFeatures,
                  group = theGroups,

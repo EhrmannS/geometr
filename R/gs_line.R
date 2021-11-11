@@ -172,6 +172,7 @@ gs_line <- function(anchor = NULL, window = NULL, features = 1, vertices = 2, ..
 
   theGeom <- new(Class = "geom",
                  type = "line",
+                 name = "line_geom",
                  point = theVertices,
                  feature = theFeatures,
                  group = theGroups,
