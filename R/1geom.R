@@ -50,6 +50,7 @@
 
 geom <- setClass(Class = "geom",
                  slots = c(type = "character",
+                           name = "character",
                            point = "data.frame",
                            feature = "data.frame",
                            group = "data.frame",
@@ -81,6 +82,10 @@ setValidity("geom", function(object){
         errors = c(errors, "a geom of type 'grid' must have three rows ('origin' and 'cell number' extent and 'cell size').")
       }
     }
+  }
+
+  if(!.hasSlot(object = object, name = "point")){
+    errors = c(errors, "the geom does not have a 'name' slot.")
   }
 
   if(!.hasSlot(object = object, name = "point")){
@@ -185,7 +190,7 @@ setMethod(f = "show",
             theGroups <- getGroups(x = object)
 
             vertAttribs <- length(thePoints)
-            featureAttribs <- names(theFeatures)[!names(theFeatures) %in% c("fid", "gid")]
+            featureAttribs <- names(theFeatures)[!names(theFeatures) %in% c("fid")]
             groupAttribs <- names(theGroups)[!names(theGroups) %in% c("gid")]
 
             myAttributes <- NULL
@@ -227,6 +232,7 @@ setMethod(f = "show",
                 myGrp <- "groups"
               }
               theFeats <- theFeatures$fid
+              featureAttribs <- featureAttribs[-which(featureAttribs == "gid")]
               if(length(unique(theFeats)) == 1){
                 myFeat <- "feature"
               } else {
