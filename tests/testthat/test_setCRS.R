@@ -45,7 +45,7 @@ test_that("setCRS of a Spatial object", {
 })
 
 test_that("setCRS of an sf object", {
-  input <- gtSF$polygon
+  input <- gc_sf(gtGeoms$polygon)
 
   # setting a CRS on a sf that hasn't had one before
   output <- setCRS(x = input, crs = "+proj=eck4 +lon_0=0 +x_0=0 +y_0=0 +ellps=WGS84 +datum=WGS84 +units=m")

@@ -23,21 +23,25 @@ test_that("subset of a 'geom'", {
 })
 
 test_that("subset of a Spatial* object", {
-  input <- gtSP$SpatialPointsDataFrame
+  input <- gc_sp(input = gtGeoms$point)
+  input <- SpatialPointsDataFrame(input, data.frame(data = 9:1), match.ID = TRUE)
 
   # based on a condition
-  output <- gt_filter(obj = input, a == 2)
+  output <- gt_filter(obj = input, data == 2)
   expect_class(output, "geom")
   expect_true(dim(output@point)[1] == 1)
   expect_true(dim(output@point)[1] < length(input))
 })
 
 test_that("subset of a sf object", {
-  input <- gtSF$point
+  temp <- gtGeoms$point
+  temp@feature$gid <- temp@feature$fid
+  input <- gc_sf(temp)
+  input <- cbind(input, data = c(1, 1, 1, 1, 2, 2, 2, 2, 2))
 
   # based on a condition
-  output <- gt_filter(obj = input, a == 2)
+  output <- gt_filter(obj = input, data == 2)
   expect_class(output, "geom")
-  expect_true(dim(output@point)[1] == 1)
-  expect_true(dim(output@point)[1] < length(input))
+  expect_true(dim(output@point)[1] == 5)
+  expect_true(dim(output@point)[1] < dim(input)[1])
 })

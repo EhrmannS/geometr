@@ -18,7 +18,7 @@ test_that("getHistory of a geom", {
 })
 
 test_that("getHistory of a RasterLayer", {
-  input <- gtRasters$categorical
+  input <- gc_raster(gtGeoms$grid$categorical)
   input@history <- list("bla")
 
   output <- getHistory(input)
@@ -27,7 +27,8 @@ test_that("getHistory of a RasterLayer", {
 
 test_that("getHistory of a RasteBrick", {
   # seems like I don't have a brick within this package, so I create a random one
-  input <- brick(gtRasters)
+  input <- raster::brick(list(gc_raster(gtGeoms$grid$categorical),
+                              gc_raster(gtGeoms$grid$continuous)))
   input@history <- list("bla")
 
   output <- getHistory(input)
@@ -35,7 +36,8 @@ test_that("getHistory of a RasteBrick", {
 })
 
 test_that("getHistory of a RasteStack", {
-  input <- stack(gtRasters)
+  input <- raster::stack(list(gc_raster(gtGeoms$grid$categorical),
+                              gc_raster(gtGeoms$grid$continuous)))
   input@history <- list("bla")
 
   output <- getHistory(input)

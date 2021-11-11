@@ -25,7 +25,8 @@ test_that("setFeatures of a 'geom'", {
 })
 
 test_that("setFeatures of a Spatial*DataFrame object", {
-  input <- gtSP$SpatialPolygonsDataFrame
+  input <- gc_sp(input = gtGeoms$polygon)
+  input <- SpatialPolygonsDataFrame(input, data = data.frame(data = 1:2), match.ID = FALSE)
   newData1 <- data.frame(x = c("a", "b"))
   newData2 <- data.frame(a = 1:2, x = c("a", "b"))
 
@@ -33,23 +34,24 @@ test_that("setFeatures of a Spatial*DataFrame object", {
   output <- setFeatures(x = input, table = newData1)
   expect_class(output, "SpatialPolygonsDataFrame")
   expect_data_frame(output@data, nrows = 2, ncols = 2)
-  expect_names(names(output@data), must.include = c("a", "x"))
+  expect_names(names(output@data), must.include = c("data", "x"))
 
   # with matcing columns in x
   output <- setFeatures(x = input, table = newData2)
   expect_class(output, "SpatialPolygonsDataFrame")
-  expect_data_frame(output@data, nrows = 2, ncols = 2)
+  expect_data_frame(output@data, nrows = 2, ncols = 3)
   expect_names(names(output@data), must.include = c("a", "x"))
 })
 
 test_that("setFeatures of a Spatial* objects", {
   newData1 <- data.frame(x = c("a", "b"))
-  newData2 <- data.frame(x = 1:4)
+  newData2 <- data.frame(x = 9:1)
 
   # SpatialPoints
-  output <- setFeatures(x = gtSP$SpatialPoints, table = newData2)
+  input <- gc_sp(input = gtGeoms$point)
+  output <- setFeatures(x = input, table = newData2)
   expect_class(output, "SpatialPointsDataFrame")
-  expect_data_frame(output@data, nrows = 4, ncols = 1)
+  expect_data_frame(output@data, nrows = 9, ncols = 1)
   expect_names(names(output@data), must.include = c("x"))
 
   # SpatialPixel
@@ -61,91 +63,75 @@ test_that("setFeatures of a Spatial* objects", {
   expect_data_frame(output@data, nrows = 3103, ncols = 1)
   expect_names(names(output@data), must.include = c("data"))
 
-  # SpatialMultiPoints
-  output <- setFeatures(x = gtSP$SpatialMultiPoints, table = newData1)
-  expect_class(output, "SpatialMultiPointsDataFrame")
-  expect_data_frame(output@data, nrows = 2, ncols = 1)
-  expect_names(names(output@data), must.include = c("x"))
+  # # SpatialMultiPoints
+  # output <- setFeatures(x = gtSP$SpatialMultiPoints, table = newData1)
+  # expect_class(output, "SpatialMultiPointsDataFrame")
+  # expect_data_frame(output@data, nrows = 2, ncols = 1)
+  # expect_names(names(output@data), must.include = c("x"))
 
   # SpatialLines
-  output <- setFeatures(x = gtSP$SpatialLines, table = newData1)
+  input <- gc_sp(input = gtGeoms$line)
+  output <- setFeatures(x = input, table = newData1)
   expect_class(output, "SpatialLinesDataFrame")
   expect_data_frame(output@data, nrows = 2, ncols = 1)
   expect_names(names(output@data), must.include = c("x"))
 
   # SpatialPolygons
-  output <- setFeatures(x = gtSP$SpatialPolygons, table = newData1)
+  input <- gc_sp(input = gtGeoms$polygon)
+  output <- setFeatures(x = input, table = newData1)
   expect_class(output, "SpatialPolygonsDataFrame")
   expect_data_frame(output@data, nrows = 2, ncols = 1)
   expect_names(names(output@data), must.include = c("x"))
 })
 
 test_that("setFeatures of an sf object", {
-  newData1 <- data.frame(x = c("a", "b"))
+  newData1 <- data.frame(x = c(letters[1:9]))
   newData2 <- data.frame(a = c(1, 2), x = c("a", "b"))
 
   # test POINT
-  input <- gtSF$point
+  temp <- gtGeoms$point
+  temp@feature$gid <- temp@feature$fid
+  input <- gc_sf(temp)
   output <- setFeatures(x = input, newData1)
   expect_class(output, classes = c("sf", "data.frame"))
-  expect_data_frame(x = output, nrows = 2, ncols = 3)
-  output <- setFeatures(x = input, newData2)
-  expect_class(output, classes = c("sf", "data.frame"))
-  expect_data_frame(x = output, nrows = 2, ncols = 3)
+  expect_data_frame(x = output, nrows = 9, ncols = 2)
 
   # test MULITPOINT
-  input <- gtSF$multipoint
-  output <- setFeatures(x = input, newData1)
-  expect_class(output, classes = c("sf", "data.frame"))
-  expect_data_frame(x = output, nrows = 2, ncols = 3)
+  input <- gc_sf(gtGeoms$point)
   output <- setFeatures(x = input, newData2)
   expect_class(output, classes = c("sf", "data.frame"))
   expect_data_frame(x = output, nrows = 2, ncols = 3)
 
   # test LINESTRING
-  sfObj <- gtSF$linestring
-  output <- setFeatures(x = input, newData1)
-  expect_class(output, classes = c("sf", "data.frame"))
-  expect_data_frame(x = output, nrows = 2, ncols = 3)
+  input <- gc_sf(gtGeoms$line)
   output <- setFeatures(x = input, newData2)
   expect_class(output, classes = c("sf", "data.frame"))
   expect_data_frame(x = output, nrows = 2, ncols = 3)
 
   # test MULTILINESTRING
-  sfObj <- gtSF$multilinestring
-  output <- setFeatures(x = input, newData1)
+  temp <- gtGeoms$line
+  temp@feature$gid <- 1
+  temp@group$gid <- 1
+  input <- gc_sf(temp)
+  output <- setFeatures(x = input, newData2[1,])
   expect_class(output, classes = c("sf", "data.frame"))
-  expect_data_frame(x = output, nrows = 2, ncols = 3)
-  output <- setFeatures(x = input, newData2)
-  expect_class(output, classes = c("sf", "data.frame"))
-  expect_data_frame(x = output, nrows = 2, ncols = 3)
+  expect_data_frame(x = output, nrows = 1, ncols = 3)
 
   # test POLYGON
-  sfObj <- gtSF$polygon
-  output <- setFeatures(x = input, newData1)
-  expect_class(output, classes = c("sf", "data.frame"))
-  expect_data_frame(x = output, nrows = 2, ncols = 3)
+  input <- gc_sf(gtGeoms$polygon)
   output <- setFeatures(x = input, newData2)
   expect_class(output, classes = c("sf", "data.frame"))
   expect_data_frame(x = output, nrows = 2, ncols = 3)
 
   # test MULTIPOLYGON
-  sfObj <- gtSF$multipolygon
-  output <- setFeatures(x = input, newData1)
-  expect_class(output, classes = c("sf", "data.frame"))
-  expect_data_frame(x = output, nrows = 2, ncols = 3)
-  output <- setFeatures(x = input, newData2)
-  expect_class(output, classes = c("sf", "data.frame"))
-  expect_data_frame(x = output, nrows = 2, ncols = 3)
-})
+  temp <- gtGeoms$polygon
+  temp@feature$gid <- 1
+  temp@group$gid <- 1
+  input <- gc_sf(temp)
 
-test_that("setFeatures of an sfc object", {
-  newData <- data.frame(x = c("a", "b"))
-
-  input <- st_geometry(gtSF$point)
-  output <- setFeatures(x = input, newData)
+  output <- setFeatures(x = input, newData2[1,])
   expect_class(output, classes = c("sf", "data.frame"))
-  expect_data_frame(x = output, nrows = 2, ncols = 2)
+  expect_data_frame(x = output, nrows = 1, ncols = 3)
 })
 
 

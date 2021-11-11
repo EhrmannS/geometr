@@ -21,7 +21,7 @@ test_that("identifying in a geom works", {
 })
 
 test_that("locating in a raster works", {
-  visualise(gtRasters$continuous)
+  visualise(gc_raster(gtGeoms$grid$continuous))
 
   output <- gt_locate()
   expect_data_frame(x = output)

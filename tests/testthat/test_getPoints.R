@@ -18,25 +18,25 @@ test_that("getPoints of a 'geom'", {
 })
 
 test_that("getPoints of a Spatial* object", {
-  input1 <- gtSP$SpatialPoints
-  input2 <- gtSP$SpatialPolygons
+  input1 <- gc_sp(input = gtGeoms$point)
+  input2 <- gc_sp(input = gtGeoms$polygon)
 
   # point should have as many coordinates as points
   output <- getPoints(x = input1)
-  expect_data_frame(output, any.missing = FALSE, nrows = 4, ncols = 3)
+  expect_data_frame(output, any.missing = FALSE, nrows = 9, ncols = 3)
   expect_names(names(output), identical.to = c("x", "y", "fid"))
 
   # polygon should have one point duplicated, hence, 5 times as many points as features
   output <- getPoints(x = input2)
-  expect_data_frame(output, any.missing = FALSE, nrows = 15, ncols = 3)
+  expect_data_frame(output, any.missing = FALSE, nrows = 11, ncols = 3)
   expect_names(names(output), identical.to = c("x", "y", "fid"))
 })
 
 test_that("getPoints of an sf object", {
-  input <- gtSF$polygon
+  input <- gc_sf(gtGeoms$polygon)
 
   output <- getPoints(x = input)
-  expect_data_frame(output, any.missing = FALSE, nrows = 15, ncols = 3)
+  expect_data_frame(output, any.missing = FALSE, nrows = 11, ncols = 3)
   expect_names(names(output), identical.to = c("x", "y", "fid"))
 })
 

@@ -14,7 +14,7 @@ test_that("getExtent of a geom", {
 })
 
 test_that("getExtent of a Spatial* object", {
-  input <- gtSP$SpatialPoints
+  input <- gc_sp(input = gtGeoms$point)
 
   output <- getExtent(input)
   expect_data_frame(output, any.missing = FALSE, nrows = 2, ncols = 2)
@@ -22,7 +22,9 @@ test_that("getExtent of a Spatial* object", {
 })
 
 test_that("getExtent of an sf object", {
-  input <- gtSF$point
+  temp <- gtGeoms$point
+  temp@feature$gid <- temp@feature$fid
+  input <- gc_sf(temp)
 
   output <- getExtent(input)
   expect_data_frame(output, any.missing = FALSE, nrows = 2, ncols = 2)

@@ -14,7 +14,7 @@ test_that("getCRS of a geom", {
 })
 
 test_that("getCRS of a Spatial object", {
-  input <- gtSP$SpatialPoints
+  input <- gc_sp(input = gtGeoms$point)
   proj4string(input) <- CRS("+proj=longlat +datum=WGS84")
 
   output <- getCRS(input)
@@ -22,7 +22,10 @@ test_that("getCRS of a Spatial object", {
 })
 
 test_that("getExtent of an sf object", {
-  input <- gtSF$point
+  temp <- gtGeoms$point
+  temp@feature$gid <- temp@feature$fid
+  input <- gc_sf(temp)
+
   input <- setCRS(x = input, crs = "+proj=laea +lat_0=52 +lon_0=10 +x_0=4321000 +y_0=3210000 +ellps=GRS80 +units=m +no_defs")
 
   output <- getCRS(input)

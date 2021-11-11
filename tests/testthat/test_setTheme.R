@@ -11,7 +11,7 @@ test_that("not plotting objects", {
                       yAxis = list(plot = FALSE),
                       grid = list(plot = FALSE),
                       legend = list(plot = FALSE))
-  output <- visualise(gtRasters$categorical, theme = myTheme)
+  output <- visualise(gc_raster(gtGeoms$grid$categorical), theme = myTheme)
   expect_class(output, "recordedplot")
 })
 
@@ -22,12 +22,12 @@ test_that("showing the theme", {
 
 test_that("modifying title works", {
   myTheme <- setTheme(title = list(plot = FALSE))
-  output <- visualise(raster = gtRasters$continuous, theme = myTheme)
+  output <- visualise(raster = gc_raster(gtGeoms$grid$continuous), theme = myTheme)
   expect_class(output, "recordedplot")
 
   myTheme <- setTheme(title = list(fontsize = 12,
                                    colour = "grey"))
-  output <- visualise(raster = gtRasters$continuous, theme = myTheme)
+  output <- visualise(raster = gc_raster(gtGeoms$grid$continuous), theme = myTheme)
   expect_class(output, "recordedplot")
 })
 
@@ -37,12 +37,11 @@ test_that("modifying box works", {
                                  linetype = "dashed",
                                  linecol = "black"))
 
-  output <- visualise(raster = gtRasters$continuous, theme = myTheme)
+  output <- visualise(raster = gc_raster(gtGeoms$grid$continuous), theme = myTheme)
   expect_class(output, "recordedplot")
 })
 
 test_that("modifying xAxis works", {
-  continuous <<- gtRasters$continuous
   myTheme <- setTheme(xAxis = list(plot = TRUE,
                                    bins = 8,
                                    margin = 0.01,
@@ -58,7 +57,7 @@ test_that("modifying xAxis works", {
                                      colour = "grey",
                                      digits = 0)))
 
-  output <- visualise(raster = continuous, theme = myTheme)
+  output <- visualise(raster = gc_raster(gtGeoms$grid$continuous), theme = myTheme)
   expect_class(output, "recordedplot")
 })
 
@@ -78,7 +77,7 @@ test_that("modifying yAxis works", {
                                      colour = "grey",
                                      digits = 0)))
 
-  output <- visualise(raster = gtRasters$continuous, theme = myTheme)
+  output <- visualise(raster = gc_raster(gtGeoms$grid$continuous), theme = myTheme)
   expect_class(output, "recordedplot")
 })
 
@@ -89,7 +88,7 @@ test_that("modifying grid works", {
                                   linetype = "dashed",
                                   linewidth = 2),
                       xAxis = list(bins = 6))
-  output <- visualise(raster = gtRasters$continuous, theme = myTheme)
+  output <- visualise(raster = gc_raster(gtGeoms$grid$continuous), theme = myTheme)
   expect_class(output, "recordedplot")
 })
 
@@ -106,7 +105,7 @@ test_that("modifying legend works", {
                                       linetype = "dashed",
                                       linewidth = 1,
                                       colour = "black")))
-  output <- visualise(raster = gtRasters$continuous, theme = myTheme)
+  output <- visualise(raster = gc_raster(gtGeoms$grid$continuous), theme = myTheme)
   expect_class(output, "recordedplot")
 })
 
@@ -138,7 +137,7 @@ test_that("modifying geom works", {
 
 test_that("modifying raster works", {
   myTheme <- setTheme(parameters = list(colours = terrain.colors(10)))
-  output <- visualise(raster = gtRasters$continuous, theme = myTheme)
+  output <- visualise(raster = gc_raster(gtGeoms$grid$continuous), theme = myTheme)
   expect_class(output, "recordedplot")
 })
 

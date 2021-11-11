@@ -37,7 +37,7 @@ test_that("setWindow for geom based on bbox", {
   coords <- data.frame(x = c(40, 70, 70, 50),
                        y = c(40, 40, 60, 70),
                        fid = 1)
-  window <- st_bbox(gtSF$linestring)
+  window <- st_bbox(gc_sf(gtGeoms$line))
   input <- gs_polygon(anchor = coords)
 
   output <- setWindow(input, window)
