@@ -6,6 +6,23 @@
 #'   extent of \code{x}. This table two columns (x and y) and two rows (minimum
 #'   and maximum).
 #' @family getters
+#' @examples
+#'
+#' getExtent(gtGeoms$line)
+#'
+#' gc_sp(gtGeoms$line) %>%
+#'   getExtent()
+#'
+#' gc_sf(gtGeoms$line) %>%
+#'   getExtent()
+#'
+#' gc_raster(gtGeoms$grid$categorical) %>%
+#'   getExtent()
+#'
+#' gc_terra(gtGeoms$grid$categorical) %>%
+#'   getExtent()
+#'
+#' getExtent(x = matrix(0, 3, 5))
 #' @name getExtent
 #' @rdname getExtent
 NULL
@@ -32,8 +49,6 @@ setMethod(f = "getExtent",
 
 # geom ----
 #' @rdname getExtent
-#' @examples
-#' getExtent(gtGeoms$polygon)
 #' @importFrom tibble tibble
 #' @export
 setMethod(f = "getExtent",
@@ -56,9 +71,6 @@ setMethod(f = "getExtent",
 
 # Spatial ----
 #' @rdname getExtent
-#' @examples
-#'
-#' getExtent(x = gtSP$SpatialPolygons)
 #' @importFrom raster extent
 #' @importFrom tibble tibble
 #' @export
@@ -73,9 +85,6 @@ setMethod(f = "getExtent",
 
 # sf ----
 #' @rdname getExtent
-#' @examples
-#'
-#' getExtent(x = gtSF$multilinestring)
 #' @importFrom sf st_bbox
 #' @importFrom tibble tibble
 #' @export
@@ -88,11 +97,8 @@ setMethod(f = "getExtent",
           }
 )
 
-# Raster ----
+# raster ----
 #' @rdname getExtent
-#' @examples
-#'
-#' getExtent(x = gtRasters$categorical)
 #' @importFrom raster extent
 #' @importFrom dplyr bind_cols
 #' @export
@@ -105,11 +111,22 @@ setMethod(f = "getExtent",
           }
 )
 
+# terra ----
+#' @rdname getExtent
+#' @importFrom terra ext
+#' @importFrom dplyr bind_cols
+#' @export
+setMethod(f = "getExtent",
+          signature = "SpatRaster",
+          definition = function(x){
+            ext <- ext(x)
+            bind_cols(x = c(ext[1], ext[2]),
+                      y = c(ext[3], ext[4]))
+          }
+)
+
 # matrix ----
 #' @rdname getExtent
-#' @examples
-#'
-#' getExtent(x = matrix(0, 3, 5))
 #' @importFrom dplyr bind_cols
 #' @export
 setMethod(f = "getExtent",

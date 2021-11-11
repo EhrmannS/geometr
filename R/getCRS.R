@@ -4,6 +4,25 @@
 #' @param ... other arguments.
 #' @return The coordinate reference system of \code{x} given as proj4string.
 #' @family getters
+#' @examples
+#' obj <- gtGeoms$line %>%
+#'   setCRS("+proj=longlat +datum=WGS84 +no_defs")
+#'
+#' getCRS(obj)
+#'
+#' gc_sp(obj) %>%
+#'   getCRS()
+#'
+#' gc_sf(obj) %>%
+#'   getCRS()
+#'
+#' gc_raster(gtGeoms$grid$categorical) %>%
+#'   getCRS()
+#'
+#' gc_terra(gtGeoms$grid$categorical) %>%
+#'   getCRS()
+#'
+#' getCRS(x = matrix(0, 3, 5))
 #' @name getCRS
 #' @rdname getCRS
 NULL
@@ -66,15 +85,23 @@ setMethod(f = "getCRS",
           }
 )
 
-# Raster ----
+# raster ----
 #' @rdname getCRS
-#' @examples
-#'
-#' getCRS(x = gtRasters$categorical)
 #' @export
 setMethod(f = "getCRS",
           signature = 'Raster',
           definition = function(x){
             as.character(x@crs)
+          }
+)
+
+# terra ----
+#' @rdname getCRS
+#' @importFrom terra crs
+#' @export
+setMethod(f = "getCRS",
+          signature = 'SpatRaster',
+          definition = function(x){
+            crs(x, proj = TRUE)
           }
 )

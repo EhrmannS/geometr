@@ -22,7 +22,6 @@ setGeneric(name = "gc_raster",
 
 # geom ----
 #' @rdname gc_raster
-#' @importFrom checkmate assertClass
 #' @importFrom raster raster ratify
 #' @importFrom stats setNames
 #' @export
@@ -47,7 +46,7 @@ setMethod(f = "gc_raster",
               theRasters <- list()
               for(i in seq_along(theNames)){
 
-                mat <- matrix(data = unlist(theFeatures[theNames[i]], use.names = F),
+                mat <- matrix(data = unlist(theFeatures["gid"], use.names = F),
                               nrow = input@point$y[2],
                               ncol = input@point$x[2], byrow = TRUE)
                 out <- raster(x = mat, crs = theCRS,
@@ -60,7 +59,7 @@ setMethod(f = "gc_raster",
                 }
                 out <- setHistory(x = out, history = paste0("raster '", theNames[i], "' was transformed from an object of class geom."))
 
-                theRasters <- c(theRasters, setNames(object = list(out), nm = theNames[i]))
+                theRasters <- c(theRasters, stats::setNames(object = list(out), nm = theNames[i]))
               }
 
               if(length(theRasters) > 1){

@@ -1,11 +1,32 @@
 #' Get the reference window of a spatial object.
 #'
+#' The extent of an area that encompasses an object, which is at least the
+#' objects extent, or larger.
 #' @param x the object from which to derive the reference window.
 #' @param ... other arguments.
+#' @details Calling \code{getWindow} on spatial classes that do not have a
+#'   window attribute returns the same value as \code{getExtent}.
 #' @return A tibble of the corner coordinates of the reference window of
-#'   \code{x}. This table two columns (x and y) and two rows (minimum and
+#'   \code{x}. This table has two columns (x and y) and two rows (minimum and
 #'   maximum).
 #' @family getters
+#' @examples
+#'
+#' getWindow(gtGeoms$line)
+#'
+#' gc_sp(gtGeoms$line) %>%
+#'   getWindow()
+#'
+#' gc_sf(gtGeoms$line) %>%
+#'   getWindow()
+#'
+#' gc_raster(gtGeoms$grid$categorical) %>%
+#'   getWindow()
+#'
+#' gc_terra(gtGeoms$grid$categorical) %>%
+#'   getWindow()
+#'
+#' getWindow(x = matrix(0, 3, 5))
 #' @name getWindow
 #' @rdname getWindow
 NULL
@@ -32,9 +53,6 @@ setMethod(f = "getWindow",
 
 # geom ----
 #' @rdname getWindow
-#' @examples
-#'
-#' getWindow(x = gtGeoms$line)
 #' @importFrom tibble as_tibble
 #' @export
 setMethod(f = "getWindow",
@@ -46,9 +64,6 @@ setMethod(f = "getWindow",
 
 # Spatial ----
 #' @rdname getWindow
-#' @examples
-#'
-#' getWindow(x = gtSP$SpatialLines)
 #' @importFrom raster extent
 #' @importFrom tibble tibble
 #' @export
@@ -63,9 +78,6 @@ setMethod(f = "getWindow",
 
 # sf ----
 #' @rdname getWindow
-#' @examples
-#'
-#' getWindow(x = gtSF$multilinestring)
 #' @importFrom sf st_bbox
 #' @importFrom tibble tibble
 #' @export
@@ -78,11 +90,8 @@ setMethod(f = "getWindow",
           }
 )
 
-# Raster ----
+# raster ----
 #' @rdname getWindow
-#' @examples
-#'
-#' getWindow(x = gtRasters$categorical)
 #' @importFrom raster extent
 #' @importFrom dplyr bind_cols
 #' @export
@@ -95,11 +104,22 @@ setMethod(f = "getWindow",
           }
 )
 
+# terra ----
+#' @rdname getWindow
+#' @importFrom terra ext
+#' @importFrom dplyr bind_cols
+#' @export
+setMethod(f = "getWindow",
+          signature = "SpatRaster",
+          definition = function(x){
+            ext <- ext(x)
+            bind_cols(x = c(ext[1], ext[2]),
+                      y = c(ext[3], ext[4]))
+          }
+)
+
 # matrix ----
 #' @rdname getWindow
-#' @examples
-#'
-#' getWindow(x = matrix(0, 3, 5))
 #' @importFrom dplyr bind_cols
 #' @export
 setMethod(f = "getWindow",

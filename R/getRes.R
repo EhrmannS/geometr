@@ -5,6 +5,17 @@
 #' @return A vector of two values of the spatial resolution of \code{x} in x and
 #'   y dimension.
 #' @family getters
+#' @examples
+#'
+#' getRes(gtGeoms$grid$categorical)
+#'
+#' gc_raster(gtGeoms$grid$categorical) %>%
+#'   getRes()
+#'
+#' gc_terra(gtGeoms$grid$categorical) %>%
+#'   getRes()
+#'
+#' getRes(x = matrix(0, 3, 5))
 #' @name getRes
 #' @rdname getRes
 NULL
@@ -31,8 +42,6 @@ setMethod(f = "getRes",
 
 # geom ----
 #' @rdname getRes
-#' @examples
-#' getRes(x = gtGeoms$grid$continuous)
 #' @export
 setMethod(f = "getRes",
           signature = "geom",
@@ -49,12 +58,8 @@ setMethod(f = "getRes",
           }
 )
 
-# Raster* ----
+# raster ----
 #' @rdname getRes
-#' @examples
-#'
-#' getRes(x = gtRasters$categorical)
-#' @importFrom tibble tibble
 #' @importFrom raster res
 #' @export
 setMethod(f = "getRes",
@@ -66,11 +71,20 @@ setMethod(f = "getRes",
           }
 )
 
+# terra ----
+#' @rdname getRes
+#' @importFrom terra res
+#' @export
+setMethod(f = "getRes",
+          signature = "SpatRaster",
+          definition = function(x){
+            temp <- res(x)
+            c(temp[1], temp[2])
+          }
+)
+
 # matrix ----
 #' @rdname getRes
-#' @examples
-#'
-#' getRes(x = matrix(0, 3, 5))
 #' @importFrom tibble tibble
 #' @export
 setMethod(f = "getRes",

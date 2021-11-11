@@ -9,10 +9,22 @@
 #'   of \code{x}.
 #' @family getters
 #' @examples
-#' getFeatures(x = gtGeoms$polygon)
 #'
-#' getFeatures(x = gtRasters)
+#' getFeatures(gtGeoms$polygon)
 #'
+#' gc_sp(gtGeoms$polygon) %>%
+#'   getFeatures()
+#'
+#' gc_sf(gtGeoms$polygon) %>%
+#'   getFeatures()
+#'
+#' gc_raster(gtGeoms$grid$categorical) %>%
+#'   getFeatures()
+#'
+#' gc_terra(gtGeoms$grid$categorical) %>%
+#'   getFeatures()
+#'
+#' getFeatures(x = matrix(0, 3, 5))
 #' @name getFeatures
 #' @rdname getFeatures
 NULL
@@ -56,7 +68,7 @@ setMethod(f = "getFeatures",
                              values = theFeatures$val)
                 attr(temp, "class") <- "rle"
                 temp <- inverse.rle(temp)
-                tempFeatures <- tibble(fid = seq_along(temp), values = temp)
+                tempFeatures <- tibble(fid = seq_along(temp), gid = temp)
               } else {
                 tempFeatures <- tibble(fid = 1:dim(theFeatures)[1])
                 tempFeatures <- bind_cols(tempFeatures, theFeatures)
@@ -202,8 +214,10 @@ setMethod(f = "getFeatures",
                 data <- x
                 st_geometry(data) <- NULL
                 fids <- seq_along(theCoords[, 1])
-                new <- tibble(fid = fids, gid = fids)
-                out <- bind_cols(new, data)
+                out <- tibble(fid = fids, gid = fids)
+                if(dim(data)[2] != 0){
+                  out <- bind_cols(out, data)
+                }
                 colnames(out) <- c("fid", "gid", names(data))
 
               } else if(sourceClass %in% c("MULTIPOINT")){
@@ -212,7 +226,10 @@ setMethod(f = "getFeatures",
                 st_geometry(data) <- NULL
                 fids <- seq_along(theCoords[, 1])
                 gids <- theCoords[, 3]
-                out <- tibble(fid = fids, gid = gids, theCoords[,3])
+                out <- tibble(fid = fids, gid = gids)
+                if(dim(data)[2] != 0){
+                  out <- bind_cols(out, data)
+                }
                 colnames(out) <- c("fid", "gid", names(data))
 
               } else if(sourceClass %in% c("LINESTRING")){
@@ -220,8 +237,10 @@ setMethod(f = "getFeatures",
                 data <- x
                 st_geometry(data) <- NULL
                 fids <- unique(theCoords[, 3])
-                new <- tibble(fid = fids, gid = fids)
-                out <- bind_cols(new, data)
+                out <- tibble(fid = fids, gid = fids)
+                if(dim(data)[2] != 0){
+                  out <- bind_cols(out, data)
+                }
                 colnames(out) <- c("fid", "gid", names(data))
 
               } else if(sourceClass %in% c("MULTILINESTRING")){
@@ -236,10 +255,12 @@ setMethod(f = "getFeatures",
                 fids <- seq_along(toSeq$values)
                 gids <- summarise(group_by(as_tibble(theCoords), L2), count = n_distinct(L1))
 
-                new <- tibble(fid = fids,
+                out <- tibble(fid = fids,
                               gid = rep(seq_along(gids$L2), gids$count))
-                data <- tibble(rep(data[,1], gids$count))
-                out <- bind_cols(new, data)
+                if(dim(data)[2] != 0){
+                  data <- tibble(rep(data[,1], gids$count))
+                  out <- bind_cols(out, data)
+                }
                 colnames(out) <- c("fid", "gid", dataNames)
 
               } else if(sourceClass %in% c("POLYGON")){
@@ -280,7 +301,7 @@ setMethod(f = "getFeatures",
           }
 )
 
-# Raster ----
+# raster ----
 #' @rdname getFeatures
 #' @importFrom tibble tibble as_tibble
 #' @importFrom dplyr bind_cols
@@ -309,6 +330,37 @@ setMethod(f = "getFeatures",
                   out <- c(out, setNames(list(tab), names(x)[i]))
                 }
               }
+            }
+            return(out)
+          }
+)
+
+# terra ----
+#' @rdname getFeatures
+#' @importFrom terra values
+#' @importFrom tibble tibble as_tibble
+#' @importFrom dplyr bind_cols
+#' @export
+setMethod(f = "getFeatures",
+          signature = "SpatRaster",
+          definition = function(x){
+
+            vals <- values(x)
+            out <- NULL
+            for(i in 1:dim(vals)[2]){
+              if(is.matrix(vals)){
+                temp <- vals[,i]
+              } else {
+                temp <- vals
+              }
+
+              tab <- tibble(fid = seq_along(temp), values = temp)
+              if(dim(x)[3] == 1){
+                out <- tab
+              } else {
+                out <- c(out, setNames(list(tab), names(x)[i]))
+              }
+
             }
             return(out)
           }

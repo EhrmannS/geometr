@@ -4,6 +4,17 @@
 #' @param ... other arguments.
 #' @return An integer of the number of rows.
 #' @family getters
+#' @examples
+#'
+#' getRows(gtGeoms$grid$categorical)
+#'
+#' gc_raster(gtGeoms$grid$categorical) %>%
+#'   getRows()
+#'
+#' gc_terra(gtGeoms$grid$categorical) %>%
+#'   getRows()
+#'
+#' getRows(x = matrix(0, 3, 5))
 #' @name getRows
 #' @rdname getRows
 NULL
@@ -30,8 +41,6 @@ setMethod(f = "getRows",
 
 # geom ----
 #' @rdname getRows
-#' @examples
-#' getRows(x = gtGeoms$grid$continuous)
 #' @export
 setMethod(f = "getRows",
           signature = "geom",
@@ -45,26 +54,30 @@ setMethod(f = "getRows",
           }
 )
 
-# RasterLayer ----
+# raster ----
 #' @rdname getRows
-#' @examples
-#'
-#' getRows(x = gtRasters$categorical)
 #' @importFrom raster nrow
 #' @export
 setMethod(f = "getRows",
           signature = "Raster",
           definition = function(x){
-            out <- nrow(x)
-            return(out)
+            nrow(x)
+          }
+)
+
+# terra ----
+#' @rdname getRows
+#' @importFrom terra nrow
+#' @export
+setMethod(f = "getRows",
+          signature = "SpatRaster",
+          definition = function(x){
+            nrow(x)
           }
 )
 
 # matrix ----
 #' @rdname getRows
-#' @examples
-#'
-#' getRows(x = matrix(0, 3, 5))
 #' @export
 setMethod(f = "getRows",
           signature = "matrix",

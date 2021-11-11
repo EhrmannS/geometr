@@ -5,6 +5,23 @@
 #' @return A list of the layers of \code{x}. Each list-item hast the result of
 #'   getNames(x) as name.
 #' @family getters
+#' @examples
+#'
+#' getLayers(gtGeoms$line)
+#'
+#' gc_sp(gtGeoms$line) %>%
+#'   getLayers()
+#'
+#' gc_sf(gtGeoms$line) %>%
+#'   getLayers()
+#'
+#' gc_raster(gtGeoms$grid$categorical) %>%
+#'   getLayers()
+#'
+#' gc_terra(gtGeoms$grid$categorical) %>%
+#'   getLayers()
+#'
+#' getLayers(x = matrix(0, 3, 5))
 #' @name getLayers
 #' @rdname getLayers
 NULL
@@ -31,7 +48,6 @@ setMethod(f = "getLayers",
 
 # geom ----
 #' @rdname getLayers
-#' @importFrom checkmate testNumeric assertIntegerish testCharacter assertSubset
 #' @export
 setMethod(f = "getLayers",
           signature = "geom",
@@ -51,23 +67,24 @@ setMethod(f = "getLayers",
 
               for(i in seq_along(theNames)){
 
-                tempFeatures <- tibble(values = as.vector(theFeatures[[theNames[i]]]))
+                tempFeatures <- tibble(values = as.vector(theFeatures[["gid"]]))
                 tempGroups <- theGroups[[i]]
                 tempName <- theNames[i]
 
                 temp <- new(Class = "geom",
                             type = x@type,
+                            name = x@name,
                             point = x@point,
                             feature = tempFeatures,
                             group = tempGroups,
                             window = x@window,
                             crs = x@crs,
                             history = x@history)
-                out <- c(out, setNames(list(temp), tempName))
+                out <- c(out, list(temp))
               }
 
             } else {
-              out <- setNames(list(x), paste0(getType(x)[1], "_geom"))
+              out <- list(x)
             }
 
             return(out)
@@ -80,8 +97,7 @@ setMethod(f = "getLayers",
 setMethod(f = "getLayers",
           signature = "Spatial",
           definition = function(x){
-            out <-list(x)
-            return(out)
+            list(x)
           }
 )
 
@@ -97,15 +113,13 @@ setMethod(f = "getLayers",
             geomName <- allNames[!allNames %in% noGeom]
 
             out <- setNames(list(x), geomName)
+            out <- list(x)
             return(out)
           }
 )
 
-# RasterLayer ----
+# raster ----
 #' @rdname getLayers
-#' @examples
-#' getLayers(x = gtRasters)
-#' @importFrom checkmate testNumeric assertIntegerish testCharacter assertSubset
 #' @export
 setMethod(f = "getLayers",
           signature = "Raster",
@@ -114,12 +128,29 @@ setMethod(f = "getLayers",
             # extract objects and assign history if that was set
             out <- lapply(1:dim(x)[3], function(y){
               t <- x[[y]]
-              if(length(x@history) != 0){
-                t@history <- x@history
+              if(class(x) == "RasterBrick" & length(t@data@attributes) != 0){
+                t@data@attributes <- t@data@attributes[[1]]
               }
               return(t)
             })
-            names(out) <- names(x)
+            # names(out) <- names(x)
+
+            return(out)
+          }
+)
+
+# terra ----
+#' @rdname getLayers
+#' @export
+setMethod(f = "getLayers",
+          signature = "SpatRaster",
+          definition = function(x){
+
+            out <- lapply(1:dim(x)[3], function(y){
+              t <- x[[y]]
+              return(t)
+            })
+            # names(out) <- names(x)
 
             return(out)
           }
@@ -131,7 +162,6 @@ setMethod(f = "getLayers",
 setMethod(f = "getLayers",
           signature = "matrix",
           definition = function(x){
-            out <- list(x)
-            return(out)
+            list(x)
           }
 )

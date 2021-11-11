@@ -10,14 +10,28 @@
 #'   in each layer, merely with a different, layer-specific value.
 #' @return A tibble of the point coordinates of \code{x}.
 #' @examples
-#' getPoints(x = gtGeoms$polygon)
 #'
 #' getPoints(x = gtGeoms$point)
+#' getPoints(x = gtGeoms$polygon)
 #'
 #' # for raster objects, the @point slot is extracted from its compact form
 #' gtGeoms$grid$continuous@point
 #'
 #' getPoints(x = gtGeoms$grid$continuous)
+#'
+#' gc_sp(gtGeoms$line) %>%
+#'   getPoints()
+#'
+#' gc_sf(gtGeoms$line) %>%
+#'   getPoints()
+#'
+#' gc_raster(gtGeoms$grid$categorical) %>%
+#'   getPoints()
+#'
+#' gc_terra(gtGeoms$grid$categorical) %>%
+#'   getPoints()
+#'
+#' getPoints(x = matrix(0, 3, 5))
 #' @family getters
 #' @name getPoints
 #' @rdname getPoints
@@ -217,7 +231,7 @@ setMethod(f = "getPoints",
           }
 )
 
-# Raster ----
+# raster ----
 #' @rdname getPoints
 #' @importFrom tibble tibble as_tibble
 #' @importFrom raster res
@@ -229,6 +243,26 @@ setMethod(f = "getPoints",
             res <- res(x)
             xGrid <- seq(from = x@extent@xmin, length.out = x@ncols, by = res[1]) + 0.5
             yGrid <- seq(from = x@extent@ymin, length.out = x@nrows, by = res[2]) + 0.5
+            out <- tibble(x = rep(xGrid, times = length(yGrid)),
+                          y = rep(yGrid, each = length(xGrid)),
+                          fid = seq(1:(length(xGrid)*length(yGrid))))
+            return(out)
+          }
+)
+
+# terra ----
+#' @rdname getPoints
+#' @importFrom tibble tibble
+#' @importFrom terra res ext ncol nrow
+#' @export
+setMethod(f = "getPoints",
+          signature = "SpatRaster",
+          definition = function(x){
+
+            res <- res(x)
+            ext <- ext(x)
+            xGrid <- seq(from = ext[1], length.out = ncol(x), by = res[1]) + 0.5
+            yGrid <- seq(from = ext[3], length.out = nrow(x), by = res[2]) + 0.5
             out <- tibble(x = rep(xGrid, times = length(yGrid)),
                           y = rep(yGrid, each = length(xGrid)),
                           fid = seq(1:(length(xGrid)*length(yGrid))))

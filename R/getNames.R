@@ -4,6 +4,19 @@
 #' @param ... other arguments.
 #' @return A vector of the names of \code{x}.
 #' @family getters
+#' @examples
+#'
+#' getNames(gtGeoms$line)
+#' getNames(gtGeoms$grid$categorical)
+#'
+#' gc_sf(gtGeoms$line) %>%
+#'   getNames()
+#'
+#' gc_raster(gtGeoms$grid$categorical) %>%
+#'   getNames()
+#'
+#' gc_terra(gtGeoms$grid$categorical) %>%
+#'   getNames()
 #' @name getNames
 #' @rdname getNames
 NULL
@@ -30,34 +43,18 @@ setMethod(f = "getNames",
 
 # geom ----
 #' @rdname getNames
-#' @examples
-#' getNames(x = gtGeoms$grid$continuous)
 #' @export
 setMethod(f = "getNames",
           signature = "geom",
           definition = function(x){
 
-            theFeatures <- x@feature
-            if(all(c("val", "len") %in% names(theFeatures))){
-              out <- "values"
-            } else {
-              out <- names(theFeatures)
-              out <- out[!out %in% c("fid", "gid")]
+            x@name
 
-              if(length(out) == 0){
-                out <- paste0(getType(x = x)[1], "_geom")
-              }
-            }
-
-            return(out)
           }
 )
 
 # sf ----
 #' @rdname getNames
-#' @examples
-#'
-#' getNames(x = gtSF$polygon)
 #' @importFrom sf st_drop_geometry
 #' @export
 setMethod(f = "getNames",
@@ -71,19 +68,38 @@ setMethod(f = "getNames",
           }
 )
 
-# RasterLayer ----
+# sp ----
 #' @rdname getNames
-#' @examples
-#'
-#' getNames(x = gtRasters)
-#' @importFrom checkmate testNumeric assertIntegerish testCharacter assertSubset
+#' @export
+setMethod(f = "getNames",
+          signature = "Spatial",
+          definition = function(x){
+            allNames <- names(x)
+
+            return(c("sp_obj"))
+          }
+)
+
+# raster ----
+#' @rdname getNames
 #' @export
 setMethod(f = "getNames",
           signature = "Raster",
           definition = function(x){
 
-            out <- names(x)
+            names(x)
 
-            return(out)
+          }
+)
+
+# terra ----
+#' @rdname getNames
+#' @export
+setMethod(f = "getNames",
+          signature = "SpatRaster",
+          definition = function(x){
+
+            names(x)
+
           }
 )

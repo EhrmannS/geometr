@@ -4,6 +4,17 @@
 #' @param ... other arguments.
 #' @return An integer of the number of columns.
 #' @family getters
+#' @examples
+#'
+#' getCols(gtGeoms$grid$categorical)
+#'
+#' gc_raster(gtGeoms$grid$categorical) %>%
+#'   getCols()
+#'
+#' gc_terra(gtGeoms$grid$categorical) %>%
+#'   getCols()
+#'
+#' getCols(x = matrix(0, 3, 5))
 #' @name getCols
 #' @rdname getCols
 NULL
@@ -30,8 +41,6 @@ setMethod(f = "getCols",
 
 # geom ----
 #' @rdname getCols
-#' @examples
-#' getCols(x = gtGeoms$grid$continuous)
 #' @export
 setMethod(f = "getCols",
           signature = "geom",
@@ -45,11 +54,8 @@ setMethod(f = "getCols",
           }
 )
 
-# RasterLayer ----
+# raster ----
 #' @rdname getCols
-#' @examples
-#'
-#' getCols(x = gtRasters$categorical)
 #' @importFrom raster ncol
 #' @export
 setMethod(f = "getCols",
@@ -60,11 +66,19 @@ setMethod(f = "getCols",
           }
 )
 
+# terra ----
+#' @rdname getCols
+#' @importFrom terra ncol
+#' @export
+setMethod(f = "getCols",
+          signature = "SpatRaster",
+          definition = function(x){
+            ncol(x)
+          }
+)
+
 # matrix ----
 #' @rdname getCols
-#' @examples
-#'
-#' getCols(x = matrix(0, 3, 5))
 #' @export
 setMethod(f = "getCols",
           signature = "matrix",

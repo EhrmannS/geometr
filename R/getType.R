@@ -5,6 +5,22 @@
 #' @return A vector of two values of the geometry type (point/line/polygon/grid)
 #'   and the specific main type/class of \code{x}.
 #' @family getters
+#' @examples
+#' getType(x = gtGeoms$point)
+#'
+#' gc_sp(gtGeoms$line) %>%
+#'   getType()
+#'
+#' gc_sf(gtGeoms$polygon) %>%
+#'   getType()
+#'
+#' gc_raster(gtGeoms$grid$categorical) %>%
+#'   getType()
+#'
+#' gc_terra(gtGeoms$grid$categorical) %>%
+#'   getType()
+#'
+#' getType(x = matrix(0, 3, 5))
 #' @name getType
 #' @rdname getType
 NULL
@@ -31,8 +47,6 @@ setMethod(f = "getType",
 
 # geom ----
 #' @rdname getType
-#' @examples
-#' getType(x = gtGeoms$point)
 #' @export
 setMethod(f = "getType",
           signature = "geom",
@@ -43,9 +57,6 @@ setMethod(f = "getType",
 
 # Spatial ----
 #' @rdname getType
-#' @examples
-#'
-#' getType(x = gtSP$SpatialPolygons)
 #' @export
 setMethod(f = "getType",
           signature = signature("Spatial"),
@@ -64,9 +75,6 @@ setMethod(f = "getType",
 
 # sf ----
 #' @rdname getType
-#' @examples
-#'
-#' getType(x = gtSF$multiline)
 #' @importFrom sf st_geometry_type
 #' @export
 setMethod(f = "getType",
@@ -84,11 +92,8 @@ setMethod(f = "getType",
           }
 )
 
-# RasterLayer ----
+# raster ----
 #' @rdname getType
-#' @examples
-#'
-#' getType(x = gtRasters$categorical)
 #' @export
 setMethod(f = "getType",
           signature = "Raster",
@@ -97,15 +102,22 @@ setMethod(f = "getType",
           }
 )
 
+# terra ----
+#' @rdname getType
+#' @export
+setMethod(f = "getType",
+          signature = "SpatRaster",
+          definition = function(x){
+            c("grid", class(x)[1])
+          }
+)
+
 # matrix ----
 #' @rdname getType
-#' @examples
-#'
-#' getType(x = matrix(0, 3, 5))
 #' @export
 setMethod(f = "getType",
           signature = "matrix",
           definition = function(x){
-            c("grid", "matrix")
+            c("grid", class(x)[1])
           }
 )
