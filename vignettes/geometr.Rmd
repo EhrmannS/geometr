@@ -155,13 +155,6 @@ getPoints(x = gtGeoms$grid$categorical)
 
 In contrast to `Raster*` objects of the `raster` package, the values in a grid `geom` are [*run-length encoded*](https://en.wikipedia.org/wiki/Run-length_encoding), in case that results in a smaller object, which is often the case for rasters with categorical values.
 
-```{r, fig.height=3.5}
-object.size(gtRasters$categorical)
-object.size(gtGeoms$grid$categorical)
-
-visualise(gtRasters$categorical, gtGeoms$grid$categorical)
-```
-
 As with points, the getter `getFeatures()` unpacks the `@feature` slot into its interoperable form.
 
 ```{r}
@@ -263,27 +256,31 @@ It becomes clear that this approach to attribute tables makes the class `geom` q
 One could for example assign some point specific measurements (such as [Arne Pommerening's](https://www.pommerening.org) Clocaenog 6 sample data) to the feature attribute table, and at the same time set group specific attributes to the group attribute table of a point `geom`.
 
 ```{r}
-clg_dat <- clocaenog$trees
-clg_spec <- clocaenog$species
-
 # make table of locations, tree properties and species metadata
-locations <- tibble(x = clg_dat$x,
-                    y = clg_dat$y,
-                    fid = clg_dat$Number)
-prop <- tibble(fid = clg_dat$Number,
-               gid = clg_dat$Species,
-               dbh = clg_dat$dbh,
-               height = clg_dat$ht)
-species <- tibble(gid = unique(clg_dat$Species)) %>% 
-  left_join(clg_spec, by = c("gid" = "NC")) %>% 
-  select(gid, name = CN, scientific = BN) %>% 
+locations <- clocaenog$trees %>% 
+  select(x = x,
+         y = y,
+         fid = Number)
+
+features <- clocaenog$trees %>% 
+  select(fid = Number,
+         gid = Species,
+         dbh = dbh,
+         height = ht)
+
+groups <- clocaenog$species %>% 
+  select(gid = NC, name = CN, scientific = BN)
+
+species <- features %>% 
+  left_join(groups, by = "gid") %>% 
+  select(gid, name, scientific) %>% 
+  distinct() %>% 
   mutate(deciduous = c(T, T, F, F, F, T, T, F, T, T, F)) %>% 
   arrange(gid)
 
-# set these as attribute tables and select only trees with a height value
-trees <- locations %>%
-  gs_point(anchor = .) %>%
-  setFeatures(table = prop) %>%
+# set these as feature and group attribute tables
+trees <- gs_point(locations) %>%
+  setFeatures(table = features) %>%
   setGroups(table = species)
 
 # make the title
@@ -294,6 +291,14 @@ title <- paste0("Clocaenog - tree heights (", dim(validpoints)[1], ")")
 visualise(!!title := trees, linecol = "height")
 ```
 
+When storing this data object as a `POINT` feature, species information have to be provided a duplicates (which can be very costly with certain data) and when storing it as `MULTIPOINT`, the feature attributes can only be dropped (or perhaps stored inside a non-tidy list column). A `geom` in contrast, allows storing those data consistently tidy and can easily be processed, for instance with the function `gt_filter`, that allows filtering any attribute in the features or groups attribute table.
+
+```{r}
+tall_conifers <- gt_filter(trees, deciduous == FALSE & height > 20, update = FALSE)
+
+visualise("Tree heights and tall conifers" = trees, linecol = "height")
+visualise(tall_conifers, new = FALSE, pointsymbol = 21, linecol = "red")
+```
 
 ## Data provenance
 
@@ -343,18 +348,18 @@ Moreover, it is possible to set the plot title by providing a name to the object
 In case a title is not provided in that way, the title is either extracted from the object name (for example, the raster in the following example is part of a `RasterStack` with the name `continuous`) or a default value is used.
 
 ```{r, fig.height=3.5}
-visualise('I made a polygon!' = aPoly, gtRasters$continuous)
+visualise('I made a polygon!' = aPoly, gc_raster(gtGeoms$grid$continuous))
 ```
 
 In case a `geom` is provided with a relative scale, the values are scaled between 0 and 1 and it is plotted by default relative to the plot extent.
 This allows, for example, to observe always the same region in a set of images, in which some signal changes, and eventually to extract the values.
-To this end, a `geom` would be provided with a reference window from which the relative values shall be derived and its' coordinates are scaled to those values.
+To this end, a `geom` would be provided with a reference windo0w from which the relative values shall be derived and its' coordinates are scaled to those values.
 
 ```{r, fig.height=3.5}
 relPoly <- gs_rectangle(anchor = aPoly) %>% 
   setWindow(to = tibble(x = c(0, 100), y = c(0, 100)))
 
-visualise(gtRasters$categorical, gtRasters$continuous)
+visualise(gtGeoms$grid$categorical, gtGeoms$grid$continuous)
 visualise(relPoly, linecol = "deeppink", new = FALSE)
 ```
 
@@ -366,10 +371,10 @@ The reference region for a plot can be set via the `window = ` argument in `visu
 To zoom in on `relPoly`, we thus have to assign the plot extent as window to `relPoly` and rescale the relative values to absolute values on that basis.
 
 ```{r}
-zoom <- gt_scale(obj = relPoly, range = getExtent(x = gtRasters$categorical)) %>% 
-  setWindow(to = getExtent(x = gtRasters$categorical))
+zoom <- gt_scale(obj = relPoly, range = getExtent(x = gtGeoms$grid$categorical)) %>% 
+  setWindow(to = getExtent(x = gtGeoms$grid$categorical))
   
-visualise('zoomed object' = gtRasters$categorical, window = getExtent(x = zoom))
+visualise('zoomed object' = gtGeoms$grid$categorical, window = getExtent(x = zoom))
 ```
 
 `visualise()` also allows to plot images, simply by providing an object that has the three layers `red`,  `green` and `blue` and setting `image = TRUE`.
