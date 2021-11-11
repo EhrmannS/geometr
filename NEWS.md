@@ -1,8 +1,12 @@
 # geometr 0.3.0 - fast visuals
 
-- revise `visualise` and all its' helpers to make plotting way faster.
-- fix a bug that would not allow zooming
+- revise `visualise` and all its' helpers to make plotting faster.
 
+# geometr 0.2.11
+
+- include SpatRaster support
+- exclude objects of other packages and instead reconstruct them with `gc_*` functions of geometr.
+- fix a bug that would not allow zooming
 
 # geoemtr 0.2.10
 
