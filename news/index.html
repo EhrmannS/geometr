@@ -79,7 +79,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">geometr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.10</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.11</span>
       </span>
     </div>
 
@@ -130,7 +130,16 @@
 <a href="#geometr-030---fast-visuals" class="anchor"></a>geometr 0.3.0 - fast visuals<small> Unreleased </small>
 </h1>
 <ul>
-<li>revise <code>visualise</code> and all its’ helpers to make plotting way faster.</li>
+<li>revise <code>visualise</code> and all its’ helpers to make plotting faster.</li>
+</ul>
+</div>
+    <div id="geometr-0211" class="section level1">
+<h1 class="page-header" data-toc-text="0.2.11">
+<a href="#geometr-0211" class="anchor"></a>geometr 0.2.11<small> Unreleased </small>
+</h1>
+<ul>
+<li>include SpatRaster support</li>
+<li>exclude objects of other packages and instead reconstruct them with <code>gc_*</code> functions of geometr.</li>
 <li>fix a bug that would not allow zooming</li>
 </ul>
 </div>
@@ -191,8 +200,8 @@
 <a href="#geometr-026" class="anchor"></a>geometr 0.2.6<small> Unreleased </small>
 </h1>
 <ul>
-<li>identifying and setting groups in gridded <code>geom</code>s has been refined. Several layers are by default stacked, but it is now also possible to create a list of separate <code>geom</code>s per layer with <code><a href="../reference/gc_geom.html">gc_geom(..., stack = FALSE)</a></code>.</li>
-<li>"images" are now handled by being able to create a grid geom with hexadecimal values by setting <code><a href="../reference/gc_geom.html">gc_geom(..., as_hex = TRUE)</a></code>.</li>
+<li>identifying and setting groups in gridded <code>geom</code>s has been refined. Several layers are by default stacked, but it is now also possible to create a list of separate <code>geom</code>s per layer with <code>gc_geom(..., stack = FALSE)</code>.</li>
+<li>"images" are now handled by being able to create a grid geom with hexadecimal values by setting <code>gc_geom(..., as_hex = TRUE)</code>.</li>
 <li>subsetting has been moved out of the respective getters into <code><a href="../reference/gt_filter.html">gt_filter()</a></code>, it also includes subsetting x and y values of the vertices.</li>
 <li>pulling columns can now be done with <code><a href="../reference/gt_pull.html">gt_pull()</a></code>.</li>
 <li>new getters <code><a href="../reference/getCols.html">getCols()</a></code>, <code><a href="../reference/getRows.html">getRows()</a></code> and <code><a href="../reference/getNames.html">getNames()</a></code>.</li>
@@ -279,7 +288,7 @@
 <li>
 <code>makeObject()</code> is not a generic anymore but is now a function based on getters. That means that any class that has the respective getters defined, can be plotted with <code><a href="../reference/visualise.html">visualise()</a></code> (which includes now sf and sp objects).</li>
 <li>
-<code>getSubset()</code> has been integrated into the respective getters, i.e., to get a subset of points, use <code><a href="../reference/getPoints.html">getPoints(x, fid == 1)</a></code>, etc.</li>
+<code>getSubset()</code> has been integrated into the respective getters, i.e., to get a subset of points, use <code>getPoints(x, fid == 1)</code>, etc.</li>
 </ul>
 <p>The following functions are new:</p>
 <ul>

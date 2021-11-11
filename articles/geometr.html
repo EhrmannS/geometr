@@ -38,7 +38,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">geometr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.10</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.11</span>
       </span>
     </div>
 
@@ -83,7 +83,7 @@
       <h1 data-toc-skip>geometr - An overview</h1>
                         <h4 class="author">Steffen Ehrmann</h4>
             
-            <h4 class="date">2021-09-27</h4>
+            <h4 class="date">2021-11-11</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/EhrmannS/geometr/blob/master/vignettes/geometr.Rmd"><code>vignettes/geometr.Rmd</code></a></small>
       <div class="hidden name"><code>geometr.Rmd</code></div>
@@ -125,11 +125,13 @@
 <span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_bbox.html">st_bbox</a></span><span class="op">(</span><span class="va">nc_sf</span><span class="op">)</span>
 <span class="co">#&gt;      xmin      ymin      xmax      ymax </span>
 <span class="co">#&gt; -84.32385  33.88199 -75.45698  36.58965</span>
+
 <span class="va">nc_sp</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/coerce-methods.html">as_Spatial</a></span><span class="op">(</span><span class="va">nc_sf</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/pkg/sp/man/bbox.html">bbox</a></span><span class="op">(</span><span class="va">nc_sp</span><span class="op">)</span>
 <span class="co">#&gt;         min       max</span>
 <span class="co">#&gt; x -84.32385 -75.45698</span>
 <span class="co">#&gt; y  33.88199  36.58965</span>
+
 <span class="va">ras</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/raster/man/raster.html">raster</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span><span class="op">(</span><span class="st">"external/test.grd"</span>, package <span class="op">=</span> <span class="st">"raster"</span><span class="op">)</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/pkg/raster/man/extent.html">extent</a></span><span class="op">(</span><span class="va">ras</span><span class="op">)</span>
 <span class="co">#&gt; class      : Extent </span>
@@ -148,6 +150,7 @@
 <span class="co">#&gt;   &lt;dbl&gt; &lt;dbl&gt;</span>
 <span class="co">#&gt; 1 -84.3  33.9</span>
 <span class="co">#&gt; 2 -75.5  36.6</span>
+
 <span class="va">myInput</span> <span class="op">&lt;-</span> <span class="va">nc_sp</span>
 <span class="fu"><a href="../reference/getExtent.html">getExtent</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">myInput</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 2 × 2</span>
@@ -155,6 +158,7 @@
 <span class="co">#&gt;   &lt;dbl&gt; &lt;dbl&gt;</span>
 <span class="co">#&gt; 1 -84.3  33.9</span>
 <span class="co">#&gt; 2 -75.5  36.6</span>
+
 <span class="va">myInput</span> <span class="op">&lt;-</span> <span class="va">ras</span>
 <span class="fu"><a href="../reference/getExtent.html">getExtent</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">myInput</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 2 × 2</span>
@@ -257,15 +261,8 @@
 <span class="co">#&gt; 10   9.5   0.5    10</span>
 <span class="co">#&gt; # … with 3,350 more rows</span></code></pre></div>
 <p>In contrast to <code>Raster*</code> objects of the <code>raster</code> package, the values in a grid <code>geom</code> are <a href="https://en.wikipedia.org/wiki/Run-length_encoding"><em>run-length encoded</em></a>, in case that results in a smaller object, which is often the case for rasters with categorical values.</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/object.size.html">object.size</a></span><span class="op">(</span><span class="va">gtRasters</span><span class="op">$</span><span class="va">categorical</span><span class="op">)</span>
-<span class="co">#&gt; 30608 bytes</span>
-<span class="fu"><a href="https://rdrr.io/r/utils/object.size.html">object.size</a></span><span class="op">(</span><span class="va">gtGeoms</span><span class="op">$</span><span class="va">grid</span><span class="op">$</span><span class="va">categorical</span><span class="op">)</span>
-<span class="co">#&gt; 12520 bytes</span>
-<span class="fu"><a href="../reference/visualise.html">visualise</a></span><span class="op">(</span><span class="va">gtRasters</span><span class="op">$</span><span class="va">categorical</span>, <span class="va">gtGeoms</span><span class="op">$</span><span class="va">grid</span><span class="op">$</span><span class="va">categorical</span><span class="op">)</span></code></pre></div>
-<p><img src="geometr_files/figure-html/unnamed-chunk-6-1.png" width="700"></p>
 <p>As with points, the getter <code><a href="../reference/getFeatures.html">getFeatures()</a></code> unpacks the <code>@feature</code> slot into its interoperable form.</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">gtGeoms</span><span class="op">$</span><span class="va">grid</span><span class="op">$</span><span class="va">categorical</span><span class="op">@</span><span class="va">feature</span>
 <span class="co">#&gt; # A tibble: 726 × 2</span>
 <span class="co">#&gt;      val   len</span>
@@ -283,18 +280,18 @@
 <span class="co">#&gt; # … with 716 more rows</span>
 <span class="fu"><a href="../reference/getFeatures.html">getFeatures</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">gtGeoms</span><span class="op">$</span><span class="va">grid</span><span class="op">$</span><span class="va">categorical</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 3,360 × 2</span>
-<span class="co">#&gt;      fid values</span>
-<span class="co">#&gt;    &lt;int&gt;  &lt;int&gt;</span>
-<span class="co">#&gt;  1     1     31</span>
-<span class="co">#&gt;  2     2     31</span>
-<span class="co">#&gt;  3     3     47</span>
-<span class="co">#&gt;  4     4     47</span>
-<span class="co">#&gt;  5     5     47</span>
-<span class="co">#&gt;  6     6     47</span>
-<span class="co">#&gt;  7     7     47</span>
-<span class="co">#&gt;  8     8     47</span>
-<span class="co">#&gt;  9     9     47</span>
-<span class="co">#&gt; 10    10     47</span>
+<span class="co">#&gt;      fid   gid</span>
+<span class="co">#&gt;    &lt;int&gt; &lt;int&gt;</span>
+<span class="co">#&gt;  1     1    31</span>
+<span class="co">#&gt;  2     2    31</span>
+<span class="co">#&gt;  3     3    47</span>
+<span class="co">#&gt;  4     4    47</span>
+<span class="co">#&gt;  5     5    47</span>
+<span class="co">#&gt;  6     6    47</span>
+<span class="co">#&gt;  7     7    47</span>
+<span class="co">#&gt;  8     8    47</span>
+<span class="co">#&gt;  9     9    47</span>
+<span class="co">#&gt; 10    10    47</span>
 <span class="co">#&gt; # … with 3,350 more rows</span></code></pre></div>
 <p>For raster objects it is intuitively clear that attributes are contained in separate tables, where unique values of the raster cells are related to attribute values. For vector objects this also seems apparent, however, when digging below the surface there are some difference in interpretation. The attribute table for vector objects is typically seen as a table that contains attributes per feature, not per group (of unique features). When storing vector data in a simple feature data structure, each feature is an actually not so simple object that can be made up of one or more points or lines, or of a wide range of nested and neighbouring polygons, such as in a <code>MULTIPOLYGON</code> or even a mix of all of those in a <code>GEOMETRYCOLLECTION</code>.</p>
 <p>In <code>geometr</code>, in contrast, a feature is a single point, one sequence of points that form a line or a <a href="#how-are-polygons-handled">single polygon</a>, i.e., only a single object of each type. Any closed path that is not fully enclosed by another closed path, or that is not part of the same line (or the same point…), is thus a distinct feature. Obviously, it must be possible to relate features to one another beyond their physical connectedness as closed path, for examples several islands that form a nation. In <code>geometr</code>, this connectedness is represented by a group ID (<code>gid</code>), which relates all features of that group to the group specific attributes in the <code>@group</code> slot. This has two advantages over simple features:</p>
@@ -302,7 +299,7 @@
 <li>each feature can have both, ancillary information at the feature level and at the group level (i.e., a feature in the "simple feature" sense).</li>
 <li>this interpretation allows also raster objects to be captured in the exact same data structure, when regarding the cell values as features and the raster attribute tables as relating groups of unique values/features to group specific attributes.</li>
 </ol>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/getGroups.html">getGroups</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">gtGeoms</span><span class="op">$</span><span class="va">grid</span><span class="op">$</span><span class="va">categorical</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 9 × 2</span>
 <span class="co">#&gt;     gid cover            </span>
@@ -322,7 +319,7 @@
 <a href="#create-a-geom" class="anchor"></a>Create a <code>geom</code>
 </h2>
 <p>A <code>geom</code> can be created simply by transforming it from another class in case a method for that class is defined (<code>showMethods("gc_geom")</code>), or by using one of the <em>geometry shape</em> functions that are labelled <code>gs_*</code> in <code>geometr</code>.</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># transform from class sf</span>
 <span class="op">(</span><span class="va">nc_geom</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/gc_geom.html">gc_geom</a></span><span class="op">(</span>input <span class="op">=</span> <span class="va">nc_sf</span><span class="op">)</span><span class="op">)</span>
 <span class="co">#&gt; geom        polygon</span>
@@ -335,6 +332,7 @@
 <span class="co">#&gt;                    ◌ ◌ ○ ◌        </span>
 <span class="co">#&gt;             -84.32 ◌ ◌ ◌ ◌ -75.46 </span>
 <span class="co">#&gt;                    33.88</span>
+
 <span class="co"># make "by hand"</span>
 <span class="va">coords</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/tibble.html">tibble</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">40</span>, <span class="fl">70</span>, <span class="fl">70</span>, <span class="fl">50</span><span class="op">)</span>,
                  y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">40</span>, <span class="fl">40</span>, <span class="fl">60</span>, <span class="fl">70</span><span class="op">)</span><span class="op">)</span>
@@ -355,7 +353,7 @@
 <h2 class="hasAnchor">
 <a href="#how-are-polygons-handled" class="anchor"></a>How are polygons handled?</h2>
 <p>A polygon is by definition a two-dimensional plane, in contrast to a line that has only one dimension, its length, and a point, which is dimensionless. A polygon and a line can be made up of the same set of points and a polygon is indeed nothing more than a sequence of lines (a path) that outlines the shape of the polygon. To then distinguish a line and polygon with the same points, it can be defined that a polygon must have duplicate start and end points, which would constitute a <em>closed path</em>.</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="op">(</span><span class="va">aPoly</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/gs_polygon.html">gs_polygon</a></span><span class="op">(</span>anchor <span class="op">=</span> <span class="va">coords</span><span class="op">)</span><span class="op">)</span>
 <span class="co">#&gt; geom        polygon</span>
 <span class="co">#&gt;             1 group | 1 feature | 5 points</span>
@@ -369,7 +367,7 @@
 <span class="co">#&gt;                40</span></code></pre></div>
 <p><code>aPoly</code> is made up of one feature with 5 points, has a cartesian coordinate system and the tiny map implies that the point at location <code>(40|40)</code> is duplicated. As a matter of fact, any <code>geom</code> that has no crs assigned is assumed to be a mere geometric object of which the values are valid in a cartesian coordinate system. The function <code><a href="../reference/gs_polygon.html">gs_polygon()</a></code> ensures that a polygon fulfills the formal criteria of a polygon, and thus also reconstructs duplicate points that would close individual paths.</p>
 <p>Moreover, polygons may have holes (and islands therein), for example a park with a pond that has a little island in the middle. When defining polygon <code>geom</code>s with nested closed paths (holes), the only thing to consider is that the outer path must be given as first ring and that this outer ring must fully enclose all interior rings. All paths that are supposed to be nested within this path must themselves be closed, but their order does not matter. Also, when building a polygon with hole in <code>geometr</code>, the rotation direction described by the sequence of the points does not matter, in contrast to other spatial classes to date. <em>mention here that this is a requirement of algorithms that are generally used, even though they are outdated…)</em> The correct treatment and visualisation of polygons with interior rings is determined by the code-logic of the functions processing polygons.</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">pond</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/tibble.html">tibble</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">30</span>, <span class="fl">30</span>, <span class="fl">80</span>, <span class="fl">80</span>, <span class="fl">30</span><span class="op">)</span>,
                y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">30</span>, <span class="fl">80</span>, <span class="fl">80</span>, <span class="fl">30</span>, <span class="fl">30</span><span class="op">)</span>,
                fid <span class="op">=</span> <span class="fl">1</span><span class="op">)</span>
@@ -390,7 +388,7 @@
 <span class="co">#&gt;             30 ◉ ◌ ◌ ◎ 80 </span>
 <span class="co">#&gt;                30</span>
 <span class="fu"><a href="../reference/visualise.html">visualise</a></span><span class="op">(</span><span class="va">perforatedPoly</span>, fillcol <span class="op">=</span> <span class="st">"fid"</span><span class="op">)</span></code></pre></div>
-<p><img src="geometr_files/figure-html/unnamed-chunk-11-1.png" width="700"></p>
+<p><img src="geometr_files/figure-html/unnamed-chunk-10-1.png" width="700"></p>
 </div>
 <div id="attributes-of-a-geom" class="section level2">
 <h2 class="hasAnchor">
@@ -398,7 +396,7 @@
 </h2>
 <p><code>nc_sf</code> consists of 100 “<code>MULTIPOLYGONS</code>” of which in fact only a small number are composed of several polygons. This is due the definition of simple features, where one “simple” feature can be of a <em>multi*</em> type that comprises several closed paths in the same object and which would thus be called <code>MULTIPOLYGON</code>. Yet, an object can also contain only a single closed path and still have the feature type <code>MULTIPOLYGON</code>. In a <code>geom</code>, <em>multi*</em>-features are broken down into their distinct closed paths, into "simpler features", so to speak.</p>
 <p>By default, the attributes related to each simple feature are also stored in the <code>@feature</code> slot in a <code>geom</code>, with duplicated entries for all "simpler features" that are part of the same simple feature (for instance, features four, five and six in <code>nc_geom</code>). This may not be desired, for the sake of consistency, so <code>gc_geom</code> has the argument <code>group = FALSE/TRUE</code> to set whether simple feature attributes shall be regarded as group attributes in the resulting <code>geom</code>.</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">new_geom</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/gc_geom.html">gc_geom</a></span><span class="op">(</span>input <span class="op">=</span> <span class="va">nc_sf</span>, group <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
 
 <span class="fu"><a href="../reference/getFeatures.html">getFeatures</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">new_geom</span><span class="op">)</span>
@@ -416,6 +414,7 @@
 <span class="co">#&gt;  9     9     7</span>
 <span class="co">#&gt; 10    10     8</span>
 <span class="co">#&gt; # … with 98 more rows</span>
+
 <span class="fu"><a href="../reference/getGroups.html">getGroups</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">new_geom</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 100 × 15</span>
 <span class="co">#&gt;      gid  AREA PERIMETER CNTY_ CNTY_ID NAME    FIPS  FIPSNO CRESS_ID BIR74 SID74</span>
@@ -433,28 +432,32 @@
 <span class="co">#&gt; # … with 90 more rows, and 4 more variables: NWBIR74 &lt;dbl&gt;, BIR79 &lt;dbl&gt;,</span>
 <span class="co">#&gt; #   SID79 &lt;dbl&gt;, NWBIR79 &lt;dbl&gt;</span></code></pre></div>
 <p>It becomes clear that this approach to attribute tables makes the class <code>geom</code> quite flexible. One could for example assign some point specific measurements (such as <a href="https://www.pommerening.org">Arne Pommerening’s</a> Clocaenog 6 sample data) to the feature attribute table, and at the same time set group specific attributes to the group attribute table of a point <code>geom</code>.</p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">clg_dat</span> <span class="op">&lt;-</span> <span class="va">clocaenog</span><span class="op">$</span><span class="va">trees</span>
-<span class="va">clg_spec</span> <span class="op">&lt;-</span> <span class="va">clocaenog</span><span class="op">$</span><span class="va">species</span>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># make table of locations, tree properties and species metadata</span>
+<span class="va">locations</span> <span class="op">&lt;-</span> <span class="va">clocaenog</span><span class="op">$</span><span class="va">trees</span> <span class="op"><a href="../reference/%&gt;%.html">%&gt;%</a></span> 
+  <span class="fu"><a href="https://rdrr.io/pkg/raster/man/select.html">select</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">x</span>,
+         y <span class="op">=</span> <span class="va">y</span>,
+         fid <span class="op">=</span> <span class="va">Number</span><span class="op">)</span>
 
-<span class="co"># make table of locations, tree properties and species metadata</span>
-<span class="va">locations</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/tibble.html">tibble</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">clg_dat</span><span class="op">$</span><span class="va">x</span>,
-                    y <span class="op">=</span> <span class="va">clg_dat</span><span class="op">$</span><span class="va">y</span>,
-                    fid <span class="op">=</span> <span class="va">clg_dat</span><span class="op">$</span><span class="va">Number</span><span class="op">)</span>
-<span class="va">prop</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/tibble.html">tibble</a></span><span class="op">(</span>fid <span class="op">=</span> <span class="va">clg_dat</span><span class="op">$</span><span class="va">Number</span>,
-               gid <span class="op">=</span> <span class="va">clg_dat</span><span class="op">$</span><span class="va">Species</span>,
-               dbh <span class="op">=</span> <span class="va">clg_dat</span><span class="op">$</span><span class="va">dbh</span>,
-               height <span class="op">=</span> <span class="va">clg_dat</span><span class="op">$</span><span class="va">ht</span><span class="op">)</span>
-<span class="va">species</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/tibble.html">tibble</a></span><span class="op">(</span>gid <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/raster/man/unique.html">unique</a></span><span class="op">(</span><span class="va">clg_dat</span><span class="op">$</span><span class="va">Species</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span> 
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html">left_join</a></span><span class="op">(</span><span class="va">clg_spec</span>, by <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"gid"</span> <span class="op">=</span> <span class="st">"NC"</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span> 
-  <span class="fu"><a href="https://rdrr.io/pkg/raster/man/select.html">select</a></span><span class="op">(</span><span class="va">gid</span>, name <span class="op">=</span> <span class="va">CN</span>, scientific <span class="op">=</span> <span class="va">BN</span><span class="op">)</span> <span class="op">%&gt;%</span> 
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>deciduous <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="cn">T</span>, <span class="cn">T</span>, <span class="cn">F</span>, <span class="cn">F</span>, <span class="cn">F</span>, <span class="cn">T</span>, <span class="cn">T</span>, <span class="cn">F</span>, <span class="cn">T</span>, <span class="cn">T</span>, <span class="cn">F</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+<span class="va">features</span> <span class="op">&lt;-</span> <span class="va">clocaenog</span><span class="op">$</span><span class="va">trees</span> <span class="op"><a href="../reference/%&gt;%.html">%&gt;%</a></span> 
+  <span class="fu"><a href="https://rdrr.io/pkg/raster/man/select.html">select</a></span><span class="op">(</span>fid <span class="op">=</span> <span class="va">Number</span>,
+         gid <span class="op">=</span> <span class="va">Species</span>,
+         dbh <span class="op">=</span> <span class="va">dbh</span>,
+         height <span class="op">=</span> <span class="va">ht</span><span class="op">)</span>
+
+<span class="va">groups</span> <span class="op">&lt;-</span> <span class="va">clocaenog</span><span class="op">$</span><span class="va">species</span> <span class="op"><a href="../reference/%&gt;%.html">%&gt;%</a></span> 
+  <span class="fu"><a href="https://rdrr.io/pkg/raster/man/select.html">select</a></span><span class="op">(</span>gid <span class="op">=</span> <span class="va">NC</span>, name <span class="op">=</span> <span class="va">CN</span>, scientific <span class="op">=</span> <span class="va">BN</span><span class="op">)</span>
+
+<span class="va">species</span> <span class="op">&lt;-</span> <span class="va">features</span> <span class="op"><a href="../reference/%&gt;%.html">%&gt;%</a></span> 
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html">left_join</a></span><span class="op">(</span><span class="va">groups</span>, by <span class="op">=</span> <span class="st">"gid"</span><span class="op">)</span> <span class="op"><a href="../reference/%&gt;%.html">%&gt;%</a></span> 
+  <span class="fu"><a href="https://rdrr.io/pkg/raster/man/select.html">select</a></span><span class="op">(</span><span class="va">gid</span>, <span class="va">name</span>, <span class="va">scientific</span><span class="op">)</span> <span class="op"><a href="../reference/%&gt;%.html">%&gt;%</a></span> 
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/distinct.html">distinct</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="../reference/%&gt;%.html">%&gt;%</a></span> 
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>deciduous <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="cn">T</span>, <span class="cn">T</span>, <span class="cn">F</span>, <span class="cn">F</span>, <span class="cn">F</span>, <span class="cn">T</span>, <span class="cn">T</span>, <span class="cn">F</span>, <span class="cn">T</span>, <span class="cn">T</span>, <span class="cn">F</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="../reference/%&gt;%.html">%&gt;%</a></span> 
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html">arrange</a></span><span class="op">(</span><span class="va">gid</span><span class="op">)</span>
 
-<span class="co"># set these as attribute tables and select only trees with a height value</span>
-<span class="va">trees</span> <span class="op">&lt;-</span> <span class="va">locations</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="../reference/gs_point.html">gs_point</a></span><span class="op">(</span>anchor <span class="op">=</span> <span class="va">.</span><span class="op">)</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="../reference/setFeatures.html">setFeatures</a></span><span class="op">(</span>table <span class="op">=</span> <span class="va">prop</span><span class="op">)</span> <span class="op">%&gt;%</span>
+<span class="co"># set these as feature and group attribute tables</span>
+<span class="va">trees</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/gs_point.html">gs_point</a></span><span class="op">(</span><span class="va">locations</span><span class="op">)</span> <span class="op"><a href="../reference/%&gt;%.html">%&gt;%</a></span>
+  <span class="fu"><a href="../reference/setFeatures.html">setFeatures</a></span><span class="op">(</span>table <span class="op">=</span> <span class="va">features</span><span class="op">)</span> <span class="op"><a href="../reference/%&gt;%.html">%&gt;%</a></span>
   <span class="fu"><a href="../reference/setGroups.html">setGroups</a></span><span class="op">(</span>table <span class="op">=</span> <span class="va">species</span><span class="op">)</span>
 
 <span class="co"># make the title</span>
@@ -463,6 +466,13 @@
 
 <span class="co"># and visualise</span>
 <span class="fu"><a href="../reference/visualise.html">visualise</a></span><span class="op">(</span><span class="op">!</span><span class="op">!</span><span class="va">title</span> <span class="op">:=</span> <span class="va">trees</span>, linecol <span class="op">=</span> <span class="st">"height"</span><span class="op">)</span></code></pre></div>
+<p><img src="geometr_files/figure-html/unnamed-chunk-12-1.png" width="700"></p>
+<p>When storing this data object as a <code>POINT</code> feature, species information have to be provided a duplicates (which can be very costly with certain data) and when storing it as <code>MULTIPOINT</code>, the feature attributes can only be dropped (or perhaps stored inside a non-tidy list column). A <code>geom</code> in contrast, allows storing those data consistently tidy and can easily be processed, for instance with the function <code>gt_filter</code>, that allows filtering any attribute in the features or groups attribute table.</p>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">tall_conifers</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/gt_filter.html">gt_filter</a></span><span class="op">(</span><span class="va">trees</span>, <span class="va">deciduous</span> <span class="op">==</span> <span class="cn">FALSE</span> <span class="op">&amp;</span> <span class="va">height</span> <span class="op">&gt;</span> <span class="fl">20</span>, update <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
+
+<span class="fu"><a href="../reference/visualise.html">visualise</a></span><span class="op">(</span><span class="st">"Tree heights and tall conifers"</span> <span class="op">=</span> <span class="va">trees</span>, linecol <span class="op">=</span> <span class="st">"height"</span><span class="op">)</span>
+<span class="fu"><a href="../reference/visualise.html">visualise</a></span><span class="op">(</span><span class="va">tall_conifers</span>, new <span class="op">=</span> <span class="cn">FALSE</span>, pointsymbol <span class="op">=</span> <span class="fl">21</span>, linecol <span class="op">=</span> <span class="st">"red"</span><span class="op">)</span></code></pre></div>
 <p><img src="geometr_files/figure-html/unnamed-chunk-13-1.png" width="700"></p>
 </div>
 <div id="data-provenance" class="section level2">
@@ -475,7 +485,6 @@
 <span class="va">reflPoly</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/gt_reflect.html">gt_reflect</a></span><span class="op">(</span>obj <span class="op">=</span> <span class="va">aPoly</span>, angle <span class="op">=</span> <span class="fl">45</span><span class="op">)</span>
 
 <span class="fu"><a href="../reference/visualise.html">visualise</a></span><span class="op">(</span><span class="va">reflPoly</span>, linecol <span class="op">=</span> <span class="st">"deeppink"</span>, new <span class="op">=</span> <span class="cn">FALSE</span>, trace <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
-<span class="co">#&gt; the variable 'deeppink' is not available in this object.</span>
 <span class="co">#&gt; this object has the following history:</span>
 <span class="co">#&gt;  -&gt; object was created as 'polygon' geom.</span>
 <span class="co">#&gt;  -&gt; geom was reflected.</span></code></pre></div>
@@ -500,6 +509,7 @@
 <span class="co">#&gt;                ◌ ◌ ◌ ◌    </span>
 <span class="co">#&gt;             40 ◎ ◌ ◌ ◎ 70 </span>
 <span class="co">#&gt;                40</span>
+
 <span class="co"># ... and recreate a polygon from that</span>
 <span class="op">(</span><span class="va">aPoly</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/gs_polygon.html">gs_polygon</a></span><span class="op">(</span>anchor <span class="op">=</span> <span class="va">somePoints</span><span class="op">)</span><span class="op">)</span>
 <span class="co">#&gt; geom        polygon</span>
@@ -519,24 +529,22 @@
 <p>We saw already some quite powerful use-cases of the <code><a href="../reference/visualise.html">visualise()</a></code> function that comes with <code>geometr</code>. The philosophy of plotting geometric objects in <code>geometr</code> deviates a bit from other approaches.</p>
 <p>The idea is that both vector and raster objects can be visualised at the same time, and that additional options can be specified for their appearance, and for the appearance of other plot elements (such as the legend, the box or the axes). In case several objects are provided to <code><a href="../reference/visualise.html">visualise()</a></code> at the same time, they are facetted, i.e., plotted in separate panels next to one another. Moreover, it is possible to set the plot title by providing a name to the object that shall be plotted, for example via <code>'plot name' = plotObject</code>. In case a title is not provided in that way, the title is either extracted from the object name (for example, the raster in the following example is part of a <code>RasterStack</code> with the name <code>continuous</code>) or a default value is used.</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/visualise.html">visualise</a></span><span class="op">(</span><span class="st">'I made a polygon!'</span> <span class="op">=</span> <span class="va">aPoly</span>, <span class="va">gtRasters</span><span class="op">$</span><span class="va">continuous</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="fu"><a href="../reference/visualise.html">visualise</a></span><span class="op">(</span><span class="st">'I made a polygon!'</span> <span class="op">=</span> <span class="va">aPoly</span>, <span class="fu"><a href="../reference/gc_raster.html">gc_raster</a></span><span class="op">(</span><span class="va">gtGeoms</span><span class="op">$</span><span class="va">grid</span><span class="op">$</span><span class="va">continuous</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <p><img src="geometr_files/figure-html/unnamed-chunk-16-1.png" width="700"></p>
-<p>In case a <code>geom</code> is provided with a relative scale, the values are scaled between 0 and 1 and it is plotted by default relative to the plot extent. This allows, for example, to observe always the same region in a set of images, in which some signal changes, and eventually to extract the values. To this end, a <code>geom</code> would be provided with a reference window from which the relative values shall be derived and its’ coordinates are scaled to those values.</p>
+<p>In case a <code>geom</code> is provided with a relative scale, the values are scaled between 0 and 1 and it is plotted by default relative to the plot extent. This allows, for example, to observe always the same region in a set of images, in which some signal changes, and eventually to extract the values. To this end, a <code>geom</code> would be provided with a reference windo0w from which the relative values shall be derived and its’ coordinates are scaled to those values.</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">relPoly</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/gs_polygon.html">gs_rectangle</a></span><span class="op">(</span>anchor <span class="op">=</span> <span class="va">aPoly</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+<code class="sourceCode R"><span class="va">relPoly</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/gs_polygon.html">gs_rectangle</a></span><span class="op">(</span>anchor <span class="op">=</span> <span class="va">aPoly</span><span class="op">)</span> <span class="op"><a href="../reference/%&gt;%.html">%&gt;%</a></span> 
   <span class="fu"><a href="../reference/setWindow.html">setWindow</a></span><span class="op">(</span>to <span class="op">=</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/tibble.html">tibble</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">100</span><span class="op">)</span>, y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">100</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
 
-<span class="fu"><a href="../reference/visualise.html">visualise</a></span><span class="op">(</span><span class="va">gtRasters</span><span class="op">$</span><span class="va">categorical</span>, <span class="va">gtRasters</span><span class="op">$</span><span class="va">continuous</span><span class="op">)</span>
-<span class="fu"><a href="../reference/visualise.html">visualise</a></span><span class="op">(</span><span class="va">relPoly</span>, linecol <span class="op">=</span> <span class="st">"deeppink"</span>, new <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
-<span class="co">#&gt; the variable 'deeppink' is not available in this object.</span>
-<span class="co">#&gt; the variable 'deeppink' is not available in this object.</span></code></pre></div>
+<span class="fu"><a href="../reference/visualise.html">visualise</a></span><span class="op">(</span><span class="va">gtGeoms</span><span class="op">$</span><span class="va">grid</span><span class="op">$</span><span class="va">categorical</span>, <span class="va">gtGeoms</span><span class="op">$</span><span class="va">grid</span><span class="op">$</span><span class="va">continuous</span><span class="op">)</span>
+<span class="fu"><a href="../reference/visualise.html">visualise</a></span><span class="op">(</span><span class="va">relPoly</span>, linecol <span class="op">=</span> <span class="st">"deeppink"</span>, new <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
 <p><img src="geometr_files/figure-html/unnamed-chunk-17-1.png" width="700"></p>
 <p>In various functions of <code>geometr</code> the reference window can play a role, most prominently to control which part of an object is plotted. The window of any object that has been plotted here so far, other than <code>relPoly</code>, has been set implicitly, usually to the extent of that object. <code>relPoly</code> has been assigned with a reference window that is larger than its’ extent and this lead to an effect that could be described <em>zooming out</em>. Likewise, one could <em>zoom in</em> by assigning a reference window smaller than the extent of an object. The reference region for a plot can be set via the <code>window =</code> argument in <code><a href="../reference/visualise.html">visualise()</a></code>, which requires absolute values. To zoom in on <code>relPoly</code>, we thus have to assign the plot extent as window to <code>relPoly</code> and rescale the relative values to absolute values on that basis.</p>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">zoom</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/gt_scale.html">gt_scale</a></span><span class="op">(</span>obj <span class="op">=</span> <span class="va">relPoly</span>, range <span class="op">=</span> <span class="fu"><a href="../reference/getExtent.html">getExtent</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">gtRasters</span><span class="op">$</span><span class="va">categorical</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span> 
-  <span class="fu"><a href="../reference/setWindow.html">setWindow</a></span><span class="op">(</span>to <span class="op">=</span> <span class="fu"><a href="../reference/getExtent.html">getExtent</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">gtRasters</span><span class="op">$</span><span class="va">categorical</span><span class="op">)</span><span class="op">)</span>
+<code class="sourceCode R"><span class="va">zoom</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/gt_scale.html">gt_scale</a></span><span class="op">(</span>obj <span class="op">=</span> <span class="va">relPoly</span>, range <span class="op">=</span> <span class="fu"><a href="../reference/getExtent.html">getExtent</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">gtGeoms</span><span class="op">$</span><span class="va">grid</span><span class="op">$</span><span class="va">categorical</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="../reference/%&gt;%.html">%&gt;%</a></span> 
+  <span class="fu"><a href="../reference/setWindow.html">setWindow</a></span><span class="op">(</span>to <span class="op">=</span> <span class="fu"><a href="../reference/getExtent.html">getExtent</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">gtGeoms</span><span class="op">$</span><span class="va">grid</span><span class="op">$</span><span class="va">categorical</span><span class="op">)</span><span class="op">)</span>
   
-<span class="fu"><a href="../reference/visualise.html">visualise</a></span><span class="op">(</span><span class="st">'zoomed object'</span> <span class="op">=</span> <span class="va">gtRasters</span><span class="op">$</span><span class="va">categorical</span>, window <span class="op">=</span> <span class="fu"><a href="../reference/getExtent.html">getExtent</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">zoom</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<span class="fu"><a href="../reference/visualise.html">visualise</a></span><span class="op">(</span><span class="st">'zoomed object'</span> <span class="op">=</span> <span class="va">gtGeoms</span><span class="op">$</span><span class="va">grid</span><span class="op">$</span><span class="va">categorical</span>, window <span class="op">=</span> <span class="fu"><a href="../reference/getExtent.html">getExtent</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">zoom</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <p><img src="geometr_files/figure-html/unnamed-chunk-18-1.png" width="700"></p>
 <p><code><a href="../reference/visualise.html">visualise()</a></code> also allows to plot images, simply by providing an object that has the three layers <code>red</code>, <code>green</code> and <code>blue</code> and setting <code>image = TRUE</code>.</p>
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">

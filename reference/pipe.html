@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Set additional entries to the history of an object — setHistory • geometr</title>
+<title>Pipe operator — %&gt;% • geometr</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -46,8 +46,8 @@
 
 
 
-<meta property="og:title" content="Set additional entries to the history of an object — setHistory" />
-<meta property="og:description" content="Set additional entries to the history of an object" />
+<meta property="og:title" content="Pipe operator — %&gt;%" />
+<meta property="og:description" content="See magrittr::%&amp;gt;% for details." />
 <meta property="og:image" content="http://EhrmannS.github.io/geometr/logo.svg" />
 
 
@@ -122,61 +122,33 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Set additional entries to the history of an object</h1>
-    <small class="dont-index">Source: <a href='https://github.com/EhrmannS/geometr/blob/master/R/setHistory.R'><code>R/setHistory.R</code></a></small>
-    <div class="hidden name"><code>setHistory.Rd</code></div>
+    <h1>Pipe operator</h1>
+    <small class="dont-index">Source: <a href='https://github.com/EhrmannS/geometr/blob/master/R/utils-pipe.R'><code>R/utils-pipe.R</code></a></small>
+    <div class="hidden name"><code>pipe.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Set additional entries to the history of an object</p>
+    <p>See <code>magrittr::%&gt;%</code> for details.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>setHistory</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>history</span>, <span class='va'>...</span><span class='op'>)</span>
-
-<span class='co'># S4 method for ANY</span>
-<span class='fu'>setHistory</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span>
-
-<span class='co'># S4 method for geom</span>
-<span class='fu'>setHistory</span><span class='op'>(</span><span class='va'>x</span>, history <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span>
-
-<span class='co'># S4 method for RasterLayer</span>
-<span class='fu'>setHistory</span><span class='op'>(</span><span class='va'>x</span>, history <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='va'>lhs</span> <span class='op'>%&gt;%</span> <span class='va'>rhs</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>x</th>
-      <td><p>the object for which to set the coordinate reference system.</p></td>
+      <th>lhs</th>
+      <td><p>A value or the magrittr placeholder.</p></td>
     </tr>
     <tr>
-      <th>history</th>
-      <td><p>[<code>list(1)</code>]<br /> the history to set for this object.</p></td>
-    </tr>
-    <tr>
-      <th>...</th>
-      <td><p>other arguments.</p></td>
+      <th>rhs</th>
+      <td><p>A function call using the magrittr semantics.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>The object <code>x</code> where the history slot has been updated.</p>
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
-
-    <p>Both, objects of class <code>geom</code> and <code>Raster*</code> have the slot
-  <code>@history</code>, which contains the provenance of that object. With
-  <code>setHistory</code>, that provenance can be updated, based on the
-  modification the object has been exposed to. This happens automatically for
-  all geometry operations that come with <code>geometr</code>.</p>
-    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
-
-    <div class='dont-index'><p>Other setters: 
-<code><a href='setCRS.html'>setCRS</a>()</code>,
-<code><a href='setFeatures.html'>setFeatures</a>()</code>,
-<code><a href='setGroups.html'>setGroups</a>()</code>,
-<code><a href='setNames.html'>setNames</a>()</code>,
-<code><a href='setWindow.html'>setWindow</a>()</code></p></div>
+    <p>The result of calling `rhs(lhs)`.</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

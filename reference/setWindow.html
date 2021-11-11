@@ -80,7 +80,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">geometr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.10</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.11</span>
       </span>
     </div>
 
@@ -178,39 +178,44 @@ Details.</p></td>
 <code><a href='setCRS.html'>setCRS</a>()</code>,
 <code><a href='setFeatures.html'>setFeatures</a>()</code>,
 <code><a href='setGroups.html'>setGroups</a>()</code>,
-<code><a href='setHistory.html'>setHistory</a>()</code></p></div>
+<code><a href='setHistory.html'>setHistory</a>()</code>,
+<code><a href='setNames.html'>setNames</a>()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># create a polygon programmatically</span>
-<span class='va'>coords</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>40</span>, <span class='fl'>70</span>, <span class='fl'>70</span>, <span class='fl'>50</span><span class='op'>)</span>,
-                     y <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>40</span>, <span class='fl'>40</span>, <span class='fl'>60</span>, <span class='fl'>70</span><span class='op'>)</span><span class='op'>)</span>
-<span class='op'>(</span><span class='va'>aGeom</span> <span class='op'>&lt;-</span> <span class='fu'><a href='gs_polygon.html'>gs_polygon</a></span><span class='op'>(</span>anchor <span class='op'>=</span> <span class='va'>coords</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span style='color: #BBBB00;'>geom</span>        polygon
-#&gt;             1 group | 1 feature | 5 points
-#&gt; <span style='color: #BBBB00;'>crs         </span>cartesian
-#&gt; <span style='color: #BBBB00;'>attributes </span> --
-#&gt; <span style='color: #BBBB00;'>tiny map  </span>     70 
-#&gt;                ◌ ◎ ◌ ◌    
-#&gt;                ◌ ◌ ◌ ◎    
-#&gt;                ◌ ◌ ◌ ◌    
-#&gt;             40 ◉ ◌ ◌ ◎ 70 
-#&gt;                40 </div><div class='input'><span class='fu'><a href='visualise.html'>visualise</a></span><span class='op'>(</span><span class='va'>aGeom</span><span class='op'>)</span>
-</div><div class='img'><img src='setWindow-1.png' alt='' width='700' height='433' /></div><div class='input'>
-<span class='va'>window</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>80</span><span class='op'>)</span>,
-                     y <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>80</span><span class='op'>)</span><span class='op'>)</span>
-<span class='op'>(</span><span class='va'>aGeom</span> <span class='op'>&lt;-</span> <span class='fu'>setWindow</span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>aGeom</span>, to <span class='op'>=</span> <span class='va'>window</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span style='color: #BBBB00;'>geom</span>        polygon
-#&gt;             1 group | 1 feature | 5 points
-#&gt; <span style='color: #BBBB00;'>crs         </span>cartesian
-#&gt; <span style='color: #BBBB00;'>attributes </span> --
-#&gt; <span style='color: #BBBB00;'>tiny map  </span>    80 
-#&gt;               ◌ ◌ ◎ ◎    
-#&gt;               ◌ ◉ ◉ ◉    
-#&gt;               ◌ ◉ ◉ ◎    
-#&gt;             0 ◌ ◌ ◌ ◌ 80 
-#&gt;               0 </div><div class='input'>
-<span class='fu'><a href='visualise.html'>visualise</a></span><span class='op'>(</span><span class='va'>aGeom</span><span class='op'>)</span>
-</div><div class='img'><img src='setWindow-2.png' alt='' width='700' height='433' /></div></pre>
+    <pre class="examples"><span class='r-in'><span class='co'># create a polygon programmatically</span></span>
+<span class='r-in'><span class='va'>coords</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>40</span>, <span class='fl'>70</span>, <span class='fl'>70</span>, <span class='fl'>50</span><span class='op'>)</span>,</span>
+<span class='r-in'>                     y <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>40</span>, <span class='fl'>40</span>, <span class='fl'>60</span>, <span class='fl'>70</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-in'><span class='op'>(</span><span class='va'>aGeom</span> <span class='op'>&lt;-</span> <span class='fu'><a href='gs_polygon.html'>gs_polygon</a></span><span class='op'>(</span>anchor <span class='op'>=</span> <span class='va'>coords</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BBBB00;'>geom</span>        polygon</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>             1 group | 1 feature | 5 points</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BBBB00;'>crs         </span>cartesian</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BBBB00;'>attributes </span> --</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BBBB00;'>tiny map  </span>     70 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                ◌ ◎ ◌ ◌    </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                ◌ ◌ ◌ ◎    </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                ◌ ◌ ◌ ◌    </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>             40 ◉ ◌ ◌ ◎ 70 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                40 </span>
+<span class='r-in'><span class='fu'><a href='visualise.html'>visualise</a></span><span class='op'>(</span><span class='va'>aGeom</span><span class='op'>)</span></span>
+<span class='r-plt img'><img src='setWindow-1.png' alt='' width='700' height='433' /></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='va'>window</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>80</span><span class='op'>)</span>,</span>
+<span class='r-in'>                     y <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>80</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-in'><span class='op'>(</span><span class='va'>aGeom</span> <span class='op'>&lt;-</span> <span class='fu'>setWindow</span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>aGeom</span>, to <span class='op'>=</span> <span class='va'>window</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BBBB00;'>geom</span>        polygon</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>             1 group | 1 feature | 5 points</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BBBB00;'>crs         </span>cartesian</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BBBB00;'>attributes </span> --</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BBBB00;'>tiny map  </span>    80 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>               ◌ ◌ ◎ ◎    </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>               ◌ ◉ ◉ ◉    </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>               ◌ ◉ ◉ ◎    </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>             0 ◌ ◌ ◌ ◌ 80 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>               0 </span>
+<span class='r-in'></span>
+<span class='r-in'><span class='fu'><a href='visualise.html'>visualise</a></span><span class='op'>(</span><span class='va'>aGeom</span><span class='op'>)</span></span>
+<span class='r-plt img'><img src='setWindow-2.png' alt='' width='700' height='433' /></span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

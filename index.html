@@ -41,7 +41,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">geometr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.10</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.11</span>
       </span>
     </div>
 
@@ -101,15 +101,18 @@
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
-<p>1) Install the official version from CRAN:</p>
-<!-- end list -->
+<ol>
+<li>Install the official version from CRAN:</li>
+</ol>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"geometr"</span><span class="op">)</span></code></pre></div>
 <p>or the latest development version from github:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"EhrmannS/geometr"</span><span class="op">)</span></code></pre></div>
-<p>2) The <a href="https://ehrmanns.github.io/geometr/articles/geometr.html">vignette</a> gives an in depth introduction, explains the take on interoperability and discusses the spatial class <code>geom</code> that comes with <code>geometr</code>.</p>
-<p>3) Have fun being a <a href="https://en.wikipedia.org/wiki/List_of_geometers">geometer</a>!</p>
+<ol>
+<li><p>The <a href="https://ehrmanns.github.io/geometr/articles/geometr.html">vignette</a> gives an in depth introduction, explains the take on interoperability and discusses the spatial class <code>geom</code> that comes with <code>geometr</code>.</p></li>
+<li><p>Have fun being a <a href="https://en.wikipedia.org/wiki/List_of_geometers">geometer</a>!</p></li>
+</ol>
 </div>
 <div id="examples" class="section level2">
 <h2 class="hasAnchor">
@@ -134,7 +137,7 @@
 <span class="fu"><a href="reference/getFeatures.html">getFeatures</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">nc_geom</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 108 × 16</span>
 <span class="co">#&gt;      fid   gid  AREA PERIMETER CNTY_ CNTY_ID NAME    FIPS  FIPSNO CRESS_ID BIR74</span>
-<span class="co">#&gt;  * &lt;int&gt; &lt;int&gt; &lt;dbl&gt;     &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt; &lt;fct&gt;   &lt;fct&gt;  &lt;dbl&gt;    &lt;int&gt; &lt;dbl&gt;</span>
+<span class="co">#&gt;  * &lt;int&gt; &lt;int&gt; &lt;dbl&gt;     &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;  &lt;dbl&gt;    &lt;int&gt; &lt;dbl&gt;</span>
 <span class="co">#&gt;  1     1     1 0.114      1.44  1825    1825 Ashe    37009  37009        5  1091</span>
 <span class="co">#&gt;  2     2     2 0.061      1.23  1827    1827 Allegh… 37005  37005        3   487</span>
 <span class="co">#&gt;  3     3     3 0.143      1.63  1828    1828 Surry   37171  37171       86  3188</span>
@@ -148,7 +151,7 @@
 <span class="co">#&gt; # … with 98 more rows, and 5 more variables: SID74 &lt;dbl&gt;, NWBIR74 &lt;dbl&gt;,</span>
 <span class="co">#&gt; #   BIR79 &lt;dbl&gt;, SID79 &lt;dbl&gt;, NWBIR79 &lt;dbl&gt;</span></code></pre></div>
 <p><code>geometr</code> only knows the feature types <code>point</code>, <code>line</code>, <code>polygon</code> and <code>grid</code> (a systematic lattice of points). In contrast to the simple features standard, there are no <em>MULTI*</em> features. The way simple features have been implemented in R has the consequence that certain information can only be stored in a rather inefficient and cumbersome way. Think of a set of polygons that has individual attributes at the <code>POLYGON</code> level, but also attributes at the group (<code>MULTIPOLYGON</code>) level, i.e., where all polygons of that group have the same value of the respective attributes. It is impossible to store this information in a single <code>sf</code> object, other than in a <code>POLYGON</code> that contains the respective attributes as duplicates (which may be very inefficient in large objects).</p>
-<p>The backbone of a <code>geom</code> are three tables, one for points, one for features and one for groups of features, the latter two of which can be provided with ancillary information (attributes). Each point is stored with a feature ID (<code>fid</code>) that relates it to a feature (and its attributes) and each feature is stored with a group ID (<code>gid</code>) that relates it to a group (and its attributes). Eventually this results in a tidier data-structure with easier access than <code>Spatial*</code> or <code>sf</code> objects and with higher versatility.</p>
+<p>The backbone of a <code>geom</code> are three tables, one for points, one for features and one for groups of features, the latter two of which can be provided with ancillary information (attributes). Each point is stored with a feature ID (<code>fid</code>) that relates it to a feature (and its attributes) and each feature is stored with a group ID (<code>gid</code>) that relates it to a group (and its attributes). Eventually this results in a tidier data-structure with easier access than <code>sp</code> or <code>sf</code> objects and with higher versatility.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># when using the group = TRUE argument, the attributes of MULTI*-feature are</span>
 <span class="co"># stored in the group attribute table of a geom</span>
@@ -165,7 +168,7 @@
 <span class="fu"><a href="reference/getGroups.html">getGroups</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">currituck</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 1 × 15</span>
 <span class="co">#&gt;     gid  AREA PERIMETER CNTY_ CNTY_ID NAME     FIPS  FIPSNO CRESS_ID BIR74 SID74</span>
-<span class="co">#&gt;   &lt;int&gt; &lt;dbl&gt;     &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt; &lt;fct&gt;    &lt;fct&gt;  &lt;dbl&gt;    &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt;</span>
+<span class="co">#&gt;   &lt;int&gt; &lt;dbl&gt;     &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt; &lt;chr&gt;    &lt;chr&gt;  &lt;dbl&gt;    &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt;</span>
 <span class="co">#&gt; 1     4  0.07      2.97  1831    1831 Curritu… 37053  37053       27   508     1</span>
 <span class="co">#&gt; # … with 4 more variables: NWBIR74 &lt;dbl&gt;, BIR79 &lt;dbl&gt;, SID79 &lt;dbl&gt;,</span>
 <span class="co">#&gt; #   NWBIR79 &lt;dbl&gt;</span>
@@ -188,8 +191,9 @@
 <p>Moreover, a <code>geom</code> also allows to store raster information in the same data format. A raster is a systematic lattice of points/pixels with one or more layers, where each pixel exists in each layer, possibly with different values, i.e., from different attributes. The raster attribute table (RAT) is basically already the groups attribute table of a <code>geom</code>, where a group of pixels that have the same value are associated to attributes this class has in common. In this case, however, the features (single pixels) don’t have to be associated to a group ID, as their feature values are at the same time the group values.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/str.html">str</a></span><span class="op">(</span><span class="va">gtGeoms</span><span class="op">$</span><span class="va">polygon</span>, max.level <span class="op">=</span> <span class="fl">2</span><span class="op">)</span>
-<span class="co">#&gt; Formal class 'geom' [package "geometr"] with 7 slots</span>
+<span class="co">#&gt; Formal class 'geom' [package "geometr"] with 8 slots</span>
 <span class="co">#&gt;   ..@ type   : chr "polygon"</span>
+<span class="co">#&gt;   ..@ name   : chr "polygon_geom"</span>
 <span class="co">#&gt;   ..@ point  : tibble [11 × 3] (S3: tbl_df/tbl/data.frame)</span>
 <span class="co">#&gt;   ..@ feature: tibble [2 × 2] (S3: tbl_df/tbl/data.frame)</span>
 <span class="co">#&gt;   ..@ group  : tibble [2 × 1] (S3: tbl_df/tbl/data.frame)</span>
@@ -198,8 +202,9 @@
 <span class="co">#&gt;   ..@ history: list()</span>
 
 <span class="fu"><a href="https://rdrr.io/r/utils/str.html">str</a></span><span class="op">(</span><span class="va">gtGeoms</span><span class="op">$</span><span class="va">grid</span><span class="op">$</span><span class="va">categorical</span>, max.level <span class="op">=</span> <span class="fl">2</span><span class="op">)</span>
-<span class="co">#&gt; Formal class 'geom' [package "geometr"] with 7 slots</span>
+<span class="co">#&gt; Formal class 'geom' [package "geometr"] with 8 slots</span>
 <span class="co">#&gt;   ..@ type   : chr "grid"</span>
+<span class="co">#&gt;   ..@ name   : chr "categorical_grid_geom"</span>
 <span class="co">#&gt;   ..@ point  : tibble [3 × 2] (S3: tbl_df/tbl/data.frame)</span>
 <span class="co">#&gt;   ..@ feature: tibble [726 × 2] (S3: tbl_df/tbl/data.frame)</span>
 <span class="co">#&gt;   ..@ group  : tibble [9 × 2] (S3: tbl_df/tbl/data.frame)</span>
@@ -210,12 +215,12 @@
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="reference/visualise.html">visualise</a></span><span class="op">(</span>`North Carolina` <span class="op">=</span> <span class="va">nc_geom</span><span class="op">)</span></code></pre></div>
 <p><img src="reference/figures/README-unnamed-chunk-8-1.png" width="100%"></p>
-<p>You can use quick options to scale plot parameters to the attributes of the <code>geom</code> to modify which aspects of and object should be shown in the plot, for example when scaling <code>fillcol</code> to <code>NWBIR74</code>.</p>
+<p>You can use quick options to scale plot parameters to the attributes of the <code>geom</code> to modify which aspects of an object should be shown in the plot, for example when scaling <code>fillcol</code> to <code>NWBIR74</code>.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">myAttr</span> <span class="op">&lt;-</span> <span class="st">"NWBIR74"</span>
 <span class="fu"><a href="reference/visualise.html">visualise</a></span><span class="op">(</span><span class="op">!</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"NC - "</span>, <span class="va">myAttr</span><span class="op">)</span> <span class="op">:=</span> <span class="va">nc_geom</span>, fillcol <span class="op">=</span> <span class="op">!</span><span class="op">!</span><span class="va">myAttr</span><span class="op">)</span></code></pre></div>
 <p><img src="reference/figures/README-unnamed-chunk-9-1.png" width="100%"></p>
-<p>The <code>@window</code> slot of modified <code>geom</code>s is by default automatically updated.</p>
+<p>The <code>@window</code> slot of a modified <code>geom</code> is by default automatically updated.</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="reference/visualise.html">visualise</a></span><span class="op">(</span>`Currituck` <span class="op">=</span> <span class="va">currituck</span>, linecol <span class="op">=</span> <span class="st">"fid"</span><span class="op">)</span></code></pre></div>
 <p><img src="reference/figures/README-unnamed-chunk-10-1.png" width="100%"></p>

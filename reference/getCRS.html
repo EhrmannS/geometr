@@ -80,7 +80,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">geometr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.10</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.11</span>
       </span>
     </div>
 
@@ -146,6 +146,9 @@
 <span class='fu'>getCRS</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span>
 
 <span class='co'># S4 method for Raster</span>
+<span class='fu'>getCRS</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span>
+
+<span class='co'># S4 method for SpatRaster</span>
 <span class='fu'>getCRS</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -181,14 +184,39 @@
 <code><a href='getWindow.html'>getWindow</a>()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>getCRS</span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>gtGeoms</span><span class='op'>$</span><span class='va'>grid</span><span class='op'>$</span><span class='va'>continuous</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] NA</div><div class='input'>
-<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://r-spatial.github.io/sf/'>sf</a></span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>Linking to GEOS 3.8.1, GDAL 3.2.1, PROJ 7.2.1</span></div><div class='input'><span class='va'>nc_sf</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://r-spatial.github.io/sf/reference/st_read.html'>st_read</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>"shape/nc.shp"</span>, package<span class='op'>=</span><span class='st'>"sf"</span><span class='op'>)</span>, quiet <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
-<span class='fu'>getCRS</span><span class='op'>(</span><span class='va'>nc_sf</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] "+proj=longlat +datum=NAD27 +no_defs"</div><div class='input'>
-<span class='fu'>getCRS</span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>gtRasters</span><span class='op'>$</span><span class='va'>categorical</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] NA</div></pre>
+    <pre class="examples"><span class='r-in'><span class='va'>obj</span> <span class='op'>&lt;-</span> <span class='va'>gtGeoms</span><span class='op'>$</span><span class='va'>line</span> <span class='op'><a href='%>%.html'>%&gt;%</a></span></span>
+<span class='r-in'>  <span class='fu'><a href='setCRS.html'>setCRS</a></span><span class='op'>(</span><span class='st'>"+proj=longlat +datum=WGS84 +no_defs"</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='fu'>getCRS</span><span class='op'>(</span><span class='va'>obj</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "+proj=longlat +datum=WGS84 +no_defs"</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='fu'><a href='gc_sp.html'>gc_sp</a></span><span class='op'>(</span><span class='va'>obj</span><span class='op'>)</span> <span class='op'><a href='%>%.html'>%&gt;%</a></span></span>
+<span class='r-in'>  <span class='fu'>getCRS</span><span class='op'>(</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "+proj=longlat +datum=WGS84 +no_defs"</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='fu'><a href='gc_sf.html'>gc_sf</a></span><span class='op'>(</span><span class='va'>obj</span><span class='op'>)</span> <span class='op'><a href='%>%.html'>%&gt;%</a></span></span>
+<span class='r-in'>  <span class='fu'>getCRS</span><span class='op'>(</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "+proj=longlat +datum=WGS84 +no_defs"</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='fu'><a href='gc_raster.html'>gc_raster</a></span><span class='op'>(</span><span class='va'>gtGeoms</span><span class='op'>$</span><span class='va'>grid</span><span class='op'>$</span><span class='va'>categorical</span><span class='op'>)</span> <span class='op'><a href='%>%.html'>%&gt;%</a></span></span>
+<span class='r-in'>  <span class='fu'>getCRS</span><span class='op'>(</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] NA</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='fu'><a href='gc_terra.html'>gc_terra</a></span><span class='op'>(</span><span class='va'>gtGeoms</span><span class='op'>$</span><span class='va'>grid</span><span class='op'>$</span><span class='va'>categorical</span><span class='op'>)</span> <span class='op'><a href='%>%.html'>%&gt;%</a></span></span>
+<span class='r-in'>  <span class='fu'>getCRS</span><span class='op'>(</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "+proj=longlat +datum=WGS84 +no_defs"</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='fu'>getCRS</span><span class='op'>(</span>x <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>matrix</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>3</span>, <span class='fl'>5</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] NA</span>
+<span class='r-in'><span class='fu'>getCRS</span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>gtGeoms</span><span class='op'>$</span><span class='va'>grid</span><span class='op'>$</span><span class='va'>continuous</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] NA</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://r-spatial.github.io/sf/'>sf</a></span><span class='op'>)</span></span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Linking to GEOS 3.8.1, GDAL 3.2.1, PROJ 7.2.1</span>
+<span class='r-in'><span class='va'>nc_sf</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://r-spatial.github.io/sf/reference/st_read.html'>st_read</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>"shape/nc.shp"</span>, package<span class='op'>=</span><span class='st'>"sf"</span><span class='op'>)</span>, quiet <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'>getCRS</span><span class='op'>(</span><span class='va'>nc_sf</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "+proj=longlat +datum=NAD27 +no_defs"</span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

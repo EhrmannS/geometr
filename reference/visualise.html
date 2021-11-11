@@ -80,7 +80,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">geometr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.10</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.11</span>
       </span>
     </div>
 
@@ -149,27 +149,27 @@
     </tr>
     <tr>
       <th>window</th>
-      <td><p>[<code><a href='https://rdrr.io/r/base/data.frame.html'>data.frame(1)</a></code>]<br /> two opposing corners of a rectangle
+      <td><p>[<code>data.frame(1)</code>]<br /> two opposing corners of a rectangle
 to which the plot is limited.</p></td>
     </tr>
     <tr>
       <th>trace</th>
-      <td><p>[<code><a href='https://rdrr.io/r/base/logical.html'>logical(1)</a></code>]<br /> Print the provenance information of the
+      <td><p>[<code>logical(1)</code>]<br /> Print the provenance information of the
 geometric object (if available) (<code>TRUE</code>), or simply plot the object
 (<code>FALSE</code>, default).</p></td>
     </tr>
     <tr>
       <th>new</th>
-      <td><p>[<code><a href='https://rdrr.io/r/base/logical.html'>logical(1)</a></code>]<br /> force a new plot (<code>TRUE</code>, default).</p></td>
+      <td><p>[<code>logical(1)</code>]<br /> force a new plot (<code>TRUE</code>, default).</p></td>
     </tr>
     <tr>
       <th>clip</th>
-      <td><p>[<code><a href='https://rdrr.io/r/base/logical.html'>logical(1)</a></code>]<br /> clip the plot by the plot box
+      <td><p>[<code>logical(1)</code>]<br /> clip the plot by the plot box
 (<code>TRUE</code>, default), or plot also objects that go beyond the plot box.</p></td>
     </tr>
     <tr>
       <th>theme</th>
-      <td><p>[<code><a href='https://rdrr.io/r/base/list.html'>list(7)</a></code>]<br /> the theme from which to take graphical
+      <td><p>[<code>list(7)</code>]<br /> the theme from which to take graphical
 parameters; see <code><a href='setTheme.html'>setTheme</a></code> for details.</p></td>
     </tr>
     </table>
@@ -180,57 +180,60 @@ parameters; see <code><a href='setTheme.html'>setTheme</a></code> for details.</
   <code><a href='https://rdrr.io/r/grDevices/recordplot.html'>recordPlot</a></code> for details (and warnings).</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># make an empty plot</span>
-<span class='fu'>visualise</span><span class='op'>(</span><span class='op'>)</span>
-</div><div class='img'><img src='visualise-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'>visualise</span><span class='op'>(</span>window <span class='op'>=</span> <span class='fu'><a href='getExtent.html'>getExtent</a></span><span class='op'>(</span><span class='va'>gtRasters</span><span class='op'>$</span><span class='va'>continuous</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='img'><img src='visualise-2.png' alt='' width='700' height='433' /></div><div class='input'>
-<span class='va'>coords</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>30</span>, <span class='fl'>60</span>, <span class='fl'>60</span>, <span class='fl'>40</span><span class='op'>)</span>,
-                     y <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>40</span>, <span class='fl'>40</span>, <span class='fl'>60</span>, <span class='fl'>70</span><span class='op'>)</span>,
-                     fid <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span>
-<span class='op'>(</span><span class='va'>aGeom</span> <span class='op'>&lt;-</span> <span class='fu'><a href='gs_polygon.html'>gs_polygon</a></span><span class='op'>(</span>anchor <span class='op'>=</span> <span class='va'>coords</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span style='color: #BBBB00;'>geom</span>        polygon
-#&gt;             1 group | 1 feature | 5 points
-#&gt; <span style='color: #BBBB00;'>crs         </span>cartesian
-#&gt; <span style='color: #BBBB00;'>attributes </span> --
-#&gt; <span style='color: #BBBB00;'>tiny map  </span>     70 
-#&gt;                ◌ ◎ ◌ ◌    
-#&gt;                ◌ ◌ ◌ ◎    
-#&gt;                ◌ ◌ ◌ ◌    
-#&gt;             30 ◉ ◌ ◌ ◎ 60 
-#&gt;                40 </div><div class='input'><span class='fu'>visualise</span><span class='op'>(</span><span class='va'>aGeom</span><span class='op'>)</span>
-</div><div class='img'><img src='visualise-3.png' alt='' width='700' height='433' /></div><div class='input'>
-<span class='va'>win</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>80</span><span class='op'>)</span>,
-                  y <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>80</span><span class='op'>)</span><span class='op'>)</span>
-<span class='va'>withWindow</span> <span class='op'>&lt;-</span> <span class='fu'><a href='setWindow.html'>setWindow</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>aGeom</span>, to <span class='op'>=</span> <span class='va'>win</span><span class='op'>)</span>
-<span class='fu'>visualise</span><span class='op'>(</span>expanded <span class='op'>=</span> <span class='va'>withWindow</span><span class='op'>)</span>
-</div><div class='img'><img src='visualise-4.png' alt='' width='700' height='433' /></div><div class='input'>
-<span class='op'>(</span><span class='va'>aRaster</span> <span class='op'>&lt;-</span>  <span class='va'>gtRasters</span><span class='op'>$</span><span class='va'>categorical</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; class      : RasterLayer 
-#&gt; dimensions : 56, 60, 3360  (nrow, ncol, ncell)
-#&gt; resolution : 1, 1  (x, y)
-#&gt; extent     : 0, 60, 0, 56  (xmin, xmax, ymin, ymax)
-#&gt; crs        : NA 
-#&gt; source     : memory
-#&gt; names      : categorical 
-#&gt; values     : 1, 47  (min, max)
-#&gt; attributes :
-#&gt;        id        cover
-#&gt;  from:  1         lake
-#&gt;   to : 47 mixed forest
-#&gt; </div><div class='input'>
-<span class='co'># plot several objects together</span>
-<span class='fu'>visualise</span><span class='op'>(</span><span class='va'>aRaster</span>, <span class='va'>aGeom</span><span class='op'>)</span>
-</div><div class='img'><img src='visualise-5.png' alt='' width='700' height='433' /></div><div class='input'>
-<span class='co'># give names</span>
-<span class='fu'>visualise</span><span class='op'>(</span>`a raster` <span class='op'>=</span> <span class='va'>aRaster</span>, `a geom` <span class='op'>=</span> <span class='va'>aGeom</span><span class='op'>)</span>
-</div><div class='img'><img src='visualise-6.png' alt='' width='700' height='433' /></div><div class='input'>
-<span class='co'># use graphical parameters ...</span>
-<span class='fu'>visualise</span><span class='op'>(</span><span class='va'>aGeom</span>, linecol <span class='op'>=</span> <span class='st'>"green"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>the variable 'green' is not available in this object.</span></div><div class='img'><img src='visualise-7.png' alt='' width='700' height='433' /></div><div class='input'>
-<span class='co'># ... or a theme</span>
-<span class='fu'>visualise</span><span class='op'>(</span><span class='va'>aRaster</span>, theme <span class='op'>=</span> <span class='fu'><a href='setTheme.html'>setTheme</a></span><span class='op'>(</span>title <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>plot <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='img'><img src='visualise-8.png' alt='' width='700' height='433' /></div><div class='input'>
-</div></pre>
+    <pre class="examples"><span class='r-in'><span class='co'># make an empty plot</span></span>
+<span class='r-in'><span class='fu'>visualise</span><span class='op'>(</span><span class='op'>)</span></span>
+<span class='r-plt img'><img src='visualise-1.png' alt='' width='700' height='433' /></span>
+<span class='r-in'><span class='fu'>visualise</span><span class='op'>(</span>window <span class='op'>=</span> <span class='fu'><a href='getExtent.html'>getExtent</a></span><span class='op'>(</span><span class='va'>gtGeoms</span><span class='op'>$</span><span class='va'>grid</span><span class='op'>$</span><span class='va'>continuous</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-plt img'><img src='visualise-2.png' alt='' width='700' height='433' /></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='va'>coords</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>30</span>, <span class='fl'>60</span>, <span class='fl'>60</span>, <span class='fl'>40</span><span class='op'>)</span>,</span>
+<span class='r-in'>                     y <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>40</span>, <span class='fl'>40</span>, <span class='fl'>60</span>, <span class='fl'>70</span><span class='op'>)</span>,</span>
+<span class='r-in'>                     fid <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span></span>
+<span class='r-in'><span class='op'>(</span><span class='va'>aGeom</span> <span class='op'>&lt;-</span> <span class='fu'><a href='gs_polygon.html'>gs_polygon</a></span><span class='op'>(</span>anchor <span class='op'>=</span> <span class='va'>coords</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BBBB00;'>geom</span>        polygon</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>             1 group | 1 feature | 5 points</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BBBB00;'>crs         </span>cartesian</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BBBB00;'>attributes </span> --</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BBBB00;'>tiny map  </span>     70 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                ◌ ◎ ◌ ◌    </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                ◌ ◌ ◌ ◎    </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                ◌ ◌ ◌ ◌    </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>             30 ◉ ◌ ◌ ◎ 60 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                40 </span>
+<span class='r-in'><span class='fu'>visualise</span><span class='op'>(</span><span class='va'>aGeom</span><span class='op'>)</span></span>
+<span class='r-plt img'><img src='visualise-3.png' alt='' width='700' height='433' /></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='va'>win</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>80</span><span class='op'>)</span>,</span>
+<span class='r-in'>                  y <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>80</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>withWindow</span> <span class='op'>&lt;-</span> <span class='fu'><a href='setWindow.html'>setWindow</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>aGeom</span>, to <span class='op'>=</span> <span class='va'>win</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'>visualise</span><span class='op'>(</span>expanded <span class='op'>=</span> <span class='va'>withWindow</span><span class='op'>)</span></span>
+<span class='r-plt img'><img src='visualise-4.png' alt='' width='700' height='433' /></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='op'>(</span><span class='va'>aRaster</span> <span class='op'>&lt;-</span>  <span class='va'>gtGeoms</span><span class='op'>$</span><span class='va'>grid</span><span class='op'>$</span><span class='va'>continuous</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BBBB00;'>geom</span>        grid</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>             1 layers | 3360 cells</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BBBB00;'>crs         </span>cartesian</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BBBB00;'>attributes </span> --</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BBBB00;'>resolution </span> 1 1 (x, y)</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BBBB00;'>extent     </span> 0 60 0 56 (xmin, xmax, ymin, ymax)</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># plot several objects together</span></span>
+<span class='r-in'><span class='fu'>visualise</span><span class='op'>(</span><span class='va'>aRaster</span>, <span class='va'>aGeom</span><span class='op'>)</span></span>
+<span class='r-plt img'><img src='visualise-5.png' alt='' width='700' height='433' /></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># give names</span></span>
+<span class='r-in'><span class='fu'>visualise</span><span class='op'>(</span>`a raster` <span class='op'>=</span> <span class='va'>aRaster</span>, `a geom` <span class='op'>=</span> <span class='va'>aGeom</span><span class='op'>)</span></span>
+<span class='r-plt img'><img src='visualise-6.png' alt='' width='700' height='433' /></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># use graphical parameters ...</span></span>
+<span class='r-in'><span class='fu'>visualise</span><span class='op'>(</span><span class='va'>aGeom</span>, linecol <span class='op'>=</span> <span class='st'>"green"</span><span class='op'>)</span></span>
+<span class='r-plt img'><img src='visualise-7.png' alt='' width='700' height='433' /></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># ... or a theme</span></span>
+<span class='r-in'><span class='fu'>visualise</span><span class='op'>(</span><span class='va'>aRaster</span>, theme <span class='op'>=</span> <span class='fu'><a href='setTheme.html'>setTheme</a></span><span class='op'>(</span>title <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>plot <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-plt img'><img src='visualise-8.png' alt='' width='700' height='433' /></span>
+<span class='r-in'></span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

@@ -80,7 +80,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">geometr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.10</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.11</span>
       </span>
     </div>
 
@@ -133,6 +133,7 @@
 
     <pre class="usage"><span class='fu'>.makeGrob</span><span class='op'>(</span>
   <span class='va'>x</span>,
+  <span class='va'>window</span>,
   <span class='va'>featureType</span>,
   <span class='va'>plotValues</span>,
   <span class='va'>scaleValues</span>,
@@ -148,6 +149,11 @@
     <tr>
       <th>x</th>
       <td><p>the object to transform to class <code>grob</code>.</p></td>
+    </tr>
+    <tr>
+      <th>window</th>
+      <td><p>[<code>data.frame(1)</code>] two opposing corners of a rectangle to
+which the plot is limited.</p></td>
     </tr>
     <tr>
       <th>featureType</th>

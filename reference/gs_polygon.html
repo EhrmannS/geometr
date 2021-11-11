@@ -81,7 +81,7 @@ specifying anchor values or by sketching it." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">geometr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.10</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.11</span>
       </span>
     </div>
 
@@ -155,13 +155,13 @@ specifying anchor values or by sketching it.</p>
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>anchor</th>
-      <td><p>[<code><a href='geom-class.html'>geom(1)</a></code>|<code><a href='https://rdrr.io/r/base/data.frame.html'>data.frame(1)</a></code>]<br /> Object to derive the
+      <td><p>[<code>geom(1)</code>|<code>data.frame(1)</code>]<br /> Object to derive the
 <code>geom</code> from. It must include column names <code>x</code>, <code>y</code> and
 optionally a custom <code>fid</code>.</p></td>
     </tr>
     <tr>
       <th>window</th>
-      <td><p>[<code><a href='https://rdrr.io/r/base/data.frame.html'>data.frame(1)</a></code>]<br /> in case the reference window deviates
+      <td><p>[<code>data.frame(1)</code>]<br /> in case the reference window deviates
 from the bounding box of <code>anchor</code> (minimum and maximum values),
 specify this here.</p></td>
     </tr>
@@ -177,7 +177,7 @@ will be recycled if it does not have as many elements as specified in
     </tr>
     <tr>
       <th>regular</th>
-      <td><p>[<code><a href='https://rdrr.io/r/base/logical.html'>logical(1)</a></code>]<br /> should the polygon be regular, i.e.
+      <td><p>[<code>logical(1)</code>]<br /> should the polygon be regular, i.e.
 point symmetric (<code>TRUE</code>) or should the vertices be selected as
 provided by <code>anchor</code> (<code>FALSE</code>, default)?</p></td>
     </tr>
@@ -232,35 +232,38 @@ the two given opposing corners.</p></li>
 <code><a href='gs_random.html'>gs_random</a>()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># 1. create a polygon programmatically</span>
-<span class='va'>coords</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>40</span>, <span class='fl'>40</span>, <span class='fl'>0</span><span class='op'>)</span>,
-                     y <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>0</span>, <span class='fl'>40</span>, <span class='fl'>40</span><span class='op'>)</span><span class='op'>)</span>
-
-<span class='co'># if no window is set, the bounding box will be set as window</span>
-<span class='va'>aGeom</span> <span class='op'>&lt;-</span> <span class='fu'>gs_polygon</span><span class='op'>(</span>anchor <span class='op'>=</span> <span class='va'>coords</span><span class='op'>)</span>
-<span class='fu'><a href='visualise.html'>visualise</a></span><span class='op'>(</span><span class='va'>aGeom</span><span class='op'>)</span>
-</div><div class='img'><img src='gs_polygon-1.png' alt='' width='700' height='433' /></div><div class='input'>
-<span class='co'># derive a regular polygon from the coordinates</span>
-<span class='va'>aPolygon</span> <span class='op'>&lt;-</span> <span class='fu'>gs_polygon</span><span class='op'>(</span>anchor <span class='op'>=</span> <span class='va'>coords</span>, vertices <span class='op'>=</span> <span class='fl'>6</span>, regular <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
-<span class='fu'><a href='visualise.html'>visualise</a></span><span class='op'>(</span><span class='va'>aPolygon</span>, linecol <span class='op'>=</span> <span class='st'>"green"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>the variable 'green' is not available in this object.</span></div><div class='input'><span class='fu'><a href='visualise.html'>visualise</a></span><span class='op'>(</span><span class='va'>aGeom</span>, new <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
-</div><div class='img'><img src='gs_polygon-2.png' alt='' width='700' height='433' /></div><div class='input'>
-<span class='co'># the vertices are plottet relative to the window</span>
-<span class='va'>window</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='op'>-</span><span class='fl'>50</span>, <span class='fl'>50</span><span class='op'>)</span>,
-                     y <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='op'>-</span><span class='fl'>50</span>, <span class='fl'>50</span><span class='op'>)</span><span class='op'>)</span>
-<span class='va'>aPolygon</span> <span class='op'>&lt;-</span> <span class='fu'><a href='setWindow.html'>setWindow</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>aPolygon</span>, to <span class='op'>=</span> <span class='va'>window</span><span class='op'>)</span>
-<span class='fu'><a href='visualise.html'>visualise</a></span><span class='op'>(</span><span class='va'>aPolygon</span>, fillcol <span class='op'>=</span> <span class='st'>"deeppink"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>the variable 'deeppink' is not available in this object.</span></div><div class='input'>
-<span class='co'># using a geom as anchor retains its properties (such as the window)</span>
-<span class='va'>aRectangle</span> <span class='op'>&lt;-</span> <span class='fu'>gs_rectangle</span><span class='op'>(</span>anchor <span class='op'>=</span> <span class='va'>aPolygon</span><span class='op'>)</span>
-<span class='fu'><a href='visualise.html'>visualise</a></span><span class='op'>(</span><span class='va'>aRectangle</span>, new <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
-</div><div class='img'><img src='gs_polygon-3.png' alt='' width='700' height='433' /></div><div class='input'>
-<span class='co'># 2. sketch a hexagon</span>
-<span class='kw'>if</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/grDevices/dev.interactive.html'>dev.interactive</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span><span class='op'>{</span>
-  <span class='va'>aHexagon</span> <span class='op'>&lt;-</span> <span class='fu'>gs_hexagon</span><span class='op'>(</span>features <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span>
-  <span class='fu'><a href='visualise.html'>visualise</a></span><span class='op'>(</span><span class='va'>aHexagon</span>, linecol <span class='op'>=</span> <span class='st'>"deeppink"</span>, linetype <span class='op'>=</span> <span class='fl'>2</span>, new <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
-<span class='op'>}</span>
-</div></pre>
+    <pre class="examples"><span class='r-in'><span class='co'># 1. create a polygon programmatically</span></span>
+<span class='r-in'><span class='va'>coords</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>40</span>, <span class='fl'>40</span>, <span class='fl'>0</span><span class='op'>)</span>,</span>
+<span class='r-in'>                     y <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>0</span>, <span class='fl'>40</span>, <span class='fl'>40</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># if no window is set, the bounding box will be set as window</span></span>
+<span class='r-in'><span class='va'>aGeom</span> <span class='op'>&lt;-</span> <span class='fu'>gs_polygon</span><span class='op'>(</span>anchor <span class='op'>=</span> <span class='va'>coords</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='visualise.html'>visualise</a></span><span class='op'>(</span><span class='va'>aGeom</span><span class='op'>)</span></span>
+<span class='r-plt img'><img src='gs_polygon-1.png' alt='' width='700' height='433' /></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># derive a regular polygon from the coordinates</span></span>
+<span class='r-in'><span class='va'>aPolygon</span> <span class='op'>&lt;-</span> <span class='fu'>gs_polygon</span><span class='op'>(</span>anchor <span class='op'>=</span> <span class='va'>coords</span>, vertices <span class='op'>=</span> <span class='fl'>6</span>, regular <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='visualise.html'>visualise</a></span><span class='op'>(</span><span class='va'>aPolygon</span>, linecol <span class='op'>=</span> <span class='st'>"green"</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='visualise.html'>visualise</a></span><span class='op'>(</span><span class='va'>aGeom</span>, new <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></span>
+<span class='r-plt img'><img src='gs_polygon-2.png' alt='' width='700' height='433' /></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># the vertices are plottet relative to the window</span></span>
+<span class='r-in'><span class='va'>window</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='op'>-</span><span class='fl'>50</span>, <span class='fl'>50</span><span class='op'>)</span>,</span>
+<span class='r-in'>                     y <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='op'>-</span><span class='fl'>50</span>, <span class='fl'>50</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>aPolygon</span> <span class='op'>&lt;-</span> <span class='fu'><a href='setWindow.html'>setWindow</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>aPolygon</span>, to <span class='op'>=</span> <span class='va'>window</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='visualise.html'>visualise</a></span><span class='op'>(</span><span class='va'>aPolygon</span>, fillcol <span class='op'>=</span> <span class='st'>"deeppink"</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># using a geom as anchor retains its properties (such as the window)</span></span>
+<span class='r-in'><span class='va'>aRectangle</span> <span class='op'>&lt;-</span> <span class='fu'>gs_rectangle</span><span class='op'>(</span>anchor <span class='op'>=</span> <span class='va'>aPolygon</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='visualise.html'>visualise</a></span><span class='op'>(</span><span class='va'>aRectangle</span>, new <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></span>
+<span class='r-plt img'><img src='gs_polygon-3.png' alt='' width='700' height='433' /></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># 2. sketch a hexagon</span></span>
+<span class='r-in'><span class='kw'>if</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/grDevices/dev.interactive.html'>dev.interactive</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span><span class='op'>{</span></span>
+<span class='r-in'>  <span class='va'>aHexagon</span> <span class='op'>&lt;-</span> <span class='fu'>gs_hexagon</span><span class='op'>(</span>features <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span></span>
+<span class='r-in'>  <span class='fu'><a href='visualise.html'>visualise</a></span><span class='op'>(</span><span class='va'>aHexagon</span>, linecol <span class='op'>=</span> <span class='st'>"deeppink"</span>, linetype <span class='op'>=</span> <span class='fl'>2</span>, new <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></span>
+<span class='r-in'><span class='op'>}</span></span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

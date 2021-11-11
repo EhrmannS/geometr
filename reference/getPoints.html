@@ -80,7 +80,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">geometr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.10</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.11</span>
       </span>
     </div>
 
@@ -148,6 +148,9 @@
 <span class='co'># S4 method for Raster</span>
 <span class='fu'>getPoints</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span>
 
+<span class='co'># S4 method for SpatRaster</span>
+<span class='fu'>getPoints</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span>
+
 <span class='co'># S4 method for matrix</span>
 <span class='fu'>getPoints</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span></pre>
 
@@ -188,57 +191,145 @@
 <code><a href='getWindow.html'>getWindow</a>()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>getPoints</span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>gtGeoms</span><span class='op'>$</span><span class='va'>polygon</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 11 × 3</span>
-#&gt;        x     y   fid
-#&gt;    <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>
-#&gt; <span style='color: #BCBCBC;'> 1</span>   0     -<span style='color: #BB0000;'>40</span>     1
-#&gt; <span style='color: #BCBCBC;'> 2</span>  34.6   -<span style='color: #BB0000;'>20</span>     1
-#&gt; <span style='color: #BCBCBC;'> 3</span>  34.6    20     1
-#&gt; <span style='color: #BCBCBC;'> 4</span>   0      40     1
-#&gt; <span style='color: #BCBCBC;'> 5</span> -<span style='color: #BB0000;'>34.6</span>    20     1
-#&gt; <span style='color: #BCBCBC;'> 6</span> -<span style='color: #BB0000;'>34.6</span>   -<span style='color: #BB0000;'>20</span>     1
-#&gt; <span style='color: #BCBCBC;'> 7</span>   0     -<span style='color: #BB0000;'>40</span>     1
-#&gt; <span style='color: #BCBCBC;'> 8</span> -<span style='color: #BB0000;'>34.6</span>    20     2
-#&gt; <span style='color: #BCBCBC;'> 9</span> -<span style='color: #BB0000;'>34.6</span>   -<span style='color: #BB0000;'>20</span>     2
-#&gt; <span style='color: #BCBCBC;'>10</span>   0       0     2
-#&gt; <span style='color: #BCBCBC;'>11</span> -<span style='color: #BB0000;'>34.6</span>    20     2</div><div class='input'>
-<span class='fu'>getPoints</span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>gtGeoms</span><span class='op'>$</span><span class='va'>point</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 9 × 3</span>
-#&gt;       x     y   fid
-#&gt;   <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span>
-#&gt; <span style='color: #BCBCBC;'>1</span>   0     -<span style='color: #BB0000;'>40</span>     1
-#&gt; <span style='color: #BCBCBC;'>2</span>  34.6   -<span style='color: #BB0000;'>20</span>     2
-#&gt; <span style='color: #BCBCBC;'>3</span>  34.6    20     3
-#&gt; <span style='color: #BCBCBC;'>4</span>   0      40     4
-#&gt; <span style='color: #BCBCBC;'>5</span> -<span style='color: #BB0000;'>34.6</span>    20     5
-#&gt; <span style='color: #BCBCBC;'>6</span> -<span style='color: #BB0000;'>34.6</span>   -<span style='color: #BB0000;'>20</span>     6
-#&gt; <span style='color: #BCBCBC;'>7</span> -<span style='color: #BB0000;'>34.6</span>    20     7
-#&gt; <span style='color: #BCBCBC;'>8</span> -<span style='color: #BB0000;'>34.6</span>   -<span style='color: #BB0000;'>20</span>     8
-#&gt; <span style='color: #BCBCBC;'>9</span>   0       0     9</div><div class='input'>
-<span class='co'># for raster objects, the @point slot is extracted from its compact form</span>
-<span class='va'>gtGeoms</span><span class='op'>$</span><span class='va'>grid</span><span class='op'>$</span><span class='va'>continuous</span><span class='op'>@</span><span class='va'>point</span>
-</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 3 × 2</span>
-#&gt;       x     y
-#&gt;   <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>
-#&gt; <span style='color: #BCBCBC;'>1</span>     0     0
-#&gt; <span style='color: #BCBCBC;'>2</span>    60    56
-#&gt; <span style='color: #BCBCBC;'>3</span>     1     1</div><div class='input'>
-<span class='fu'>getPoints</span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>gtGeoms</span><span class='op'>$</span><span class='va'>grid</span><span class='op'>$</span><span class='va'>continuous</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 3,360 × 3</span>
-#&gt;        x     y   fid
-#&gt;    <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span>
-#&gt; <span style='color: #BCBCBC;'> 1</span>   0.5   0.5     1
-#&gt; <span style='color: #BCBCBC;'> 2</span>   1.5   0.5     2
-#&gt; <span style='color: #BCBCBC;'> 3</span>   2.5   0.5     3
-#&gt; <span style='color: #BCBCBC;'> 4</span>   3.5   0.5     4
-#&gt; <span style='color: #BCBCBC;'> 5</span>   4.5   0.5     5
-#&gt; <span style='color: #BCBCBC;'> 6</span>   5.5   0.5     6
-#&gt; <span style='color: #BCBCBC;'> 7</span>   6.5   0.5     7
-#&gt; <span style='color: #BCBCBC;'> 8</span>   7.5   0.5     8
-#&gt; <span style='color: #BCBCBC;'> 9</span>   8.5   0.5     9
-#&gt; <span style='color: #BCBCBC;'>10</span>   9.5   0.5    10
-#&gt; <span style='color: #949494;'># … with 3,350 more rows</span></div></pre>
+    <pre class="examples"><span class='r-in'></span>
+<span class='r-in'><span class='fu'>getPoints</span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>gtGeoms</span><span class='op'>$</span><span class='va'>point</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 9 × 3</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>       x     y   fid</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>1</span>   0     -<span style='color: #BB0000;'>40</span>     1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>2</span>  34.6   -<span style='color: #BB0000;'>20</span>     2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>3</span>  34.6    20     3</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>4</span>   0      40     4</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>5</span> -<span style='color: #BB0000;'>34.6</span>    20     5</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>6</span> -<span style='color: #BB0000;'>34.6</span>   -<span style='color: #BB0000;'>20</span>     6</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>7</span> -<span style='color: #BB0000;'>34.6</span>    20     7</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>8</span> -<span style='color: #BB0000;'>34.6</span>   -<span style='color: #BB0000;'>20</span>     8</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>9</span>   0       0     9</span>
+<span class='r-in'><span class='fu'>getPoints</span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>gtGeoms</span><span class='op'>$</span><span class='va'>polygon</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 11 × 3</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>        x     y   fid</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 1</span>   0     -<span style='color: #BB0000;'>40</span>     1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 2</span>  34.6   -<span style='color: #BB0000;'>20</span>     1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 3</span>  34.6    20     1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 4</span>   0      40     1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 5</span> -<span style='color: #BB0000;'>34.6</span>    20     1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 6</span> -<span style='color: #BB0000;'>34.6</span>   -<span style='color: #BB0000;'>20</span>     1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 7</span>   0     -<span style='color: #BB0000;'>40</span>     1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 8</span> -<span style='color: #BB0000;'>34.6</span>    20     2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 9</span> -<span style='color: #BB0000;'>34.6</span>   -<span style='color: #BB0000;'>20</span>     2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>10</span>   0       0     2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>11</span> -<span style='color: #BB0000;'>34.6</span>    20     2</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># for raster objects, the @point slot is extracted from its compact form</span></span>
+<span class='r-in'><span class='va'>gtGeoms</span><span class='op'>$</span><span class='va'>grid</span><span class='op'>$</span><span class='va'>continuous</span><span class='op'>@</span><span class='va'>point</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 3 × 2</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>       x     y</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>1</span>     0     0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>2</span>    60    56</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>3</span>     1     1</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='fu'>getPoints</span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>gtGeoms</span><span class='op'>$</span><span class='va'>grid</span><span class='op'>$</span><span class='va'>continuous</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 3,360 × 3</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>        x     y   fid</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 1</span>   0.5   0.5     1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 2</span>   1.5   0.5     2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 3</span>   2.5   0.5     3</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 4</span>   3.5   0.5     4</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 5</span>   4.5   0.5     5</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 6</span>   5.5   0.5     6</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 7</span>   6.5   0.5     7</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 8</span>   7.5   0.5     8</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 9</span>   8.5   0.5     9</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>10</span>   9.5   0.5    10</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># … with 3,350 more rows</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='fu'><a href='gc_sp.html'>gc_sp</a></span><span class='op'>(</span><span class='va'>gtGeoms</span><span class='op'>$</span><span class='va'>line</span><span class='op'>)</span> <span class='op'><a href='%>%.html'>%&gt;%</a></span></span>
+<span class='r-in'>  <span class='fu'>getPoints</span><span class='op'>(</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 9 × 3</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>       x     y   fid</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>1</span>   0     -<span style='color: #BB0000;'>40</span>     1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>2</span>  34.6   -<span style='color: #BB0000;'>20</span>     1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>3</span>  34.6    20     1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>4</span>   0      40     1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>5</span> -<span style='color: #BB0000;'>34.6</span>    20     1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>6</span> -<span style='color: #BB0000;'>34.6</span>   -<span style='color: #BB0000;'>20</span>     1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>7</span> -<span style='color: #BB0000;'>34.6</span>    20     2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>8</span> -<span style='color: #BB0000;'>34.6</span>   -<span style='color: #BB0000;'>20</span>     2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>9</span>   0       0     2</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='fu'><a href='gc_sf.html'>gc_sf</a></span><span class='op'>(</span><span class='va'>gtGeoms</span><span class='op'>$</span><span class='va'>line</span><span class='op'>)</span> <span class='op'><a href='%>%.html'>%&gt;%</a></span></span>
+<span class='r-in'>  <span class='fu'>getPoints</span><span class='op'>(</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 9 × 3</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>       x     y   fid</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>1</span>   0     -<span style='color: #BB0000;'>40</span>     1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>2</span>  34.6   -<span style='color: #BB0000;'>20</span>     1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>3</span>  34.6    20     1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>4</span>   0      40     1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>5</span> -<span style='color: #BB0000;'>34.6</span>    20     1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>6</span> -<span style='color: #BB0000;'>34.6</span>   -<span style='color: #BB0000;'>20</span>     1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>7</span> -<span style='color: #BB0000;'>34.6</span>    20     2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>8</span> -<span style='color: #BB0000;'>34.6</span>   -<span style='color: #BB0000;'>20</span>     2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>9</span>   0       0     2</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='fu'><a href='gc_raster.html'>gc_raster</a></span><span class='op'>(</span><span class='va'>gtGeoms</span><span class='op'>$</span><span class='va'>grid</span><span class='op'>$</span><span class='va'>categorical</span><span class='op'>)</span> <span class='op'><a href='%>%.html'>%&gt;%</a></span></span>
+<span class='r-in'>  <span class='fu'>getPoints</span><span class='op'>(</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 3,360 × 3</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>        x     y   fid</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 1</span>   0.5   0.5     1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 2</span>   1.5   0.5     2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 3</span>   2.5   0.5     3</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 4</span>   3.5   0.5     4</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 5</span>   4.5   0.5     5</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 6</span>   5.5   0.5     6</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 7</span>   6.5   0.5     7</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 8</span>   7.5   0.5     8</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 9</span>   8.5   0.5     9</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>10</span>   9.5   0.5    10</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># … with 3,350 more rows</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='fu'><a href='gc_terra.html'>gc_terra</a></span><span class='op'>(</span><span class='va'>gtGeoms</span><span class='op'>$</span><span class='va'>grid</span><span class='op'>$</span><span class='va'>categorical</span><span class='op'>)</span> <span class='op'><a href='%>%.html'>%&gt;%</a></span></span>
+<span class='r-in'>  <span class='fu'>getPoints</span><span class='op'>(</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 3,360 × 3</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>        x     y   fid</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 1</span>   0.5   0.5     1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 2</span>   1.5   0.5     2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 3</span>   2.5   0.5     3</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 4</span>   3.5   0.5     4</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 5</span>   4.5   0.5     5</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 6</span>   5.5   0.5     6</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 7</span>   6.5   0.5     7</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 8</span>   7.5   0.5     8</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 9</span>   8.5   0.5     9</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>10</span>   9.5   0.5    10</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># … with 3,350 more rows</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='fu'>getPoints</span><span class='op'>(</span>x <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>matrix</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>3</span>, <span class='fl'>5</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 15 × 3</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>        x     y   fid</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 1</span>   0.5   0.5     1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 2</span>   1.5   0.5     2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 3</span>   2.5   0.5     3</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 4</span>   3.5   0.5     4</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 5</span>   4.5   0.5     5</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 6</span>   0.5   1.5     6</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 7</span>   1.5   1.5     7</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 8</span>   2.5   1.5     8</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 9</span>   3.5   1.5     9</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>10</span>   4.5   1.5    10</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>11</span>   0.5   2.5    11</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>12</span>   1.5   2.5    12</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>13</span>   2.5   2.5    13</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>14</span>   3.5   2.5    14</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>15</span>   4.5   2.5    15</span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

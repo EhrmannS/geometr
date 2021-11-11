@@ -80,7 +80,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">geometr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.10</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.11</span>
       </span>
     </div>
 
@@ -142,11 +142,11 @@
     </tr>
     <tr>
       <th>x</th>
-      <td><p>[<code><a href='https://rdrr.io/r/base/numeric.html'>numeric(1)</a></code>]<br /> the shear factor in x dimension.</p></td>
+      <td><p>[<code>numeric(1)</code>]<br /> the shear factor in x dimension.</p></td>
     </tr>
     <tr>
       <th>y</th>
-      <td><p>[<code><a href='https://rdrr.io/r/base/numeric.html'>numeric(1)</a></code>]<br /> the shear factor in y dimension.</p></td>
+      <td><p>[<code>numeric(1)</code>]<br /> the shear factor in y dimension.</p></td>
     </tr>
     <tr>
       <th>fid</th>
@@ -155,7 +155,7 @@ be skewed, specify that here.</p></td>
     </tr>
     <tr>
       <th>update</th>
-      <td><p>[<code><a href='https://rdrr.io/r/base/logical.html'>logical(1)</a></code>]<br /> whether or not to update the window slot
+      <td><p>[<code>logical(1)</code>]<br /> whether or not to update the window slot
 after skewing.</p></td>
     </tr>
     </table>
@@ -176,17 +176,19 @@ after skewing.</p></td>
 <code><a href='gt_translate.html'>gt_translate</a>()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># skew several features</span>
-<span class='fu'><a href='visualise.html'>visualise</a></span><span class='op'>(</span><span class='va'>gtGeoms</span><span class='op'>$</span><span class='va'>polygon</span>, linewidth <span class='op'>=</span> <span class='fl'>3</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>the variable '3' is not available in this object.</span></div><div class='input'><span class='va'>newPoly</span> <span class='op'>&lt;-</span> <span class='fu'>gt_skew</span><span class='op'>(</span>obj <span class='op'>=</span> <span class='va'>gtGeoms</span><span class='op'>$</span><span class='va'>polygon</span>, x <span class='op'>=</span> <span class='fl'>0.5</span>, update <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
-<span class='fu'><a href='visualise.html'>visualise</a></span><span class='op'>(</span>geom <span class='op'>=</span> <span class='va'>newPoly</span>, linecol <span class='op'>=</span> <span class='st'>"green"</span>, new <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>the variable 'green' is not available in this object.</span></div><div class='img'><img src='gt_skew-1.png' alt='' width='700' height='433' /></div><div class='input'>
-<span class='co'># skew a single feature</span>
-<span class='fu'><a href='visualise.html'>visualise</a></span><span class='op'>(</span><span class='va'>gtGeoms</span><span class='op'>$</span><span class='va'>polygon</span>, linewidth <span class='op'>=</span> <span class='fl'>3</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>the variable '3' is not available in this object.</span></div><div class='input'><span class='va'>newPoly</span> <span class='op'>&lt;-</span> <span class='fu'>gt_skew</span><span class='op'>(</span>obj <span class='op'>=</span> <span class='va'>gtGeoms</span><span class='op'>$</span><span class='va'>polygon</span>, x <span class='op'>=</span> <span class='fl'>0.5</span>, y <span class='op'>=</span> <span class='fl'>.7</span>, fid <span class='op'>=</span> <span class='fl'>2</span>,
-                   update <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
-<span class='fu'><a href='visualise.html'>visualise</a></span><span class='op'>(</span><span class='va'>newPoly</span>, linecol <span class='op'>=</span> <span class='st'>"green"</span>, new <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>the variable 'green' is not available in this object.</span></div><div class='img'><img src='gt_skew-2.png' alt='' width='700' height='433' /></div></pre>
+    <pre class="examples"><span class='r-in'><span class='co'># skew several features</span></span>
+<span class='r-in'><span class='fu'><a href='visualise.html'>visualise</a></span><span class='op'>(</span><span class='va'>gtGeoms</span><span class='op'>$</span><span class='va'>polygon</span>, linewidth <span class='op'>=</span> <span class='fl'>3</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>newPoly</span> <span class='op'>&lt;-</span> <span class='fu'>gt_skew</span><span class='op'>(</span>obj <span class='op'>=</span> <span class='va'>gtGeoms</span><span class='op'>$</span><span class='va'>polygon</span>, x <span class='op'>=</span> <span class='fl'>0.5</span>, update <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='visualise.html'>visualise</a></span><span class='op'>(</span>geom <span class='op'>=</span> <span class='va'>newPoly</span>, linecol <span class='op'>=</span> <span class='st'>"green"</span>, new <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></span>
+<span class='r-plt img'><img src='gt_skew-1.png' alt='' width='700' height='433' /></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># skew a single feature</span></span>
+<span class='r-in'><span class='fu'><a href='visualise.html'>visualise</a></span><span class='op'>(</span><span class='va'>gtGeoms</span><span class='op'>$</span><span class='va'>polygon</span>, linewidth <span class='op'>=</span> <span class='fl'>3</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>newPoly</span> <span class='op'>&lt;-</span> <span class='fu'>gt_skew</span><span class='op'>(</span>obj <span class='op'>=</span> <span class='va'>gtGeoms</span><span class='op'>$</span><span class='va'>polygon</span>, x <span class='op'>=</span> <span class='fl'>0.5</span>, y <span class='op'>=</span> <span class='fl'>.7</span>, fid <span class='op'>=</span> <span class='fl'>2</span>,</span>
+<span class='r-in'>                   update <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='visualise.html'>visualise</a></span><span class='op'>(</span><span class='va'>newPoly</span>, linecol <span class='op'>=</span> <span class='st'>"green"</span>, new <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></span>
+<span class='r-plt img'><img src='gt_skew-2.png' alt='' width='700' height='433' /></span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

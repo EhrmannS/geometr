@@ -81,7 +81,7 @@ getters are available." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">geometr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.10</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.11</span>
       </span>
     </div>
 
@@ -152,7 +152,7 @@ kept.</p></td>
     </tr>
     <tr>
       <th>update</th>
-      <td><p>[<code><a href='https://rdrr.io/r/base/logical.html'>logical(1)</a></code>]<br /> whether or not to update the window slot
+      <td><p>[<code>logical(1)</code>]<br /> whether or not to update the window slot
 after deriving the subset.</p></td>
     </tr>
     </table>
@@ -173,30 +173,34 @@ after deriving the subset.</p></td>
 <code><a href='gt_translate.html'>gt_translate</a>()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># get a subset of a geom</span>
-<span class='fu'>gt_filter</span><span class='op'>(</span><span class='va'>gtGeoms</span><span class='op'>$</span><span class='va'>point</span>, <span class='va'>y</span> <span class='op'>&lt;</span> <span class='op'>-</span><span class='fl'>10</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span style='color: #BBBB00;'>geom</span>        point
-#&gt;             2 groups | 4 features | 4 points
-#&gt; <span style='color: #BBBB00;'>crs         </span>cartesian
-#&gt; <span style='color: #BBBB00;'>attributes </span> --
-#&gt; <span style='color: #BBBB00;'>tiny map  </span>         -20 
-#&gt;                    ◌ ◌ ◌ ◌       
-#&gt;                    ◌ ◌ ◌ ◌       
-#&gt;                    ◌ ◌ ◌ ◌       
-#&gt;             -34.64 ◌ ◎ ◎ ◌ 34.64 
-#&gt;                    -40 </div><div class='input'>
-<span class='co'># get a subset of an sf-object</span>
-<span class='fu'>gt_filter</span><span class='op'>(</span>obj <span class='op'>=</span> <span class='va'>gtSF</span><span class='op'>$</span><span class='va'>multilinestring</span>, <span class='va'>a</span> <span class='op'>==</span> <span class='fl'>1</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>old-style crs object detected; please recreate object with a recent sf::st_crs()</span></div><div class='output co'>#&gt; <span class='message'>old-style crs object detected; please recreate object with a recent sf::st_crs()</span></div><div class='output co'>#&gt; <span style='color: #BBBB00;'>geom</span>        line
-#&gt;             1 group | 2 features | 8 points
-#&gt; <span style='color: #BBBB00;'>crs         </span>cartesian
-#&gt; <span style='color: #BBBB00;'>attributes </span> (features) a
-#&gt; <span style='color: #BBBB00;'>tiny map  </span>    10 
-#&gt;               ○ ◌ ◌ ○    
-#&gt;               ◌ ◌ ◌ ◌    
-#&gt;               ◌ ◌ ◌ ◌    
-#&gt;             0 ◉ ◌ ◌ ○ 10 
-#&gt;               0 </div></pre>
+    <pre class="examples"><span class='r-in'><span class='fu'>gt_filter</span><span class='op'>(</span><span class='va'>gtGeoms</span><span class='op'>$</span><span class='va'>point</span>, <span class='va'>y</span> <span class='op'>&lt;</span> <span class='op'>-</span><span class='fl'>10</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BBBB00;'>geom</span>        point</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>             2 groups | 4 features | 4 points</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BBBB00;'>crs         </span>cartesian</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BBBB00;'>attributes </span> --</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BBBB00;'>tiny map  </span>         -20 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                    ◌ ◌ ◌ ◌       </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                    ◌ ◌ ◌ ◌       </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                    ◌ ◌ ◌ ◌       </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>             -34.64 ◌ ◎ ◎ ◌ 34.64 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                    -40 </span>
+<span class='r-in'></span>
+<span class='r-in'><span class='va'>newObj</span> <span class='op'>&lt;-</span> <span class='fu'><a href='setFeatures.html'>setFeatures</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>gtGeoms</span><span class='op'>$</span><span class='va'>point</span>,</span>
+<span class='r-in'>                      table <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span>fid <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>9</span><span class='op'>)</span>,</span>
+<span class='r-in'>                                         attrib <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='va'>letters</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>9</span><span class='op'>]</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='fu'>gt_filter</span><span class='op'>(</span>obj <span class='op'>=</span> <span class='va'>newObj</span>, <span class='va'>attrib</span> <span class='op'><a href='https://rdrr.io/r/base/match.html'>%in%</a></span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"a"</span>, <span class='st'>"c"</span>, <span class='st'>"e"</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BBBB00;'>geom</span>        point</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>             1 group | 3 features | 3 points</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BBBB00;'>crs         </span>cartesian</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BBBB00;'>attributes </span> (features) attrib</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BBBB00;'>tiny map  </span>         20 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                    ◌ ◌ ◌ ◌       </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                    ◌ ◌ ◌ ◌       </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                    ◌ ◌ ◌ ◌       </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>             -34.64 ◌ ◉ ◉ ◌ 34.64 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                    -40 </span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

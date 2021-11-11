@@ -61,6 +61,9 @@
     <loc>http://EhrmannS.github.io/geometr/reference/gc_sp.html</loc>
   </url>
   <url>
+    <loc>http://EhrmannS.github.io/geometr/reference/gc_terra.html</loc>
+  </url>
+  <url>
     <loc>http://EhrmannS.github.io/geometr/reference/geom-class.html</loc>
   </url>
   <url>
@@ -127,15 +130,6 @@
     <loc>http://EhrmannS.github.io/geometr/reference/gtGeoms.html</loc>
   </url>
   <url>
-    <loc>http://EhrmannS.github.io/geometr/reference/gtRasters.html</loc>
-  </url>
-  <url>
-    <loc>http://EhrmannS.github.io/geometr/reference/gtSF.html</loc>
-  </url>
-  <url>
-    <loc>http://EhrmannS.github.io/geometr/reference/gtSP.html</loc>
-  </url>
-  <url>
     <loc>http://EhrmannS.github.io/geometr/reference/gtTheme-class.html</loc>
   </url>
   <url>
@@ -169,6 +163,9 @@
     <loc>http://EhrmannS.github.io/geometr/reference/gt_translate.html</loc>
   </url>
   <url>
+    <loc>http://EhrmannS.github.io/geometr/reference/pipe.html</loc>
+  </url>
+  <url>
     <loc>http://EhrmannS.github.io/geometr/reference/setCRS.html</loc>
   </url>
   <url>
@@ -179,6 +176,9 @@
   </url>
   <url>
     <loc>http://EhrmannS.github.io/geometr/reference/setHistory.html</loc>
+  </url>
+  <url>
+    <loc>http://EhrmannS.github.io/geometr/reference/setNames.html</loc>
   </url>
   <url>
     <loc>http://EhrmannS.github.io/geometr/reference/setTheme.html</loc>

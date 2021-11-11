@@ -82,7 +82,7 @@ function $." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">geometr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.10</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.11</span>
       </span>
     </div>
 
@@ -132,7 +132,7 @@ function $." />
     <div class="ref-description">
     <p>This function allows to extract a specific column from any geometric object
 for which all required getters are available and thus reflects the base
-function <code><a href='https://rdrr.io/r/base/Extract.html'>$</a></code>.</p>
+function <code>$</code>.</p>
     </div>
 
     <pre class="usage"><span class='fu'>gt_pull</span><span class='op'>(</span><span class='va'>obj</span>, <span class='va'>var</span>, ungroup <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></pre>
@@ -146,11 +146,11 @@ function <code><a href='https://rdrr.io/r/base/Extract.html'>$</a></code>.</p>
     </tr>
     <tr>
       <th>var</th>
-      <td><p>[<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>]<br /> name of the variable to pull.</p></td>
+      <td><p>[<code>character(1)</code>]<br /> name of the variable to pull.</p></td>
     </tr>
     <tr>
       <th>ungroup</th>
-      <td><p>[<code><a href='https://rdrr.io/r/base/logical.html'>logical(1)</a></code>]<br /> inversely to the argument <code>group</code>
+      <td><p>[<code>logical(1)</code>]<br /> inversely to the argument <code>group</code>
 in <code><a href='gc_geom.html'>gc_geom</a></code>, this argument provides the attribute to pull per
 each individual feature, producing duplicates in case there is more than
 one feature per group.</p></td>
@@ -181,18 +181,17 @@ one feature per group.</p></td>
 <code><a href='gt_translate.html'>gt_translate</a>()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># pull values from a geom (there are two features, thus two values) ...</span>
-<span class='fu'>gt_pull</span><span class='op'>(</span><span class='va'>gtGeoms</span><span class='op'>$</span><span class='va'>point</span>, <span class='st'>"fid"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] 1 2 3 4 5 6 7 8 9</div><div class='input'>
-<span class='co'># pull from a Raster* with RAT</span>
-<span class='fu'>gt_pull</span><span class='op'>(</span><span class='va'>gtGeoms</span><span class='op'>$</span><span class='va'>grid</span><span class='op'>$</span><span class='va'>categorical</span>, <span class='st'>"cover"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] lake              sealed            wetland           arable           
-#&gt; [5] pasture           clearcut          deciduous forest  coniferous forest
-#&gt; [9] mixed forest     
-#&gt; 9 Levels: arable clearcut coniferous forest deciduous forest ... wetland</div><div class='input'>
-<span class='co'># pull from an sf-object</span>
-<span class='fu'>gt_pull</span><span class='op'>(</span><span class='va'>gtSF</span><span class='op'>$</span><span class='va'>point</span>, <span class='st'>"a"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] 1 2</div></pre>
+    <pre class="examples"><span class='r-in'><span class='co'># pull values from a geom (there are two features, thus two values) ...</span></span>
+<span class='r-in'><span class='fu'>gt_pull</span><span class='op'>(</span><span class='va'>gtGeoms</span><span class='op'>$</span><span class='va'>point</span>, <span class='st'>"fid"</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] 1 2 3 4 5 6 7 8 9</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># pull from a Raster* with RAT</span></span>
+<span class='r-in'><span class='fu'>gt_pull</span><span class='op'>(</span><span class='va'>gtGeoms</span><span class='op'>$</span><span class='va'>grid</span><span class='op'>$</span><span class='va'>categorical</span>, <span class='st'>"cover"</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] lake              sealed            wetland           arable           </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [5] pasture           clearcut          deciduous forest  coniferous forest</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [9] mixed forest     </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 9 Levels: arable clearcut coniferous forest deciduous forest ... wetland</span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

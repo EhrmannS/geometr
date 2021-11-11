@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Set additional entries to the history of an object — setHistory • geometr</title>
+<title>Transform a spatial object to class SpatRaster — gc_terra • geometr</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -46,8 +46,8 @@
 
 
 
-<meta property="og:title" content="Set additional entries to the history of an object — setHistory" />
-<meta property="og:description" content="Set additional entries to the history of an object" />
+<meta property="og:title" content="Transform a spatial object to class SpatRaster — gc_terra" />
+<meta property="og:description" content="Transform a spatial object to class SpatRaster" />
 <meta property="og:image" content="http://EhrmannS.github.io/geometr/logo.svg" />
 
 
@@ -122,62 +122,52 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Set additional entries to the history of an object</h1>
-    <small class="dont-index">Source: <a href='https://github.com/EhrmannS/geometr/blob/master/R/setHistory.R'><code>R/setHistory.R</code></a></small>
-    <div class="hidden name"><code>setHistory.Rd</code></div>
+    <h1>Transform a spatial object to class <code>SpatRaster</code></h1>
+    <small class="dont-index">Source: <a href='https://github.com/EhrmannS/geometr/blob/master/R/gc_terra.R'><code>R/gc_terra.R</code></a></small>
+    <div class="hidden name"><code>gc_terra.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Set additional entries to the history of an object</p>
+    <p>Transform a spatial object to class <code>SpatRaster</code></p>
     </div>
 
-    <pre class="usage"><span class='fu'>setHistory</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>history</span>, <span class='va'>...</span><span class='op'>)</span>
-
-<span class='co'># S4 method for ANY</span>
-<span class='fu'>setHistory</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span>
+    <pre class="usage"><span class='fu'>gc_terra</span><span class='op'>(</span><span class='va'>input</span><span class='op'>)</span>
 
 <span class='co'># S4 method for geom</span>
-<span class='fu'>setHistory</span><span class='op'>(</span><span class='va'>x</span>, history <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span>
-
-<span class='co'># S4 method for RasterLayer</span>
-<span class='fu'>setHistory</span><span class='op'>(</span><span class='va'>x</span>, history <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre>
+<span class='fu'>gc_terra</span><span class='op'>(</span>input <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>x</th>
-      <td><p>the object for which to set the coordinate reference system.</p></td>
-    </tr>
-    <tr>
-      <th>history</th>
-      <td><p>[<code>list(1)</code>]<br /> the history to set for this object.</p></td>
-    </tr>
-    <tr>
-      <th>...</th>
-      <td><p>other arguments.</p></td>
+      <th>input</th>
+      <td><p>the object to transform to class <code>SpatRaster</code>.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>The object <code>x</code> where the history slot has been updated.</p>
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
-
-    <p>Both, objects of class <code>geom</code> and <code>Raster*</code> have the slot
-  <code>@history</code>, which contains the provenance of that object. With
-  <code>setHistory</code>, that provenance can be updated, based on the
-  modification the object has been exposed to. This happens automatically for
-  all geometry operations that come with <code>geometr</code>.</p>
+    <p>an object of class <code>SpatRaster</code></p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p>Other setters: 
-<code><a href='setCRS.html'>setCRS</a>()</code>,
-<code><a href='setFeatures.html'>setFeatures</a>()</code>,
-<code><a href='setGroups.html'>setGroups</a>()</code>,
-<code><a href='setNames.html'>setNames</a>()</code>,
-<code><a href='setWindow.html'>setWindow</a>()</code></p></div>
+    <div class='dont-index'><p>Other spatial classes: 
+<code><a href='gc_geom.html'>gc_geom</a>()</code>,
+<code><a href='gc_raster.html'>gc_raster</a>()</code>,
+<code><a href='gc_sf.html'>gc_sf</a>()</code>,
+<code><a href='gc_sp.html'>gc_sp</a>()</code></p></div>
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><span class='r-in'><span class='fu'>gc_terra</span><span class='op'>(</span>input <span class='op'>=</span> <span class='va'>gtGeoms</span><span class='op'>$</span><span class='va'>grid</span><span class='op'>$</span><span class='va'>categorical</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> class       : SpatRaster </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> dimensions  : 56, 60, 1  (nrow, ncol, nlyr)</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> resolution  : 1, 1  (x, y)</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> extent      : 0, 60, 0, 56  (xmin, xmax, ymin, ymax)</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> coord. ref. : lon/lat WGS 84 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> source      : memory </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> name        :   cover </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> min value   :  arable </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> max value   : wetland </span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
