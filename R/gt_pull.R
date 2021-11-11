@@ -23,9 +23,6 @@
 #'
 #' # pull from a Raster* with RAT
 #' gt_pull(gtGeoms$grid$categorical, "cover")
-#'
-#' # pull from an sf-object
-#' gt_pull(gtSF$point, "a")
 #' @importFrom checkmate assertLogical
 #' @importFrom dplyr select all_of pull left_join
 #' @importFrom tibble tibble
@@ -61,7 +58,7 @@ gt_pull <- function(obj, var, ungroup = FALSE){
   } else if(var %in% names(thePoints)){
     out <- pull(thePoints, var)
   } else {
-    message(paste0("the variable '", var, "' is not available in this object."))
+    # message(paste0("the variable '", var, "' is not available in this object."))
     out <- NULL
   }
 
