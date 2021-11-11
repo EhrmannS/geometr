@@ -163,7 +163,7 @@
       }
 
       out <- gTree(children = gList(legend_values, legend_obj, legend_labels))
-      legends <- c(legends, setNames(list(out), theParam))
+      legends <- c(legends, stats::setNames(list(out), theParam))
     }
 
   # } else {

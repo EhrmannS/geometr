@@ -1,5 +1,6 @@
 #' Make the layout of a plot
 #'
+#' @param x any spatial object to plot.
 #' @param legend [\code{list(.)}]\cr the legend object built with
 #'   \code{\link{.makeLegend}}.
 #' @param window [\code{data.frame(1)}] two opposing corners of a rectangle to
@@ -7,12 +8,18 @@
 #' @param theme [\code{gtTheme(1)}]\cr the theme from which to take graphical
 #'   parameters.
 
-.makeLayout <- function(legend, window, theme = gtTheme){
+.makeLayout <- function(x, legend, window, theme = gtTheme){
 
   maxWinX <- max(window$x)
   minWinX <- min(window$x)
   maxWinY <- max(window$y)
   minWinY <- min(window$y)
+
+  objWindow <- getWindow(x = x)
+
+  xZoom <- (max(objWindow$x) - min(objWindow$x)) / (maxWinX - minWinX)
+  yZoom <- (max(objWindow$y) - min(objWindow$y)) / (maxWinY - minWinY)
+  zoom <- min(c(xZoom, yZoom))
 
   xBins <- theme@xAxis$bins
   yBins <- theme@yAxis$bins
@@ -61,26 +68,6 @@
       legendH <- unit(0, "points")
       legendW <- unit(0, "points")
     }
-
-  #   legendW <- NULL
-  #   legendX <- 10
-  #   for(i in seq_along(x$legend)){
-  #
-  #     theAttr <- names(x$legend[[i]])[1]
-  #     arg <- eval(parse(text = paste0(theAttr)), envir = attr)
-  #     arg <- as.character(arg)
-  #
-  #     maxEl <- arg[which.max(nchar(arg))]
-  #     if(any(is.na(arg)) & nchar(maxEl) < nchar("NA")){
-  #       temp <- ceiling(convertX(unit(1, "strwidth", "NA") + unit(20, "points"), "points"))
-  #     } else {
-  #       temp <- ceiling(convertX(unit(1, "strwidth", maxEl) + unit(20, "points"), "points"))
-  #     }
-  #     temp2 <- legendX[i] + temp
-  #     legendW <- c(legendW, temp)
-  #     legendX <- unit.c(legendX, temp2)
-  #   }
-  #   legendW <- unit(sum(legendW)+6, "points")
   } else{
     legendW <- unit(0, "points")
     legendH <- unit(0, "points")
@@ -121,6 +108,7 @@
 
   out <- list(dim = list(x1 = yAxisTitleW+yAxisTicksW, x2 = gridW, x3 = legendW,
                          y1 = titleH, y2 = gridH, y3 = xAxisTitleH+xAxisTicksH, y4 = legendH), #y4 will be the legend height in case the position at the bottom is chosen
+              zoom = zoom,
               margin = list(x = margin$x,
                             y = margin$y),
               window = list(xmin = minWinX,

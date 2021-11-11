@@ -39,7 +39,7 @@
 
   # if the parameter to scale has not beend defined as quick parameter, add it to 'plotParams'
   if(!theme@scale$param %in% names(plotParams) & !is.na(theme@scale$param)){
-    plotParams <- c(plotParams, setNames(list(theme@scale$to), theme@scale$param))
+    plotParams <- c(plotParams, stats::setNames(list(theme@scale$to), theme@scale$param))
   }
 
   # 2. update the theme ----
@@ -85,6 +85,7 @@
   rows <- ifelse(!is.null(getRows(x = x)), getRows(x = x), 0)
   cols <- ifelse(!is.null(getCols(x = x)), getCols(x = x), 0)
   theGrob <- .makeGrob(x = x,
+                       window = window,
                        featureType = featureType,
                        plotValues = plotValues,
                        scaleValues = scaleValues,
@@ -108,7 +109,8 @@
 
   # make the layout ----
   # start_time <- Sys.time()
-  theLayout <- .makeLayout(legend = theLegend,
+  theLayout <- .makeLayout(x = x,
+                           legend = theLegend,
                            window = window, #extent = extent,
                            theme = theme)
   out$layout <- theLayout
