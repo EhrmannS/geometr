@@ -38,7 +38,6 @@ setMethod(f = "setFeatures",
           definition = function(x, table = NULL){
             if(!any(colnames(table) %in% "fid")){
               stop("'table' must contain the column 'fid'.")
-
             }
             if(x@type == "grid"){
 
@@ -118,26 +117,8 @@ setMethod(f = "setFeatures",
             if(any(colnames(table) %in% colnames(x))){
               out <- merge(x = x, y = table, all.x = TRUE)
             } else{
-              temp <- x
-              st_geometry(temp) <- NULL
-              temp <- cbind(temp, table)
-              out <- merge(x = x, y = temp, all.x = TRUE)
+              out <- cbind(x, table)
             }
-            return(out)
-          }
-)
-
-# sfc ----
-#' @rdname setFeatures
-#' @importFrom checkmate assertDataFrame
-#' @importFrom sf st_sf
-#' @export
-setMethod(f = "setFeatures",
-          signature = signature("sfc"),
-          definition = function(x, table = NULL){
-            assertDataFrame(table)
-
-            out <- st_sf(geom = x, table)
             return(out)
           }
 )
