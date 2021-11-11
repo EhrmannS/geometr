@@ -16,7 +16,7 @@
 #' @examples
 #' # make an empty plot
 #' visualise()
-#' visualise(window = getExtent(gtRasters$continuous))
+#' visualise(window = getExtent(gtGeoms$grid$continuous))
 #'
 #' coords <- data.frame(x = c(30, 60, 60, 40),
 #'                      y = c(40, 40, 60, 70),
@@ -29,7 +29,7 @@
 #' withWindow <- setWindow(x = aGeom, to = win)
 #' visualise(expanded = withWindow)
 #'
-#' (aRaster <-  gtRasters$categorical)
+#' (aRaster <-  gtGeoms$grid$continuous)
 #'
 #' # plot several objects together
 #' visualise(aRaster, aGeom)
@@ -64,8 +64,8 @@ visualise <- function(...,
                       theme = gtTheme){
 
   # library(geometr); library(checkmate); library(grid); library(rlang); library(tibble); library(dplyr); library(purrr)
-  # window = NULL; theme = gtTheme; trace = FALSE; new = T; clip = FALSE;
-  # objs <- list(something = perforatedPoly); plotParams <- list(fillcol = "fid")
+  # window = NULL; theme = myTheme; trace = FALSE; new = T; clip = FALSE;
+  # objs <- list(gc_raster(gtGeoms$grid$categorical)); plotParams <- list(linecol = "fid")
   # source('/media/se87kuhe/external1/projekte/r-dev/geometr/R/makePlot.R')
   # source('/media/se87kuhe/external1/projekte/r-dev/geometr/R/makeGrob.R')
   # source('/media/se87kuhe/external1/projekte/r-dev/geometr/R/makeLayout.R')
@@ -82,36 +82,44 @@ visualise <- function(...,
 
   # derive the objects to plot
   objs <- rlang::enquos(...)
-  if(any(!is.null(names(objs)))){
-    objs <- objs[!names(objs) %in% names(theme@parameters)]
-  }
+  # return(objs)
+  # if(any(!is.null(names(objs)))){
+  #   objs <- objs[!names(objs) %in% names(theme@parameters)]
+  # }
 
   if(length(objs) != 0){
 
-    # tease apart objects with several layers (e.g. RasterStack) and determine
-    # names
-    plotObjects <- plotNames <- NULL
-    for(i in seq_along(objs)){
-      theLayers <- getLayers(x = eval_tidy(expr = objs[[i]]))
-      objsName <- names(objs)[i]
-      layerName <- names(theLayers)
-
-      if(objsName %in% c("linecol", "fillcol", "linetype", "linewidth", "pointsize", "pointsymbol")){
-        next
-      } else if(objsName == ""){
-        theName <- layerName
-      } else {
-        theName <- rep(objsName, length(theLayers))
-      }
-
-      if(is.null(theLayers)){
-        warning(paste0("object '", names(objs)[i], "' can't be plotted, it's neither a geometric object, nor a graphical parameter."))
-      } else {
-        plotObjects <- c(plotObjects, theLayers)
-        plotNames <- c(plotNames, theName)
-      }
+    layerNames <-  names(objs)
+    if(is.null(layerNames)){
+      layerNames <- ""
     }
-    names(plotObjects) <- plotNames
+    plotObjects <- plotNames <- NULL
+
+    for(i in seq_along(objs)){
+
+      if(layerNames[i] %in% c("colours", "missingcol", "linecol", "fillcol", "linetype", "linewidth", "pointsize", "pointsymbol")){
+        next
+      } else {
+        theLayers <- getLayers(x = eval_tidy(expr = objs[[i]]))
+        objsName <- geometr::getNames(x = eval_tidy(expr = objs[[i]]))
+
+        if(layerNames[i] == ""){
+          theName <- objsName
+        } else {
+          theName <- rep(layerNames[i], length(theLayers))
+        }
+      }
+      plotObjects <- c(plotObjects, theLayers)
+      plotNames <- c(plotNames, theName)
+
+      # if(is.null(theLayers)){
+      #   warning(paste0("object '", names(objs)[i], "' can't be plotted, it's neither a geometric object, nor a graphical parameter."))
+      # } else {
+      # }
+    }
+    if(!is.null(plotObjects)){
+      names(plotObjects) <- plotNames
+    }
 
   } else {
     if(!is.null(window)){
@@ -556,7 +564,7 @@ visualise <- function(...,
 #'   \item \code{pointsymbol [numeric]}
 #' }
 #' @examples
-#' input <- gtRasters$continuous
+#' input <- gtGeoms$grid$continuous
 #' (myTheme <- setTheme(title = list(plot = FALSE)))
 #'
 #' visualise(input, theme = myTheme)
