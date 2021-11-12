@@ -3,6 +3,7 @@
 #' @param x the object to transform to class \code{grob}.
 #' @param window [\code{data.frame(1)}] two opposing corners of a rectangle to
 #'   which the plot is limited.
+#' @param layout layout to fit the grob into place.
 #' @param featureType the type of feature to make a grob from.
 #' @param plotValues the plot values.
 #' @param scaleValues the scale values.
@@ -22,7 +23,7 @@
 #' @importFrom grid gpar unit pointsGrob gList pathGrob polylineGrob clipGrob
 #'   rasterGrob
 
-.makeGrob <- function(x, window, featureType, plotValues, scaleValues, plotParams, rows = rows, cols = cols, theme = gtTheme){
+.makeGrob <- function(x, window, layout, featureType, plotValues, scaleValues, plotParams, rows = rows, cols = cols, theme = gtTheme){
 
   if(theme@box$plot){
 
@@ -197,10 +198,10 @@
         theColours <- allColours[valCuts]
       }
 
-      out <- rasterGrob(x = unit(0, "native"),
-                        y = unit(0, "native"),
-                        width = unit(cols, "native"),#unit(1, "npc"),
-                        height = unit(rows, "native"),#unit(1, "npc"),
+      out <- rasterGrob(x = -unit(layout$margin$x, "native"),
+                        y = -unit(layout$margin$y, "native"),
+                        width = unit(cols, "native") + unit(2 * layout$margin$x, "native") - unit(theme@box$linewidth, "points"),
+                        height = unit(rows, "native") + unit(2 * layout$margin$y, "native") - unit(theme@box$linewidth, "points"),
                         hjust = 0,
                         vjust = 0,
                         image = matrix(data = theColours, nrow = rows, ncol = cols, byrow = TRUE),

@@ -31,7 +31,7 @@
   # end_time <- Sys.time()
   # timings <- bind_rows(timings, tibble(activity = "pull data", duration = end_time - start_time))
 
-  # 1. manage plot parameters ----
+  # manage plot parameters ----
   plotParams <- exprs(...)
 
   # only chose parameters that are in the theme (exclude plot objects)
@@ -42,7 +42,7 @@
     plotParams <- c(plotParams, stats::setNames(list(theme@scale$to), theme@scale$param))
   }
 
-  # 2. update the theme ----
+  # update plot and scale values ----
   # start_time <- Sys.time()
   if(featureType[1] == "grid"){
     plotParams <- list(fillcol = "gid")
@@ -79,24 +79,6 @@
   out$theme <- theme
   # end_time <- Sys.time()
   # timings <- bind_rows(timings, tibble(activity = "update Theme", duration = end_time - start_time))
-
-  # 3. make the grob ----
-  # start_time <- Sys.time()
-  rows <- ifelse(!is.null(getRows(x = x)), getRows(x = x), 0)
-  cols <- ifelse(!is.null(getCols(x = x)), getCols(x = x), 0)
-  theGrob <- .makeGrob(x = x,
-                       window = window,
-                       featureType = featureType,
-                       plotValues = plotValues,
-                       scaleValues = scaleValues,
-                       plotParams = plotParams,
-                       rows = rows,
-                       cols = cols,
-                       theme = theme)
-  out$grob <- theGrob
-  # end_time <- Sys.time()
-  # timings <- bind_rows(timings, tibble(activity = "make grob", duration = end_time - start_time))
-
   # make the legend ----
   # start_time <- Sys.time()
   theLegend <- .makeLegend(x = x,
@@ -116,6 +98,25 @@
   out$layout <- theLayout
   # end_time <- Sys.time()
   # timings <- bind_rows(timings, tibble(activity = "make layout", duration = end_time - start_time))
+
+  # make the grob ----
+  # start_time <- Sys.time()
+  rows <- ifelse(!is.null(getRows(x = x)), getRows(x = x), 0)
+  cols <- ifelse(!is.null(getCols(x = x)), getCols(x = x), 0)
+  theGrob <- .makeGrob(x = x,
+                       window = window,
+                       featureType = featureType,
+                       plotValues = plotValues,
+                       scaleValues = scaleValues,
+                       plotParams = plotParams,
+                       rows = rows,
+                       cols = cols,
+                       layout = theLayout,
+                       theme = theme)
+  out$grob <- theGrob
+  # end_time <- Sys.time()
+  # timings <- bind_rows(timings, tibble(activity = "make grob", duration = end_time - start_time))
+
 
   return(out)
   # return(timings)
