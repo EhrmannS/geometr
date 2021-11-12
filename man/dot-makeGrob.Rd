@@ -7,6 +7,7 @@
 .makeGrob(
   x,
   window,
+  layout,
   featureType,
   plotValues,
   scaleValues,
@@ -21,6 +22,8 @@
 
 \item{window}{[\code{data.frame(1)}] two opposing corners of a rectangle to
 which the plot is limited.}
+
+\item{layout}{layout to fit the grob into place.}
 
 \item{featureType}{the type of feature to make a grob from.}
 
