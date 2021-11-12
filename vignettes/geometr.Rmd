@@ -26,6 +26,7 @@ knitr::opts_chunk$set(
 library(sf)
 library(sp)
 library(raster)
+library(terra)
 library(geometr)
 library(tibble)
 library(dplyr)
@@ -48,16 +49,6 @@ The tables are related with feature and group IDs (`fid` and `gid` respectively)
 
 This vignette outlines in detail first how `geometr` improves interoperability, then it describes the data-structure of a `geom`, how different feature types are cast into one another and shows how to visualise geometric objects with `geometr`.
 
-```{r, eval=FALSE}
-library(sf)
-library(sp)
-library(raster)
-library(geometr)
-library(tibble)
-library(dplyr)
-library(magrittr)
-```
-
 # Interoperability
 
 <a href="https://en.wikipedia.org/wiki/Interoperability" target="_blank">Interoperable software</a> is designed to easily exchange information with other software, which can be achieved by providing the output of functionally similar operations in a common arrangement or format, standardising access to the data.
@@ -70,27 +61,24 @@ An extent reports the minimum and maximum value of all dimensions an object resi
 There are, however, several ways in which even this simple information can be reported, for example as vector or as table and with or without names.
 Moreover, distinct workflows provide data so that the same information is not at the same location or with the same name in all structures, e.g., the minimum value of the x dimension is not always the first information and is not always called 'xmin'.
 
-The following code chunk exemplifies this by showing various functions, which are all considered standard in R to date, that derive an extent from specific spatial objects:
+The following code chunk exemplifies this by showing various functions that derive an extent from specific spatial objects:
 
 ```{r}
-nc_sf <- st_read(system.file("shape/nc.shp", package = "sf"))
+nc_sf <- sf::st_read(system.file("shape/nc.shp", package = "sf"))
 st_bbox(nc_sf)
 
-nc_sp <- as_Spatial(nc_sf)
+nc_sp <- sf::as_Spatial(nc_sf)
 bbox(nc_sp)
 
-ras <- raster(system.file("external/test.grd", package = "raster"))
+ras <- raster::raster(system.file("external/test.grd", package = "raster"))
 extent(ras)
+
+spRas <- terra::rast(x = ras)
+ext(spRas)
 ```
 
-`st_bbox()` provides the information as a named vector and presents first minimum and then maximum values of both dimensions, `bbox()` provides a table with minimum and maximum values in columns and `extent()` provides the information in an S4 object that presents first the x and then the y values.
-Neither data structures, nor names or positions of the information are identical.
-
-For a human user the structure of those information might not matter because we recognise, in most cases intuitively, where which information is to be found in such a simple data-structure.
-In the above case it is easy to recognise how the combination of column and rownames (of `bbox()`) refers to the already combined names (of `st_bbox()` or `extent()`).
-However, this capacity of humans to recognise information relative to the context needs to be programmed into software, for it to have that ability.
-Think, for example, of a new custom function that is designed to extract and process information from an arbitrary spatial input, i.e., without knowing in advance what spatial class the user will provide. 
-This would require an extensive code-logic to handle all possible input formats, complicated further by classes that may become available only in the future.
+`sf::st_bbox()` provides the information as a named vector and presents first minimum and then maximum values of both dimensions, `sp::bbox()` provides a table with minimum and maximum values in columns, `raster::extent()` provides the information in an S4 object that presents first the x and then the y values and `terra::ext()` provides and object of class SpatExtent, which in principle evaluates to a vector with first the x and then the y values.
+Neither data structures, nor names or positions of the information are identical. Any generalised procedure (such as a function or a script) would require additional extensive code-logic, in case those information should be processed automatically for an arbitrary spatial input. This is presumably complicated even further in the future, when new classes become available.
 
 `geometr` improves interoperability in R for geometric and thus spatial classes by following the <a href="https://www.bioconductor.org/help/course-materials/2017/Zurich/S4-classes-and-methods.html#api-vs-internals" target="_blank">Bioconductor standard for S4 classes</a>.
 Here, *getters* and *setters* are used as accessor functions, and as pathway to extract or modify information of a given data structure.
@@ -106,6 +94,9 @@ getExtent(x = myInput)
 
 myInput <- ras
 getExtent(x = myInput)
+
+myInput <- spRas
+getExtent(x = myInput)
 ```
 
 The output of the getters provided by `geometr` is 
@@ -113,7 +104,7 @@ The output of the getters provided by `geometr` is
 * tidy, i.e., it provides variables in columns, observations in rows and only one value per cell
 * semantically interoperable, i.e., it provides the same information in the same location of the output object, with the same names.
 
-This ensures that the information retrieved with getters are compatible with a tidy workflow and that a custom function that processes geometric information requires merely one very simple row of code to extract those information from a potentially wide range of distinct classes.
+This ensures that the information retrieved with getters are compatible with a tidy workflow and that a generalised function that processes geometric information requires merely one very simple row of code to extract those information from a potentially wide range of distinct classes.
 
 
 
@@ -121,7 +112,7 @@ This ensures that the information retrieved with getters are compatible with a t
 
 `geometr` comes with the S4 class `geom`, a geometric (spatial) class that has primarily been developed for its interoperability and easy access.
 
-All objects of this class are structurally the same, no slots are removed or added when modifying an object and all properties are labelled with the same terms in each object of that class.
+All objects of this class are structurally the same (check out the object `gtGeoms` for schematic representation of all possible types), no slots are removed or added when modifying or casting an object and all properties are labelled with the same terms in each object of that class.
 This interoperability is true for objects representing point (and grid), line or polygon features, for objects that contain a single or several features and for objects that are either merely geometric or indeed spatial/geographic because they contain a coordinate reference system (crs).
 A `geom` contains, moreover, only direct information, i.e., such information that can't be derived from other of its information, such as the extent (which is in fact only the minimum and maximum coordinates that make up the geometry).
 
@@ -129,23 +120,24 @@ A `geom` contains, moreover, only direct information, i.e., such information tha
 ## The data-structure of a `geom`
 
 A `geom` contains as its backbone the three slots `@point`, `@feature` and `@group`.
-Each of those slots are a named list that contains as many tables as there are layers in the `geom`.
+Each of those slots is a tibble that contains the respective attributes of the `geom`.
 The exact values stored in those tables are explained in Tab. \@ref(tab:slots), along the other slots of a `geom`.
 
 | slot | class | description |
 | :---- | :---- | :------------ |
 | `type` | `character` | the type of how the `geom` is processed and visualised. Either `point`, `line`, `polygon` or `grid`. |
+| `name` | `character` | the name of the `geom`. |
 | `point` | `tibble` | the coordinates in x and y dimension and the ID of the feature the point is part of (`fid`). |
-| `feature` | `list` of `tibble`s | the feature ID (`fid`) and the ID of the group the feature is part of (`gid`). Any other attributes that are valid for each individual feature can be joined to this table. |
-| `group` | `list` of `tibble`s | the group ID (`gid`) and any attributes that are valid for an overall group. |
+| `feature` | `tibble` | the feature ID (`fid`) and the ID of the group the feature is part of (`gid`). Any other attributes that are valid for each individual feature can be joined to this table. |
+| `group` | `tibble` | the group ID (`gid`) and any attributes that are valid for the set of features that are part of the group. |
 | `window` | `tibble` | the coordinates of a rectangular polygon that outlines the \"enclosing area\" of the `geom`. This is not to be confused with the extent, which is the minimum and maximum values of all dimensions of the `geom` and which is not recorded in a slot but derived from the coordinates. |
-| `crs` | `character` | the coordinate reference system, currently in proj4 notation. In case no crs has been set, this is shown as \'cartesian\'. |
+| `crs` | `character` | the coordinate reference system, currently in proj4 notation (will be updated soon). In case no crs has been set, this is shown as \'cartesian\'. |
 | `history` | `list` | all of the functions of `geometr` produce an entry in this list to document [provenance](https://en.wikipedia.org/wiki/Provenance#Data_provenance). |
 
 Table: (\#tab:slots) List of issues, which have to be considered when building a database of areal data from distinct sources.
 
 A `geom` of type grid is a special case of a point `geom` in that it is made up of a systematically distributed lattice of points, thereby resembling `raster` objects.
-A `geom` of type grid contains in the `@point` slot merely a table that contains the minimum and maximum value and the cell size for the x and y dimensions, while a `geom` of type point, line or polygon explicitly contains all the coordinates of the points that make up features. 
+A `geom` of type grid contains in the `@point` slot merely a table that holds the minimum and maximum value and the cell size for the x and y dimensions, while a `geom` of type point, line or polygon explicitly contains all the coordinates of the points that make up features. 
 When using the getter `getPoints()`, this slot is "unpacked" into a form that is interoperable with the other `geom` types.
 
 ```{r}
@@ -164,7 +156,7 @@ getFeatures(x = gtGeoms$grid$categorical)
 
 For raster objects it is intuitively clear that attributes are contained in separate tables, where unique values of the raster cells are related to attribute values. 
 For vector objects this also seems apparent, however, when digging below the surface there are some difference in interpretation.
-The attribute table for vector objects is typically seen as a table that contains attributes per feature, not per group (of unique features).
+The attribute table for vector objects is typically seen as a table that contains attributes per feature, not per group (of unique feature values).
 When storing vector data in a simple feature data structure, each feature is an actually not so simple object that can be made up of one or more points or lines, or of a wide range of nested and neighbouring polygons, such as in a `MULTIPOLYGON` or even a mix of all of those in a `GEOMETRYCOLLECTION`.
 
 In `geometr`, in contrast, a feature is a single point, one sequence of points that form a line or a [single polygon](#how-are-polygons-handled), i.e., only a single object of each type.
@@ -174,7 +166,7 @@ In `geometr`, this connectedness is represented by a group ID (`gid`), which rel
 This has two advantages over simple features:
 
 1. each feature can have both, ancillary information at the feature level and at the group level (i.e., a feature in the \"simple feature\" sense).
-2. this interpretation allows also raster objects to be captured in the exact same data structure, when regarding the cell values as features and the raster attribute tables as relating groups of unique values/features to group specific attributes.
+2. this interpretation allows also raster objects to be captured in the exact same data structure, when regarding each cell as a single feature (with unique `fid`) and their unique values as entries in the groups attribute table (`gid`).
 
 ```{r}
 getGroups(x = gtGeoms$grid$categorical)
@@ -291,7 +283,7 @@ title <- paste0("Clocaenog - tree heights (", dim(validpoints)[1], ")")
 visualise(!!title := trees, linecol = "height")
 ```
 
-When storing this data object as a `POINT` feature, species information have to be provided a duplicates (which can be very costly with certain data) and when storing it as `MULTIPOINT`, the feature attributes can only be dropped (or perhaps stored inside a non-tidy list column). A `geom` in contrast, allows storing those data consistently tidy and can easily be processed, for instance with the function `gt_filter`, that allows filtering any attribute in the features or groups attribute table.
+When storing this data object as a `POINT` feature, species information have to be provided as duplicates (which can be very costly with certain data) and when storing it as `MULTIPOINT`, the feature attributes can only be dropped (or perhaps stored inside a non-tidy list column). A `geom` in contrast, allows storing those data consistently tidy and can easily be processed, for instance with the function `gt_filter`, that allows filtering any attribute in the features or groups attribute table.
 
 ```{r}
 tall_conifers <- gt_filter(trees, deciduous == FALSE & height > 20, update = FALSE)
@@ -304,7 +296,7 @@ visualise(tall_conifers, new = FALSE, pointsymbol = 21, linecol = "red")
 
 An object of class `geom` contains, just like a `raster` the slot `@history`.
 This slot documents the <a href="https://en.wikipedia.org/wiki/Data_lineage" target="_blank">provenance</a> of that object, i.e., where it came from and how it has been modified.
-The function `gc_geom()`, all `gs_*()` and all `gt_()*` functions attach information to the list the `@history` slot is.
+The function `gc_geom()`, all `gs_*()` and all `gt_()*` functions attach information to the `@history` slot.
 In case you want to make use of this slot, it can be set via `setHistory()`.
 
 ```{r}
@@ -318,21 +310,18 @@ visualise(reflPoly, linecol = "deeppink", new = FALSE, trace = TRUE)
 # Casting
 
 It is quite straightforward to cast from one feature type to another with `geometr`.
-As already mentioned above, the feature types point, line and polygon have the same arrangement and differ only in the slot `@type`. 
-This means that the only element that needs to be changed is the feature type.
-All `gs_*()` functions contain the argument `anchor = `, this is where location information for creating the output are provided.
+As already mentioned above, all feature types have the same arrangement, which means that the only element that needs to be changed is the feature type. The values in `@type` determines then how the respective object is processed by any function of `geometr`.
+For example, all `gs_*()` functions contain the argument `anchor = `, this is where location information for creating the output are provided.
 If what is provided here is already a `geom`, most of the location information and other properties can be (and in fact are) simply copied into the new object.
 
 The following code chunk shows casting in `geometr`.
-When casting to polygons, vertex checks are carried out that make sure the output is a valid polygon. 
-This results, as also described above, in the first/last point becoming duplicated to form a closed path. 
-When casting from a polygon to another type, those duplicates have to be handled, for example by removing duplicates.
+When casting to polygons, vertex checks are carried out that make sure the output is a valid polygon, including a duplicated end/start vertex.
 
 ```{r}
-# make points and discard duplicates ...
+# cast from polygon to points
 (somePoints <- gs_point(anchor = aPoly))
 
-# ... and recreate a polygon from that
+# ... and recreate a polygon from that (note how duplicates are handled)
 (aPoly <- gs_polygon(anchor = somePoints))
 ```
 
