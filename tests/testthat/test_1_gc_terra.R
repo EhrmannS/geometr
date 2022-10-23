@@ -9,7 +9,7 @@ test_that("transform geom to SpatRaster", {
   output <- gc_terra(input = gtGeoms$grid$categorical)
   expect_class(x = output, classes = "SpatRaster")
   expect_list(x = levels(output), any.missing = FALSE)
-  expect_character(x = levels(output)[[1]], len = 48)
+  expect_data_frame(x = levels(output)[[1]], nrows = 9, ncols = 2)
 })
 
 test_that("errors when transforming a geom not of type 'grid'", {

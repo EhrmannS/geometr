@@ -134,7 +134,7 @@ The exact values stored in those tables are explained in Tab. \@ref(tab:slots), 
 | `crs` | `character` | the coordinate reference system, currently in proj4 notation (will be updated soon). In case no crs has been set, this is shown as \'cartesian\'. |
 | `history` | `list` | all of the functions of `geometr` produce an entry in this list to document [provenance](https://en.wikipedia.org/wiki/Provenance#Data_provenance). |
 
-Table: (\#tab:slots) List of issues, which have to be considered when building a database of areal data from distinct sources.
+Table: (\#tab:slots) The slots of a geom.
 
 A `geom` of type grid is a special case of a point `geom` in that it is made up of a systematically distributed lattice of points, thereby resembling `raster` objects.
 A `geom` of type grid contains in the `@point` slot merely a table that holds the minimum and maximum value and the cell size for the x and y dimensions, while a `geom` of type point, line or polygon explicitly contains all the coordinates of the points that make up features. 

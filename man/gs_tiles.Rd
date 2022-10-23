@@ -4,7 +4,13 @@
 \alias{gs_tiles}
 \title{Create a regular tiling \code{geom}}
 \usage{
-gs_tiles(anchor = NULL, width = NULL, pattern = "squared", centroids = FALSE)
+gs_tiles(
+  anchor = NULL,
+  width = NULL,
+  pattern = "squared",
+  centroids = FALSE,
+  origin = "bottomleft"
+)
 }
 \arguments{
 \item{anchor}{[\code{geom(1)}|\code{data.frame(1)}]\cr Object to derive the
@@ -20,6 +26,10 @@ options are \code{"squared"} (default) or \code{"hexagonal"}.}
 \item{centroids}{[\code{logical(1)}]\cr should the centroids of the tiling be
 returned (\code{TRUE}) or should the tiling be returned (\code{FALSE},
 default)?}
+
+\item{origin}{from which of the four corners to start numbering features?
+Options are \code{topleft}, \code{bottomleft} (default), \code{topright}
+and \code{bottomright}.}
 }
 \value{
 A \code{geom}.

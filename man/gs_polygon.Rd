@@ -70,20 +70,20 @@ The argument \code{anchor} indicates how the geom is created:
 }
 \section{Functions}{
 \itemize{
-\item \code{gs_triangle}: wrapper of gs_polygon where \code{vertices = 3} and
+\item \code{gs_triangle()}: wrapper of gs_polygon where \code{vertices = 3} and
 \code{regular = TRUE}.
 
-\item \code{gs_square}: wrapper of gs_polygon where \code{vertices = 4} and
+\item \code{gs_square()}: wrapper of gs_polygon where \code{vertices = 4} and
 \code{regular = TRUE}.
 
-\item \code{gs_rectangle}: wrapper of gs_polygon where \code{vertices = 2},
+\item \code{gs_rectangle()}: wrapper of gs_polygon where \code{vertices = 2},
 \code{regular = FALSE} and the two complementing corners are derived from
 the two given opposing corners.
 
-\item \code{gs_hexagon}: wrapper of gs_polygon where \code{vertices = 6} and
+\item \code{gs_hexagon()}: wrapper of gs_polygon where \code{vertices = 6} and
 \code{regular = TRUE}.
-}}
 
+}}
 \examples{
 # 1. create a polygon programmatically
 coords <- data.frame(x = c(0, 40, 40, 0),
