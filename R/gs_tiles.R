@@ -11,6 +11,9 @@
 #' @param centroids [\code{logical(1)}]\cr should the centroids of the tiling be
 #'   returned (\code{TRUE}) or should the tiling be returned (\code{FALSE},
 #'   default)?
+#' @param origin from which of the four corners to start numbering features?
+#'   Options are \code{topleft}, \code{bottomleft} (default), \code{topright}
+#'   and \code{bottomright}.
 #' @details When deriving a regular tiling for a prescribed window, there is
 #'   only a limited set of legal combinations of cells in x and y dimension. For
 #'   instance, a window of 100 by 100 can't comprise 10 by 5 squares of
@@ -41,12 +44,13 @@
 #' @export
 
 gs_tiles <- function(anchor = NULL, width = NULL, pattern = "squared",
-                     centroids = FALSE){
+                     centroids = FALSE, origin = "bottomleft"){
 
   # check arguments
   anchor <- .testAnchor(x = anchor)
   assertIntegerish(x = width, len = 1)
   assertChoice(x = pattern, choices = c("squared", "hexagonal", "triangular"))
+  assertChoice(x = origin, choices = c("topleft", "bottomleft", "topright", "bottomright"))
   assertLogical(x = centroids)
 
   if(!is.null(anchor)){
@@ -61,10 +65,19 @@ gs_tiles <- function(anchor = NULL, width = NULL, pattern = "squared",
   if(pattern == "squared"){
 
     offset <- width*0.5*-1
+    nPoints <- 5
 
     # determine centroids
     xCentroids <- seq(min(anchor@point$x) - offset, max(anchor@point$x) + width + offset, by = width)
     yCentroids <- seq(min(anchor@point$y) - offset, max(anchor@point$y) + width + offset, by = width)
+    if(origin == "topleft"){
+      yCentroids <- rev(yCentroids)
+    } else if(origin == "topright") {
+      xCentroids <- rev(xCentroids)
+    } else if(origin == "bottomright") {
+      xCentroids <- rev(xCentroids)
+      yCentroids <- rev(yCentroids)
+    }
     cntrds <- tibble(fid = seq(1:(length(xCentroids)*length(yCentroids))),
                      x = rep(xCentroids, times = length(yCentroids)),
                      y = rep(yCentroids, each = length(xCentroids)))
@@ -80,6 +93,7 @@ gs_tiles <- function(anchor = NULL, width = NULL, pattern = "squared",
     # https://www.redblobgames.com/grids/hexagons/
 
     offset <- 0
+    nPoints <- 7
 
     inRadius <- width/2
     circumRadius <- 2/sqrt(3) * inRadius
@@ -110,21 +124,20 @@ gs_tiles <- function(anchor = NULL, width = NULL, pattern = "squared",
   angle <- 360/vertices
   angles <- seq(from = 0, to = 360-angle, by = angle) - rotation
 
-  relX <- radius*cos(.rad(angles))
-  relY <- radius*sin(.rad(angles))
+  relX <- radius*cos(.rad(c(angles, angles[1])))
+  relY <- radius*sin(.rad(c(angles, angles[1])))
 
   if(!centroids){
-    nodes <- NULL
+    nodes <- cx <- cy <- fids <- NULL
     for(i in seq_along(targetCentroids@point$fid)){
-      cx <- targetCentroids@point$x[i] + relX
-      cx <- c(cx, cx[1])
-      cy <- targetCentroids@point$y[i] + relY
-      cy <- c(cy, cy[1])
-      theNodes <- tibble(x = cx,
-                         y = cy,
-                         fid = i)
-      nodes <- bind_rows(nodes, theNodes)
+      cx <- c(cx, targetCentroids@point$x[i] + relX)
+      cy <- c(cy, targetCentroids@point$y[i] + relY)
+      fids <- c(fids, rep(i, nPoints))
     }
+
+    nodes <- tibble(x = cx,
+                    y = cy,
+                    fid = fids)
     theType <- "polygon"
   } else{
     nodes <- tibble(x = cntrds$x,
