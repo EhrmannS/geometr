@@ -178,11 +178,11 @@ setMethod(f = "gc_geom",
             assertLogical(x = as_hex, len = 1)
             if(as_hex){
               assertNames(x = names(input), must.include = c("red", "green", "blue"))
-              red <- getFeatures(x = input[["red"]])$values
+              red <- getFeatures(x = input[["red"]])[[2]]
               red[is.na(red)] <- 255L
-              green <- getFeatures(x = input[["green"]])$values
+              green <- getFeatures(x = input[["green"]])[[2]]
               green[is.na(green)] <- 255L
-              blue <- getFeatures(x = input[["blue"]])$values
+              blue <- getFeatures(x = input[["blue"]])[[2]]
               blue[is.na(blue)] <- 255L
               alpha <- rep(255, length(blue))
               alpha[is.na(red)] <- 0L
@@ -204,7 +204,7 @@ setMethod(f = "gc_geom",
               if(as_hex){
                 rawVal <- rgb(red = red, green = green, blue = blue, alpha = alpha, maxColorValue = 255)
               } else {
-                rawVal <- getFeatures(x = theInput)$values
+                rawVal <- getFeatures(x = theInput)[[2]]
               }
               tempGroups <- getGroups(theInput)
               if(group & dim(tempGroups)[1] == 0) {

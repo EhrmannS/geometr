@@ -46,7 +46,7 @@
   # start_time <- Sys.time()
   if(featureType[1] == "grid"){
     plotParams <- list(fillcol = "gid")
-    plotValues <- theFeatures$values
+    plotValues <- theFeatures[[2]]
     if(is.numeric(plotValues)){
       scaleValues <- sortUniqueC(plotValues)
     } else {

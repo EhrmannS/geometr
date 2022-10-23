@@ -320,10 +320,12 @@ setMethod(f = "getFeatures",
               for(i in 1:dim(x)[3]){
                 if(is.matrix(vals)){
                   temp <- vals[,i]
+                  theName <- "matrix"
                 } else {
                   temp <- vals
+                  theName <- names(x)
                 }
-                tab <- tibble(fid = seq_along(temp), values = temp)
+                tab <- tibble(fid = seq_along(temp), !!theName := temp)
                 if(dim(x)[3] == 1){
                   out <- tab
                 } else {

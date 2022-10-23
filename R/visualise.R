@@ -56,21 +56,12 @@
 #' @importFrom stats quantile
 #' @export
 
-visualise <- function(...,
-                      window = NULL,
-                      trace = FALSE,
-                      new = TRUE,
-                      clip = TRUE,
+visualise <- function(..., window = NULL, trace = FALSE, new = TRUE, clip = TRUE,
                       theme = gtTheme){
 
   # library(geometr); library(checkmate); library(grid); library(rlang); library(tibble); library(dplyr); library(purrr)
   # window = NULL; theme = gtTheme; trace = FALSE; new = T; clip = FALSE;
   # objs <- list(gc_raster(gtGeoms$grid$continuous)); plotParams <- list(linecol = "fid")
-  # source('/media/se87kuhe/external1/projekte/r-dev/geometr/R/makePlot.R')
-  # source('/media/se87kuhe/external1/projekte/r-dev/geometr/R/makeGrob.R')
-  # source('/media/se87kuhe/external1/projekte/r-dev/geometr/R/makeLayout.R')
-  # source('/media/se87kuhe/external1/projekte/r-dev/geometr/R/makeLegend.R')
-  # source('/media/se87kuhe/external1/projekte/r-dev/geometr/R/test_functions.R')
   # Rcpp::sourceCpp('src/unique.cpp')
 
   # check arguments ----
