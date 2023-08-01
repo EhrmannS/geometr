@@ -62,7 +62,7 @@ as \code{"absolute"} values, or \code{"relative"} to \code{window}.}
 \item{\code{crs}}{[\code{character(1)}]\cr the coordinate reference system in proj4
 notation.}
 
-\item{\code{history}}{[\code{list(.)}]\cr a list of steps taken to derive the
+\item{\code{provenance}}{[\code{list(.)}]\cr a list of steps taken to derive the
 \code{geom} in focus.}
 }}
 
