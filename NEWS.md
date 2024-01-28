@@ -1,3 +1,8 @@
+# geometr 0.4.0 - new frontend and backend
+
+- change all function names to `geo_*`
+- move all getters and setters to an external package, namely `geomio`, where can be used by others without having to load `geometr`. This allows `geometr` to focus primarily on the `geom` class and handling all "geometric" operations
+
 # geometr 0.3.0 - fast visuals
 
 - revise `visualise` and all its' helpers to make plotting faster.
@@ -5,7 +10,7 @@
 # geometr 0.2.11
 
 - include SpatRaster support
-- exclude objects of other packages and instead reconstruct them with `gc_*` functions of geometr.
+- exclude objects of other packages and instead reconstruct them with `gc_*` functions of `geometr`.
 - fix a bug that would not allow zooming
 
 # geoemtr 0.2.10

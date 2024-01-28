@@ -1,14 +1,13 @@
 Package: geometr
-Title: Generate and Modify Interoperable Geometric Shapes
-Version: 0.2.11
+Title: Generate and Modify Interoperable Geometric Objects
+Version: 0.4.0
 Authors@R: c(
-    person("Steffen", "Ehrmann", role = c("aut", "cre"), email = "steffen.ehrmann@posteo.de", comment = c(ORCID = "0000-0002-2958-0796")),
-    person("Dan", "Sunday", role = c("cph"), comment = "fast point-in-polygon algorithm.")
+    person("Steffen", "Ehrmann", role = c("aut", "cre"), email = "steffen.ehrmann@posteo.de", comment = c(ORCID = "0000-0002-2958-0796"))
     )
-Description: Provides tools that generate and process fully accessible and tidy
-    geometric shapes. The package improves interoperability of spatial and 
-    other geometric classes by providing getters and setters that produce 
-    identical output from various classes.
+Description: Provides tools that generate and modify fully accessible and tidy
+    geometric shapes (of class 'geom'). This class unifies spatial (both, vector 
+    and raster based) and geometric data into a single, simplified data 
+    structure.
 URL: https://ehrmanns.github.io/geometr/
 BugReports: https://github.com/EhrmannS/geometr/issues
 Depends:
@@ -27,19 +26,14 @@ Imports:
     rlang,
     purrr,
     tibble,
-    rgdal,
     deldir,
-    sf,
-    sp,
     raster,
-    terra,
-    magrittr
+    geomio
 Suggests: 
     testthat,
     rmarkdown,
     bookdown,
     knitr
-LinkingTo: Rcpp
-RoxygenNote: 7.2.1
-SystemRequirements: C++11
+RoxygenNote: 7.2.3
 VignetteBuilder: knitr
+Roxygen: list(markdown = TRUE)
