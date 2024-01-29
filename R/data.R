@@ -6,11 +6,11 @@
 #'   56 by 60 cells), one with categorical values (land-use classes) and one
 #'   with continuous values (vegetation cover). They are mostly used in the
 #'   example and test-sections of this package.
-"gtGeoms"
+"geoms"
 
 #' Default visualising theme
 #'
-"gtTheme"
+"geoTheme"
 
 #' Clocaenog 6 sample data
 #'

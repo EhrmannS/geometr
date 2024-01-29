@@ -31,32 +31,34 @@
 #' second extent that may be bigger (or smaller) than the extent and which
 #' determines the relative position of the points when plotting.
 #'
-#' @slot type [\code{character(1)}]\cr the type of feature, either
+#' @slot type [character(1)][character]\cr the type of feature, either
 #'   \code{"point"}, \code{"line"}, \code{"polygon"} or \code{"grid"}.
-#' @slot point [\code{data.frame(1)}]\cr the \code{fid} (feature ID), \code{x}
-#'   and \code{y} coordinates per point and optional arbitrary point attributes.
-#' @slot feature [\code{data.frame(1)}]\cr \code{fid} (feature ID), \code{gid}
-#'   (group ID) and optional arbitrary feature attributes.
-#' @slot group [\code{data.frame(1)}]\cr \code{gid} (group ID) and optional
-#'   arbitrary group attributes.
-#' @slot window [\code{data.frame(1)}]\cr the minimum and maximum value in x and
-#'   y dimension of the reference window in which the \code{geom} dwells.
-#' @slot scale [\code{character(1)}]\cr whether the point coordinates are stored
-#'   as \code{"absolute"} values, or \code{"relative"} to \code{window}.
-#' @slot crs [\code{character(1)}]\cr the coordinate reference system in proj4
-#'   notation.
-#' @slot history [\code{list(.)}]\cr a list of steps taken to derive the
+#' @slot geometry [data.frame(3)][data.frame]\cr the \code{fid} (feature ID),
+#'   \code{x} and \code{y} coordinates per point and optional arbitrary point
+#'   attributes.
+#' @slot data [named list][list]\cr A list with the layer name and list elements
+#'   \code{$features} and \code{$groups} containing the features and groups of
+#'   that layer. \itemize{
+#'     \item features: \code{fid} (feature ID), \code{gid} (group ID) and optional
+#'       arbitrary feature attributes.
+#'     \item groups: \code{gid} (group ID) and optional arbitrary group attributes.
+#'   }
+#' @param window [data.frame(2)][data.frame]\cr in case the reference window
+#'   deviates from the bounding box of \code{crds}, specify here the minimum and
+#'   maximum values in columns \code{x} and \code{y}.
+#' @slot crs [character(1)][character]\cr the coordinate reference system in
+#'   proj4 notation.
+#' @slot provenance [list(.)][list]\cr a list of steps taken to derive the
 #'   \code{geom} in focus.
 
 geom <- setClass(Class = "geom",
                  slots = c(type = "character",
-                           name = "character",
-                           point = "data.frame",
-                           feature = "data.frame",
-                           group = "data.frame",
+                           label = "character",
+                           geometry = "data.frame",
+                           data = "list",
                            window = "data.frame",
                            crs = "character",
-                           history = "list"
+                           provenance = "list"
                  )
 )
 
@@ -70,73 +72,52 @@ setValidity("geom", function(object){
     if(!any(object@type %in% c("point", "line", "polygon", "grid"))){
       errors = c(errors, "the geom must either be of type 'point', 'line', 'polygon' or 'grid'.")
     } else if(object@type == "line"){
-      if(dim(object@point)[1] < 2){
+      if(dim(object@geometry)[1] < 2){
         errors = c(errors, "a geom of type 'line' must have at least 2 points.")
       }
     } else if(object@type == "polygon"){
-      if(dim(object@point)[1] < 3){
+      if(dim(object@geometry)[1] < 3){
         errors = c(errors, "a geom of type 'polygon' must have at least 3 points.")
       }
     } else if(object@type == "grid"){
-      if(dim(object@point)[1] != 3){
+      if(dim(object@geometry)[1] != 3){
         errors = c(errors, "a geom of type 'grid' must have three rows ('origin' and 'cell number' extent and 'cell size').")
       }
     }
   }
 
-  if(!.hasSlot(object = object, name = "point")){
-    errors = c(errors, "the geom does not have a 'name' slot.")
+  if(!.hasSlot(object = object, name = "label")){
+    errors = c(errors, "the geom does not have a 'label' slot.")
+  } else {
+    if(!is.character(object@label)){
+      errors = c(errors, "the slot 'label' is not a character.")
+    }
   }
 
-  if(!.hasSlot(object = object, name = "point")){
-    errors = c(errors, "the geom does not have a 'point' slot.")
+  if(!.hasSlot(object = object, name = "geometry")){
+    errors = c(errors, "the geom does not have a 'geometry' slot.")
   } else {
-    if(!is.data.frame(object@point)){
-      errors = c(errors, "the slot 'point' is not a data.frame.")
+    if(!is.data.frame(object@geometry)){
+      errors = c(errors, "the slot 'geometry' is not a data.frame.")
     }
     if(object@type == "grid"){
-      if(!all(c("x" ,"y") %in% names(object@point))){
+      if(!all(c("x" ,"y") %in% names(object@geometry))){
         errors = c(errors, "the geom must have a grid table with the columns 'x' and 'y'.")
       }
     } else {
-      if(!all(c("fid", "x" ,"y") %in% names(object@point))){
-        errors = c(errors, "the geom must have a point table with the columns 'x', 'y' and 'fid'.")
+      if(!all(c("fid", "x" ,"y") %in% names(object@geometry))){
+        errors = c(errors, "the geom must have a geometry table with the columns 'x', 'y' and 'fid'.")
       }
     }
   }
 
-  if(!.hasSlot(object = object, name = "feature")){
-    errors = c(errors, "the geom does not have a 'feature' slot.")
+  if(!.hasSlot(object = object, name = "data")){
+    errors = c(errors, "the geom does not have a 'data' slot.")
   } else {
-    if(!is.list(object@feature)){
-      errors = c(errors, "the slot 'feature' is not a list")
+    if(!is.list(object@data)){
+      errors = c(errors, "the slot 'data' is not a list.")
     }
-    if(is.null(names(object@feature))){
-      errors = c(errors, "the slot 'feature' must contain named lists.")
-    }
-    if(object@type != "grid"){
-      # for(i in seq_along(object@feature)){
-        if(!all(c("fid", "gid") %in% names(object@feature))){
-          errors = c(errors, "the geom must have a features table with at least the columns 'fid' and 'gid'.")
-        }
-      # }
-    }
-  }
 
-  if(!.hasSlot(object = object, name = "group")){
-    errors = c(errors, "the geom does not have a 'group' slot.")
-  } else {
-    if(!is.list(object@group)){
-      errors = c(errors, "the slot 'group' is not a list.")
-    }
-    if(is.null(names(object@group))){
-      errors = c(errors, "the slot 'group' must contain named lists.")
-    }
-    # for(i in seq_along(object@group)){
-      # if(!any(c("value", "gid") %in% names(object@group))){
-      #   errors = c(errors, "the geom must have a group table with the column 'value'.")
-      # }
-    # }
   }
 
   if(!.hasSlot(object = object, name = "window")){
@@ -158,11 +139,11 @@ setValidity("geom", function(object){
     }
   }
 
-  if(!.hasSlot(object = object, name = "history")){
-    errors = c(errors, "the geom does not have a 'history' slot.")
+  if(!.hasSlot(object = object, name = "provenance")){
+    errors = c(errors, "the geom does not have a 'provenance' slot.")
   } else {
-    if(!is.list(object@history)){
-      errors = c(errors, "the slot 'history' is not a list.")
+    if(!is.list(object@provenance)){
+      errors = c(errors, "the slot 'provenance' is not a list.")
     }
   }
 
@@ -176,7 +157,8 @@ setValidity("geom", function(object){
 
 #' Print geom in the console
 #'
-#' @param object [\code{geom}]\cr object to \code{show}.
+#' @param object [gridded(1)][geom]\cr object to \code{show}.
+#' @importFrom geomio getPoints getFeatures getGroups getRes getExtent
 #' @importFrom utils head
 #' @importFrom crayon yellow red cyan
 
@@ -283,7 +265,7 @@ setMethod(f = "show",
             cat(yellow(class(object)), "        ", object@type, "\n", sep = "")
             cat("            ", geomGroups, length(unique(theFeats)), " ", myFeat, " | ", length(thePoints$fid), " ", myUnits, "\n", sep = "")
             cat(yellow("crs         "), myCrs, "\n", sep = "")
-            cat(yellow("attributes "), myAttributes, sep = "")
+            cat(yellow("layers     "), myAttributes, sep = "")
             if(!theType == "grid"){
               # make a tiny map
               tinyMap <- .makeTinyMap(geom = object)
