@@ -1,44 +1,47 @@
 #' Rotate geometric objects
 #'
 #' Rotate geometric objects by a certain angle about center coordinates
-#' @param obj [\code{geometric object(1)}]\cr the object to rotate.
-#' @param x [\code{numeric(1)}]\cr the x position(s) to rotate about.
-#' @param y [\code{numeric(1)}]\cr the y position(s) to rotate about.
-#' @param angle [\code{numeric(1)}]\cr the counter-clockwise angle(s) by which
+#' @param obj [gridded(1)][geom]\cr the object to rotate.
+#' @param x [numeric(1)][numeric]\cr the x position(s) to rotate about.
+#' @param y [numeric(1)][numeric]\cr the y position(s) to rotate about.
+#' @param angle [numeric(1)][numeric]\cr the counter-clockwise angle(s) by which
 #'   \code{obj} shall be rotated (can be negative to rotate clockwise).
-#' @param fid [\code{integerish(.)}]\cr in case only a subset of features shall
+#' @param fid [integerish(.)][integer]\cr in case only a subset of features shall
 #'   be rotated, specify that here.
-#' @param update [\code{logical(1)}]\cr whether or not to update the window slot
+#' @param update [logical(1)][logical]\cr whether or not to update the window slot
 #'   of the resulting geom.
 #' @return \code{geom} of the rotated \code{obj}.
 #' @family geometry tools
 #' @examples
 #' # rotate all geoms
-#' visualise(gtGeoms$polygon, linewidth = 3)
-#' newPoly <- gt_rotate(obj = gtGeoms$polygon, x = 0, y = 0, angle = 135,
-#'                      update = FALSE)
-#' visualise(geom = newPoly, linecol = "green", new = FALSE)
+#' geo_vis(gtGeoms$polygon, linewidth = 3)
+#' newPoly <- geo_rotate(obj = gtGeoms$polygon, x = 0, y = 0, angle = 135,
+#'                       update = FALSE)
+#' geo_vis(geom = newPoly, linecol = "green", new = FALSE)
 #'
 #' # rotate a single geom
-#' visualise(gtGeoms$polygon, linewidth = 3)
-#' newPoly <- gt_rotate(obj = gtGeoms$polygon, x = -10, y = 0, angle = -180,
-#'                      update = FALSE, fid = 2)
-#' visualise(geom = newPoly, linecol = "green", new = FALSE)
+#' geo_vis(gtGeoms$polygon, linewidth = 3)
+#' newPoly <- geo_rotate(obj = gtGeoms$polygon, x = -10, y = 0, angle = -180,
+#'                       update = FALSE, fid = 2)
+#' geo_vis(geom = newPoly, linecol = "green", new = FALSE)
 #'
 #' # rotate different geoms about different centers by different angles
-#' visualise(gtGeoms$polygon, linewidth = 3)
-#' newPoly <- gt_rotate(obj = gtGeoms$polygon,
-#'                      x = c(0, -10),
-#'                      y = c(-10, 0),
-#'                      angle = c(75, -135),
-#'                      update = FALSE)
-#' visualise(geom = newPoly, linecol = "green", new = FALSE)
-#' @importFrom checkmate assertNumeric assertIntegerish assertLogical
+#' geo_vis(gtGeoms$polygon, linewidth = 3)
+#' newPoly <- geo_rotate(obj = gtGeoms$polygon,
+#'                       x = c(0, -10),
+#'                       y = c(-10, 0),
+#'                       angle = c(75, -135),
+#'                       update = FALSE)
+#' geo_vis(geom = newPoly, linecol = "green", new = FALSE)
+#' @importFrom checkmate assertNumeric assertLogical
+#' @importFrom geomio getFeatures getGroups getPoints getWindow getNames getType
+#'   getCRS getProvenance
+#' @importFrom dplyr filter
 #' @importFrom tibble as_tibble
 #' @importFrom methods new
 #' @export
 
-gt_rotate <- function(obj, x = NULL, y = NULL, angle = NULL, fid = NULL,
+geo_rotate <- function(obj, x = NULL, y = NULL, angle = NULL, fid = NULL,
                       update = TRUE){
 
   assertNumeric(x = x, any.missing = FALSE, min.len = 1, null.ok = TRUE)
@@ -47,11 +50,7 @@ gt_rotate <- function(obj, x = NULL, y = NULL, angle = NULL, fid = NULL,
   assertNumeric(x = fid, lower = 1, finite = TRUE, any.missing = FALSE, null.ok = TRUE)
   assertLogical(x = update, len = 1, any.missing = FALSE)
 
-  theFeatures <- getFeatures(x = obj)
-  theGroups <- getGroups(x = obj)
   thePoints <- getPoints(x = obj)
-  theWindow <- getWindow(x = obj)
-  theName <- getNames(x = obj)
 
   # set default values
   if(is.null(x)){
@@ -86,7 +85,7 @@ gt_rotate <- function(obj, x = NULL, y = NULL, angle = NULL, fid = NULL,
   # modify vertices
   temp <- NULL
   for(i in seq_along(ids)){
-    tempCoords <- thePoints[thePoints$fid == ids[i],]
+    tempCoords <- filter(thePoints, fid == ids[i])
     newCoords <- tempCoords
 
     if(doRotate[i]){
@@ -107,12 +106,15 @@ gt_rotate <- function(obj, x = NULL, y = NULL, angle = NULL, fid = NULL,
       newCoords$x <- newCoords$x - (0 - tempX)
       newCoords$y <- newCoords$y - (0 - tempY)
     }
-    temp <- rbind(temp, newCoords)
+    temp <- bind_rows(temp, newCoords)
   }
 
   # update window
   if(update){
-    theWindow <- .updateWindow(input = temp, window = theWindow)
+    window <- tibble(x = c(min(temp$x), max(temp$x)),
+                     y = c(min(temp$y), max(temp$y)))
+  } else {
+    window <- getWindow(x = obj)
   }
 
   # make history
@@ -123,15 +125,16 @@ gt_rotate <- function(obj, x = NULL, y = NULL, angle = NULL, fid = NULL,
   }
 
   # make new geom
+  tempData <- list(features = getFeatures(x = obj), groups = getGroups(x = obj))
+  theData <- stats::setNames(list(tempData), getNames(x = obj))
+
   out <- new(Class = "geom",
              type = getType(x = obj)[1],
-             name = theName,
-             point = as_tibble(temp),
-             feature = theFeatures,
-             group = theGroups,
-             window = theWindow,
+             geometry = temp,
+             data = theData,
+             window = window,
              crs = getCRS(x = obj),
-             history = c(getHistory(x = obj), list(hist)))
+             provenance = c(getProvenance(x = obj), list(hist)))
 
   return(out)
 }

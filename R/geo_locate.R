@@ -1,22 +1,22 @@
 #' Locate (and identify) clicks
 #'
 #' Click into a plot to get the location or identify values
-#' @param samples [\code{integerish(1)}]\cr the number of clicks.
-#' @param panel [\code{character(1)}]\cr the panel in which to locate (i.e. the
+#' @param samples [integerish(1)][integer]\cr the number of clicks.
+#' @param panel [character(1)][character]\cr the panel in which to locate (i.e. the
 #'   title shown over the plot).
-#' @param identify [\code{logical(1)}]\cr get the raster value or \code{geom} ID
+#' @param identify [logical(1)][logical]\cr get the raster value or \code{geom} ID
 #'   at the sampled location (\code{TRUE}) or merely the location (\code{FALSE},
 #'   default).
-#' @param snap [\code{logical(1)}]\cr should the returned value(s) be set to the
+#' @param snap [logical(1)][logical]\cr should the returned value(s) be set to the
 #'   nearest raster cell's center (\code{TRUE}) or should they remain the
 #'   selected, "real" value (\code{FALSE}, default)?
-#' @param raw [\code{logical(1)}]\cr should the complete statistics about the
+#' @param raw [logical(1)][logical]\cr should the complete statistics about the
 #'   clicks be returned (\code{TRUE}), or should only the basic output be
 #'   returned (\code{FALSE}, default)?
-#' @param show [\code{logical(1)}]\cr should information be plotted
+#' @param show [logical(1)][logical]\cr should information be plotted
 #'   (\code{TRUE}), or should they merely be returned to the console
 #'   (\code{FALSE}, default)?
-#' @param ... [\code{various}]\cr graphical parameters of the objects that are
+#' @param ... graphical parameters of the objects that are
 #'   created when \code{show = TRUE}.
 #' @return A \code{tibble} of the selected locations and, if \code{identify
 #'   = TRUE}, the respective values. If \code{show = TRUE} the values are also
@@ -26,20 +26,21 @@
 #' if(dev.interactive()){
 #'
 #'   # locate coordinates with geoms
-#'   visualise(geom = gtGeoms$polygon)
-#'   gt_locate(samples = 2)
+#'   geo_vis(geom = gtGeoms$polygon)
+#'   geo_locate(samples = 2)
 #'
 #'   # locate or identify values with rasters
-#'   visualise(raster = gtGeoms$grid$continuous)
-#'   gt_locate(identify = TRUE, snap = TRUE)
+#'   geo_vis(raster = gtGeoms$grid)
+#'   geo_locate(identify = TRUE, snap = TRUE)
 #'
 #'   # with several panels, specify a target
-#'   visualise(gtGeoms$grid$categorical, gtGeoms$grid$continuous)
-#'   gt_locate(samples = 4, panel = "categorical",
+#'   geo_vis(gtGeoms$grid, gtGeoms$grid)
+#'   geo_locate(samples = 4, panel = "categorical",
 #'             snap = TRUE, identify = TRUE)
 #'
 #' }
 #' @importFrom checkmate assertIntegerish assertCharacter assertLogical
+#' @importFrom geomio subChrIntCpp pointInPolyCpp
 #' @importFrom grDevices dev.list
 #' @importFrom tibble tibble
 #' @importFrom dplyr bind_cols bind_rows
@@ -48,7 +49,7 @@
 #' @importFrom raster as.matrix
 #' @export
 
-gt_locate <- function(samples = 1, panel = NULL, identify = FALSE, snap = FALSE,
+geo_locate <- function(samples = 1, panel = NULL, identify = FALSE, snap = FALSE,
                       raw = FALSE, show = TRUE, ...){
 
   # check arguments
@@ -63,13 +64,13 @@ gt_locate <- function(samples = 1, panel = NULL, identify = FALSE, snap = FALSE,
     objViewports <- grid.ls(viewports = TRUE, grobs = FALSE, print = FALSE)
     mainVP <- grid.grep("geometr", grobs = FALSE, viewports = TRUE, grep = TRUE)
     if(!ifelse(any(mainVP == "geometr"), TRUE, FALSE)){
-      stop("please create a plot with geometr::visualise()")
+      stop("please create a plot with geometr::geo_vis()")
     }
 
     panelNames <- objViewports$name[objViewports$vpDepth == unique(objViewports$vpDepth[which(objViewports$name == "geometr")]) + 1 & objViewports$name != "1"]
     panelNames <- panelNames[!duplicated(panelNames)]
   } else{
-    stop("please create a plot with geometr::visualise()")
+    stop("please create a plot with geometr::geo_vis()")
   }
 
   isLegendInPlot <- !identical(grid.grep("legend", grobs = FALSE, viewports = TRUE, grep = TRUE), character(0))
@@ -111,8 +112,8 @@ gt_locate <- function(samples = 1, panel = NULL, identify = FALSE, snap = FALSE,
   }
 
   extentGrobMeta <- grid.get(gPath("extentGrob"))
-  panelExt <- tibble(x = c(as.numeric(extentGrobMeta$x), as.numeric(extentGrobMeta$width)) + as.numeric(extentGrobMeta$x),
-                     y = c(as.numeric(extentGrobMeta$y), as.numeric(extentGrobMeta$height)) + as.numeric(extentGrobMeta$y))
+  panelExt <- tibble(x = c(as.numeric(extentGrobMeta$x), as.numeric(extentGrobMeta$x) + as.numeric(extentGrobMeta$width)),
+                     y = c(as.numeric(extentGrobMeta$y), as.numeric(extentGrobMeta$y) + as.numeric(extentGrobMeta$height)))
 
   if(snap){
     theGrid <- tibble(x = rep(seq(panelExt$x[1] + 0.5, panelExt$x[2], 1), times = panelExt$y[2]),
@@ -165,9 +166,9 @@ gt_locate <- function(samples = 1, panel = NULL, identify = FALSE, snap = FALSE,
       }
       if(isRasterInPlot){
 
-        matVal <- subChrIntC(matCol,
-                             replace = theLegend,
-                             with = theValues)
+        matVal <- subChrIntCpp(matCol,
+                               replace = theLegend,
+                               with = theValues)
         theCol <- matCol[dim(matCol)[1]+1 - matPos$row, matPos$col]
         theVal <- matVal[dim(matCol)[1]+1 - matPos$row, matPos$col]
         plotVal <- theVal
@@ -179,9 +180,9 @@ gt_locate <- function(samples = 1, panel = NULL, identify = FALSE, snap = FALSE,
         for(j in seq_along(unique(theValues))){
           geom <- grid.get(gPath(as.character(j)), global = TRUE)
           geom <- matrix(data = c(geom$x, geom$y, geom$pathId), ncol = 3)
-          inside <- pointInGeomC(vert = matrix(data = c(values[1], values[2]), ncol = 2),
-                                 geom = geom[which(geom[,3] == j), c(1, 2)],
-                                 invert = FALSE)
+          inside <- pointInPolyCpp(vert = matrix(data = c(values[1], values[2]), ncol = 2),
+                                   geom = geom[which(geom[,3] == j), c(1, 2)],
+                                   invert = FALSE)
           if(inside >= 1){
             theVal <- j
             plotVal <- j

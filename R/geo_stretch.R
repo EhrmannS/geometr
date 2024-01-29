@@ -1,51 +1,50 @@
 #' Stretch geometric objects
 #'
 #' Stretch geometric objects by a scale factor in x and y dimension.
-#' @param obj [\code{geometric object(1)}]\cr the object to stretch.
-#' @param x [\code{numeric(1)}]\cr the scale factor in x dimension.
-#' @param y [\code{numeric(1)}]\cr the scale factor in y dimension.
-#' @param fid [\code{integerish(.)}]\cr in case only a subset of features shall
+#' @param obj [gridded(1)][geom]\cr the object to stretch.
+#' @param x [numeric(1)][numeric]\cr the scale factor in x dimension.
+#' @param y [numeric(1)][numeric]\cr the scale factor in y dimension.
+#' @param fid [integerish(.)][integer]\cr in case only a subset of features shall
 #'   be stretched, specify that here.
-#' @param update [\code{logical(1)}]\cr whether or not to update the window slot
+#' @param update [logical(1)][logical]\cr whether or not to update the window slot
 #'   after stretching.
 #' @return \code{geom} of the stretched \code{obj}.
 #' @family geometry tools
 #' @examples
 #' # stretch several features
-#' visualise(gtGeoms$polygon, linewidth = 3)
-#' newPoly <- gt_stretch(obj = gtGeoms$polygon, x = 0.5, y = 0.2,
-#'                       update = FALSE)
-#' visualise(geom = newPoly, linecol = "green", new = FALSE)
+#' geo_vis(gtGeoms$polygon, linewidth = 3)
+#' newPoly <- geo_stretch(obj = gtGeoms$polygon, x = 0.5, y = 0.2,
+#'                        update = FALSE)
+#' geo_vis(geom = newPoly, linecol = "green", new = FALSE)
 #'
 #' # stretch a single feature
-#' visualise(gtGeoms$polygon, linewidth = 3)
-#' newPoly <- gt_stretch(obj = gtGeoms$polygon, x = 0.5, fid = 2, update = FALSE)
-#' visualise(geom = newPoly, linecol = "green", new = FALSE)
+#' geo_vis(gtGeoms$polygon, linewidth = 3)
+#' newPoly <- geo_stretch(obj = gtGeoms$polygon, x = 0.5, fid = 2, update = FALSE)
+#' geo_vis(geom = newPoly, linecol = "green", new = FALSE)
 #'
 #' # stretch feature separately
-#' visualise(gtGeoms$polygon, linewidth = 3)
-#' newPoly <- gt_stretch(obj = gtGeoms$polygon,
+#' geo_vis(gtGeoms$polygon, linewidth = 3)
+#' newPoly <- geo_stretch(obj = gtGeoms$polygon,
 #'                       x = c(0.2, 1),
 #'                       y = c(1, 0.2),
 #'                       update = FALSE)
-#' visualise(geom = newPoly, linecol = "green", new = FALSE)
-#' @importFrom checkmate assertNumeric assertIntegerish assertLogical
-#' @importFrom tibble tibble as_tibble
+#' geo_vis(geom = newPoly, linecol = "green", new = FALSE)
+#' @importFrom checkmate assertNumeric assertLogical
+#' @importFrom geomio getFeatures getGroups getPoints getWindow getNames getType
+#'   getCRS getProvenance
+#' @importFrom dplyr bind_rows
+#' @importFrom tibble tibble
 #' @importFrom methods new
 #' @export
 
-gt_stretch <- function(obj, x = NULL, y = NULL, fid = NULL, update = TRUE){
+geo_stretch <- function(obj, x = NULL, y = NULL, fid = NULL, update = TRUE){
 
   assertNumeric(x, any.missing = FALSE, min.len = 1, null.ok = TRUE)
   assertNumeric(y, any.missing = FALSE, min.len = 1, null.ok = TRUE)
   assertNumeric(x = fid, lower = 1, finite = TRUE, any.missing = FALSE, null.ok = TRUE)
   assertLogical(x = update, len = 1, any.missing = FALSE)
 
-  theFeatures <- getFeatures(x = obj)
-  theGroups <- getGroups(x = obj)
   verts <- getPoints(x = obj)
-  thewindow <- getWindow(x = obj)
-  theName <- getNames(x = obj)
 
   # set default values
   if(is.null(x)){
@@ -93,14 +92,15 @@ gt_stretch <- function(obj, x = NULL, y = NULL, fid = NULL, update = TRUE){
       newCoords$x <- newCoords$x - offset$x
       newCoords$y <- newCoords$y - offset$y
     }
-    temp <- rbind(temp, newCoords)
+    temp <- bind_rows(temp, newCoords)
   }
 
   # update window
   if(update){
-    window <- .updateWindow(input = temp, window = thewindow)
+    window <- tibble(x = c(min(temp$x), max(temp$x)),
+                     y = c(min(temp$y), max(temp$y)))
   } else {
-    window <- thewindow
+    window <- getWindow(x = obj)
   }
 
   # make history
@@ -111,15 +111,16 @@ gt_stretch <- function(obj, x = NULL, y = NULL, fid = NULL, update = TRUE){
   }
 
   # make new geom
+  tempData <- list(features = getFeatures(x = obj), groups = getGroups(x = obj))
+  theData <- stats::setNames(list(tempData), getNames(x = obj))
+
   out <- new(Class = "geom",
              type = getType(x = obj)[1],
-             name = theName,
-             point = as_tibble(temp),
-             feature = theFeatures,
-             group = theGroups,
+             geometry = temp,
+             data = theData,
              window = window,
              crs = getCRS(x = obj),
-             history = c(getHistory(x = obj), list(hist)))
+             provenance = c(getProvenance(x = obj), list(hist)))
 
   return(out)
 }

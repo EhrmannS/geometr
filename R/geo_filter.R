@@ -2,37 +2,32 @@
 #'
 #' This function allows to subset any geometric object for which all required
 #' getters are available.
-#' @param obj [\code{geometric object(1)}]\cr the object to derive a subset
+#' @param obj [gridded(1)][geom]\cr the object to derive a subset
 #'   from.
 #' @param ... subset based on logical predicates defined in terms of the columns
 #'   in \code{x} (of both, points, features and groups). Multiple conditions are
 #'   combined with \code{&}. Only rows where the condition evaluates to TRUE are
 #'   kept.
-#' @param update [\code{logical(1)}]\cr whether or not to update the window slot
+#' @param update [logical(1)][logical]\cr whether or not to update the window slot
 #'   after deriving the subset.
 #' @return \code{geom} of the subset of \code{obj}.
 #' @family geometry tools
 #' @examples
-#' gt_filter(gtGeoms$point, y < -10)
+#' geo_filter(obj = gtGeoms$point, y < -10)
 #'
-#' newObj <- setFeatures(x = gtGeoms$point,
-#'                       table = data.frame(fid = c(1:9),
-#'                                          attrib = c(letters[1:9])))
-#'
-#' gt_filter(obj = newObj, attrib %in% c("a", "c", "e"))
+#' geo_filter(obj = gtGeoms$point, attr %in% c("A", "C", "E"))
+#' @importFrom geomio getPoints getFeatures getGroups getWindow getType getNames
+#'   getCRS getProvenance
 #' @importFrom rlang enquos eval_tidy exprs
 #' @importFrom dplyr left_join
 #' @importFrom methods new
 #' @export
 
-gt_filter <- function(obj, ..., update = TRUE){
+geo_filter <- function(obj, ..., update = TRUE){
 
   thePoints <- getPoints(x = obj)
   theFeatures <- getFeatures(x = obj)
   theGroups <- getGroups(x = obj)
-  theWindow <- getWindow(x = obj)
-  theType <- getType(x = obj)[1]
-  theName <- getNames(x = obj)
 
   theAttribs <- left_join(theFeatures, theGroups, by = "gid")
   subset <- exprs(...)
@@ -54,21 +49,25 @@ gt_filter <- function(obj, ..., update = TRUE){
 
   # update window
   if(update){
-    theWindow <- .updateWindow(input = newPoints, window = theWindow)
+    window <- tibble(x = c(min(newPoints$x), max(newPoints$x)),
+                     y = c(min(newPoints$y), max(newPoints$y)))
+  } else {
+    window <- getWindow(x = obj)
   }
 
   # make history
   hist <- paste0("geom was subset with '", subset, "'.")
 
+  tempData <- list(features = newFeatures, groups = newGroups)
+  theData <- stats::setNames(list(tempData), getNames(x = obj))
+
   out <- new(Class = "geom",
-             type = theType,
-             name = theName,
-             point = newPoints,
-             feature = newFeatures,
-             group = newGroups,
-             window = theWindow,
+             type = getType(x = obj)[1],
+             geometry = newPoints,
+             data = theData,
+             window = window,
              crs = getCRS(x = obj),
-             history = c(getHistory(x = obj), list(hist)))
+             provenance = c(getProvenance(x = obj), list(hist)))
 
 return(out)
 }

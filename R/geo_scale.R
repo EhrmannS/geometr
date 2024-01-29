@@ -1,33 +1,35 @@
 #' Scale geometric objects
 #'
 #' Scale the vertex values of geometric objects to a values range.
-#' @param obj [\code{geometric object(1)}]\cr the object to be scaled.
-#' @param range [\code{data.frame(2)}]\cr vector of length two for both of the
+#' @param obj [gridded(1)][geom]\cr the object to be scaled.
+#' @param range [data.frame(2)][data.frame]\cr vector of length two for both of the
 #'   \code{x} and \code{y} dimension to which the values should be scaled.
-#' @param fid [\code{integerish(.)}]\cr in case only a subset of features shall
+#' @param fid [integerish(.)][integer]\cr in case only a subset of features shall
 #'   be scaled, specify that here.
-#' @param update [\code{logical(1)}]\cr whether or not to update the window slot
+#' @param update [logical(1)][logical]\cr whether or not to update the window slot
 #'   of the resulting geom.
 #' @return \code{geom} of the scaled \code{obj}.
 #' @family geometry tools
 #' @examples
 #' # rescale to values between -10 and 10
-#' visualise(gtGeoms$polygon, linewidth = 3)
-#' newPoly <- gt_scale(obj = gtGeoms$polygon, update = FALSE,
-#'                     range = data.frame(x = c(-10, 10), y = c(-10, 10)))
-#' visualise(geom = newPoly, linecol = "green", new = FALSE)
+#' geo_vis(gtGeoms$polygon, linewidth = 3)
+#' newPoly <- geo_scale(obj = gtGeoms$polygon, update = FALSE,
+#'                      range = data.frame(x = c(-10, 10), y = c(-10, 10)))
+#' geo_vis(geom = newPoly, linecol = "green", new = FALSE)
 #'
 #' # rescale a single feature
-#' visualise(gtGeoms$polygon, linewidth = 3)
-#' newPoly <- gt_scale(obj = gtGeoms$polygon, update = FALSE, fid = 2,
-#'                     range = data.frame(x = c(-10, 10), y = c(-10, 10)))
-#' visualise(geom = newPoly, linecol = "green", new = FALSE)
-#' @importFrom checkmate testList assertNames assertChoice
-#' @importFrom tibble as_tibble
+#' geo_vis(gtGeoms$polygon, linewidth = 3)
+#' newPoly <- geo_scale(obj = gtGeoms$polygon, update = FALSE, fid = 2,
+#'                      range = data.frame(x = c(-10, 10), y = c(-10, 10)))
+#' geo_vis(geom = newPoly, linecol = "green", new = FALSE)
+#' @importFrom checkmate assertDataFrame assertNames assertNumeric assertLogical
+#' @importFrom geomio getPoints getFeatures getGroups getType getWindow getNames
+#'   getProvenance
+#' @importFrom tibble tibble
 #' @importFrom methods new
 #' @export
 
-gt_scale <- function(obj, range = NULL, fid = NULL, update = TRUE){
+geo_scale <- function(obj, range = NULL, fid = NULL, update = TRUE){
 
   assertDataFrame(x = range, types = "numeric", any.missing = FALSE, ncols = 2)
   assertNames(names(range), permutation.of = c("x", "y"))
@@ -35,11 +37,7 @@ gt_scale <- function(obj, range = NULL, fid = NULL, update = TRUE){
   assertLogical(x = update, len = 1, any.missing = FALSE)
 
   thePoints <- getPoints(x = obj)
-  theFeatures <- getFeatures(x = obj)
-  theGroups <- getGroups(x = obj)
-  theType <- getType(x = obj)[1]
   theWindow <- getWindow(x = obj)
-  theName <- getNames(x = obj)
 
   # identify fids to modify
   ids <- unique(thePoints$fid)
@@ -77,7 +75,8 @@ gt_scale <- function(obj, range = NULL, fid = NULL, update = TRUE){
 
   # update window
   if(update){
-    window <- .updateWindow(input = temp, window = theWindow)
+    window <- tibble(x = c(min(temp$x), max(temp$x)),
+                     y = c(min(temp$y), max(temp$y)))
   } else {
     window <- theWindow
   }
@@ -86,15 +85,16 @@ gt_scale <- function(obj, range = NULL, fid = NULL, update = TRUE){
   hist <- paste0("coordinate values were rescaled between x[", paste0(range$x, collapse = " "), "] and y[",  paste0(range$y, collapse = " "), "]")
 
   # make new geom
+  tempData <- list(features = getFeatures(x = obj), groups = getGroups(x = obj))
+  theData <- stats::setNames(list(tempData), getNames(x = obj))
+
   out <- new(Class = "geom",
              type = getType(x = obj)[1],
-             name = theName,
-             point = temp,
-             feature = theFeatures,
-             group = theGroups,
+             geometry = temp,
+             data = theData,
              window = window,
              crs = getCRS(x = obj),
-             history =c(getHistory(x = obj), list(hist)))
+             provenance = c(getProvenance(x = obj), list(hist)))
 
   return(out)
 }

@@ -1,47 +1,45 @@
 #' Translate geometric objects
 #'
 #' Translate geometric objects by adding a constant in x and y dimension.
-#' @param obj [\code{geometric object(1)}]\cr the object to translate.
-#' @param x [\code{numeric(1)}]\cr the translation constant (offset) in x
+#' @param obj [gridded(1)][geom]\cr the object to translate.
+#' @param x [numeric(1)][numeric]\cr the translation constant (offset) in x
 #'   dimension.
-#' @param y [\code{numeric(1)}]\cr the translation constant (offset) in y
+#' @param y [numeric(1)][numeric]\cr the translation constant (offset) in y
 #'   dimension.
-#' @param fid [\code{integerish(.)}]\cr in case only a subset of features shall
+#' @param fid [integerish(.)][integer]\cr in case only a subset of features shall
 #'   be translated, specify that here.
-#' @param update [\code{logical(1)}]\cr whether or not to update the window slot
+#' @param update [logical(1)][logical]\cr whether or not to update the window slot
 #'   after translation.
 #' @return \code{geom} of the mathematically translated \code{obj}.
 #' @family geometry tools
 #' @examples
 #' # translate several features
-#' visualise(gtGeoms$polygon, linewidth = 3)
-#' newPoly <- gt_translate(obj = gtGeoms$polygon, x = 5, y = c(-10, 5),
+#' geo_vis(gtGeoms$polygon, linewidth = 3)
+#' newPoly <- geo_translate(obj = gtGeoms$polygon, x = 5, y = c(-10, 5),
 #'                         update = FALSE)
-#' visualise(geom = newPoly, linecol = "green", new = FALSE)
+#' geo_vis(geom = newPoly, linecol = "green", new = FALSE)
 #'
 #' # translate a single feature
-#' visualise(gtGeoms$polygon, linewidth = 3)
-#' newPoly <- gt_translate(obj = gtGeoms$polygon, x = 5, fid = 2,
+#' geo_vis(gtGeoms$polygon, linewidth = 3)
+#' newPoly <- geo_translate(obj = gtGeoms$polygon, x = 5, fid = 2,
 #'                         update = FALSE)
-#' visualise(geom = newPoly, linecol = "green", new = FALSE)
-#' @importFrom checkmate assertClass assertNumeric assertIntegerish
-#'   assertLogical
-#' @importFrom tibble as_tibble
+#' geo_vis(geom = newPoly, linecol = "green", new = FALSE)
+#' @importFrom checkmate assertNumeric assertLogical
+#' @importFrom geomio getFeatures getGroups getPoints getWindow getNames getType
+#'   getCRS getProvenance
+#' @importFrom dplyr filter bind_rows
+#' @importFrom tibble tibble
 #' @importFrom methods new
 #' @export
 
-gt_translate <- function(obj, x = NULL, y = NULL, fid = NULL, update = TRUE){
+geo_translate <- function(obj, x = NULL, y = NULL, fid = NULL, update = TRUE){
 
   assertNumeric(x, any.missing = FALSE, min.len = 1, null.ok = TRUE)
   assertNumeric(y, any.missing = FALSE, min.len = 1, null.ok = TRUE)
   assertNumeric(x = fid, lower = 1, finite = TRUE, any.missing = FALSE, null.ok = TRUE)
   assertLogical(x = update, len = 1, any.missing = FALSE)
 
-  theFeatures <- getFeatures(x = obj)
-  theGroups <- getGroups(x = obj)
   thePoints <- getPoints(x = obj)
-  thewindow <- getWindow(x = obj)
-  theName <- getNames(x = obj)
 
   # set default values
   if(is.null(x)){
@@ -71,21 +69,22 @@ gt_translate <- function(obj, x = NULL, y = NULL, fid = NULL, update = TRUE){
   # modify vertices
   temp <- NULL
   for(i in seq_along(ids)){
-    tempCoords <- thePoints[thePoints$fid == ids[i],]
+    tempCoords <- filter(thePoints, fid == ids[i])
     newCoords <- tempCoords
 
     if(doTranslate[i]){
       newCoords$x <- tempCoords$x + x[[i]]
       newCoords$y <- tempCoords$y + y[[i]]
     }
-    temp <- rbind(temp, newCoords)
+    temp <- bind_rows(temp, newCoords)
   }
 
   # update window
   if(update){
-    window <- .updateWindow(input = temp, window = thewindow)
+    window <- tibble(x = c(min(temp$x), max(temp$x)),
+                     y = c(min(temp$y), max(temp$y)))
   } else {
-    window <- thewindow
+    window <- getWindow(x = obj)
   }
 
   # make history
@@ -96,15 +95,16 @@ gt_translate <- function(obj, x = NULL, y = NULL, fid = NULL, update = TRUE){
   }
 
   # make new geom
+  tempData <- list(features = getFeatures(x = obj), groups = getGroups(x = obj))
+  theData <- stats::setNames(list(tempData), getNames(x = obj))
+
   out <- new(Class = "geom",
              type = getType(x = obj)[1],
-             name = theName,
-             point = as_tibble(temp),
-             feature = theFeatures,
-             group = theGroups,
+             geometry = temp,
+             data = theData,
              window = window,
              crs = getCRS(x = obj),
-             history = c(getHistory(x = obj), list(hist)))
+             provenance = c(getProvenance(x = obj), list(hist)))
 
   return(out)
 }
