@@ -10,53 +10,26 @@ reference:
   - title: geometries
     desc: functions to create geometric objects parametrically or by sketching them
     contents:
-      - gs_point
-      - gs_line
-      - gs_polygon
-      - gs_random
-      - gs_tiles
-      - gs_voronoi
-  - title: transform geometry classes
-    desc: functions that transform between geometric classes
-    contents:
-      - gc_geom
-      - gc_raster
-      - gc_sf
-      - gc_sp
-  - title: getters and setters
-    desc: methods that standardise dealing with geometric objects
-    contents:
-      - getCols
-      - getCRS
-      - getExtent
-      - getFeatures
-      - getGroups
-      - getHistory
-      - getLayers
-      - getNames
-      - getPoints
-      - getRes
-      - getRows
-      - getType
-      - getWindow
-      - setCRS
-      - setFeatures
-      - setGroups
-      - setHistory
-      - setWindow
-  - title: standardised tools
+      - geo_point
+      - geo_line
+      - geo_polygon
+      - geo_grid
+      - geo_random
+      - geo_tiles
+      - geo_voronoi
+  - title: geom modifier tools
     desc: functions that modify geometric objects of all supported classes
     contents:
-      - gt_filter
-      - gt_locate
-      - gt_pull
-      - gt_reflect
-      - gt_rotate
-      - gt_scale
-      - gt_sketch
-      - gt_skew
-      - gt_stretch
-      - gt_translate
+      - geo_filter
+      - geo_locate
+      - geo_pull
+      - geo_reflect
+      - geo_rotate
+      - geo_scale
+      - geo_sketch
+      - geo_skew
+      - geo_stretch
+      - geo_translate
   - title: visualise
     desc: plot geometric objects
     contents:
@@ -66,14 +39,12 @@ reference:
     desc: new classes that come with this package
     contents:
       - geom-class
-      - gtTheme-class
+      - geoTheme-class
   - title: example data
     desc: data that are used throughout the documentation
     contents:
-      - gtGeoms
-      - gtSF
-      - gtSP
-      - gtRasters
+      - geoms
+      - clocaenog
 
 navbar:
   left:
@@ -84,7 +55,5 @@ navbar:
     - text: "Changelog"
       href: news/index.html
   right:
-    - icon: fa-twitter fa-lg
-      href: http://www.twitter.com/DerEhrmann
     - icon: fa-github
       href: https://github.com/EhrmannS/geometr

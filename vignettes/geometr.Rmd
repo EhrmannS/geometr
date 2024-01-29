@@ -22,16 +22,6 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
-# load things here for a clean visual experience
-library(sf)
-library(sp)
-library(raster)
-library(terra)
-library(geometr)
-library(tibble)
-library(dplyr)
-library(magrittr)
-getExtent(x = st_read(system.file("shape/nc.shp", package="sf")))
 ```
 
 # Introduction
@@ -64,17 +54,17 @@ Moreover, distinct workflows provide data so that the same information is not at
 The following code chunk exemplifies this by showing various functions that derive an extent from specific spatial objects:
 
 ```{r}
-nc_sf <- sf::st_read(system.file("shape/nc.shp", package = "sf"))
-st_bbox(nc_sf)
-
-nc_sp <- sf::as_Spatial(nc_sf)
-bbox(nc_sp)
-
-ras <- raster::raster(system.file("external/test.grd", package = "raster"))
-extent(ras)
-
-spRas <- terra::rast(x = ras)
-ext(spRas)
+# nc_sf <- sf::st_read(system.file("shape/nc.shp", package = "sf"))
+# st_bbox(nc_sf)
+# 
+# nc_sp <- sf::as_Spatial(nc_sf)
+# bbox(nc_sp)
+# 
+# ras <- raster::raster(system.file("external/test.grd", package = "raster"))
+# extent(ras)
+# 
+# spRas <- terra::rast(x = ras)
+# ext(spRas)
 ```
 
 `sf::st_bbox()` provides the information as a named vector and presents first minimum and then maximum values of both dimensions, `sp::bbox()` provides a table with minimum and maximum values in columns, `raster::extent()` provides the information in an S4 object that presents first the x and then the y values and `terra::ext()` provides and object of class SpatExtent, which in principle evaluates to a vector with first the x and then the y values.
@@ -86,17 +76,17 @@ Here, *getters* and *setters* are used as accessor functions, and as pathway to 
 The following code chunk shows how different input classes yield the same output object.
 
 ```{r}
-myInput <- nc_sf
-getExtent(x = myInput)
-
-myInput <- nc_sp
-getExtent(x = myInput)
-
-myInput <- ras
-getExtent(x = myInput)
-
-myInput <- spRas
-getExtent(x = myInput)
+# myInput <- nc_sf
+# getExtent(x = myInput)
+# 
+# myInput <- nc_sp
+# getExtent(x = myInput)
+# 
+# myInput <- ras
+# getExtent(x = myInput)
+# 
+# myInput <- spRas
+# getExtent(x = myInput)
 ```
 
 The output of the getters provided by `geometr` is 
@@ -141,8 +131,8 @@ A `geom` of type grid contains in the `@point` slot merely a table that holds th
 When using the getter `getPoints()`, this slot is "unpacked" into a form that is interoperable with the other `geom` types.
 
 ```{r}
-gtGeoms$grid$categorical@point
-getPoints(x = gtGeoms$grid$categorical)
+# gtGeoms$grid$categorical@point
+# getPoints(x = gtGeoms$grid$categorical)
 ```
 
 In contrast to `Raster*` objects of the `raster` package, the values in a grid `geom` are [*run-length encoded*](https://en.wikipedia.org/wiki/Run-length_encoding), in case that results in a smaller object, which is often the case for rasters with categorical values.
@@ -150,8 +140,8 @@ In contrast to `Raster*` objects of the `raster` package, the values in a grid `
 As with points, the getter `getFeatures()` unpacks the `@feature` slot into its interoperable form.
 
 ```{r}
-gtGeoms$grid$categorical@feature
-getFeatures(x = gtGeoms$grid$categorical)
+# gtGeoms$grid$categorical@feature
+# getFeatures(x = gtGeoms$grid$categorical)
 ```
 
 For raster objects it is intuitively clear that attributes are contained in separate tables, where unique values of the raster cells are related to attribute values. 
@@ -169,7 +159,7 @@ This has two advantages over simple features:
 2. this interpretation allows also raster objects to be captured in the exact same data structure, when regarding each cell as a single feature (with unique `fid`) and their unique values as entries in the groups attribute table (`gid`).
 
 ```{r}
-getGroups(x = gtGeoms$grid$categorical)
+# getGroups(x = gtGeoms$grid$categorical)
 ```
 
 ## Create a `geom`
@@ -177,13 +167,13 @@ getGroups(x = gtGeoms$grid$categorical)
 A `geom` can be created simply by transforming it from another class in case a method for that class is defined (`showMethods("gc_geom")`), or by using one of the *geometry shape* functions that are labelled `gs_*` in `geometr`.
 
 ```{r}
-# transform from class sf
-(nc_geom <- gc_geom(input = nc_sf))
-
-# make "by hand"
-coords <- tibble(x = c(40, 70, 70, 50),
-                 y = c(40, 40, 60, 70))
-(somePoints <- gs_point(anchor = coords))
+# # transform from class sf
+# (nc_geom <- gc_geom(input = nc_sf))
+# 
+# # make "by hand"
+# coords <- tibble(x = c(40, 70, 70, 50),
+#                  y = c(40, 40, 60, 70))
+# (somePoints <- gs_point(anchor = coords))
 ```
 
 `nc_geom` is made up of 100 groups with 108 individual polygon features (with 2529 points), has a crs other than cartesian and a set of (feature) attributes.
@@ -199,7 +189,7 @@ A polygon and a line can be made up of the same set of points and a polygon is i
 To then distinguish a line and polygon with the same points, it can be defined that a polygon must have duplicate start and end points, which would constitute a *closed path*.
 
 ```{r}
-(aPoly <- gs_polygon(anchor = coords))
+# (aPoly <- gs_polygon(anchor = coords))
 ```
 
 `aPoly` is made up of one feature with 5 points, has a cartesian coordinate system and the tiny map implies that the point at location `(40|40)` is duplicated. 
@@ -213,16 +203,16 @@ Also, when building a polygon with hole in `geometr`, the rotation direction des
 The correct treatment and visualisation of polygons with interior rings is determined by the code-logic of the functions processing polygons.
 
 ```{r}
-pond <- tibble(x = c(30, 30, 80, 80, 30),
-               y = c(30, 80, 80, 30, 30),
-               fid = 1)
-island <- tibble(x = c(60, 65, 65, 60, 60),
-                y = c(45, 45, 50, 50, 45),
-                fid = 1)
-temp <- bind_rows(pond, island, getPoints(aPoly))
-
-(perforatedPoly <- gs_polygon(anchor = temp))
-visualise(perforatedPoly, fillcol = "fid")
+# pond <- tibble(x = c(30, 30, 80, 80, 30),
+#                y = c(30, 80, 80, 30, 30),
+#                fid = 1)
+# island <- tibble(x = c(60, 65, 65, 60, 60),
+#                 y = c(45, 45, 50, 50, 45),
+#                 fid = 1)
+# temp <- bind_rows(pond, island, getPoints(aPoly))
+# 
+# (perforatedPoly <- gs_polygon(anchor = temp))
+# visualise(perforatedPoly, fillcol = "fid")
 ```
 
 
@@ -237,59 +227,59 @@ By default, the attributes related to each simple feature are also stored in the
 This may not be desired, for the sake of consistency, so `gc_geom` has the argument `group = FALSE/TRUE` to set whether simple feature attributes shall be regarded as group attributes in the resulting `geom`. 
 
 ```{r}
-new_geom <- gc_geom(input = nc_sf, group = TRUE)
-
-getFeatures(x = new_geom)
-
-getGroups(x = new_geom)
+# new_geom <- gc_geom(input = nc_sf, group = TRUE)
+# 
+# getFeatures(x = new_geom)
+# 
+# getGroups(x = new_geom)
 ```
 
 It becomes clear that this approach to attribute tables makes the class `geom` quite flexible.
 One could for example assign some point specific measurements (such as [Arne Pommerening's](https://www.pommerening.org) Clocaenog 6 sample data) to the feature attribute table, and at the same time set group specific attributes to the group attribute table of a point `geom`.
 
 ```{r}
-# make table of locations, tree properties and species metadata
-locations <- clocaenog$trees %>% 
-  select(x = x,
-         y = y,
-         fid = Number)
-
-features <- clocaenog$trees %>% 
-  select(fid = Number,
-         gid = Species,
-         dbh = dbh,
-         height = ht)
-
-groups <- clocaenog$species %>% 
-  select(gid = NC, name = CN, scientific = BN)
-
-species <- features %>% 
-  left_join(groups, by = "gid") %>% 
-  select(gid, name, scientific) %>% 
-  distinct() %>% 
-  mutate(deciduous = c(T, T, F, F, F, T, T, F, T, T, F)) %>% 
-  arrange(gid)
-
-# set these as feature and group attribute tables
-trees <- gs_point(locations) %>%
-  setFeatures(table = features) %>%
-  setGroups(table = species)
-
-# make the title
-validpoints <- getPoints(x = trees)
-title <- paste0("Clocaenog - tree heights (", dim(validpoints)[1], ")")
-
-# and visualise
-visualise(!!title := trees, linecol = "height")
+# # make table of locations, tree properties and species metadata
+# locations <- clocaenog$trees %>% 
+#   select(x = x,
+#          y = y,
+#          fid = Number)
+# 
+# features <- clocaenog$trees %>% 
+#   select(fid = Number,
+#          gid = Species,
+#          dbh = dbh,
+#          height = ht)
+# 
+# groups <- clocaenog$species %>% 
+#   select(gid = NC, name = CN, scientific = BN)
+# 
+# species <- features %>% 
+#   left_join(groups, by = "gid") %>% 
+#   select(gid, name, scientific) %>% 
+#   distinct() %>% 
+#   mutate(deciduous = c(T, T, F, F, F, T, T, F, T, T, F)) %>% 
+#   arrange(gid)
+# 
+# # set these as feature and group attribute tables
+# trees <- gs_point(locations) %>%
+#   setFeatures(table = features) %>%
+#   setGroups(table = species)
+# 
+# # make the title
+# validpoints <- getPoints(x = trees)
+# title <- paste0("Clocaenog - tree heights (", dim(validpoints)[1], ")")
+# 
+# # and visualise
+# visualise(!!title := trees, linecol = "height")
 ```
 
 When storing this data object as a `POINT` feature, species information have to be provided as duplicates (which can be very costly with certain data) and when storing it as `MULTIPOINT`, the feature attributes can only be dropped (or perhaps stored inside a non-tidy list column). A `geom` in contrast, allows storing those data consistently tidy and can easily be processed, for instance with the function `gt_filter`, that allows filtering any attribute in the features or groups attribute table.
 
 ```{r}
-tall_conifers <- gt_filter(trees, deciduous == FALSE & height > 20, update = FALSE)
-
-visualise("Tree heights and tall conifers" = trees, linecol = "height")
-visualise(tall_conifers, new = FALSE, pointsymbol = 21, linecol = "red")
+# tall_conifers <- gt_filter(trees, deciduous == FALSE & height > 20, update = FALSE)
+# 
+# visualise("Tree heights and tall conifers" = trees, linecol = "height")
+# visualise(tall_conifers, new = FALSE, pointsymbol = 21, linecol = "red")
 ```
 
 ## Data provenance
@@ -300,11 +290,11 @@ The function `gc_geom()`, all `gs_*()` and all `gt_()*` functions attach informa
 In case you want to make use of this slot, it can be set via `setHistory()`.
 
 ```{r}
-visualise(aPoly)
-
-reflPoly <- gt_reflect(obj = aPoly, angle = 45)
-
-visualise(reflPoly, linecol = "deeppink", new = FALSE, trace = TRUE)
+# visualise(aPoly)
+# 
+# reflPoly <- gt_reflect(obj = aPoly, angle = 45)
+# 
+# visualise(reflPoly, linecol = "deeppink", new = FALSE, trace = TRUE)
 ```
 
 # Casting
@@ -318,11 +308,11 @@ The following code chunk shows casting in `geometr`.
 When casting to polygons, vertex checks are carried out that make sure the output is a valid polygon, including a duplicated end/start vertex.
 
 ```{r}
-# cast from polygon to points
-(somePoints <- gs_point(anchor = aPoly))
-
-# ... and recreate a polygon from that (note how duplicates are handled)
-(aPoly <- gs_polygon(anchor = somePoints))
+# # cast from polygon to points
+# (somePoints <- gs_point(anchor = aPoly))
+# 
+# # ... and recreate a polygon from that (note how duplicates are handled)
+# (aPoly <- gs_polygon(anchor = somePoints))
 ```
 
 
@@ -337,7 +327,7 @@ Moreover, it is possible to set the plot title by providing a name to the object
 In case a title is not provided in that way, the title is either extracted from the object name (for example, the raster in the following example is part of a `RasterStack` with the name `continuous`) or a default value is used.
 
 ```{r, fig.height=3.5}
-visualise('I made a polygon!' = aPoly, gc_raster(gtGeoms$grid$continuous))
+# visualise('I made a polygon!' = aPoly, gc_raster(gtGeoms$grid$continuous))
 ```
 
 In case a `geom` is provided with a relative scale, the values are scaled between 0 and 1 and it is plotted by default relative to the plot extent.
@@ -345,11 +335,11 @@ This allows, for example, to observe always the same region in a set of images, 
 To this end, a `geom` would be provided with a reference windo0w from which the relative values shall be derived and its' coordinates are scaled to those values.
 
 ```{r, fig.height=3.5}
-relPoly <- gs_rectangle(anchor = aPoly) %>% 
-  setWindow(to = tibble(x = c(0, 100), y = c(0, 100)))
-
-visualise(gtGeoms$grid$categorical, gtGeoms$grid$continuous)
-visualise(relPoly, linecol = "deeppink", new = FALSE)
+# relPoly <- gs_rectangle(anchor = aPoly) %>% 
+#   setWindow(to = tibble(x = c(0, 100), y = c(0, 100)))
+# 
+# visualise(gtGeoms$grid$categorical, gtGeoms$grid$continuous)
+# visualise(relPoly, linecol = "deeppink", new = FALSE)
 ```
 
 In various functions of `geometr` the reference window can play a role, most prominently to control which part of an object is plotted.
@@ -360,17 +350,17 @@ The reference region for a plot can be set via the `window = ` argument in `visu
 To zoom in on `relPoly`, we thus have to assign the plot extent as window to `relPoly` and rescale the relative values to absolute values on that basis.
 
 ```{r}
-zoom <- gt_scale(obj = relPoly, range = getExtent(x = gtGeoms$grid$categorical)) %>% 
-  setWindow(to = getExtent(x = gtGeoms$grid$categorical))
-  
-visualise('zoomed object' = gtGeoms$grid$categorical, window = getExtent(x = zoom))
+# zoom <- gt_scale(obj = relPoly, range = getExtent(x = gtGeoms$grid$categorical)) %>% 
+#   setWindow(to = getExtent(x = gtGeoms$grid$categorical))
+#   
+# visualise('zoomed object' = gtGeoms$grid$categorical, window = getExtent(x = zoom))
 ```
 
 `visualise()` also allows to plot images, simply by providing an object that has the three layers `red`,  `green` and `blue` and setting `image = TRUE`.
 
 ```{r}
-R_logo <- brick(system.file("external/rlogo.grd", package = "raster"))
-visualise('R logo' = gc_geom(input = R_logo, as_hex = TRUE))
+# R_logo <- brick(system.file("external/rlogo.grd", package = "raster"))
+# visualise('R logo' = gc_geom(input = R_logo, as_hex = TRUE))
 ```
 
 
@@ -382,7 +372,7 @@ The theme controls how plots that are created with `visualise()` appear.
 By default, this theme is `gtTheme` and it has the following properties.
 
 ```{r}
-gtTheme
+# gtTheme
 ```
 
 A new theme can be created by modifying any of the elements (shown in yellow in the console), via the function `setTheme()`.
@@ -394,17 +384,17 @@ By default `gtTheme` contains only a single value for most properties (except co
 For example, to make a plot where each point represents the diameter of a tree, it would make sense to scale the points between values that resemble the tree diameter.
 
 ```{r}
-treeTheme <- setTheme(scale = list(param = "pointsize", to = "dbh"), 
-                      parameters = list(pointsize = c(0.05, 0.77)))
-visualise(`Clocaenog - tree diameters` = trees, theme = treeTheme, clip = FALSE)
+# treeTheme <- setTheme(scale = list(param = "pointsize", to = "dbh"), 
+#                       parameters = list(pointsize = c(0.05, 0.77)))
+# visualise(`Clocaenog - tree diameters` = trees, theme = treeTheme, clip = FALSE)
 ```
 
 Alternatively, one could use quick options to set scaling, by providing the property to scale and the attribute to scale to as `property = attribute`, also for several properties at the same time.
 
 ```{r}
-treeTheme <- setTheme(parameters = list(pointsize = c(0.05, 0.77)))
-visualise(`Clocaenog - tree diameters and heights` = trees, theme = treeTheme,
-          pointsize = "dbh", linecol = "height")
+# treeTheme <- setTheme(parameters = list(pointsize = c(0.05, 0.77)))
+# visualise(`Clocaenog - tree diameters and heights` = trees, theme = treeTheme,
+#           pointsize = "dbh", linecol = "height")
 ```
 
 Colour palettes can be set by providing "waypoints" between which colours should be interpolated (see the documentation of <a href="https://rdrr.io/r/grDevices/colorRamp.html" target="_blank">`colorRamp`</a>).
@@ -412,7 +402,7 @@ By default, these are a darkish blue (`#00204D`) for low values and yellow (`#FF
 When including additional values, or when building totally new palettes, the colour can be modified accordingly.
 
 ```{r}
-treeTheme <- setTheme(parameters = list(colours = c("#00204DFF", "#73D216FF", 
-                                                    "#FFEA46FF", "#CC0000F0")))
-visualise(`Clocaenog - tree heights` = trees, theme = treeTheme, linecol = "height")
+# treeTheme <- setTheme(parameters = list(colours = c("#00204DFF", "#73D216FF", 
+#                                                     "#FFEA46FF", "#CC0000F0")))
+# visualise(`Clocaenog - tree heights` = trees, theme = treeTheme, linecol = "height")
 ```

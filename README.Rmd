@@ -18,7 +18,7 @@ knitr::opts_chunk$set(
 library(sf)
 library(geometr)
 nc_sf <- st_read(system.file("shape/nc.shp", package="sf"), quiet = TRUE)
-getFeatures(nc_sf)
+geomio::getFeatures(nc_sf)
 ```
 # geometr <a href='https://ehrmanns.github.io/geometr/'><img src='man/figures/logo.svg' align="right" height="200" /></a>
 
@@ -69,15 +69,15 @@ library(geometr)
 # ... from other classes
 library(sf)
 nc_sf <- st_read(system.file("shape/nc.shp", package="sf"), quiet = TRUE)
-nc_geom <- gc_geom(input = nc_sf)
+nc_geom <- geomio::as_geometr(x = nc_sf)
 ```
 
 Metadata of different classes can be extracted in interoperable quality (i.e. the same metadata in different objects/classes have the same names and the same arrangement).
 
 ```{r}
-getExtent(x = nc_geom)
+geomio::getExtent(x = nc_geom)
 
-getFeatures(x = nc_geom)
+geomio::getFeatures(x = nc_geom)
 ```
 
 `geometr` only knows the feature types `point`, `line`, `polygon` and `grid` (a systematic lattice of points). 
@@ -93,16 +93,16 @@ Eventually this results in a tidier data-structure with easier access than `sp` 
 ```{r}
 # when using the group = TRUE argument, the attributes of MULTI*-feature are
 # stored in the group attribute table of a geom
-nc_geom <- gc_geom(input = nc_sf, group = TRUE)
-currituck <- gt_filter(obj = nc_geom, gid == 4)
+nc_geom <- geomio::as_geometr(x = nc_sf, group = TRUE)
+currituck <- geo_filter(obj = nc_geom, gid == 4)
 
-getFeatures(x = currituck)
-getGroups(x = currituck)
+geomio::getFeatures(x = currituck)
+geomio::getGroups(x = currituck)
 
 # and new attributes can be set easily, 
 newTable <- data.frame(fid = c(1:108), 
                        attrib = rnorm(108))
-(nc_geom <- setFeatures(x = nc_geom, table = newTable))
+(nc_geom <- geomio::setFeatures(x = nc_geom, table = newTable))
 ```
 
 Moreover, a `geom` also allows to store raster information in the same data format.
@@ -111,9 +111,9 @@ The raster attribute table (RAT) is basically already the groups attribute table
 In this case, however, the features (single pixels) don't have to be associated to a group ID, as their feature values are at the same time the group values.
 
 ```{r}
-str(gtGeoms$polygon, max.level = 2)
+str(geoms$polygon, max.level = 2)
 
-str(gtGeoms$grid$categorical, max.level = 2)
+str(geoms$grid, max.level = 2)
 ```
 
 
@@ -122,25 +122,25 @@ For example, it does not create artificial (\"nice\") bins for the x and y axis 
 Moreover, you can easily set plot titles without much effort.
 
 ```{r, fig.height=3}
-visualise(`North Carolina` = nc_geom)
+geo_vis(`North Carolina` = nc_geom)
 ```
 
 You can use quick options to scale plot parameters to the attributes of the `geom` to modify which aspects of an object should be shown in the plot, for example when scaling `fillcol` to `NWBIR74`.
 
 ```{r, fig.height=3}
 myAttr <- "NWBIR74"
-visualise(!!paste0("NC - ", myAttr) := nc_geom, fillcol = !!myAttr)
+geo_vis(!!paste0("NC - ", myAttr) := nc_geom, fillcol = !!myAttr)
 ```
 
 The `@window` slot of a modified `geom` is by default automatically updated.
 
 ```{r, fig.height=3.5}
-visualise(`Currituck` = currituck, linecol = "fid")
+geo_vis(`Currituck` = currituck, linecol = "fid")
 ```
 
 Finally, cast a `geom` to another type simply by providing it in `anchor` of the respective type
 
 ```{r, fig.height=3.5}
-boundPoints <- gs_point(anchor = currituck)
-visualise(`Currituck - boundary vertices`= boundPoints, linecol = "fid")
+boundPoints <- geo_point(crds = geomio::getPoints(currituck))
+geo_vis(`Currituck - boundary vertices`= boundPoints, linecol = "fid")
 ```

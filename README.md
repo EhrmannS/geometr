@@ -25,14 +25,14 @@ conceptually quite similar, yet a common standard lacks for accessing
 features, vertices or the metadata. `geometr` fills this gap by
 providing tools that
 
--   produce an identical output for the same metadata of different
-    classes (via so-called getters) and
--   use an identical input to write to various classes that originally
-    require different input (via so-called setters).
+- produce an identical output for the same metadata of different classes
+  (via so-called getters) and
+- use an identical input to write to various classes that originally
+  require different input (via so-called setters).
 
 ## Installation
 
-1.  Install the official version from CRAN:
+1)  Install the official version from CRAN:
 
 ``` r
 install.packages("geometr")
@@ -44,13 +44,13 @@ or the latest development version from github:
 devtools::install_github("EhrmannS/geometr")
 ```
 
-2.  The
+2)  The
     [vignette](https://ehrmanns.github.io/geometr/articles/geometr.html)
     gives an in depth introduction, explains the take on
     interoperability and discusses the spatial class `geom` that comes
     with `geometr`.
 
-3.  Have fun being a
+3)  Have fun being a
     [geometer](https://en.wikipedia.org/wiki/List_of_geometers)!
 
 ## Examples
@@ -63,7 +63,7 @@ library(geometr)
 # ... from other classes
 library(sf)
 nc_sf <- st_read(system.file("shape/nc.shp", package="sf"), quiet = TRUE)
-nc_geom <- gc_geom(input = nc_sf)
+nc_geom <- geomio::as_geometr(x = nc_sf)
 ```
 
 Metadata of different classes can be extracted in interoperable quality
@@ -71,17 +71,17 @@ Metadata of different classes can be extracted in interoperable quality
 and the same arrangement).
 
 ``` r
-getExtent(x = nc_geom)
+geomio::getExtent(x = nc_geom)
 #> # A tibble: 2 × 2
 #>       x     y
 #>   <dbl> <dbl>
 #> 1 -84.3  33.9
 #> 2 -75.5  36.6
 
-getFeatures(x = nc_geom)
+geomio::getFeatures(x = nc_geom)
 #> # A tibble: 108 × 16
 #>      fid   gid  AREA PERIMETER CNTY_ CNTY_ID NAME    FIPS  FIPSNO CRESS_ID BIR74
-#>  * <int> <int> <dbl>     <dbl> <dbl>   <dbl> <chr>   <chr>  <dbl>    <int> <dbl>
+#>    <int> <int> <dbl>     <dbl> <dbl>   <dbl> <chr>   <chr>  <dbl>    <int> <dbl>
 #>  1     1     1 0.114      1.44  1825    1825 Ashe    37009  37009        5  1091
 #>  2     2     2 0.061      1.23  1827    1827 Allegh… 37005  37005        3   487
 #>  3     3     3 0.143      1.63  1828    1828 Surry   37171  37171       86  3188
@@ -92,8 +92,9 @@ getFeatures(x = nc_geom)
 #>  8     8     6 0.097      1.67  1833    1833 Hertfo… 37091  37091       46  1452
 #>  9     9     7 0.062      1.55  1834    1834 Camden  37029  37029       15   286
 #> 10    10     8 0.091      1.28  1835    1835 Gates   37073  37073       37   420
-#> # … with 98 more rows, and 5 more variables: SID74 <dbl>, NWBIR74 <dbl>,
-#> #   BIR79 <dbl>, SID79 <dbl>, NWBIR79 <dbl>
+#> # ℹ 98 more rows
+#> # ℹ 5 more variables: SID74 <dbl>, NWBIR74 <dbl>, BIR79 <dbl>, SID79 <dbl>,
+#> #   NWBIR79 <dbl>
 ```
 
 `geometr` only knows the feature types `point`, `line`, `polygon` and
@@ -121,32 +122,31 @@ with higher versatility.
 ``` r
 # when using the group = TRUE argument, the attributes of MULTI*-feature are
 # stored in the group attribute table of a geom
-nc_geom <- gc_geom(input = nc_sf, group = TRUE)
-currituck <- gt_filter(obj = nc_geom, gid == 4)
+nc_geom <- geomio::as_geometr(x = nc_sf, group = TRUE)
+currituck <- geo_filter(obj = nc_geom, gid == 4)
 
-getFeatures(x = currituck)
+geomio::getFeatures(x = currituck)
 #> # A tibble: 3 × 2
 #>     fid   gid
 #>   <int> <int>
 #> 1     4     4
 #> 2     5     4
 #> 3     6     4
-getGroups(x = currituck)
+geomio::getGroups(x = currituck)
 #> # A tibble: 1 × 15
 #>     gid  AREA PERIMETER CNTY_ CNTY_ID NAME     FIPS  FIPSNO CRESS_ID BIR74 SID74
 #>   <int> <dbl>     <dbl> <dbl>   <dbl> <chr>    <chr>  <dbl>    <int> <dbl> <dbl>
 #> 1     4  0.07      2.97  1831    1831 Curritu… 37053  37053       27   508     1
-#> # … with 4 more variables: NWBIR74 <dbl>, BIR79 <dbl>, SID79 <dbl>,
-#> #   NWBIR79 <dbl>
+#> # ℹ 4 more variables: NWBIR74 <dbl>, BIR79 <dbl>, SID79 <dbl>, NWBIR79 <dbl>
 
 # and new attributes can be set easily, 
 newTable <- data.frame(fid = c(1:108), 
                        attrib = rnorm(108))
-(nc_geom <- setFeatures(x = nc_geom, table = newTable))
+(nc_geom <- geomio::setFeatures(x = nc_geom, table = newTable))
 #> geom        polygon
 #>             100 groups | 108 features | 2529 points
 #> crs         +proj=longlat +datum=NAD27 +no_defs
-#> attributes  (features) attrib
+#> layers      (features) attrib
 #>             (groups) AREA, PERIMETER, CNTY_, CNTY_ID, NAME, FIPS, FIPSNO, CRESS_ID, BIR74, ...
 #> tiny map           36.59 
 #>                    ◌ ○ ◌ ○        
@@ -167,27 +167,25 @@ attributes this class has in common. In this case, however, the features
 feature values are at the same time the group values.
 
 ``` r
-str(gtGeoms$polygon, max.level = 2)
-#> Formal class 'geom' [package "geometr"] with 8 slots
-#>   ..@ type   : chr "polygon"
-#>   ..@ name   : chr "polygon_geom"
-#>   ..@ point  : tibble [11 × 3] (S3: tbl_df/tbl/data.frame)
-#>   ..@ feature: tibble [2 × 2] (S3: tbl_df/tbl/data.frame)
-#>   ..@ group  : tibble [2 × 1] (S3: tbl_df/tbl/data.frame)
-#>   ..@ window : tibble [2 × 2] (S3: tbl_df/tbl/data.frame)
-#>   ..@ crs    : chr NA
-#>   ..@ history: list()
+str(geoms$polygon, max.level = 2)
+#> Formal class 'geom' [package "geometr"] with 7 slots
+#>   ..@ type      : chr "polygon"
+#>   ..@ label     : chr "polygon_geom"
+#>   ..@ geometry  : tibble [11 × 3] (S3: tbl_df/tbl/data.frame)
+#>   ..@ data      :List of 2
+#>   ..@ window    : tibble [2 × 2] (S3: tbl_df/tbl/data.frame)
+#>   ..@ crs       : chr NA
+#>   ..@ provenance: list()
 
-str(gtGeoms$grid$categorical, max.level = 2)
-#> Formal class 'geom' [package "geometr"] with 8 slots
-#>   ..@ type   : chr "grid"
-#>   ..@ name   : chr "categorical_grid_geom"
-#>   ..@ point  : tibble [3 × 2] (S3: tbl_df/tbl/data.frame)
-#>   ..@ feature: tibble [726 × 2] (S3: tbl_df/tbl/data.frame)
-#>   ..@ group  : tibble [9 × 2] (S3: tbl_df/tbl/data.frame)
-#>   ..@ window : tibble [2 × 2] (S3: tbl_df/tbl/data.frame)
-#>   ..@ crs    : chr NA
-#>   ..@ history: list()
+str(geoms$grid, max.level = 2)
+#> Formal class 'geom' [package "geometr"] with 7 slots
+#>   ..@ type      : chr "grid"
+#>   ..@ label     : chr "grid_geom"
+#>   ..@ geometry  : tibble [3 × 2] (S3: tbl_df/tbl/data.frame)
+#>   ..@ data      :List of 2
+#>   ..@ window    : tibble [2 × 2] (S3: tbl_df/tbl/data.frame)
+#>   ..@ crs       : chr NA
+#>   ..@ provenance: list()
 ```
 
 `geometr` comes with the `visualise` function, which makes nice-looking
@@ -198,7 +196,7 @@ values explicitly. Moreover, you can easily set plot titles without much
 effort.
 
 ``` r
-visualise(`North Carolina` = nc_geom)
+geo_vis(`North Carolina` = nc_geom)
 ```
 
 <img src="man/figures/README-unnamed-chunk-8-1.png" width="100%" />
@@ -209,7 +207,7 @@ plot, for example when scaling `fillcol` to `NWBIR74`.
 
 ``` r
 myAttr <- "NWBIR74"
-visualise(!!paste0("NC - ", myAttr) := nc_geom, fillcol = !!myAttr)
+geo_vis(!!paste0("NC - ", myAttr) := nc_geom, fillcol = !!myAttr)
 ```
 
 <img src="man/figures/README-unnamed-chunk-9-1.png" width="100%" />
@@ -218,7 +216,7 @@ The `@window` slot of a modified `geom` is by default automatically
 updated.
 
 ``` r
-visualise(`Currituck` = currituck, linecol = "fid")
+geo_vis(`Currituck` = currituck, linecol = "fid")
 ```
 
 <img src="man/figures/README-unnamed-chunk-10-1.png" width="100%" />
@@ -227,8 +225,18 @@ Finally, cast a `geom` to another type simply by providing it in
 `anchor` of the respective type
 
 ``` r
-boundPoints <- gs_point(anchor = currituck)
-visualise(`Currituck - boundary vertices`= boundPoints, linecol = "fid")
+boundPoints <- geo_point(crds = geomio::getPoints(currituck))
+geo_vis(`Currituck - boundary vertices`= boundPoints, linecol = "fid")
+#> Warning: Unknown or uninitialised column: `features`.
+#> Warning: Unknown or uninitialised column: `group`.
+#> Warning: Unknown or uninitialised column: `features`.
+#> Unknown or uninitialised column: `features`.
+#> Warning: Unknown or uninitialised column: `group`.
+#> Warning: Unknown or uninitialised column: `features`.
+#> Warning: Unknown or uninitialised column: `group`.
+#> Warning: Unknown or uninitialised column: `features`.
+#> Unknown or uninitialised column: `features`.
+#> Warning: Unknown or uninitialised column: `group`.
 ```
 
 <img src="man/figures/README-unnamed-chunk-11-1.png" width="100%" />
