@@ -7,7 +7,7 @@
 \S4method{show}{geom}(object)
 }
 \arguments{
-\item{object}{[\code{geom}]\cr object to \code{show}.}
+\item{object}{\link[=geom]{gridded(1)}\cr object to \code{show}.}
 }
 \description{
 Print geom in the console

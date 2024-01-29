@@ -5,31 +5,23 @@
 \alias{geometr}
 \title{geometr: Generate and Modify Interoperable Geometric Shapes}
 \description{
-The geometr package provides tools that generate and process easily
-accessible and tidy geometric shapes (of class \code{geom}). Moreover, it
-aims to improve interoperability of spatial and other geometric classes.
-Spatial classes are typically a collection of geometric shapes (or their
-vertices) that are accompanied by various metadata (such as attributes and a
-coordinate reference system). Most spatial classes are thus conceptually
-quite similar, yet a common standard lacks for accessing features, vertices
-or the metadata. Geometr fills this gap by providing tools
-\itemize{
-  \item that produce an identical output for the same metadata of different
-        classes (via so-called getters) and
-  \item that use an identical input to write to various classes that
-        originally require different input (via so-called setters).
-}
+The geometr package provides tools that generate and modify fully accessible
+and tidy geometric shapes (of class \code{geom}). This class unifies both
+spatial (vector and raster based) and geometric data into a single,
+simplified data structure.
 }
 \seealso{
 \itemize{ \item Github project:
-  \href{https://github.com/EhrmannS/geometr}{https://github.com/EhrmannS/geometr}
-   \item Report bugs:
-  \href{https://github.com/EhrmannS/geometr/issues}{https://github.com/EhrmannS/geometr/issues}
-   }
+\href{https://github.com/EhrmannS/geometr}{https://github.com/EhrmannS/geometr}
+\item Report bugs:
+\href{https://github.com/EhrmannS/geometr/issues}{https://github.com/EhrmannS/geometr/issues}
+}
 }
 \author{
 \strong{Maintainer, Author}: Steffen Ehrmann
-  \email{steffen.ehrmann@posteo.de}
+\email{steffen.ehrmann@posteo.de}
 
-\strong{Copyright holder} Dan Sunday \href{http://www.geomalgorithms.com/algorithms.html}{fast point-in-polygon algorithm}
+\strong{Copyright holder} Dan Sunday
+\href{http://www.geomalgorithms.com/algorithms.html}{fast point-in-polygon
+algorithm}
 }

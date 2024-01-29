@@ -7,7 +7,7 @@
 .getDecimals(x)
 }
 \arguments{
-\item{x}{[\code{numeric(1)}]\cr the number for which to derive decimal
+\item{x}{\link[=numeric]{numeric(1)}\cr the number for which to derive decimal
 places.}
 }
 \description{

@@ -5,6 +5,11 @@
 \alias{geom-class}
 \alias{geom}
 \title{Geometry class (S4) and methods}
+\arguments{
+\item{window}{\link[=data.frame]{data.frame(2)}\cr in case the reference window
+deviates from the bounding box of \code{crds}, specify here the minimum and
+maximum values in columns \code{x} and \code{y}.}
+}
 \description{
 A \code{geom} stores a table of points, a table of feature to which the
 points are associated and a table of groups, to which features are
@@ -41,28 +46,25 @@ determines the relative position of the points when plotting.
 \section{Slots}{
 
 \describe{
-\item{\code{type}}{[\code{character(1)}]\cr the type of feature, either
+\item{\code{type}}{\link[=character]{character(1)}\cr the type of feature, either
 \code{"point"}, \code{"line"}, \code{"polygon"} or \code{"grid"}.}
 
-\item{\code{point}}{[\code{data.frame(1)}]\cr the \code{fid} (feature ID), \code{x}
-and \code{y} coordinates per point and optional arbitrary point attributes.}
+\item{\code{geometry}}{\link[=data.frame]{data.frame(3)}\cr the \code{fid} (feature ID),
+\code{x} and \code{y} coordinates per point and optional arbitrary point
+attributes.}
 
-\item{\code{feature}}{[\code{data.frame(1)}]\cr \code{fid} (feature ID), \code{gid}
-(group ID) and optional arbitrary feature attributes.}
+\item{\code{data}}{\link[=list]{named list}\cr A list with the layer name and list elements
+\code{$features} and \code{$groups} containing the features and groups of
+that layer. \itemize{
+\item features: \code{fid} (feature ID), \code{gid} (group ID) and optional
+arbitrary feature attributes.
+\item groups: \code{gid} (group ID) and optional arbitrary group attributes.
+}}
 
-\item{\code{group}}{[\code{data.frame(1)}]\cr \code{gid} (group ID) and optional
-arbitrary group attributes.}
+\item{\code{crs}}{\link[=character]{character(1)}\cr the coordinate reference system in
+proj4 notation.}
 
-\item{\code{window}}{[\code{data.frame(1)}]\cr the minimum and maximum value in x and
-y dimension of the reference window in which the \code{geom} dwells.}
-
-\item{\code{scale}}{[\code{character(1)}]\cr whether the point coordinates are stored
-as \code{"absolute"} values, or \code{"relative"} to \code{window}.}
-
-\item{\code{crs}}{[\code{character(1)}]\cr the coordinate reference system in proj4
-notation.}
-
-\item{\code{provenance}}{[\code{list(.)}]\cr a list of steps taken to derive the
+\item{\code{provenance}}{\link[=list]{list(.)}\cr a list of steps taken to derive the
 \code{geom} in focus.}
 }}
 

@@ -7,7 +7,7 @@
 .rad(degree)
 }
 \arguments{
-\item{degree}{[\code{numeric(1)}]\cr a degree value to convert to radians.}
+\item{degree}{\link[=numeric]{numeric(1)}\cr a degree value to convert to radians.}
 }
 \description{
 Convert degree to radians
